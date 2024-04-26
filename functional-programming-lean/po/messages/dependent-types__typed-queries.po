@@ -1,0 +1,1471 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/dependent-types/typed-queries.md:3
+#, fuzzy
+msgid ""
+"Indexed families are very useful when building an API that is supposed to "
+"resemble some other language. They can be used to write a library of HTML "
+"constructors that don't permit generating invalid HTML, to encode the "
+"specific rules of a configuration file format, or to model complicated "
+"business constraints. This section describes an encoding of a subset of "
+"relational algebra in Lean using indexed families, as a simpler "
+"demonstration of techniques that can be used to build a more powerful "
+"database query language."
+msgstr ""
+"在构建类似于其他语言的 API 时，索引族非常有用。它们可用于编写 HTML 构造函数库，不允许生成无效 "
+"HTML，以对配置文件格式的特定规则进行编码，或对复杂的业务约束进行建模。本节描述了使用索引族对关系代数子集在 Lean "
+"中进行编码，作为可用于构建更强大的数据库查询语言的技术的更简单的演示。"
+
+#: src/dependent-types/typed-queries.md:7
+#, fuzzy
+msgid ""
+"This subset uses the type system to enforce requirements such as "
+"disjointness of field names, and it uses type-level computation to reflect "
+"the schema into the types of values that are returned from a query. It is "
+"not a realistic system, however—databases are represented as linked lists of"
+" linked lists, the type system is much simpler than that of SQL, and the "
+"operators of relational algebra don't really match those of SQL. However, it"
+" is large enough to demonstrate useful principles and techniques."
+msgstr ""
+"此子集使用类型系统来强制执行诸如字段名称不相交之类的要求，并且使用类型级计算将模式反映到从查询返回的值的类型中。然而，它并不是一个现实的系统——数据库表示为链表的链表，类型系统比"
+" SQL 的简单得多，并且关系代数的运算符并不真正匹配 SQL 的运算符。但是，它足够大，可以演示有用的原则和技术。"
+
+#: src/dependent-types/typed-queries.md:11
+#, fuzzy
+msgid "A Universe of Data"
+msgstr "数据宇宙"
+
+#: src/dependent-types/typed-queries.md:12
+#, fuzzy
+msgid ""
+"In this relational algebra, the base data that can be held in columns can "
+"have types `Int`, `String`, and `Bool` and are described by the universe "
+"`DBType`:"
+msgstr "在此关系代数中，可以保存在列中的基础数据可以具有类型 `Int`、`String` 和 `Bool`，并由宇宙 `DBType` 描述："
+
+#: src/dependent-types/typed-queries.md:23
+#, fuzzy
+msgid "Using `asType` allows these codes to be used for types. For example:"
+msgstr "使用 `asType` 允许将这些代码用于类型。例如："
+
+#: src/dependent-types/typed-queries.md:25
+msgid ""
+"```lean\n"
+"#eval (\"Mount Hood\" : DBType.string.asType)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:28
+msgid ""
+"```output info\n"
+"\"Mount Hood\"\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:32
+#, fuzzy
+msgid ""
+"It is possible to compare the values described by any of the three database "
+"types for equality. Explaining this to Lean, however, requires a bit of "
+"work. Simply using `BEq` directly fails:"
+msgstr "任何三种数据库类型描述的值都可以进行相等性比较。然而，向 Lean 解释这一点需要一些工作。直接使用 `BEq` 会失败："
+
+#: src/dependent-types/typed-queries.md:43
+#, fuzzy
+msgid ""
+"Just as in the nested pairs universe, type class search doesn't "
+"automatically check each possibility for `t`'s value The solution is to use "
+"pattern matching to refine the types of `x` and `y`:"
+msgstr "就像在嵌套对宇宙中一样，类型类搜索不会自动检查 `t` 值的每种可能性。解决方案是使用模式匹配来细化 `x` 和 `y` 的类型："
+
+#: src/dependent-types/typed-queries.md:52
+#, fuzzy
+msgid ""
+"In this version of the function, `x` and `y` have types `Int`, `String`, and"
+" `Bool` in the three respective cases, and these types all have `BEq` "
+"instances. The definition of `dbEq` can be used to define a `BEq` instance "
+"for the types that are coded for by `DBType`:"
+msgstr ""
+"在这个函数版本中，`x` 和 `y` 在三个各自的情况下具有类型 `Int`、`String` 和 `Bool`，并且这些类型都具有 `BEq` "
+"实例。`dbEq` 的定义可用于为 `DBType` 编码的类型定义一个 `BEq` 实例："
+
+#: src/dependent-types/typed-queries.md:58
+#, fuzzy
+msgid "This is not the same as an instance for the codes themselves:"
+msgstr "这与代码本身的实例不同："
+
+#: src/dependent-types/typed-queries.md:67
+#, fuzzy
+msgid ""
+"The former instance allows comparison of values drawn from the types "
+"described by the codes, while the latter allows comparison of the codes "
+"themselves."
+msgstr "前一个实例允许比较从代码描述的类型中提取的值，而后一个实例允许比较代码本身。"
+
+#: src/dependent-types/typed-queries.md:69
+#, fuzzy
+msgid ""
+"A `Repr` instance can be written using the same technique. The method of the"
+" `Repr` class is called `reprPrec` because it is designed to take things "
+"like operator precedence into account when displaying values. Refining the "
+"type through dependent pattern matching allows the `reprPrec` methods from "
+"the `Repr` instances for `Int`, `String`, and `Bool` to be used:"
+msgstr ""
+"可以使用相同技术编写 `Repr` 实例。`Repr` 类的函数被称为 "
+"`reprPrec`，因为它旨在在显示值时考虑运算符优先级等因素。通过依赖模式匹配细化类型，可以使用 `Int`、`String` 和 `Bool` 的"
+" `Repr` 实例中的 `reprPrec` 函数："
+
+#: src/dependent-types/typed-queries.md:81
+#, fuzzy
+msgid "Schemas and Tables"
+msgstr "模式和表"
+
+#: src/dependent-types/typed-queries.md:83
+#, fuzzy
+msgid "A schema describes the name and type of each column in a database:"
+msgstr "模式描述了数据库中每列的名称和类型："
+
+#: src/dependent-types/typed-queries.md:91
+#, fuzzy
+msgid ""
+"In fact, a schema can be seen as a universe that describes rows in a table. "
+"The empty schema describes the unit type, a schema with a single column "
+"describes that value on its own, and a schema with at least two columns is "
+"represented by a tuple:"
+msgstr "事实上，模式可以看作是描述表中行的宇宙。空模式描述单位类型，具有单列的模式单独描述该值，而具有至少两列的模式由元组表示："
+
+#: src/dependent-types/typed-queries.md:100
+#, fuzzy
+msgid ""
+"As described in [the initial section on product types](../getting-to-"
+"know/polymorphism.md#prod), Lean's product type and tuples are right-"
+"associative. This means that nested pairs are equivalent to ordinary flat "
+"tuples."
+msgstr ""
+"如[产品类型](../getting-to-know/polymorphism.md#prod)的初始部分所述，Lean "
+"的产品类型和元组是右结合的。这意味着嵌套对等同于普通扁平元组。"
+
+#: src/dependent-types/typed-queries.md:103
+#, fuzzy
+msgid "A table is a list of rows that share a schema:"
+msgstr "表格是共享架构的行列表："
+
+#: src/dependent-types/typed-queries.md:107
+#, fuzzy
+msgid ""
+"For example, a diary of visits to mountain peaks can be represented with the"
+" schema `peak`:"
+msgstr "例如，可以利用架构 `peak` 表示对山峰访问的日记："
+
+#: src/dependent-types/typed-queries.md:108
+msgid ""
+"```lean\n"
+"abbrev peak : Schema := [\n"
+"  ⟨\"name\", DBType.string⟩,\n"
+"  ⟨\"location\", DBType.string⟩,\n"
+"  ⟨\"elevation\", DBType.int⟩,\n"
+"  ⟨\"lastVisited\", .int⟩\n"
+"]\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:116
+#, fuzzy
+msgid ""
+"A selection of peaks visited by the author of this book appears as an "
+"ordinary list of tuples:"
+msgstr "本书作者访问过的部分山峰以普通元组列表的形式出现："
+
+#: src/dependent-types/typed-queries.md:117
+msgid ""
+"```lean\n"
+"def mountainDiary : Table peak := [\n"
+"  (\"Mount Nebo\",       \"USA\",     3637, 2013),\n"
+"  (\"Moscow Mountain\",  \"USA\",     1519, 2015),\n"
+"  (\"Himmelbjerget\",    \"Denmark\",  147, 2004),\n"
+"  (\"Mount St. Helens\", \"USA\",     2549, 2010)\n"
+"]\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:125
+#, fuzzy
+msgid "Another example consists of waterfalls and a diary of visits to them:"
+msgstr "另一个示例包括瀑布及其访问日记："
+
+#: src/dependent-types/typed-queries.md:126
+msgid ""
+"```lean\n"
+"abbrev waterfall : Schema := [\n"
+"  ⟨\"name\", .string⟩,\n"
+"  ⟨\"location\", .string⟩,\n"
+"  ⟨\"lastVisited\", .int⟩\n"
+"]\n"
+"\n"
+"def waterfallDiary : Table waterfall := [\n"
+"  (\"Multnomah Falls\", \"USA\", 2018),\n"
+"  (\"Shoshone Falls\",  \"USA\", 2014)\n"
+"]\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:139
+#, fuzzy
+msgid "Recursion and Universes, Revisited"
+msgstr "递归和宇宙，再探"
+
+#: src/dependent-types/typed-queries.md:141
+#, fuzzy
+msgid ""
+"The convenient structuring of rows as tuples comes at a cost: the fact that "
+"`Row` treats its two base cases separately means that functions that use "
+"`Row` in their types and are defined recursively over the codes (that, is "
+"the schema) need to make the same distinctions. One example of a case where "
+"this matters is an equality check that uses recursion over the schema to "
+"define a function that checks rows for equality. This example does not pass "
+"Lean's type checker:"
+msgstr ""
+"将行方便地构造为元组需要付出代价：`Row` 将其两个基本情况分别处理这一事实意味着，在类型中使用 `Row` "
+"并在代码（即架构）上递归定义的函数需要做出相同的区分。这种情况很重要的一个示例是使用对架构的递归来定义检查行是否相等的函数的相等性检查。此示例未通过 "
+"Lean 的类型检查器："
+
+#: src/dependent-types/typed-queries.md:161
+#, fuzzy
+msgid ""
+"The problem is that the pattern `col :: cols` does not sufficiently refine "
+"the type of the rows. This is because Lean cannot yet tell whether the "
+"singleton pattern `[col]` or the `col1 :: col2 :: cols` pattern in the "
+"definition of `Row` was matched, so the call to `Row` does not compute down "
+"to a pair type. The solution is to mirror the structure of `Row` in the "
+"definition of `Row.bEq`:"
+msgstr ""
+"问题在于模式 `col :: cols` 没有充分细化行的类型。这是因为 Lean 无法判断 `Row` 定义中的单例模式 `[col]` 还是 "
+"`col1 :: col2 :: cols` 模式匹配，因此对 `Row` 的调用不会计算为对类型。解决方案是在 `Row.bEq` 的定义中镜像 "
+"`Row` 的结构："
+
+#: src/dependent-types/typed-queries.md:178
+#, fuzzy
+msgid ""
+"Unlike in other contexts, functions that occur in types cannot be considered"
+" only in terms of their input/output behavior. Programs that use these types"
+" will find themselves forced to mirror the algorithm used in the type-level "
+"function so that their structure matches the pattern-matching and recursive "
+"behavior of the type. A big part of the skill of programming with dependent "
+"types is the selection of appropriate type-level functions with the right "
+"computational behavior."
+msgstr ""
+"与其他上下文中不同，类型中出现的函数不能仅根据其输入/输出行为来考虑。使用这些类型的程序会发现自己被迫镜像类型级别函数中使用的算法，以便其结构与类型的模式匹配和递归行为相匹配。使用依赖类型编程技能的一个重要部分是选择具有正确计算行为的适当类型级别函数。"
+
+#: src/dependent-types/typed-queries.md:182
+#, fuzzy
+msgid "Column Pointers"
+msgstr "列指针"
+
+#: src/dependent-types/typed-queries.md:184
+#, fuzzy
+msgid ""
+"Some queries only make sense if a schema contains a particular column. For "
+"example, a query that returns mountains with an elevation greater than 1000 "
+"meters only makes sense in the context of a schema with a `\"elevation\"` "
+"column that contains integers. One way to indicate that a column is "
+"contained in a schema is to provide a pointer directly to it, and defining "
+"the pointer as an indexed family makes it possible to rule out invalid "
+"pointers."
+msgstr ""
+"某些查询只有在模式包含特定列时才有意义。例如，返回海拔高于 1000 米的山峰的查询仅在模式包含整数类型的 `\"elevation\"` "
+"列的上下文中才有意义。指示模式中包含列的一种方法是直接提供指向该列的指针，并将指针定义为索引族可以排除无效指针。"
+
+#: src/dependent-types/typed-queries.md:188
+#, fuzzy
+msgid ""
+"There are two ways that a column can be present in a schema: either it is at"
+" the beginning of the schema, or it is somewhere later in the schema. "
+"Eventually, if a column is later in a schema, then it will be the beginning "
+"of some tail of the schema."
+msgstr "列可以在模式中以两种方式出现：它要么位于模式的开头，要么位于模式的后面。最终，如果一个列位于模式的后面，那么它将是模式的某个尾部的开头。"
+
+#: src/dependent-types/typed-queries.md:191
+#, fuzzy
+msgid ""
+"The indexed family `HasCol` is a translation of the specification into Lean "
+"code:"
+msgstr "索引族 `HasCol` 是规范的 Lean 代码翻译："
+
+#: src/dependent-types/typed-queries.md:197
+#, fuzzy
+msgid ""
+"The family's three arguments are the schema, the column name, and its type. "
+"All three are indices, but re-ordering the arguments to place the schema "
+"after the column name and type would allow the name and type to be "
+"parameters. The constructor `here` can be used when the schema begins with "
+"the column `⟨name, t⟩`; it is thus a pointer to the first column in the "
+"schema that can only be used when the first column has the desired name and "
+"type. The constructor `there` transforms a pointer into a smaller schema "
+"into a pointer into a schema with one more column on it."
+msgstr ""
+"该族的三个参数是模式、列名及其类型。所有三个都是索引，但将参数重新排序以将模式放在列名和类型之后将允许名称和类型成为参数。当模式以列 `⟨name, "
+"t⟩` 开头时，可以使用构造函数 `here`；因此，它是模式中第一个列的指针，仅当第一个列具有所需的名称和类型时才能使用。构造函数 `there` "
+"将较小模式中的指针转换为具有更多列的模式中的指针。"
+
+#: src/dependent-types/typed-queries.md:202
+#, fuzzy
+msgid ""
+"Because `\"elevation\"` is the third column in `peak`, it can be found by "
+"looking past the first two columns with `there`, after which it is the first"
+" column. In other words, to satisfy the type `HasCol peak \"elevation\" "
+".int`, use the expression `.there (.there .here)`. One way to think about "
+"`HasCol` is as a kind of decorated `Nat`—`zero` corresponds to `here`, and "
+"`succ` corresponds to `there`. The extra type information makes it "
+"impossible to have off-by-one errors."
+msgstr ""
+"因为 `\"elevation\"` 是 `peak` 中的第三列，所以可以通过使用 `there` 查找前两列，之后它是第一列。换句话说，要满足类型 "
+"`HasCol peak \"elevation\" .int`，请使用表达式 `.there (.there .here)`。考虑 `HasCol` "
+"的一种方法是将其视为一种装饰的 `Nat`——`zero` 对应于 `here`，`succ` 对应于 "
+"`there`。额外的类型信息使得不可能出现差一错误。"
+
+#: src/dependent-types/typed-queries.md:207
+#, fuzzy
+msgid ""
+"A pointer to a particular column in a schema can be used to extract that "
+"column's value from a row:"
+msgstr "通过指向模式中的特定列，可以从行中提取该列的值："
+
+#: src/dependent-types/typed-queries.md:215
+#, fuzzy
+msgid ""
+"The first step is to pattern match on the schema, because this determines "
+"whether the row is a tuple or a single value. No case is needed for the "
+"empty schema because there is a `HasCol` available, and both constructors of"
+" `HasCol` specify non-empty schemas. If the schema has just a single column,"
+" then the pointer must point to it, so only the `here` constructor of "
+"`HasCol` need be matched. If the schema has two or more columns, then there "
+"must be a case for `here`, in which case the value is the first one in the "
+"row, and one for `there`, in which case a recursive call is used. Because "
+"the `HasCol` type guarantees that the column exists in the row, `Row.get` "
+"does not need to return an `Option`."
+msgstr ""
+"第一步是模式匹配模式，因为这决定了行是元组还是单个值。空模式不需要 case，因为有 `HasCol` 可用，并且 `HasCol` "
+"的两个构造函数都指定了非空模式。如果模式只有一个列，则指针必须指向它，因此只需要匹配 `HasCol` 的 `here` "
+"构造函数。如果模式有两个或更多列，则必须有一个 `here` 的 case，在这种情况下，值是行中的第一个值，还有一个 `there` 的 "
+"case，在这种情况下，使用递归调用。由于 `HasCol` 类型保证列存在于行中，因此 `Row.get` 不需要返回 `Option`。"
+
+#: src/dependent-types/typed-queries.md:221
+#, fuzzy
+msgid "`HasCol` plays two roles:"
+msgstr "`HasCol` 扮演着两个角色："
+
+#: src/dependent-types/typed-queries.md:222
+#, fuzzy
+msgid ""
+"It serves as _evidence_ that a column with a particular name and type exists"
+" in a schema."
+msgstr "它作为 _证据_，证明模式中存在具有特定名称和类型的列。"
+
+#: src/dependent-types/typed-queries.md:224
+#, fuzzy
+msgid ""
+"It serves as _data_ that can be used to find the value associated with the "
+"column in a row."
+msgstr "它作为 _数据_，可用于查找与行中列关联的值。"
+
+#: src/dependent-types/typed-queries.md:226
+#, fuzzy
+msgid ""
+"The first role, that of evidence, is similar to way that propositions are "
+"used. The definition of the indexed family `HasCol` can be read as a "
+"specification of what counts as evidence that a given column exists. Unlike "
+"propositions, however, it matters which constructor of `HasCol` was used. In"
+" the second role, the constructors are used like `Nat`s to find data in a "
+"collection. Programming with indexed families often requires the ability to "
+"switch fluently between both perspectives."
+msgstr ""
+"第一个角色（证据）类似于命题的使用方式。索引族 `HasCol` 的定义可以理解为对给定列存在的证据的规范。然而，与命题不同，`HasCol` "
+"使用哪个构造函数很重要。在第二个角色中，构造函数像 `Nat` 一样用于在集合中查找数据。使用索引族进行编程通常需要在两种视角之间流畅切换。"
+
+#: src/dependent-types/typed-queries.md:232
+#, fuzzy
+msgid "Subschemas"
+msgstr "子模式"
+
+#: src/dependent-types/typed-queries.md:234
+#, fuzzy
+msgid ""
+"One important operation in relational algebra is to _project_ a table or row"
+" into a smaller schema. Every column not present in the smaller schema is "
+"forgotten. In order for projection to make sense, the smaller schema must be"
+" a subschema of the larger schema, which means that every column in the "
+"smaller schema must be present in the larger schema. Just as `HasCol` makes "
+"it possible to write a single-column lookup in a row that cannot fail, a "
+"representation of the subschema relationship as an indexed family makes it "
+"possible to write a projection function that cannot fail."
+msgstr ""
+"关系代数中一项重要的操作是将表或行_投影_到更小的模式中。不在较小模式中出现的每一列都会被遗忘。为了使投影有意义，较小的模式必须是较大模式的子模式，这意味着较小模式中的每一列都必须出现在较大模式中。正如"
+" `HasCol` 使得可以在行中编写不会失败的单列查找一样，将子模式关系表示为索引族可以编写不会失败的投影函数。"
+
+#: src/dependent-types/typed-queries.md:239
+#, fuzzy
+msgid ""
+"The ways in which one schema can be a subschema of another can be defined as"
+" an indexed family. The basic idea is that a smaller schema is a subschema "
+"of a bigger schema if every column in the smaller schema occurs in the "
+"bigger schema. If the smaller schema is empty, then it's certainly a "
+"subschema of the bigger schema, represented by the constructor `nil`. If the"
+" smaller schema has a column, then that column must be in the bigger schema,"
+" and all the rest of the columns in the subschema must also be a subschema "
+"of the bigger schema. This is represented by the constructor `cons`."
+msgstr ""
+"一个模式可以成为另一个模式的子模式的方式可以定义为索引族。基本思想是，如果较小模式中的每一列都出现在较大模式中，则较小模式是较大模式的子模式。如果较小模式为空，那么它肯定是大模式的子模式，由构造函数"
+" `nil` 表示。如果较小模式有一列，那么该列必须在大模式中，并且子模式中的所有其他列也必须是大模式的子模式。这由构造函数 `cons` 表示。"
+
+#: src/dependent-types/typed-queries.md:252
+#, fuzzy
+msgid ""
+"In other words, `Subschema` assigns each column of the smaller schema a "
+"`HasCol` that points to its location in the larger schema."
+msgstr "换句话说，`Subschema` 为较小模式的每一列分配一个 `HasCol`，该 `HasCol` 指向其在大模式中的位置。"
+
+#: src/dependent-types/typed-queries.md:254
+#, fuzzy
+msgid ""
+"The schema `travelDiary` represents the fields that are common to both "
+"`peak` and `waterfall`:"
+msgstr "模式 `travelDiary` 表示 `peak` 和 `waterfall` 共有的字段："
+
+#: src/dependent-types/typed-queries.md:255
+msgid ""
+"```lean\n"
+"abbrev travelDiary : Schema :=\n"
+"  [⟨\"name\", .string⟩, ⟨\"location\", .string⟩, ⟨\"lastVisited\", .int⟩]\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:259
+#, fuzzy
+msgid "It is certainly a subschema of `peak`, as shown by this example:"
+msgstr "它肯定是大模式的子模式，如下例所示："
+
+#: src/dependent-types/typed-queries.md:266
+#, fuzzy
+msgid ""
+"However, code like this is difficult to read and difficult to maintain. One "
+"way to improve it is to instruct Lean to write the `Subschema` and `HasCol` "
+"constructors automatically. This can be done using the tactic feature that "
+"was introduced in [the Interlude on propositions and proofs](../props-"
+"proofs-indexing.md). That interlude uses `by simp` to provide evidence of "
+"various propositions."
+msgstr ""
+"但是，这样的代码难以阅读和维护。改进它的方法之一是指示 Lean 自动编写 `Subschema` 和 `HasCol` 构造函数。这可以使用 "
+"[命题和证明的插曲](../props-proofs-indexing.md) 中引入的策略功能来完成。该插曲使用 `by simp` "
+"来提供各种命题的证据。"
+
+#: src/dependent-types/typed-queries.md:271
+#, fuzzy
+msgid "In this context, two tactics are useful:"
+msgstr "在此上下文中，两个策略很有用："
+
+#: src/dependent-types/typed-queries.md:272
+#, fuzzy
+msgid ""
+"The `constructor` tactic instructs Lean to solve the problem using the "
+"constructor of a datatype."
+msgstr "`constructor` 策略指示 Lean 使用数据类型的构造器来解决问题。"
+
+#: src/dependent-types/typed-queries.md:273
+#, fuzzy
+msgid ""
+"The `repeat` tactic instructs Lean to repeat a tactic over and over until it"
+" either fails or the proof is finished."
+msgstr "`repeat` 策略指示 Lean 重复执行策略，直到策略失败或证明完成。"
+
+#: src/dependent-types/typed-queries.md:275
+#, fuzzy
+msgid ""
+"In the next example, `by constructor` has the same effect as just writing "
+"`.nil` would have:"
+msgstr "在下一个示例中，`by constructor` 的效果与直接编写 `.nil` 相同："
+
+#: src/dependent-types/typed-queries.md:279
+#, fuzzy
+msgid ""
+"However, attempting that same tactic with a slightly more complicated type "
+"fails:"
+msgstr "然而，尝试使用稍微复杂一点的类型执行相同的策略会失败："
+
+#: src/dependent-types/typed-queries.md:280
+msgid ""
+"```leantac\n"
+"example : Subschema [⟨\"location\", .string⟩] peak := by constructor\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:283
+msgid ""
+"```output error\n"
+"unsolved goals\n"
+"case a\n"
+"⊢ HasCol peak \"location\" DBType.string\n"
+"\n"
+"case a\n"
+"⊢ Subschema [] peak\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:291
+#, fuzzy
+msgid ""
+"Errors that begin with `unsolved goals` describe tactics that failed to "
+"completely build the expressions that they were supposed to. In Lean's "
+"tactic language, a _goal_ is a type that a tactic is to fulfill by "
+"constructing an appropriate expression behind the scenes. In this case, "
+"`constructor` caused `Subschema.cons` to be applied, and the two goals "
+"represent the two arguments expected by `cons`. Adding another instance of "
+"`constructor` causes the first goal (`HasCol peak \\\"location\\\" "
+"DBType.string`) to be addressed with `HasCol.there`, because `peak`'s first "
+"column is not `\"location\"`:"
+msgstr ""
+"以“未解决目标”开头的错误描述了未能完全构建应构建表达式的策略。在 Lean "
+"的策略语言中，_目标_是一种类型，策略通过在幕后构建适当的表达式来实现该类型。在本例中，`constructor` 导致应用了 "
+"`Subschema.cons`，并且这两个目标表示 `cons` 预期的两个参数。添加另一个 `constructor` 实例会导致第一个目标 "
+"(`HasCol peak \\\"location\\\" DBType.string`) 使用 `HasCol.there` 解决，因为 "
+"`peak` 的第一列不是“`location`”："
+
+#: src/dependent-types/typed-queries.md:295
+msgid ""
+"```leantac\n"
+"example : Subschema [⟨\"location\", .string⟩] peak := by\n"
+"  constructor\n"
+"  constructor\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:300
+msgid ""
+"```output error\n"
+"unsolved goals\n"
+"case a.a\n"
+"⊢ HasCol\n"
+"    [{ name := \"location\", contains := DBType.string }, { name := \"elevation\", contains := DBType.int },\n"
+"      { name := \"lastVisited\", contains := DBType.int }]\n"
+"    \"location\" DBType.string\n"
+"\n"
+"case a\n"
+"⊢ Subschema [] peak\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:311
+#, fuzzy
+msgid ""
+"However, adding a third `constructor` results in the first goal being "
+"solved, because `HasCol.here` is applicable:"
+msgstr "然而，添加第三个 `constructor` 会导致第一个目标得到解决，因为 `HasCol.here` 是适用的："
+
+#: src/dependent-types/typed-queries.md:312
+msgid ""
+"```leantac\n"
+"example : Subschema [⟨\"location\", .string⟩] peak := by\n"
+"  constructor\n"
+"  constructor\n"
+"  constructor\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:323
+#, fuzzy
+msgid ""
+"A fourth instance of `constructor` solves the `Subschema peak []` goal:"
+msgstr "第四个 `constructor` 实例解决了 `Subschema peak []` 目标："
+
+#: src/dependent-types/typed-queries.md:324
+msgid ""
+"```leantac\n"
+"example : Subschema [⟨\"location\", .string⟩] peak := by\n"
+"  constructor\n"
+"  constructor\n"
+"  constructor\n"
+"  constructor\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:331
+#, fuzzy
+msgid ""
+"Indeed, a version written without the use of tactics has four constructors:"
+msgstr "事实上，不使用策略编写的版本有四个构造器："
+
+#: src/dependent-types/typed-queries.md:332
+msgid ""
+"```lean\n"
+"example : Subschema [⟨\"location\", .string⟩] peak :=\n"
+"  .cons (.there .here) .nil\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:337
+#, fuzzy
+msgid ""
+"Instead of experimenting to find the right number of times to write "
+"`constructor`, the `repeat` tactic can be used to ask Lean to just keep "
+"trying `constructor` as long as it keeps making progress:"
+msgstr ""
+"与其尝试找到编写 `constructor` 的正确次数，不如使用 `repeat` 策略要求 Lean 只要 `constructor` "
+"持续取得进展，就继续尝试 `constructor`："
+
+#: src/dependent-types/typed-queries.md:338
+msgid ""
+"```leantac\n"
+"example : Subschema [⟨\"location\", .string⟩] peak := by repeat constructor\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:341
+#, fuzzy
+msgid ""
+"This more flexible version also works for more interesting `Subschema` "
+"problems:"
+msgstr "这个更灵活的版本也适用于更有趣的 `Subschema` 问题："
+
+#: src/dependent-types/typed-queries.md:348
+#, fuzzy
+msgid ""
+"The approach of blindly trying constructors until something works is not "
+"very useful for types like `Nat` or `List Bool`. Just because an expression "
+"has type `Nat` doesn't mean that it's the _correct_ `Nat`, after all. But "
+"types like `HasCol` and `Subschema` are sufficiently constrained by their "
+"indices that only one constructor will ever be applicable, which means that "
+"the contents of the program itself are less interesting, and a computer can "
+"pick the correct one."
+msgstr ""
+"盲目尝试构造器直到找到可行方案的方法对于 `Nat` 或 `List Bool` 类型的帮助不大。毕竟，仅仅因为一个表达式具有 `Nat` "
+"类型并不意味着它是“正确的”`Nat`。但是，`HasCol` 和 `Subschema` "
+"等类型受到其索引的充分约束，因此只有一个构造器适用，这意味着程序本身的内容不太有趣，计算机可以选择正确的构造器。"
+
+#: src/dependent-types/typed-queries.md:352
+#, fuzzy
+msgid ""
+"If one schema is a subschema of another, then it is also a subschema of the "
+"larger schema extended with an additional column. This fact can be captured "
+"as a function definition. `Subschema.addColumn` takes evidence that "
+"`smaller` is a subschema of `bigger`, and then returns evidence that "
+"`smaller` is a subschema of `c :: bigger`, that is, `bigger` with one "
+"additional column:"
+msgstr ""
+"如果一个模式是另一个模式的子模式，那么它也是扩展了附加列的更大模式的子模式。这一事实可以作为函数定义来捕获。`Subschema.addColumn` "
+"接受 `smaller` 是 `bigger` 的子模式的证据，然后返回 `smaller` 是 `c :: bigger` 的子模式的证据，即 "
+"`bigger` 带有一个附加列："
+
+#: src/dependent-types/typed-queries.md:361
+#, fuzzy
+msgid ""
+"A subschema describes where to find each column from the smaller schema in "
+"the larger schema. `Subschema.addColumn` must translate these descriptions "
+"from the original larger schema into the extended larger schema. In the "
+"`nil` case, the smaller schema is `[]`, and `nil` is also evidence that `[]`"
+" is a subschema of `c :: bigger`. In the `cons` case, which describes how to"
+" place one column from `smaller` into `larger`, the placement of the column "
+"needs to be adjusted with `there` to account for the new column `c`, and a "
+"recursive call adjusts the rest of the columns."
+msgstr ""
+"子模式描述了如何在更大的模式中找到较小模式中的每一列。`Subschema.addColumn` 必须将这些描述从原始的更大模式转换为扩展的更大模式。在"
+" `nil` 情况下，较小模式是 `[]`，而 `nil` 也是 `[]` 是 `c :: bigger` 的子模式的证据。在 `cons` "
+"情况下，它描述了如何将 `smaller` 中的一列放入 `larger` 中，列的位置需要用 `there` 调整以考虑新列 "
+"`c`，递归调用调整其余列。"
+
+#: src/dependent-types/typed-queries.md:366
+#, fuzzy
+msgid ""
+"Another way to think about `Subschema` is that it defines a _relation_ "
+"between two schemas—the existence of an expression  with type `Subschema "
+"bigger smaller` means that `(bigger, smaller)` is in the relation. This "
+"relation is reflexive, meaning that every schema is a subschema of itself:"
+msgstr ""
+"考虑 `Subschema` 的另一种方法是，它定义了两个模式之间的“关系”——具有类型 `Subschema bigger smaller` "
+"的表达式的存在意味着 `(bigger, smaller)` 在关系中。这种关系是自反的，这意味着每个模式都是其自身的子模式："
+
+#: src/dependent-types/typed-queries.md:375
+#, fuzzy
+msgid "Projecting Rows"
+msgstr "投影行"
+
+#: src/dependent-types/typed-queries.md:377
+#, fuzzy
+msgid ""
+"Given evidence that `s'` is a subschema of `s`, a row in `s` can be "
+"projected into a row in `s'`. This is done using the evidence that `s'` is a"
+" subschema of `s`, which explains where each column of `s'` is found in `s`."
+" The new row in `s'` is built up one column at a time by retrieving the "
+"value from the appropriate place in the old row."
+msgstr ""
+"给定 `s'` 是 `s` 的子模式的证据，`s` 中的一行可以投影到 `s'` 中的一行。这是使用 `s'` 是 `s` "
+"的子模式的证据来完成的，该证据解释了 `s'` 的每一列在 `s` 中的位置。`s'` 中的新行一次构建一列，通过从旧行中的适当位置检索值。"
+
+#: src/dependent-types/typed-queries.md:381
+#, fuzzy
+msgid ""
+"The function that performs this projection, `Row.project`, has three cases, "
+"one for each case of `Row` itself. It uses `Row.get` together with each "
+"`HasCol` in the `Subschema` argument to construct the projected row:"
+msgstr ""
+"执行此投影的函数 `Row.project` 有三个情况，每个情况对应 `Row` 本身的一个情况。它将 `Row.get` 与 `Subschema`"
+" 参数中的每个 `HasCol` 一起使用来构造投影行："
+
+#: src/dependent-types/typed-queries.md:391
+#, fuzzy
+msgid "Conditions and Selection"
+msgstr "条件和选择"
+
+#: src/dependent-types/typed-queries.md:393
+#, fuzzy
+msgid ""
+"Projection removes unwanted columns from a table, but queries must also be "
+"able to remove unwanted rows. This operation is called _selection_. "
+"Selection relies on having a means of expressing which rows are desired."
+msgstr "投影从表中删除不需要的列，但查询还必须能够删除不需要的行。此操作称为 _选择_。选择依赖于拥有表达所需行的某种方式。"
+
+#: src/dependent-types/typed-queries.md:397
+#, fuzzy
+msgid ""
+"The example query language contains expressions, which are analogous to what"
+" can be written in a `WHERE` clause in SQL. Expressions are represented by "
+"the indexed family `DBExpr`. Because expressions can refer to columns from "
+"the database, but different sub-expressions all have the same schema, "
+"`DBExpr` takes the database schema as a parameter. Additionally, each "
+"expression has a type, and these vary, making it an index:"
+msgstr ""
+"示例查询语言包含表达式，类似于可以在 SQL 中的 `WHERE` 子句中编写的表达式。表达式由索引族 `DBExpr` "
+"表示。因为表达式可以引用数据库中的列，但不同的子表达式都有相同的模式，所以 `DBExpr` "
+"将数据库模式作为参数。此外，每个表达式都有一个类型，并且这些类型各不相同，使其成为一个索引："
+
+#: src/dependent-types/typed-queries.md:409
+#, fuzzy
+msgid ""
+"The `col` constructor represents a reference to a column in the database. "
+"The `eq` constructor compares two expressions for equality, `lt` checks "
+"whether one is less than the other, `and` is Boolean conjunction, and "
+"`const` is a constant value of some type."
+msgstr ""
+"`col` 构造器表示对数据库中一列的引用。`eq` 构造器比较两个表达式的相等性，`lt` 检查一个是否小于另一个，`and` "
+"是布尔连接，`const` 是某种类型的常量值。"
+
+#: src/dependent-types/typed-queries.md:412
+#, fuzzy
+msgid ""
+"For example, an expression in `peak` that checks whether the `elevation` "
+"column is greater than 1000 and the location is `\"Denmark\"` can be "
+"written:"
+msgstr "例如，在 `peak` 中检查 `elevation` 列是否大于 1000 且位置为 `\"Denmark\"` 的表达式可以写成："
+
+#: src/dependent-types/typed-queries.md:413
+msgid ""
+"```leantac\n"
+"def tallInDenmark : DBExpr peak .bool :=\n"
+"  .and (.lt (.const 1000) (.col \"elevation\" (by repeat constructor)))\n"
+"       (.eq (.col \"location\" (by repeat constructor)) (.const \"Denmark\"))\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:418
+#, fuzzy
+msgid ""
+"This is somewhat noisy. In particular, references to columns contain "
+"boilerplate calls to `by repeat constructor`. A Lean feature called _macros_"
+" can help make expressions easier to read by eliminating this boilerplate:"
+msgstr ""
+"此方法有些繁琐。特别是，对列的引用包含对 `by repeat constructor` 的样板调用。Lean 中一项名为 _宏_ "
+"的功能可以通过消除此样板来帮助使表达式更易于阅读："
+
+#: src/dependent-types/typed-queries.md:421
+msgid ""
+"```leantac\n"
+"macro \"c!\" n:term : term => `(DBExpr.col $n (by repeat constructor))\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:424
+#, fuzzy
+msgid ""
+"This declaration adds the `c!` keyword to Lean, and instructs Lean to "
+"replace any instance of `c!` followed by an expression with the "
+"corresponding `DBExpr.col` construction. Here, `term` stands for Lean "
+"expressions, rather than commands, tactics, or some other part of the "
+"language. Lean macros are a bit like C preprocessor macros, except they are "
+"better integrated into the language and they automatically avoid some of the"
+" pitfalls of CPP. In fact, they are very closely related to macros in Scheme"
+" and Racket."
+msgstr ""
+"此声明将 `c!` 关键字添加到 Lean，并指示 Lean 用相应的 `DBExpr.col` 构造替换任何 `c!` "
+"后跟表达式的实例。此处，`term` 表示 Lean 表达式，而不是命令、策略或语言的其他部分。Lean 宏有点像 C "
+"预处理器宏，但它们更好地集成到语言中，并且自动避免了 CPP 的一些缺陷。事实上，它们与 Scheme 和 Racket 中的宏非常相似。"
+
+#: src/dependent-types/typed-queries.md:429
+#, fuzzy
+msgid "With this macro, the expression can be much easier to read:"
+msgstr "使用此宏，表达式可以更容易阅读："
+
+#: src/dependent-types/typed-queries.md:430
+msgid ""
+"```lean\n"
+"def tallInDenmark : DBExpr peak .bool :=\n"
+"  .and (.lt (.const 1000) (c! \"elevation\"))\n"
+"       (.eq (c! \"location\") (.const \"Denmark\"))\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:436
+#, fuzzy
+msgid ""
+"Finding the value of an expression with respect to a given row uses "
+"`Row.get` to extract column references, and it delegates to Lean's "
+"operations on values for every other expression:"
+msgstr "根据给定行查找表达式的值使用 `Row.get` 提取列引用，并且它将对除其他表达式之外的每个表达式的值的 Lean 操作委派："
+
+#: src/dependent-types/typed-queries.md:446
+#, fuzzy
+msgid ""
+"Evaluating the expression for Valby Bakke, the tallest hill in the "
+"Copenhagen area, yields `false` because Valby Bakke is much less than 1 km "
+"over sea level:"
+msgstr ""
+"针对哥本哈根地区最高的丘陵 Valby Bakke 计算表达式的值，结果为 `false`，因为 Valby Bakke 海拔远低于 1 公里："
+
+#: src/dependent-types/typed-queries.md:447
+msgid ""
+"```lean\n"
+"#eval tallInDenmark.evaluate (\"Valby Bakke\", \"Denmark\", 31, 2023)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:453
+#, fuzzy
+msgid ""
+"Evaluating it for a fictional mountain of 1230m elevation yields `true`:"
+msgstr "针对海拔 1230 米的虚构山峰计算表达式的值，结果为 `true`："
+
+#: src/dependent-types/typed-queries.md:454
+msgid ""
+"```lean\n"
+"#eval tallInDenmark.evaluate (\"Fictional mountain\", \"Denmark\", 1230, 2023)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:460
+#, fuzzy
+msgid ""
+"Evaluating it for the highest peak in the US state of Idaho yields `false`, "
+"as Idaho is not part of Denmark:"
+msgstr "针对美国爱达荷州的最高峰计算表达式的值，结果为 `false`，因为爱达荷州不属于丹麦："
+
+#: src/dependent-types/typed-queries.md:461
+msgid ""
+"```lean\n"
+"#eval tallInDenmark.evaluate (\"Mount Borah\", \"USA\", 3859, 1996)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:468
+#, fuzzy
+msgid "Queries"
+msgstr "查询"
+
+#: src/dependent-types/typed-queries.md:470
+#, fuzzy
+msgid ""
+"The query language is based on relational algebra. In addition to tables, it"
+" includes the following operators:"
+msgstr "查询语言基于关系代数。除了表之外，它还包括以下运算符："
+
+#: src/dependent-types/typed-queries.md:472
+#, fuzzy
+msgid ""
+"The union of two expressions that have the same schema combines the rows "
+"that result from two queries"
+msgstr "具有相同模式的两个表达式的并集合并了由两个查询产生的行"
+
+#: src/dependent-types/typed-queries.md:473
+#, fuzzy
+msgid ""
+"The difference of two expressions that have the same schema removes rows "
+"found in the second result from the rows in the first result"
+msgstr "两个具有相同模式的表达式的差集，从第一个结果中删除在第二个结果中找到的行"
+
+#: src/dependent-types/typed-queries.md:474
+#, fuzzy
+msgid ""
+"Selection by some criterion filters the result of a query according to an "
+"expression"
+msgstr "按某个条件进行选择，根据一个表达式过滤查询结果"
+
+#: src/dependent-types/typed-queries.md:475
+#, fuzzy
+msgid ""
+"Projection into a subschema, removing columns from the result of a query"
+msgstr "投影到一个子模式，从查询结果中删除列"
+
+#: src/dependent-types/typed-queries.md:476
+#, fuzzy
+msgid ""
+"Cartesian product, combining every row from one query with every row from "
+"another"
+msgstr "笛卡尔积，将一个查询中的每一行与另一个查询中的每一行组合"
+
+#: src/dependent-types/typed-queries.md:477
+#, fuzzy
+msgid "Renaming a column in the result of a query, which modifies its schema"
+msgstr "重命名查询结果中的列，修改其模式"
+
+#: src/dependent-types/typed-queries.md:478
+#, fuzzy
+msgid "Prefixing all columns in a query with a name"
+msgstr "给查询中的所有列加上一个前缀名"
+
+#: src/dependent-types/typed-queries.md:480
+#, fuzzy
+msgid ""
+"The last operator is not strictly necessary, but it makes the language more "
+"convenient to use."
+msgstr "最后一个操作符不是严格必要的，但它使语言更方便使用。"
+
+#: src/dependent-types/typed-queries.md:482
+#, fuzzy
+msgid "Once again, queries are represented by an indexed family:"
+msgstr "同样，查询由一个索引族表示："
+
+#: src/dependent-types/typed-queries.md:483
+msgid ""
+"```lean\n"
+"inductive Query : Schema → Type where\n"
+"  | table : Table s → Query s\n"
+"  | union : Query s → Query s → Query s\n"
+"  | diff : Query s → Query s → Query s\n"
+"  | select : Query s → DBExpr s .bool → Query s\n"
+"  | project : Query s → (s' : Schema) → Subschema s' s → Query s'\n"
+"  | product :\n"
+"      Query s1 → Query s2 →\n"
+"      disjoint (s1.map Column.name) (s2.map Column.name) →\n"
+"      Query (s1 ++ s2)\n"
+"  | renameColumn :\n"
+"      Query s → (c : HasCol s n t) → (n' : String) → !((s.map Column.name).contains n') →\n"
+"      Query (s.renameColumn c n')\n"
+"  | prefixWith :\n"
+"      (n : String) → Query s →\n"
+"      Query (s.map fun c => {c with name := n ++ \".\" ++ c.name})\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:501
+#, fuzzy
+msgid ""
+"The `select` constructor requires that the expression used for selection "
+"return a Boolean. The `product` constructor's type contains a call to "
+"`disjoint`, which ensures that the two schemas don't share any names:"
+msgstr ""
+"`select` 构造函数要求用于选择的表达式返回一个布尔值。`product` 构造函数的类型包含对 `disjoint` "
+"的调用，以确保两个模式不共享任何名称："
+
+#: src/dependent-types/typed-queries.md:507
+#, fuzzy
+msgid ""
+"The use of an expression of type `Bool` where a type is expected triggers a "
+"coercion from `Bool` to `Prop`. Just as decidable propositions can be "
+"considered to be Booleans, where evidence for the proposition is coerced to "
+"`true` and refutations of the proposition are coerced to `false`, Booleans "
+"are coerced into the proposition that states that the expression is equal to"
+" `true`. Because all uses of the library are expected to occur in contexts "
+"where the schemas are known ahead of time, this proposition can be proved "
+"with `by simp`. Similarly, the `renameColumn` constructor checks that the "
+"new name does not already exist in the schema. It uses the helper "
+"`Schema.renameColumn` to change the name of the column pointed to by "
+"`HasCol`:"
+msgstr ""
+"在期望类型的地方使用类型为 `Bool` 的表达式会触发从 `Bool` 到 `Prop` "
+"的强制转换。正如可判定命题可以被认为是布尔值，其中命题的证据被强制转换为 `true`，而命题的驳斥被强制转换为 "
+"`false`，布尔值被强制转换为命题，该命题指出表达式等于 `true`。由于期望库的所有使用都发生在模式已知的上下文中，因此可以使用 `by "
+"simp` 证明此命题。类似地，`renameColumn` 构造函数检查新名称是否已存在于模式中。它使用辅助函数 "
+"`Schema.renameColumn` 来更改 `HasCol` 指向的列的名称："
+
+#: src/dependent-types/typed-queries.md:518
+#, fuzzy
+msgid "Executing Queries"
+msgstr "执行查询"
+
+#: src/dependent-types/typed-queries.md:520
+#, fuzzy
+msgid ""
+"Executing queries requires a number of helper functions. The result of a "
+"query is a table; this means that each operation in the query language "
+"requires a corresponding implementation that works with tables."
+msgstr "执行查询需要一些辅助函数。查询结果是一个表；这意味着查询语言中的每个操作都需要一个与表一起工作的相应实现。"
+
+#: src/dependent-types/typed-queries.md:523
+#, fuzzy
+msgid "Cartesian Product"
+msgstr "笛卡尔积"
+
+#: src/dependent-types/typed-queries.md:525
+#, fuzzy
+msgid ""
+"Taking the Cartesian product of two tables is done by appending each row "
+"from the first table to each row from the second. First off, due to the "
+"structure of `Row`, adding a single column to a row requires pattern "
+"matching on its schema in order to determine whether the result will be a "
+"bare value or a tuple. Because this is a common operation, factoring the "
+"pattern matching out into a helper is convenient:"
+msgstr ""
+"通过将第一个表中的每一行附加到第二个表中的每一行来获取两个表的笛卡尔积。首先，由于 `Row` "
+"的结构，向行中添加单个列需要对其模式进行模式匹配，以确定结果是裸值还是元组。由于这是一个常见操作，因此将模式匹配分解为一个辅助函数很方便："
+
+#: src/dependent-types/typed-queries.md:534
+#, fuzzy
+msgid ""
+"Appending two rows is recursive on the structure of both the first schema "
+"and the first row, because the structure of the row proceeds in lock-step "
+"with the structure of the schema. When the first row is empty, appending "
+"returns the second row. When the first row is a singleton, the value is "
+"added to the second row. When the first row contains multiple columns, the "
+"first column's value is added to the result of recursion on the remainder of"
+" the row."
+msgstr ""
+"附加两行在第一个模式和第一行的结构上是递归的，因为行的结构与模式的结构同步进行。当第一行为空时，附加返回第二行。当第一行是单例时，该值将添加到第二行。当第一行包含多列时，第一列的值将添加到对该行其余部分的递归结果中。"
+
+#: src/dependent-types/typed-queries.md:546
+#, fuzzy
+msgid ""
+"`List.flatMap` applies a function that itself returns a list to every entry "
+"in an input list, returning the result of appending the resulting lists in "
+"order:"
+msgstr "`List.flatMap` 将本身返回列表的函数应用于输入列表中的每个条目，按顺序返回附加结果列表的结果："
+
+#: src/dependent-types/typed-queries.md:552
+#, fuzzy
+msgid ""
+"The type signature suggests that `List.flatMap` could be used to implement a"
+" `Monad List` instance. Indeed, together with `pure x := [x]`, "
+"`List.flatMap` does implement a monad. However, it's not a very useful "
+"`Monad` instance. The `List` monad is basically a version of `Many` that "
+"explores _every_ possible path through the search space in advance, before "
+"users have the chance to request some number of values. Because of this "
+"performance trap, it's usually not a good idea to define a `Monad` instance "
+"for `List`. Here, however, the query language has no operator for "
+"restricting the number of results to be returned, so combining all "
+"possibilities is exactly what is desired:"
+msgstr ""
+"类型签名表明 `List.flatMap` 可用于实现 `Monad List` 实例。事实上，与 `pure x := [x]` "
+"一起，`List.flatMap` 确实实现了单子。但是，它不是一个非常有用的 `Monad` 实例。`List` 单子基本上是 `Many` "
+"的一个版本，它在用户有机会请求一些值之前，预先探索搜索空间中的 _every_ 可能路径。由于这个性能陷阱，通常不建议为 `List` 定义 "
+"`Monad` 实例。然而，这里查询语言没有用于限制要返回的结果数量的操作符，因此组合所有可能性正是所需要的："
+
+#: src/dependent-types/typed-queries.md:563
+#, fuzzy
+msgid ""
+"Just as with `List.product`, a loop with mutation in the identity monad can "
+"be used as an alternative implementation technique:"
+msgstr "与 `List.product` 一样，带有恒等单子中的变异循环可以用作替代实现技术："
+
+#: src/dependent-types/typed-queries.md:574
+#, fuzzy
+msgid "Difference"
+msgstr "差异"
+
+#: src/dependent-types/typed-queries.md:576
+#, fuzzy
+msgid ""
+"Removing undesired rows from a table can be done using `List.filter`, which "
+"takes a list and a function that returns a `Bool`. A new list is returned "
+"that contains only the entries for which the function returns `true`. For "
+"instance,"
+msgstr ""
+"可以使用 `List.filter` 从表中删除不需要的行，它接受一个列表和一个返回 `Bool` 的函数。返回一个新列表，其中仅包含函数返回 "
+"`true` 的条目。例如，"
+
+#: src/dependent-types/typed-queries.md:579
+msgid ""
+"```lean\n"
+"[\"Willamette\", \"Columbia\", \"Sandy\", \"Deschutes\"].filter (·.length > 8)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:583
+msgid ""
+"```lean\n"
+"[\"Willamette\", \"Deschutes\"]\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:586
+#, fuzzy
+msgid ""
+"because `\"Columbia\"` and `\"Sandy\"` have lengths less than or equal to "
+"`8`. Removing the entries of a table can be done using the helper "
+"`List.without`:"
+msgstr "因为 `\"Columbia\"` 和 `\"Sandy\"` 的长度小于或等于 `8`。可以使用辅助函数 `List.without` 删除表中的条目："
+
+#: src/dependent-types/typed-queries.md:592
+#, fuzzy
+msgid ""
+"This will be used with the `BEq` instance for `Row` when interpreting "
+"queries."
+msgstr "这将在解释查询时与 `Row` 的 `BEq` 实例一起使用。"
+
+#: src/dependent-types/typed-queries.md:594
+#, fuzzy
+msgid "Renaming Columns"
+msgstr "重命名列"
+
+#: src/dependent-types/typed-queries.md:595
+#, fuzzy
+msgid ""
+"Renaming a column in a row is done with a recursive function that traverses "
+"the row until the column in question is found, at which point the column "
+"with the new name gets the same value as the column with the old name:"
+msgstr "使用递归函数重命名行中的列，该函数遍历行直到找到有问题的列，此时具有新名称的列将获得与具有旧名称的列相同的值："
+
+#: src/dependent-types/typed-queries.md:603
+#, fuzzy
+msgid ""
+"While this function changes the _type_ of its argument, the actual return "
+"value contains precisely the same data as the original argument. From a run-"
+"time perspective, `renameRow` is nothing but a slow identity function. One "
+"difficulty in programming with indexed families is that when performance "
+"matters, this kind of operation can get in the way. It takes a very careful,"
+" often brittle, design to eliminate these kinds of \"re-indexing\" "
+"functions."
+msgstr ""
+"虽然此函数更改了其参数的 _类型_，但实际返回值包含与原始参数完全相同的数据。从运行时角度来看，`renameRow` "
+"只是一个缓慢的恒等函数。使用索引族编程的一个困难是，当性能很重要时，这种操作可能会妨碍。需要非常小心、通常很脆弱的设计才能消除这些类型的“重新索引”函数。"
+
+#: src/dependent-types/typed-queries.md:608
+#, fuzzy
+msgid "Prefixing Column Names"
+msgstr "为列名添加前缀"
+
+#: src/dependent-types/typed-queries.md:610
+#, fuzzy
+msgid ""
+"Adding a prefix to column names is very similar to renaming a column. "
+"Instead of proceeding to a desired column and then returning, `prefixRow` "
+"must process all columns:"
+msgstr "为列名添加前缀与重命名列非常相似。`prefixRow` 必须处理所有列，而不是继续到所需列然后返回："
+
+#: src/dependent-types/typed-queries.md:612
+msgid ""
+"```lean\n"
+"def prefixRow (row : Row s) : Row (s.map fun c => {c with name := n ++ \".\" ++ c.name}) :=\n"
+"  match s, row with\n"
+"  | [], _ => ()\n"
+"  | [_], v => v\n"
+"  | _::_::_, (v, r) => (v, prefixRow r)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:619
+#, fuzzy
+msgid ""
+"This can be used with `List.map` in order to add a prefix to all rows in a "
+"table. Once again, this function only exists to change the type of a value."
+msgstr "这可以与 `List.map` 一起使用，以便为表中的所有行添加前缀。同样，此函数仅存在于更改值类型。"
+
+#: src/dependent-types/typed-queries.md:622
+#, fuzzy
+msgid "Putting the Pieces Together"
+msgstr "将各个部分组合起来"
+
+#: src/dependent-types/typed-queries.md:624
+#, fuzzy
+msgid ""
+"With all of these helpers defined, executing a query requires only a short "
+"recursive function:"
+msgstr "有了这些定义好的辅助函数，执行查询只需要一个简短的递归函数："
+
+#: src/dependent-types/typed-queries.md:636
+#, fuzzy
+msgid ""
+"Some arguments to the constructors are not used during execution. In "
+"particular, both the constructor `project` and the function `Row.project` "
+"take the smaller schema as explicit arguments, but the type of the "
+"_evidence_ that this schema is a subschema of the larger schema contains "
+"enough information for Lean to fill out the argument automatically. "
+"Similarly, the fact that the two tables have disjoint column names that is "
+"required by the `product` constructor is not needed by "
+"`Table.cartesianProduct`. Generally speaking, dependent types provide many "
+"opportunities to have Lean fill out arguments on behalf of the programmer."
+msgstr ""
+"构造函数的一些参数在执行过程中不会使用。特别是，构造函数 `project` 和函数 `Row.project` "
+"都将较小的模式作为显式参数，但此模式是较大模式的子模式的 _证据_ 的类型包含足够的信息，以便 Lean 自动填写参数。类似地，`product` "
+"构造函数所需的两个表具有不相交的列名这一事实对于 `Table.cartesianProduct` 来说是不需要的。一般来说，依赖类型提供了许多机会，让"
+" Lean 可以代表程序员填写参数。"
+
+#: src/dependent-types/typed-queries.md:641
+#, fuzzy
+msgid ""
+"Dot notation is used with the results of queries to call functions defined "
+"both in the `Table` and `List` namespaces, such `List.map`, `List.filter`, "
+"and `Table.cartesianProduct`. This works because `Table` is defined using "
+"`abbrev`. Just like type class search, dot notation can see through "
+"definitions created with `abbrev`. "
+msgstr ""
+"点表示法与查询结果一起使用，以调用在 `Table` 和 `List` 命名空间中定义的函数，例如 `List.map`、`List.filter` 和"
+" `Table.cartesianProduct`。这样做是因为 `Table` 是使用 `abbrev` "
+"定义的。就像类型类搜索一样，点表示法可以通过使用 `abbrev` 创建的定义。"
+
+#: src/dependent-types/typed-queries.md:645
+#, fuzzy
+msgid ""
+"The implementation of `select` is also quite concise. After executing the "
+"query `q`, `List.filter` is used to remove the rows that do not satisfy the "
+"expression. Filter expects a function from `Row s` to `Bool`, but "
+"`DBExpr.evaluate` has type `Row s → DBExpr s t → t.asType`. Because the type"
+" of the `select` constructor requires that the expression have type `DBExpr "
+"s .bool`, `t.asType` is actually `Bool` in this context."
+msgstr ""
+"`select` 的实现也很简洁。在执行查询 `q` 之后，`List.filter` 用于删除不满足表达式的行。Filter 期望从 `Row s` "
+"到 `Bool` 的函数，但 `DBExpr.evaluate` 的类型为 `Row s → DBExpr s t → t.asType`。因为 "
+"`select` 构造函数的类型要求表达式具有类型 `DBExpr s .bool`，所以 `t.asType` 在此上下文中实际上是 `Bool`。"
+
+#: src/dependent-types/typed-queries.md:650
+#, fuzzy
+msgid ""
+"A query that finds the heights of all mountain peaks with an elevation "
+"greater than 500 meters can be written:"
+msgstr "查询所有海拔高度大于 500 米的山峰高度，可以写成："
+
+#: src/dependent-types/typed-queries.md:651
+msgid ""
+"```leantac\n"
+"open Query in\n"
+"def example1 :=\n"
+"  table mountainDiary |>.select\n"
+"  (.lt (.const 500) (c! \"elevation\")) |>.project\n"
+"  [⟨\"elevation\", .int⟩] (by repeat constructor)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:659
+#, fuzzy
+msgid "Executing it returns the expected list of integers:"
+msgstr "执行它会返回预期的整数列表："
+
+#: src/dependent-types/typed-queries.md:667
+#, fuzzy
+msgid ""
+"To plan a sightseeing tour, it may be relevant to match all pairs mountains "
+"and waterfalls in the same location. This can be done by taking the "
+"Cartesian product of both tables, selecting only the rows in which they are "
+"equal, and then projecting out the names:"
+msgstr "为了规划观光路线，匹配同一地点的所有山峰和瀑布对可能很有用。这可以通过对两个表进行笛卡尔积，仅选择其中相等的行，然后投影出名称来完成："
+
+#: src/dependent-types/typed-queries.md:669
+msgid ""
+"```leantac\n"
+"open Query in\n"
+"def example2 :=\n"
+"  let mountain := table mountainDiary |>.prefixWith \"mountain\"\n"
+"  let waterfall := table waterfallDiary |>.prefixWith \"waterfall\"\n"
+"  mountain.product waterfall (by simp)\n"
+"    |>.select (.eq (c! \"mountain.location\") (c! \"waterfall.location\"))\n"
+"    |>.project [⟨\"mountain.name\", .string⟩, ⟨\"waterfall.name\", .string⟩] (by repeat constructor)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:678
+#, fuzzy
+msgid ""
+"Because the example data includes only waterfalls in the USA, executing the "
+"query returns pairs of mountains and waterfalls in the US:"
+msgstr "由于示例数据仅包含美国境内的瀑布，因此执行查询会返回美国境内山峰和瀑布对："
+
+#: src/dependent-types/typed-queries.md:682
+msgid ""
+"```output info\n"
+"[(\"Mount Nebo\", \"Multnomah Falls\"),\n"
+" (\"Mount Nebo\", \"Shoshone Falls\"),\n"
+" (\"Moscow Mountain\", \"Multnomah Falls\"),\n"
+" (\"Moscow Mountain\", \"Shoshone Falls\"),\n"
+" (\"Mount St. Helens\", \"Multnomah Falls\"),\n"
+" (\"Mount St. Helens\", \"Shoshone Falls\")]\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:691
+#, fuzzy
+msgid "Errors You May Meet"
+msgstr "您可能遇到的错误"
+
+#: src/dependent-types/typed-queries.md:693
+#, fuzzy
+msgid ""
+"Many potential errors are ruled out by the definition of `Query`. For "
+"instance, forgetting the added qualifier in `\"mountain.location\"` yields a"
+" compile-time error that highlights the column reference `c! \"location\"`:"
+msgstr ""
+"`Query` 的定义排除了许多潜在错误。例如，忘记在 `\"mountain.location\"` "
+"中添加限定符会导致编译时错误，该错误突出显示列引用 `c! \"location\"`："
+
+#: src/dependent-types/typed-queries.md:695
+msgid ""
+"```leantac\n"
+"open Query in\n"
+"def example2 :=\n"
+"  let mountains := table mountainDiary |>.prefixWith \"mountain\"\n"
+"  let waterfalls := table waterfallDiary |>.prefixWith \"waterfall\"\n"
+"  mountains.product waterfalls (by simp)\n"
+"    |>.select (.eq (c! \"location\") (c! \"waterfall.location\"))\n"
+"    |>.project [⟨\"mountain.name\", .string⟩, ⟨\"waterfall.name\", .string⟩] (by repeat constructor)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:704
+#, fuzzy
+msgid ""
+"This is excellent feedback! On the other hand, the text of the error message"
+" is quite difficult to act on:"
+msgstr "这是一个极好的反馈！另一方面，错误消息的文本很难采取行动："
+
+#: src/dependent-types/typed-queries.md:706
+msgid ""
+"```output error\n"
+"unsolved goals\n"
+"case a.a.a.a.a.a.a\n"
+"mountains : Query (List.map (fun c => { name := \"mountain\" ++ \".\" ++ c.name, contains := c.contains }) peak) :=\n"
+"  prefixWith \"mountain\" (table mountainDiary)\n"
+"waterfalls : Query (List.map (fun c => { name := \"waterfall\" ++ \".\" ++ c.name, contains := c.contains }) waterfall) :=\n"
+"  prefixWith \"waterfall\" (table waterfallDiary)\n"
+"⊢ HasCol (List.map (fun c => { name := \"waterfall\" ++ \".\" ++ c.name, contains := c.contains }) []) \"location\" ?m.109970\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:716
+#, fuzzy
+msgid ""
+"Similarly, forgetting to add prefixes to the names of the two tables results"
+" in an error on `by simp`, which should provide evidence that the schemas "
+"are in fact disjoint;"
+msgstr "类似地，忘记为两个表的名称添加前缀会导致 `by simp` 出错，这应该提供证据证明模式实际上是不相交的；"
+
+#: src/dependent-types/typed-queries.md:717
+msgid ""
+"```leantac\n"
+"open Query in\n"
+"def example2 :=\n"
+"  let mountains := table mountainDiary\n"
+"  let waterfalls := table waterfallDiary\n"
+"  mountains.product waterfalls (by simp)\n"
+"    |>.select (.eq (c! \"mountain.location\") (c! \"waterfall.location\"))\n"
+"    |>.project [⟨\"mountain.name\", .string⟩, ⟨\"waterfall.name\", .string⟩] (by repeat constructor)\n"
+"```"
+msgstr ""
+
+#: src/dependent-types/typed-queries.md:726
+#, fuzzy
+msgid "However, the error message is similarly unhelpful:"
+msgstr "但是，错误消息同样没有帮助："
+
+#: src/dependent-types/typed-queries.md:734
+#, fuzzy
+msgid ""
+"Lean's macro system contains everything needed not only to provide a "
+"convenient syntax for queries, but also to arrange for the error messages to"
+" be helpful. Unfortunately, it is beyond the scope of this book to provide a"
+" description of implementing languages with Lean macros. An indexed family "
+"such as `Query` is probably best as the core of a typed database interaction"
+" library, rather than its user interface."
+msgstr ""
+"Lean 的宏系统包含了不仅可以为查询提供便捷语法，还可以安排错误消息有用的所有内容。不幸的是，用 Lean 宏实现语言的描述超出了本书的范围。像 "
+"`Query` 这样的索引族可能最适合作为类型化数据库交互库的核心，而不是其用户界面。"
+
+#: src/dependent-types/typed-queries.md:740
+#, fuzzy
+msgid "Dates"
+msgstr "日期"
+
+#: src/dependent-types/typed-queries.md:742
+#, fuzzy
+msgid ""
+"Define a structure to represent dates. Add it to the `DBType` universe and "
+"update the rest of the code accordingly. Provide the extra `DBExpr` "
+"constructors that seem to be necessary."
+msgstr "定义一个结构来表示日期。将其添加到 `DBType` 宇宙并相应地更新其余代码。提供似乎必要的额外 `DBExpr` 构造函数。"
+
+#: src/dependent-types/typed-queries.md:744
+#, fuzzy
+msgid "Nullable Types"
+msgstr "可空类型"
+
+#: src/dependent-types/typed-queries.md:746
+#, fuzzy
+msgid ""
+"Add support for nullable columns to the query language by representing "
+"database types with the following structure:"
+msgstr "通过使用以下结构表示数据库类型，为查询语言添加对可空列的支持："
+
+#: src/dependent-types/typed-queries.md:759
+#, fuzzy
+msgid ""
+"Use this type in place of `DBType` in `Column` and `DBExpr`, and look up "
+"SQL's rules for `NULL` and comparison operators to determine the types of "
+"`DBExpr`'s constructors."
+msgstr ""
+"在 `Column` 和 `DBExpr` 中使用此类型代替 `DBType`，并查找 SQL 中 `NULL` 和比较运算符的规则以确定 "
+"`DBExpr` 构造函数的类型。"
+
+#: src/dependent-types/typed-queries.md:761
+#, fuzzy
+msgid "Experimenting with Tactics"
+msgstr "尝试策略"
+
+#: src/dependent-types/typed-queries.md:763
+#, fuzzy
+msgid ""
+"What is the result of asking Lean to find values of the following types "
+"using `by repeat constructor`? Explain why each gives the result that it "
+"does."
+msgstr ""
+"使用 `by repeat constructor` 让 Lean 查找以下类型的值，结果是什么？解释为什么每个给出的结果都是它给出的结果。"
+
+#: src/dependent-types/typed-queries.md:764
+#: src/programs-proofs/special-types.md:42
+#, fuzzy
+msgid "`Nat`"
+msgstr "`Nat`"
+
+#: src/dependent-types/typed-queries.md:765
+#, fuzzy
+msgid "`List Nat`"
+msgstr "`List Nat`"
+
+#: src/dependent-types/typed-queries.md:766
+#, fuzzy
+msgid "`Vect Nat 4`"
+msgstr "`Vect Nat 4`"
+
+#: src/dependent-types/typed-queries.md:767
+#, fuzzy
+msgid "`Row []`"
+msgstr "`Row []`"
+
+#: src/dependent-types/typed-queries.md:768
+#, fuzzy
+msgid "`Row [⟨\"price\", .int⟩]`"
+msgstr "`Row [⟨\"price\", .int⟩]`"
+
+#: src/dependent-types/typed-queries.md:769
+#, fuzzy
+msgid "`Row peak`"
+msgstr "`Row peak`"
+
+#: src/dependent-types/typed-queries.md:770
+#, fuzzy
+msgid "`HasCol [⟨\"price\", .int⟩, ⟨\"price\", .int⟩] \"price\" .int`"
+msgstr "`HasCol [⟨\"price\", .int⟩, ⟨\"price\", .int⟩] \"price\" .int`"

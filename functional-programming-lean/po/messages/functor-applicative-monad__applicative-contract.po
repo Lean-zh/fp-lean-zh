@@ -1,0 +1,360 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/functor-applicative-monad/applicative-contract.md:3
+#, fuzzy
+msgid ""
+"Just like `Functor`, `Monad`, and types that implement `BEq` and `Hashable`,"
+" `Applicative` has a set of rules that all instances should adhere to."
+msgstr ""
+"与 `Functor`、`Monad` 以及实现 `BEq` 和 `Hashable` 的类型一样，`Applicative` "
+"有一组所有实例都应遵守的规则。"
+
+#: src/functor-applicative-monad/applicative-contract.md:5
+#, fuzzy
+msgid "There are four rules that an applicative functor should follow:"
+msgstr "一个应用式函子应遵循四条规则："
+
+#: src/functor-applicative-monad/applicative-contract.md:6
+#, fuzzy
+msgid "It should respect identity, so `pure id <*> v = v`"
+msgstr "它应尊重恒等，因此 `pure id <*> v = v`"
+
+#: src/functor-applicative-monad/applicative-contract.md:7
+#, fuzzy
+msgid ""
+"It should respect function composition, so `pure (· ∘ ·) <*> u <*> v <*> w ="
+" u <*> (v <*> w)`"
+msgstr "它应尊重函数组合，因此 `pure (· ∘ ·) <*> u <*> v <*> w = u <*> (v <*> w)`"
+
+#: src/functor-applicative-monad/applicative-contract.md:8
+#, fuzzy
+msgid ""
+"Sequencing pure operations should be a no-op, so `pure f <*> pure x = pure "
+"(f x)`"
+msgstr "对纯操作进行排序应为无操作，因此 `pure f <*> pure x = pure (f x)`"
+
+#: src/functor-applicative-monad/applicative-contract.md:9
+#, fuzzy
+msgid ""
+"The ordering of pure operations doesn't matter, so `u <*> pure x = pure (fun"
+" f => f x) <*> u`"
+msgstr "纯操作的顺序无关紧要，因此 `u <*> pure x = pure (fun f => f x) <*> u`"
+
+#: src/functor-applicative-monad/applicative-contract.md:11
+#, fuzzy
+msgid ""
+"To check these for the `Applicative Option` instance, start by expanding "
+"`pure` into `some`."
+msgstr "要检查 `Applicative Option` 实例的这些规则，首先将 `pure` 扩展为 `some`。"
+
+#: src/functor-applicative-monad/applicative-contract.md:13
+#, fuzzy
+msgid ""
+"The first rule states that `some id <*> v = v`. The definition of `seq` for "
+"`Option` states that this is the same as `id <$> v = v`, which is one of the"
+" `Functor` rules that have already been checked."
+msgstr ""
+"第一条规则指出 `some id <*> v = v`。`Option` 的 `seq` 定义指出这与 `id <$> v = v` "
+"相同，这是已检查过的 `Functor` 规则之一。"
+
+#: src/functor-applicative-monad/applicative-contract.md:16
+#, fuzzy
+msgid ""
+"The second rule states that `some (· ∘ ·) <*> u <*> v <*> w = u <*> (v <*> "
+"w)`. If any of `u`, `v`, or `w` is `none`, then both sides are `none`, so "
+"the property holds. Assuming that `u` is `some f`, that `v` is `some g`, and"
+" that `w` is `some x`, then this is equivalent to saying that `some (· ∘ ·) "
+"<*> some f <*> some g <*> some x = some f <*> (some g <*> some x)`. "
+"Evaluating the two sides yields the same result:"
+msgstr ""
+"第二条规则指出 `some (· ∘ ·) <*> u <*> v <*> w = u <*> (v <*> w)`。如果 `u`、`v` 或 `w` "
+"中的任何一个是 `none`，则双方都是 `none`，因此该属性成立。假设 `u` 是 `some f`，`v` 是 `some g`，`w` 是 "
+"`some x`，那么这等同于说 `some (· ∘ ·) <*> some f <*> some g <*> some x = some f <*>"
+" (some g <*> some x)`。计算两边得到相同的结果："
+
+#: src/functor-applicative-monad/applicative-contract.md:38
+#, fuzzy
+msgid "The third rule follows directly from the definition of `seq`:"
+msgstr "第三条规则直接源于 `seq` 的定义："
+
+#: src/functor-applicative-monad/applicative-contract.md:47
+#, fuzzy
+msgid ""
+"In the fourth case, assume that `u` is `some f`, because if it's `none`, "
+"both sides of the equation are `none`. `some f <*> some x` evaluates "
+"directly to `some (f x)`, as does `some (fun g => g x) <*> some f`."
+msgstr ""
+"在第四种情况下，假设 `u` 是 `some f`，因为如果它是 `none`，则等式的双方都是 `none`。`some f <*> some x` "
+"直接计算为 `some (f x)`，`some (fun g => g x) <*> some f` 也是如此。"
+
+#: src/functor-applicative-monad/applicative-contract.md:51
+#, fuzzy
+msgid "All Applicatives are Functors"
+msgstr "所有应用器都是函子"
+
+#: src/functor-applicative-monad/applicative-contract.md:53
+#, fuzzy
+msgid "The two operators for `Applicative` are enough to define `map`:"
+msgstr "`Applicative` 的两个运算符足以定义 `map`："
+
+#: src/functor-applicative-monad/applicative-contract.md:59
+#, fuzzy
+msgid ""
+"This can only be used to implement `Functor` if the contract for "
+"`Applicative` guarantees the contract for `Functor`, however. The first rule"
+" of `Functor` is that `id <$> x = x`, which follows directly from the first "
+"rule for `Applicative`. The second rule of `Functor` is that `map (f ∘ g) x "
+"= map f (map g x)`. Unfolding the definition of `map` here results in `pure "
+"(f ∘ g) <*> x = pure f <*> (pure g <*> x)`. Using the rule that sequencing "
+"pure operations is a no-op, the left side can be rewritten to `pure (· ∘ ·) "
+"<*> pure f <*> pure g <*> x`. This is an instance of the rule that states "
+"that applicative functors respect function composition."
+msgstr ""
+"然而，这只能用于实现 `Functor`，如果 `Applicative` 的契约保证了 `Functor` 的契约。`Functor` 的第一条规则是"
+" `id <$> x = x`，它直接源于 `Applicative` 的第一条规则。`Functor` 的第二条规则是 `map (f ∘ g) x "
+"= map f (map g x)`。在此处展开 `map` 的定义，得到 `pure (f ∘ g) <*> x = pure f <*> (pure"
+" g <*> x)`。使用纯操作的顺序是一个空操作的规则，左侧可以重写为 `pure (· ∘ ·) <*> pure f <*> pure g <*>"
+" x`。这是应用函子尊重函数组合的规则的一个实例。"
+
+#: src/functor-applicative-monad/applicative-contract.md:66
+#, fuzzy
+msgid ""
+"This justifies a definition of `Applicative` that extends `Functor`, with a "
+"default definition of `map` given in terms of `pure` and `seq`:"
+msgstr ""
+"这证明了 `Applicative` 的一个定义，它扩展了 `Functor`，其中 `map` 的默认定义以 `pure` 和 `seq` "
+"的形式给出："
+
+#: src/functor-applicative-monad/applicative-contract.md:74
+#, fuzzy
+msgid "All Monads are Applicative Functors"
+msgstr "所有单子都是应用函子"
+
+#: src/functor-applicative-monad/applicative-contract.md:76
+#, fuzzy
+msgid ""
+"An instance of `Monad` already requires an implementation of `pure`. "
+"Together with `bind`, this is enough to define `seq`:"
+msgstr "`Monad` 的一个实例已经需要 `pure` 的实现。连同 `bind`，这足以定义 `seq`："
+
+#: src/functor-applicative-monad/applicative-contract.md:84
+#, fuzzy
+msgid ""
+"Once again, checking that the `Monad` contract implies the `Applicative` "
+"contract will allow this to be used as a default definition for `seq` if "
+"`Monad` extends `Applicative`."
+msgstr ""
+"再次检查 `Monad` 契约暗示 `Applicative` 契约，如果 `Monad` 扩展 `Applicative`，这将允许将其用作 "
+"`seq` 的默认定义。"
+
+#: src/functor-applicative-monad/applicative-contract.md:86
+#, fuzzy
+msgid ""
+"The rest of this section consists of an argument that this implementation of"
+" `seq` based on `bind` in fact satisfies the `Applicative` contract. One of "
+"the beautiful things about functional programming is that this kind of "
+"argument can be worked out on a piece of paper with a pencil, using the "
+"kinds of evaluation rules from [the initial section on evaluating "
+"expressions](../getting-to-know/evaluating.md). Thinking about the meanings "
+"of the operations while reading these arguments can sometimes help with "
+"understanding."
+msgstr ""
+"本节的其余部分包含一个论证，即基于 `bind` 的 `seq` 的这种实现实际上满足 `Applicative` "
+"契约。函数式编程的美妙之处之一在于，这种论证可以用一支铅笔在一张纸上进行，使用 [关于求值表达式的初始部分](../getting-to-"
+"know/evaluating.md) 中的求值规则。在阅读这些论证时思考运算的含义有时有助于理解。"
+
+#: src/functor-applicative-monad/applicative-contract.md:90
+#, fuzzy
+msgid ""
+"Replacing `do`\\-notation with explicit uses of `>>=` makes it easier to "
+"apply the `Monad` rules:"
+msgstr "用显式使用 `>>=` 替换 `do` 符号，可以更轻松地应用 `Monad` 规则："
+
+#: src/functor-applicative-monad/applicative-contract.md:99
+#, fuzzy
+msgid ""
+"To check that this definition respects identity, check that `seq (pure id) "
+"(fun () => v) = v`. The left hand side is equivalent to `pure id >>= fun g "
+"=> (fun () => v) () >>= fun y => pure (g y)`. The unit function in the "
+"middle can be eliminated immediately, yielding `pure id >>= fun g => v >>= "
+"fun y => pure (g y)`. Using the fact that `pure` is a left identity of "
+"`>>=`, this is the same as `v >>= fun y => pure (id y)`, which is `v >>= fun"
+" y => pure y`. Because `fun x => f x` is the same as `f`, this is the same "
+"as `v >>= pure`, and the fact that `pure` is a right identity of `>>=` can "
+"be used to get `v`."
+msgstr ""
+"要检查此定义是否符合恒等性，请检查 `seq (pure id) (fun () => v) = v`。左侧等价于 `pure id >>= fun g"
+" => (fun () => v) () >>= fun y => pure (g y)`。中间的单位函数可以立即消除，得到 `pure id >>= "
+"fun g => v >>= fun y => pure (g y)`。利用 `pure` 是 `>>=` 的左恒等性的事实，这等同于 `v >>= "
+"fun y => pure (id y)`，即 `v >>= fun y => pure y`。由于 `fun x => f x` 等同于 "
+"`f`，这等同于 `v >>= pure`，而 `pure` 是 `>>=` 的右恒等性的事实可用于得到 `v`。"
+
+#: src/functor-applicative-monad/applicative-contract.md:105
+#, fuzzy
+msgid ""
+"This kind of informal reasoning can be made easier to read with a bit of "
+"reformatting. In the following chart, read \"EXPR1 ={ REASON }= EXPR2\" as "
+"\"EXPR1 is the same as EXPR2 because REASON\":"
+msgstr ""
+"通过一些重新格式化，这种非正式推理可以变得更容易阅读。在以下图表中，将 \"EXPR1 ={ REASON }= EXPR2\" 理解为 \"EXPR1"
+" 等同于 EXPR2，因为 REASON\"："
+
+#: src/functor-applicative-monad/applicative-contract.md:139
+#, fuzzy
+msgid ""
+"To check that it respects function composition, check that `pure (· ∘ ·) <*>"
+" u <*> v <*> w = u <*> (v <*> w)`. The first step is to replace `<*>` with "
+"this definition of `seq`. After that, a (somewhat long) series of steps that"
+" use the identity and associativity rules from the `Monad` contract is "
+"enough to get from one to the other:"
+msgstr ""
+"要检查它是否符合函数组合，请检查 `pure (· ∘ ·) <*> u <*> v <*> w = u <*> (v <*> w)`。第一步是用此 "
+"`seq` 定义替换 `<*>`。之后，使用 `Monad` 契约中的恒等性和结合性规则的一系列（有点长的）步骤就足以从一个得到另一个："
+
+#: src/functor-applicative-monad/applicative-contract.md:277
+#, fuzzy
+msgid "To check that sequencing pure operations is a no-op:"
+msgstr "要检查对纯操作进行排序是否为无操作："
+
+#: src/functor-applicative-monad/applicative-contract.md:306
+#, fuzzy
+msgid ""
+"And finally, to check that the ordering of pure operations doesn't matter:"
+msgstr "最后，要检查纯操作的顺序无关紧要："
+
+#: src/functor-applicative-monad/applicative-contract.md:350
+#, fuzzy
+msgid ""
+"This justifies a definition of `Monad` that extends `Applicative`, with a "
+"default definition of `seq`:"
+msgstr "这证明了 `Monad` 的定义扩展了 `Applicative`，其中 `seq` 的默认定义为："
+
+#: src/functor-applicative-monad/applicative-contract.md:359
+#, fuzzy
+msgid ""
+"`Applicative`'s own default definition of `map` means that every `Monad` "
+"instance automatically generates `Applicative` and `Functor` instances as "
+"well."
+msgstr ""
+"`Applicative` 自身的 `map` 默认定义意味着每个 `Monad` 实例都会自动生成 `Applicative` 和 `Functor`"
+" 实例。"
+
+#: src/functor-applicative-monad/applicative-contract.md:361
+#, fuzzy
+msgid "Additional Stipulations"
+msgstr "附加规定"
+
+#: src/functor-applicative-monad/applicative-contract.md:363
+#, fuzzy
+msgid ""
+"In addition to adhering to the individual contracts associated with each "
+"type class, combined implementations `Functor`, `Applicative` and `Monad` "
+"should work equivalently to these default implementations. In other words, a"
+" type that provides both `Applicative` and `Monad` instances should not have"
+" an implementation of `seq` that works differently from the version that the"
+" `Monad` instance generates as a default implementation. This is important "
+"because polymorphic functions may be refactored to replace a use of `>>=` "
+"with an equivalent use of `<*>`, or a use of `<*>` with an equivalent use of"
+" `>>=`. This refactoring should not change the meaning of programs that use "
+"this code."
+msgstr ""
+"除了遵守与每个类型类关联的各个契约外，组合实现 `Functor`、`Applicative` 和 `Monad` "
+"应等效于这些默认实现。换句话说，同时提供 `Applicative` 和 `Monad` 实例的类型不应具有与 `Monad` "
+"实例作为默认实现生成的版本不同的 `seq` 实现。这很重要，因为多态函数可能会重构，以使用等效的 `<*>` 替换 `>>=`，或使用等效的 "
+"`>>=` 替换 `<*>`。此重构不应更改使用此代码的程序的含义。"
+
+#: src/functor-applicative-monad/applicative-contract.md:368
+#, fuzzy
+msgid ""
+"This rule explains why `Validate.andThen` should not be used to implement "
+"`bind` in a `Monad` instance. On its own, it obeys the monad contract. "
+"However, when it is used to implement `seq`, the behavior is not equivalent "
+"to `seq` itself. To see where they differ, take the example of two "
+"computations, both of which return errors. Start with an example of a case "
+"where two errors should be returned, one from validating a function (which "
+"could have just as well resulted from a prior argument to the function), and"
+" one from validating an argument:"
+msgstr ""
+"此规则解释了为什么不应使用 `Validate.andThen` 在 `Monad` 实例中实现 `bind`。它本身遵守 monad "
+"契约。但是，当它用于实现 `seq` 时，行为与 `seq` "
+"本身不相等。要了解它们的不同之处，请以两个计算为例，它们都返回错误。从一个案例开始，其中应返回两个错误，一个来自验证函数（也可能来自函数的先前参数），另一个来自验证参数："
+
+#: src/functor-applicative-monad/applicative-contract.md:373
+msgid ""
+"```lean\n"
+"def notFun : Validate String (Nat → String) :=\n"
+"  .errors { head := \"First error\", tail := [] }\n"
+"\n"
+"def notArg : Validate String Nat :=\n"
+"  .errors { head := \"Second error\", tail := [] }\n"
+"```"
+msgstr ""
+
+#: src/functor-applicative-monad/applicative-contract.md:381
+#, fuzzy
+msgid ""
+"Combining them with the version of `<*>` from `Validate`'s `Applicative` "
+"instance results in both errors being reported to the user:"
+msgstr "将它们与 `Validate` 的 `Applicative` 实例中的 `<*>` 版本结合使用，将导致向用户报告这两个错误："
+
+#: src/functor-applicative-monad/applicative-contract.md:382
+msgid ""
+"```lean\n"
+"notFun <*> notArg\n"
+"===>\n"
+"match notFun with\n"
+"| .ok g => g <$> notArg\n"
+"| .errors errs =>\n"
+"  match notArg with\n"
+"  | .ok _ => .errors errs\n"
+"  | .errors errs' => .errors (errs ++ errs')\n"
+"===>\n"
+"match notArg with\n"
+"| .ok _ => .errors { head := \"First error\", tail := [] }\n"
+"| .errors errs' => .errors ({ head := \"First error\", tail := [] } ++ errs')\n"
+"===>\n"
+".errors ({ head := \"First error\", tail := [] } ++ { head := \"Second error\", tail := []})\n"
+"===>\n"
+".errors { head := \"First error\", tail := [\"Second error\"]}\n"
+"```"
+msgstr ""
+
+#: src/functor-applicative-monad/applicative-contract.md:401
+#, fuzzy
+msgid ""
+"Using the version of `seq` that was implemented with `>>=`, here rewritten "
+"to `andThen`, results in only the first error being available:"
+msgstr "使用使用 `>>=` 实现的 `seq` 版本（在此重写为 `andThen`）导致仅第一个错误可用："
+
+#: src/functor-applicative-monad/applicative-contract.md:402
+msgid ""
+"```lean\n"
+"seq notFun (fun () => notArg)\n"
+"===>\n"
+"notFun.andThen fun g =>\n"
+"notArg.andThen fun y =>\n"
+"pure (g y)\n"
+"===>\n"
+"match notFun with\n"
+"| .errors errs => .errors errs\n"
+"| .ok val =>\n"
+"  (fun g =>\n"
+"    notArg.andThen fun y =>\n"
+"    pure (g y)) val\n"
+"===>\n"
+".errors { head := \"First error\", tail := [] }\n"
+"```"
+msgstr ""

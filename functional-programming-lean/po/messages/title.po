@@ -1,0 +1,253 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/title.md:3
+#, fuzzy
+msgid "_by David Thrane Christiansen_"
+msgstr "_作者：David Thrane Christiansen_"
+
+#: src/title.md:5
+#, fuzzy
+msgid "_Copyright Microsoft Corporation 2023_"
+msgstr "_版权所有 Microsoft Corporation 2023_"
+
+#: src/title.md:9
+#, fuzzy
+msgid ""
+"This is a free book on using Lean 4 as a programming language. All code "
+"samples are tested with Lean 4 release `4.1.0`."
+msgstr "这是一本免费的书，介绍如何使用精益4作为编程语言。所有代码示例均使用精益4版本`4.1.0`进行测试。"
+
+#: src/title.md:11
+#, fuzzy
+msgid "Release history"
+msgstr "发行历史"
+
+#: src/title.md:13
+#, fuzzy
+msgid "January, 2024"
+msgstr "2024年1月"
+
+#: src/title.md:15
+#, fuzzy
+msgid ""
+"This is a minor bugfix release that fixes a regression in an example "
+"program."
+msgstr "这是一个修复了示例程序中回归的次要错误修复版本。"
+
+#: src/title.md:17
+#, fuzzy
+msgid "October, 2023"
+msgstr "2023 年 10 月"
+
+#: src/title.md:19
+#, fuzzy
+msgid ""
+"In this first maintenance release, a number of smaller issues were fixed and"
+" the text was brought up to date with the latest release of Lean."
+msgstr "在此次首次维护版本中，修复了许多较小的错误，并根据 Lean 的最新版本更新了文本。"
+
+#: src/title.md:21
+#, fuzzy
+msgid "May, 2023"
+msgstr "2023 年 5 月"
+
+#: src/title.md:23
+#, fuzzy
+msgid ""
+"The book is now complete! Compared to the April pre-release, many small "
+"details have been improved and minor mistakes have been fixed."
+msgstr "本书现已完成！与 4 月份的预发布版本相比，许多小细节得到了改进，并修复了小错误。"
+
+#: src/title.md:25
+#, fuzzy
+msgid "April, 2023"
+msgstr "2023 年 4 月"
+
+#: src/title.md:27
+#, fuzzy
+msgid ""
+"This release adds an interlude on writing proofs with tactics as well as a "
+"final chapter that combines discussion of performance and cost models with "
+"proofs of termination and program equivalence. This is the last release "
+"prior to the final release."
+msgstr "此版本添加了关于使用策略编写证明的插曲，以及将性能和成本模型讨论与终止和程序等价性证明相结合的最后一章。这是最终版本之前的最后一个版本。"
+
+#: src/title.md:30
+#, fuzzy
+msgid "March, 2023"
+msgstr "2023 年 3 月"
+
+#: src/title.md:32
+#, fuzzy
+msgid ""
+"This release adds a chapter on programming with dependent types and indexed "
+"families."
+msgstr "此版本添加了关于使用依赖类型和索引族进行编程的章节。"
+
+#: src/title.md:34
+#, fuzzy
+msgid "January, 2023"
+msgstr "2023 年 1 月"
+
+#: src/title.md:36
+#, fuzzy
+msgid ""
+"This release adds a chapter on monad transformers that includes a "
+"description of the imperative features that are available in "
+"`do`\\-notation."
+msgstr "此版本添加了关于单子变换器的章节，其中包括对 `do` 符号中可用的命令式特性的描述。"
+
+#: src/title.md:38
+#, fuzzy
+msgid "December, 2022"
+msgstr "2022 年 12 月"
+
+#: src/title.md:40
+#, fuzzy
+msgid ""
+"This release adds a chapter on applicative functors that additionally "
+"describes structures and type classes in more detail. This is accompanied "
+"with improvements to the description of monads. The December 2022 release "
+"was delayed until January 2023 due to winter holidays."
+msgstr ""
+"此版本添加了关于应用函子的章节，此外还更详细地描述了结构和类型类。这伴随着对单子的描述的改进。由于冬季假期，2022 年 12 月版本被推迟到 2023"
+" 年 1 月。"
+
+#: src/title.md:44
+#, fuzzy
+msgid "November, 2022"
+msgstr "2022 年 11 月"
+
+#: src/title.md:45
+#, fuzzy
+msgid ""
+"This release adds a chapter on programming with monads. Additionally, the "
+"example of using JSON in the coercions section has been updated to include "
+"the complete code."
+msgstr "此版本添加了关于使用单子进行编程的章节。此外，强制转换部分中使用 JSON 的示例已更新为包含完整代码。"
+
+#: src/title.md:47
+#, fuzzy
+msgid "October, 2022"
+msgstr "2022 年 10 月"
+
+#: src/title.md:49
+#, fuzzy
+msgid ""
+"This release completes the chapter on type classes. In addition, a short "
+"interlude introducing propositions, proofs, and tactics has been added just "
+"before the chapter on type classes, because a small amount of familiarity "
+"with the concepts helps to understand some of the standard library type "
+"classes."
+msgstr ""
+"此版本完成了类型类的章节。此外，在类型类章节之前添加了一个简短的插曲，介绍命题、证明和策略，因为对这些概念的少量了解有助于理解一些标准库类型类。"
+
+#: src/title.md:51
+#, fuzzy
+msgid "September, 2022"
+msgstr "2022 年 9 月"
+
+#: src/title.md:53
+#, fuzzy
+msgid ""
+"This release adds the first half of a chapter on type classes, which are "
+"Lean's mechanism for overloading operators and an important means of "
+"organizing code and structuring libraries. Additionally, the second chapter "
+"has been updated to account for changes in Lean's stream API."
+msgstr ""
+"本次发布增加了关于类型类的章节前半部分，类型类是 Lean 用于重载运算符的机制，也是组织代码和构建库的重要手段。此外，第二章已更新，以适应 Lean "
+"的流 API 中的变化。"
+
+#: src/title.md:55
+#, fuzzy
+msgid "August, 2022"
+msgstr "2022 年 8 月"
+
+#: src/title.md:57
+#, fuzzy
+msgid ""
+"This third public release adds a second chapter, which describes compiling "
+"and running programs along with Lean's model for side effects."
+msgstr "第三次公开发布增加了第二章，其中描述了编译和运行程序以及 Lean 的副作用模型。"
+
+#: src/title.md:59
+#, fuzzy
+msgid "July, 2022"
+msgstr "2022 年 7 月"
+
+#: src/title.md:61
+#, fuzzy
+msgid "The second public release completes the first chapter."
+msgstr "第二次公开发布完成了第一章。"
+
+#: src/title.md:63
+#, fuzzy
+msgid "June, 2022"
+msgstr "2022 年 6 月"
+
+#: src/title.md:65
+#, fuzzy
+msgid ""
+"This was the first public release, consisting of an introduction and part of"
+" the first chapter."
+msgstr "这是第一次公开发布，包括引言和第一章的一部分。"
+
+#: src/title.md:67
+#, fuzzy
+msgid "About the Author"
+msgstr "关于作者"
+
+#: src/title.md:69
+#, fuzzy
+msgid ""
+"David Thrane Christiansen has been using functional languages for twenty "
+"years, and dependent types for ten. Together with Daniel P. Friedman, he "
+"wrote [_The Little Typer_](https://thelittletyper.com/), an introduction to "
+"the key ideas of dependent type theory. He has a Ph.D. from the IT "
+"University of Copenhagen. During his studies, he was a major contributor to "
+"the first version of the Idris language. Since leaving academia, he has "
+"worked as a software developer at Galois in Portland, Oregon and Deon "
+"Digital in Copenhagen, Denmark, and he was the Executive Director of the "
+"Haskell Foundation. At the time of writing, he is employed at the [Lean "
+"Focused Research Organization](https://lean-fro.org) working full-time on "
+"Lean."
+msgstr ""
+"David Thrane Christiansen 已使用函数式语言二十年，并使用依赖类型十年。他与 Daniel P. Friedman "
+"合著了《[_The Little "
+"Typer_](https://thelittletyper.com/)》，介绍了依赖类型理论的关键思想。他拥有哥本哈根 IT "
+"大学的博士学位。在学习期间，他为 Idris 语言的第一个版本做出了重大贡献。离开学术界后，他曾在俄勒冈州波特兰的 Galois 和丹麦哥本哈根的 "
+"Deon Digital 担任软件开发人员，并担任 Haskell 基金会执行董事。在撰写本文时，他受雇于 [Lean "
+"专注研究组织](https://lean-fro.org)，全职从事 Lean 的工作。"
+
+#: src/title.md:76
+#, fuzzy
+msgid "License"
+msgstr "许可证"
+
+#: src/title.md:78
+#, fuzzy
+msgid "This work is licensed under a "
+msgstr "本作品采用"
+
+#: src/title.md:78
+#, fuzzy
+msgid "Creative Commons Attribution 4.0 International License"
+msgstr "知识共享署名 4.0 国际许可证"
+
+#: src/title.md:78
+#, fuzzy
+msgid "."
+msgstr "许可。"

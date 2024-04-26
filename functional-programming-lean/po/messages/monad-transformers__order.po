@@ -1,0 +1,288 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/monad-transformers/order.md:3
+#, fuzzy
+msgid ""
+"When composing a monad from a stack of monad transformers, it's important to"
+" be aware that the order in which the monad transformers are layered "
+"matters. Different orderings of the same set of transformers result in "
+"different monads."
+msgstr "在从单子变换器堆栈组合单子时，需要注意单子变换器分层的顺序很重要。同一组变换器的不同顺序会导致不同的单子。"
+
+#: src/monad-transformers/order.md:6
+#, fuzzy
+msgid ""
+"This version of `countLetters` is just like the previous version, except it "
+"uses type classes to describe the set of available effects instead of "
+"providing a concrete monad:"
+msgstr "此版本的 `countLetters` 与前一个版本类似，不同之处在于它使用类型类来描述可用效果集，而不是提供一个具体的单子："
+
+#: src/monad-transformers/order.md:24
+#, fuzzy
+msgid ""
+"The state and exception monad transformers can be combined in two different "
+"orders, each resulting in a monad that has instances of both type classes:"
+msgstr "状态和异常单子转换器可以按两种不同的顺序组合，每种顺序都会生成一个同时具有这两个类型类的实例的单子："
+
+#: src/monad-transformers/order.md:30
+#, fuzzy
+msgid ""
+"When run on input for which the program does not throw an exception, both "
+"monads yield similar results:"
+msgstr "当在程序不抛出异常的输入上运行时，这两个单子都会产生类似的结果："
+
+#: src/monad-transformers/order.md:31
+msgid ""
+"```lean\n"
+"#eval countLetters (m := M1) \"hello\" ⟨0, 0⟩\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:37
+msgid ""
+"```lean\n"
+"#eval countLetters (m := M2) \"hello\" ⟨0, 0⟩\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:43
+#, fuzzy
+msgid ""
+"However, there is a subtle difference between these return values. In the "
+"case of `M1`, the outermost constructor is `Except.ok`, and it contains a "
+"pair of the unit constructor with the final state. In the case of `M2`, the "
+"outermost constructor is the pair, which contains `Except.ok` applied only "
+"to the unit constructor. The final state is outside of `Except.ok`. In both "
+"cases, the program returns the counts of vowels and consonants."
+msgstr ""
+"然而，这些返回值之间存在细微差别。在 `M1` 的情况下，最外层的构造器是 `Except.ok`，它包含一个单元构造器和最终状态的元组。在 `M2` "
+"的情况下，最外层的构造器是元组，它只包含应用于单元构造器的 `Except.ok`。最终状态在 `Except.ok` "
+"之外。在这两种情况下，程序都会返回元音和辅音的计数。"
+
+#: src/monad-transformers/order.md:49
+#, fuzzy
+msgid ""
+"On the other hand, only one monad yields a count of vowels and consonants "
+"when the string causes an exception to be thrown. Using `M1`, only an "
+"exception value is returned:"
+msgstr "另一方面，当字符串导致抛出异常时，只有一个单子会产生元音和辅音的计数。使用 `M1`，只返回一个异常值："
+
+#: src/monad-transformers/order.md:51
+msgid ""
+"```lean\n"
+"#eval countLetters (m := M1) \"hello!\" ⟨0, 0⟩\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:57
+#, fuzzy
+msgid ""
+"Using `M2`, the exception value is paired with the state as it was at the "
+"time that the exception was thrown:"
+msgstr "使用 `M2`，异常值与异常抛出时的状态配对："
+
+#: src/monad-transformers/order.md:58
+msgid ""
+"```lean\n"
+"#eval countLetters (m := M2) \"hello!\" ⟨0, 0⟩\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:65
+#, fuzzy
+msgid ""
+"It might be tempting to think that `M2` is superior to `M1` because it "
+"provides more information that might be useful when debugging. The same "
+"program might compute _different_ answers in `M1` than it does in `M2`, and "
+"there's no principled reason to say that one of these answers is necessarily"
+" better than the other. This can be seen by adding a step to the program "
+"that handles exceptions:"
+msgstr ""
+"人们可能会倾向于认为 `M2` 优于 `M1`，因为它提供了更多信息，这在调试时可能很有用。同一个程序在 `M1` 中计算的答案可能与在 `M2` "
+"中计算的不同，并且没有原则性的理由来说明其中一个答案一定比另一个更好。可以通过向程序中添加一个处理异常的步骤来看到这一点："
+
+#: src/monad-transformers/order.md:68
+msgid ""
+"```lean\n"
+"def countWithFallback\n"
+"    [Monad m] [MonadState LetterCounts m] [MonadExcept Err m]\n"
+"    (str : String) : m Unit :=\n"
+"  try\n"
+"    countLetters str\n"
+"  catch _ =>\n"
+"    countLetters \"Fallback\"\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:77
+#, fuzzy
+msgid ""
+"This program always succeeds, but it might succeed with different results. "
+"If no exception is thrown, then the results are the same as `countLetters`:"
+msgstr "此程序始终成功，但可能获得不同的结果。如果未抛出异常，则结果与 `countLetters` 相同："
+
+#: src/monad-transformers/order.md:79
+msgid ""
+"```lean\n"
+"#eval countWithFallback (m := M1) \"hello\" ⟨0, 0⟩\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:85
+msgid ""
+"```lean\n"
+"#eval countWithFallback (m := M2) \"hello\" ⟨0, 0⟩\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:91
+#, fuzzy
+msgid ""
+"However, if the exception is thrown and caught, then the final states are "
+"very different. With `M1`, the final state contains only the letter counts "
+"from `\"Fallback\"`:"
+msgstr "然而，如果抛出并捕获异常，则最终状态将非常不同。对于 `M1`，最终状态仅包含来自 `\"Fallback\"` 的字母计数："
+
+#: src/monad-transformers/order.md:93
+msgid ""
+"```lean\n"
+"#eval countWithFallback (m := M1) \"hello!\" ⟨0, 0⟩\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:99
+#, fuzzy
+msgid ""
+"With `M2`, the final state contains letter counts from both `\"hello\"` and "
+"from `\"Fallback\"`, as one would expect in an imperative language:"
+msgstr "对于 `M2`，最终状态包含来自 `\"hello\"` 和 `\"Fallback\"` 的字母计数，正如人们在命令式语言中所期望的那样："
+
+#: src/monad-transformers/order.md:100
+msgid ""
+"```lean\n"
+"#eval countWithFallback (m := M2) \"hello!\" ⟨0, 0⟩\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/order.md:107
+#, fuzzy
+msgid ""
+"In `M1`, throwing an exception \"rolls back\" the state to where the "
+"exception was caught. In `M2`, modifications to the state persist across the"
+" throwing and catching of exceptions. This difference can be seen by "
+"unfolding the definitions of `M1` and `M2`. `M1 α` unfolds to `LetterCounts "
+"→ Except Err (α × LetterCounts)`, and `M2 α` unfolds to `LetterCounts → "
+"Except Err α × LetterCounts`. That is to say, `M1 α` describes functions "
+"that take an initial letter count, returning either an error or an `α` "
+"paired with updated counts. When an exception is thrown in `M1`, there is no"
+" final state. `M2 α` describes functions that take an initial letter count "
+"and return a new letter count paired with either an error or an `α`. When an"
+" exception is thrown in `M2`, it is accompanied by a state."
+msgstr ""
+"在 `M1` 中，抛出异常会将状态“回滚”到捕获异常的位置。在 `M2` 中，对状态的修改会持续存在于异常的抛出和捕获过程中。可以通过展开 `M1` 和"
+" `M2` 的定义来观察到这种差异。`M1 α` 展开为 `LetterCounts → Except Err (α × "
+"LetterCounts)`，而 `M2 α` 展开为 `LetterCounts → Except Err α × "
+"LetterCounts`。也就是说，`M1 α` 描述了获取初始字母计数并返回错误或与更新计数配对的 `α` 的函数。当在 `M1` "
+"中抛出异常时，没有最终状态。`M2 α` 描述了获取初始字母计数并返回与错误或 `α` 配对的新字母计数的函数。当在 `M2` "
+"中抛出异常时，它会伴随一个状态。"
+
+#: src/monad-transformers/order.md:116
+#, fuzzy
+msgid "Commuting Monads"
+msgstr "可交换单子"
+
+#: src/monad-transformers/order.md:118
+#, fuzzy
+msgid ""
+"In the jargon of functional programming, two monad transformers are said to "
+"_commute_ if they can be re-ordered without the meaning of the program "
+"changing. The fact that the result of the program can differ when `StateT` "
+"and `ExceptT` are reordered means that state and exceptions do not commute. "
+"In general, monad transformers should not be expected to commute."
+msgstr ""
+"在函数式编程的术语中，如果两个单子变换器可以重新排序而不会改变程序的含义，则称它们为 _可交换_。`StateT` 和 `ExceptT` "
+"重新排序后程序结果可能不同的事实意味着状态和异常不可交换。通常，不应期望单子变换器可交换。"
+
+#: src/monad-transformers/order.md:122
+#, fuzzy
+msgid ""
+"Even though not all monad transformers commute, some do. For example, two "
+"uses of `StateT` can be re-ordered. Expanding the definitions in `StateT σ "
+"(StateT σ' Id) α` yields the type `σ → σ' → ((α × σ) × σ')`, and `StateT σ' "
+"(StateT σ Id) α` yields `σ' → σ → ((α × σ') × σ)`. In other words, the "
+"differences between them are that they nest the `σ` and `σ'` types in "
+"different places in the return type, and they accept their arguments in a "
+"different order. Any client code will still need to provide the same inputs,"
+" and it will still receive the same outputs."
+msgstr ""
+"尽管并非所有单子变换器都可以交换，但有些可以。例如，`StateT` 的两个用法可以重新排序。展开 `StateT σ (StateT σ' Id) "
+"α` 中的定义会得到类型 `σ → σ' → ((α × σ) × σ')`，而 `StateT σ' (StateT σ Id) α` 会得到 `σ'"
+" → σ → ((α × σ') × σ)`。换句话说，它们之间的区别在于它们在返回类型中嵌套 `σ` 和 `σ'` "
+"类型的不同位置，并且它们以不同的顺序接受它们的输入。任何客户端代码仍然需要提供相同的输入，并且它仍然会接收相同的输出。"
+
+#: src/monad-transformers/order.md:128
+#, fuzzy
+msgid ""
+"Most programming languages that have both mutable state and exceptions work "
+"like `M2`. In those languages, state that _should_ be rolled back when an "
+"exception is thrown is difficult to express, and it usually needs to be "
+"simulated in a manner that looks much like the passing of explicit state "
+"values in `M1`. Monad transformers grant the freedom to choose an "
+"interpretation of effect ordering that works for the problem at hand, with "
+"both choices being equally easy to program with. However, they also require "
+"care to be taken in the choice of ordering of transformers. With great "
+"expressive power comes the responsibility to check that what's being "
+"expressed is what is intended, and the type signature of `countWithFallback`"
+" is probably more polymorphic than it should be."
+msgstr ""
+"大多数同时具有可变状态和异常的编程语言都像 `M2` 一样工作。在这些语言中，当抛出异常时应该回滚的状态很难表示，并且通常需要以非常类似于在 `M1` "
+"中传递显式状态值的方式来模拟它。单子变换器赋予了选择一种适用于手头问题的效应顺序解释的自由，并且两种选择都同样容易编程。然而，它们也需要在选择变换器的顺序时小心。强大的表现力带来了检查所表达的内容是否符合预期，以及"
+" `countWithFallback` 的类型签名可能比它应该的更具多态性的责任。"
+
+#: src/monad-transformers/order.md:137
+#, fuzzy
+msgid ""
+"Check that `ReaderT` and `StateT` commute by expanding their definitions and"
+" reasoning about the resulting types."
+msgstr "通过展开它们的定义并推理结果类型，检查 `ReaderT` 和 `StateT` 是否交换。"
+
+#: src/monad-transformers/order.md:138
+#, fuzzy
+msgid ""
+"Do `ReaderT` and `ExceptT` commute? Check your answer by expanding their "
+"definitions and reasoning about the resulting types."
+msgstr "`ReaderT` 和 `ExceptT` 是否交换？通过展开它们的定义并推理结果类型来检查你的答案。"
+
+#: src/monad-transformers/order.md:139
+#, fuzzy
+msgid ""
+"Construct a monad transformer `ManyT` based on the definition of `Many`, "
+"with a suitable `Alternative` instance. Check that it satisfies the `Monad` "
+"contract."
+msgstr ""
+"基于 `Many` 的定义构造单子变换器 `ManyT`，并提供一个合适的 `Alternative` 实例。检查它是否满足 `Monad` 契约。"
+
+#: src/monad-transformers/order.md:140
+#, fuzzy
+msgid ""
+"Does `ManyT` commute with `StateT`? If so, check your answer by expanding "
+"definitions and reasoning about the resulting types. If not, write a program"
+" in `ManyT (StateT σ Id)` and a program in `StateT σ (ManyT Id)`. Each "
+"program should be one that makes more sense for the given ordering of monad "
+"transformers."
+msgstr ""
+"`ManyT` 是否与 `StateT` 可交换？如果是，请通过展开定义并推理结果类型来检查你的答案。如果不是，请在 `ManyT (StateT σ "
+"Id)` 和 `StateT σ (ManyT Id)` 中编写一个程序。每个程序都应该更适合给定的单子变换器顺序。"

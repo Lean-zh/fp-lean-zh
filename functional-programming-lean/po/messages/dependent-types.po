@@ -1,0 +1,146 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/dependent-types.md:3
+#, fuzzy
+msgid ""
+"In most statically-typed programming languages, there is a hermetic seal "
+"between the world of types and the world of programs. Types and programs "
+"have different grammars and they are used at different times. Types are "
+"typically used at compile time, to check that a program obeys certain "
+"invariants. Programs are used at run time, to actually perform computations."
+" When the two interact, it is usually in the form of a type-case operator "
+"like an \"instance-of\" check or a casting operator that provides the type "
+"checker with information that was otherwise unavailable, to be verified at "
+"run time. In other words, the interaction consists of types being inserted "
+"into the world of programs, gaining some limited run-time meaning."
+msgstr ""
+"在大多数静态类型编程语言中，类型世界和程序世界之间存在密封。类型和程序有不同的语法，它们在不同的时间使用。类型通常在编译时使用，以检查程序是否遵守某些不变量。程序在运行时使用，以实际执行计算。当两者交互时，通常采用类型案例运算符的形式，例如“instance-"
+"of”检查或提供类型检查器在运行时验证的信息的强制转换运算符。换句话说，交互包括将类型插入程序世界，获得一些有限的运行时含义。"
+
+#: src/dependent-types.md:10
+#, fuzzy
+msgid ""
+"Lean does not impose this strict separation. In Lean, programs may compute "
+"types and types may contain programs. Placing programs in types allows their"
+" full computation power to be used at compile time, and the ability to "
+"return types from functions makes types into first-class participants in the"
+" programming process."
+msgstr ""
+"Lean 没有强加这种严格的分离。在 Lean "
+"中，程序可以计算类型，类型可以包含程序。将程序放在类型中允许在编译时使用它们的全部计算能力，并且从函数返回类型的能力使类型成为编程过程中的一等参与者。"
+
+#: src/dependent-types.md:14
+#, fuzzy
+msgid ""
+"_Dependent types_ are types that contain non-type expressions. A common "
+"source of dependent types is a named argument to a function. For example, "
+"the function `natOrStringThree` returns either a natural number or a string,"
+" depending on which `Bool` it is passed:"
+msgstr ""
+"**依赖类型**包含非类型表达式。依赖类型的常见来源是函数的命名参数。例如，函数 `natOrStringThree` 返回自然数或字符串，具体取决于传递给它的 `Bool`：\n"
+"\n"
+"依赖类型的其他示例包括：\n"
+"\n"
+"[多态性的介绍部分](getting-to-know/polymorphism.md) 包含 `posOrNegThree`，其中函数的返回类型取决于参数的值。\n"
+"\n"
+"[`OfNat` 类型类](type-classes/pos.md#literal-numbers) 取决于正在使用的特定自然数文字。\n"
+"\n"
+"验证示例中使用的 [`CheckedInput` 结构](functor-applicative-monad/applicative.md#validated-input) 取决于验证发生的年份。\n"
+"\n"
+"[子类型](functor-applicative-monad/applicative.md#subtypes) 包含引用特定值的命题。\n"
+"\n"
+"本质上，所有有趣的命题，包括那些确定 [数组索引符号](props-proofs-indexing.md) 有效性的命题，都是包含值的类型，因此是依赖类型。\n"
+"\n"
+"依赖类型极大地增强了类型系统的功能。返回类型根据参数值进行分支的灵活性使编写程序成为可能，而这些程序在其他类型系统中很难赋予类型。同时，依赖类型允许类型签名限制函数可能返回的值，从而可以在编译时强制执行强不变性。\n"
+"\n"
+"但是，使用依赖类型进行编程可能非常复杂，并且需要一整套超越函数式编程的技能。表达性规范可能难以实现，并且确实存在陷入困境和无法完成程序的风险。另一方面，这个过程可以带来新的理解，这可以用可以实现的精炼类型来表达。虽然本章只是触及了依赖类型编程的表面，但这是一个值得专门写一本书的深刻主题。"
+
+#: src/dependent-types.md:17
+msgid ""
+"```lean\n"
+"def natOrStringThree (b : Bool) : if b then Nat else String :=\n"
+"  match b with\n"
+"  | true => (3 : Nat)\n"
+"  | false => \"three\"\n"
+"```"
+msgstr ""
+
+#: src/dependent-types.md:24
+#, fuzzy
+msgid "Further examples of dependent types include:"
+msgstr "?"
+
+#: src/dependent-types.md:25
+#, fuzzy
+msgid ""
+"[The introductory section on polymorphism](getting-to-know/polymorphism.md) "
+"contains `posOrNegThree`, in which the function's return type depends on the"
+" value of the argument."
+msgstr "?"
+
+#: src/dependent-types.md:26
+#, fuzzy
+msgid ""
+"[The `OfNat` type class](type-classes/pos.md#literal-numbers) depends on the"
+" specific natural number literal being used."
+msgstr "?"
+
+#: src/dependent-types.md:27
+#, fuzzy
+msgid ""
+"[The `CheckedInput` structure](functor-applicative-"
+"monad/applicative.md#validated-input) used in the example of validators "
+"depends on the year in which validation occurred."
+msgstr "?"
+
+#: src/dependent-types.md:28
+#, fuzzy
+msgid ""
+"[Subtypes](functor-applicative-monad/applicative.md#subtypes) contain "
+"propositions that refer to particular values."
+msgstr "?"
+
+#: src/dependent-types.md:29
+#, fuzzy
+msgid ""
+"Essentially all interesting propositions, including those that determine the"
+" validity of [array indexing notation](props-proofs-indexing.md), are types "
+"that contain values and are thus dependent types."
+msgstr "?"
+
+#: src/dependent-types.md:31
+#, fuzzy
+msgid ""
+"Dependent types vastly increase the power of a type system. The flexibility "
+"of return types that branch on argument values enables programs to be "
+"written that cannot easily be given types in other type systems. At the same"
+" time, dependent types allow a type signature to restrict which values may "
+"be returned from a function, enabling strong invariants to be enforced at "
+"compile time."
+msgstr "?"
+
+#: src/dependent-types.md:35
+#, fuzzy
+msgid ""
+"However, programming with dependent types can be quite complex, and it "
+"requires a whole set of skills above and beyond functional programming. "
+"Expressive specifications can be complicated to fulfill, and there is a real"
+" risk of tying oneself in knots and being unable to complete the program. On"
+" the other hand, this process can lead to new understanding, which can be "
+"expressed in a refined type that can be fulfilled. While this chapter "
+"scratches the surface of dependently typed programming, it is a deep topic "
+"that deserves an entire book of its own."
+msgstr "?"
