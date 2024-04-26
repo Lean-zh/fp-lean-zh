@@ -267,7 +267,7 @@ msgid ""
 "types is the selection of appropriate type-level functions with the right "
 "computational behavior."
 msgstr ""
-"与其他上下文中不同，类型中出现的函数不能仅根据其输入/输出行为来考虑。使用这些类型的程序会发现自己被迫镜像类型级别函数中使用的算法，以便其结构与类型的模式匹配和递归行为相匹配。使用依赖类型编程技能的一个重要部分是选择具有正确计算行为的适当类型级别函数。"
+"与其他上下文中不同，类型中出现的函数不能仅根据其输入/输出行为来考虑。使用这些类型的程序会发现自己被迫镜像类型级别函数中使用的算法，以便其结构与类型的模式匹配和递归行为相匹配。使用依值类型编程技能的一个重要部分是选择具有正确计算行为的适当类型级别函数。"
 
 #: src/dependent-types/typed-queries.md:182
 #, fuzzy
@@ -1204,7 +1204,7 @@ msgid ""
 msgstr ""
 "构造函数的一些参数在执行过程中不会使用。特别是，构造函数 `project` 和函数 `Row.project` "
 "都将较小的模式作为显式参数，但此模式是较大模式的子模式的 _证据_ 的类型包含足够的信息，以便 Lean 自动填写参数。类似地，`product` "
-"构造函数所需的两个表具有不相交的列名这一事实对于 `Table.cartesianProduct` 来说是不需要的。一般来说，依赖类型提供了许多机会，让"
+"构造函数所需的两个表具有不相交的列名这一事实对于 `Table.cartesianProduct` 来说是不需要的。一般来说，依值类型提供了许多机会，让"
 " Lean 可以代表程序员填写参数。"
 
 #: src/dependent-types/typed-queries.md:641

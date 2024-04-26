@@ -14,12 +14,10 @@ msgstr ""
 "X-Generator: Poedit 3.4.2\n"
 
 #: src/acknowledgments.md:1
-#, fuzzy
 msgid "Acknowledgments"
 msgstr "致谢"
 
 #: src/acknowledgments.md:4
-#, fuzzy
 msgid ""
 "This free online book was made possible by the generous support of Microsoft"
 " Research, who paid for it to be written and given away. During the process "
@@ -34,11 +32,10 @@ msgid ""
 msgstr ""
 "这本免费的在线书籍得益于 Microsoft Research 的慷慨支持，他们支付了撰写和赠送的费用。在撰写过程中，他们让 Lean "
 "开发团队的专家随时解答我的问题并让 Lean 更易于使用。特别是，Leonardo de Moura 发起了该项目并帮助我入门，Chris Lovett"
-" 设置了 CI 和部署自动化，并作为测试读者提供了宝贵的反馈，Gabriel Ebner 提供了技术审查，Sarah Smith "
+" 设置了 CI 和部署自动化，并作为测试的读者提供了宝贵的反馈，Gabriel Ebner 提供了技术审查，Sarah Smith "
 "让管理方面的工作顺利进行，Vanessa Rodriguez 帮助我诊断了源代码高亮库与 iOS 上某些版本的 Safari 之间棘手的交互。"
 
 #: src/acknowledgments.md:8
-#, fuzzy
 msgid ""
 "Writing this book has taken up many hours outside of normal working hours. "
 "My wife Ellie Thrane Christiansen has taken on a larger than usual share of "
@@ -49,7 +46,6 @@ msgstr ""
 "撰写本书占用了我许多正常工作时间之外的时间。我的妻子艾莉·特兰·克里斯蒂安森承担了比平时更大的家庭事务，如果没有她，这本书就不可能存在。每周多工作一天对我的家庭来说并不容易——感谢你在我写作期间的耐心和支持。"
 
 #: src/acknowledgments.md:12
-#, fuzzy
 msgid ""
 "The online community surrounding Lean provided enthusiastic support for the "
 "project, both technical and emotional. In particular, Sebastian Ullrich "
@@ -66,9 +62,9 @@ msgid ""
 " Dillies, Zhiyuan Bao, and Zyad Hassan for their many suggestions, both "
 "stylistic and technical."
 msgstr ""
-"围绕 Lean 的在线社区为该项目提供了热情的支持，包括技术和情感上的支持。特别是，塞巴斯蒂安·乌尔里希在我学习 Lean "
+"Lean 的在线社区为该项目提供了热情的支持，包括技术和情感上的支持。特别是，Sebastian Ullrich 在我学习 Lean "
 "的元编程系统时提供了关键帮助，以便编写支持代码，使错误消息的文本既可以在 CI "
-"中进行检查，又可以轻松包含在书中本身。在发布新修订后的几个小时内，兴奋的读者就会发现错误，提出建议，并向我表示善意。特别是，我要感谢 Arien "
+"中进行检查，又可以轻松包含在书中本身。在发布新修订后的几个小时内，兴奋的读者就会发现错误，提出建议，并善意地提醒我。特别是，我要感谢 Arien "
 "Malec、Asta Halkjær From、Bulhwi Cha、Craig Stuntz、Daniel Fabian、Evgenia "
 "Karunus、eyelash、Floris van Doorn、František Silváši、Henrik Böving、Ian "
 "Young、Jeremy Salwen、Jireh Loreaux、Kevin Buzzard、Lars Ericson、Liu Yuxi、Mac "

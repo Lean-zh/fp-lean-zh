@@ -23,7 +23,7 @@ msgid ""
 "learning Lean 4."
 msgstr ""
 "本书介绍了 Lean 中函数式编程的基础知识，包括少量的交互式定理证明。使用像 Lean "
-"这样的依赖类型函数式语言是一个深入的话题，有很多内容可以讨论。根据您的兴趣，以下资源可能有助于学习 Lean 4。"
+"这样的依值类型函数式语言是一个深入的话题，有很多内容可以讨论。根据您的兴趣，以下资源可能有助于学习 Lean 4。"
 
 #: src/next-steps.md:7
 #, fuzzy
@@ -163,7 +163,7 @@ msgstr ""
 #: src/next-steps.md:42
 #, fuzzy
 msgid "Using Dependent Types in Computer Science"
-msgstr "在计算机科学中使用依赖类型"
+msgstr "在计算机科学中使用依值类型"
 
 #: src/next-steps.md:44
 #, fuzzy
@@ -188,7 +188,7 @@ msgid ""
 "development-with-idris) provides an excellent introduction. Like Coq, Idris "
 "is a close cousin of Lean, though it lacks tactics."
 msgstr ""
-"对于有兴趣学习使用索引族和依赖类型来构建程序的程序员，埃德温·布雷迪的 [_使用 Idris "
+"对于有兴趣学习使用索引族和依值类型来构建程序的程序员，埃德温·布雷迪的 [_使用 Idris "
 "进行类型驱动开发_](https://www.manning.com/books/type-driven-development-with-idris)"
 " 提供了一个精彩的介绍。与 Coq 一样，Idris 是 Lean 的近亲，尽管它缺乏策略。"
 

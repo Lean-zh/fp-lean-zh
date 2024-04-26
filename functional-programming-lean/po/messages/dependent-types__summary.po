@@ -16,7 +16,7 @@ msgstr ""
 #: src/dependent-types/summary.md:3
 #, fuzzy
 msgid "Dependent Types"
-msgstr "依赖类型"
+msgstr "依值类型"
 
 #: src/dependent-types/summary.md:5
 #, fuzzy
@@ -31,7 +31,7 @@ msgid ""
 "operations on the result of the query. When the query changes, so does the "
 "type that results from running it, enabling immediate compile-time feedback."
 msgstr ""
-"依赖类型，其中类型包含非类型代码（例如函数调用和普通数据构造器），导致类型系统的表达能力大幅提升。从参数的 _值_ _计算_ "
+"依值类型，其中类型包含非类型代码（例如函数调用和普通数据构造器），导致类型系统的表达能力大幅提升。从参数的 _值_ _计算_ "
 "类型的功能意味着函数的返回类型可以根据提供的参数而变化。例如，这可用于使数据库查询的结果类型取决于数据库的架构和发出的特定查询，而无需对查询结果执行任何可能失败的强制转换操作。当查询更改时，运行它所产生的类型也会更改，从而实现立即的编译时反馈。"
 
 #: src/dependent-types/summary.md:10
@@ -86,7 +86,7 @@ msgid ""
 "_universe_ when context makes it clear that universes such as `Type 3` or "
 "`Prop` are not what's meant."
 msgstr ""
-"使用依赖类型时的一个常见模式是划分类型系统的一部分。例如，数据库查询库可以返回变长字符串、定长字符串或特定范围内的数字，但它永远不会返回函数、用户定义的数据类型或`IO`操作。可以通过首先定义一个具有与所需类型结构匹配的构造器的类型，然后定义一个将此类型中的值解释为诚实类型的值的函数来定义类型系统的特定于域的子集。构造器被称为相关类型的“代码”，并且整个模式有时被称为“Tarski"
+"使用依值类型时的一个常见模式是划分类型系统的一部分。例如，数据库查询库可以返回变长字符串、定长字符串或特定范围内的数字，但它永远不会返回函数、用户定义的数据类型或`IO`操作。可以通过首先定义一个具有与所需类型结构匹配的构造器的类型，然后定义一个将此类型中的值解释为诚实类型的值的函数来定义类型系统的特定于域的子集。构造器被称为相关类型的“代码”，并且整个模式有时被称为“Tarski"
 " 风格的宇宙”，或者当上下文清楚地表明诸如`Type 3`或`Prop`之类的宇宙不是指代时，简称为“宇宙”。"
 
 #: src/dependent-types/summary.md:26

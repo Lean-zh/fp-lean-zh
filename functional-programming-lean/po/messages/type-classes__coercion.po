@@ -649,6 +649,7 @@ msgstr ""
 "字符串且不需要对该过程进行数学推理的应用程序中，让函数成为 `partial` 不太可能导致问题。"
 
 #: src/type-classes/coercion.md:375
+#, fuzzy
 msgid ""
 "The function that emits a string from a `JSON` value is declared `partial` "
 "because Lean cannot see that it terminates. This is because recursive calls "

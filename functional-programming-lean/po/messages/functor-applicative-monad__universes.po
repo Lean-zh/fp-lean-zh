@@ -82,7 +82,7 @@ msgid ""
 "logical foundations and can be used as a tool for mathematics, `Type` needs "
 "to have some other type. This type is called `Type 1`:"
 msgstr ""
-"在将类型 `Type` 赋值给 `Type` 的依赖类型论版本中，可以构造一个相关的悖论。为了确保 Lean "
+"在将类型 `Type` 赋值给 `Type` 的依值类型论版本中，可以构造一个相关的悖论。为了确保 Lean "
 "具有自洽的逻辑基础，并且可以用作数学工具，`Type` 需要具有其他类型。此类型称为 `Type 1`："
 
 #: src/functor-applicative-monad/universes.md:48

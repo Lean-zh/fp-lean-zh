@@ -14,7 +14,6 @@ msgstr ""
 "X-Generator: Poedit 3.4.2\n"
 
 #: src/introduction.md:3
-#, fuzzy
 msgid ""
 "Lean is an interactive theorem prover developed at Microsoft Research, based"
 " on dependent type theory. Dependent type theory unites the worlds of "
@@ -23,12 +22,11 @@ msgid ""
 "general-purpose programming language—Lean is even implemented in itself. "
 "This book is about writing programs in Lean."
 msgstr ""
-"Lean 是 Microsoft Research 开发的交互式定理证明器，基于依赖类型理论。依赖类型理论将程序和证明的世界统一起来；因此，Lean "
+"Lean 是 Microsoft Research 开发的交互式定理证明器，基于依值类型论。依值类型论将程序和证明的世界统一起来；因此，Lean "
 "也是一门编程语言。Lean 认真对待其双重性质，并且被设计为适合用作通用编程语言——Lean 甚至是用它自己实现的。本书介绍了如何用 Lean "
 "编写程序。"
 
 #: src/introduction.md:8
-#, fuzzy
 msgid ""
 "When viewed as a programming language, Lean is a strict pure functional "
 "language with dependent types. A large part of learning to program with Lean"
@@ -45,15 +43,14 @@ msgid ""
 "into a first-class part of the language, allowing types to contain programs "
 "and programs to compute types."
 msgstr ""
-"作为一门编程语言，Lean 是一种具有依赖类型的严格纯函数式语言。学习使用 Lean "
-"编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，以及如何像函数式程序员一样思考。_严格性_意味着 Lean "
-"中的函数调用与大多数语言中的工作方式类似：在函数体开始运行之前，参数被完全计算。_纯净性_意味着 Lean "
+"作为一门编程语言，Lean 是一种具有依值类型的严格纯函数式语言。学习使用 Lean "
+"编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，以及如何像函数式程序员一样思考。**严格性（Strictness）**意味着 "
+"Lean 中的函数调用与大多数语言中的工作方式类似：在函数体开始运行之前，参数被完全计算。**纯粹性（Purity）**意味着 Lean "
 "程序不能产生副作用，例如修改内存中的位置、发送电子邮件或删除文件，除非程序的类型声明如此。Lean "
-"是一种_函数式_语言，这意味着函数就像任何其他值一样是一等值，并且执行模型受数学表达式的求值启发。_依赖类型_是 Lean "
-"最不寻常的特性，它使类型成为语言的一等部分，允许类型包含程序，而程序计算类型。"
+"是一种**函数式（Functional）**语言，这意味着函数就像任何其他值一样是一等值，并且执行模型受数学表达式的求值启发。**依值类型（Dependent"
+" type）**是 Lean 最不寻常的特性，它使类型成为语言的一等部分，允许类型包含程序，而程序计算类型。"
 
 #: src/introduction.md:15
-#, fuzzy
 msgid ""
 "This book is intended for programmers who want to learn Lean, but who have "
 "not necessarily used a functional programming language before. Familiarity "
@@ -67,7 +64,6 @@ msgstr ""
 "等函数式语言。另一方面，本书确实假设读者了解循环、函数和数据结构等大多数编程语言中常见的概念。虽然本书旨在成为一本关于函数式编程的优秀入门书，但它并不是一本关于一般编程的优秀入门书。"
 
 #: src/introduction.md:20
-#, fuzzy
 msgid ""
 "Mathematicians who are using Lean as a proof assistant will likely need to "
 "write custom proof automation tools at some point. This book is also for "
@@ -78,11 +74,10 @@ msgid ""
 "understandable proof automation tools."
 msgstr ""
 "对于将 Lean "
-"作为证明助手的数学家来说，他们可能需要在某个时间点编写自定义证明自动化工具。本书也适用于他们。随着这些工具变得越来越复杂，它们开始类似于函数式语言中的程序，但大多数在职数学家接受的是"
-" Python 和 Mathematica 等语言的培训。本书可以帮助弥合这一差距，让更多数学家能够编写可维护且易于理解的证明自动化工具。"
+"作为证明助手的数学家来说，他们可能需要在某个时间点编写自定义的证明自动化工具。本书也适用于他们。随着这些工具变得越来越复杂，它们也越来越像函数式语言编写的程序，但大多数在职数学家接受的是"
+" Python 和 Mathematica 等语言的培训。本书可以帮助他们弥合这一差距，让更多数学家能够编写可维护且易于理解的证明自动化工具。"
 
 #: src/introduction.md:25
-#, fuzzy
 msgid ""
 "This book is intended to be read linearly, from the beginning to the end. "
 "Concepts are introduced one at a time, and later sections assume familiarity"
@@ -96,51 +91,44 @@ msgstr ""
 " Lean 也很有用，找到使用你所学知识的创造性新方法。"
 
 #: src/introduction.md:32
-#, fuzzy
 msgid "Getting Lean"
 msgstr "获取 Lean"
 
 #: src/introduction.md:34
-#, fuzzy
 msgid ""
 "Before writing and running programs written in Lean, you'll need to set up "
 "Lean on your own computer. The Lean tooling consists of the following:"
 msgstr "在编写和运行用 Lean 编写的程序之前，你需要在自己的计算机上设置 Lean。Lean 工具包括以下内容："
 
 #: src/introduction.md:37
-#, fuzzy
 msgid ""
 "`elan` manages the Lean compiler toolchains, similarly to `rustup` or "
 "`ghcup`."
-msgstr "`elan` 管理 Lean 编译器工具链，类似于 `rustup` 或 `ghcup`。"
+msgstr "`elan`：用于管理 Lean 编译器工具链，类似于 `rustup` 或 `ghcup`。"
 
 #: src/introduction.md:38
-#, fuzzy
 msgid ""
 "`lake` builds Lean packages and their dependencies, similarly to `cargo`, "
 "`make`, or Gradle."
-msgstr "`lake` 构建 Lean 包及其依赖项，类似于 `cargo`、`make` 或 Gradle。"
+msgstr "`lake`：用于构建 Lean 包及其依赖项，类似于 `cargo`、`make` 或 Gradle。"
 
 #: src/introduction.md:39
-#, fuzzy
 msgid ""
 "`lean` type checks and compiles individual Lean files as well as providing "
 "information to programmer tools about files that are currently being "
 "written. Normally, `lean` is invoked by other tools rather than directly by "
 "users."
 msgstr ""
-"`lean` 对各个 Lean 文件进行类型检查和编译，并向程序员工具提供有关当前正在编写的文件的信息。通常，`lean` "
-"是由其他工具而不是用户直接调用的。"
+"`lean`：对各个 Lean 文件进行类型检查和编译，并向程序员的工具提供有关当前正在编写的文件的信息。通常，`lean` "
+"是由其他工具而非用户直接调用的。"
 
 #: src/introduction.md:41
-#, fuzzy
 msgid ""
 "Plugins for editors, such as Visual Studio Code or Emacs, that communicate "
 "with `lean` and present its information conveniently."
 msgstr "编辑器插件，如 Visual Studio Code 或 Emacs，可与 Lean 通信并方便地显示其信息。"
 
 #: src/introduction.md:43
-#, fuzzy
 msgid ""
 "Please refer to the [Lean manual](https://lean-"
 "lang.org/lean4/doc/quickstart.html) for up-to-date instructions for "
@@ -150,30 +138,25 @@ msgstr ""
 "lang.org/lean4/doc/quickstart.html)。"
 
 #: src/introduction.md:45
-#, fuzzy
 msgid "Typographical Conventions"
 msgstr "排版约定"
 
 #: src/introduction.md:47
-#, fuzzy
 msgid ""
 "Code examples that are provided to Lean as _input_ are formatted like this:"
-msgstr "作为 _输入_ 提供给 Lean 的代码示例格式如下："
+msgstr "作为**输入**提供给 Lean 的代码示例格式如下："
 
 #: src/introduction.md:53
-#, fuzzy
 msgid ""
 "The last line above (beginning with `#eval`) is a command that instructs "
 "Lean to calculate an answer. Lean's replies are formatted like this:"
 msgstr "上面最后一行（以 `#eval` 开头）是指示 Lean 计算答案的命令。Lean 的回复格式如下："
 
 #: src/introduction.md:58
-#, fuzzy
 msgid "Error messages returned by Lean are formatted like this:"
 msgstr "Lean 返回的错误消息格式如下："
 
 #: src/introduction.md:59
-#, fuzzy
 msgid ""
 "```output error\n"
 "application type mismatch\n"
@@ -198,17 +181,14 @@ msgstr ""
 "```"
 
 #: src/introduction.md:69
-#, fuzzy
 msgid "Warnings are formatted like this:"
 msgstr "警告格式如下："
 
 #: src/introduction.md:74
-#, fuzzy
 msgid "Unicode"
 msgstr "Unicode"
 
 #: src/introduction.md:76
-#, fuzzy
 msgid ""
 "Idiomatic Lean code makes use of a variety of Unicode characters that are "
 "not part of ASCII. For instance, Greek letters like `α` and `β` and the "
@@ -216,10 +196,9 @@ msgid ""
 "code to more closely resemble ordinary mathematical notation."
 msgstr ""
 "惯用的 Lean 代码使用各种不属于 ASCII 的 Unicode 字符。例如，希腊字母（如 `α` 和 "
-"`β`）和箭头（`→`）都出现在本书的第一章中。这使得 Lean 代码更接近于普通的数学符号。"
+"`β`）和箭头（`→`）都出现在本书的第一章中。这使得 Lean 代码更接近于普通的数学记法。"
 
 #: src/introduction.md:80
-#, fuzzy
 msgid ""
 "With the default Lean settings, both Visual Studio Code and Emacs allow "
 "these characters to be typed with a backslash (`\\`) followed by a name. For"

@@ -340,7 +340,7 @@ msgid ""
 "experimenting with the code as you go. This is also a good way to develop a "
 "feel for the error messages."
 msgstr ""
-"获得使用依赖类型编程的感觉需要经验，本节中的练习非常重要。对于每个练习，尝试通过在进行过程中试验代码来查看类型检查器可以捕获哪些错误，哪些错误无法捕获。这也是培养对错误消息的感觉的好方法。"
+"获得使用依值类型编程的感觉需要经验，本节中的练习非常重要。对于每个练习，尝试通过在进行过程中试验代码来查看类型检查器可以捕获哪些错误，哪些错误无法捕获。这也是培养对错误消息的感觉的好方法。"
 
 #: src/dependent-types/indexed-families.md:268
 #, fuzzy
