@@ -1,0 +1,390 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/functor-applicative-monad/inheritance.md:3
+#, fuzzy
+msgid ""
+"In order to understand the full definitions of `Functor`, `Applicative`, and"
+" `Monad`, another Lean feature is necessary: structure inheritance. "
+"Structure inheritance allows one structure type to provide the interface of "
+"another, along with additional fields. This can be useful when modeling "
+"concepts that have a clear taxonomic relationship. For example, take a model"
+" of mythical creatures. Some of them are large, and some are small:"
+msgstr ""
+"为了理解 `Functor`、`Applicative` 和 `Monad` 的完整定义，还需要另一个 Lean "
+"特性：结构继承。结构继承允许一个结构类型提供另一个结构的接口，以及额外的字段。在对具有明确分类关系的概念进行建模时，这可能很有用。例如，以神话生物模型为例。其中一些是大型的，而另一些是小型："
+
+#: src/functor-applicative-monad/inheritance.md:13
+#, fuzzy
+msgid ""
+"Behind the scenes, defining the `MythicalCreature` structure creates an "
+"inductive type with a single constructor called `mk`:"
+msgstr "在幕后，定义 `MythicalCreature` 结构会创建一个具有名为 `mk` 的单个构造函数的归纳类型："
+
+#: src/functor-applicative-monad/inheritance.md:20
+#, fuzzy
+msgid ""
+"Similarly, a function `MythicalCreature.large` is created that actually "
+"extracts the field from the constructor:"
+msgstr "类似地，创建了一个函数 `MythicalCreature.large`，它实际上从构造函数中提取字段："
+
+#: src/functor-applicative-monad/inheritance.md:28
+#, fuzzy
+msgid ""
+"In most old stories, each monster can be defeated in some way. A description"
+" of a monster should include this information, along with whether it is "
+"large:"
+msgstr "在大多数古老的故事中，每个怪物都可以用某种方式被击败。怪物的描述应该包括此信息，以及它是否是大型："
+
+#: src/functor-applicative-monad/inheritance.md:35
+#, fuzzy
+msgid ""
+"The `extends MythicalCreature` in the heading states that every monster is "
+"also mythical. To define a `Monster`, both the fields from "
+"`MythicalCreature` and the fields from `Monster` should be provided. A troll"
+" is a large monster that is vulnerable to sunlight:"
+msgstr ""
+"标题中的 `extends MythicalCreature` 指出每个怪物也是神话生物。要定义 `Monster`，应同时提供 "
+"`MythicalCreature` 的字段和 `Monster` 的字段。巨魔是一种大型怪物，容易受到阳光照射："
+
+#: src/functor-applicative-monad/inheritance.md:38
+msgid ""
+"```lean\n"
+"def troll : Monster where\n"
+"  large := true\n"
+"  vulnerability := \"sunlight\"\n"
+"```"
+msgstr ""
+
+#: src/functor-applicative-monad/inheritance.md:44
+#, fuzzy
+msgid ""
+"Behind the scenes, inheritance is implemented using composition. The "
+"constructor `Monster.mk` takes a `MythicalCreature` as its argument:"
+msgstr "在幕后，继承是使用组合实现的。构造函数 `Monster.mk` 将 `MythicalCreature` 作为其参数："
+
+#: src/functor-applicative-monad/inheritance.md:52
+#, fuzzy
+msgid ""
+"In addition to defining functions to extract the value of each new field, a "
+"function `Monster.toMythicalCreature` is defined with type `Monster → "
+"MythicalCreature`. This can be used to extract the underlying creature."
+msgstr ""
+"除了定义函数以提取每个新字段的值外，还定义了一个类型为 `Monster → MythicalCreature` 的函数 "
+"`Monster.toMythicalCreature`。这可用于提取基础生物。"
+
+#: src/functor-applicative-monad/inheritance.md:55
+#, fuzzy
+msgid ""
+"Moving up the inheritance hierarchy in Lean is not the same thing as "
+"upcasting in object-oriented languages. An upcast operator causes a value "
+"from a derived class to be treated as an instance of the parent class, but "
+"the value retains its identity and structure. In Lean, however, moving up "
+"the inheritance hierarchy actually erases the underlying information. To see"
+" this in action, consider the result of evaluating "
+"`troll.toMythicalCreature`:"
+msgstr ""
+"在 Lean 中向上移动继承层次结构与面向对象语言中的向上转型不同。向上转型运算符导致派生类的值被视为父类的实例，但该值保留其标识和结构。然而，在 "
+"Lean 中，向上移动继承层次结构实际上会擦除底层信息。要查看此操作，请考虑评估 `troll.toMythicalCreature` 的结果："
+
+#: src/functor-applicative-monad/inheritance.md:65
+#, fuzzy
+msgid "Only the fields of `MythicalCreature` remain."
+msgstr "仅保留 `MythicalCreature` 的字段。"
+
+#: src/functor-applicative-monad/inheritance.md:68
+#, fuzzy
+msgid ""
+"Just like the `where` syntax, curly-brace notation with field names also "
+"works with structure inheritance:"
+msgstr "与 `where` 语法类似，带字段名的花括号表示法也适用于结构继承："
+
+#: src/functor-applicative-monad/inheritance.md:69
+msgid ""
+"```lean\n"
+"def troll : Monster := {large := true, vulnerability := \"sunlight\"}\n"
+"```"
+msgstr ""
+
+#: src/functor-applicative-monad/inheritance.md:72
+#, fuzzy
+msgid ""
+"However, the anonymous angle-bracket notation that delegates to the "
+"underlying constructor reveals the internal details:"
+msgstr "然而，委托给底层构造函数的匿名尖括号表示法揭示了内部细节："
+
+#: src/functor-applicative-monad/inheritance.md:73
+msgid ""
+"```lean\n"
+"def troll : Monster := ⟨true, \"sunlight\"⟩\n"
+"```"
+msgstr ""
+
+#: src/functor-applicative-monad/inheritance.md:86
+#, fuzzy
+msgid ""
+"An extra set of angle brackets is required, which invokes "
+"`MythicalCreature.mk` on `true`:"
+msgstr "需要额外的尖括号，在 `true` 上调用 `MythicalCreature.mk`："
+
+#: src/functor-applicative-monad/inheritance.md:87
+msgid ""
+"```lean\n"
+"def troll : Monster := ⟨⟨true⟩, \"sunlight\"⟩\n"
+"```"
+msgstr ""
+
+#: src/functor-applicative-monad/inheritance.md:92
+#, fuzzy
+msgid ""
+"Lean's dot notation is capable of taking inheritance into account. In other "
+"words, the existing `MythicalCreature.large` can be used with a `Monster`, "
+"and Lean automatically inserts the call to `Monster.toMythicalCreature` "
+"before the call to `MythicalCreature.large`. However, this only occurs when "
+"using dot notation, and applying the field lookup function using normal "
+"function call syntax results in a type error:"
+msgstr ""
+"Lean 的点表示法能够考虑继承。换句话说，现有的 `MythicalCreature.large` 可以与 `Monster` 一起使用，并且 "
+"Lean 会在调用 `MythicalCreature.large` 之前自动插入对 `Monster.toMythicalCreature` "
+"的调用。但是，这仅在使用点表示法时发生，而使用普通函数调用语法应用字段查找函数会导致类型错误："
+
+#: src/functor-applicative-monad/inheritance.md:108
+#, fuzzy
+msgid ""
+"Dot notation can also take inheritance into account for user-defined "
+"functions. A small creature is one that is not large:"
+msgstr "点表示法还可以考虑用户定义函数的继承。小生物不是大型生物："
+
+#: src/functor-applicative-monad/inheritance.md:113
+#, fuzzy
+msgid ""
+"Evaluating `troll.small` yields `false`, while attempting to evaluate "
+"`MythicalCreature.small troll` results in:"
+msgstr ""
+"求值 `troll.small` 会得到 `false`，而尝试求值 `MythicalCreature.small troll` 会得到："
+
+#: src/functor-applicative-monad/inheritance.md:125
+#, fuzzy
+msgid "Multiple Inheritance"
+msgstr "多重继承"
+
+#: src/functor-applicative-monad/inheritance.md:127
+#, fuzzy
+msgid ""
+"A helper is a mythical creature that can provide assistance when given the "
+"correct payment:"
+msgstr "助手是一种神话生物，在得到正确报酬时可以提供帮助："
+
+#: src/functor-applicative-monad/inheritance.md:134
+#, fuzzy
+msgid ""
+"For example, a _nisse_ is a kind of small elf that's known to help around "
+"the house when provided with tasty porridge:"
+msgstr "例如，_nisse_ 是一种小精灵，当提供美味的粥时，它会帮助打扫房子："
+
+#: src/functor-applicative-monad/inheritance.md:135
+msgid ""
+"```lean\n"
+"def nisse : Helper where\n"
+"  large := false\n"
+"  assistance := \"household tasks\"\n"
+"  payment := \"porridge\"\n"
+"```"
+msgstr ""
+
+#: src/functor-applicative-monad/inheritance.md:142
+#, fuzzy
+msgid ""
+"If domesticated, trolls make excellent helpers. They are strong enough to "
+"plow a whole field in a single night, though they require model goats to "
+"keep them satisfied with their lot in life. A monstrous assistant is a "
+"monster that is also a helper:"
+msgstr ""
+"如果驯化，巨魔会成为优秀的助手。它们强壮到可以在一夜之间耕完整个田地，尽管它们需要模范山羊来让它们对生活感到满意。一个巨大的助手是一个既是怪物又是助手的怪物："
+
+#: src/functor-applicative-monad/inheritance.md:149
+#, fuzzy
+msgid ""
+"A value of this structure type must fill in all of the fields from both "
+"parent structures:"
+msgstr "此结构类型的某个值必须填写来自两个父结构的所有字段："
+
+#: src/functor-applicative-monad/inheritance.md:150
+msgid ""
+"```lean\n"
+"def domesticatedTroll : MonstrousAssistant where\n"
+"  large := false\n"
+"  assistance := \"heavy labor\"\n"
+"  payment := \"toy goats\"\n"
+"  vulnerability := \"sunlight\"\n"
+"```"
+msgstr ""
+
+#: src/functor-applicative-monad/inheritance.md:158
+#, fuzzy
+msgid ""
+"Both of the parent structure types extend `MythicalCreature`. If multiple "
+"inheritance were implemented naïvely, then this could lead to a \"diamond "
+"problem\", where it would be unclear which path to `large` should be taken "
+"from a given `MonstrousAssistant`. Should it take `large` from the contained"
+" `Monster` or from the contained `Helper`? In Lean, the answer is that the "
+"first specified path to the grandparent structure is taken, and the "
+"additional parent structures' fields are copied rather than having the new "
+"structure include both parents directly."
+msgstr ""
+"这两个父结构类型都扩展了 `MythicalCreature`。如果天真地实现多重继承，那么这可能会导致“菱形问题”，其中从给定的 "
+"`MonstrousAssistant` 到 `large` 的路径将不明确。它应该从包含的 `Monster` 还是从包含的 `Helper` 中获取"
+" `large`？在 Lean 中，答案是采用到祖先结构的第一个指定路径，并且复制附加父结构的字段，而不是让新结构直接包含两个父结构。"
+
+#: src/functor-applicative-monad/inheritance.md:163
+#, fuzzy
+msgid ""
+"This can be seen by examining the signature of the constructor for "
+"`MonstrousAssistant`:"
+msgstr "可以通过检查 `MonstrousAssistant` 的构造函数签名来看到这一点："
+
+#: src/functor-applicative-monad/inheritance.md:170
+#, fuzzy
+msgid ""
+"It takes a `Monster` as an argument, along with the two fields that `Helper`"
+" introduces on top of `MythicalCreature`. Similarly, while "
+"`MonstrousAssistant.toMonster` merely extracts the `Monster` from the "
+"constructor, `MonstrousAssistant.toHelper` has no `Helper` to extract. The "
+"`#print` command exposes its implementation:"
+msgstr ""
+"它将 `Monster` 作为参数，以及 `Helper` 在 `MythicalCreature` 之上引入的两个字段。类似地，虽然 "
+"`MonstrousAssistant.toMonster` 只是从构造函数中提取 `Monster`，但 "
+"`MonstrousAssistant.toHelper` 没有要提取的 `Helper`。`#print` 命令公开了它的实现："
+
+#: src/functor-applicative-monad/inheritance.md:181
+#, fuzzy
+msgid ""
+"This function constructs a `Helper` from the fields of `MonstrousAssistant`."
+" The `@[reducible]` attribute has the same effect as writing `abbrev`."
+msgstr ""
+"此函数从 `MonstrousAssistant` 的字段构造一个 `Helper`。`@[reducible]` 属性与编写 `abbrev` "
+"的效果相同。"
+
+#: src/functor-applicative-monad/inheritance.md:184
+#, fuzzy
+msgid "Default Declarations"
+msgstr "默认声明"
+
+#: src/functor-applicative-monad/inheritance.md:186
+#, fuzzy
+msgid ""
+"When one structure inherits from another, default field definitions can be "
+"used to instantiate the parent structure's fields based on the child "
+"structure's fields. If more size specificity is required than whether a "
+"creature is large or not, a dedicated datatype describing sizes can be used "
+"together with inheritance, yielding a structure in which the `large` field "
+"is computed from the contents of the `size` field:"
+msgstr ""
+"当一个结构继承自另一个结构时，可以使用默认字段定义来基于子结构的字段实例化父结构的字段。如果需要比生物是否大型更具体的尺寸，则可以将描述尺寸的专用数据类型与继承一起使用，从而生成一个结构，其中"
+" `large` 字段是从 `size` 字段的内容计算出来的："
+
+#: src/functor-applicative-monad/inheritance.md:199
+#, fuzzy
+msgid ""
+"This default definition is only a default definition, however. Unlike "
+"property inheritance in a language like C# or Scala, the definitions in the "
+"child structure are only used when no specific value for `large` is "
+"provided, and nonsensical results can occur:"
+msgstr ""
+"然而，此默认定义仅仅是一个默认定义。与 C# 或 Scala 等语言中的属性继承不同，仅当未提供 `large` "
+"的特定值时，才会使用子结构中的定义，并且可能会出现无意义的结果："
+
+#: src/functor-applicative-monad/inheritance.md:206
+#, fuzzy
+msgid ""
+"If the child structure should not deviate from the parent structure, there "
+"are a few options:"
+msgstr "如果子结构不应偏离父结构，则有几种选择："
+
+#: src/functor-applicative-monad/inheritance.md:208
+#, fuzzy
+msgid "Documenting the relationship, as is done for `BEq` and `Hashable`"
+msgstr "记录关系，如对 `BEq` 和 `Hashable` 所做的那样"
+
+#: src/functor-applicative-monad/inheritance.md:209
+#, fuzzy
+msgid ""
+"Defining a proposition that the fields are related appropriately, and "
+"designing the API to require evidence that the proposition is true where it "
+"matters"
+msgstr "定义一个命题，使字段适当相关，并设计 API 以要求证据表明命题在重要的地方为真"
+
+#: src/functor-applicative-monad/inheritance.md:210
+#, fuzzy
+msgid "Not using inheritance at all"
+msgstr "根本不使用继承"
+
+#: src/functor-applicative-monad/inheritance.md:212
+#, fuzzy
+msgid "The second option could look like this:"
+msgstr "第二个选项可能如下所示："
+
+#: src/functor-applicative-monad/inheritance.md:217
+#, fuzzy
+msgid ""
+"Note that a single equality sign is used to indicate the equality "
+"_proposition_, while a double equality sign is used to indicate a function "
+"that checks equality and returns a `Bool`. `SizesMatch` is defined as an "
+"`abbrev` because it should automatically be unfolded in proofs, so that "
+"`simp` can see the equality that should be proven."
+msgstr ""
+"请注意，使用单个等号表示相等性命题，而使用双等号表示检查相等性和返回 `Bool` 的函数。`SizesMatch` 被定义为 "
+"`abbrev`，因为它应该在证明中自动展开，以便 `simp` 能够看到应该被证明的相等性。"
+
+#: src/functor-applicative-monad/inheritance.md:220
+#, fuzzy
+msgid ""
+"A _huldre_ is a medium-sized mythical creature—in fact, they are the same "
+"size as humans. The two sized fields on `huldre` match one another:"
+msgstr "_huldre_ 是一种中等大小的神话生物——事实上，它们与人类大小相同。`huldre` 上的两个大小字段相互匹配："
+
+#: src/functor-applicative-monad/inheritance.md:231
+#, fuzzy
+msgid "Type Class Inheritance"
+msgstr "类型类继承"
+
+#: src/functor-applicative-monad/inheritance.md:233
+#, fuzzy
+msgid ""
+"Behind the scenes, type classes are structures. Defining a new type class "
+"defines a new structure, and defining an instance creates a value of that "
+"structure type. They are then added to internal tables in Lean that allow it"
+" to find the instances upon request. A consequence of this is that type "
+"classes may inherit from other type classes."
+msgstr ""
+"在幕后，类型类是结构。定义一个新的类型类定义一个新的结构，而定义一个实例创建该结构类型的某个值。然后将它们添加到 Lean "
+"中的内部表中，以便它在请求时找到这些实例。由此产生的一个后果是类型类可以从其他类型类继承。"
+
+#: src/functor-applicative-monad/inheritance.md:238
+#, fuzzy
+msgid ""
+"Because it uses precisely the same language features, type class inheritance"
+" supports all the features of structure inheritance, including multiple "
+"inheritance, default implementations of parent types' methods, and automatic"
+" collapsing of diamonds. This is useful in many of the same situations that "
+"multiple interface inheritance is useful in languages like Java, C# and "
+"Kotlin. By carefully designing type class inheritance hierarchies, "
+"programmers can get the best of both worlds: a fine-grained collection of "
+"independently-implementable abstractions, and automatic construction of "
+"these specific abstractions from larger, more general abstractions."
+msgstr ""
+"由于它使用完全相同的语言特性，类型类继承支持结构继承的所有特性，包括多重继承、父类型方法的默认实现以及菱形的自动折叠。这在许多情况下很有用，就像多接口继承在"
+" Java、C# 和 Kotlin "
+"等语言中很有用一样。通过仔细设计类型类继承层次结构，程序员可以兼得两全其美：独立可实现抽象的细粒度集合，以及从更大、更通用的抽象中自动构建这些特定抽象。"

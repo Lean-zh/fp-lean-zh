@@ -1,0 +1,63 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/getting-to-know.md:1
+#, fuzzy
+msgid ""
+"According to tradition, a programming language should be introduced by "
+"compiling and running a program that displays `\"Hello, world!\"` on the "
+"console. This simple program ensures that the language tooling is installed "
+"correctly and that the programmer is able to run the compiled code."
+msgstr ""
+"按照惯例，应该通过编译和运行一个在控制台上显示“Hello, "
+"world!”的程序来介绍一种编程语言。这个简单的程序确保了语言工具已正确安装，并且程序员能够运行已编译的代码。"
+
+#: src/getting-to-know.md:7
+#, fuzzy
+msgid ""
+"Since the 1970s, however, programming has changed. Today, compilers are "
+"typically integrated into text editors, and the programming environment "
+"offers feedback as the program is written. Lean is no exception: it "
+"implements an extended version of the Language Server Protocol that allows "
+"it to communicate with a text editor and provide feedback as the user types."
+msgstr ""
+"然而，自 20 世纪 70 年代以来，编程发生了变化。如今，编译器通常集成到文本编辑器中，编程环境在编写程序时提供反馈。Lean "
+"也如此：它实现了语言服务器协议的扩展版本，允许它与文本编辑器通信并在用户键入时提供反馈。"
+
+#: src/getting-to-know.md:14
+#, fuzzy
+msgid ""
+"Languages as varied as Python, Haskell, and JavaScript offer a read-eval-"
+"print-loop (REPL), also known as an interactive toplevel or a browser "
+"console, in which expressions or statements can be entered. The language "
+"then computes and displays the result of the user's input. Lean, on the "
+"other hand, integrates these features into the interaction with the editor, "
+"providing commands that cause the text editor to display feedback integrated"
+" into the program text itself. This chapter provides a short introduction to"
+" interacting with Lean in an editor, while [Hello, World!]() describes how "
+"to use Lean traditionally from the command line in batch mode."
+msgstr ""
+"从 Python、Haskell 到 JavaScript 等各种语言都提供读-求值-打印循环 "
+"(REPL)，也称为交互式顶层或浏览器控制台，可以在其中输入表达式或语句。然后，该语言计算并显示用户输入的结果。另一方面，Lean "
+"将这些特性集成到与编辑器的交互中，提供命令让文本编辑器显示集成到程序文本本身中的反馈。本章简要介绍了在编辑器中与 Lean 交互，而 [Hello, "
+"World!]() 则描述了如何在批处理模式下从命令行传统地使用 Lean。"
+
+#: src/getting-to-know.md:19
+#, fuzzy
+msgid ""
+"It is best if you read this book with Lean open in your editor, following "
+"along and typing in each example. Please play with the examples, and see "
+"what happens!"
+msgstr "最好在编辑器中打开 Lean 阅读本书，同时输入每个示例并进行操作。请使用这些示例，看看会发生什么！"

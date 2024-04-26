@@ -1,0 +1,814 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/type-classes/coercion.md:3
+#, fuzzy
+msgid ""
+"In mathematics, it is common to use the same symbol to stand for different "
+"aspects of some object in different contexts. For example, if a ring is "
+"referred to in a context where a set is expected, then it is understood that"
+" the ring's underlying set is what's intended. In programming languages, it "
+"is common to have rules to automatically translate values of one type into "
+"values of another type. For instance, Java allows a `byte` to be "
+"automatically promoted to an `int`, and Kotlin allows a non-nullable type to"
+" be used in a context that expects a nullable version of the type."
+msgstr ""
+"在数学中，通常使用相同的符号来表示不同上下文中某个对象的各个方面。例如，如果在需要集合的上下文中引用环，则理解为该环的底层集合是预期的。在编程语言中，通常有规则将一种类型的变量自动转换为另一种类型的变量。例如，Java"
+" 允许将 `byte` 自动提升为 `int`，而 Kotlin 允许在需要该类型的可空版本上下文中使用不可空类型。"
+
+#: src/type-classes/coercion.md:8
+#, fuzzy
+msgid ""
+"In Lean, both purposes are served by a mechanism called _coercions_. When "
+"Lean encounters an expression of one type in a context that expects a "
+"different type, it will attempt to coerce the expression before reporting a "
+"type error. Unlike Java, C, and Kotlin, the coercions are extensible by "
+"defining instances of type classes."
+msgstr ""
+"在 Lean 中，这两种目的都由一种称为 _强制转换_ 的机制实现。当 Lean "
+"在需要不同类型的上下文中遇到一种类型的表达式时，它将在报告类型错误之前尝试强制转换该表达式。与 Java、C 和 Kotlin "
+"不同，强制转换可以通过定义类型类的实例进行扩展。"
+
+#: src/type-classes/coercion.md:14
+#, fuzzy
+msgid ""
+"For example, every positive number corresponds to a natural number. The "
+"function `Pos.toNat` that was defined earlier converts a `Pos` to the "
+"corresponding `Nat`:"
+msgstr "例如，每个正数都对应一个自然数。前面定义的函数 `Pos.toNat` 将 `Pos` 转换为相应的 `Nat`："
+
+#: src/type-classes/coercion.md:21
+#, fuzzy
+msgid ""
+"The function `List.drop`, with type `{α : Type} → Nat → List α → List α`, "
+"removes a prefix of a list. Applying `List.drop` to a `Pos`, however, leads "
+"to a type error:"
+msgstr ""
+"函数 `List.drop`，类型为 `{α : Type} → Nat → List α → List α`，用于移除列表的前缀。然而，将 "
+"`List.drop` 应用于 `Pos` 会导致类型错误："
+
+#: src/type-classes/coercion.md:36
+#, fuzzy
+msgid ""
+"Because the author of `List.drop` did not make it a method of a type class, "
+"it can't be overridden by defining a new instance."
+msgstr "由于 `List.drop` 的作者没有将其设为类型类的函数，因此无法通过定义新实例来重写它。"
+
+#: src/type-classes/coercion.md:38
+#, fuzzy
+msgid ""
+"The type class `Coe` describes overloaded ways of coercing from one type to "
+"another:"
+msgstr "类型类 `Coe` 描述了从一种类型强制转换为另一种类型的重载方式："
+
+#: src/type-classes/coercion.md:43
+#, fuzzy
+msgid ""
+"An instance of `Coe Pos Nat` is enough to allow the prior code to work:"
+msgstr "`Coe Pos Nat` 的一个实例足以让之前的代码工作："
+
+#: src/type-classes/coercion.md:53
+#, fuzzy
+msgid ""
+"Using `#check` shows the result of the instance search that was used behind "
+"the scenes:"
+msgstr "使用 `#check` 显示了在后台使用的实例搜索结果："
+
+#: src/type-classes/coercion.md:61
+#, fuzzy
+msgid "Chaining Coercions"
+msgstr "链接强制转换"
+
+#: src/type-classes/coercion.md:63
+#, fuzzy
+msgid ""
+"When searching for coercions, Lean will attempt to assemble a coercion out "
+"of a chain of smaller coercions. For example, there is already a coercion "
+"from `Nat` to `Int`. Because of that instance, combined with the `Coe Pos "
+"Nat` instance, the following code is accepted:"
+msgstr ""
+"在搜索强制转换时，Lean 将尝试从较小的强制转换链中组装一个强制转换。例如，已经存在从 `Nat` 到 `Int` 的强制转换。由于该实例与 `Coe"
+" Pos Nat` 实例结合，因此接受以下代码："
+
+#: src/type-classes/coercion.md:69
+#, fuzzy
+msgid ""
+"This definition uses two coercions: from `Pos` to `Nat`, and then from `Nat`"
+" to `Int`."
+msgstr "此定义使用了两个强制转换：从 `Pos` 到 `Nat`，然后从 `Nat` 到 `Int`。"
+
+#: src/type-classes/coercion.md:71
+#, fuzzy
+msgid ""
+"The Lean compiler does not get stuck in the presence of circular coercions. "
+"For example, even if two types `A` and `B` can be coerced to one another, "
+"their mutual coercions can be used to find a path:"
+msgstr ""
+"Lean 编译器不会陷入循环强制转换的存在。例如，即使两个类型 `A` 和 `B` 可以相互强制转换，它们的相互强制转换也可以用来找到一条路径："
+
+#: src/type-classes/coercion.md:91
+#, fuzzy
+msgid ""
+"Remember: the double parentheses `()` is short for the constructor "
+"`Unit.unit`. After deriving a `Repr B` instance,"
+msgstr "记住：双括号 `()` 是构造函数 `Unit.unit` 的缩写。在派生出 `Repr B` 实例后，"
+
+#: src/type-classes/coercion.md:96 src/monad-transformers/conveniences.md:16
+#, fuzzy
+msgid "results in:"
+msgstr "结果为："
+
+#: src/type-classes/coercion.md:101
+#, fuzzy
+msgid ""
+"The `Option` type can be used similarly to nullable types in C# and Kotlin: "
+"the `none` constructor represents the absence of a value. The Lean standard "
+"library defines a coercion from any type `α` to `Option α` that wraps the "
+"value in `some`. This allows option types to be used in a manner even more "
+"similar to nullable types, because `some` can be omitted. For instance, the "
+"function `List.getLast?` that finds the last entry in a list can be written "
+"without a `some` around the return value `x`:"
+msgstr ""
+"`Option` 类型可以类似于 C# 和 Kotlin 中的可空类型使用：`none` 构造函数表示没有值。Lean 标准库定义了一个从任何类型 "
+"`α` 到 `Option α` 的强制转换，它将值包装在 `some` 中。这允许以更类似于可空类型的方式使用选项类型，因为可以省略 "
+"`some`。例如，查找列表中最后一个条目的函数 `List.getLast?` 可以编写，而无需在返回值 `x` 周围使用 `some`："
+
+#: src/type-classes/coercion.md:111
+#, fuzzy
+msgid ""
+"Instance search finds the coercion, and inserts a call to `coe`, which wraps"
+" the argument in `some`. These coercions can be chained, so that nested uses"
+" of `Option` don't require nested `some` constructors:"
+msgstr ""
+"实例搜索找到强制转换，并插入对 `coe` 的调用，该调用将参数包装在 `some` 中。这些强制转换可以链接，这样嵌套使用 `Option` "
+"就不需要嵌套 `some` 构造函数："
+
+#: src/type-classes/coercion.md:113
+#, fuzzy
+msgid ""
+"```lean\n"
+"def perhapsPerhapsPerhaps : Option (Option (Option String)) :=\n"
+"  \"Please don't tell me\"\n"
+"```"
+msgstr ""
+"```lean\n"
+"def perhapsPerhapsPerhaps : Option (Option (Option String)) :=\n"
+"  \"Please don't tell me\"\n"
+"```"
+
+#: src/type-classes/coercion.md:118
+#, fuzzy
+msgid ""
+"Coercions are only activated automatically when Lean encounters a mismatch "
+"between an inferred type and a type that is imposed from the rest of the "
+"program. In cases with other errors, coercions are not activated. For "
+"example, if the error is that an instance is missing, coercions will not be "
+"used:"
+msgstr ""
+"只有当 Lean "
+"遇到推断类型与程序其余部分强加的类型不匹配时，强制转换才会自动激活。在其他错误的情况下，不会激活强制转换。例如，如果错误是缺少实例，则不会使用强制转换："
+
+#: src/type-classes/coercion.md:130
+#, fuzzy
+msgid ""
+"This can be worked around by manually indicating the desired type to be used"
+" for `OfNat`:"
+msgstr "可以通过手动指示要用于 `OfNat` 的所需类型来解决此问题："
+
+#: src/type-classes/coercion.md:135
+#, fuzzy
+msgid "Additionally, coercions can be manually inserted using an up arrow:"
+msgstr "此外，可以使用向上箭头手动插入强制转换："
+
+#: src/type-classes/coercion.md:140
+#, fuzzy
+msgid ""
+"In some cases, this can be used to ensure that Lean finds the right "
+"instances. It can also make the programmer's intentions more clear."
+msgstr "在某些情况下，这可用于确保 Lean 找到正确的实例。它还可以使程序员的意图更加清晰。"
+
+#: src/type-classes/coercion.md:144
+#, fuzzy
+msgid "Non-Empty Lists and Dependent Coercions"
+msgstr "非空列表和依赖强制转换"
+
+#: src/type-classes/coercion.md:146
+#, fuzzy
+msgid ""
+"An instance of `Coe α β` makes sense when the type `β` has a value that can "
+"represent each value from the type `α`. Coercing from `Nat` to `Int` makes "
+"sense, because the type `Int` contains all the natural numbers. Similarly, a"
+" coercion from non-empty lists to ordinary lists makes sense because the "
+"`List` type can represent every non-empty list:"
+msgstr ""
+"当类型 `β` 具有可以表示类型 `α` 中每个值的值时，`Coe α β` 的实例才有意义。从 `Nat` 强制转换为 `Int` 是有意义的，因为 "
+"`Int` 类型包含所有自然数。类似地，从非空列表到普通列表的强制转换是有意义的，因为 `List` 类型可以表示每个非空列表："
+
+#: src/type-classes/coercion.md:154
+#, fuzzy
+msgid "This allows non-empty lists to be used with the entire `List` API."
+msgstr "这允许使用整个 `List` API 来处理非空列表。"
+
+#: src/type-classes/coercion.md:156
+#, fuzzy
+msgid ""
+"On the other hand, it is impossible to write an instance of `Coe (List α) "
+"(NonEmptyList α)`, because there's no non-empty list that can represent the "
+"empty list. This limitation can be worked around by using another version of"
+" coercions, which are called _dependent coercions_. Dependent coercions can "
+"be used when the ability to coerce from one type to another depends on which"
+" particular value is being coerced. Just as the `OfNat` type class takes the"
+" particular `Nat` being overloaded as a parameter, dependent coercion takes "
+"the value being coerced as a parameter:"
+msgstr ""
+"另一方面，不可能编写 `Coe (List α) (NonEmptyList α)` 的实例，因为没有非空列表可以表示空列表。可以通过使用另一种称为 "
+"_依赖强制转换_ 的强制转换版本来解决此限制。当从一种类型强制转换为另一种类型的可能性取决于要强制转换的特定值时，可以使用依赖强制转换。就像 "
+"`OfNat` 类型类将作为参数重载的特定 `Nat` 作为参数一样，依赖强制转换将要强制转换的值作为参数："
+
+#: src/type-classes/coercion.md:164
+#, fuzzy
+msgid ""
+"This is a chance to select only certain values, either by imposing further "
+"type class constraints on the value or by writing certain constructors "
+"directly. For example, any `List` that is not actually empty can be coerced "
+"to a `NonEmptyList`:"
+msgstr ""
+"通过施加进一步的类型类约束或直接编写某些构造函数，可以选择仅选择某些值。例如，任何非空的 `List` 都可以强制转换为 `NonEmptyList`："
+
+#: src/type-classes/coercion.md:171
+#, fuzzy
+msgid "Coercing to Types"
+msgstr "强制转换为类型"
+
+#: src/type-classes/coercion.md:173
+#, fuzzy
+msgid ""
+"In mathematics, it is common to have a concept that consists of a set "
+"equipped with additional structure. For example, a monoid is some set _S_, "
+"an element _s_ of _S_, and an associative binary operator on _S_, such that "
+"_s_ is neutral on the left and right of the operator. _S_ is referred to as "
+"the \"carrier set\" of the monoid. The natural numbers with zero and "
+"addition form a monoid, because addition is associative and adding zero to "
+"any number is the identity. Similarly, the natural numbers with one and "
+"multiplication also form a monoid. Monoids are also widely used in "
+"functional programming: lists, the empty list, and the append operator form "
+"a monoid, as do strings, the empty string, and string append:"
+msgstr ""
+"在数学中，通常有一个概念，它由一个带有附加结构的集合组成。例如，一个幺半群是一些集合 _S_，_S_ 的元素 _s_ 和 _S_ "
+"上的关联二元运算符，使得 _s_ 是运算符左右的单位元。_S_ "
+"被称为幺半群的“载体集合”。带有零和加法的自然数形成一个幺半群，因为加法是关联的，并且将零加到任何数都是恒等式。类似地，带有乘法的自然数也形成一个幺半群。幺半群在函数式编程中也广泛使用：列表、空列表和追加运算符形成一个幺半群，字符串、空字符串和字符串追加也是如此："
+
+#: src/type-classes/coercion.md:179
+#, fuzzy
+msgid ""
+"```lean\n"
+"structure Monoid where\n"
+"  Carrier : Type\n"
+"  neutral : Carrier\n"
+"  op : Carrier → Carrier → Carrier\n"
+"\n"
+"def natMulMonoid : Monoid :=\n"
+"  { Carrier := Nat, neutral := 1, op := (· * ·) }\n"
+"\n"
+"def natAddMonoid : Monoid :=\n"
+"  { Carrier := Nat, neutral := 0, op := (· + ·) }\n"
+"\n"
+"def stringMonoid : Monoid :=\n"
+"  { Carrier := String, neutral := \"\", op := String.append }\n"
+"\n"
+"def listMonoid (α : Type) : Monoid :=\n"
+"  { Carrier := List α, neutral := [], op := List.append }\n"
+"```"
+msgstr ""
+"```lean\n"
+"structure Monoid where\n"
+"  Carrier : Type\n"
+"  neutral : Carrier\n"
+"  op : Carrier → Carrier → Carrier\n"
+"\n"
+"def natMulMonoid : Monoid :=\n"
+"  { Carrier := Nat, neutral := 1, op := (· * ·) }\n"
+"\n"
+"def natAddMonoid : Monoid :=\n"
+"  { Carrier := Nat, neutral := 0, op := (· + ·) }\n"
+"\n"
+"def stringMonoid : Monoid :=\n"
+"  { Carrier := String, neutral := \"\", op := String.append }\n"
+"\n"
+"def listMonoid (α : Type) : Monoid :=\n"
+"  { Carrier := List α, neutral := [], op := List.append }\n"
+"```"
+
+#: src/type-classes/coercion.md:197
+#, fuzzy
+msgid ""
+"Given a monoid, it is possible to write the `foldMap` function that, in a "
+"single pass, transforms the entries in a list into a monoid's carrier set "
+"and then combines them using the monoid's operator. Because monoids have a "
+"neutral element, there is a natural result to return when the list is empty,"
+" and because the operator is associative, clients of the function don't have"
+" to care whether the recursive function combines elements from left to right"
+" or from right to left."
+msgstr ""
+"给定一个幺半群，可以编写 `foldMap` "
+"函数，它在一遍遍历中将列表中的条目转换为幺半群的载体集合，然后使用幺半群的运算符将它们组合起来。由于幺半群具有单位元，因此当列表为空时，可以返回一个自然结果，并且由于运算符是关联的，因此函数的客户端不必关心递归函数是从左到右还是从右到左组合元素。"
+
+#: src/type-classes/coercion.md:207
+#, fuzzy
+msgid ""
+"Even though a monoid consists of three separate pieces of information, it is"
+" common to just refer to the monoid's name in order to refer to its set. "
+"Instead of saying \"Let A be a monoid and let _x_ and _y_ be elements of its"
+" carrier set\", it is common to say \"Let _A_ be a monoid and let _x_ and "
+"_y_ be elements of _A_\". This practice can be encoded in Lean by defining a"
+" new kind of coercion, from the monoid to its carrier set."
+msgstr ""
+"尽管幺半群由三部分独立的信息组成，但通常只引用幺半群的名称来引用其集合。通常不使用“令 A 为幺半群，令 x 和 y "
+"为其载体集合的元素”这样的说法，而是使用“令 A 为幺半群，令 x 和 y 为 A 的元素”。可以通过定义从幺半群到其载体集合的新类型强制转换在 "
+"Lean 中对这种做法进行编码。"
+
+#: src/type-classes/coercion.md:211
+#, fuzzy
+msgid ""
+"The `CoeSort` class is just like the `Coe` class, with the exception that "
+"the target of the coercion must be a _sort_, namely `Type` or `Prop`. The "
+"term _sort_ in Lean refers to these types that classify other types—`Type` "
+"classifies types that themselves classify data, and `Prop` classifies "
+"propositions that themselves classify evidence of their truth. Just as `Coe`"
+" is checked when a type mismatch occurs, `CoeSort` is used when something "
+"other than a sort is provided in a context where a sort would be expected."
+msgstr ""
+"`CoeSort` 类与 `Coe` 类类似，但强制转换的目标必须是 _类型_，即 `Type` 或 `Prop`。Lean 中的术语 _类型_ "
+"指的是对其他类型进行分类的这些类型——`Type` 对对数据本身进行分类的类型进行分类，`Prop` "
+"对对证据本身进行分类的命题进行分类。就像在发生类型不匹配时检查 `Coe` 一样，当在预期出现类型的地方提供了其他内容时，会使用 `CoeSort`。"
+
+#: src/type-classes/coercion.md:215
+#, fuzzy
+msgid "The coercion from a monoid into its carrier set extracts the carrier:"
+msgstr "从幺半群到其载体集合的强制转换提取载体："
+
+#: src/type-classes/coercion.md:220
+#, fuzzy
+msgid "With this coercion, the type signatures become less bureaucratic:"
+msgstr "有了这个强制转换，类型签名变得不那么官僚："
+
+#: src/type-classes/coercion.md:229
+#, fuzzy
+msgid ""
+"Another useful example of `CoeSort` is used to bridge the gap between `Bool`"
+" and `Prop`. As discussed in [the section on ordering and "
+"equality](standard-classes.md#equality-and-ordering), Lean's `if` expression"
+" expects the condition to be a decidable proposition rather than a `Bool`. "
+"Programs typically need to be able to branch based on Boolean values, "
+"however. Rather than have two kinds of `if` expression, the Lean standard "
+"library defines a coercion from `Bool` to the proposition that the `Bool` in"
+" question is equal to `true`:"
+msgstr ""
+"`CoeSort` 的另一个有用的示例用于弥合 `Bool` 和 `Prop` 之间的差距。正如 [关于排序和相等性的章节](standard-"
+"classes.md#equality-and-ordering) 中所讨论的，Lean 的 `if` 表达式期望条件是可判定的命题，而不是 "
+"`Bool`。然而，程序通常需要能够根据布尔值进行分支。Lean 标准库没有定义两种 `if` 表达式，而是定义了从 `Bool` "
+"到命题的强制转换，即有问题的 `Bool` 等于 `true`："
+
+#: src/type-classes/coercion.md:237
+#, fuzzy
+msgid "In this case, the sort in question is `Prop` rather than `Type`."
+msgstr "在这种情况下，讨论的类型是 `Prop` 而不是 `Type`。"
+
+#: src/type-classes/coercion.md:239
+#, fuzzy
+msgid "Coercing to Functions"
+msgstr "强制转换为函数"
+
+#: src/type-classes/coercion.md:241
+#, fuzzy
+msgid ""
+"Many datatypes that occur regularly in programming consist of a function "
+"along with some extra information about it. For example, a function might be"
+" accompanied by a name to show in logs or by some configuration data. "
+"Additionally, putting a type in a field of a structure, similarly to the "
+"`Monoid` example, can make sense in contexts where there is more than one "
+"way to implement an operation and more manual control is needed than type "
+"classes would allow. For example, the specific details of values emitted by "
+"a JSON serializer may be important because another application expects a "
+"particular format. Sometimes, the function itself may be derivable from just"
+" the configuration data."
+msgstr ""
+"许多在编程中经常出现的类型包含一个函数以及一些关于它的额外信息。例如，一个函数可能带有用于显示在日志中的名称或一些配置数据。此外，将类型放入结构的字段中，类似于"
+" `Monoid` 示例，在有多种方法来实现操作并且需要比类型类允许的更多手动控制的情况下是有意义的。例如，JSON "
+"序列化器发出的值的具体详细信息可能很重要，因为另一个应用程序需要特定的格式。有时，函数本身可能仅从配置数据中派生。"
+
+#: src/type-classes/coercion.md:247
+#, fuzzy
+msgid ""
+"A type class called `CoeFun` can transform values from non-function types to"
+" function types. `CoeFun` has two parameters: the first is the type whose "
+"values should be transformed into functions, and the second is an output "
+"parameter that determines exactly which function type is being targeted."
+msgstr ""
+"一个名为 `CoeFun` 的类型类可以将值从非函数类型转换为函数类型。`CoeFun` "
+"有两个参数：第一个是要将值转换为函数的类型，第二个是输出参数，用于确定要转换到的确切函数类型。"
+
+#: src/type-classes/coercion.md:253
+#, fuzzy
+msgid ""
+"The second parameter is itself a function that computes a type. In Lean, "
+"types are first-class and can be passed to functions or returned from them, "
+"just like anything else."
+msgstr "第二个参数本身是一个计算类型的函数。在 Lean 中，类型是一等公民，可以传递给函数或从函数返回，就像其他任何东西一样。"
+
+#: src/type-classes/coercion.md:256
+#, fuzzy
+msgid ""
+"For example, a function that adds a constant amount to its argument can be "
+"represented as a wrapper around the amount to add, rather than by defining "
+"an actual function:"
+msgstr "例如，一个将常量添加到其参数的函数可以表示为对要添加的量的包装，而不是通过定义实际函数："
+
+#: src/type-classes/coercion.md:261
+#, fuzzy
+msgid ""
+"A function that adds five to its argument has a `5` in the `howMuch` field:"
+msgstr "将 5 添加到其参数的函数在 `howMuch` 字段中有一个 `5`："
+
+#: src/type-classes/coercion.md:265
+#, fuzzy
+msgid ""
+"This `Adder` type is not a function, and applying it to an argument results "
+"in an error:"
+msgstr "此 `Adder` 类型不是函数，并且将其应用于参数会导致错误："
+
+#: src/type-classes/coercion.md:275
+#, fuzzy
+msgid ""
+"Defining a `CoeFun` instance causes Lean to transform the adder into a "
+"function with type `Nat → Nat`:"
+msgstr "定义 `CoeFun` 实例会导致 Lean 将加法器转换为类型为 `Nat → Nat` 的函数："
+
+#: src/type-classes/coercion.md:285
+#, fuzzy
+msgid ""
+"Because all `Adder`s should be transformed into `Nat → Nat` functions, the "
+"argument to `CoeFun`'s second parameter was ignored."
+msgstr "由于所有 `Adder` 都应转换为 `Nat → Nat` 函数，因此忽略了 `CoeFun` 第二个参数的参数。"
+
+#: src/type-classes/coercion.md:287
+#, fuzzy
+msgid ""
+"When the value itself is needed to determine the right function type, then "
+"`CoeFun`'s second parameter is no longer ignored. For example, given the "
+"following representation of JSON values:"
+msgstr "当需要值本身来确定正确的函数类型时，`CoeFun` 的第二个参数将不再被忽略。例如，给定以下 JSON 值表示："
+
+#: src/type-classes/coercion.md:300
+#, fuzzy
+msgid ""
+"a JSON serializer is a structure that tracks the type it knows how to "
+"serialize along with the serialization code itself:"
+msgstr "JSON 序列化器是一个结构，它跟踪它知道如何序列化的类型以及序列化代码本身："
+
+#: src/type-classes/coercion.md:306
+#, fuzzy
+msgid ""
+"A serializer for strings need only wrap the provided string in the "
+"`JSON.string` constructor:"
+msgstr "字符串序列化器只需要将提供的字符串包装在 `JSON.string` 构造函数中："
+
+#: src/type-classes/coercion.md:313
+#, fuzzy
+msgid ""
+"Viewing JSON serializers as functions that serialize their argument requires"
+" extracting the inner type of serializable data:"
+msgstr "将 JSON 序列化器视为序列化其参数的函数需要提取可序列化数据的内部类型："
+
+#: src/type-classes/coercion.md:318
+#, fuzzy
+msgid ""
+"Given this instance, a serializer can be applied directly to an argument:"
+msgstr "给定此实例，序列化器可以直接应用于参数："
+
+#: src/type-classes/coercion.md:319
+#, fuzzy
+msgid ""
+"```lean\n"
+"def buildResponse (title : String) (R : Serializer) (record : R.Contents) : JSON :=\n"
+"  JSON.object [\n"
+"    (\"title\", JSON.string title),\n"
+"    (\"status\", JSON.number 200),\n"
+"    (\"record\", R record)\n"
+"  ]\n"
+"```"
+msgstr ""
+"```lean\n"
+"def buildResponse (title : String) (R : Serializer) (record : R.Contents) : JSON :=\n"
+"  JSON.object [\n"
+"    (\"title\", JSON.string title),\n"
+"    (\"status\", JSON.number 200),\n"
+"    (\"record\", R record)\n"
+"  ]\n"
+"```"
+
+#: src/type-classes/coercion.md:327
+#, fuzzy
+msgid "The serializer can be passed directly to `buildResponse`:"
+msgstr "序列化器可以直接传递给 `buildResponse`："
+
+#: src/type-classes/coercion.md:328
+#, fuzzy
+msgid ""
+"```lean\n"
+"#eval buildResponse \"Functional Programming in Lean\" Str \"Programming is fun!\"\n"
+"```"
+msgstr ""
+"```lean\n"
+"#eval buildResponse \"Functional Programming in Lean\" Str \"Programming is fun!\"\n"
+"```"
+
+#: src/type-classes/coercion.md:331
+#, fuzzy
+msgid ""
+"```output info\n"
+"JSON.object\n"
+"  [(\"title\", JSON.string \"Functional Programming in Lean\"),\n"
+"   (\"status\", JSON.number 200.000000),\n"
+"   (\"record\", JSON.string \"Programming is fun!\")]\n"
+"```"
+msgstr ""
+"```output info\n"
+"JSON.object\n"
+"  [(\"title\", JSON.string \"Functional Programming in Lean\"),\n"
+"   (\"status\", JSON.number 200.000000),\n"
+"   (\"record\", JSON.string \"Programming is fun!\")]\n"
+"```"
+
+#: src/type-classes/coercion.md:338
+#, fuzzy
+msgid "Aside: JSON as a String"
+msgstr "旁注：JSON 作为字符串"
+
+#: src/type-classes/coercion.md:340
+#, fuzzy
+msgid ""
+"It can be a bit difficult to understand JSON when encoded as Lean objects. "
+"To help make sure that the serialized response was what was expected, it can"
+" be convenient to write a simple converter from `JSON` to `String`. The "
+"first step is to simplify the display of numbers. `JSON` doesn't distinguish"
+" between integers and floating point numbers, and the type `Float` is used "
+"to represent both. In Lean, `Float.toString` includes a number of trailing "
+"zeros:"
+msgstr ""
+"将 JSON 编码为 Lean 对象时可能有点难以理解。为了确保序列化的响应符合预期，可以编写一个从 `JSON` 到 `String` "
+"的简单转换器。第一步是简化数字的显示。`JSON` 不区分整数和小数，并且类型 `Float` 用于表示两者。在 Lean "
+"中，`Float.toString` 包含许多尾随零："
+
+#: src/type-classes/coercion.md:348
+#, fuzzy
+msgid ""
+"```output info\n"
+"\"5.000000\"\n"
+"```"
+msgstr "为了解决这个问题，我们编写了一个小函数，通过删除所有尾随零和尾随小数点来清理表示："
+
+#: src/type-classes/coercion.md:351
+#, fuzzy
+msgid ""
+"The solution is to write a little function that cleans up the presentation "
+"by dropping all trailing zeros, followed by a trailing decimal point:"
+msgstr ""
+"有了这个定义，`#eval dropDecimals (5 : Float).toString` 会生成 `\"5\"`，而 `#eval "
+"dropDecimals (5.2 : Float).toString` 会生成 `\"5.2\"`。"
+
+#: src/type-classes/coercion.md:359
+#, fuzzy
+msgid ""
+"With this definition, `#eval dropDecimals (5 : Float).toString` yields "
+"`\"5\"`, and `#eval dropDecimals (5.2 : Float).toString` yields `\"5.2\"`."
+msgstr "下一步是定义一个辅助函数，用分隔符连接一个字符串列表："
+
+#: src/type-classes/coercion.md:361
+#, fuzzy
+msgid ""
+"The next step is to define a helper function to append a list of strings "
+"with a separator in between them:"
+msgstr ""
+"```lean\n"
+"def String.separate (sep : String) (strings : List String) : String :=\n"
+"  match strings with\n"
+"  | [] => \"\"\n"
+"  | x :: xs => String.join (x :: xs.map (sep ++ ·))\n"
+"```"
+
+#: src/type-classes/coercion.md:362
+#, fuzzy
+msgid ""
+"```lean\n"
+"def String.separate (sep : String) (strings : List String) : String :=\n"
+"  match strings with\n"
+"  | [] => \"\"\n"
+"  | x :: xs => String.join (x :: xs.map (sep ++ ·))\n"
+"```"
+msgstr ""
+"此函数可用于处理 JSON 数组和对象中的逗号分隔元素。`#eval \", \".separate [\"1\", \"2\"]` 会生成 `\"1,"
+" 2\"`，`#eval \", \".separate [\"1\"]` 会生成 `\"1\"`，而 `#eval \", \".separate "
+"[]` 会生成 `\"\"`。"
+
+#: src/type-classes/coercion.md:368
+#, fuzzy
+msgid ""
+"This function is useful to account for comma-separated elements in JSON "
+"arrays and objects. `#eval \", \".separate [\"1\", \"2\"]` yields `\"1, "
+"2\"`, `#eval \", \".separate [\"1\"]` yields `\"1\"`, and `#eval \", "
+"\".separate []` yields `\"\"`."
+msgstr ""
+"最后，JSON 字符串需要一个字符串转义过程，以便包含 `\"Hello!\"` 的 Lean 字符串可以输出为 "
+"`\"\\\"Hello!\\\"\"`。幸运的是，Lean 编译器已经包含了一个用于转义 JSON 字符串的内部函数，称为 "
+"`Lean.Json.escape`。要访问此函数，请在文件开头添加 `import Lean`。"
+
+#: src/type-classes/coercion.md:371
+#, fuzzy
+msgid ""
+"Finally, a string escaping procedure is needed for JSON strings, so that the"
+" Lean string containing `\"Hello!\"` can be output as `\"\\\"Hello!\\\"\"`. "
+"Fortunately, the Lean compiler contains an internal function for escaping "
+"JSON strings already, called `Lean.Json.escape`. To access this function, "
+"add `import Lean` to the beginning of your file."
+msgstr ""
+"从 `JSON` 值发出字符串的函数被声明为 `partial`，因为 Lean 无法看出它会终止。这是因为对 `asString` 的递归调用发生在由"
+" `List.map` 应用的函数中，并且这种递归模式非常复杂，以至于 Lean 无法看出递归调用实际上是在较小的值上执行的。在只需要生成 JSON "
+"字符串且不需要对该过程进行数学推理的应用程序中，让函数成为 `partial` 不太可能导致问题。"
+
+#: src/type-classes/coercion.md:375
+#, fuzzy
+msgid ""
+"The function that emits a string from a `JSON` value is declared `partial` "
+"because Lean cannot see that it terminates. This is because recursive calls "
+"to `asString` occur in functions that are being applied by `List.map`, and "
+"this pattern of recursion is complicated enough that Lean cannot see that "
+"the recursive calls are actually being performed on smaller values. In an "
+"application that just needs to produce JSON strings and doesn't need to "
+"mathematically reason about the process, having the function be `partial` is"
+" not likely to cause problems."
+msgstr ""
+
+#: src/type-classes/coercion.md:378
+#, fuzzy
+msgid ""
+"```lean\n"
+"partial def JSON.asString (val : JSON) : String :=\n"
+"  match val with\n"
+"  | true => \"true\"\n"
+"  | false => \"false\"\n"
+"  | null => \"null\"\n"
+"  | string s => \"\\\"\" ++ Lean.Json.escape s ++ \"\\\"\"\n"
+"  | number n => dropDecimals n.toString\n"
+"  | object members =>\n"
+"    let memberToString mem :=\n"
+"      \"\\\"\" ++ Lean.Json.escape mem.fst ++ \"\\\": \" ++ asString mem.snd\n"
+"    \"{\" ++ \", \".separate (members.map memberToString) ++ \"}\"\n"
+"  | array elements =>\n"
+"    \"[\" ++ \", \".separate (elements.map asString) ++ \"]\"\n"
+"```"
+msgstr ""
+"```lean\n"
+"partial def JSON.asString (val : JSON) : String :=\n"
+"  match val with\n"
+"  | true => \"true\"\n"
+"  | false => \"false\"\n"
+"  | null => \"null\"\n"
+"  | string s => \"\\\"\" ++ Lean.Json.escape s ++ \"\\\"\"\n"
+"  | number n => dropDecimals n.toString\n"
+"  | object members =>\n"
+"    let memberToString mem :=\n"
+"      \"\\\"\" ++ Lean.Json.escape mem.fst ++ \"\\\": \" ++ asString mem.snd\n"
+"    \"{\" ++ \", \".separate (members.map memberToString) ++ \"}\"\n"
+"  | array elements =>\n"
+"    \"[\" ++ \", \".separate (elements.map asString) ++ \"]\"\n"
+"```"
+
+#: src/type-classes/coercion.md:393
+#, fuzzy
+msgid "With this definition, the output of serialization is easier to read:"
+msgstr ""
+"\n"
+"通过此定义，序列化输出更易于阅读："
+
+#: src/type-classes/coercion.md:394
+#, fuzzy
+msgid ""
+"```lean\n"
+"#eval (buildResponse \"Functional Programming in Lean\" Str \"Programming is fun!\").asString\n"
+"```"
+msgstr ""
+"```lean\n"
+"#eval (buildResponse \"函数式编程 in Lean\" Str \"编程很有趣！\").asString\n"
+"```"
+
+#: src/type-classes/coercion.md:397
+#, fuzzy
+msgid ""
+"```output info\n"
+"\"{\\\\\"title\\\\\": \\\\\"Functional Programming in Lean\\\\\", \\\\\"status\\\\\": 200, \\\\\"record\\\\\": \\\\\"Programming is fun!\\\\\"}\"\n"
+"```"
+msgstr ""
+"```output info\n"
+"\"{\\\\\"title\\\\\": \\\\\"函数式编程 in Lean\\\\\", \\\\\"status\\\\\": 200, \\\\\"record\\\\\": \\\\\"编程很有趣！\\\\\"}\"\n"
+"```"
+
+#: src/type-classes/coercion.md:404
+#, fuzzy
+msgid ""
+"Natural number literals are overloaded with the `OfNat` type class. Because "
+"coercions fire in cases where types don't match, rather than in cases of "
+"missing instances, a missing `OfNat` instance for a type does not cause a "
+"coercion from `Nat` to be applied:"
+msgstr ""
+"自然数文字重载了 `OfNat` 类型类。由于类型不匹配时会触发强制转换，而不是在缺少实例的情况下，因此类型缺少 `OfNat` 实例不会导致从 "
+"`Nat` 应用强制转换："
+
+#: src/type-classes/coercion.md:415
+#, fuzzy
+msgid "Design Considerations"
+msgstr "设计注意事项"
+
+#: src/type-classes/coercion.md:417
+#, fuzzy
+msgid ""
+"Coercions are a powerful tool that should be used responsibly. On the one "
+"hand, they can allow an API to naturally follow the everyday rules of the "
+"domain being modeled. This can be the difference between a bureaucratic mess"
+" of manual conversion functions and a clear program. As Abelson and Sussman "
+"wrote in the preface to _Structure and Interpretation of Computer Programs_ "
+"(MIT Press, 1996),"
+msgstr ""
+"强制转换是一种功能强大的工具，应负责任地使用。一方面，它们可以让 API "
+"自然地遵循所建模域的日常规则。这可能是官僚主义的手动转换函数混乱与清晰程序之间的区别。正如 Abelson 和 Sussman "
+"在《计算机程序的结构与解释》（麻省理工学院出版社，1996 年）的序言中所写，"
+
+#: src/type-classes/coercion.md:422
+#, fuzzy
+msgid ""
+"Programs must be written for people to read, and only incidentally for "
+"machines to execute."
+msgstr "程序必须写给人阅读，而机器执行只是顺便的事。"
+
+#: src/type-classes/coercion.md:424
+#, fuzzy
+msgid ""
+"Coercions, used wisely, are a valuable means of achieving readable code that"
+" can serve as the basis for communication with domain experts. APIs that "
+"rely heavily on coercions have a number of important limitations, however. "
+"Think carefully about these limitations before using coercions in your own "
+"libraries."
+msgstr ""
+"明智地使用强制转换是一种实现可读代码的有价值的手段，该代码可以作为与领域专家进行交流的基础。然而，严重依赖强制转换的 API "
+"有一些重要的限制。在自己的库中使用强制转换之前，请仔细考虑这些限制。"
+
+#: src/type-classes/coercion.md:428
+#, fuzzy
+msgid ""
+"First off, coercions are only applied in contexts where enough type "
+"information is available for Lean to know all of the types involved, because"
+" there are no output parameters in the coercion type classes. This means "
+"that a return type annotation on a function can be the difference between a "
+"type error and a successfully applied coercion. For example, the coercion "
+"from non-empty lists to lists makes the following program work:"
+msgstr ""
+"首先，强制转换仅应用于 Lean "
+"具有足够类型信息以了解所有涉及类型的上下文中，因为强制转换类型类中没有输出参数。这意味着函数上的返回类型注释可能是类型错误和成功应用强制转换之间的区别。例如，从非空列表到列表的强制转换使以下程序正常工作："
+
+#: src/type-classes/coercion.md:434
+#, fuzzy
+msgid ""
+"On the other hand, if the type annotation is omitted, then the result type "
+"is unknown, so Lean is unable to find the coercion:"
+msgstr "另一方面，如果省略类型注释，则结果类型未知，因此 Lean 无法找到强制转换："
+
+#: src/type-classes/coercion.md:449
+#, fuzzy
+msgid ""
+"More generally, when a coercion is not applied for some reason, the user "
+"receives the original type error, which can make it difficult to debug "
+"chains of coercions."
+msgstr "更一般地说，当由于某种原因未应用强制转换时，用户会收到原始类型错误，这可能使调试强制转换链变得困难。"
+
+#: src/type-classes/coercion.md:451
+#, fuzzy
+msgid ""
+"Finally, coercions are not applied in the context of field accessor "
+"notation. This means that there is still an important difference between "
+"expressions that need to be coerced and those that don't, and this "
+"difference is visible to users of your API."
+msgstr ""
+"最后，强制转换不会应用于字段访问器符号的上下文中。这意味着需要强制转换的表达式与不需要强制转换的表达式之间仍然存在重要差异，并且此差异对您的 API "
+"用户可见。"

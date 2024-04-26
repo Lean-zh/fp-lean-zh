@@ -1,0 +1,882 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/monads.md:3
+#, fuzzy
+msgid ""
+"In C# and Kotlin, the `?.` operator is a way to look up a property or call a"
+" method on a potentially-null value. If the receiver is `null`, the whole "
+"expression is null. Otherwise, the underlying non-`null` value receives the "
+"call. Uses of `?.` can be chained, in which case the first `null` result "
+"terminates the chain of lookups. Chaining null-checks like this is much more"
+" convenient than writing and maintaining deeply nested `if`s."
+msgstr ""
+"在 C# 和 Kotlin 中，`?.` 运算符是一种在可能为 null 的值上查找属性或调用方法的方式。如果接收者为 `null`，则整个表达式为 "
+"null。否则，基础非 `null` 值接收调用。`?.` 的用法可以链接，在这种情况下，第一个 `null` "
+"结果将终止查找链。像这样链接空检查比编写和维护深度嵌套的 `if` 方便得多。"
+
+#: src/monads.md:9
+#, fuzzy
+msgid ""
+"Similarly, exceptions are significantly more convenient than manually "
+"checking and propagating error codes. At the same time, logging is easiest "
+"to accomplish by having a dedicated logging framework, rather than having "
+"each function return both its log results and its return value. Chained null"
+" checks and exceptions typically require language designers to anticipate "
+"this use case, while logging frameworks typically make use of side effects "
+"to decouple code that logs from the accumulation of the logs."
+msgstr ""
+"同样，异常比手动检查和传播错误代码方便得多。同时，通过使用专用日志记录框架（而不是让每个函数同时返回其日志结果和返回值）可以最轻松地完成日志记录。链接的空检查和异常通常要求语言设计者预见到此用例，而日志记录框架通常利用副作用将记录日志的代码与日志的累积解耦。"
+
+#: src/monads.md:13
+#, fuzzy
+msgid ""
+"All these features and more can be implemented in library code as instances "
+"of a common API called `Monad`. Lean provides dedicated syntax that makes "
+"this API convenient to use, but can also get in the way of understanding "
+"what is going on behind the scenes. This chapter begins with the nitty-"
+"gritty presentation of manually nesting null checks, and builds from there "
+"to the convenient, general API. Please suspend your disbelief in the "
+"meantime."
+msgstr ""
+"所有这些功能以及更多功能都可以作为通用 API `Monad` 的实例在库代码中实现。Lean 提供了专门的语法，使此 API "
+"易于使用，但也会妨碍理解幕后发生的事情。本章从手动嵌套空检查的细节介绍开始，并由此构建到方便、通用的 API。在此期间，请暂时搁置你的怀疑。"
+
+#: src/monads.md:18
+#, fuzzy
+msgid "Checking for `none`: Don't Repeat Yourself"
+msgstr "检查 `none`：不要重复自己"
+
+#: src/monads.md:20
+#, fuzzy
+msgid ""
+"In Lean, pattern matching can be used to chain checks for null. Getting the "
+"first entry from a list can just use the optional indexing notation:"
+msgstr "在 Lean 中，模式匹配可用于链接空检查。从列表中获取第一个条目可以使用可选的索引表示法："
+
+#: src/monads.md:26
+#, fuzzy
+msgid ""
+"The result must be an `Option` because empty lists have no first entry. "
+"Extracting the first and third entries requires a check that each is not "
+"`none`:"
+msgstr "结果必须是 `Option`，因为空列表没有第一个条目。提取第一个和第三个条目需要检查每个条目是否不是 `none`："
+
+#: src/monads.md:38
+#, fuzzy
+msgid ""
+"Similarly, extracting the first, third, and fifth entries requires more "
+"checks that the values are not `none`:"
+msgstr "同样，提取第一个、第三个和第五个条目需要更多检查，以确保这些值不是 `none`："
+
+#: src/monads.md:52
+#, fuzzy
+msgid ""
+"And adding the seventh entry to this sequence begins to become quite "
+"unmanageable:"
+msgstr "而将第七个条目添加到此序列中开始变得相当难以管理："
+
+#: src/monads.md:71
+#, fuzzy
+msgid ""
+"The fundamental problem with this code is that it addresses two concerns: "
+"extracting the numbers and checking that all of them are present, but the "
+"second concern is addressed by copying and pasting the code that handles the"
+" `none` case. It is often good style to lift a repetitive segment into a "
+"helper function:"
+msgstr ""
+"这段代码的基本问题在于它解决了两个问题：提取数字和检查它们是否全部存在，但第二个问题是通过复制和粘贴处理 `none` "
+"情况的代码来解决的。通常，将重复的片段提升到辅助函数中是一种好风格："
+
+#: src/monads.md:79
+#, fuzzy
+msgid ""
+"This helper, which is used similarly to `?.` in C# and Kotlin, takes care of"
+" propagating `none` values. It takes two arguments: an optional value and a "
+"function to apply when the value is not `none`. If the first argument is "
+"`none`, then the helper returns `none`. If the first argument is not `none`,"
+" then the function is applied to the contents of the `some` constructor."
+msgstr ""
+"此辅助函数类似于 C# 和 Kotlin 中的 `?.`，用于处理 `none` 值。它接受两个参数：一个可选值和一个在该值不是 `none` "
+"时应用的函数。如果第一个参数是 `none`，则辅助函数返回 `none`。如果第一个参数不是 `none`，则该函数将应用于 `some` "
+"构造函数的内容。"
+
+#: src/monads.md:84
+#, fuzzy
+msgid ""
+"Now, `firstThird` can be rewritten to use `andThen` instead of pattern "
+"matching:"
+msgstr "现在，`firstThird` 可以重写为使用 `andThen` 而不是模式匹配："
+
+#: src/monads.md:91
+#, fuzzy
+msgid ""
+"In Lean, functions don't need to be enclosed in parentheses when passed as "
+"arguments. The following equivalent definition uses more parentheses and "
+"indents the bodies of functions:"
+msgstr "在 Lean 中，作为参数传递时，函数不需要用括号括起来。以下等效定义使用了更多的括号并缩进了函数的主体："
+
+#: src/monads.md:99
+#, fuzzy
+msgid ""
+"The `andThen` helper provides a sort of \"pipeline\" through which values "
+"flow, and the version with the somewhat unusual indentation is more "
+"suggestive of this fact. Improving the syntax used to write `andThen` can "
+"make these computations even easier to understand."
+msgstr ""
+"`andThen` 辅助函数提供了一种值流经的“管道”，而具有有些不寻常缩进的版本更能说明这一事实。改进用于编写 `andThen` "
+"的语法可以使这些计算更容易理解。"
+
+#: src/monads.md:102
+#, fuzzy
+msgid "Infix Operators"
+msgstr "中缀运算符"
+
+#: src/monads.md:104
+#, fuzzy
+msgid ""
+"In Lean, infix operators can be declared using the `infix`, `infixl`, and "
+"`infixr` commands, which create (respectively) non-associative, left-"
+"associative, and right-associative operators. When used multiple times in a "
+"row, a _left associative_ operator stacks up the opening parentheses on the "
+"left side of the expression. The addition operator `+` is left associative, "
+"so `w + x + y + z` is equivalent to `(((w + x) + y) + z)`. The "
+"exponentiation operator `^` is right associative, so `w ^ x ^ y ^ z` is "
+"equivalent to `(w ^ (x ^ (y ^ z)))`. Comparison operators such as `<` are "
+"non-associative, so `x < y < z` is a syntax error and requires manual "
+"parentheses."
+msgstr ""
+"在 Lean 中，可以使用 `infix`、`infixl` 和 `infixr` "
+"命令声明中缀运算符，它们分别创建（分别）非结合、左结合和右结合运算符。当连续多次使用时，_左结合_ 运算符会将左括号堆叠在表达式的左侧。加法运算符 "
+"`+` 是左结合的，因此 `w + x + y + z` 等价于 `(((w + x) + y) + z)`。指数运算符 `^` 是右结合的，因此 `w"
+" ^ x ^ y ^ z` 等价于 `(w ^ (x ^ (y ^ z)))`。比较运算符（如 `<`）是非结合的，因此 `x < y < z` "
+"是一个语法错误，需要手动添加括号。"
+
+#: src/monads.md:110
+#, fuzzy
+msgid "The following declaration makes `andThen` into an infix operator:"
+msgstr "以下声明将 `andThen` 声明为中缀运算符："
+
+#: src/monads.md:111
+#, fuzzy
+msgid ""
+"```lean\n"
+"infixl:55 \" ~~> \" => andThen\n"
+"```"
+msgstr ""
+"```lean\n"
+"infixl:55 \" ~~> \" => andThen\n"
+"```"
+
+#: src/monads.md:114
+#, fuzzy
+msgid ""
+"The number following the colon declares the _precedence_ of the new infix "
+"operator. In ordinary mathematical notation, `x + y * z` is equivalent to `x"
+" + (y * z)` even though both `+` and `*` are left associative. In Lean, `+` "
+"has precedence 65 and `*` has precedence 70. Higher-precedence operators are"
+" applied before lower-precedence operators. According to the declaration of "
+"`~~>`, both `+` and `*` have higher precedence, and thus apply first. "
+"Typically, figuring out the most convenient precedences for a group of "
+"operators requires some experimentation and a large collection of examples."
+msgstr ""
+"冒号后面的数字声明了新中缀运算符的_优先级_。在普通数学符号中，`x + y * z` 等价于 `x + (y * z)`，即使 `+` 和 `*` "
+"都是左结合的。在 Lean 中，`+` 的优先级为 65，`*` 的优先级为 70。优先级更高的运算符在优先级较低的运算符之前应用。根据 `~~>` "
+"的声明，`+` 和 `*` 都具有更高的优先级，因此首先应用。通常，找出最适合一组运算符的优先级需要一些实验和大量的示例。"
+
+#: src/monads.md:121
+#, fuzzy
+msgid ""
+"Following the new infix operator is a double arrow `=>`, which specifies the"
+" named function to be used for the infix operator. Lean's standard library "
+"uses this feature to define `+` and `*` as infix operators that point at "
+"`HAdd.hAdd` and `HMul.hMul`, respectively, allowing type classes to be used "
+"to overload the infix operators. Here, however, `andThen` is just an "
+"ordinary function."
+msgstr ""
+"在新的中缀运算符后面是一个双箭头 `=>`，它指定要用于中缀运算符的命名函数。Lean 的标准库使用此功能将 `+` 和 `*` 定义为指向 "
+"`HAdd.hAdd` 和 `HMul.hMul` 的中缀运算符，从而允许类型类用于重载中缀运算符。然而，这里 `andThen` 只是一个普通函数。"
+
+#: src/monads.md:125
+#, fuzzy
+msgid ""
+"Having defined an infix operator for `andThen`, `firstThird` can be "
+"rewritten in a way that brings the \"pipeline\" feeling of `none`\\-checks "
+"front and center:"
+msgstr ""
+"通过为 `andThen` 定义一个中缀运算符，`firstThird` 可以改写成一种将 `none` 检查的“管道”感觉置于首要位置的方式："
+
+#: src/monads.md:132
+#, fuzzy
+msgid "This style is much more concise when writing larger functions:"
+msgstr "这种风格在编写较大的函数时更加简洁："
+
+#: src/monads.md:142
+#, fuzzy
+msgid "Propagating Error Messages"
+msgstr "传播错误消息"
+
+#: src/monads.md:144
+#, fuzzy
+msgid ""
+"Pure functional languages such as Lean have no built-in exception mechanism "
+"for error handling, because throwing or catching an exception is outside of "
+"the step-by-step evaluation model for expressions. However, functional "
+"programs certainly need to handle errors. In the case of "
+"`firstThirdFifthSeventh`, it is likely relevant for a user to know just how "
+"long the list was and where the lookup failed."
+msgstr ""
+"像 Lean 这样的纯函数式语言没有用于错误处理的内置异常机制，因为抛出或捕获异常超出了表达式逐步求值模型的范围。然而，函数式程序肯定需要处理错误。在 "
+"`firstThirdFifthSeventh` 的情况下，用户很可能需要知道列表有多长以及查找失败的位置。"
+
+#: src/monads.md:148
+#, fuzzy
+msgid ""
+"This is typically accomplished by defining a datatype that can be either an "
+"error or a result, and translating functions with exceptions into functions "
+"that return this datatype:"
+msgstr "这通常通过定义一个可以是错误或结果的数据类型，并将带有异常的函数转换为返回此数据类型的函数来实现："
+
+#: src/monads.md:155
+#, fuzzy
+msgid ""
+"The type variable `ε` stands for the type of errors that can be produced by "
+"the function. Callers are expected to handle both errors and successes, "
+"which makes the type variable `ε` play a role that is a bit like that of a "
+"list of checked exceptions in Java."
+msgstr ""
+"类型变量 `ε` 表示函数可能产生的错误类型。调用者需要处理错误和成功，这使得类型变量 `ε` 扮演的角色有点像 Java 中受检异常列表的角色。"
+
+#: src/monads.md:158
+#, fuzzy
+msgid ""
+"Similarly to `Option`, `Except` can be used to indicate a failure to find an"
+" entry in a list. In this case, the error type is a `String`:"
+msgstr "类似于 `Option`，`Except` 可用于指示在列表中找不到条目的情况。在这种情况下，错误类型为 `String`："
+
+#: src/monads.md:160
+#, fuzzy
+msgid ""
+"```lean\n"
+"def get (xs : List α) (i : Nat) : Except String α :=\n"
+"  match xs[i]? with\n"
+"  | none => Except.error s!\"Index {i} not found (maximum is {xs.length - 1})\"\n"
+"  | some x => Except.ok x\n"
+"```"
+msgstr ""
+"```lean\n"
+"def get (xs : List α) (i : Nat) : Except String α :=\n"
+"  match xs[i]? with\n"
+"  | none => Except.error s!\"Index {i} not found (maximum is {xs.length - 1})\"\n"
+"  | some x => Except.ok x\n"
+"```"
+
+#: src/monads.md:166
+#, fuzzy
+msgid "Looking up an in-bounds value yields an `Except.ok`:"
+msgstr "查找一个界内值会产生一个 `Except.ok`："
+
+#: src/monads.md:167
+#, fuzzy
+msgid ""
+"```lean\n"
+"def ediblePlants : List String :=\n"
+"  [\"ramsons\", \"sea plantain\", \"sea buckthorn\", \"garden nasturtium\"]\n"
+"\n"
+"#eval get ediblePlants 2\n"
+"```"
+msgstr ""
+"```lean\n"
+"def ediblePlants : List String :=\n"
+"  [\"ramsons\", \"sea plantain\", \"sea buckthorn\", \"garden nasturtium\"]\n"
+"\n"
+"#eval get ediblePlants 2\n"
+"```"
+
+#: src/monads.md:173
+#, fuzzy
+msgid ""
+"```output info\n"
+"Except.ok \"sea buckthorn\"\n"
+"```"
+msgstr ""
+"```output info\n"
+"Except.ok \"沙棘\"\n"
+"```"
+
+#: src/monads.md:176
+#, fuzzy
+msgid "Looking up an out-of-bounds value yields an `Except.error`:"
+msgstr "查找越界值将产生 `Except.error`："
+
+#: src/monads.md:180
+#, fuzzy
+msgid ""
+"```output info\n"
+"Except.error \"Index 4 not found (maximum is 3)\"\n"
+"```"
+msgstr ""
+"```output info\n"
+"Except.error \"索引 4 不存在（最大值为 3）\"\n"
+"```"
+
+#: src/monads.md:184
+#, fuzzy
+msgid "A single list lookup can conveniently return a value or an error:"
+msgstr "单个列表查找可以方便地返回一个值或一个错误："
+
+#: src/monads.md:189
+#, fuzzy
+msgid ""
+"However, performing two list lookups requires handling potential failures:"
+msgstr "然而，执行两个列表查找需要处理潜在的失败："
+
+#: src/monads.md:200
+#, fuzzy
+msgid ""
+"Adding another list lookup to the function requires still more error "
+"handling:"
+msgstr "向函数中添加另一个列表查找需要更多的错误处理："
+
+#: src/monads.md:214
+#, fuzzy
+msgid "And one more list lookup begins to become quite unmanageable:"
+msgstr "再添加一个列表查找开始变得相当难以管理："
+
+#: src/monads.md:232
+#, fuzzy
+msgid ""
+"Once again, a common pattern can be factored out into a helper. Each step "
+"through the function checks for an error, and only proceeds with the rest of"
+" the computation if the result was a success. A new version of `andThen` can"
+" be defined for `Except`:"
+msgstr ""
+"同样，一个常见的模式可以分解为一个助手。函数中的每一步都检查错误，并且只有在结果成功的情况下才继续进行其余的计算。可以为 `Except` 定义 "
+"`andThen` 的新版本："
+
+#: src/monads.md:241
+#, fuzzy
+msgid ""
+"Just as with `Option`, this version of `andThen` allows a more concise "
+"definition of `firstThird`:"
+msgstr "与 `Option` 一样，此版本的 `andThen` 允许更简洁地定义 `firstThird`："
+
+#: src/monads.md:249
+#, fuzzy
+msgid ""
+"In both the `Option` and `Except` case, there are two repeating patterns: "
+"there is the checking of intermediate results at each step, which has been "
+"factored out into `andThen`, and there is the final successful result, which"
+" is `some` or `Except.ok`, respectively. For the sake of convenience, "
+"success can be factored out into a helper called `ok`:"
+msgstr ""
+"在 `Option` 和 `Except` 情况下，都有两个重复的模式：每一步都有对中间结果的检查，该检查已分解为 "
+"`andThen`，并且有最终的成功结果，分别是 `some` 或 `Except.ok`。为了方便起见，可以将成功分解为一个名为 `ok` 的助手："
+
+#: src/monads.md:254
+#, fuzzy
+msgid "Similarly, failure can be factored out into a helper called `fail`:"
+msgstr "同样，可以将失败分解为一个名为 `fail` 的助手："
+
+#: src/monads.md:258
+#, fuzzy
+msgid "Using `ok` and `fail` makes `get` a little more readable:"
+msgstr "使用 `ok` 和 `fail` 使得 `get` 更具可读性："
+
+#: src/monads.md:259
+#, fuzzy
+msgid ""
+"```lean\n"
+"def get (xs : List α) (i : Nat) : Except String α :=\n"
+"  match xs[i]? with\n"
+"  | none => fail s!\"Index {i} not found (maximum is {xs.length - 1})\"\n"
+"  | some x => ok x\n"
+"```"
+msgstr ""
+"```lean\n"
+"def get (xs : List α) (i : Nat) : Except String α :=\n"
+"  match xs[i]? with\n"
+"  | none => fail s!\"索引 {i} 不存在（最大值为 {xs.length - 1})\"\n"
+"  | some x => ok x\n"
+"```"
+
+#: src/monads.md:267
+#, fuzzy
+msgid ""
+"After adding the infix declaration for `andThen`, `firstThird` can be just "
+"as concise as the version that returns an `Option`:"
+msgstr "在为 `andThen` 添加中缀声明后，`firstThird` 可以与返回 `Option` 的版本一样简洁："
+
+#: src/monads.md:268
+#, fuzzy
+msgid ""
+"```lean\n"
+"infixl:55 \" ~~> \" => andThen\n"
+"\n"
+"def firstThird (xs : List α) : Except String (α × α) :=\n"
+"  get xs 0 ~~> fun first =>\n"
+"  get xs 2 ~~> fun third =>\n"
+"  ok (first, third)\n"
+"```"
+msgstr ""
+"infixl:55 \" ~~> \" => andThen\n"
+"\n"
+"def firstThird (xs : List α) : Except String (α × α) :=\n"
+"  get xs 0 ~~> fun first =>\n"
+"  get xs 2 ~~> fun third =>\n"
+"  ok (first, third)\n"
+
+#: src/monads.md:276
+#, fuzzy
+msgid "The technique scales similarly to larger functions:"
+msgstr ""
+"\n"
+"该技术同样适用于更大的函数："
+
+#: src/monads.md:286
+#, fuzzy
+msgid "Logging"
+msgstr "日志"
+
+#: src/monads.md:288
+#, fuzzy
+msgid "A number is even if dividing it by 2 leaves no remainder:"
+msgstr "一个数字是偶数，当它除以 2 时没有余数："
+
+#: src/monads.md:293
+#, fuzzy
+msgid ""
+"The function `sumAndFindEvens` computes the sum of a list while remembering "
+"the even numbers encountered along the way:"
+msgstr "函数 `sumAndFindEvens` 计算列表的和，同时记住沿途遇到的偶数："
+
+#: src/monads.md:301
+#, fuzzy
+msgid ""
+"This function is a simplified example of a common pattern. Many programs "
+"need to traverse a data structure once, while both computing a main result "
+"and accumulating some kind of tertiary extra result. One example of this is "
+"logging: a program that is an `IO` action can always log to a file on disk, "
+"but because the disk is outside of the mathematical world of Lean functions,"
+" it becomes much more difficult to prove things about logs based on `IO`. "
+"Another example is a function that computes the sum of all the nodes in a "
+"tree with an inorder traversal, while simultaneously recording each nodes "
+"visited:"
+msgstr ""
+"此函数是一个常见模式的简化示例。许多程序需要遍历一次数据结构，同时计算一个主要结果和累积某种第三额外结果。一个例子是日志记录：一个 `IO` "
+"动作的程序总是可以记录到磁盘上的一个文件中，但是由于磁盘在 Lean 函数的数学世界之外，因此基于 `IO` "
+"证明日志变得困难得多。另一个例子是一个函数，它计算树中所有节点的和，同时按中序遍历记录每个访问的节点："
+
+#: src/monads.md:315
+#, fuzzy
+msgid ""
+"Both `sumAndFindEvens` and `inorderSum` have a common repetitive structure. "
+"Each step of computation returns a pair that consists of a list of data that"
+" have been saved along with the primary result. The lists are then appended,"
+" and the primary result is computed and paired with the appended lists. The "
+"common structure becomes more apparent with a small rewrite of "
+"`sumAndFindEvens` that more cleanly separates the concerns of saving even "
+"numbers and computing the sum:"
+msgstr ""
+"`sumAndFindEvens` 和 `inorderSum` "
+"都具有共同的重复结构。计算的每一步都返回一个对，该对由已保存的数据列表和主要结果组成。然后附加列表，并计算主要结果并与附加的列表配对。通过对 "
+"`sumAndFindEvens` 进行小改写，更清晰地分离了保存偶数和计算和的关注点，共同的结构变得更加明显："
+
+#: src/monads.md:328
+#, fuzzy
+msgid ""
+"For the sake of clarity, a pair that consists of an accumulated result "
+"together with a value can be given its own name:"
+msgstr "为了清晰起见，可以给由累积结果和值组成的对起一个自己的名字："
+
+#: src/monads.md:334
+#, fuzzy
+msgid ""
+"Similarly, the process of saving a list of accumulated results while passing"
+" a value on to the next step of a computation can be factored out into a "
+"helper, once again named `andThen`:"
+msgstr "同样，在计算的下一步传递值时保存累积结果列表的过程可以分解为一个辅助函数，再次命名为 `andThen`："
+
+#: src/monads.md:341
+#, fuzzy
+msgid ""
+"In the case of errors, `ok` represents an operation that always succeeds. "
+"Here, however, it is an operation that simply returns a value without "
+"logging anything:"
+msgstr "在错误的情况下，`ok` 表示一个总是成功的操作。然而，这里它是一个简单地返回一个值而不记录任何内容的操作："
+
+#: src/monads.md:346
+#, fuzzy
+msgid ""
+"Just as `Except` provides `fail` as a possibility, `WithLog` should allow "
+"items to be added to a log. This has no interesting return value associated "
+"with it, so it returns `Unit`:"
+msgstr ""
+"正如 `Except` 提供 `fail` 作为一种可能性，`WithLog` 应该允许将项添加到日志中。这没有与其关联的有趣返回值，所以它返回 "
+"`Unit`："
+
+#: src/monads.md:353
+#, fuzzy
+msgid ""
+"`WithLog`, `andThen`, `ok`, and `save` can be used to separate the logging "
+"concern from the summing concern in both programs:"
+msgstr "`WithLog`、`andThen`、`ok` 和 `save` 可以用来将日志记录问题与两个程序中的求和问题分开："
+
+#: src/monads.md:370
+#, fuzzy
+msgid ""
+"And, once again, the infix operator helps put focus on the correct steps:"
+msgstr "再次，中缀运算符有助于关注正确的步骤："
+
+#: src/monads.md:371
+#, fuzzy
+msgid ""
+"```lean\n"
+"infixl:55 \" ~~> \" => andThen\n"
+"\n"
+"def sumAndFindEvens : List Int → WithLog Int Int\n"
+"  | [] => ok 0\n"
+"  | i :: is =>\n"
+"    (if isEven i then save i else ok ()) ~~> fun () =>\n"
+"    sumAndFindEvens is ~~> fun sum =>\n"
+"    ok (i + sum)\n"
+"\n"
+"def inorderSum : BinTree Int → WithLog Int Int\n"
+"  | BinTree.leaf => ok 0\n"
+"  | BinTree.branch l x r =>\n"
+"    inorderSum l ~~> fun leftSum =>\n"
+"    save x ~~> fun () =>\n"
+"    inorderSum r ~~> fun rightSum =>\n"
+"    ok (leftSum + x + rightSum)\n"
+"```"
+msgstr ""
+"```lean\n"
+"infixl:55 \" ~~> \" => andThen\n"
+"\n"
+"def sumAndFindEvens : List Int → WithLog Int Int\n"
+"  | [] => ok 0\n"
+"  | i :: is =>\n"
+"    (if isEven i then save i else ok ()) ~~> fun () =>\n"
+"    sumAndFindEvens is ~~> fun sum =>\n"
+"    ok (i + sum)\n"
+"\n"
+"def inorderSum : BinTree Int → WithLog Int Int\n"
+"  | BinTree.leaf => ok 0\n"
+"  | BinTree.branch l x r =>\n"
+"    inorderSum l ~~> fun leftSum =>\n"
+"    save x ~~> fun () =>\n"
+"    inorderSum r ~~> fun rightSum =>\n"
+"    ok (leftSum + x + rightSum)\n"
+"```"
+
+#: src/monads.md:390
+#, fuzzy
+msgid "Numbering Tree Nodes"
+msgstr "对树节点编号"
+
+#: src/monads.md:392
+#, fuzzy
+msgid ""
+"An _inorder numbering_ of a tree associates each data point in the tree with"
+" the step it would be visited at in an inorder traversal of the tree. For "
+"example, consider `aTree`:"
+msgstr "树的_中序编号_将树中的每个数据点与其在树的中序遍历中访问的步骤相关联。例如，考虑 `aTree`："
+
+#: src/monads.md:394
+#, fuzzy
+msgid ""
+"```lean\n"
+"open BinTree in\n"
+"def aTree :=\n"
+"  branch\n"
+"    (branch\n"
+"       (branch leaf \"a\" (branch leaf \"b\" leaf))\n"
+"       \"c\"\n"
+"       leaf)\n"
+"    \"d\"\n"
+"    (branch leaf \"e\" leaf)\n"
+"```"
+msgstr ""
+"```lean\n"
+"open BinTree in\n"
+"def aTree :=\n"
+"  branch\n"
+"    (branch\n"
+"       (branch leaf \"a\" (branch leaf \"b\" leaf))\n"
+"       \"c\"\n"
+"       leaf)\n"
+"    \"d\"\n"
+"    (branch leaf \"e\" leaf)\n"
+"```"
+
+#: src/monads.md:405
+#, fuzzy
+msgid "Its inorder numbering is:"
+msgstr "其中序编号为："
+
+#: src/monads.md:406
+#, fuzzy
+msgid ""
+"```output info\n"
+"BinTree.branch\n"
+"  (BinTree.branch\n"
+"    (BinTree.branch (BinTree.leaf) (0, \"a\") (BinTree.branch (BinTree.leaf) (1, \"b\") (BinTree.leaf)))\n"
+"    (2, \"c\")\n"
+"    (BinTree.leaf))\n"
+"  (3, \"d\")\n"
+"  (BinTree.branch (BinTree.leaf) (4, \"e\") (BinTree.leaf))\n"
+"```"
+msgstr ""
+"```output info\n"
+"BinTree.branch\n"
+"  (BinTree.branch\n"
+"    (BinTree.branch (BinTree.leaf) (0, \"a\") (BinTree.branch (BinTree.leaf) (1, \"b\") (BinTree.leaf)))\n"
+"    (2, \"c\")\n"
+"    (BinTree.leaf))\n"
+"  (3, \"d\")\n"
+"  (BinTree.branch (BinTree.leaf) (4, \"e\") (BinTree.leaf))\n"
+"```"
+
+#: src/monads.md:416
+#, fuzzy
+msgid ""
+"Trees are most naturally processed with recursive functions, but the usual "
+"pattern of recursion on trees makes it difficult to compute an inorder "
+"numbering. This is because the highest number assigned anywhere in the left "
+"subtree is used to determine the numbering of a node's data value, and then "
+"again to determine the starting point for numbering the right subtree. In an"
+" imperative language, this issue can be worked around by using a mutable "
+"variable that contains the next number to be assigned. The following Python "
+"program computes an inorder numbering using a mutable variable:"
+msgstr ""
+"树最自然地用递归函数处理，但树上的通常递归模式使得计算中序编号变得困难。这是因为在左子树中分配的最高编号用于确定节点数据值的编号，然后再次用于确定对右子树进行编号的起始点。在命令式语言中，可以通过使用包含要分配的下一个编号的可变变量来解决此问题。以下"
+" Python 程序使用可变变量计算中序编号："
+
+#: src/monads.md:427
+#, fuzzy
+msgid "'Branch("
+msgstr "'Branch("
+
+#: src/monads.md:427
+#, fuzzy
+msgid ", left="
+msgstr ", left="
+
+#: src/monads.md:427
+#, fuzzy
+msgid ", right="
+msgstr ", right="
+
+#: src/monads.md:427
+#, fuzzy
+msgid ")'"
+msgstr ")'"
+
+#: src/monads.md:444
+#, fuzzy
+msgid "The numbering of the Python equivalent of `aTree` is:"
+msgstr "`aTree` 的 Python 等效项的编号为："
+
+#: src/monads.md:446
+#, fuzzy
+msgid "\"d\""
+msgstr "\"d\""
+
+#: src/monads.md:447
+#, fuzzy
+msgid "\"c\""
+msgstr "\"c\""
+
+#: src/monads.md:448
+#, fuzzy
+msgid "\"a\""
+msgstr "\"a\""
+
+#: src/monads.md:448
+#, fuzzy
+msgid "\"b\""
+msgstr "\"b\""
+
+#: src/monads.md:450
+#, fuzzy
+msgid "\"e\""
+msgstr "\"e\""
+
+#: src/monads.md:452
+#, fuzzy
+msgid "and its numbering is:"
+msgstr "并且它的编号为："
+
+#: src/monads.md:459
+#, fuzzy
+msgid ""
+"Even though Lean does not have mutable variables, a workaround exists. From "
+"the point of view of the rest of the world, the mutable variable can be "
+"thought of as having two relevant aspects: its value when the function is "
+"called, and its value when the function returns. In other words, a function "
+"that uses a mutable variable can be seen as a function that takes the "
+"mutable variable's starting value as an argument, returning a pair of the "
+"variable's final value and the function's result. This final value can then "
+"be passed as an argument to the next step."
+msgstr ""
+"尽管 Lean "
+"没有可变变量，但存在一种解决方法。从世界其他地方的角度来看，可变变量可以被认为具有两个相关方面：函数调用时的值和函数返回时的值。换句话说，使用可变变量的函数可以看作是将可变变量的起始值作为参数的函数，返回变量的最终值和函数结果的元组。然后可以将此最终值作为参数传递给下一步。"
+
+#: src/monads.md:464
+#, fuzzy
+msgid ""
+"Just as the Python example uses an outer function that establishes a mutable"
+" variable and an inner helper function that changes the variable, a Lean "
+"version of the function uses an outer function that provides the variable's "
+"starting value and explicitly returns the function's result along with an "
+"inner helper function that threads the variable's value while computing the "
+"numbered tree:"
+msgstr ""
+"正如 Python 示例使用建立可变变量的外部函数和更改变量的内部帮助函数一样，Lean "
+"版本的函数使用提供变量起始值并明确返回函数结果的外部函数，以及在计算编号树时传递变量值的内部帮助函数："
+
+#: src/monads.md:475
+#, fuzzy
+msgid ""
+"This code, like the `none`\\-propagating `Option` code, the "
+"`error`\\-propagating `Except` code, and the log-accumulating `WithLog` "
+"code, commingles two concerns: propagating the value of the counter, and "
+"actually traversing the tree to find the result. Just as in those cases, an "
+"`andThen` helper can be defined to propagate state from one step of a "
+"computation to another. The first step is to give a name to the pattern of "
+"taking an input state as an argument and returning an output state together "
+"with a value:"
+msgstr ""
+"此代码与不传播 `none` 的 `Option` 代码、传播 `error` 的 `Except` 代码和累积日志的 `WithLog` "
+"代码一样，混杂了两个问题：传播计数器的值，以及实际遍历树以查找结果。与那些情况一样，可以定义一个 `andThen` "
+"帮助器，以将状态从计算的一个步骤传播到另一个步骤。第一步是为以下模式命名：将输入状态作为参数并返回输出状态和值："
+
+#: src/monads.md:483
+#, fuzzy
+msgid ""
+"In the case of `State`, `ok` is a function that returns the input state "
+"unchanged, along with the provided value:"
+msgstr "在 `State` 的情况下，`ok` 是一个函数，它返回未更改的输入状态以及提供的值："
+
+#: src/monads.md:488
+#, fuzzy
+msgid ""
+"When working with a mutable variable, there are two fundamental operations: "
+"reading the value and replacing it with a new one. Reading the current value"
+" is accomplished with a function that places the input state unmodified into"
+" the output state, and also places it into the value field:"
+msgstr "在使用可变变量时，有两个基本操作：读取值并用新值替换它。读取当前值是使用将输入状态未修改地放入输出状态并将其放入值字段的函数来完成的："
+
+#: src/monads.md:494
+#, fuzzy
+msgid ""
+"Writing a new value consists of ignoring the input state, and placing the "
+"provided new value into the output state:"
+msgstr "写入新值包括忽略输入状态，并将提供的新值放入输出状态："
+
+#: src/monads.md:499
+#, fuzzy
+msgid ""
+"Finally, two computations that use state can be sequenced by finding both "
+"the output state and return value of the first function, then passing them "
+"both into the next function:"
+msgstr "最后，可以通过找到第一个函数的输出状态和返回值，然后将它们都传递到下一个函数中，对使用状态的两个计算进行排序："
+
+#: src/monads.md:500
+msgid ""
+"```lean\n"
+"def andThen (first : State σ α) (next : α → State σ β) : State σ β :=\n"
+"  fun s =>\n"
+"    let (s', x) := first s\n"
+"    next x s'\n"
+"\n"
+"infixl:55 \" ~~> \" => andThen\n"
+"```"
+msgstr ""
+"```lean\n"
+"def andThen (first : State σ α) (next : α → State σ β) : State σ β :=\n"
+"  fun s =>\n"
+"    let (s', x) := first s\n"
+"    next x s'\n"
+"\n"
+"infixl:55 \" ~~> \" => andThen\n"
+"```"
+
+#: src/monads.md:509
+#, fuzzy
+msgid "Using `State` and its helpers, local mutable state can be simulated:"
+msgstr "`State` 和它的辅助函数可以模拟局部可变状态："
+
+#: src/monads.md:522
+#, fuzzy
+msgid ""
+"Because `State` simulates only a single local variable, `get` and `set` "
+"don't need to refer to any particular variable name."
+msgstr "因为 `State` 只模拟了一个局部变量，所以 `get` 和 `set` 不需要引用任何特定的变量名。"
+
+#: src/monads.md:524
+#, fuzzy
+msgid "Monads: A Functional Design Pattern"
+msgstr "单子：一种函数式设计模式"
+
+#: src/monads.md:526
+#, fuzzy
+msgid "Each of these examples has consisted of:"
+msgstr "每个示例都包含："
+
+#: src/monads.md:527
+#, fuzzy
+msgid ""
+"A polymorphic type, such as `Option`, `Except ε`, `WithLog logged`, or "
+"`State σ`"
+msgstr "一个多态类型，例如 `Option`、`Except ε`、`WithLog logged` 或 `State σ`"
+
+#: src/monads.md:528
+#, fuzzy
+msgid ""
+"An operator `andThen` that takes care of some repetitive aspect of "
+"sequencing programs that have this type"
+msgstr "一个运算符 `andThen`，它处理具有此类型的程序序列的一些重复方面"
+
+#: src/monads.md:529
+#, fuzzy
+msgid ""
+"An operator `ok` that is (in some sense) the most boring way to use the type"
+msgstr "一个运算符 `ok`，它（在某种意义上）是使用该类型最无聊的方式"
+
+#: src/monads.md:530
+#, fuzzy
+msgid ""
+"A collection of other operations, such as `none`, `fail`, `save`, and `get`,"
+" that name ways of using the type"
+msgstr "一系列其他操作，例如 `none`、`fail`、`save` 和 `get`，它们命名了使用该类型的方法"
+
+#: src/monads.md:532
+#, fuzzy
+msgid ""
+"This style of API is called a _monad_. While the idea of monads is derived "
+"from a branch of mathematics called category theory, no understanding of "
+"category theory is needed in order to use them for programming. The key idea"
+" of monads is that each monad encodes a particular kind of side effect using"
+" the tools provided by the pure functional language Lean. For example, "
+"`Option` represents programs that can fail by returning `none`, `Except` "
+"represents programs that can throw exceptions, `WithLog` represents programs"
+" that accumulate a log while running, and `State` represents programs with a"
+" single mutable variable."
+msgstr ""
+"这种风格的 API 称为 "
+"_单子_。虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。单子的关键思想是，每个单子都使用纯函数式语言 Lean"
+" 提供的工具对特定类型的副作用进行编码。例如，`Option` 表示可能通过返回 `none` 而失败的程序，`Except` "
+"表示可能抛出异常的程序，`WithLog` 表示在运行时累积日志的程序，`State` 表示具有单个可变变量的程序。"

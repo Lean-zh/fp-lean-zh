@@ -1,0 +1,68 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/monad-transformers.md:3
+#, fuzzy
+msgid ""
+"A monad is a way to encode some collection of side effects in a pure "
+"language. Different monads provide different effects, such as state and "
+"error handling. Many monads even provide useful effects that aren't "
+"available in most languages, such as nondeterministic searches, readers, and"
+" even continuations."
+msgstr ""
+"Monad 是一种在纯语言中对一些副作用集合进行编码的方法。不同的 monad 提供不同的效果，例如状态和错误处理。许多 monad "
+"甚至提供了大多数语言中没有的有用效果，例如非确定性搜索、读取器，甚至延续。"
+
+#: src/monad-transformers.md:7
+#, fuzzy
+msgid ""
+"A typical application has a core set of easily testable functions written "
+"without monads paired with an outer wrapper that uses a monad to encode the "
+"necessary application logic. These monads are constructed from well-known "
+"components. For example:"
+msgstr ""
+"典型的应用程序有一组核心函数，这些函数易于测试，不使用单子编写，并配有一个外部包装器，该包装器使用单子对必要的应用程序逻辑进行编码。这些单子由众所周知的组件构建。例如："
+
+#: src/monad-transformers.md:10
+#, fuzzy
+msgid ""
+"Mutable state is encoded with a function parameter and a return value that "
+"have the same type"
+msgstr "可变状态使用具有相同类型的函数参数和返回值进行编码"
+
+#: src/monad-transformers.md:11
+#, fuzzy
+msgid ""
+"Error handling is encoded by having a return type that is similar to "
+"`Except`, with constructors for success and failure"
+msgstr "错误处理通过具有类似于 `Except` 的返回类型进行编码，其中包含成功和失败的构造函数"
+
+#: src/monad-transformers.md:12
+#, fuzzy
+msgid "Logging is encoded by pairing the return value with the log"
+msgstr "日志记录通过将返回值与日志配对进行编码"
+
+#: src/monad-transformers.md:14
+#, fuzzy
+msgid ""
+"Writing each monad by hand is tedious, however, involving boilerplate "
+"definitions of the various type classes. Each of these components can also "
+"be extracted to a definition that modifies some other monad to add an "
+"additional effect. Such a definition is called a _monad transformer_. A "
+"concrete monad can be build from a collection of monad transformers, which "
+"enables much more code re-use."
+msgstr ""
+"但是，手动编写每个单子很乏味，涉及各种类型类的样板定义。这些组件中的每一个也可以提取到一个修改其他单子以添加附加效果的定义中。这样的定义称为 "
+"_单子转换器_。可以从单子转换器的集合中构建一个具体的单子，这使得代码可以更多地重复使用。"

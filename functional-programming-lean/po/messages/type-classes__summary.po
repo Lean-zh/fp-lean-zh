@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/type-classes/summary.md:3
+#, fuzzy
+msgid "Type Classes and Overloading"
+msgstr "类型类和重载"
+
+#: src/type-classes/summary.md:5
+#, fuzzy
+msgid ""
+"Type classes are Lean's mechanism for overloading functions and operators. A"
+" polymorphic function can be used with multiple types, but it behaves in the"
+" same manner no matter which type it is used with. For example, a "
+"polymorphic function that appends two lists can be used no matter the type "
+"of the entries in the list, but it is unable to have different behavior "
+"depending on which particular type is found. An operation that is overloaded"
+" with type classes, on the other hand, can also be used with multiple types."
+" However, each type requires its own implementation of the overloaded "
+"operation. This means that the behavior can vary based on which type is "
+"provided."
+msgstr ""
+"类型类是 Lean "
+"用于重载函数和运算符的机制。多态函数可以与多种类型一起使用，但无论与哪种类型一起使用，它的行为都是相同的。例如，附加两个列表的多态函数可以用于列表中条目的类型，但它无法根据找到的特定类型而具有不同的行为。另一方面，使用类型类重载的操作也可以与多种类型一起使用。但是，每种类型都需要重载操作的自己的实现。这意味着行为可以根据提供的类型而有所不同。"
+
+#: src/type-classes/summary.md:12
+#, fuzzy
+msgid ""
+"A _type class_ has a name, parameters, and a body that consists of a number "
+"of names with types. The name is a way to refer to the overloaded "
+"operations, the parameters determine which aspects of the definitions can be"
+" overloaded, and the body provides the names and type signatures of the "
+"overloadable operations. Each overloadable operation is called a _method_ of"
+" the type class. Type classes may provide default implementations of some "
+"methods in terms of the others, freeing implementors from defining each "
+"overload by hand when it is not needed."
+msgstr ""
+"_类型类_ "
+"有一个名称、参数和一个主体，主体由具有类型的一系列名称组成。名称是引用重载操作的方法，参数确定可以重载哪些方面的定义，主体提供重载操作的名称和类型签名。每个可重载操作称为类型类的_方法_。类型类可以根据其他方法提供某些方法的默认实现，从而使实现者不必在不需要时手动定义每个重载。"
+
+#: src/type-classes/summary.md:17
+#, fuzzy
+msgid ""
+"An _instance_ of a type class provides implementations of the methods for "
+"given parameters. Instances may be polymorphic, in which case they can work "
+"for a variety of parameters, and they may optionally provide more specific "
+"implementations of default methods in cases where a more efficient version "
+"exists for some particular type."
+msgstr ""
+"类型类的实例为给定参数提供方法的实现。实例可以是多态的，在这种情况下，它们可以适用于各种参数，并且它们可以选择性地提供默认方法的更具体实现，在某些特定类型存在更有效版本的情况下。"
+
+#: src/type-classes/summary.md:20
+#, fuzzy
+msgid ""
+"Type class parameters are either _input parameters_ (the default), or "
+"_output parameters_ (indicated by an `outParam` modifier). Lean will not "
+"begin searching for an instance until all input parameters are no longer "
+"metavariables, while output parameters may be solved while searching for "
+"instances. Parameters to a type class need not be types—they may also be "
+"ordinary values. The `OfNat` type class, used to overload natural number "
+"literals, takes the overloaded `Nat` itself as a parameter, which allows "
+"instances to restrict the allowed numbers."
+msgstr ""
+"类型类参数要么是输入参数（默认），要么是输出参数（由 `outParam` 修饰符指示）。在所有输入参数不再是元变量之前，Lean "
+"不会开始搜索实例，而输出参数可以在搜索实例时求解。类型类的参数不必是类型——它们也可以是普通值。用于重载自然数文字的 `OfNat` 类型类将重载的 "
+"`Nat` 本身作为参数，这允许实例限制允许的数字。"
+
+#: src/type-classes/summary.md:25
+#, fuzzy
+msgid ""
+"Instances may be marked with a `@[default_instance]` attribute. When an "
+"instance is a default instance, then it will be chosen as a fallback when "
+"Lean would otherwise fail to find an instance due to the presence of "
+"metavariables in the type."
+msgstr ""
+"实例可以用 `@[default_instance]` 属性标记。当一个实例是默认实例时，当 Lean "
+"由于类型中存在元变量而无法找到实例时，它将被选为后备。"
+
+#: src/type-classes/summary.md:28
+#, fuzzy
+msgid "Type Classes for Common Syntax"
+msgstr "常见语法的类型类"
+
+#: src/type-classes/summary.md:30
+#, fuzzy
+msgid ""
+"Most infix operators in Lean are overridden with a type class. For instance,"
+" the addition operator corresponds to a type class called `Add`. Most of "
+"these operators have a corresponding heterogeneous version, in which the two"
+" arguments need not have the same type. These heterogenous operators are "
+"overloaded using a version of the class whose name starts with `H`, such as "
+"`HAdd`."
+msgstr ""
+"Lean 中的大多数中缀运算符都用类型类重写。例如，加法运算符对应于一个名为 `Add` "
+"的类型类。大多数这些运算符都有一个相应的异构版本，其中两个参数不必具有相同的类型。这些异构运算符使用类名的版本重载，该版本以 `H` 开头，例如 "
+"`HAdd`。"
+
+#: src/type-classes/summary.md:35
+#, fuzzy
+msgid ""
+"Indexing syntax is overloaded using a type class called `GetElem`, which "
+"involves proofs. `GetElem` has two output parameters, which are the type of "
+"elements to be extracted from the collection and a function that can be used"
+" to determine what counts as evidence that the index value is in bounds for "
+"the collection. This evidence is described by a proposition, and Lean "
+"attempts to prove this proposition when array indexing is used. When Lean is"
+" unable to check that list or array access operations are in bounds at "
+"compile time, the check can be deferred to run time by appending a `?` to "
+"the indexing operation."
+msgstr ""
+"索引语法使用名为 `GetElem` 的类型类进行重载，其中涉及证明。`GetElem` "
+"有两个输出参数，它们分别是集合中要提取的元素类型和一个函数，该函数可用于确定什么算作索引值在集合中处于界限内的证据。此证据由命题描述，并且在使用数组索引时，Lean"
+" 会尝试证明此命题。当 Lean 无法在编译时检查列表或数组访问操作是否在界限内时，可以通过在索引操作后附加 `?` 来将检查推迟到运行时。"
+
+#: src/type-classes/summary.md:42
+#, fuzzy
+msgid ""
+"A functor is a polymorphic type that supports a mapping operation. This "
+"mapping operation transforms all elements \"in place\", changing no other "
+"structure. For instance, lists are functors and the mapping operation may "
+"neither drop, duplicate, nor mix up entries in the list."
+msgstr ""
+"函子是一种多态类型，支持映射操作。此映射操作“就地”转换所有元素，不更改任何其他结构。例如，列表是函子，并且映射操作既不会删除、也不会复制或混淆列表中的条目。"
+
+#: src/type-classes/summary.md:46
+#, fuzzy
+msgid ""
+"While functors are defined by having `map`, the `Functor` type class in Lean"
+" contains an additional default method that is responsible for mapping the "
+"constant function over a value, replacing all values whose type are given by"
+" polymorphic type variable with the same new value. For some functors, this "
+"can be done more efficiently than traversing the entire structure."
+msgstr ""
+"虽然函子通过具有 `map` 来定义，但 Lean 中的 `Functor` "
+"类型类包含一个附加的默认方法，该方法负责将常量函数映射到某个值上，用相同的新值替换所有类型由多态类型变量给出的值。对于某些函子，这比遍历整个结构可以更高效地完成。"
+
+#: src/type-classes/summary.md:49
+#, fuzzy
+msgid "Deriving Instances"
+msgstr "派生实例"
+
+#: src/type-classes/summary.md:51
+#, fuzzy
+msgid ""
+"Many type classes have very standard implementations. For instance, the "
+"Boolean equality class `BEq` is usually implemented by first checking "
+"whether both arguments are built with the same constructor, and then "
+"checking whether all their arguments are equal. Instances for these classes "
+"can be created _automatically_."
+msgstr ""
+"许多类型类具有非常标准的实现。例如，布尔相等类 `BEq` "
+"通常通过首先检查两个参数是否由相同的构造函数构建，然后检查它们的所有参数是否相等来实现。可以_自动_创建这些类的实例。"
+
+#: src/type-classes/summary.md:55
+#, fuzzy
+msgid ""
+"When defining an inductive type or a structure, a `deriving` clause at the "
+"end of the declaration will cause instances to be created automatically. "
+"Additionally, the `deriving instance ... for ...` command can be used "
+"outside of the definition of a datatype to cause an instance to be "
+"generated. Because each class for which instances can be derived requires "
+"special handling, not all classes are derivable."
+msgstr ""
+"在定义归纳类型或结构时，声明末尾的 `deriving` 子句将自动创建实例。此外，`deriving instance ... for ...` "
+"命令可以在数据类型的定义之外使用，以生成实例。由于每个可以派生实例的类都需要特殊处理，因此并非所有类都是可派生的。"
+
+#: src/type-classes/summary.md:61
+#, fuzzy
+msgid ""
+"Coercions allow Lean to recover from what would normally be a compile-time "
+"error by inserting a call to a function that transforms data from one type "
+"to another. For example, the coercion from any type `α` to the type `Option "
+"α` allows values to be written directly, rather than with the `some` "
+"constructor, making `Option` work more like nullable types from object-"
+"oriented languages."
+msgstr ""
+"强制转换允许 Lean 通过插入一个将数据从一种类型转换为另一种类型的函数调用来从通常是编译时错误中恢复。例如，从任何类型 `α` 到类型 "
+"`Option α` 的强制转换允许直接写入值，而不是使用 `some` 构造函数，从而使 `Option` 更像面向对象语言中的可空类型。"
+
+#: src/type-classes/summary.md:64
+#, fuzzy
+msgid ""
+"There are multiple kinds of coercion. They can recover from different kinds "
+"of errors, and they are represented by their own type classes. The `Coe` "
+"class is used to recover from type errors. When Lean has an expression of "
+"type `α` in a context that expects something with type `β`, Lean first "
+"attempts to string together a chain of coercions that can transform `α`s "
+"into `β`s, and only displays the error when this cannot be done. The "
+"`CoeDep` class takes the specific value being coerced as an extra parameter,"
+" allowing either further type class search to be done on the value or "
+"allowing constructors to be used in the instance to limit the scope of the "
+"conversion. The `CoeFun` class intercepts what would otherwise be a \"not a "
+"function\" error when compiling a function application, and allows the value"
+" in the function position to be transformed into an actual function if "
+"possible."
+msgstr ""
+"强制转换有多种类型。它们可以从不同类型的错误中恢复，并且由它们自己的类型类表示。`Coe` 类用于从类型错误中恢复。当 Lean 在期望类型为 `β` "
+"的上下文中具有类型为 `α` 的表达式时，Lean 首先尝试将一系列强制转换串联在一起，这些强制转换可以将 `α` 转换为 "
+"`β`，并且仅在此操作无法完成时才显示错误。`CoeDep` "
+"类将被强制转换的特定值作为额外参数，允许对该值执行进一步的类型类搜索，或允许在实例中使用构造函数来限制转换的范围。`CoeFun` "
+"类拦截在编译函数应用程序时原本会出现的“不是函数”错误，并允许在可能的情况下将函数位置中的值转换为实际函数。"

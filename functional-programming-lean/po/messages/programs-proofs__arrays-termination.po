@@ -1,0 +1,493 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/programs-proofs/arrays-termination.md:3
+#, fuzzy
+msgid ""
+"To write efficient code, it is important to select appropriate data "
+"structures. Linked lists have their place: in some applications, the ability"
+" to share the tails of lists is very important. However, most use cases for "
+"a variable-length sequential collection of data are better served by arrays,"
+" which have both less memory overhead and better locality."
+msgstr ""
+"为了编写高效的代码，选择合适的数据结构非常重要。链表有其用途：在某些应用程序中，共享列表尾部非常重要。但是，大多数可变长度顺序数据集合的用例都由数组更好地提供服务，数组既有较少的内存开销，又有更好的局部性。"
+
+#: src/programs-proofs/arrays-termination.md:7
+#, fuzzy
+msgid "Arrays, however, have two drawbacks relative to lists:"
+msgstr "数组相对于列表有两个缺点："
+
+#: src/programs-proofs/arrays-termination.md:8
+#, fuzzy
+msgid ""
+"Arrays are accessed through indexing, rather than by pattern matching, which"
+" imposes [proof obligations](../props-proofs-indexing.md) in order to "
+"maintain safety."
+msgstr "数组是通过索引访问的，而不是通过模式匹配，这为了保持安全性而施加了[证明义务](../props-proofs-indexing.md)。"
+
+#: src/programs-proofs/arrays-termination.md:9
+#, fuzzy
+msgid ""
+"A loop that processes an entire array from left to right is a tail-recursive"
+" function, but it does not have an argument that decreases on each call."
+msgstr "从左到右处理整个数组的循环是一个尾递归函数，但它没有在每次调用时递减的参数。"
+
+#: src/programs-proofs/arrays-termination.md:11
+#, fuzzy
+msgid ""
+"Making effective use of arrays requires knowing how to prove to Lean that an"
+" array index is in bounds, and how to prove that an array index that "
+"approaches the size of the array also causes the program to terminate. Both "
+"of these are expressed using an inequality proposition, rather than "
+"propositional equality."
+msgstr ""
+"有效使用数组需要知道如何向 Lean "
+"证明数组索引在范围内，以及如何证明接近数组大小的数组索引也会导致程序终止。这两个都使用不等式命题表示，而不是命题等式。"
+
+#: src/programs-proofs/arrays-termination.md:14
+#, fuzzy
+msgid "Inequality"
+msgstr "不等式"
+
+#: src/programs-proofs/arrays-termination.md:16
+#, fuzzy
+msgid ""
+"Because different types have different notions of ordering, inequality is "
+"governed by two type classes, called `LE` and `LT`. The table in the section"
+" on [standard type classes](../type-classes/standard-classes.md#equality-"
+"and-ordering) describes how these classes relate to the syntax:"
+msgstr ""
+"由于不同的类型有不同的排序概念，因此不等式由两个类型类控制，称为 `LE` 和 `LT`。[标准类型类](../type-"
+"classes/standard-classes.md#equality-and-ordering) 部分中的表格描述了这些类与语法之间的关系："
+
+#: src/programs-proofs/arrays-termination.md:26
+#, fuzzy
+msgid ""
+"In other words, a type may customize the meaning of the `<` and `≤` "
+"operators, while `>` and `≥` derive their meanings from `<` and `≤`. The "
+"classes `LT` and `LE` have methods that return propositions rather than "
+"`Bool`s:"
+msgstr ""
+"换句话说，一个类型可以定制 `<` 和 `≤` 运算符的含义，而 `>` 和 `≥` 从 `<` 和 `≤` 中派生它们的含义。`LT` 和 `LE` "
+"类具有返回命题而不是 `Bool` 的方法："
+
+#: src/programs-proofs/arrays-termination.md:36
+#, fuzzy
+msgid "The instance of `LE` for `Nat` delegates to `Nat.le`:"
+msgstr "`Nat` 的 `LE` 实例委托给 `Nat.le`："
+
+#: src/programs-proofs/arrays-termination.md:41
+#, fuzzy
+msgid ""
+"Defining `Nat.le` requires a feature of Lean that has not yet been "
+"presented: it is an inductively-defined relation."
+msgstr "定义 `Nat.le` 需要 Lean 中尚未介绍的一个特性：它是归纳定义的关系。"
+
+#: src/programs-proofs/arrays-termination.md:43
+#, fuzzy
+msgid "Inductively-Defined Propositions, Predicates, and Relations"
+msgstr "归纳定义的命题、谓词和关系"
+
+#: src/programs-proofs/arrays-termination.md:45
+#, fuzzy
+msgid ""
+"`Nat.le` is an _inductively-defined relation_. Just as `inductive` can be "
+"used to create new datatypes, it can also be used to create new "
+"propositions. When a proposition takes an argument, it is referred to as a "
+"_predicate_ that may be true for some, but not all, potential arguments. "
+"Propositions that take multiple arguments are called _relations_."
+msgstr ""
+"`Nat.le` 是一个 _归纳定义的关系_。就像 `inductive` "
+"可以用来创建新的数据类型一样，它也可以用来创建新的命题。当一个命题接受一个参数时，它被称为 "
+"_谓词_，它可能对某些潜在参数为真，但并非对所有参数都为真。接受多个参数的命题称为 _关系_。"
+
+#: src/programs-proofs/arrays-termination.md:50
+#, fuzzy
+msgid ""
+"Each constructor of an inductively defined proposition is a way to prove it."
+" In other words, the declaration of the proposition describes the different "
+"forms of evidence that it is true. A proposition with no arguments that has "
+"a single constructor can be quite easy to prove:"
+msgstr ""
+"每个归纳定义命题的构造函数都是证明它的方法。换句话说，命题的声明描述了它为真的不同形式的证据。一个没有参数且只有一个构造函数的命题很容易证明："
+
+#: src/programs-proofs/arrays-termination.md:57
+#, fuzzy
+msgid "The proof consists of using its constructor:"
+msgstr "证明包括使用其构造函数："
+
+#: src/programs-proofs/arrays-termination.md:62
+#, fuzzy
+msgid ""
+"In fact, the proposition `True`, which should always be easy to prove, is "
+"defined just like `EasyToProve`:"
+msgstr "事实上，命题 `True` 应该总是很容易证明，它被定义得就像 `EasyToProve`："
+
+#: src/programs-proofs/arrays-termination.md:68
+#, fuzzy
+msgid ""
+"Inductively-defined propositions that don't take arguments are not nearly as"
+" interesting as inductively-defined datatypes. This is because data is "
+"interesting in its own right—the natural number `3` is different from the "
+"number `35`, and someone who has ordered 3 pizzas will be upset if 35 arrive"
+" at their door 30 minutes later. The constructors of a proposition describe "
+"ways in which the proposition can be true, but once a proposition has been "
+"proved, there is no need to know _which_ underlying constructors were used. "
+"This is why most interesting inductively-defined types in the `Prop` "
+"universe take arguments."
+msgstr ""
+"不带参数的归纳定义命题远不如归纳定义的数据类型有趣。这是因为数据本身很有趣——自然数 `3` 不同于数字 `35`，而订购了 3 个披萨的人如果 30 "
+"分钟后收到 35 个披萨会很沮丧。命题的构造函数描述了命题可以为真的方式，但一旦命题被证明，就不需要知道使用了哪些底层构造函数。这就是为什么 "
+"`Prop` 宇宙中最有趣的归纳定义类型带参数的原因。"
+
+#: src/programs-proofs/arrays-termination.md:73
+#, fuzzy
+msgid ""
+"The inductively-defined predicate `IsThree` states that its argument is "
+"three:"
+msgstr "归纳定义谓词 `IsThree` 指出其参数为三个："
+
+#: src/programs-proofs/arrays-termination.md:78
+#, fuzzy
+msgid ""
+"The mechanism used here is just like [indexed families such as "
+"`HasCol`](../dependent-types/typed-queries.md#column-pointers), except the "
+"resulting type is a proposition that can be proved rather than data that can"
+" be used."
+msgstr ""
+"这里使用的机制就像 [索引族，如 `HasCol`](../dependent-types/typed-queries.md#column-"
+"pointers)，除了结果类型是一个可以被证明的命题，而不是可以被使用的数据。"
+
+#: src/programs-proofs/arrays-termination.md:80
+#, fuzzy
+msgid ""
+"Using this predicate, it is possible to prove that three is indeed three:"
+msgstr "使用这个谓词，可以证明三个确实等于三个："
+
+#: src/programs-proofs/arrays-termination.md:85
+#, fuzzy
+msgid ""
+"Similarly, `IsFive` is a predicate that states that its argument is `5`:"
+msgstr "类似地，`IsFive` 是一个谓词，它指出其参数是 `5`："
+
+#: src/programs-proofs/arrays-termination.md:91
+#, fuzzy
+msgid ""
+"If a number is three, then the result of adding two to it should be five. "
+"This can be expressed as a theorem statement:"
+msgstr "如果一个数字是三个，那么将它加二的结果应该是五个。这可以表示为定理陈述："
+
+#: src/programs-proofs/arrays-termination.md:97
+#, fuzzy
+msgid "The resulting goal has a function type:"
+msgstr "由此产生的目标具有函数类型："
+
+#: src/programs-proofs/arrays-termination.md:103
+#, fuzzy
+msgid ""
+"Thus, the `intro` tactic can be used to convert the argument into an "
+"assumption:"
+msgstr "因此，`intro` 策略可用于将参数转换为假设："
+
+#: src/programs-proofs/arrays-termination.md:114
+#, fuzzy
+msgid ""
+"Given the assumption that `n` is three, it should be possible to use the "
+"constructor of `IsFive` to complete the proof:"
+msgstr "假设 `n` 为三，则应该可以使用 `IsFive` 的构造函数来完成证明："
+
+#: src/programs-proofs/arrays-termination.md:120
+#, fuzzy
+msgid "However, this results in an error:"
+msgstr "然而，这会导致一个错误："
+
+#: src/programs-proofs/arrays-termination.md:127
+#, fuzzy
+msgid ""
+"This error occurs because `n + 2` is not definitionally equal to `5`. In an "
+"ordinary function definition, dependent pattern matching on the assumption "
+"`three` could be used to refine `n` to `3`. The tactic equivalent of "
+"dependent pattern matching is `cases`, which has a syntax similar to that of"
+" `induction`:"
+msgstr ""
+"此错误发生是因为 `n + 2` 与 `5` 在定义上不相等。在普通的函数定义中，可以对假设 `three` 使用依赖模式匹配来将 `n` 细化为 "
+"`3`。`cases` 是依赖模式匹配的策略等价物，其语法类似于 `induction`："
+
+#: src/programs-proofs/arrays-termination.md:136
+#, fuzzy
+msgid "In the remaining case, `n` has been refined to `3`:"
+msgstr "在剩余情况下，`n` 已细化为 `3`："
+
+#: src/programs-proofs/arrays-termination.md:142
+#, fuzzy
+msgid ""
+"Because `3 + 2` is definitionally equal to `5`, the constructor is now "
+"applicable:"
+msgstr "因为 `3 + 2` 在定义上等于 `5`，所以构造函数现在适用："
+
+#: src/programs-proofs/arrays-termination.md:150
+#, fuzzy
+msgid ""
+"The standard false proposition `False` has no constructors, making it "
+"impossible to provide direct evidence for. The only way to provide evidence "
+"for `False` is if an assumption is itself impossible, similarly to how "
+"`nomatch` can be used to mark code that the type system can see is "
+"unreachable. As described in [the initial Interlude on proofs](../props-"
+"proofs-indexing.md#connectives), the negation `Not A` is short for `A → "
+"False`. `Not A` can also be written `¬A`."
+msgstr ""
+"标准假命题 `False` 没有构造函数，因此无法提供直接证据。提供 `False` 证据的唯一方法是假设本身不可能，类似于如何使用 `nomatch`"
+" 标记类型系统认为无法访问的代码。如 [证明的初始插曲](../props-proofs-indexing.md#connectives) 中所述，否定"
+" `Not A` 是 `A → False` 的缩写。`Not A` 也可以写成 `¬A`。"
+
+#: src/programs-proofs/arrays-termination.md:155
+#, fuzzy
+msgid "It is not the case that four is three:"
+msgstr "四不是三："
+
+#: src/programs-proofs/arrays-termination.md:160
+#, fuzzy
+msgid "The initial proof goal contains `Not`:"
+msgstr "初始证明目标包含 `Not`："
+
+#: src/programs-proofs/arrays-termination.md:165
+#, fuzzy
+msgid ""
+"The fact that it's actually a function type can be exposed using `simp`:"
+msgstr "它实际上是一个函数类型的事实可以使用 `simp` 暴露："
+
+#: src/programs-proofs/arrays-termination.md:174
+#, fuzzy
+msgid ""
+"Because the goal is a function type, `intro` can be used to convert the "
+"argument into an assumption. There is no need to keep `simp`, as `intro` can"
+" unfold the definition of `Not` itself:"
+msgstr ""
+"因为目标是一个函数类型，所以 `intro` 可用于将参数转换为假设。无需保留 `simp`，因为 `intro` 可以展开 `Not` 本身的定义："
+
+#: src/programs-proofs/arrays-termination.md:185
+#, fuzzy
+msgid "In this proof, the `cases` tactic solves the goal immediately:"
+msgstr "在这个证明中，`cases` 战术立即解决了目标："
+
+#: src/programs-proofs/arrays-termination.md:191
+#, fuzzy
+msgid ""
+"Just as a pattern match on a `Vect String 2` doesn't need to include a case "
+"for `Vect.nil`, a proof by cases over `IsThree 4` doesn't need to include a "
+"case for `isThree`."
+msgstr ""
+"就像对 `Vect String 2` 的模式匹配不需要包含 `Vect.nil` 的情况一样，对 `IsThree 4` 的情况证明不需要包含 "
+"`isThree` 的情况。"
+
+#: src/programs-proofs/arrays-termination.md:193
+#, fuzzy
+msgid "Inequality of Natural Numbers"
+msgstr "自然数的不相等"
+
+#: src/programs-proofs/arrays-termination.md:195
+#, fuzzy
+msgid "The definition of `Nat.le` has a parameter and an index:"
+msgstr "`Nat.le` 的定义有一个参数和一个索引："
+
+#: src/programs-proofs/arrays-termination.md:201
+#, fuzzy
+msgid ""
+"The parameter `n` is the number that should be smaller, while the index is "
+"the number that should be greater than or equal to `n`. The `refl` "
+"constructor is used when both numbers are equal, while the `step` "
+"constructor is used when the index is greater than `n`."
+msgstr ""
+"参数 `n` 是应该更小的数字，而索引是应该大于或等于 `n` 的数字。当两个数字相等时使用 `refl` 构造器，而当索引大于 `n` 时使用 "
+"`step` 构造器。"
+
+#: src/programs-proofs/arrays-termination.md:204
+#, fuzzy
+msgid ""
+"From the perspective of evidence, a proof that \\\\( n \\leq k \\\\) "
+"consists of finding some number \\\\( d \\\\) such that \\\\( n + d = m "
+"\\\\). In Lean, the proof then consists of a `Nat.le.refl` constructor "
+"wrapped by \\\\( d \\\\) instances of `Nat.le.step`. Each `step` constructor"
+" adds one to its index argument, so \\\\( d \\\\) `step` constructors adds "
+"\\\\( d \\\\) to the larger number. For example, evidence that four is less "
+"than or equal to seven consists of three `step`s around a `refl`:"
+msgstr ""
+"从证据的角度来看，证明 \\\\( n \\leq k \\\\) 包括找到一些数字 \\\\( d \\\\) 使得 \\\\( n + d = m "
+"\\\\)。在 Lean 中，证明由 \\\\( d \\\\) 个 `Nat.le.step` 实例包装的 `Nat.le.refl` "
+"构造器组成。每个 `step` 构造器将其索引参数加一，因此 \\\\( d \\\\) 个 `step` 构造器将 \\\\( d \\\\) "
+"加到较大的数字上。例如，证明四小于或等于七由 `refl` 周围的三个 `step` 组成："
+
+#: src/programs-proofs/arrays-termination.md:214
+#, fuzzy
+msgid ""
+"The strict less-than relation is defined by adding one to the number on the "
+"left:"
+msgstr "严格小于关系通过在左侧数字上加一来定义："
+
+#: src/programs-proofs/arrays-termination.md:222
+#, fuzzy
+msgid ""
+"Evidence that four is strictly less than seven consists of two `step`'s "
+"around a `refl`:"
+msgstr "证明四严格小于七由 `refl` 周围的两个 `step` 组成："
+
+#: src/programs-proofs/arrays-termination.md:228
+#, fuzzy
+msgid "This is because `4 < 7` is equivalent to `5 ≤ 7`."
+msgstr "这是因为 `4 < 7` 等价于 `5 ≤ 7`。"
+
+#: src/programs-proofs/arrays-termination.md:230
+#: src/programs-proofs/summary.md:72
+#, fuzzy
+msgid "Proving Termination"
+msgstr "证明终止"
+
+#: src/programs-proofs/arrays-termination.md:232
+#, fuzzy
+msgid ""
+"The function `Array.map` transforms an array with a function, returning a "
+"new array that contains the result of applying the function to each element "
+"of the input array. Writing it as a tail-recursive function follows the "
+"usual pattern of delegating to a function that passes the output array in an"
+" accumulator. The accumulator is initialized with an empty array. The "
+"accumulator-passing helper function also takes an argument that tracks the "
+"current index into the array, which starts at `0`:"
+msgstr ""
+"`Array.map` "
+"函数使用函数转换数组，返回一个包含将函数应用于输入数组的每个元素的结果的新数组。将其写为尾递归函数遵循将输出数组传递给累加器的函数的委托的通常模式。累加器用空数组初始化。传递累加器的辅助函数还采用一个参数来跟踪数组中的当前索引，该索引从"
+" `0` 开始："
+
+#: src/programs-proofs/arrays-termination.md:241
+#, fuzzy
+msgid ""
+"The helper should, at each iteration, check whether the index is still in "
+"bounds. If so, it should loop again with the transformed element added to "
+"the end of the accumulator and the index incremented by `1`. If not, then it"
+" should terminate and return the accumulator. An initial implementation of "
+"this code fails because Lean is unable to prove that the array index is "
+"valid:"
+msgstr ""
+"助手应在每次迭代时检查索引是否仍在范围内。如果是，则应再次循环，将转换后的元素添加到累加器的末尾，并将索引增加 "
+"`1`。如果不是，则应终止并返回累加器。此代码的初始实现失败，因为 Lean 无法证明数组索引有效："
+
+#: src/programs-proofs/arrays-termination.md:265
+#, fuzzy
+msgid ""
+"However, the conditional expression already checks the precise condition "
+"that the array index's validity demands (namely, `i < arr.size`). Adding a "
+"name to the `if` resolves the issue, because it adds an assumption that the "
+"array indexing tactic can use:"
+msgstr ""
+"然而，条件表达式已经检查了数组索引的有效性所要求的精确条件（即 `i < arr.size`）。为 `if` "
+"添加一个名称可以解决此问题，因为它添加了一个数组索引策略可以使用的前提："
+
+#: src/programs-proofs/arrays-termination.md:273
+#, fuzzy
+msgid ""
+"Lean does not, however, accept the modified program, because the recursive "
+"call is not made on an argument to one of the input constructors. In fact, "
+"both the accumulator and the index grow, rather than shrinking:"
+msgstr "但是，Lean 不接受修改后的程序，因为递归调用不是针对输入构造函数之一的参数进行的。事实上，累加器和索引都在增长，而不是缩小："
+
+#: src/programs-proofs/arrays-termination.md:287
+#, fuzzy
+msgid ""
+"Nevertheless, this function terminates, so simply marking it `partial` would"
+" be unfortunate."
+msgstr "尽管如此，此函数会终止，因此简单地将其标记为 `partial` 非常不幸。"
+
+#: src/programs-proofs/arrays-termination.md:289
+#, fuzzy
+msgid ""
+"Why does `arrayMapHelper` terminate? Each iteration checks whether the index"
+" `i` is still in bounds for the array `arr`. If so, `i` is incremented and "
+"the loop repeats. If not, the program terminates. Because `arr.size` is a "
+"finite number, `i` can be incremented only a finite number of times. Even "
+"though no argument to the function decreases on each call, `arr.size - i` "
+"decreases toward zero."
+msgstr ""
+"为什么 `arrayMapHelper` 会终止？每次迭代都会检查索引 `i` 是否仍在数组 `arr` 的范围内。如果是，则 `i` "
+"将增加并且循环将重复。如果不是，则程序将终止。因为 `arr.size` 是一个有限数，所以 `i` "
+"只可以增加有限次。即使函数的每个参数在每次调用时都不会减少，`arr.size - i` 也会减小到零。"
+
+#: src/programs-proofs/arrays-termination.md:296
+#, fuzzy
+msgid ""
+"Lean can be instructed to use another expression for termination by "
+"providing a `termination_by` clause at the end of a definition. The "
+"`termination_by` clause has two components: names for the function's "
+"arguments and an expression using those names that should decrease on each "
+"call. For `arrayMapHelper`, the final definition looks like this:"
+msgstr ""
+"可以通过在定义的末尾提供 `termination_by` 子句来指示 Lean 使用另一个表达式进行终止。`termination_by` "
+"子句有两个组成部分：函数参数的名称和使用这些名称的表达式，该表达式应在每次调用时减少。对于 `arrayMapHelper`，最终定义如下所示："
+
+#: src/programs-proofs/arrays-termination.md:307
+#, fuzzy
+msgid ""
+"A similar termination proof can be used to write `Array.find`, a function "
+"that finds the first element in an array that satisfies a Boolean function "
+"and returns both the element and its index:"
+msgstr "类似的终止证明可用于编写 `Array.find`，这是一个在数组中查找满足布尔函数的第一个元素并返回该元素及其索引的函数："
+
+#: src/programs-proofs/arrays-termination.md:312
+#, fuzzy
+msgid ""
+"Once again, the helper function terminates because `arr.size - i` decreases "
+"as `i` increases:"
+msgstr "辅助函数再次终止，因为随着 `i` 的增加，`arr.size - i` 会减少："
+
+#: src/programs-proofs/arrays-termination.md:324
+#, fuzzy
+msgid ""
+"Not all termination arguments are as quite as simple as this one. However, "
+"the basic structure of identifying some expression based on the function's "
+"arguments that will decrease in each call occurs in all termination proofs. "
+"Sometimes, creativity can be required in order to figure out just why a "
+"function terminates, and sometimes Lean requires additional proofs in order "
+"to accept the termination argument."
+msgstr ""
+"并非所有终止参数都像这个参数一样简单。但是，在所有终止证明中，都会出现基于函数参数识别在每次调用中都会减少的某个表达式的基本结构。有时，为了弄清楚函数为何终止，可能需要创造力，有时"
+" Lean 需要额外的证明才能接受终止参数。"
+
+#: src/programs-proofs/arrays-termination.md:332
+#, fuzzy
+msgid ""
+"Implement a `ForM (Array α)` instance on arrays using a tail-recursive "
+"accumulator-passing function and a `termination_by` clause."
+msgstr "使用尾递归累加器传递函数和 `termination_by` 子句在数组上实现 `ForM (Array α)` 实例。"
+
+#: src/programs-proofs/arrays-termination.md:333
+#, fuzzy
+msgid ""
+"Implement a function to reverse arrays using a tail-recursive accumulator-"
+"passing function that _doesn't_ need a `termination_by` clause."
+msgstr "使用 _不需要_ `termination_by` 子句的尾递归累加器传递函数实现一个用于反转数组的函数。"
+
+#: src/programs-proofs/arrays-termination.md:334
+#, fuzzy
+msgid ""
+"Reimplement `Array.map`, `Array.find`, and the `ForM` instance using `for "
+"... in ...` loops in the identity monad and compare the resulting code."
+msgstr ""
+"使用恒等单子中的 `for ... in ...` 循环重新实现 `Array.map`、`Array.find` 和 `ForM` "
+"实例，并比较结果代码。"
+
+#: src/programs-proofs/arrays-termination.md:335
+#, fuzzy
+msgid ""
+"Reimplement array reversal using a `for ... in ...` loop in the identity "
+"monad. Compare it to the tail-recursive function."
+msgstr "使用恒等单子中的 `for ... in ...` 循环重新实现数组反转。将其与尾递归函数进行比较。"

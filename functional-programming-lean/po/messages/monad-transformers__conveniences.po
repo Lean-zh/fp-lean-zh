@@ -1,0 +1,213 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/monad-transformers/conveniences.md:3
+#, fuzzy
+msgid "Pipe Operators"
+msgstr "管道运算符"
+
+#: src/monad-transformers/conveniences.md:5
+#, fuzzy
+msgid ""
+"Functions are normally written before their arguments. When reading a "
+"program from left to right, this promotes a view in which the function's "
+"_output_ is paramount—the function has a goal to achieve (that is, a value "
+"to compute), and it receives arguments to support it in this process. But "
+"some programs are easier to understand in terms of an input that is "
+"successively refined to produce the output. For these situations, Lean "
+"provides a _pipeline_ operator which is similar to the that provided by F#. "
+"Pipeline operators are useful in the same situations as Clojure's threading "
+"macros."
+msgstr ""
+"函数通常写在其参数之前。从左到右读取程序时，这会促进一种函数的 _输出_ "
+"至上的观点——函数有一个要实现的目标（即要计算的值），它接收参数来支持此过程。但有些程序更容易理解为连续细化以产生输出的输入。对于这些情况，Lean "
+"提供了一个 _管道_ 运算符，类似于 F# 提供的运算符。管道运算符在与 Clojure 的线程宏相同的情况下很有用。"
+
+#: src/monad-transformers/conveniences.md:11
+#, fuzzy
+msgid "The pipeline `E1 |> E2` is short for `E2 E1`. For example, evaluating:"
+msgstr "管道 `E1 |> E2` 是 `E2 E1` 的简写。例如，求值："
+
+#: src/monad-transformers/conveniences.md:17
+msgid ""
+"```output info\n"
+"\"(some 5)\"\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/conveniences.md:20
+#, fuzzy
+msgid ""
+"While this change of emphasis can make some programs more convenient to "
+"read, pipelines really come into their own when they contain many "
+"components."
+msgstr "虽然这种重点的改变可以让一些程序更易于阅读，但当管道包含许多组件时，它们才真正发挥作用。"
+
+#: src/monad-transformers/conveniences.md:22
+#, fuzzy
+msgid "With the definition:"
+msgstr "有了定义："
+
+#: src/monad-transformers/conveniences.md:26
+#, fuzzy
+msgid "the following pipeline:"
+msgstr "以下管道："
+
+#: src/monad-transformers/conveniences.md:27
+msgid ""
+"```lean\n"
+"#eval 5 |> times3 |> toString |> (\"It is \" ++ ·)\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/conveniences.md:30
+#, fuzzy
+msgid "yields:"
+msgstr "产生："
+
+#: src/monad-transformers/conveniences.md:31
+msgid ""
+"```output info\n"
+"\"It is 15\"\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/conveniences.md:34
+#, fuzzy
+msgid ""
+"More generally, a series of pipelines `E1 |> E2 |> E3 |> E4` is short for "
+"nested function applications `E4 (E3 (E2 E1))`."
+msgstr "更一般地，一系列管道 `E1 |> E2 |> E3 |> E4` 是嵌套函数应用 `E4 (E3 (E2 E1))` 的简写。"
+
+#: src/monad-transformers/conveniences.md:36
+#, fuzzy
+msgid ""
+"Pipelines may also be written in reverse. In this case, they do not place "
+"the subject of data transformation first; however, in cases where many "
+"nested parentheses pose a challenge for readers, they can clarify the steps "
+"of application. The prior example could be equivalently written as:"
+msgstr ""
+"管道也可以反向编写。在这种情况下，它们不会首先放置数据转换的主体；然而，在许多嵌套括号对读者构成挑战的情况下，它们可以阐明应用步骤。前面的示例可以等效地写成："
+
+#: src/monad-transformers/conveniences.md:39
+msgid ""
+"```lean\n"
+"#eval (\"It is \" ++ ·) <| toString <| times3 <| 5\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/conveniences.md:42
+#, fuzzy
+msgid "which is short for:"
+msgstr "这是："
+
+#: src/monad-transformers/conveniences.md:43
+msgid ""
+"```lean\n"
+"#eval (\"It is \" ++ ·) (toString (times3 5))\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/conveniences.md:47
+#, fuzzy
+msgid ""
+"Lean's method dot notation that uses the name of the type before the dot to "
+"resolve the namespace of the operator after the dot serves a similar purpose"
+" to pipelines. Even without the pipeline operator, it is possible to write "
+"`[1, 2, 3].reverse` instead of `List.reverse [1, 2, 3]`. However, the "
+"pipeline operator is also useful for dotted functions when using many of "
+"them. `([1, 2, 3].reverse.drop 1).reverse` can also be written as `[1, 2, 3]"
+" |> List.reverse |> List.drop 1 |> List.reverse`. This version avoids having"
+" to parenthesize expressions simply because they accept arguments, and it "
+"recovers the convenience of a chain of method calls in languages like Kotlin"
+" or C#. However, it still requires the namespace to be provided by hand. As "
+"a final convenience, Lean provides the \"pipeline dot\" operator, which "
+"groups functions like the pipeline but uses the name of the type to resolve "
+"namespaces. With \"pipeline dot\", the example can be rewritten to `[1, 2, "
+"3] |>.reverse |>.drop 1 |>.reverse`."
+msgstr ""
+"Lean 的方法点表示法在点之前使用类型名称来解析点之后运算符的命名空间，它与管道有类似的目的。即使没有管道运算符，也可以编写 `[1, 2, "
+"3].reverse` 而不是 `List.reverse [1, 2, 3]`. 但是，当使用许多点函数时，管道运算符也很有用。`([1, 2, "
+"3].reverse.drop 1).reverse` 也可以写成 `[1, 2, 3] |> List.reverse |> List.drop 1 "
+"|> List.reverse`. 此版本避免了对表达式进行括号化，仅仅因为它们接受参数，并且它恢复了像 Kotlin 或 C# "
+"这样的语言中方法调用链的便利性。但是，它仍然需要手动提供命名空间。作为最后的便利，Lean "
+"提供了“管道点”运算符，它像管道一样对函数进行分组，但使用类型名称来解析命名空间。使用“管道点”，该示例可以重写为 `[1, 2, 3] "
+"|>.reverse |>.drop 1 |>.reverse`."
+
+#: src/monad-transformers/conveniences.md:56
+#, fuzzy
+msgid "Infinite Loops"
+msgstr "无限循环"
+
+#: src/monad-transformers/conveniences.md:58
+#, fuzzy
+msgid ""
+"Within a `do`\\-block, the `repeat` keyword introduces an infinite loop. For"
+" example, a program that spams the string `\"Spam!\"` can use it:"
+msgstr "在 `do` 块中，`repeat` 关键字引入了一个无限循环。例如，一个发送字符串 `\"Spam!\"` 的程序可以使用它："
+
+#: src/monad-transformers/conveniences.md:60
+msgid ""
+"```lean\n"
+"def spam : IO Unit := do\n"
+"  repeat IO.println \"Spam!\"\n"
+"```"
+msgstr ""
+
+#: src/monad-transformers/conveniences.md:64
+#, fuzzy
+msgid ""
+"A `repeat` loop supports `break` and `continue`, just like `for` loops."
+msgstr "`repeat` 循环支持 `break` 和 `continue`，就像 `for` 循环一样。"
+
+#: src/monad-transformers/conveniences.md:66
+#, fuzzy
+msgid ""
+"The `dump` function from the [implementation of `feline`](../hello-"
+"world/cat.md#streams) uses a recursive function to run forever:"
+msgstr "[实现 `feline`](../hello-world/cat.md#streams) 中的 `dump` 函数使用递归函数无限运行："
+
+#: src/monad-transformers/conveniences.md:77
+#, fuzzy
+msgid "This function can be greatly shortened using `repeat`:"
+msgstr "可以使用 `repeat` 大大缩短此函数："
+
+#: src/monad-transformers/conveniences.md:87
+#, fuzzy
+msgid ""
+"Neither `spam` nor `dump` need to be declared as `partial` because they are "
+"not themselves infinitely recursive. Instead, `repeat` makes use of a type "
+"whose `ForM` instance is `partial`. Partiality does not \"infect\" calling "
+"functions."
+msgstr ""
+"`spam` 和 `dump` 都无需声明为 `partial`，因为它们本身不是无限递归的。相反，`repeat` 使用了一个 `ForM` 实例为 "
+"`partial` 的类型。偏函数性不会“感染”调用函数。"
+
+#: src/monad-transformers/conveniences.md:91
+#, fuzzy
+msgid "While Loops"
+msgstr "while 循环"
+
+#: src/monad-transformers/conveniences.md:93
+#, fuzzy
+msgid ""
+"When programming with local mutability, `while` loops can be a convenient "
+"alternative to `repeat` with an `if`\\-guarded `break`:"
+msgstr "在使用局部可变性编程时，`while` 循环可以作为带有 `if` 保护的 `break` 的 `repeat` 的便捷替代："
+
+#: src/monad-transformers/conveniences.md:102
+#, fuzzy
+msgid "Behind the scenes, `while` is just a simpler notation for `repeat`."
+msgstr "在幕后，`while` 只是 `repeat` 的一种更简单的表示法。"

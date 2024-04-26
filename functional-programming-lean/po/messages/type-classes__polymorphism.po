@@ -1,0 +1,276 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Functional Programming in Lean\n"
+"POT-Creation-Date: 2024-04-18T15:02:27+08:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: src/type-classes/polymorphism.md:3
+#, fuzzy
+msgid ""
+"It can be useful to write functions that work for _any_ overloading of a "
+"given function. For instance, `IO.println` works for any type that has an "
+"instance of `ToString`. This is indicated using square brackets around the "
+"required instance: the type of `IO.println` is `{α : Type} → [ToString α] → "
+"α → IO Unit`. This type says that `IO.println` accepts an argument of type "
+"`α`, which Lean should determine automatically, and that there must be a "
+"`ToString` instance available for `α`. It returns an `IO` action."
+msgstr ""
+"编写适用于给定函数的 _任何_ 重载的函数可能很有用。例如，`IO.println` 适用于具有 `ToString` "
+"实例的任何类型。这使用方括号表示所需的实例：`IO.println` 的类型是 `{α : Type} → [ToString α] → α → IO "
+"Unit`。此类型表示 `IO.println` 接受类型为 `α` 的参数，Lean 应自动确定该参数，并且必须为 `α` 提供 `ToString`"
+" 实例。它返回一个 `IO` 操作。"
+
+#: src/type-classes/polymorphism.md:10
+#, fuzzy
+msgid "Checking Polymorphic Functions' Types"
+msgstr "检查多态函数的类型"
+
+#: src/type-classes/polymorphism.md:12
+#, fuzzy
+msgid ""
+"Checking the type of a function that takes implicit arguments or uses type "
+"classes requires the use of some additional syntax. Simply writing"
+msgstr "检查采用隐式参数或使用类型类的函数的类型需要使用一些附加语法。只需编写"
+
+#: src/type-classes/polymorphism.md:17
+#, fuzzy
+msgid "yields a type with metavariables:"
+msgstr "就会产生带有元变量的类型："
+
+#: src/type-classes/polymorphism.md:21
+#, fuzzy
+msgid ""
+"This is because Lean does its best to discover implicit arguments, and the "
+"presence of metavariables indicates that it did not yet discover enough type"
+" information to do so. To understand the signature of a function, this "
+"feature can be suppressed with an at-sign (`@`) before the function's name:"
+msgstr ""
+"这是因为 Lean 尽力发现隐式参数，而元变量的存在表示它尚未发现足够的信息来这样做。为了理解函数的签名，可以在函数名称前使用 at 符号 (`@`) "
+"来抑制此功能："
+
+#: src/type-classes/polymorphism.md:29
+#, fuzzy
+msgid ""
+"In this output, the instance itself has been given the name `inst`. "
+"Additionally, there is a `u_1` after `Type`, which uses a feature of Lean "
+"that has not yet been introduced. For now, ignore these parameters to "
+"`Type`."
+msgstr ""
+"在该输出中，实例本身被赋予了名称 `inst`。此外，`Type` 后面有一个 `u_1`，它使用了 Lean 中尚未介绍的一个特性。现在，忽略 "
+"`Type` 的这些参数。"
+
+#: src/type-classes/polymorphism.md:33
+#, fuzzy
+msgid "Defining Polymorphic Functions with Instance Implicits"
+msgstr "使用实例隐含参数定义多态函数"
+
+#: src/type-classes/polymorphism.md:35
+#, fuzzy
+msgid ""
+"A function that sums all entries in a list needs two instances: `Add` allows"
+" the entries to be added, and an `OfNat` instance for `0` provides a "
+"sensible value to return for the empty list:"
+msgstr "求和列表中所有项的函数需要两个实例：`Add` 允许对项进行求和，`OfNat` 实例为 `0` 提供了一个合理的返回值，用于空列表："
+
+#: src/type-classes/polymorphism.md:41
+#, fuzzy
+msgid "This function can be used for a list of `Nat`s:"
+msgstr "此函数可用于 `Nat` 列表："
+
+#: src/type-classes/polymorphism.md:50
+#, fuzzy
+msgid "but not for a list of `Pos` numbers:"
+msgstr "但不能用于 `Pos` 数字列表："
+
+#: src/type-classes/polymorphism.md:61
+#, fuzzy
+msgid ""
+"Specifications of required instances in square brackets are called _instance"
+" implicits_. Behind the scenes, every type class defines a structure that "
+"has a field for each overloaded operation. Instances are values of that "
+"structure type, with each field containing an implementation. At a call "
+"site, Lean is responsible for finding an instance value to pass for each "
+"instance implicit argument. The most important difference between ordinary "
+"implicit arguments and instance implicits is the strategy that Lean uses to "
+"find an argument value. In the case of ordinary implicit arguments, Lean "
+"uses a technique called _unification_ to find a single unique argument value"
+" that would allow the program to pass the type checker. This process relies "
+"only on the specific types involved in the function's definition and the "
+"call site. For instance implicits, Lean instead consults a built-in table of"
+" instance values."
+msgstr ""
+"方括号中所需实例的规范称为 "
+"_实例隐含参数_。在幕后，每个类型类都定义了一个结构，该结构为每个重载操作都有一个字段。实例是该结构类型的值，每个字段都包含一个实现。在调用站点，Lean"
+" 负责查找一个实例值来传递给每个实例隐含参数。普通隐含参数和实例隐含参数之间最重要的区别是 Lean 用于查找参数值的方法。对于普通隐含参数，Lean "
+"使用称为 _统一_ "
+"的技术来查找一个唯一的参数值，该值允许程序通过类型检查器。此过程仅依赖于函数定义和调用站点中涉及的特定类型。对于实例隐含参数，Lean "
+"则查阅内置的实例值表。"
+
+#: src/type-classes/polymorphism.md:70
+#, fuzzy
+msgid ""
+"Just as the `OfNat` instance for `Pos` took a natural number `n` as an "
+"automatic implicit argument, instances may also take instance implicit "
+"arguments themselves. The [section on polymorphism](../getting-to-"
+"know/polymorphism.md) presented a polymorphic point type:"
+msgstr ""
+"就像 `Pos` 的 `OfNat` 实例将自然数 `n` 作为自动隐含参数一样，实例本身也可以采用实例隐含参数。[多态性部分](../getting-"
+"to-know/polymorphism.md) 介绍了一个多态点类型："
+
+#: src/type-classes/polymorphism.md:78
+#, fuzzy
+msgid ""
+"Addition of points should add the underlying `x` and `y` fields. Thus, an "
+"`Add` instance for `PPoint` requires an `Add` instance for whatever type "
+"these fields have. In other words, the `Add` instance for `PPoint` requires "
+"a further `Add` instance for `α`:"
+msgstr ""
+"点相加应相加底层 `x` 和 `y` 字段。因此，`PPoint` 的 `Add` 实例需要这些字段的类型所对应的 `Add` "
+"实例。换句话说，`PPoint` 的 `Add` 实例需要 `α` 的 `Add` 实例："
+
+#: src/type-classes/polymorphism.md:85
+#, fuzzy
+msgid ""
+"When Lean encounters an addition of two points, it searches for and finds "
+"this instance. It then performs a further search for the `Add α` instance."
+msgstr "当 Lean 遇到两个点的相加时，它会搜索并找到此实例。然后，它会进一步搜索 `Add α` 实例。"
+
+#: src/type-classes/polymorphism.md:88
+#, fuzzy
+msgid ""
+"The instance values that are constructed in this way are values of the type "
+"class's structure type. A successful recursive instance search results in a "
+"structure value that has a reference to another structure value. An instance"
+" of `Add (PPoint Nat)` contains a reference to the instance of `Add Nat` "
+"that was found."
+msgstr ""
+"通过这种方式构造的实例值是类型类结构类型的值。成功的递归实例搜索会产生一个引用另一个结构值的结构值。`Add (PPoint Nat)` "
+"的实例包含对找到的 `Add Nat` 实例的引用。"
+
+#: src/type-classes/polymorphism.md:92
+#, fuzzy
+msgid ""
+"This recursive search process means that type classes offer significantly "
+"more power than plain overloaded functions. A library of polymorphic "
+"instances is a set of code building blocks that the compiler will assemble "
+"on its own, given nothing but the desired type. Polymorphic functions that "
+"take instance arguments are latent requests to the type class mechanism to "
+"assemble helper functions behind the scenes. The API's clients are freed "
+"from the burden of plumbing together all of the necessary parts by hand."
+msgstr ""
+"这种递归搜索过程意味着类型类比普通重载函数提供了更大的功能。多态实例库是一组代码构建块，编译器将根据所需类型自行组装这些代码构建块。接受实例参数的多态函数是对类型类机制的潜在请求，要求其在幕后组装辅助函数。API"
+" 的客户端无需手动组装所有必需的部分。"
+
+#: src/type-classes/polymorphism.md:98
+#, fuzzy
+msgid "Methods and Implicit Arguments"
+msgstr "方法和隐式参数"
+
+#: src/type-classes/polymorphism.md:101
+#, fuzzy
+msgid ""
+"The type of `@OfNat.ofNat` may be surprising. It is `{α : Type} → (n : Nat) "
+"→ [OfNat α n] → α`, in which the `Nat` argument `n` occurs as an explicit "
+"function argument. In the declaration of the method, however, `ofNat` simply"
+" has type `α`. This seeming discrepancy is because declaring a type class "
+"really results in the following:"
+msgstr ""
+"`@OfNat.ofNat` 的类型可能令人惊讶。它是 `{α : Type} → (n : Nat) → [OfNat α n] → α`，其中 "
+"`Nat` 参数 `n` 作为显式函数参数出现。然而，在方法的声明中，`ofNat` 的类型只是 "
+"`α`。这种表面的差异是因为声明类型类实际上会产生以下结果："
+
+#: src/type-classes/polymorphism.md:106
+#, fuzzy
+msgid ""
+"A structure type to contain the implementation of each overloaded operation"
+msgstr "结构类型包含每个重载操作的实现"
+
+#: src/type-classes/polymorphism.md:107
+#, fuzzy
+msgid "A namespace with the same name as the class"
+msgstr "与类同名的命名空间"
+
+#: src/type-classes/polymorphism.md:108
+#, fuzzy
+msgid ""
+"For each method, a function in the class's namespace that retrieves its "
+"implementation from an instance"
+msgstr "对于每个方法，类命名空间中的一个函数从实例中检索其实现"
+
+#: src/type-classes/polymorphism.md:110
+#, fuzzy
+msgid ""
+"This is analogous to the way that declaring a new structure also declares "
+"accessor functions. The primary difference is that a structure's accessors "
+"take the structure value as an explicit argument, while the type class "
+"methods take the instance value as an instance implicit to be found "
+"automatically by Lean."
+msgstr ""
+"这类似于声明新结构也会声明访问器函数的方式。主要区别在于，结构的访问器将结构值作为显式参数，而类型类方法将实例值作为 Lean 自动找到的实例隐式参数。"
+
+#: src/type-classes/polymorphism.md:113
+#, fuzzy
+msgid ""
+"In order for Lean to find an instance, its arguments must be available. This"
+" means that each argument to the type class must be an argument to the "
+"method that occurs before the instance. It is most convenient when these "
+"arguments are implicit, because Lean does the work of discovering their "
+"values. For example, `@Add.add` has the type `{α : Type} → [Add α] → α → α →"
+" α`. In this case, the type argument `α` can be implicit because the "
+"arguments to `Add.add` provide information about which type the user "
+"intended. This type can then be used to search for the `Add` instance."
+msgstr ""
+"为了让 Lean 找到实例，其参数必须可用。这意味着类型类的每个参数都必须是实例之前的方法的参数。当这些参数是隐式的时最方便，因为 Lean "
+"会发现它们的值。例如，`@Add.add` 的类型为 `{α : Type} → [Add α] → α → α → α`。在这种情况下，类型参数 "
+"`α` 可以是隐式的，因为 `Add.add` 的参数提供了有关用户意图类型的的信息。然后可以使用此类型搜索 `Add` 实例。"
+
+#: src/type-classes/polymorphism.md:120
+#, fuzzy
+msgid ""
+"In the case of `ofNat`, however, the particular `Nat` literal to be decoded "
+"does not appear as part of any other argument. This means that Lean would "
+"have no information to use when attempting to figure out the implicit "
+"argument `n`. The result would be a very inconvenient API. Thus, in these "
+"cases, Lean uses an explicit argument for the class's method."
+msgstr ""
+"然而，在 `ofNat` 的情况下，要解码的特定 `Nat` 文字不会作为任何其他参数的一部分出现。这意味着 Lean 在尝试找出隐式参数 `n` "
+"时没有任何信息可以使用。结果将是一个非常不方便的 API。因此，在这些情况下，Lean 为类的函数使用显式参数。"
+
+#: src/type-classes/polymorphism.md:129
+#, fuzzy
+msgid "Even Number Literals"
+msgstr "偶数文字"
+
+#: src/type-classes/polymorphism.md:131
+#, fuzzy
+msgid ""
+"Write an instance of `OfNat` for the even number datatype from the [previous"
+" section's exercises](pos.md#even-numbers) that uses recursive instance "
+"search. For the base instance, it is necessary to write `OfNat Even "
+"Nat.zero` instead of `OfNat Even 0`."
+msgstr ""
+"为 [上一节练习](pos.md#even-numbers) 中的偶数数据类型编写 `OfNat` "
+"实例，该实例使用递归实例搜索。对于基本实例，有必要编写 `OfNat Even Nat.zero` 而不是 `OfNat Even 0`。"
+
+#: src/type-classes/polymorphism.md:134
+#, fuzzy
+msgid "Recursive Instance Search Depth"
+msgstr "递归实例搜索深度"
+
+#: src/type-classes/polymorphism.md:136
+#, fuzzy
+msgid ""
+"There is a limit to how many times the Lean compiler will attempt a "
+"recursive instance search. This places a limit on the size of even number "
+"literals defined in the previous exercise. Experimentally determine what the"
+" limit is."
+msgstr "Lean 编译器尝试递归实例搜索的次数有限制。这限制了前一个练习中定义的偶数文字的大小。通过实验确定限制是什么。"
