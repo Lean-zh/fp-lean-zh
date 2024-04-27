@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Structures - Functional Programming in Lean</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../custom.css">
+        <link rel="stylesheet" href="../pygments.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../title.html">Functional Programming in Lean</a></li><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../acknowledgments.html">Acknowledgments</a></li><li class="chapter-item expanded "><a href="../getting-to-know.html"><strong aria-hidden="true">1.</strong> Getting to Know Lean</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-to-know/evaluating.html"><strong aria-hidden="true">1.1.</strong> Evaluating Expressions</a></li><li class="chapter-item expanded "><a href="../getting-to-know/types.html"><strong aria-hidden="true">1.2.</strong> Types</a></li><li class="chapter-item expanded "><a href="../getting-to-know/functions-and-definitions.html"><strong aria-hidden="true">1.3.</strong> Functions and Definitions</a></li><li class="chapter-item expanded "><a href="../getting-to-know/structures.html" class="active"><strong aria-hidden="true">1.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="../getting-to-know/datatypes-and-patterns.html"><strong aria-hidden="true">1.5.</strong> Datatypes, Patterns and Recursion</a></li><li class="chapter-item expanded "><a href="../getting-to-know/polymorphism.html"><strong aria-hidden="true">1.6.</strong> Polymorphism</a></li><li class="chapter-item expanded "><a href="../getting-to-know/conveniences.html"><strong aria-hidden="true">1.7.</strong> Additional Conveniences</a></li><li class="chapter-item expanded "><a href="../getting-to-know/summary.html"><strong aria-hidden="true">1.8.</strong> Summary</a></li></ol></li><li class="chapter-item expanded "><a href="../hello-world.html"><strong aria-hidden="true">2.</strong> Hello, World!</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../hello-world/running-a-program.html"><strong aria-hidden="true">2.1.</strong> Running a Program</a></li><li class="chapter-item expanded "><a href="../hello-world/step-by-step.html"><strong aria-hidden="true">2.2.</strong> Step By Step</a></li><li class="chapter-item expanded "><a href="../hello-world/starting-a-project.html"><strong aria-hidden="true">2.3.</strong> Starting a Project</a></li><li class="chapter-item expanded "><a href="../hello-world/cat.html"><strong aria-hidden="true">2.4.</strong> Worked Example: cat</a></li><li class="chapter-item expanded "><a href="../hello-world/conveniences.html"><strong aria-hidden="true">2.5.</strong> Additional Conveniences</a></li><li class="chapter-item expanded "><a href="../hello-world/summary.html"><strong aria-hidden="true">2.6.</strong> Summary</a></li></ol></li><li class="chapter-item expanded "><a href="../props-proofs-indexing.html"><strong aria-hidden="true">3.</strong> Interlude: Propositions, Proofs, and Indexing</a></li><li class="chapter-item expanded "><a href="../type-classes.html"><strong aria-hidden="true">4.</strong> Overloading and Type Classes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../type-classes/pos.html"><strong aria-hidden="true">4.1.</strong> Positive Numbers</a></li><li class="chapter-item expanded "><a href="../type-classes/polymorphism.html"><strong aria-hidden="true">4.2.</strong> Type Classes and Polymorphism</a></li><li class="chapter-item expanded "><a href="../type-classes/out-params.html"><strong aria-hidden="true">4.3.</strong> Controlling Instance Search</a></li><li class="chapter-item expanded "><a href="../type-classes/indexing.html"><strong aria-hidden="true">4.4.</strong> Arrays and Indexing</a></li><li class="chapter-item expanded "><a href="../type-classes/standard-classes.html"><strong aria-hidden="true">4.5.</strong> Standard Classes</a></li><li class="chapter-item expanded "><a href="../type-classes/coercion.html"><strong aria-hidden="true">4.6.</strong> Coercions</a></li><li class="chapter-item expanded "><a href="../type-classes/conveniences.html"><strong aria-hidden="true">4.7.</strong> Additional Conveniences</a></li><li class="chapter-item expanded "><a href="../type-classes/summary.html"><strong aria-hidden="true">4.8.</strong> Summary</a></li></ol></li><li class="chapter-item expanded "><a href="../monads.html"><strong aria-hidden="true">5.</strong> Monads</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../monads/class.html"><strong aria-hidden="true">5.1.</strong> The Monad Type Class</a></li><li class="chapter-item expanded "><a href="../monads/arithmetic.html"><strong aria-hidden="true">5.2.</strong> Example: Arithmetic in Monads</a></li><li class="chapter-item expanded "><a href="../monads/do.html"><strong aria-hidden="true">5.3.</strong> do-Notation for Monads</a></li><li class="chapter-item expanded "><a href="../monads/io.html"><strong aria-hidden="true">5.4.</strong> The IO Monad</a></li><li class="chapter-item expanded "><a href="../monads/conveniences.html"><strong aria-hidden="true">5.5.</strong> Additional Conveniences</a></li><li class="chapter-item expanded "><a href="../monads/summary.html"><strong aria-hidden="true">5.6.</strong> Summary</a></li></ol></li><li class="chapter-item expanded "><a href="../functor-applicative-monad.html"><strong aria-hidden="true">6.</strong> Functors, Applicative Functors, and Monads</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../functor-applicative-monad/inheritance.html"><strong aria-hidden="true">6.1.</strong> Structures and Inheritance</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/applicative.html"><strong aria-hidden="true">6.2.</strong> Applicative Functors</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/applicative-contract.html"><strong aria-hidden="true">6.3.</strong> The Applicative Contract</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/alternative.html"><strong aria-hidden="true">6.4.</strong> Alternatives</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/universes.html"><strong aria-hidden="true">6.5.</strong> Universes</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/complete.html"><strong aria-hidden="true">6.6.</strong> The Complete Definitions</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/summary.html"><strong aria-hidden="true">6.7.</strong> Summary</a></li></ol></li><li class="chapter-item expanded "><a href="../monad-transformers.html"><strong aria-hidden="true">7.</strong> Monad Transformers</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../monad-transformers/reader-io.html"><strong aria-hidden="true">7.1.</strong> Combining IO and Reader</a></li><li class="chapter-item expanded "><a href="../monad-transformers/transformers.html"><strong aria-hidden="true">7.2.</strong> A Monad Construction Kit</a></li><li class="chapter-item expanded "><a href="../monad-transformers/order.html"><strong aria-hidden="true">7.3.</strong> Ordering Monad Transformers</a></li><li class="chapter-item expanded "><a href="../monad-transformers/do.html"><strong aria-hidden="true">7.4.</strong> More do Features</a></li><li class="chapter-item expanded "><a href="../monad-transformers/conveniences.html"><strong aria-hidden="true">7.5.</strong> Additional Conveniences</a></li><li class="chapter-item expanded "><a href="../monad-transformers/summary.html"><strong aria-hidden="true">7.6.</strong> Summary</a></li></ol></li><li class="chapter-item expanded "><a href="../dependent-types.html"><strong aria-hidden="true">8.</strong> Programming with Dependent Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../dependent-types/indexed-families.html"><strong aria-hidden="true">8.1.</strong> Indexed Families</a></li><li class="chapter-item expanded "><a href="../dependent-types/universe-pattern.html"><strong aria-hidden="true">8.2.</strong> The Universe Design Pattern</a></li><li class="chapter-item expanded "><a href="../dependent-types/typed-queries.html"><strong aria-hidden="true">8.3.</strong> Worked Example: Typed Queries</a></li><li class="chapter-item expanded "><a href="../dependent-types/indices-parameters-universes.html"><strong aria-hidden="true">8.4.</strong> Indices, Parameters, and Universe Levels</a></li><li class="chapter-item expanded "><a href="../dependent-types/pitfalls.html"><strong aria-hidden="true">8.5.</strong> Pitfalls of Programming with Dependent Types</a></li><li class="chapter-item expanded "><a href="../dependent-types/summary.html"><strong aria-hidden="true">8.6.</strong> Summary</a></li></ol></li><li class="chapter-item expanded "><a href="../tactics-induction-proofs.html"><strong aria-hidden="true">9.</strong> Interlude: Tactics, Induction, and Proofs</a></li><li class="chapter-item expanded "><a href="../programs-proofs.html"><strong aria-hidden="true">10.</strong> Programming, Proving, and Performance</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs-proofs/tail-recursion.html"><strong aria-hidden="true">10.1.</strong> Tail Recursion</a></li><li class="chapter-item expanded "><a href="../programs-proofs/tail-recursion-proofs.html"><strong aria-hidden="true">10.2.</strong> Proving Equivalence</a></li><li class="chapter-item expanded "><a href="../programs-proofs/arrays-termination.html"><strong aria-hidden="true">10.3.</strong> Arrays and Termination</a></li><li class="chapter-item expanded "><a href="../programs-proofs/inequalities.html"><strong aria-hidden="true">10.4.</strong> More Inequalities</a></li><li class="chapter-item expanded "><a href="../programs-proofs/fin.html"><strong aria-hidden="true">10.5.</strong> Safe Array Indices</a></li><li class="chapter-item expanded "><a href="../programs-proofs/insertion-sort.html"><strong aria-hidden="true">10.6.</strong> Insertion Sort and Array Mutation</a></li><li class="chapter-item expanded "><a href="../programs-proofs/special-types.html"><strong aria-hidden="true">10.7.</strong> Special Types</a></li><li class="chapter-item expanded "><a href="../programs-proofs/summary.html"><strong aria-hidden="true">10.8.</strong> Summary</a></li></ol></li><li class="chapter-item expanded "><a href="../next-steps.html">Next Steps</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Functional Programming in Lean</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="structures"><a class="header" href="#structures">Structures</a></h1>
+<p>The first step in writing a program is usually to identify the problem domain's concepts, and then find suitable representations for them in code.
+Sometimes, a domain concept is a collection of other, simpler, concepts.
+In that case, it can be convenient to group these simpler components together into a single &quot;package&quot;, which can then be given a meaningful name.
+In Lean, this is done using <em>structures</em>, which are analogous to <code>struct</code>s in C or Rust and <code>record</code>s in C#.</p>
+<p>Defining a structure introduces a completely new type to Lean that can't be reduced to any other type.
+This is useful because multiple structures might represent different concepts that nonetheless contain the same data.
+For instance, a point might be represented using either Cartesian or polar coordinates, each being a pair of floating-point numbers.
+Defining separate structures prevents API clients from confusing one for another.</p>
+<p>Lean's floating-point number type is called <code>Float</code>, and floating-point numbers are written in the usual notation.</p>
+<pre><code class="language-lean">#check 1.2
+</code></pre>
+<pre><code class="language-output info">1.2 : Float
+</code></pre>
+<pre><code class="language-lean">#check -454.2123215
+</code></pre>
+<pre><code class="language-output info">-454.2123215 : Float
+</code></pre>
+<pre><code class="language-lean">#check 0.0
+</code></pre>
+<pre><code class="language-output info">0.0 : Float
+</code></pre>
+<p>When floating point numbers are written with the decimal point, Lean will infer the type <code>Float</code>. If they are written without it, then a type annotation may be necessary.</p>
+<pre><code class="language-lean">#check 0
+</code></pre>
+<pre><code class="language-output info">0 : Nat
+</code></pre>
+<pre><code class="language-lean">#check (0 : Float)
+</code></pre>
+<pre><code class="language-output info">0 : Float
+</code></pre>
+<p>A Cartesian point is a structure with two <code>Float</code> fields, called <code>x</code> and <code>y</code>.
+This is declared using the <code>structure</code> keyword.</p>
+<pre><code class="language-lean">structure Point where
+  x : Float
+  y : Float
+deriving Repr
+</code></pre>
+<p>After this declaration, <code>Point</code> is a new structure type.
+The final line, which says <code>deriving Repr</code>, asks Lean to generate code to display values of type <code>Point</code>.
+This code is used by <code>#eval</code> to render the result of evaluation for consumption by programmers, analogous to the <code>repr</code> function in Python.
+It is also possible to override the compiler's generated display code.</p>
+<p>The typical way to create a value of a structure type is to provide values for all of its fields inside of curly braces.
+The origin of a Cartesian plane is where <code>x</code> and <code>y</code> are both zero:</p>
+<pre><code class="language-lean">def origin : Point := { x := 0.0, y := 0.0 }
+</code></pre>
+<p>If the <code>deriving Repr</code> line in <code>Point</code>'s definition were omitted, then attempting <code>#eval origin</code> would yield an error similar to that which occurs when omitting a function's argument:</p>
+<pre><code class="language-output error">expression
+  origin
+has type
+  Point
+but instance
+  Lean.MetaEval Point
+failed to be synthesized, this instance instructs Lean on how to display the resulting value, recall that any type implementing the `Repr` class also implements the `Lean.MetaEval` class
+</code></pre>
+<p>That message is saying that the evaluation machinery doesn't know how to communicate the result of evaluation back to the user.</p>
+<p>Happily, with <code>deriving Repr</code>, the result of <code>#eval origin</code> looks very much like the definition of <code>origin</code>.</p>
+<pre><code class="language-output info">{ x := 0.000000, y := 0.000000 }
+</code></pre>
+<p>Because structures exist to &quot;bundle up&quot; a collection of data, naming it and treating it as a single unit, it is also important to be able to extract the individual fields of a structure.
+This is done using dot notation, as in C, Python, or Rust.</p>
+<pre><code class="language-lean">#eval origin.x
+</code></pre>
+<pre><code class="language-output info">0.000000
+</code></pre>
+<pre><code class="language-lean">#eval origin.y
+</code></pre>
+<pre><code class="language-output info">0.000000
+</code></pre>
+<p>This can be used to define functions that take structures as arguments.
+For instance, addition of points is performed by adding the underlying coordinate values.
+It should be the case that <code>#eval addPoints { x := 1.5, y := 32 } { x := -8, y := 0.2 }</code> yields</p>
+<pre><code class="language-output info">{ x := -6.500000, y := 32.200000 }
+</code></pre>
+<p>The function itself takes two <code>Points</code> as arguments, called <code>p1</code> and <code>p2</code>.
+The resulting point is based on the <code>x</code> and <code>y</code> fields of both <code>p1</code> and <code>p2</code>:</p>
+<pre><code class="language-lean">def addPoints (p1 : Point) (p2 : Point) : Point :=
+  { x := p1.x + p2.x, y := p1.y + p2.y }
+</code></pre>
+<p>Similarly, the distance between two points, which is the square root of the sum of the squares of the differences in their <code>x</code> and <code>y</code> components, can be written:</p>
+<pre><code class="language-lean">def distance (p1 : Point) (p2 : Point) : Float :=
+  Float.sqrt (((p2.x - p1.x) ^ 2.0) + ((p2.y - p1.y) ^ 2.0))
+</code></pre>
+<p>For example, the distance between (1, 2) and (5, -1) is 5:</p>
+<pre><code class="language-lean">#eval distance { x := 1.0, y := 2.0 } { x := 5.0, y := -1.0 }
+</code></pre>
+<pre><code class="language-output info">5.000000
+</code></pre>
+<p>Multiple structures may have fields with the same names.
+For instance, a three-dimensional point datatype may share the fields <code>x</code> and <code>y</code>, and be instantiated with the same field names:</p>
+<pre><code class="language-lean">structure Point3D where
+  x : Float
+  y : Float
+  z : Float
+deriving Repr
+
+def origin3D : Point3D := { x := 0.0, y := 0.0, z := 0.0 }
+</code></pre>
+<p>This means that the structure's expected type must be known in order to use the curly-brace syntax.
+If the type is not known, Lean will not be able to instantiate the structure.
+For instance,</p>
+<pre><code class="language-lean">#check { x := 0.0, y := 0.0 }
+</code></pre>
+<p>leads to the error</p>
+<pre><code class="language-output error">invalid {...} notation, expected type is not known
+</code></pre>
+<p>As usual, the situation can be remedied by providing a type annotation.</p>
+<pre><code class="language-lean">#check ({ x := 0.0, y := 0.0 } : Point)
+</code></pre>
+<pre><code class="language-output info">{ x := 0.0, y := 0.0 } : Point
+</code></pre>
+<p>To make programs more concise, Lean also allows the structure type annotation inside the curly braces.</p>
+<pre><code class="language-lean">#check { x := 0.0, y := 0.0 : Point}
+</code></pre>
+<pre><code class="language-output info">{ x := 0.0, y := 0.0 } : Point
+</code></pre>
+<h2 id="updating-structures"><a class="header" href="#updating-structures">Updating Structures</a></h2>
+<p>Imagine a function <code>zeroX</code> that replaces the <code>x</code> field of a <code>Point</code> with <code>0.0</code>.
+In most programming language communities, this sentence would mean that the memory location pointed to by <code>x</code> was to be overwritten with a new value.
+However, Lean does not have mutable state.
+In functional programming communities, what is almost always meant by this kind of statement is that a fresh <code>Point</code> is allocated with the <code>x</code> field pointing to the new value, and all other fields pointing to the original values from the input.
+One way to write <code>zeroX</code> is to follow this description literally, filling out the new value for <code>x</code> and manually transferring <code>y</code>:</p>
+<pre><code class="language-lean">def zeroX (p : Point) : Point :=
+  { x := 0, y := p.y }
+</code></pre>
+<p>This style of programming has drawbacks, however.
+First off, if a new field is added to a structure, then every site that updates any field at all must be updated, causing maintenance difficulties.
+Secondly, if the structure contains multiple fields with the same type, then there is a real risk of copy-paste coding leading to field contents being duplicated or switched.
+Finally, the program becomes long and bureaucratic.</p>
+<p>Lean provides a convenient syntax for replacing some fields in a structure while leaving the others alone.
+This is done by using the <code>with</code> keyword in a structure initialization.
+The source of unchanged fields occurs before the <code>with</code>, and the new fields occur after.
+For instance, <code>zeroX</code> can be written with only the new <code>x</code> value:</p>
+<pre><code class="language-lean">def zeroX (p : Point) : Point :=
+  { p with x := 0 }
+</code></pre>
+<p>Remember that this structure update syntax does not modify existing values—it creates new values that share some fields with old values.
+For instance, given the point <code>fourAndThree</code>:</p>
+<pre><code class="language-lean">def fourAndThree : Point :=
+  { x := 4.3, y := 3.4 }
+</code></pre>
+<p>evaluating it, then evaluating an update of it using <code>zeroX</code>, then evaluating it again yields the original value:</p>
+<pre><code class="language-lean">#eval fourAndThree
+</code></pre>
+<pre><code class="language-output info">{ x := 4.300000, y := 3.400000 }
+</code></pre>
+<pre><code class="language-lean">#eval zeroX fourAndThree
+</code></pre>
+<pre><code class="language-output info">{ x := 0.000000, y := 3.400000 }
+</code></pre>
+<pre><code class="language-lean">#eval fourAndThree
+</code></pre>
+<pre><code class="language-output info">{ x := 4.300000, y := 3.400000 }
+</code></pre>
+<p>One consequence of the fact that structure updates do not modify the original structure is that it becomes easier to reason about cases where the new value is computed from the old one.
+All references to the old structure continue to refer to the same field values in all of the new values provided.</p>
+<h2 id="behind-the-scenes"><a class="header" href="#behind-the-scenes">Behind the Scenes</a></h2>
+<p>Every structure has a <em>constructor</em>.
+Here, the term &quot;constructor&quot; may be a source of confusion.
+Unlike constructors in languages such as Java or Python, constructors in Lean are not arbitrary code to be run when a datatype is initialized.
+Instead, constructors simply gather the data to be stored in the newly-allocated data structure.
+It is not possible to provide a custom constructor that pre-processes data or rejects invalid arguments.
+This is really a case of the word &quot;constructor&quot; having different, but related, meanings in the two contexts.</p>
+<p>By default, the constructor for a structure named <code>S</code> is named <code>S.mk</code>.
+Here, <code>S</code> is a namespace qualifier, and <code>mk</code> is the name of the constructor itself.
+Instead of using curly-brace initialization syntax, the constructor can also be applied directly.</p>
+<pre><code class="language-lean">#check Point.mk 1.5 2.8
+</code></pre>
+<p>However, this is not generally considered to be good Lean style, and Lean even returns its feedback using the standard structure initializer syntax.</p>
+<pre><code class="language-output info">{ x := 1.5, y := 2.8 } : Point
+</code></pre>
+<p>Constructors have function types, which means they can be used anywhere that a function is expected.
+For instance, <code>Point.mk</code> is a function that accepts two <code>Float</code>s (respectively <code>x</code> and <code>y</code>) and returns a new <code>Point</code>.</p>
+<pre><code class="language-lean">#check (Point.mk)
+</code></pre>
+<pre><code class="language-output info">Point.mk : Float → Float → Point
+</code></pre>
+<p>To override a structure's constructor name, write it with two colons at the beginning.
+For instance, to use <code>Point.point</code> instead of <code>Point.mk</code>, write:</p>
+<pre><code class="language-lean">structure Point where
+  point ::
+  x : Float
+  y : Float
+deriving Repr
+</code></pre>
+<p>In addition to the constructor, an accessor function is defined for each field of a structure.
+These have the same name as the field, in the structure's namespace.
+For <code>Point</code>, accessor functions <code>Point.x</code> and <code>Point.y</code> are generated.</p>
+<pre><code class="language-lean">#check (Point.x)
+</code></pre>
+<pre><code class="language-output info">Point.x : Point → Float
+</code></pre>
+<pre><code class="language-lean">#check (Point.y)
+</code></pre>
+<pre><code class="language-output info">Point.y : Point → Float
+</code></pre>
+<p>In fact, just as the curly-braced structure construction syntax is converted to a call to the structure's constructor behind the scenes, the syntax <code>p1.x</code> in the prior definition of <code>addPoints</code> is converted into a call to the <code>Point.x</code> accessor.
+That is, <code>#eval origin.x</code> and <code>#eval Point.x origin</code> both yield</p>
+<pre><code class="language-output info">0.000000
+</code></pre>
+<p>Accessor dot notation is usable with more than just structure fields.
+It can also be used for functions that take any number of arguments.
+More generally, accessor notation has the form <code>TARGET.f ARG1 ARG2 ...</code>.
+If <code>TARGET</code> has type <code>T</code>, the function named <code>T.f</code> is called.
+<code>TARGET</code> becomes its leftmost argument of type <code>T</code>, which is often but not always the first one, and <code>ARG1 ARG2 ...</code> are provided in order as the remaining arguments.
+For instance, <code>String.append</code> can be invoked from a string with accessor notation, even though <code>String</code> is not a structure with an <code>append</code> field.</p>
+<pre><code class="language-lean">#eval &quot;one string&quot;.append &quot; and another&quot;
+</code></pre>
+<pre><code class="language-output info">&quot;one string and another&quot;
+</code></pre>
+<p>In that example, <code>TARGET</code> represents <code>&quot;one string&quot;</code> and <code>ARG1</code> represents <code>&quot; and another&quot;</code>.</p>
+<p>The function <code>Point.modifyBoth</code> (that is, <code>modifyBoth</code> defined in the <code>Point</code> namespace) applies a function to both fields in a <code>Point</code>:</p>
+<pre><code class="language-lean">def Point.modifyBoth (f : Float → Float) (p : Point) : Point :=
+  { x := f p.x, y := f p.y }
+</code></pre>
+<p>Even though the <code>Point</code> argument comes after the function argument, it can be used with dot notation as well:</p>
+<pre><code class="language-lean">#eval fourAndThree.modifyBoth Float.floor
+</code></pre>
+<pre><code class="language-output info">{ x := 4.000000, y := 3.000000 }
+</code></pre>
+<p>In this case, <code>TARGET</code> represents <code>fourAndThree</code>, while <code>ARG1</code> is <code>Float.floor</code>.
+This is because the target of the accessor notation is used as the first argument in which the type matches, not necessarily the first argument.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<ul>
+<li>Define a structure named <code>RectangularPrism</code> that contains the height, width, and depth of a rectangular prism, each as a <code>Float</code>.</li>
+<li>Define a function named <code>volume : RectangularPrism → Float</code> that computes the volume of a rectangular prism.</li>
+<li>Define a structure named <code>Segment</code> that represents a line segment by its endpoints, and define a function <code>length : Segment → Float</code> that computes the length of a line segment. <code>Segment</code> should have at most two fields.</li>
+<li>Which names are introduced by the declaration of <code>RectangularPrism</code>?</li>
+<li>Which names are introduced by the following declarations of <code>Hamster</code> and <code>Book</code>? What are their types?</li>
+</ul>
+<pre><code class="language-lean">structure Hamster where
+  name : String
+  fluffy : Bool
+</code></pre>
+<pre><code class="language-lean">structure Book where
+  makeBook ::
+  title : String
+  author : String
+  price : Float
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../getting-to-know/functions-and-definitions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../getting-to-know/datatypes-and-patterns.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../getting-to-know/functions-and-definitions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../getting-to-know/datatypes-and-patterns.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
