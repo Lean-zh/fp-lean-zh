@@ -1,5 +1,5 @@
 ---
-name: 翻译
+name: 翻译流程
 about: 翻译流程
 title: "[翻译] "
 assignees: ''
