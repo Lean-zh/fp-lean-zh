@@ -282,7 +282,6 @@ msgid "January, 2024"
 msgstr "2024 年 1 月"
 
 #: src/title.md:15
-#, fuzzy
 msgid ""
 "This is a minor bugfix release that fixes a regression in an example "
 "program."
@@ -718,18 +717,16 @@ msgstr ""
 "Hassan，感谢他们提出的许多建议，包括文体和技术方面的建议。"
 
 #: src/getting-to-know.md:1
-#, fuzzy
 msgid ""
 "According to tradition, a programming language should be introduced by "
 "compiling and running a program that displays `\"Hello, world!\"` on the "
 "console. This simple program ensures that the language tooling is installed "
 "correctly and that the programmer is able to run the compiled code."
 msgstr ""
-"按照惯例，应该通过编译和运行一个在控制台上显示“Hello, "
-"world!”的程序来介绍一种编程语言。这个简单的程序确保了语言工具已正确安装，并且程序员能够运行已编译的代码。"
+"按照惯例，介绍编程语言通常会编译并运行一个在控制台上显示「Hello, "
+"world!」的程序。这个简单的程序能确保语言工具安装正确，且程序员能够运行已编译的代码。"
 
 #: src/getting-to-know.md:7
-#, fuzzy
 msgid ""
 "Since the 1970s, however, programming has changed. Today, compilers are "
 "typically integrated into text editors, and the programming environment "
@@ -737,11 +734,10 @@ msgid ""
 "implements an extended version of the Language Server Protocol that allows "
 "it to communicate with a text editor and provide feedback as the user types."
 msgstr ""
-"然而，自 20 世纪 70 年代以来，编程发生了变化。如今，编译器通常集成到文本编辑器中，编程环境在编写程序时提供反馈。Lean "
-"也如此：它实现了语言服务器协议的扩展版本，允许它与文本编辑器通信并在用户键入时提供反馈。"
+"然而，自 20 世纪 70 年代以来，编程发生了变化。如今，编译器通常集成到文本编辑器中，编程环境会在编写程序时提供反馈。Lean "
+"也是如此：它实现了语言服务器协议（Language Server Protocol，LSP）的扩展版本，允许它与文本编辑器通信并在用户键入时提供反馈。"
 
 #: src/getting-to-know.md:14
-#, fuzzy
 msgid ""
 "Languages as varied as Python, Haskell, and JavaScript offer a read-eval-"
 "print-loop (REPL), also known as an interactive toplevel or a browser "
@@ -753,21 +749,19 @@ msgid ""
 " interacting with Lean in an editor, while [Hello, World!]() describes how "
 "to use Lean traditionally from the command line in batch mode."
 msgstr ""
-"从 Python、Haskell 到 JavaScript 等各种语言都提供读-求值-打印循环 "
-"(REPL)，也称为交互式顶层或浏览器控制台，可以在其中输入表达式或语句。然后，该语言计算并显示用户输入的结果。另一方面，Lean "
-"将这些特性集成到与编辑器的交互中，提供命令让文本编辑器显示集成到程序文本本身中的反馈。本章简要介绍了在编辑器中与 Lean 交互，而 [Hello, "
-"World!]() 则描述了如何在批处理模式下从命令行传统地使用 Lean。"
+"从 Python、Haskell 到 JavaScript 等各种语言都提供读取-求值-打印循环 "
+"(REPL)，也称为交互式顶层环境或浏览器控制台，可以在其中输入表达式或语句。然后，该语言计算并显示用户输入的结果。另一方面，Lean "
+"将这些特性集成到与编辑器的交互中，它提供的命令能让文本编辑器将程序的反馈集成到程序文本中。本章简要介绍了在编辑器中与 Lean 的交互，而 [Hello, "
+"World!]() 则描述了如何在批处理模式下以传统的命令行方式使用 Lean。"
 
 #: src/getting-to-know.md:19
-#, fuzzy
 msgid ""
 "It is best if you read this book with Lean open in your editor, following "
 "along and typing in each example. Please play with the examples, and see "
 "what happens!"
-msgstr "最好在编辑器中打开 Lean 阅读本书，同时输入每个示例并进行操作。请使用这些示例，看看会发生什么！"
+msgstr "阅读本书最好的方式是在编辑器中打开 Lean，输入书中的每个示例并运行他们，然后看看会发生什么。"
 
 #: src/getting-to-know/evaluating.md:3
-#, fuzzy
 msgid ""
 "The most important thing to understand as a programmer learning Lean is how "
 "evaluation works. Evaluation is the process of finding the value of an "
@@ -779,13 +773,12 @@ msgid ""
 "In Lean, programs are first and foremost expressions, and the primary way to"
 " think about computation is as evaluating expressions to find their values."
 msgstr ""
-"作为学习 Lean 的程序员，最重要的是理解求值的工作原理。求值是查找表达式值的过程，就像在算术中所做的那样。例如，15 - 6 的值为 9，2 × "
-"(3 + 1) 的值为 8。要查找后一个表达式的值，首先将 3 + 1 替换为 4，得到 2 × 4，它本身可以简化为 "
-"8。有时，数学表达式包含变量：在知道 _x_ 的值之前，无法计算 _x_ + 1 的值。在 Lean "
-"中，程序首先是表达式，思考计算的主要方式是将表达式求值以查找其值。"
+"作为学习 Lean 的程序员，最重要的是理解求值的工作原理。求值是得到表达式的值的过程，就像算术那样。"
+"例如，15 - 6 的值为 9，2 × (3 + 1) 的值为 8。要得到后一个表达式的值，首先将 3 + 1 替换为 4，得到 2 × 4，它本身可以简化为 "
+"8。有时，数学表达式包含变量：在知道 **x** 的值之前，无法计算 **x** + 1 的值。在 Lean "
+"中，程序首先是表达式，思考计算的主要方式是对表达式求值以得到其值。"
 
 #: src/getting-to-know/evaluating.md:11
-#, fuzzy
 msgid ""
 "Most programming languages are _imperative_, where a program consists of a "
 "series of statements that should be carried out in order to find the "
@@ -798,10 +791,9 @@ msgid ""
 "of evaluating mathematical expressions."
 msgstr ""
 "大多数编程语言都是 "
-"_命令式的_，其中程序由一系列语句组成，这些语句应按顺序执行以找到程序的结果。程序可以访问可变内存，因此变量引用的值可以随时间而改变。除了可变状态之外，程序还可能产生其他副作用，例如删除文件、建立传出网络连接、抛出或捕获异常以及从数据库读取数据。“副作用”本质上是一个总称，用于描述程序中可能发生的事情，这些事情不遵循求值数学表达式的模型。"
+"**命令式的**，其中程序由一系列语句组成，这些语句应按顺序执行以找到程序的结果。程序可以访问可变内存，因此变量引用的值可以随时间而改变。除了可变状态之外，程序还可能产生其他副作用，例如删除文件、建立传出网络连接、抛出或捕获异常以及从数据库读取数据。「副作用（Side Effect）」本质上是一个统称，用于描述程序中可能发生的事情，这些事情不遵循求值数学表达式的模型。"
 
 #: src/getting-to-know/evaluating.md:21
-#, fuzzy
 msgid ""
 "In Lean, however, programs work the same way as mathematical expressions. "
 "Once given a value, variables cannot be reassigned. Evaluating an expression"
@@ -815,38 +807,33 @@ msgid ""
 msgstr ""
 "然而，在 Lean "
 "中，程序的工作方式与数学表达式相同。一旦赋予一个值，变量就不能重新赋值。求值表达式不会产生副作用。如果两个表达式具有相同的值，那么用一个表达式替换另一个表达式不会导致程序计算出不同的结果。这并不意味着"
-" Lean 不能用于向控制台写入 `Hello, world!`，但执行 I/O 并不是以相同方式使用 Lean 的核心部分。因此，本章重点介绍如何使用"
-" Lean 交互式地求值表达式，而下一章将介绍如何编写、编译和运行 `Hello, world!` 程序。"
+" Lean 不能用于向控制台写入 `Hello, world!`，而是执行 I/O 并不是以同样的方式使用 Lean 的核心部分。因此，本章重点介绍如何使用"
+" Lean 交互式地求值表达式，而下一章将介绍如何编写、编译并运行 `Hello, world!` 程序。"
 
 #: src/getting-to-know/evaluating.md:31
-#, fuzzy
 msgid ""
 "To ask Lean to evaluate an expression, write `#eval` before it in your "
 "editor, which will then report the result back. Typically, the result is "
 "found by putting the cursor or mouse pointer over `#eval`. For instance,"
 msgstr ""
-"要让 Lean 求值一个表达式，请在编辑器中在其前面写 `#eval`，然后它将报告结果。通常，通过将光标或鼠标指针放在 `#eval` "
-"上来找到结果。例如，"
+"要让 Lean 对一个表达式求值，请在编辑器中该表达式的前面加上 `#eval`，然后它将报告结果。通常可通过将光标或鼠标指针放在 `#eval` "
+"上来查看结果。例如，"
 
 #: src/getting-to-know/evaluating.md:39
-#, fuzzy
 msgid "yields the value `3`."
-msgstr "产生值 `3`。"
+msgstr "会产生值 `3`。"
 
 #: src/getting-to-know/evaluating.md:41
-#, fuzzy
 msgid ""
 "Lean obeys the ordinary rules of precedence and associativity for arithmetic"
 " operators. That is,"
-msgstr "Lean 遵循算术运算符的普通优先级和结合性规则。也就是说，"
+msgstr "Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，"
 
 #: src/getting-to-know/evaluating.md:47
-#, fuzzy
 msgid "yields the value `11` rather than `15`."
-msgstr "会产生值 `11` 而不是 `15`。"
+msgstr "会产生值 `11` 而非 `15`。"
 
 #: src/getting-to-know/evaluating.md:51
-#, fuzzy
 msgid ""
 "While both ordinary mathematical notation and the majority of programming "
 "languages use parentheses (e.g. `f(x)`) to apply a function to its "
@@ -854,11 +841,10 @@ msgid ""
 "x`). Function application is one of the most common operations, so it pays "
 "to keep it concise. Rather than writing"
 msgstr ""
-"虽然普通的数学符号和大多数编程语言都使用括号（例如 `f(x)`）将函数应用于其参数，但 Lean 只是将函数写在其参数旁边（例如 `f "
+"虽然普通的数学符号和大多数编程语言都使用括号（例如 `f(x)`）将函数应用于其参数，但 Lean 只是将函数写在其参数后边（例如 `f "
 "x`）。函数应用是最常见的操作之一，因此保持简洁很重要。与其编写"
 
 #: src/getting-to-know/evaluating.md:56
-#, fuzzy
 msgid ""
 "```lean\n"
 "#eval String.append(\"Hello, \", \"Lean!\")\n"
@@ -869,12 +855,10 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/evaluating.md:59
-#, fuzzy
 msgid "to compute `\"Hello, Lean!\"`, one would instead write"
 msgstr "来计算 `\"Hello, Lean!\"`，不如编写"
 
 #: src/getting-to-know/evaluating.md:61
-#, fuzzy
 msgid ""
 "```Lean\n"
 "#eval String.append \"Hello, \" \"Lean!\"\n"
@@ -885,24 +869,21 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/evaluating.md:64
-#, fuzzy
 msgid ""
 "where the function's two arguments are simply written next to it with "
 "spaces."
-msgstr "其中函数的两个参数只是用空格写在旁边。"
+msgstr "其中函数的两个参数只是用空格隔开写在后面。"
 
 #: src/getting-to-know/evaluating.md:67
-#, fuzzy
 msgid ""
 "Just as the order-of-operations rules for arithmetic demand parentheses in "
 "the expression `(1 + 2) * 5`, parentheses are also necessary when a "
 "function's argument is to be computed via another function call. For "
 "instance, parentheses are required in"
 msgstr ""
-"就像算术的运算顺序规则要求在表达式 `(1 + 2) * 5` 中使用括号一样，当函数的参数要通过另一个函数调用来计算时，括号也是必需的。例如，在"
+"就像算术运算的顺序规则需要在表达式中使用括号（如 `(1 + 2) * 5`）表示一样，当函数的参数需要通过另一个函数调用来计算时，括号也是必需的。例如，在"
 
 #: src/getting-to-know/evaluating.md:71
-#, fuzzy
 msgid ""
 "```Lean\n"
 "#eval String.append \"great \" (String.append \"oak \" \"tree\")\n"
@@ -913,7 +894,6 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/evaluating.md:74
-#, fuzzy
 msgid ""
 "because otherwise the second `String.append` would be interpreted as an "
 "argument to the first, rather than as a function being passed `\"oak \"` and"
@@ -921,12 +901,11 @@ msgid ""
 "be found first, after which it can be appended to `\"great \"`, yielding the"
 " final value `\"great oak tree\"`."
 msgstr ""
-"中需要括号，因为否则第二个 `String.append` 将被解释为第一个参数，而不是作为将 `\"oak \"` 和 `\"tree\"` "
-"作为参数传递的函数。必须先找到内部 `String.append` 调用的值，然后才能将其附加到 `\"great \"`，从而产生最终值 "
+"中需要括号，否则第二个 `String.append` 将被解释为第一个参数，而非作为接受 `\"oak \"` 和 `\"tree\"` "
+"作为参数的函数。必须先得到内部 `String.append` 调用的值，然后才能将其传入到 `\"great \"`，从而产生最终的值 "
 "`\"great oak tree\"`。"
 
 #: src/getting-to-know/evaluating.md:80
-#, fuzzy
 msgid ""
 "Imperative languages often have two kinds of conditional: a conditional "
 "_statement_ that determines which instructions to carry out based on a "
@@ -939,70 +918,62 @@ msgid ""
 "functional language, there are no conditional statements, only conditional "
 "expressions. They are written using `if`, `then`, and `else`. For instance,"
 msgstr ""
-"命令式语言通常有两种条件：根据布尔值确定要执行哪些指令的条件 _语句_，以及根据布尔值确定要计算两个表达式中哪一个的条件 _表达式_。例如，在 C 和 "
+"命令式语言通常有两种条件：根据布尔值确定要执行哪些指令的条件**语句（Statement）**，以及根据布尔值确定要计算两个表达式中哪一个的条件**表达式（Expression）**。例如，在 C 和 "
 "C++ 中，条件语句使用 `if` 和 `else` 编写，而条件表达式使用三元运算符 `?` 和 `:` 编写。在 Python 中，条件语句以 "
-"`if` 开头，而条件表达式将 `if` 放在中间。由于 Lean 是一种面向表达式的函数式语言，因此没有条件语句，只有条件表达式。它们使用 "
+"`if` 开头，而条件表达式则将 `if` 放在中间。由于 Lean 是一种面向表达式的函数式语言，因此没有条件语句，只有条件表达式。条件表达式使用 "
 "`if`、`then` 和 `else` 编写。例如，"
 
 #: src/getting-to-know/evaluating.md:92
-#, fuzzy
 msgid ""
 "```Lean\n"
 "String.append \"it is \" (if 1 > 2 then \"yes\" else \"no\")\n"
 "```"
 msgstr ""
 "```lean\n"
-"String.append \"它就是 \" (如果 1 > 2 那么 \"是\" 否则 \"否\")\n"
+"String.append \"it is \" (if 1 > 2 then \"yes\" else \"no\")\n"
 "```"
 
 #: src/getting-to-know/evaluating.md:95
 #: src/dependent-types/indexed-families.md:197
 #: src/dependent-types/typed-queries.md:582
-#, fuzzy
 msgid "evaluates to"
-msgstr "求值为"
+msgstr "会求值为"
 
 #: src/getting-to-know/evaluating.md:96
-#, fuzzy
 msgid ""
 "```Lean\n"
 "String.append \"it is \" (if false then \"yes\" else \"no\")\n"
 "```"
 msgstr ""
-"```lean\n"
-"String.append \"它就是 \" (如果 false 那么 \"是\" 否则 \"否\")\n"
+"```Lean\n"
+"String.append \"it is \" (if false then \"yes\" else \"no\")\n"
 "```"
 
 #: src/getting-to-know/evaluating.md:99
-#, fuzzy
 msgid "which evaluates to"
-msgstr "求值为"
+msgstr "进而求值为"
 
 #: src/getting-to-know/evaluating.md:100
-#, fuzzy
 msgid ""
 "```lean\n"
 "String.append \"it is \" \"no\"\n"
 "```"
 msgstr ""
 "```lean\n"
-"String.append \"它就是 \" \"否\"\n"
+"String.append \"it is \" \"no\"\n"
 "```"
 
 #: src/getting-to-know/evaluating.md:103
-#, fuzzy
 msgid "which finally evaluates to `\"it is no\"`."
-msgstr "最终求值为 `\"它就是否\"`。"
+msgstr "最终求值为 `\"it is no\"`。"
 
 #: src/getting-to-know/evaluating.md:105
-#, fuzzy
 msgid ""
 "For the sake of brevity, a series of evaluation steps like this will "
 "sometimes be written with arrows between them:"
-msgstr "为了简洁，有时会用箭头表示一系列求值步骤："
+msgstr "为简洁起见，有时会用箭头表示一系列求值步骤："
 
 #: src/getting-to-know/evaluating.md:106
-#, fuzzy
 msgid ""
 "```lean\n"
 "String.append \"it is \" (if 1 > 2 then \"yes\" else \"no\")\n"
@@ -1015,48 +986,43 @@ msgid ""
 "```"
 msgstr ""
 "```lean\n"
-"String.append \"它就是 \" (如果 1 > 2 那么 \"是\" 否则 \"否\")\n"
+"String.append \"it is \" (if 1 > 2 then \"yes\" else \"no\")\n"
 "===>\n"
-"String.append \"它就是 \" (如果 false 那么 \"是\" 否则 \"否\")\n"
+"String.append \"it is \" (if false then \"yes\" else \"no\")\n"
 "===>\n"
-"String.append \"它就是 \" \"否\"\n"
+"String.append \"it is \" \"no\"\n"
 "===>\n"
-"\"它就是否\"\n"
+"\"it is no\"\n"
 "```"
 
 #: src/getting-to-know/evaluating.md:116
 #: src/getting-to-know/functions-and-definitions.md:112
 #: src/getting-to-know/polymorphism.md:466 src/props-proofs-indexing.md:254
 #: src/type-classes/standard-classes.md:350 src/type-classes/coercion.md:402
-#, fuzzy
 msgid "Messages You May Meet"
-msgstr "可能遇到的信息"
+msgstr "可能会遇到的信息"
 
 #: src/getting-to-know/evaluating.md:118
-#, fuzzy
 msgid ""
 "Asking Lean to evaluate a function application that is missing an argument "
 "will lead to an error message. In particular, the example"
-msgstr "要求 Lean 求值缺少参数的函数应用将导致错误信息。特别是，示例"
+msgstr "让 Lean 对缺少参数的函数应用进行求值会产生错误信息。具体来说，例如"
 
 #: src/getting-to-know/evaluating.md:120
-#, fuzzy
 msgid ""
 "```lean\n"
 "#eval String.append \"it is \"\n"
 "```"
 msgstr ""
 "```lean\n"
-"#eval String.append \"它就是 \"\n"
+"#eval String.append \"it is \"\n"
 "```"
 
 #: src/getting-to-know/evaluating.md:123
-#, fuzzy
 msgid "yields a quite long error message:"
 msgstr "会产生一个很长的错误信息："
 
 #: src/getting-to-know/evaluating.md:124
-#, fuzzy
 msgid ""
 "```output error\n"
 "expression\n"
@@ -1069,24 +1035,32 @@ msgid ""
 "```"
 msgstr ""
 "```output error\n"
+"expression\n"
+"  String.append \"it is \"\n"
+"has type\n"
+"  String → String\n"
+"but instance\n"
+"  Lean.MetaEval (String → String)\n"
+"failed to be synthesized, this instance instructs Lean on how to display the resulting value, recall that any type implementing the `Repr` class also implements the `Lean.MetaEval` class\n"
+"```"
+"```output error\n"
 "表达式\n"
-"  String.append \"它就是 \"\n"
+"  String.append \"it is \"\n"
 "类型为\n"
 "  String → String\n"
 "但实例\n"
 "  Lean.MetaEval (String → String)\n"
-"合成失败，此实例指示 Lean 如何显示结果值，回想一下任何实现 `Repr` 类的类型也实现了 `Lean.MetaEval` 类\n"
+"合成失败，此实例指示 Lean 如何显示结果值，回想一下任何实现了 `Repr` 类的类型也实现了 `Lean.MetaEval` 类\n"
 "```"
 
 #: src/getting-to-know/evaluating.md:134
-#, fuzzy
 msgid ""
 "This message occurs because Lean functions that are applied to only some of "
 "their arguments return new functions that are waiting for the rest of the "
 "arguments. Lean cannot display functions to users, and thus returns an error"
 " when asked to do so."
 msgstr ""
-"出现此信息是因为仅应用于部分参数的 Lean 函数会返回等待其余参数的新函数。Lean 无法向用户显示函数，因此在被要求这样做时会返回错误。"
+"会出现此信息是因为在 Lean 中，仅接受了部分参数的函数会返回一个等待其余参数的新函数。Lean 无法向用户显示函数，因此在被要求这样做时会返回错误。"
 
 #: src/getting-to-know/evaluating.md:138
 #: src/getting-to-know/functions-and-definitions.md:87
@@ -1108,81 +1082,68 @@ msgstr ""
 #: src/programs-proofs/arrays-termination.md:330
 #: src/programs-proofs/inequalities.md:784
 #: src/programs-proofs/insertion-sort.md:916
-#, fuzzy
 msgid "Exercises"
 msgstr "练习"
 
 #: src/getting-to-know/evaluating.md:140
-#, fuzzy
 msgid ""
 "What are the values of the following expressions? Work them out by hand, "
 "then enter them into Lean to check your work."
-msgstr "以下表达式的值是什么？手动计算，然后输入 Lean 以检查你的工作。"
+msgstr "以下表达式的值是什么？请手动计算，然后输入 Lean 来检查你的答案。"
 
 #: src/getting-to-know/evaluating.md:143
-#, fuzzy
 msgid "`42 + 19`"
 msgstr "`42 + 19`"
 
 #: src/getting-to-know/evaluating.md:144
-#, fuzzy
 msgid "`String.append \"A\" (String.append \"B\" \"C\")`"
 msgstr "`String.append \"A\" (String.append \"B\" \"C\")`"
 
 #: src/getting-to-know/evaluating.md:145
-#, fuzzy
 msgid "`String.append (String.append \"A\" \"B\") \"C\"`"
 msgstr "`String.append (String.append \"A\" \"B\") \"C\"`"
 
 #: src/getting-to-know/evaluating.md:146
-#, fuzzy
 msgid "`if 3 == 3 then 5 else 7`"
-msgstr "如果 3 == 3 则返回 5 否则返回 7"
+msgid "`if 3 == 3 then 5 else 7`"
 
 #: src/getting-to-know/evaluating.md:147
-#, fuzzy
 msgid "`if 3 == 4 then \"equal\" else \"not equal\"`"
-msgstr "如果 3 == 4 则返回 \"相等\" 否则返回 \"不相等\""
+msgid "`if 3 == 4 then \"equal\" else \"not equal\"`"
 
 #: src/getting-to-know/types.md:3
-#, fuzzy
 msgid ""
 "Types classify programs based on the values that they can compute. Types "
 "serve a number of roles in a program:"
 msgstr "类型根据程序可以计算的值对程序进行分类。类型在程序中扮演着多种角色："
 
 #: src/getting-to-know/types.md:6
-#, fuzzy
 msgid ""
 "They allow the compiler to make decisions about the in-memory representation"
 " of a value."
-msgstr "它们允许编译器对值的内存表示做出决策。"
+msgstr "可以让编译器对值在内存中的表示做出决策。"
 
 #: src/getting-to-know/types.md:9
-#, fuzzy
 msgid ""
 "They help programmers to communicate their intent to others, serving as a "
 "lightweight specification for the inputs and outputs of a function that the "
 "compiler can ensure the program adheres to."
-msgstr "它们帮助程序员向他人传达他们的意图，作为编译器可以确保程序遵守的函数输入和输出的轻量级规范。"
+msgstr "帮助程序员向他人传达他们的意图，作为函数输入和输出的轻量级规范，编译器可以确保程序遵守该规范。"
 
 #: src/getting-to-know/types.md:13
-#, fuzzy
 msgid ""
 "They prevent various potential mistakes, such as adding a number to a "
 "string, and thus reduce the number of tests that are necessary for a "
 "program."
-msgstr "它们防止各种潜在错误，例如将数字添加到字符串中，从而减少了程序所需的测试数量。"
+msgstr "防止各种潜在错误，例如将数字加到字符串上，从而减少程序所需的测试数量。"
 
 #: src/getting-to-know/types.md:17
-#, fuzzy
 msgid ""
 "They help the Lean compiler automate the production of auxiliary code that "
 "can save boilerplate."
-msgstr "它们帮助 Lean 编译器自动生成辅助代码，可以节省样板代码。"
+msgstr "帮助 Lean 编译器自动生成辅助代码，可以节省样板代码。"
 
 #: src/getting-to-know/types.md:19
-#, fuzzy
 msgid ""
 "Lean's type system is unusually expressive. Types can encode strong "
 "specifications like \"this sorting function returns a permutation of its "
@@ -1193,11 +1154,9 @@ msgid ""
 "however, and understanding these simpler types is a prerequisite for using "
 "the more advanced features."
 msgstr ""
-"Lean "
-"的类型系统具有非同寻常的表现力。类型可以编码强规范，例如“此排序函数返回其输入的排列”，以及灵活的规范，例如“此函数具有不同的返回类型，具体取决于其参数的值”。类型系统甚至可以用作证明数学定理的完整逻辑。然而，这种尖端的表现力并不能消除对更简单类型的需求，理解这些更简单的类型是使用更高级功能的先决条件。"
+"Lean 的类型系统具有非同寻常的表现力。类型可以编码强规范，如「此排序函数返回其输入的排列」，以及灵活的规范，如「此函数具有不同的返回类型，具体取决于其参数的值」。类型系统甚至可以用作证明数学定理的完整逻辑系统。然而，这种尖端的表现力并不能消除对更简单类型的需求，理解这些更简单的类型是使用更高级功能的先决条件。"
 
 #: src/getting-to-know/types.md:24
-#, fuzzy
 msgid ""
 "Every program in Lean must have a type. In particular, every expression must"
 " have a type before it can be evaluated. In the examples so far, Lean has "
@@ -1205,10 +1164,9 @@ msgid ""
 "provide one. This is done using the colon operator:"
 msgstr ""
 "Lean 中的每个程序都必须有一个类型。特别是，每个表达式在求值之前都必须具有类型。在迄今为止的示例中，Lean "
-"已经能够自行发现类型，但有时需要提供一个类型。这是使用冒号运算符完成的："
+"已经能够自行发现类型，但有时也需要提供一个类型。这是使用冒号运算符完成的："
 
 #: src/getting-to-know/types.md:34
-#, fuzzy
 msgid ""
 "Here, `Nat` is the type of _natural numbers_, which are arbitrary-precision "
 "unsigned integers. In Lean, `Nat` is the default type for non-negative "
@@ -1219,43 +1177,37 @@ msgid ""
 "number to underflow to. Thus, subtraction on `Nat` returns `0` when the "
 "answer would have otherwise been negative. For instance,"
 msgstr ""
-"在此，`Nat` 是 _自然数_ 的类型，它们是任意精度的无符号整数。在 Lean 中，`Nat` "
+"在这里，`Nat` 是**自然数**的类型，它们是任意精度的无符号整数。在 Lean 中，`Nat` "
 "是非负整数字面量的默认类型。此默认类型并不总是最佳选择。在 C 中，当减法运算结果小于零时，无符号整数会下溢到最大的可表示数字。然而，`Nat` "
 "可以表示任意大的无符号数字，因此没有最大的数字可以下溢到。因此，当答案原本为负数时，`Nat` 上的减法运算返回 `0`。例如，"
 
 #: src/getting-to-know/types.md:46
-#, fuzzy
 msgid ""
 "evaluates to `0` rather than `-1`. To use a type that can represent the "
 "negative integers, provide it directly:"
-msgstr "求值为 `0` 而不是 `-1`。若要使用可以表示负整数的类型，请直接提供它："
+msgstr "求值为 `0` 而非 `-1`。若要使用可以表示负整数的类型，请直接提供它："
 
 #: src/getting-to-know/types.md:54
-#, fuzzy
 msgid "With this type, the result is `-1`, as expected."
 msgstr "使用此类型，结果为 `-1`，符合预期。"
 
 #: src/getting-to-know/types.md:56
-#, fuzzy
 msgid ""
 "To check the type of an expression without evaluating it, use `#check` "
 "instead of `#eval`. For instance:"
 msgstr "若要检查表达式的类型而不求值，请使用 `#check` 而不是 `#eval`。例如："
 
 #: src/getting-to-know/types.md:63
-#, fuzzy
 msgid "reports `1 - 2 : Int` without actually performing the subtraction."
 msgstr "报告 `1 - 2 : Int` 而不会实际执行减法运算。"
 
 #: src/getting-to-know/types.md:65
-#, fuzzy
 msgid ""
 "When a program can't be given a type, an error is returned from both "
 "`#check` and `#eval`. For instance:"
 msgstr "当无法为程序指定类型时，`#check` 和 `#eval` 都会返回错误。例如："
 
 #: src/getting-to-know/types.md:68
-#, fuzzy
 msgid ""
 "```lean\n"
 "#check String.append \"hello\" [\" \", \"world\"]\n"
@@ -1268,12 +1220,10 @@ msgstr ""
 #: src/getting-to-know/types.md:72
 #: src/getting-to-know/functions-and-definitions.md:26
 #: src/programs-proofs/fin.md:48 src/programs-proofs/fin.md:56
-#, fuzzy
 msgid "outputs"
-msgstr "输出"
+msgstr "会输出"
 
 #: src/getting-to-know/types.md:74
-#, fuzzy
 msgid ""
 "```output error\n"
 "application type mismatch\n"
@@ -1287,6 +1237,16 @@ msgid ""
 "```"
 msgstr ""
 "```output error\n"
+"application type mismatch\n"
+"  String.append \"hello\" [\" \", \"world\"]\n"
+"argument\n"
+"  [\" \", \"world\"]\n"
+"has type\n"
+"  List String : Type\n"
+"but is expected to have type\n"
+"  String : Type\n"
+"```"
+"```output error\n"
 "应用程序类型不匹配\n"
 "  String.append \"hello\" [\" \", \"world\"]\n"
 "参数\n"
@@ -1298,54 +1258,28 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/types.md:85
-#, fuzzy
 msgid ""
 "because the second argument to `String.append` is expected to be a string, "
 "but a list of strings was provided instead."
 msgstr "因为 `String.append` 的第二个参数应为字符串，但提供的是字符串列表。"
 
 #: src/getting-to-know/functions-and-definitions.md:3
-#, fuzzy
 msgid ""
 "In Lean, definitions are introduced using the `def` keyword. For instance, "
 "to define the name `hello` to refer to the string `\"Hello\"`, write:"
-msgstr "在 Lean 中，使用 `def` 关键字引入定义。例如，若要定义名称 `hello` 以引用字符串 `\"Hello\"`，请编写："
+msgstr "在 Lean 中，使用 `def` 关键字引入定义。例如，若要定义名称 `hello` 来引用字符串 `\"Hello\"`，请编写："
 
 #: src/getting-to-know/functions-and-definitions.md:5
-#, fuzzy
 msgid ""
 "```lean\n"
 "def hello := \"Hello\"\n"
 "```"
 msgstr ""
-"在 Lean 中，使用冒号加等号运算符 `:=` 而不是 `=` 来定义新名称。这是因为 `=` 用于描述现有表达式之间的相等性，而使用两个不同的运算符有助于防止混淆。\n"
-"\n"
-"在 `hello` 的定义中，表达式 `\"Hello\"` 足够简单，Lean 能够自动确定定义的类型。但是，大多数定义并不那么简单，因此通常需要添加类型。这可以通过在要定义的名称后使用冒号来完成。\n"
-"\n"
 "```lean\n"
-"def lean : String := \"Lean\"\n"
-"```\n"
-"\n"
-"现在已经定义了名称，就可以使用它们了，因此\n"
-"\n"
-"```Lean\n"
-"#eval String.append hello (String.append \" \" lean)\n"
-"```\n"
-"\n"
-"```Lean info\n"
-"\"Hello Lean\"\n"
-"```\n"
-"\n"
-"在 Lean 中，定义的名称只能在其定义之后使用。\n"
-"\n"
-"在许多语言中，函数的定义使用与其他值的定义不同的语法。例如，Python 函数定义以 `def` 关键字开头，而其他定义则以等号定义。在 Lean 中，函数使用与其他值相同的 `def` 关键字定义。尽管如此，诸如 `hello` 的定义引入了直接引用其值的名称，而不是每次调用时都返回等效结果的零参数函数。\n"
-"\n"
-"定义函数\n"
-"\n"
-"在 Lean 中有各种方法可以定义函数。最简单的方法是在定义的类型之前放置函数的参数，并用空格分隔。例如，可以编写一个将其参数加 1 的函数："
+"def hello := \"Hello\"\n"
+"```"
 
 #: src/getting-to-know/functions-and-definitions.md:9
-#, fuzzy
 msgid ""
 "In Lean, new names are defined using the colon-equal operator`:=` rather "
 "than `=`. This is because `=` is used to describe equalities between "
@@ -1356,7 +1290,6 @@ msgstr ""
 "用于描述现有表达式之间的相等性，而使用两个不同的运算符有助于防止混淆。"
 
 #: src/getting-to-know/functions-and-definitions.md:14
-#, fuzzy
 msgid ""
 "In the definition of `hello`, the expression `\"Hello\"` is simple enough "
 "that Lean is able to determine the definition's type automatically. However,"
@@ -1367,7 +1300,6 @@ msgstr ""
 "能够自动确定定义的类型。但是，大多数定义并不那么简单，因此通常需要添加类型。这可以通过在要定义的名称后使用冒号来完成。"
 
 #: src/getting-to-know/functions-and-definitions.md:18
-#, fuzzy
 msgid ""
 "```lean\n"
 "def lean : String := \"Lean\"\n"
@@ -1378,12 +1310,10 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/functions-and-definitions.md:22
-#, fuzzy
 msgid "Now that the names have been defined, they can be used, so"
 msgstr "现在已经定义了名称，就可以使用它们了，因此"
 
 #: src/getting-to-know/functions-and-definitions.md:23
-#, fuzzy
 msgid ""
 "```Lean\n"
 "#eval String.append hello (String.append \" \" lean)\n"
@@ -1394,7 +1324,6 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/functions-and-definitions.md:27
-#, fuzzy
 msgid ""
 "```Lean info\n"
 "\"Hello Lean\"\n"
@@ -1405,12 +1334,10 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/functions-and-definitions.md:30
-#, fuzzy
 msgid "In Lean, defined names may only be used after their definitions."
 msgstr "在 Lean 中，定义的名称只能在其定义之后使用。"
 
 #: src/getting-to-know/functions-and-definitions.md:32
-#, fuzzy
 msgid ""
 "In many languages, definitions of functions use a different syntax than "
 "definitions of other values. For instance, Python function definitions begin"
@@ -1420,16 +1347,15 @@ msgid ""
 "_directly_ to their values, rather than to zero-argument functions that "
 "return equivalent results each time they are called."
 msgstr ""
-"在许多语言中，函数的定义使用与其他值的定义不同的语法。例如，Python 函数定义以 `def` 关键字开头，而其他定义则以等号定义。在 Lean "
-"中，函数使用与其他值相同的 `def` 关键字定义。尽管如此，诸如 `hello` 的"
+"在许多语言中，函数定义的语法与其他值的不同。例如，Python 函数定义以 `def` 关键字开头，而其他定义则以等号定义。在 Lean "
+"中，函数使用与其他值相同的 `def` 关键字定义。尽管如此，像 `hello` 这类的定义"
+"引入的名字会**直接**引用其值，而非每次调用一个零参函数返回等价的值。"
 
 #: src/getting-to-know/functions-and-definitions.md:37
-#, fuzzy
 msgid "Defining Functions"
 msgstr "定义函数"
 
 #: src/getting-to-know/functions-and-definitions.md:39
-#, fuzzy
 msgid ""
 "There are a variety of ways to define functions in Lean. The simplest is to "
 "place the function's arguments before the definition's type, separated by "
@@ -1439,12 +1365,10 @@ msgstr ""
 "在 Lean 中有各种方法可以定义函数。最简单的方法是在定义的类型之前放置函数的参数，并用空格分隔。例如，可以编写一个将其参数加 1 的函数："
 
 #: src/getting-to-know/functions-and-definitions.md:45
-#, fuzzy
 msgid "Testing this function with `#eval` gives `8`, as expected:"
 msgstr "测试此函数时，`#eval` 给出了 `8`，符合预期："
 
 #: src/getting-to-know/functions-and-definitions.md:51
-#, fuzzy
 msgid ""
 "Just as functions are applied to multiple arguments by writing spaces "
 "between each argument, functions that accept multiple arguments are defined "
@@ -1452,20 +1376,18 @@ msgid ""
 "whose result is equal to the greatest of its two arguments, takes two `Nat` "
 "arguments `n` and `k` and returns a `Nat`."
 msgstr ""
-"就像通过在每个参数之间写空格将函数应用于多个参数一样，接受多个参数的函数的定义是在参数名称和类型之间用空格分隔。函数 `maximum` "
+"就像通过在每个参数之间写空格来将函数应用于多个参数一样，接受多个参数的函数定义是在参数名称和类型之间用空格分隔。函数 `maximum` "
 "的结果等于其两个参数中最大的一个，它接受两个 `Nat` 参数 `n` 和 `k`，并返回一个 `Nat`。"
 
 #: src/getting-to-know/functions-and-definitions.md:60
-#, fuzzy
 msgid ""
 "When a defined function like `maximum` has been provided with its arguments,"
 " the result is determined by first replacing the argument names with the "
 "provided values in the body, and then evaluating the resulting body. For "
 "example:"
-msgstr "当像 `maximum` 这样的已定义函数被提供其参数时，结果是首先用提供的 body 中的值替换参数名称，然后计算结果 body。例如："
+msgstr "当像 `maximum` 这样的已定义函数被提供其参数时，其结果为首先用提供的值替换函数体中对应的参数名称，然后对产生的函数体求值。例如："
 
 #: src/getting-to-know/functions-and-definitions.md:71
-#, fuzzy
 msgid ""
 "Expressions that evaluate to natural numbers, integers, and strings have "
 "types that say this (`Nat`, `Int`, and `String`, respectively). This is also"
@@ -1473,12 +1395,10 @@ msgid ""
 " type `Nat → Bool`, and a function that accepts two `Nat`s and returns a "
 "`Nat` has type `Nat → Nat → Nat`."
 msgstr ""
-"计算为自然数、整数和字符串的表达式具有表示这一点的类型（分别为 `Nat`、`Int` 和 `String`）。函数也是如此。接受一个 `Nat` "
-"并返回一个 `Bool` 的函数的类型为 `Nat → Bool`，接受两个 `Nat` 并返回一个 `Nat` 的函数的类型为 `Nat → Nat "
-"→ Nat`。"
+"求值结果为自然数、整数和字符串的表达式具有表示它们的类型（分别为 `Nat`、`Int` 和 `String`）。函数也是如此。接受一个 `Nat` "
+"并返回一个 `Bool` 的函数的类型为 `Nat → Bool`，接受两个 `Nat` 并返回一个 `Nat` 的函数的类型为 `Nat → Nat → Nat`。"
 
 #: src/getting-to-know/functions-and-definitions.md:75
-#, fuzzy
 msgid ""
 "As a special case, Lean returns a function's signature when its name is used"
 " directly with `#check`. Entering `#check add1` yields `add1 (n : Nat) : "
@@ -1497,7 +1417,6 @@ msgstr ""
 " Nat -> Nat`。"
 
 #: src/getting-to-know/functions-and-definitions.md:80
-#, fuzzy
 msgid ""
 "Behind the scenes, all functions actually expect precisely one argument. "
 "Functions like `maximum` that seem to take more than one argument are in "
@@ -1511,15 +1430,13 @@ msgid ""
 "Haskell Curry. Function arrows associate to the right, which means that `Nat"
 " → Nat → Nat` should be parenthesized `Nat → (Nat → Nat)`."
 msgstr ""
-"幕后，所有函数实际上都精确地期望一个参数。像 `maximum` "
-"这样的函数看起来需要多个参数，但实际上它们是接受一个参数并返回一个新函数的函数。这个新函数接受下一个参数，这个过程一直持续到不再需要更多参数。可以通过向一个多参数函数提供一个参数来看到这一点：`#check"
+"在幕后，所有函数实际上都刚好期望一个参数。像 `maximum` "
+"这样的函数看起来需要多个参数，但实际上它们时接受一个参数并返回一个新的函数。这个新函数接受下一个参数，一直持续到不再需要更多参数。可以通过向一个多参数函数提供一个参数来看到这一点：`#check"
 " maximum 3` 会生成 `maximum 3 : Nat → Nat`，而 `#check String.append \"Hello \"` "
 "会生成 `String.append \"Hello \" : String → String`。使用返回函数的函数来实现多参数函数被称为 "
-"_柯里化_，以数学家哈斯克尔·柯里命名。函数箭头向右关联，这意味着 `Nat → Nat → Nat` 应该用括号括起来 `Nat → (Nat → "
-"Nat)`。"
+"**柯里化（Currying）**，以数学家哈斯克尔·柯里（Haskell Curry）命名。函数箭头是右结合的，这意味着 `Nat → Nat → Nat` 等价于 `Nat → (Nat → Nat)`。"
 
 #: src/getting-to-know/functions-and-definitions.md:89
-#, fuzzy
 msgid ""
 "Define the function `joinStringsWith` with type `String -> String -> String "
 "-> String` that creates a new string by placing its first argument between "
@@ -1528,27 +1445,23 @@ msgid ""
 msgstr ""
 "定义函数 `joinStringsWith`，类型为 `String -> String -> String -> "
 "String`，它通过将第一个参数放在第二个和第三个参数之间来创建一个新字符串。`joinStringsWith \", \" \"one\" "
-"\"and another\"` 应该求值为 `\"one, and another\"`。"
+"\"and another\"` 会求值为 `\"one, and another\"`。"
 
 #: src/getting-to-know/functions-and-definitions.md:90
-#, fuzzy
 msgid "What is the type of `joinStringsWith \": \"`? Check your answer with Lean."
 msgstr "`joinStringsWith \": \"` 的类型是什么？用 Lean 检查你的答案。"
 
 #: src/getting-to-know/functions-and-definitions.md:91
-#, fuzzy
 msgid ""
 "Define a function `volume` with type `Nat → Nat → Nat → Nat` that computes "
 "the volume of a rectangular prism with the given height, width, and depth."
 msgstr "定义一个函数 `volume`，类型为 `Nat → Nat → Nat → Nat`，它计算给定高度、宽度和深度的矩形棱柱的体积。"
 
 #: src/getting-to-know/functions-and-definitions.md:93
-#, fuzzy
 msgid "Defining Types"
 msgstr "定义类型"
 
 #: src/getting-to-know/functions-and-definitions.md:95
-#, fuzzy
 msgid ""
 "Most typed programming languages have some means of defining aliases for "
 "types, such as C's `typedef`. In Lean, however, types are a first-class part"
@@ -1560,20 +1473,17 @@ msgstr ""
 "中，类型是语言的一等部分——它们与其他任何表达式一样都是表达式。这意味着定义可以引用类型，就像它们可以引用其他值一样。"
 
 #: src/getting-to-know/functions-and-definitions.md:99
-#, fuzzy
 msgid ""
 "For instance, if `String` is too much to type, a shorter abbreviation `Str` "
 "can be defined:"
 msgstr "例如，如果 `String` 输入起来太长，可以定义一个较短的缩写 `Str`："
 
 #: src/getting-to-know/functions-and-definitions.md:103
-#, fuzzy
 msgid ""
 "It is then possible to use `Str` as a definition's type instead of `String`:"
-msgstr "然后就可以使用 `Str` 作为定义的类型，而不是 `String`："
+msgstr "然后就可以使用 `Str` 作为定义的类型，而非 `String`："
 
 #: src/getting-to-know/functions-and-definitions.md:104
-#, fuzzy
 msgid ""
 "```lean\n"
 "def aStr : Str := \"This is a string.\"\n"
@@ -1584,7 +1494,6 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/functions-and-definitions.md:108
-#, fuzzy
 msgid ""
 "The reason this works is that types follow the same rules as the rest of "
 "Lean. Types are expressions, and in an expression, a defined name can be "
@@ -1595,30 +1504,26 @@ msgstr ""
 "`String`，因此 `aStr` 的定义是有意义的。"
 
 #: src/getting-to-know/functions-and-definitions.md:114
-#, fuzzy
 msgid ""
 "Experimenting with using definitions for types is made more complicated by "
 "the way that Lean supports overloaded integer literals. If `Nat` is too "
 "short, a longer name `NaturalNumber` can be defined:"
 msgstr ""
-"由于 Lean 支持重载整数文字，因此使用定义作为类型进行实验变得更加复杂。如果 `Nat` 太短，可以定义一个较长的名称 "
+"由于 Lean 支持重载整数字面量，因此使用定义作为类型进行实验会变得更加复杂。如果 `Nat` 太短，可以定义一个较长的名称 "
 "`NaturalNumber`："
 
 #: src/getting-to-know/functions-and-definitions.md:119
-#, fuzzy
 msgid ""
 "However, using `NaturalNumber` as a definition's type instead of `Nat` does "
 "not have the expected effect. In particular, the definition:"
-msgstr "但是，使用 `NaturalNumber` 作为定义的类型而不是 `Nat` 并没有预期的效果。特别是，定义："
+msgstr "但是，使用 `NaturalNumber` 作为定义的类型而非 `Nat` 并没有预期的效果。特别是，定义："
 
 #: src/getting-to-know/functions-and-definitions.md:124
 #: src/type-classes/standard-classes.md:357
-#, fuzzy
 msgid "results in the following error:"
-msgstr "导致以下错误："
+msgstr "会导致以下错误："
 
 #: src/getting-to-know/functions-and-definitions.md:130
-#, fuzzy
 msgid ""
 "This error occurs because Lean allows number literals to be _overloaded_. "
 "When it makes sense to do so, natural number literals can be used for new "
@@ -1629,11 +1534,10 @@ msgid ""
 " all defined names with their definitions before looking for overloading, "
 "which is what leads to the error message above."
 msgstr ""
-"出现此错误是因为 Lean 允许数字文字被 _重载_。当有意义时，自然数文字可用于新类型，就像这些类型内置于系统中一样。这是 Lean "
-"使得表示数学变得方便的一部分，并且数学的不同分支将数字符号用于非常不同的目的。允许这种重载的特定功能不会在查找重载之前用其定义替换所有已定义的名称，这正是导致上述错误消息的原因。"
+"出现此错误是因为 Lean 允许数字字面量被**重载（Overload）**。当有意义时，自然数字面量可用于新类型，就像这些类型内置于系统中一样。这是 Lean "
+"使得表示数学变得方便的一部分，并且数学的不同分支将数字符号用于完全不同的目的。允许这种重载的特定功能不会在查找重载之前用其定义替换所有已定义的名称，这正是导致上述错误消息的原因。"
 
 #: src/getting-to-know/functions-and-definitions.md:135
-#, fuzzy
 msgid ""
 "One way to work around this limitation is by providing the type `Nat` on the"
 " right-hand side of the definition, causing `Nat`'s overloading rules to be "
@@ -1641,14 +1545,12 @@ msgid ""
 msgstr "解决此限制的一种方法是在定义的右侧提供类型 `Nat`，从而导致 `Nat` 的重载规则用于 `38`："
 
 #: src/getting-to-know/functions-and-definitions.md:139
-#, fuzzy
 msgid ""
 "The definition is still type-correct because `NaturalNumber` is the same "
 "type as `Nat`—by definition!"
-msgstr "定义仍然类型正确，因为 `NaturalNumber` 与 `Nat` 是同一种类型——根据定义！"
+msgstr "定义仍然类型正确，因为根据定义，`NaturalNumber` 与 `Nat` 是同一种类型！"
 
 #: src/getting-to-know/functions-and-definitions.md:141
-#, fuzzy
 msgid ""
 "Another solution is to define an overloading for `NaturalNumber` that works "
 "equivalently to the one for `Nat`. This requires more advanced features of "
@@ -1657,29 +1559,25 @@ msgstr ""
 "另一种解决方案是为 `NaturalNumber` 定义一个重载，其作用等同于 `Nat` 的重载。然而，这需要 Lean 的更多高级特性。"
 
 #: src/getting-to-know/functions-and-definitions.md:144
-#, fuzzy
 msgid ""
 "Finally, defining the new name for `Nat` using `abbrev` instead of `def` "
 "allows overloading resolution to replace the defined name with its "
 "definition. Definitions written using `abbrev` are always unfolded. For "
 "instance,"
 msgstr ""
-"最后，使用 `abbrev` 而不是 `def` 为 `Nat` 定义新名称允许重载解析用其定义替换已定义的名称。使用 `abbrev` "
-"编写的定义始终展开。例如，"
+"最后，使用 `abbrev` 而非 `def` 为 `Nat` 定义新名称，能够允许重载解析用其定义替换定义的名称。使用 `abbrev` "
+"编写的定义总是会展开。例如，"
 
 #: src/getting-to-know/functions-and-definitions.md:150
 #: src/hello-world/step-by-step.md:79 src/monads/io.md:30
-#, fuzzy
 msgid "and"
 msgstr "和"
 
 #: src/getting-to-know/functions-and-definitions.md:154
-#, fuzzy
 msgid "are accepted without issue."
-msgstr "被接受且没有问题。"
+msgstr "会被接受且没有问题。"
 
 #: src/getting-to-know/functions-and-definitions.md:156
-#, fuzzy
 msgid ""
 "Behind the scenes, some definitions are internally marked as being "
 "unfoldable during overload resolution, while others are not. Definitions "
@@ -1689,11 +1587,10 @@ msgid ""
 "difficult for users to understand. Definitions produced with `abbrev` are "
 "marked as reducible."
 msgstr ""
-"在幕后，一些定义在重载解析期间被内部标记为可展开的，而另一些则不被标记。要展开的定义称为 _可约的_。对可约性的控制对于允许 Lean "
-"扩展至关重要：完全展开所有定义可能会导致非常大的类型，这对于机器处理和用户理解来说都很困难。使用 `abbrev` 生成的定义被标记为可约的。"
+"在幕后，一些定义在重载解析期间被内部标记为可展开的，而另一些则不被标记。要展开的定义称为**可约的（Reducible）**。对可约性的控制对于允许 Lean "
+"的扩展性至关重要：完全展开所有定义可能会产生非常大的类型，这对于机器处理和用户理解来说都很困难。使用 `abbrev` 生成的定义被标记为可约的。"
 
 #: src/getting-to-know/structures.md:3
-#, fuzzy
 msgid ""
 "The first step in writing a program is usually to identify the problem "
 "domain's concepts, and then find suitable representations for them in code. "
@@ -1703,8 +1600,8 @@ msgid ""
 "Lean, this is done using _structures_, which are analogous to `struct`s in C"
 " or Rust and `record`s in C#."
 msgstr ""
-"编写程序的第一步通常是识别问题域的概念，然后在代码中找到它们的合适表示。有时，一个域概念是其他更简单概念的集合。在这种情况下，将这些更简单的组件分组到一个“包”中可能很方便，然后可以给它一个有意义的名称。在"
-" Lean 中，这是使用 _结构_ 完成的，它类似于 C 或 Rust 中的 `struct` 和 C# 中的 `record`。"
+"编写程序的第一步通常是找出问题域中的概念，然后用合适的代码表示它们。有时，一个域概念是其他更简单概念的集合。此时，将这些更简单的组件分组到一个“包”中会很方便，然后可以给它取一个有意义的名称。在"
+" Lean 中，这是使用**结构体（Structure）**完成的，它类似于 C 或 Rust 中的 `struct` 和 C# 中的 `record`。"
 
 #: src/getting-to-know/structures.md:8
 #, fuzzy
@@ -1716,34 +1613,30 @@ msgid ""
 "coordinates, each being a pair of floating-point numbers. Defining separate "
 "structures prevents API clients from confusing one for another."
 msgstr ""
-"定义一个结构会向 Lean "
-"引入一个全新的类型，该类型不能简化为任何其他类型。这很有用，因为多个结构可能表示不同的概念，但它们包含相同的数据。例如，一个点可以用笛卡尔坐标或极坐标表示，每个都是一对浮点数。定义单独的结构可以防止"
+"定义一个结构体会向 Lean "
+"引入一个全新的类型，该类型不能简化为任何其他类型。这很有用，因为多个结构体可能表示不同的概念，但它们包含相同的数据。例如，一个点可以用笛卡尔坐标或极坐标表示，每个都是一对浮点数。定义单独的结构体可以防止"
 " API 客户端将一个与另一个混淆。"
 
 #: src/getting-to-know/structures.md:13
-#, fuzzy
 msgid ""
 "Lean's floating-point number type is called `Float`, and floating-point "
 "numbers are written in the usual notation."
 msgstr "Lean 的浮点数类型称为 `Float`，浮点数采用通常的表示法。"
 
 #: src/getting-to-know/structures.md:32
-#, fuzzy
 msgid ""
 "When floating point numbers are written with the decimal point, Lean will "
 "infer the type `Float`. If they are written without it, then a type "
 "annotation may be necessary."
-msgstr "当浮点数使用小数点书写时，Lean 会推断类型 `Float`。如果不用小数点书写，则可能需要类型注释。"
+msgstr "当浮点数使用小数点书写时，Lean 会推断类型 `Float`。如果不用小数点书写，则可能需要类型标注。"
 
 #: src/getting-to-know/structures.md:48
-#, fuzzy
 msgid ""
 "A Cartesian point is a structure with two `Float` fields, called `x` and "
 "`y`. This is declared using the `structure` keyword."
-msgstr "笛卡尔点是一个结构，有两个 `Float` 字段，称为 `x` 和 `y`。这使用 `structure` 关键字声明。"
+msgstr "笛卡尔点是一个结构体，有两个 `Float` 字段，称为 `x` 和 `y`，它使用 `structure` 关键字声明。"
 
 #: src/getting-to-know/structures.md:58
-#, fuzzy
 msgid ""
 "After this declaration, `Point` is a new structure type. The final line, "
 "which says `deriving Repr`, asks Lean to generate code to display values of "
@@ -1752,19 +1645,17 @@ msgid ""
 "in Python. It is also possible to override the compiler's generated display "
 "code."
 msgstr ""
-"声明之后，`Point` 是一个新的结构类型。最后一行写着 `deriving Repr`，要求 Lean 生成代码以显示类型为 `Point` "
-"的值。此代码由 `#eval` 用于呈现评估结果供程序员使用，类似于 Python 中的 `repr` 函数。还可以覆盖编译器生成的显示代码。"
+"声明之后，`Point` 就是一个新的结构体类型。最后一行写着 `deriving Repr`，要求 Lean 生成代码以显示类型为 `Point` "
+"的值。此代码由 `#eval` 用于呈现求值结果供程序员使用，类似于 Python 中的 `repr` 函数。还可以覆盖编译器生成的显示代码。"
 
 #: src/getting-to-know/structures.md:63
-#, fuzzy
 msgid ""
 "The typical way to create a value of a structure type is to provide values "
 "for all of its fields inside of curly braces. The origin of a Cartesian "
 "plane is where `x` and `y` are both zero:"
-msgstr "创建结构类型值通常的方法是在大括号内为其所有字段提供值。笛卡尔平面的原点是 `x` 和 `y` 都为零的位置："
+msgstr "创建结构体类型值通常的方法是在大括号内为其所有字段提供值。笛卡尔平面的原点是 `x` 和 `y` 均为零的位置："
 
 #: src/getting-to-know/structures.md:70
-#, fuzzy
 msgid ""
 "If the `deriving Repr` line in `Point`'s definition were omitted, then "
 "attempting `#eval origin` would yield an error similar to that which occurs "
@@ -1773,52 +1664,45 @@ msgstr ""
 "如果 `Point` 定义中的 `deriving Repr` 行被省略，则尝试 `#eval origin` 会产生类似于省略函数参数时发生的错误："
 
 #: src/getting-to-know/structures.md:80
-#, fuzzy
 msgid ""
 "That message is saying that the evaluation machinery doesn't know how to "
 "communicate the result of evaluation back to the user."
-msgstr "该消息表明评估机制不知道如何将评估结果传达给用户。"
+msgstr "该消息表明求值机制不知道如何将求值结果传达给用户。"
 
 #: src/getting-to-know/structures.md:82
-#, fuzzy
 msgid ""
 "Happily, with `deriving Repr`, the result of `#eval origin` looks very much "
 "like the definition of `origin`."
 msgstr "幸运的是，使用 `deriving Repr`，`#eval origin` 的结果看起来非常像 `origin` 的定义。"
 
 #: src/getting-to-know/structures.md:87
-#, fuzzy
 msgid ""
 "Because structures exist to \"bundle up\" a collection of data, naming it "
 "and treating it as a single unit, it is also important to be able to extract"
 " the individual fields of a structure. This is done using dot notation, as "
 "in C, Python, or Rust."
 msgstr ""
-"由于结构的存在是为了“捆绑”一组数据，并将其命名并作为单个单元进行处理，因此能够提取结构的各个字段也很重要。这使用点表示法完成，就像在 C、Python"
-" 或 Rust 中一样。"
+"由于结构体是用来“捆绑”一组数据，并将其命名并后作为单个单元进行处理的，因此能够提取结构体的各个字段也很重要。这可以使用点记法，就像在 C、Python 或 Rust 中一样。"
 
 #: src/getting-to-know/structures.md:104
-#, fuzzy
 msgid ""
 "This can be used to define functions that take structures as arguments. For "
 "instance, addition of points is performed by adding the underlying "
 "coordinate values. It should be the case that `#eval addPoints { x := 1.5, y"
 " := 32 } { x := -8, y := 0.2 }` yields"
 msgstr ""
-"可用于定义以结构作为参数的函数。例如，通过添加底层坐标值来执行点加法。`#eval addPoints { x := 1.5, y := 32 } { "
-"x := -8, y := 0.2 }` 应产生"
+"可以定义以结构体作为参数的函数。例如，点的加法可通过底层坐标值相加来执行。`#eval addPoints { x := 1.5, y := 32 } { "
+"x := -8, y := 0.2 }` 会产生"
 
 #: src/getting-to-know/structures.md:110
-#, fuzzy
 msgid ""
 "The function itself takes two `Points` as arguments, called `p1` and `p2`. "
 "The resulting point is based on the `x` and `y` fields of both `p1` and "
 "`p2`:"
 msgstr ""
-"函数本身以两个 `Points` 作为参数，分别称为 `p1` 和 `p2`。结果点基于 `p1` 和 `p2` 的 `x` 和 `y` 字段："
+"函数本身以两个 `Points` 作为参数，分别为 `p1` 和 `p2`。结果点基于 `p1` 和 `p2` 的 `x` 和 `y` 字段："
 
 #: src/getting-to-know/structures.md:117
-#, fuzzy
 msgid ""
 "Similarly, the distance between two points, which is the square root of the "
 "sum of the squares of the differences in their `x` and `y` components, can "
@@ -1826,51 +1710,43 @@ msgid ""
 msgstr "类似地，两点之间的距离（即其 `x` 和 `y` 分量差的平方和的平方根）可以写成："
 
 #: src/getting-to-know/structures.md:122
-#, fuzzy
 msgid "For example, the distance between (1, 2) and (5, -1) is 5:"
 msgstr "例如，(1, 2) 和 (5, -1) 之间的距离为 5："
 
 #: src/getting-to-know/structures.md:131
-#, fuzzy
 msgid ""
 "Multiple structures may have fields with the same names. For instance, a "
 "three-dimensional point datatype may share the fields `x` and `y`, and be "
 "instantiated with the same field names:"
-msgstr "多个结构可能具有同名的字段。例如，三维点数据类型可能共享字段 `x` 和 `y`，并使用相同的字段名进行实例化："
+msgstr "不同结构体可能具有同名的字段。例如，三维点数据类型可能共享字段 `x` 和 `y`，并使用相同的字段名进行实例化："
 
 #: src/getting-to-know/structures.md:142
-#, fuzzy
 msgid ""
 "This means that the structure's expected type must be known in order to use "
 "the curly-brace syntax. If the type is not known, Lean will not be able to "
 "instantiate the structure. For instance,"
-msgstr "这意味着必须知道结构的预期类型才能使用大括号语法。如果类型未知，Lean 将无法实例化结构。例如，"
+msgstr "这意味着必须知道结构体的预期类型才能使用大括号语法。如果类型未知，Lean 将无法实例化结构体。例如，"
 
 #: src/getting-to-know/structures.md:148
-#, fuzzy
 msgid "leads to the error"
 msgstr "会导致错误"
 
 #: src/getting-to-know/structures.md:153
-#, fuzzy
 msgid ""
 "As usual, the situation can be remedied by providing a type annotation."
-msgstr "通常，可以通过提供类型注释来补救这种情况。"
+msgstr "通常，可以通过提供类型标注来补救这种情况。"
 
 #: src/getting-to-know/structures.md:161
-#, fuzzy
 msgid ""
 "To make programs more concise, Lean also allows the structure type "
 "annotation inside the curly braces."
-msgstr "为了使程序更简洁，Lean 还允许在大括号内进行结构类型注释。"
+msgstr "为了使程序更简洁，Lean 还允许在大括号内进行结构体类型注释。"
 
 #: src/getting-to-know/structures.md:169
-#, fuzzy
 msgid "Updating Structures"
-msgstr "更新结构"
+msgstr "更新结构体"
 
 #: src/getting-to-know/structures.md:171
-#, fuzzy
 msgid ""
 "Imagine a function `zeroX` that replaces the `x` field of a `Point` with "
 "`0.0`. In most programming language communities, this sentence would mean "
@@ -1884,10 +1760,9 @@ msgid ""
 msgstr ""
 "设想一个函数 `zeroX`，它将 `Point` 的 `x` 字段替换为 `0.0`。在大多数编程语言社区中，这句话意味着指向 `x` "
 "的内存位置将被新值覆盖。但是，Lean 没有可变状态。在函数式编程社区中，这种说法几乎总是意味着分配一个新的 `Point`，其 `x` "
-"字段指向新值，而所有其他字段指向输入中的原始值。编写 `zeroX` 的一种方法是逐字遵循此描述，填写 `x` 的新值并手动传输 `y`："
+"字段指向新值，而所有其他字段指向输入中的原始值。编写 `zeroX` 的一种方法是逐字遵循此描述，填写 `x` 的新值并手动传入 `y`："
 
 #: src/getting-to-know/structures.md:180
-#, fuzzy
 msgid ""
 "This style of programming has drawbacks, however. First off, if a new field "
 "is added to a structure, then every site that updates any field at all must "
@@ -1896,10 +1771,9 @@ msgid ""
 "copy-paste coding leading to field contents being duplicated or switched. "
 "Finally, the program becomes long and bureaucratic."
 msgstr ""
-"然而，这种编程风格也存在一些缺点。首先，如果向结构体中添加了一个新字段，那么所有更新任何字段的代码都需要更新，这会导致维护困难。其次，如果结构体中包含多个具有相同类型的字段，那么存在真正的风险，即复制粘贴代码会导致字段内容被复制或交换。最后，程序变得冗长且官僚。"
+"然而，这种编程风格也存在一些缺点。首先，如果向结构体中添加了一个新字段，那么所有更新任何字段的代码都需要更新，这会导致维护困难。其次，如果结构体中包含多个具有相同类型的字段，那么存在真正的风险，即复制粘贴代码会导致字段内容被复制或交换。最后，程序变得冗长且呆板。"
 
 #: src/getting-to-know/structures.md:185
-#, fuzzy
 msgid ""
 "Lean provides a convenient syntax for replacing some fields in a structure "
 "while leaving the others alone. This is done by using the `with` keyword in "
@@ -1907,26 +1781,23 @@ msgid ""
 " `with`, and the new fields occur after. For instance, `zeroX` can be "
 "written with only the new `x` value:"
 msgstr ""
-"Lean 提供了一种便捷的语法，用于替换结构体中的一些字段，同时保留其他字段。这是通过在结构体初始化中使用 `with` "
-"关键字来完成的。未更改字段的源代码出现在 `with` 之前，而新字段出现在 `with` 之后。例如，`zeroX` 可以仅使用新的 `x` 值编写："
+"Lean 提供了一种便捷的语法，用于替换结构体中的一些字段，同时保留其他字段。这是通过在结构初始化中使用 `with` "
+"关键字来完成的。未更改字段的源代码写在 `with` 之前，而新字段写在 `with` 之后。例如，`zeroX` 可以仅使用新的 `x` 值编写："
 
 #: src/getting-to-know/structures.md:195
-#, fuzzy
 msgid ""
 "Remember that this structure update syntax does not modify existing "
 "values—it creates new values that share some fields with old values. For "
 "instance, given the point `fourAndThree`:"
-msgstr "请记住，此结构体更新语法不会修改现有值——它会创建一些与旧值共享某些字段的新值。例如，给定点 `fourAndThree`："
+msgstr "请记住，此结构体更新语法不会修改现有值，它会创建一些与旧值共享某些字段的新值。例如，给定点 `fourAndThree`："
 
 #: src/getting-to-know/structures.md:201
-#, fuzzy
 msgid ""
 "evaluating it, then evaluating an update of it using `zeroX`, then "
 "evaluating it again yields the original value:"
 msgstr "对其进行求值，然后使用 `zeroX` 对其进行更新，然后再次对其进行求值，将产生原始值："
 
 #: src/getting-to-know/structures.md:221
-#, fuzzy
 msgid ""
 "One consequence of the fact that structure updates do not modify the "
 "original structure is that it becomes easier to reason about cases where the"
@@ -1934,15 +1805,13 @@ msgid ""
 " continue to refer to the same field values in all of the new values "
 "provided."
 msgstr ""
-"结构体更新不会修改原始结构体的这一事实的一个后果是，更容易推理新值是从旧值计算得出的情况。对旧结构体的所有引用在所有提供的新值中继续引用相同的字段值。"
+"结构体更新不会修改原始结构体，这样更容易推理新值是从旧值计算得出的情况。对旧结构体的所有引用会在所有提供的新值中继续引用相同的字段值。"
 
 #: src/getting-to-know/structures.md:227
-#, fuzzy
 msgid "Behind the Scenes"
 msgstr "幕后"
 
 #: src/getting-to-know/structures.md:229
-#, fuzzy
 msgid ""
 "Every structure has a _constructor_. Here, the term \"constructor\" may be a"
 " source of confusion. Unlike constructors in languages such as Java or "
@@ -1953,57 +1822,50 @@ msgid ""
 "This is really a case of the word \"constructor\" having different, but "
 "related, meanings in the two contexts."
 msgstr ""
-"每个结构体都有一个 _构造函数_。此处，“构造函数”一词可能会引起混淆。与 Java 或 Python 等语言中的构造函数不同，Lean "
-"中的构造函数不是在初始化数据类型时运行的任意代码。相反，构造函数只是收集要存储在新分配的数据结构中的数据。不可能提供一个预处理数据或拒绝无效参数的自定义构造函数。这实际上是“构造函数”一词在两种情况下具有不同但相关的含义的情况。"
+"每个结构体都有一个**构造子（Constructor）**。此处，“Constructor”一词在英文中可能会引起混淆。与 Java 或 Python 等语言中的构造函数不同，Lean "
+"中的构造子不是在初始化数据类型时运行的任意代码。相反，构造子只是收集要存储在新分配的数据结构中的数据。不可能提供一个预处理数据或拒绝无效参数的自定义构造子。这实际上是“Constructor”一词在两种情况下具有不同但相关的含义的情况。"
 
 #: src/getting-to-know/structures.md:237
-#, fuzzy
 msgid ""
 "By default, the constructor for a structure named `S` is named `S.mk`. Here,"
 " `S` is a namespace qualifier, and `mk` is the name of the constructor "
 "itself. Instead of using curly-brace initialization syntax, the constructor "
 "can also be applied directly."
 msgstr ""
-"默认情况下，名为 `S` 的结构的构造函数命名为 `S.mk`。其中，`S` 是命名空间限定符，`mk` "
-"是构造函数本身的名称。除了使用大括号初始化语法，还可以直接应用构造函数。"
+"默认情况下，名为 `S` 的结构的构造子命名为 `S.mk`。其中，`S` 是命名空间限定符，`mk` "
+"是构造子本身的名称。除了使用大括号初始化语法，还可以直接应用构造子。"
 
 #: src/getting-to-know/structures.md:243
-#, fuzzy
 msgid ""
 "However, this is not generally considered to be good Lean style, and Lean "
 "even returns its feedback using the standard structure initializer syntax."
-msgstr "但是，这通常不被认为是良好的 Lean 风格，Lean 甚至使用标准结构初始化器语法返回其反馈。"
+msgstr "但是，这通常不被认为是良好的 Lean 风格，Lean 甚至使用标准结构体初始化语法返回其结果。"
 
 #: src/getting-to-know/structures.md:248
-#, fuzzy
 msgid ""
 "Constructors have function types, which means they can be used anywhere that"
 " a function is expected. For instance, `Point.mk` is a function that accepts"
 " two `Float`s (respectively `x` and `y`) and returns a new `Point`."
 msgstr ""
-"构造函数具有函数类型，这意味着它们可以在需要函数的任何地方使用。例如，`Point.mk` 是一个接受两个 `Float`（分别是 `x` 和 "
+"构造子具有函数类型，这意味着它们可以在需要函数的任何地方使用。例如，`Point.mk` 是一个接受两个 `Float`（分别是 `x` 和 "
 "`y`）并返回一个新 `Point` 的函数。"
 
 #: src/getting-to-know/structures.md:256
-#, fuzzy
 msgid ""
 "To override a structure's constructor name, write it with two colons at the "
 "beginning. For instance, to use `Point.point` instead of `Point.mk`, write:"
-msgstr "要覆盖结构的构造函数名称，请在开头写两个冒号。例如，要使用 `Point.point` 而不是 `Point.mk`，请编写："
+msgstr "要覆盖结构体的构造子名称，请在开头写出新的名称后跟两个冒号。例如，要使用 `Point.point` 而不是 `Point.mk`，请编写："
 
 #: src/getting-to-know/structures.md:266
-#, fuzzy
 msgid ""
 "In addition to the constructor, an accessor function is defined for each "
 "field of a structure. These have the same name as the field, in the "
 "structure's namespace. For `Point`, accessor functions `Point.x` and "
 "`Point.y` are generated."
 msgstr ""
-"除了构造函数，还为结构的每个字段定义了一个访问器函数。它们在结构的命名空间中与字段具有相同的名称。对于 `Point`，会生成访问器函数 "
-"`Point.x` 和 `Point.y`。"
+"除了构造子，结构体的每个字段还定义了一个访问器函数。它们在结构体的命名空间中与字段具有相同的名称。对于 `Point`，会生成访问器函数 `Point.x` 和 `Point.y`。"
 
 #: src/getting-to-know/structures.md:283
-#, fuzzy
 msgid ""
 "In fact, just as the curly-braced structure construction syntax is converted"
 " to a call to the structure's constructor behind the scenes, the syntax "
@@ -2011,11 +1873,9 @@ msgid ""
 "the `Point.x` accessor. That is, `#eval origin.x` and `#eval Point.x origin`"
 " both yield"
 msgstr ""
-"事实上，就像大括号结构构造语法在幕后转换为对结构构造函数的调用一样，`addPoints` 先前定义中的语法 `p1.x` 被转换为对 "
-"`Point.x` 访问器的调用。也就是说，`#eval origin.x` 和 `#eval Point.x origin` 都产生"
+"实际上，就像大括号结构体构造语法会在幕后转换为对结构体构造函数的调用一样，`addPoints` 中先前定义中的语法 `p1.x` 会被转换为对 `Point.x` 访问器的调用。也就是说，`#eval origin.x` 和 `#eval Point.x origin` 都会产生"
 
 #: src/getting-to-know/structures.md:289
-#, fuzzy
 msgid ""
 "Accessor dot notation is usable with more than just structure fields. It can"
 " also be used for functions that take any number of arguments. More "
@@ -2026,13 +1886,12 @@ msgid ""
 "For instance, `String.append` can be invoked from a string with accessor "
 "notation, even though `String` is not a structure with an `append` field."
 msgstr ""
-"访问器点表示法不仅可以与结构字段一起使用。它还可以用于接受任意数量参数的函数。更一般地说，访问器表示法具有以下形式：`TARGET.f ARG1 "
-"ARG2 ...`。如果 `TARGET` 的类型为 `T`，则调用名为 `T.f` 的函数。`TARGET` 成为其类型为 `T` "
+"访问器的点记法不仅可以与结构字段一起使用。它还可以用于接受任意数量参数的函数。更一般地说，访问器记法具有以下形式：`TARGET.f ARG1 "
+"ARG2 ...`。如果 `TARGET` 的类型为 `T`，则调用名为 `T.f` 的函数。`TARGET` 是其类型为 `T` "
 "的最左边的参数，它通常但并非总是第一个参数，并且 `ARG1 ARG2 ...` 按顺序作为其余参数提供。例如，即使 `String` 不是具有 "
-"`append` 字段的结构，也可以使用访问器表示法从字符串中调用 `String.append`。"
+"`append` 字段的结构，也可以使用访问器记法从字符串中调用 `String.append`。"
 
 #: src/getting-to-know/structures.md:295
-#, fuzzy
 msgid ""
 "```lean\n"
 "#eval \"one string\".append \" and another\"\n"
@@ -2043,7 +1902,6 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/structures.md:298
-#, fuzzy
 msgid ""
 "```output info\n"
 "\"one string and another\"\n"
@@ -2054,14 +1912,12 @@ msgstr ""
 "```"
 
 #: src/getting-to-know/structures.md:301
-#, fuzzy
 msgid ""
 "In that example, `TARGET` represents `\"one string\"` and `ARG1` represents "
 "`\" and another\"`."
 msgstr "在该示例中，`TARGET` 表示 `\"一个字符串\"`，`ARG1` 表示 `\"和另一个\"`。"
 
 #: src/getting-to-know/structures.md:303
-#, fuzzy
 msgid ""
 "The function `Point.modifyBoth` (that is, `modifyBoth` defined in the "
 "`Point` namespace) applies a function to both fields in a `Point`:"
@@ -2070,11 +1926,10 @@ msgstr ""
 "中的两个字段："
 
 #: src/getting-to-know/structures.md:308
-#, fuzzy
 msgid ""
 "Even though the `Point` argument comes after the function argument, it can "
 "be used with dot notation as well:"
-msgstr "即使 `Point` 参数位于函数参数之后，也可以使用点表示法："
+msgstr "即使 `Point` 参数位于函数参数之后，也可以使用点记法："
 
 #: src/getting-to-know/structures.md:315
 #, fuzzy
@@ -2085,24 +1940,21 @@ msgid ""
 "argument."
 msgstr ""
 "在这种情况下，`TARGET` 表示 `fourAndThree`，而 `ARG1` 是 "
-"`Float.floor`。这是因为访问器表示法的目标用作第一个参数，其中类型匹配，而不一定是第一个参数。"
+"`Float.floor`。这是因为访问器记法的目标用作第一个类型匹配的参数，而不一定是第一个参数。"
 
 #: src/getting-to-know/structures.md:320
-#, fuzzy
 msgid ""
 "Define a structure named `RectangularPrism` that contains the height, width,"
 " and depth of a rectangular prism, each as a `Float`."
 msgstr "定义一个名为 `RectangularPrism` 的结构，其中包含一个矩形棱柱的高度、宽度和深度，每个都是 `Float`。"
 
 #: src/getting-to-know/structures.md:321
-#, fuzzy
 msgid ""
 "Define a function named `volume : RectangularPrism → Float` that computes "
 "the volume of a rectangular prism."
 msgstr "定义一个名为 `volume : RectangularPrism → Float` 的函数，用于计算矩形棱柱的体积。"
 
 #: src/getting-to-know/structures.md:322
-#, fuzzy
 msgid ""
 "Define a structure named `Segment` that represents a line segment by its "
 "endpoints, and define a function `length : Segment → Float` that computes "
@@ -2112,19 +1964,16 @@ msgstr ""
 "Float`，用于计算线段的长度。`Segment` 最多应有两个字段。"
 
 #: src/getting-to-know/structures.md:323
-#, fuzzy
 msgid "Which names are introduced by the declaration of `RectangularPrism`?"
 msgstr "`RectangularPrism` 的声明引入了哪些名称？"
 
 #: src/getting-to-know/structures.md:324
-#, fuzzy
 msgid ""
 "Which names are introduced by the following declarations of `Hamster` and "
 "`Book`? What are their types?"
 msgstr "以下 `Hamster` 和 `Book` 的声明引入了哪些名称？它们的类型是什么？"
 
 #: src/getting-to-know/datatypes-and-patterns.md:1
-#, fuzzy
 msgid "Datatypes and Patterns"
 msgstr "数据类型和模式"
 
@@ -4586,7 +4435,6 @@ msgstr ""
 "定义的数据类型为构造函数的每个参数提供一个访问器函数。结构和归纳数据类型都可以使用模式匹配来使用，模式匹配使用调用所述构造函数的语法的一个子集来公开存储在构造函数中的值。模式匹配意味着知道如何创建值就意味着知道如何使用它。"
 
 #: src/getting-to-know/summary.md:65
-#, fuzzy
 msgid "Recursion"
 msgstr "递归"
 
@@ -4618,6 +4466,7 @@ msgid ""
 msgstr ""
 "为了确保递归定义不会破坏 Lean 的逻辑方面，Lean "
 "必须能够证明所有递归函数都会终止，无论使用什么参数调用它们。在实践中，这意味着递归调用都执行在输入的结构上更小的部分上，这确保了始终朝着基本情况进行，或者用户必须提供一些其他证据来证明函数始终终止。类似地，递归归纳类型不允许具有将函数从类型作为参数的构造函数，因为这将使编码非终止函数成为可能。"
+# TODO(OlingCat)
 
 #: src/hello-world.md:3
 #, fuzzy
@@ -6981,6 +6830,7 @@ msgstr ""
 "然而，一些实际程序需要无限循环的可能性，因为它们处理潜在的无限数据，例如 POSIX 流。Lean 提供了一个逃生舱口：标记为 `partial` "
 "的函数定义不需要终止。这是有代价的。因为类型是 Lean "
 "语言的一等部分，所以函数可以返回类型。然而，部分函数在类型检查期间不会被求值，因为函数中的无限循环可能导致类型检查器进入无限循环。此外，数学证明无法检查部分函数的定义，这意味着使用它们的程序更难进行形式化证明。"
+# TODO(OlingCat)
 
 #: src/props-proofs-indexing.md:3
 #, fuzzy
