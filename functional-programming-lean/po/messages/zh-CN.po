@@ -12507,7 +12507,6 @@ msgid ""
 msgstr "这两个方法都有正确的类型。为什么这个实例违反了单子约定？"
 
 #: src/monads/arithmetic.md:3
-#, fuzzy
 msgid ""
 "Monads are a way of encoding programs with side effects into a language that"
 " does not have them. It would be easy to read this as a sort of admission "
@@ -12516,20 +12515,18 @@ msgid ""
 "while using the `Monad` API does impose a syntactic cost on a program, it "
 "brings two important benefits:"
 msgstr ""
-"Monad "
-"是一种将具有副作用的程序编码到没有副作用的语言中的方式。很容易将此解读为一种承认，纯函数式程序缺少一些重要的东西，要求程序员跳过障碍才能编写一个普通的程序。然而，虽然使用"
+"单子 "
+"是一种将具有副作用的程序编入没有副作用的语言中的方式。很容易将此误解为承认纯函数式编程缺少一些重要的东西，程序员要越过这些障碍才能编写一个普通的程序。虽然使用"
 " `Monad` API 确实给程序带来了语法成本，但它带来了两个重要的优点："
 
 #: src/monads/arithmetic.md:6
-#, fuzzy
 msgid ""
 "Programs must be honest about which effects they use in their types. A quick"
 " glance at a type signature describes _everything_ that the program can do, "
 "rather than just what it accepts and what it returns."
-msgstr "程序必须诚实地说明它们在类型中使用的效果。快速浏览类型签名描述了程序可以做的一切，而不仅仅是它接受什么和返回什么。"
+msgstr "程序必须诚实地说明它们在类型中使用的效果(Effects)。看一眼类型签名就可以知道程序能做什么，而不只是接受什么和返回什么。"
 
 #: src/monads/arithmetic.md:7
-#, fuzzy
 msgid ""
 "Not every language provides the same effects. For example, only some "
 "language have exceptions. Other languages have unique, exotic effects, such "
@@ -12539,49 +12536,42 @@ msgid ""
 "choose which ones are the best fit for a given application, rather than "
 "being stuck with what the language developers provided."
 msgstr ""
-"并非每种语言都提供相同的效果。例如，只有某些语言有异常。其他语言具有独特的新奇效果，例如 [Icon "
-"对多个值进行搜索](https://www2.cs.arizona.edu/icon/) 以及 Scheme 或 Ruby 的延续。由于 monad "
-"可以编码任何效果，因此程序员可以选择最适合给定应用程序的效果，而不是局限于语言开发者提供的效果。"
+"并非每种语言都提供相同的效果。例如只有某些语言有异常。其他语言具有独特的新奇效果，例如 [Icon's "
+"searching over multiple values](https://www2.cs.arizona.edu/icon/) 以及 Scheme 或 Ruby 的continuations。由于 单子 "
+"可以编码**任何**效果，因此程序员可以选择最适合给定程序的效果，而不是局限于语言开发者提供的效果。"
 
 #: src/monads/arithmetic.md:9
-#, fuzzy
 msgid ""
 "One example of a program that can make sense in a variety of monads is an "
 "evaluator for arithmetic expressions."
-msgstr "一个可以在各种 monad 中有意义的程序示例是算术表达式的求值器。"
+msgstr "在各种 单子 中有意义的一个例子是算术表达式的求值器。"
 
 #: src/monads/arithmetic.md:11
-#, fuzzy
 msgid "Arithmetic Expressions"
 msgstr "算术表达式"
 
 #: src/monads/arithmetic.md:13
-#, fuzzy
 msgid ""
 "An arithmetic expression is either a literal integer or a primitive binary "
 "operator applied to two expressions. The operators are addition, "
 "subtraction, multiplication, and division:"
-msgstr "算术表达式要么是字面整数，要么是应用于两个表达式的原始二元运算符。运算符是加法、减法、乘法和除法："
+msgstr "算术表达式要么是字面量(Literal)，要么是应用于两个表达式的二元运算符。运算符是加法、减法、乘法和除法："
 
 #: src/monads/arithmetic.md:26
-#, fuzzy
 msgid "The expression `2 + 3` is represented:"
 msgstr "表达式 `2 + 3` 表示为："
 
 #: src/monads/arithmetic.md:33
-#, fuzzy
 msgid "and `14 / (45 - 5 * 9)` is represented:"
 msgstr "而 `14 / (45 - 5 * 9)` 表示为："
 
 #: src/monads/arithmetic.md:43
-#, fuzzy
 msgid ""
 "Because expressions include division, and division by zero is undefined, "
 "evaluation might fail. One way to represent failure is to use `Option`:"
 msgstr "由于表达式包含除法，而除以零是未定义的，因此求值可能会失败。表示失败的一种方法是使用 `Option`："
 
 #: src/monads/arithmetic.md:57
-#, fuzzy
 msgid ""
 "This definition uses the `Monad Option` instance to propagate failures from "
 "evaluating both branches of a binary operator. However, the function mixes "
@@ -12589,10 +12579,9 @@ msgid ""
 "the results. It can be improved by splitting it into two functions:"
 msgstr ""
 "此定义使用 `Monad Option` "
-"实例来传播从二元运算符的两个分支求值产生的失败。但是，该函数混合了两个问题：求值子表达式和将二元运算符应用于结果。可以通过将其拆分为两个函数来改进它："
+"实例来传播从二元运算符的两个分支求值产生的失败。但是，该函数混合了两个问题：对子表达式的求值和对运算符的应用。可以将其拆分为两个函数来改进："
 
 #: src/monads/arithmetic.md:75
-#, fuzzy
 msgid ""
 "Running `#eval evaluateOption fourteenDivided` yields `none`, as expected, "
 "but this is not a very useful error message. Because the code was written "
@@ -12601,11 +12590,10 @@ msgid ""
 "failure:"
 msgstr ""
 "运行 `#eval evaluateOption fourteenDivided` 会产生 "
-"`none`，正如预期的那样，但这不是一个非常有用的错误消息。由于代码是使用 `>>=` 编写的，而不是显式处理 `none` "
-"构造函数，因此只需进行少量修改即可在失败时提供错误消息："
+"`none`，正如预期的那样，但这并不是一个非常有用的错误消息。由于代码是使用 `>>=` 编写的，而不是显式处理 `none` "
+"构造器，因此只需进行少量修改即可在失败时提供错误消息："
 
 #: src/monads/arithmetic.md:77
-#, fuzzy
 msgid ""
 "```lean\n"
 "def applyPrim : Arith → Int → Int → Except String Int\n"
@@ -12646,7 +12634,6 @@ msgstr ""
 "```"
 
 #: src/monads/arithmetic.md:95
-#, fuzzy
 msgid ""
 "The only difference is that the type signature mentions `Except String` "
 "instead of `Option`, and the failing case uses `Except.error` instead of "
@@ -12654,11 +12641,10 @@ msgid ""
 "`applyPrim` as an argument, a single evaluator becomes capable of both forms"
 " of error reporting:"
 msgstr ""
-"唯一的区别是类型签名提到 `Except String` 而不是 `Option`，并且失败的情况使用 `Except.error` 而不是 "
-"`none`。通过使 `evaluate` 在其单子上多态并将其作为参数传递给 `applyPrim`，单个求值器能够以两种形式进行错误报告："
+"唯一区别是类型签名提到的是 `Except String` 而不是 `Option`，并且失败时使用 `Except.error` 而不是 "
+"`none`。通过让 `evaluate` 在单子上具有多态性并将其作为参数传递给 `applyPrim`，单个求值器能够以两种形式报告错误："
 
 #: src/monads/arithmetic.md:97
-#, fuzzy
 msgid ""
 "```lean\n"
 "def applyPrimOption : Arith → Int → Int → Option Int\n"
@@ -12686,68 +12672,65 @@ msgid ""
 "    evaluateM applyPrim e2 >>= fun v2 =>\n"
 "    applyPrim p v1 v2\n"
 "```"
-msgstr "**applyPrimOption** 函数与 `evaluate` 的第一个版本类似，使用它时效果相同。"
+msgstr ""
+"```lean\n"
+"def applyPrimOption : Arith → Int → Int → Option Int\n"
+"  | Arith.plus, x, y => pure (x + y)\n"
+"  | Arith.minus, x, y => pure (x - y)\n"
+"  | Arith.times, x, y => pure (x * y)\n"
+"  | Arith.div, x, y =>\n"
+"    if y == 0 then\n"
+"      none\n"
+"    else pure (x / y)\n"
+"\n"
+"def applyPrimExcept : Arith → Int → Int → Except String Int\n"
+"  | Arith.plus, x, y => pure (x + y)\n"
+"  | Arith.minus, x, y => pure (x - y)\n"
+"  | Arith.times, x, y => pure (x * y)\n"
+"  | Arith.div, x, y =>\n"
+"    if y == 0 then\n"
+"      Except.error s!\"Tried to divide {x} by zero\"\n"
+"    else pure (x / y)\n"
+"\n"
+"def evaluateM [Monad m] (applyPrim : Arith → Int → Int → m Int): Expr Arith → m Int\n"
+"  | Expr.const i => pure i\n"
+"  | Expr.prim p e1 e2 =>\n"
+"    evaluateM applyPrim e1 >>= fun v1 =>\n"
+"    evaluateM applyPrim e2 >>= fun v2 =>\n"
+"    applyPrim p v1 v2\n"
+"```"
 
 #: src/monads/arithmetic.md:123
-#, fuzzy
 msgid ""
 "Using it with `applyPrimOption` works just like the first version of "
 "`evaluate`:"
-msgstr "同样，使用 **applyPrimExcept** 函数时效果与带有错误消息的版本相同："
+msgstr "将其与`applyPrimOption`一起使用效果就和最初的`evaluate`一样："
 
 #: src/monads/arithmetic.md:130
-#, fuzzy
 msgid ""
 "Similarly, using it with `applyPrimExcept` works just like the version with "
 "error messages:"
 msgstr ""
-"```output info\n"
-"Except.error \"尝试将 14 除以零\"\n"
-"```"
+msgstr "类似地，和 **applyPrimExcept** 函数一起使用时效果与带有错误消息的版本相同："
 
 #: src/monads/arithmetic.md:134
-#, fuzzy
 msgid ""
 "```output info\n"
 "Except.error \"Tried to divide 14 by zero\"\n"
 "```"
 msgstr ""
-"代码仍有改进空间。**applyPrimOption** 和 **applyPrimExcept** "
-"函数仅在除法处理上有所不同，可以将其提取到求值器的另一个参数中："
+"```output info\n"
+"Except.error \"Tried to divide 14 by zero\"\n"
+"```"
 
 #: src/monads/arithmetic.md:138
-#, fuzzy
 msgid ""
 "The code can still be improved. The functions `applyPrimOption` and "
 "`applyPrimExcept` differ only in their treatment of division, which can be "
 "extracted into another parameter to the evaluator:"
 msgstr ""
-"```lean\n"
-"def applyDivOption (x : Int) (y : Int) : Option Int :=\n"
-"    如果 y == 0 则\n"
-"      无\n"
-"    否则\n"
-"      纯 (x / y)\n"
-"\n"
-"def applyDivExcept (x : Int) (y : Int) : Except String Int :=\n"
-"    如果 y == 0 则\n"
-"      Except.error s!\"尝试将 {x} 除以零\"\n"
-"    否则\n"
-"      纯 (x / y)\n"
-"\n"
-"def applyPrim [Monad m] (applyDiv : Int → Int → m Int) : Arith → Int → Int → m Int\n"
-"  | Arith.plus, x, y => 纯 (x + y)\n"
-"  | Arith.minus, x, y => 纯 (x - y)\n"
-"  | Arith.times, x, y => 纯 (x * y)\n"
-"  | Arith.div, x, y => applyDiv x y\n"
-"\n"
-"def evaluateM [Monad m] (applyDiv : Int → Int → m Int): Expr Arith → m Int\n"
-"  | Expr.const i => 纯 i\n"
-"  | Expr.prim p e1 e2 =>\n"
-"    evaluateM applyDiv e1 >>= fun v1 =>\n"
-"    evaluateM applyDiv e2 >>= fun v2 =>\n"
-"    applyPrim applyDiv p v1 v2\n"
-"```"
+"代码仍有改进空间。**applyPrimOption** 和 **applyPrimExcept** "
+"函数仅在除法处理上有所不同，可以将其提取到求值器的另一个参数中："
 
 #: src/monads/arithmetic.md:140
 msgid ""
@@ -12776,51 +12759,68 @@ msgid ""
 "    applyPrim applyDiv p v1 v2\n"
 "```"
 msgstr ""
+"```lean\n"
+"def applyDivOption (x : Int) (y : Int) : Option Int :=\n"
+"    if y == 0 then\n"
+"      none\n"
+"    else pure (x / y)\n"
+"\n"
+"def applyDivExcept (x : Int) (y : Int) : Except String Int :=\n"
+"    if y == 0 then\n"
+"      Except.error s!\"Tried to divide {x} by zero\"\n"
+"    else pure (x / y)\n"
+"\n"
+"def applyPrim [Monad m] (applyDiv : Int → Int → m Int) : Arith → Int → Int → m Int\n"
+"  | Arith.plus, x, y => pure (x + y)\n"
+"  | Arith.minus, x, y => pure (x - y)\n"
+"  | Arith.times, x, y => pure (x * y)\n"
+"  | Arith.div, x, y => applyDiv x y\n"
+"\n"
+"def evaluateM [Monad m] (applyDiv : Int → Int → m Int): Expr Arith → m Int\n"
+"  | Expr.const i => pure i\n"
+"  | Expr.prim p e1 e2 =>\n"
+"    evaluateM applyDiv e1 >>= fun v1 =>\n"
+"    evaluateM applyDiv e2 >>= fun v2 =>\n"
+"    applyPrim applyDiv p v1 v2\n"
+"```"
 
 #: src/monads/arithmetic.md:165
-#, fuzzy
 msgid ""
 "In this refactored code, the fact that the two code paths differ only in "
 "their treatment of failure has been made fully apparent."
-msgstr "在重构后的代码中，两个代码路径仅在对失败的处理上有所不同，这一事实已完全显而易见。"
+msgstr "在重构后的代码中，两个代码路径仅在对失败情况的处理上有所不同，这一事实显而易见。"
 
 #: src/monads/arithmetic.md:167
-#, fuzzy
 msgid "Further Effects"
-msgstr "其他影响"
+msgstr "其他作用"
 
 #: src/monads/arithmetic.md:169
-#, fuzzy
 msgid ""
 "Failure and exceptions are not the only kinds of effects that can be "
 "interesting when working with an evaluator. While division's only side "
 "effect is failure, adding other primitive operators to the expressions make "
 "it possible to express other effects."
-msgstr "在使用求值器时，失败和异常并不是唯一可能引起兴趣的影响类型。虽然除法的唯一副作用是失败，但将其他原始运算符添加到表达式中可以表达其他影响。"
+msgstr "在考虑求值器时，失败和异常并不是唯一值得在意的作用(Effects)。虽然除法的唯一副作用是失败，但若要增加其他运算符的支持，则可能需要表达对应的作用。"
 
 #: src/monads/arithmetic.md:172
-#, fuzzy
 msgid ""
 "The first step is an additional refactoring, extracting division from the "
 "datatype of primitives:"
-msgstr "第一步是进行额外的重构，从原始数据类型中提取除法："
+msgstr "第一步是重构，从原始数据类型中提取除法："
 
 #: src/monads/arithmetic.md:183
-#, fuzzy
 msgid ""
 "The name `CanFail` suggests that the effect introduced by division is "
 "potential failure."
-msgstr "名称 `CanFail` 表明除法引入的影响是潜在的失败。"
+msgstr "名称 `CanFail` 表明被除法引入的作用是可能发生的失败。"
 
 #: src/monads/arithmetic.md:185
-#, fuzzy
 msgid ""
 "The second step is to broaden the scope of the division handler argument to "
 "`evaluateM` so that it can process any special operator:"
-msgstr "第二步是将除法处理程序参数的作用域扩展到 `evaluateM`，以便它可以处理任何特殊运算符："
+msgstr "第二步是将除法计算函数的参数扩展到 `evaluateM`，以便它可以处理任何特殊运算符："
 
 #: src/monads/arithmetic.md:186
-#, fuzzy
 msgid ""
 "```lean\n"
 "def divOption : CanFail → Int → Int → Option Int\n"
@@ -12871,12 +12871,10 @@ msgstr ""
 "```"
 
 #: src/monads/arithmetic.md:210
-#, fuzzy
 msgid "No Effects"
-msgstr "无副作用"
+msgstr "无作用"
 
 #: src/monads/arithmetic.md:212
-#, fuzzy
 msgid ""
 "The type `Empty` has no constructors, and thus no values, like the `Nothing`"
 " type in Scala or Kotlin. In Scala and Kotlin, `Nothing` can represent "
@@ -12890,14 +12888,13 @@ msgid ""
 "current expression need not return a result, because it could never have "
 "been called. "
 msgstr ""
-"`Empty` 类型没有构造函数，因此没有值，就像 Scala 或 Kotlin 中的 `Nothing` 类型。在 Scala 和 Kotlin "
+"`Empty` 类型没有构造子，因此没有值，就像 Scala 或 Kotlin 中的 `Nothing` 类型。在 Scala 和 Kotlin "
 "中，`Nothing` 可以表示永不返回结果的计算，例如导致程序崩溃、引发异常或始终陷入无限循环的函数。类型为 `Nothing` "
 "的函数或方法的参数表示死代码，因为永远不会有合适的参数值。Lean 不支持无限循环和异常，但 `Empty` "
-"仍然可作为指示类型系统函数不可调用的标志。当 `E` 是类型没有构造函数的表达式的表达式时，使用语法 `nomatch E` 向 Lean "
-"指示当前表达式不需要返回结果，因为它永远不会被调用。"
+"仍然可作为向类型系统说明函数不可调用的标志。当 `E` 是类型没有构造子的表达式时，使用语法 `nomatch E` 向 Lean "
+"说明当前表达式不需要返回结果，因为它永远不会被调用。"
 
 #: src/monads/arithmetic.md:218
-#, fuzzy
 msgid ""
 "Using `Empty` as the parameter to `Prim` indicates that there are no "
 "additional cases beyond `Prim.plus`, `Prim.minus`, and `Prim.times`, because"
@@ -12906,24 +12903,21 @@ msgid ""
 "`Empty` to two integers can never be called, it doesn't need to return a "
 "result. Thus, it can be used in _any_ monad:"
 msgstr ""
-"将 `Empty` 用作 `Prim` 的参数表示除了 `Prim.plus`、`Prim.minus` 和 `Prim.times` "
-"之外没有其他情况，因为不可能想出一个 `Empty` 类型的值来放在 `Prim.other` 构造函数中。由于应用类型为 `Empty` "
-"的运算符到两个整数的函数永远不会被调用，因此它不需要返回结果。因此，它可以在 _任何_ 单子中使用："
+"将 `Empty` 用作 `Prim` 的参数，表示除了 `Prim.plus`、`Prim.minus` 和 `Prim.times` "
+"之外没有其他情况，因为不可能找到一个 `Empty` 类型的值来放在 `Prim.other` 构造函数中。由于类型为 `Empty` "
+"的运算符应用于两个整数的函数永远不会被调用，所以它不需要返回结果。因此，它可以在 **任何** 单子中使用："
 
 #: src/monads/arithmetic.md:225
-#, fuzzy
 msgid ""
 "This can be used together with `Id`, the identity monad, to evaluate "
 "expressions that have no effects whatsoever:"
 msgstr "这可以与恒等单子 `Id` 一起使用，以计算没有任何副作用的表达式："
 
 #: src/monads/arithmetic.md:234
-#, fuzzy
 msgid "Nondeterministic Search"
 msgstr "非确定性搜索"
 
 #: src/monads/arithmetic.md:236
-#, fuzzy
 msgid ""
 "Instead of simply failing when encountering division by zero, it would also "
 "be sensible to backtrack and try a different input. Given the right monad, "
@@ -12934,34 +12928,30 @@ msgid ""
 "the evaluator to pick either of its arguments while searching for non-"
 "failing results."
 msgstr ""
-"遇到除以零时，除了直接失败之外，还可以回溯并尝试不同的输入。给定正确的单子，同一个 `evaluateM` 可以对不导致失败的答案 _集_ "
-"执行非确定性搜索。除了除法之外，还需要一些指定结果选择的方法。一种方法是在表达式的语言中添加一个函数 "
-"`choose`，指示求值器在搜索非失败结果时选择其任一参数。"
+"遇到除以零时，除了直接失败之外，还可以回溯并尝试不同的输入。给定适当的单子，同一个 `evaluateM` 可以对不致失败的答案 **集合** "
+"执行非确定性搜索。除了除法之外，还需要指定选择结果的方法。一种方法是在表达式的语言中添加一个函数 "
+"`choose`，告诉求值器在搜索非失败结果时选择其中一个参数。"
 
 #: src/monads/arithmetic.md:241
-#, fuzzy
 msgid ""
 "The result of the evaluator is now a multiset of values, rather than a "
 "single value. The rules for evaluation into a multiset are:"
-msgstr "求值结果现在是一个多重集，而不是一个单一值。求值到多重集的规则如下："
+msgstr "求值结果现在变成一个多重集合(multiset)，而不是一个单一值。求值到多重集合的规则如下："
 
 #: src/monads/arithmetic.md:243
-#, fuzzy
 msgid "Constants \\\\( n \\\\) evaluate to singleton sets \\\\( {n} \\\\)."
 msgstr "常量 \\\\( n \\\\) 求值为单元素集 \\\\( {n} \\\\)。"
 
 #: src/monads/arithmetic.md:244
-#, fuzzy
 msgid ""
 "Arithmetic operators other than division are called on each pair from the "
 "Cartesian product of the operators, so \\\\( X + Y \\\\) evaluates to \\\\( "
 "\\\\{ x + y \\\\mid x ∈ X, y ∈ Y \\\\} \\\\)."
 msgstr ""
-"除法以外的算术运算符对运算符笛卡尔积中的每一对进行调用，所以 \\\\( X + Y \\\\) 求值为 \\\\( \\\\{ x + y "
+"除法以外的算术运算符作用于两个参数的笛卡尔积中的每一对，所以 \\\\( X + Y \\\\) 求值为 \\\\( \\\\{ x + y "
 "\\\\mid x ∈ X, y ∈ Y \\\\} \\\\)。"
 
 #: src/monads/arithmetic.md:245
-#, fuzzy
 msgid ""
 "Division \\\\( X / Y \\\\) evaluates to \\\\( \\\\{ x / y \\\\mid x ∈ X, y ∈"
 " Y, y ≠ 0\\\\} \\\\). In other words, all \\\\( 0 \\\\) values in \\\\( Y "
@@ -12971,12 +12961,10 @@ msgstr ""
 "\\\\)。换句话说，\\\\( Y \\\\) 中的所有 \\\\( 0 \\\\) 值都被丢弃。"
 
 #: src/monads/arithmetic.md:246
-#, fuzzy
 msgid "A choice \\\\( \\\\mathrm{choose}(x, y) \\\\) evaluates to \\\\( \\\\{ x, y \\\\} \\\\)."
 msgstr "一个选择 \\\\( \\\\mathrm{choose}(x, y) \\\\) 求值为 \\\\( \\\\{ x, y \\\\} \\\\)。"
 
 #: src/monads/arithmetic.md:248
-#, fuzzy
 msgid ""
 "For example, \\\\( 1 + \\\\mathrm{choose}(2, 5) \\\\) evaluates to \\\\( "
 "\\\\{ 3, 6 \\\\} \\\\), \\\\(1 + 2 / 0 \\\\) evaluates to \\\\( \\\\{\\\\} "
@@ -12987,60 +12975,54 @@ msgstr ""
 "例如，\\\\( 1 + \\\\mathrm{choose}(2, 5) \\\\) 求值为 \\\\( \\\\{ 3, 6 \\\\} "
 "\\\\)，\\\\(1 + 2 / 0 \\\\) 求值为 \\\\( \\\\{\\\\} \\\\)，\\\\( 90 / "
 "(\\\\mathrm{choose}(-5, 5) + 5) \\\\) 求值为 \\\\( \\\\{ 9 \\\\} "
-"\\\\)。使用多重集代替真集简化了代码，无需再检查元素的唯一性。"
+"\\\\)。使用多重集合而不是集合，因为多重集合无需检查元素的唯一性。"
 
 #: src/monads/arithmetic.md:251
-#, fuzzy
 msgid ""
 "A monad that represents this non-deterministic effect must be able to "
 "represent a situation in which there are no answers, and a situation in "
 "which there is at least one answer together with any remaining answers:"
-msgstr "表示这种非确定性效果的单子必须能够表示没有答案的情况，以及至少有一个答案和任何剩余答案的情况："
+msgstr "表示这种非确定性效果的单子必须能够表示没有答案的情况，以及至少有一个答案和其他答案的情况："
 
 #: src/monads/arithmetic.md:257
-#, fuzzy
 msgid ""
 "This datatype looks very much like `List`. The difference is that where "
 "`cons` stores the rest of the list, `more` stores a function that should "
 "compute the next value on demand. This means that a consumer of `Many` can "
 "stop the search when some number of results have been found."
 msgstr ""
-"此数据类型看起来非常像 `List`。不同之处在于，`cons` 存储列表的其余部分，而 `more` 存储一个函数，该函数应按需计算下一个值。这意味着"
+"该数据类型看起来非常像 `List`。不同之处在于，`cons` 存储列表的其余部分，而 `more` 存储一个函数，该函数仅在需要时才会被调用来计算下一个值。这意味着"
 " `Many` 的使用者可以在找到一定数量的结果后停止搜索。"
 
 #: src/monads/arithmetic.md:261
-#, fuzzy
 msgid ""
 "A single result is represented by a `more` constructor that returns no "
 "further results:"
-msgstr "单个结果由 `more` 构造器表示，该构造器不返回任何进一步的结果："
+msgstr "单个结果由 `more` 构造子表示，该构造子不返回任何进一步的结果："
 
 #: src/monads/arithmetic.md:265
-#, fuzzy
 msgid ""
 "The union of two multisets of results can be computed by checking whether "
 "the first multiset is empty. If so, the second multiset is the union. If "
 "not, the union consists of the first element of the first multiset followed "
 "by the union of the rest of the first multiset with the second multiset:"
 msgstr ""
-"两个结果多重集的并集可以通过检查第一个多重集是否为空来计算。如果是，则第二个多重集是并集。如果不是，则并集由第一个多重集的第一个元素后跟第一个多重集的其余部分与第二个多重集的并集组成："
+"两个结果多重集合的并集可以通过检查第一个多重集合是否为空来计算。如果为空则第二个多重集合就是并集。"
+"如果非空，则并集由第一个多重集合的第一个元素，跟着第一个多重集的其余部分与第二个多重集的并集组成："
 
 #: src/monads/arithmetic.md:274
-#, fuzzy
 msgid ""
 "It can be convenient to start a search process with a list of values. "
 "`Many.fromList` converts a list into a multiset of results:"
-msgstr "从值列表开始搜索过程会很方便。`Many.fromList` 将列表转换为结果的多重集合："
+msgstr "对值列表进行搜索会很方便。`Many.fromList` 将列表转换为结果的多重集合："
 
 #: src/monads/arithmetic.md:281
-#, fuzzy
 msgid ""
 "Similarly, once a search has been specified, it can be convenient to extract"
 " either a number of values, or all the values:"
-msgstr "同样，一旦指定了搜索，就可以方便地提取多个值或所有值："
+msgstr "同样地，一旦搜索已经确定，就可以方便地提取固定数量的值或所有值："
 
 #: src/monads/arithmetic.md:293
-#, fuzzy
 msgid ""
 "A `Monad Many` instance requires a `bind` operator. In a nondeterministic "
 "search, sequencing two operations consists of taking all possibilities from "
@@ -13051,20 +13033,19 @@ msgid ""
 "their union represents the entire search space."
 msgstr ""
 "`Monad Many` 实例需要一个 `bind` "
-"运算符。在非确定性搜索中，对两个操作进行排序包括从第一步中获取所有可能性，并在每个可能性上运行程序的其余部分，取结果的并集。换句话说，如果第一步返回三个可能的答案，则需要对所有三个答案尝试第二步。由于第二步可以为每个输入返回任意数量的答案，因此取它们的并集表示整个搜索空间。"
+"运算符。在非确定性搜索中，对两个操作进行排序包括，从第一步中获取所有可能性，并对每种可能性都运行程序的其余部分，取结果的并集。"
+"换句话说，如果第一步返回三个可能的答案，则需要对这三个答案分别尝试第二步。由于第二步为每个输入可返回任意数量的答案，因此取它们的并集表示整个搜索空间。"
 
 #: src/monads/arithmetic.md:305
-#, fuzzy
 msgid ""
 "`Many.one` and `Many.bind` obey the monad contract. To check that `Many.bind"
 " (Many.one v) f` is the same as `f v`, start by evaluating the expression as"
 " far as possible:"
 msgstr ""
-"`Many.one` 和 `Many.bind` 遵循 monad 契约。要检查 `Many.bind (Many.one v) f` 是否与 `f "
-"v` 相同，首先尽可能地计算表达式："
+"`Many.one` 和 `Many.bind` 遵循 monad 约定。要检查 `Many.bind (Many.one v) f` 是否与 `f "
+"v` 相同，首先应最大限度地计算表达式："
 
 #: src/monads/arithmetic.md:316
-#, fuzzy
 msgid ""
 "The empty multiset is a right identity of `union`, so the answer is "
 "equivalent to `f v`. To check that `Many.bind v Many.one` is the same as "
@@ -13073,24 +13054,22 @@ msgid ""
 " then `Many.bind v Many.one` is `{v1} ∪ {v2} ∪ {v3} ∪ ... ∪ {vn}`, which is "
 "`{v1, v2, v3, ..., vn}`."
 msgstr ""
-"空多重集合是 `union` 的右单位，因此答案等同于 `f v`。要检查 `Many.bind v Many.one` 是否与 `v` 相同，请考虑 "
+"空的多重集合是 `union` 的右单位元，因此答案等同于 `f v`。要检查 `Many.bind v Many.one` 是否与 `v` 相同，需要考虑 "
 "`bind` 取 `Many.one` 应用于 `v` 的每个元素的并集。换句话说，如果 `v` 的形式为 `{v1, v2, v3, ..., "
 "vn}`，则 `Many.bind v Many.one` 为 `{v1} ∪ {v2} ∪ {v3} ∪ ... ∪ {vn}`，即 `{v1, "
 "v2, v3, ..., vn}`。"
 
 #: src/monads/arithmetic.md:320
-#, fuzzy
 msgid ""
 "Finally, to check that `Many.bind` is associative, check that `Many.bind "
 "(Many.bind bind v f) g` is the same as `Many.bind v (fun x => Many.bind (f "
 "x) g)`. If `v` has the form `{v1, v2, v3, ..., vn}`, then:"
 msgstr ""
-"最后，要检查 `Many.bind` 是否关联，请检查 `Many.bind (Many.bind bind v f) g` 是否与 "
+"最后，要检查 `Many.bind` 是否满足结合律，需要检查 `Many.bind (Many.bind bind v f) g` 是否与 "
 "`Many.bind v (fun x => Many.bind (f x) g)` 相同。如果 `v` 的形式为 `{v1, v2, v3, ...,"
 " vn}`，则："
 
 #: src/monads/arithmetic.md:327
-#, fuzzy
 msgid "which means that"
 msgstr "这意味着"
 
@@ -13100,24 +13079,20 @@ msgid "Similarly,"
 msgstr "同样地，"
 
 #: src/monads/arithmetic.md:353
-#, fuzzy
 msgid "Thus, both sides are equal, so `Many.bind` is associative."
-msgstr "因此，两边相等，所以 `Many.bind` 是结合的。"
+msgstr "因此，两边相等，所以 `Many.bind` 满足结合律。"
 
 #: src/monads/arithmetic.md:355
-#, fuzzy
 msgid "The resulting monad instance is:"
 msgstr "由此产生的单子实例为："
 
 #: src/monads/arithmetic.md:361
-#, fuzzy
 msgid ""
 "An example search using this monad finds all the combinations of numbers in "
 "a list that add to 15:"
-msgstr "使用此单子的示例搜索可找到列表中所有加起来等于 15 的数字组合："
+msgstr "此单子的示例搜索可找到列表中所有加起来等于 15 的数字组合："
 
 #: src/monads/arithmetic.md:377
-#, fuzzy
 msgid ""
 "The search process is recursive over the list. The empty list is a "
 "successful search when the goal is `0`; otherwise, it fails. When the list "
@@ -13132,25 +13107,22 @@ msgid ""
 "the head from the goal, and then attaching the head to the solutions that "
 "result from the recursive call."
 msgstr ""
-"搜索过程对列表进行递归。当目标为 `0` "
-"时，空列表是一个成功的搜索；否则，它将失败。当列表非空时，有两种可能性：列表的头部大于目标，在这种情况下，它不能参与任何成功的搜索，或者不是，在这种情况下，它可以。如果列表的头部"
-" _不是_ 候选者，则搜索将继续进行到列表的尾部。如果头部是候选者，则有两个可能性与 `Many.union` "
-"结合：找到的解包含头部，或者不包含。不包含头部的解通过对尾部进行递归调用找到，而包含头部的解则通过从目标中减去头部，然后将头部附加到递归调用产生的解中得到。"
+"(译者注：这是一个动态规划算法)对列表进行递归搜索。当输入列表为空且目标为 `0` 时，返回空列表表示成功；否则返回 `Many.none` 表示失败，因为空输入不可能得到非0加和。"
+"当列表非空时，有两种可能性：若输入列表的第一个元素大于goal，此时它的任何加和都大于 `0` 因此不可能是结果之一；若第一个元素不大于goal，则可以参与后续的搜索。"
+"如果列表的头部x **不是** 候选者，则对列表的尾部xs进行递归搜索。如果头部是候选者，则有两种用 `Many.union` 合并的可能性："
+"找到的解含有当前的x，或者不含有。不含x的解是对xs递归搜索找到的；而含有x的解则是通过从goal中减去x，然后将x附加到递归的解中得到的。"
 
 #: src/monads/arithmetic.md:384
-#, fuzzy
 msgid ""
 "Returning to the arithmetic evaluator that produces multisets of results, "
 "the `both` and `neither` operators can be written as follows:"
-msgstr "回到产生结果多重集的算术求值器，`both` 和 `neither` 运算符可以写成如下形式："
+msgstr "回到返回多重集合的算术求值器，`both` 和 `neither` 运算符可以写成如下形式："
 
 #: src/monads/arithmetic.md:398
-#, fuzzy
 msgid "Using these operators, the earlier examples can be evaluated:"
-msgstr "使用这些运算符，可以对前面的示例进行求值："
+msgstr "可以用这些运算符对前面的示例求值："
 
 #: src/monads/arithmetic.md:420
-#, fuzzy
 msgid "Custom Environments"
 msgstr "自定义环境"
 
@@ -13164,11 +13136,10 @@ msgid ""
 "arguments. The mapping from function names to function implementations is "
 "called an _environment_."
 msgstr ""
-"可以通过允许将字符串用作运算符，然后提供从字符串到实现它们的函数的映射，使求值器可由用户扩展。例如，用户可以用余数运算符或返回其两个参数最大值的运算符来扩展求值器。从函数名称到函数实现的映射称为"
-" _环境_。"
+"可以通过允许将字符串当作运算符，然后提供从字符串到它们的实现函数之间的映射，使求值器可由用户扩展。"
+"例如，用户可以用余数运算符或最大值运算符来扩展求值器。从函数名称到函数实现的映射称为 **环境**。"
 
 #: src/monads/arithmetic.md:426
-#, fuzzy
 msgid ""
 "The environments needs to be passed in each recursive call. Initially, it "
 "might seem that `evaluateM` needs an extra argument to hold the environment,"
@@ -13176,28 +13147,25 @@ msgid ""
 "However, passing an argument like this is another form of monad, so an "
 "appropriate `Monad` instance allows the evaluator to be used unchanged."
 msgstr ""
-"环境需要在每次递归调用中传递。最初，`evaluateM` "
-"似乎需要一个额外的参数来保存环境，并且该参数应该传递给每个递归调用。然而，像这样传递参数是单子的另一种形式，因此一个合适的 `Monad` "
-"实例允许评估器保持不变。"
+"环境需要在每次递归调用中传递。因此`evaluateM` 看起来需要一个额外的参数来保存环境。"
+"并且该参数需要在每次递归调用时传递。然而，像这样传递参数是单子的另一种形式，因此一个适当的 `Monad` "
+"实例允许求值器本身保持不变。"
 
 #: src/monads/arithmetic.md:430
-#, fuzzy
 msgid ""
 "Using functions as a monad is typically called a _reader_ monad. When "
 "evaluating expressions in the reader monad, the following rules are used:"
-msgstr "将函数用作单子通常称为 _reader_ 单子。在 reader 单子中求值表达式时，使用以下规则："
+msgstr "将函数用作单子通常称为 **reader** 单子。在 reader 单子中求值表达式使用以下规则："
 
 #: src/monads/arithmetic.md:432
-#, fuzzy
 msgid "Constants \\\\( n \\\\) evaluate to constant functions \\\\( λ e . n \\\\),"
-msgstr "常量 \\\\( n \\\\) 求值为常量函数 \\\\( λ e . n \\\\)；"
+msgstr "常量 \\\\( n \\\\) 映射为常量函数 \\\\( λ e . n \\\\)；"
 
 #: src/monads/arithmetic.md:433
-#, fuzzy
 msgid ""
 "Arithmetic operators evaluate to functions that pass their arguments on, so "
 "\\\\( f + g \\\\) evaluates to \\\\( λ e . f(e) + g(e) \\\\), and"
-msgstr "算术运算符求值为将参数传递给它们的函数，因此 \\\\( f + g \\\\) 求值为 \\\\( λ e . f(e) + g(e) \\\\)；"
+msgstr "算术运算符映射为将参数各自传递然后计算的函数，因此 \\\\( f + g \\\\) 求值为 \\\\( λ e . f(e) + g(e) \\\\)；"
 
 #: src/monads/arithmetic.md:434
 #, fuzzy
