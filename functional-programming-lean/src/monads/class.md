@@ -116,8 +116,8 @@ Because `f`'s type determines the available effects, they can be tightly control
 
 函数参数`f`的返回类型决定了将使用哪个`Monad`实例。
 换句话说，`mapM`可用于生成日志的函数、可能失败的函数、或使用可变状态的函数。
-由于`f`的类型直接决定了可用的效果(Effects)，因此API设计人员可以对其进行严格控制。
-*译者注：效果(Effects)是函数式编程中与Monad密切相关的概念，实际上对效果的控制比此处原文所述更复杂一些，但超出了本文的内容。*
+由于`f`的类型直接决定了可用的效应(Effects)，因此API设计人员可以对其进行严格控制。
+*译者注：效应(Effects)是函数式编程中与Monad密切相关的主题，实际上对效应的控制比此处原文所述更复杂一些，但超出了本文的内容。另外副作用(Side Effects)也是一种效应。*
 
 <!--
 As described in [this chapter's introduction](../monads.md#numbering-tree-nodes), `State σ α` represents programs that make use of a mutable variable of type `σ` and return a value of type `α`.
@@ -166,7 +166,7 @@ A [logging effect](../monads.md#logging) can be represented using `WithLog`.
 Just like `State`, its `Monad` instance is polymorphic with respect to the type of the logged data:
 -->
 
-可以使用`WithLog`表示[日志记录效果](../monads.md#日志记录)。
+可以使用`WithLog`表示[日志记录效应](../monads.md#日志记录)。
 就和`State`一样，它的`Monad`实例对于被记录数据的类型也是多态的：
 ```lean
 {{#example_decl Examples/Monads/Class.lean MonadWriter}}
@@ -197,7 +197,7 @@ Using this function with `mapM` results in a log containing even numbers paired 
 ## The Identity Monad
 -->
 
-## 单位单子
+## 恒等单子
 
 <!--
 Monads encode programs with effects, such as failure, exceptions, or logging, into explicit representations as data and functions.
@@ -205,9 +205,9 @@ Sometimes, however, an API will be written to use a monad for flexibility, but t
 The _identity monad_ is a monad that has no effects, and allows pure code to be used with monadic APIs:
 -->
 
-单子将具有效果(Effects)的程序（例如失败、异常或日志记录）编码为数据和函数的显式表示。
-有时API会使用单子来提高灵活性，但API的使用方可能不需要任何效果。
-**单位单子**(Identity Monad)是一个没有任何效果的单子，允许将纯(pure)代码与monadic API一起使用：
+单子将具有效应(Effects)的程序（例如失败、异常或日志记录）编码为数据和函数的显式表示。
+有时API会使用单子来提高灵活性，但API的使用方可能不需要任何效应。
+**恒等单子**(Identity Monad)是一个没有任何效应的单子，允许将纯(pure)代码与monadic API一起使用：
 ```lean
 {{#example_decl Examples/Monads/Class.lean IdMonad}}
 ```
@@ -226,7 +226,7 @@ With the identity monad, `mapM` becomes equivalent to `map`.
 To call it this way, however, Lean requires a hint that the intended monad is `Id`:
 -->
 
-"使用单位单子时，`mapM`等同于`map`。但是要以这种方式调用它，Lean需要额外的提示来表明目标单子是`Id`：
+"使用恒等单子时，`mapM`等同于`map`。但是要以这种方式调用它，Lean需要额外的提示来表明目标单子是`Id`：
 ```lean
 {{#example_in Examples/Monads/Class.lean mapMId}}
 ```
@@ -285,9 +285,9 @@ Because `pure` has no effects, sequencing its effects with `bind` shouldn't chan
 The associative property of `bind` basically says that the sequencing bookkeeping itself doesn't matter, so long as the order in which things are happening is preserved.
 -->
 
-这些约定保证了具有效果的程序的预期属性。
-由于`pure`不导致效果，因此用`bind`将其与其他效果接连执行不应改变结果。
-`bind`满足的结合律则意味着先计算哪一部分无关紧要，只要保证效果的顺序不变即可。
+这些约定保证了具有效应的程序的预期属性。
+由于`pure`不导致效应，因此用`bind`将其与其他效应接连执行不应改变结果。
+`bind`满足的结合律则意味着先计算哪一部分无关紧要，只要保证效应的顺序不变即可。
 
 <!--
 ## Exercises
