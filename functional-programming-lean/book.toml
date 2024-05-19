@@ -7,6 +7,9 @@ title = "Functional Programming in Lean"
 
 [build]
 
+[preprocessor.gettext]
+after = ["links"]
+
 [preprocessor.buildexamples]
 command = "python -X utf8 scripts/build-examples.py"
 before = ["leanexample", "commands"]
@@ -20,8 +23,6 @@ command = "python -X utf8 scripts/projects.py"
 [preprocessor.leanversion]
 command = "python -X utf8 scripts/lean-version.py"
 
-[preprocessor.gettext]
-after = ["links"]
 
 [output.html]
 additional-css = ["custom.css", "pygments.css"]
