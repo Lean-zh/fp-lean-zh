@@ -144,7 +144,7 @@ class Zero : Nat {}
 class Succ : Nat {
   public Nat n;
   public Succ(Nat pred) {
-  n = pred;
+    n = pred;
   }
 }
 ```

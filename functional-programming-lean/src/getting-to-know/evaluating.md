@@ -84,9 +84,13 @@ Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，
 {{#example_in Examples/Intro.lean orderOfOperations}}
 ```
 
+<!--
+yields the value `{{#example_out Examples/Intro.lean orderOfOperations}}` rather than
+`{{#example_out Examples/Intro.lean orderOfOperationsWrong}}`.
+-->
+
 会产生值 `{{#example_out Examples/Intro.lean orderOfOperations}}` 而非
 `{{#example_out Examples/Intro.lean orderOfOperationsWrong}}`。
-
 
 <!--
 While both ordinary mathematical notation and the majority of
