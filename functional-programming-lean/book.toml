@@ -1,14 +1,12 @@
 [book]
 authors = ["David Thrane Christiansen"]
-language = "en"
-multilingual = false
+translators = ["Oling Cat", "Qiu233", "JiechengZhao"]
+language = "zh-CN"
+multilingual = true
 src = "src"
-title = "Functional Programming in Lean"
+title = "Lean 函数式编程"
 
 [build]
-
-[preprocessor.gettext]
-after = ["links"]
 
 [preprocessor.buildexamples]
 command = "python -X utf8 scripts/build-examples.py"
