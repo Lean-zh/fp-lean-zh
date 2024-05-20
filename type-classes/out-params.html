@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>控制实例搜索 - Functional Programming in Lean</title>
+        <title>控制实例搜索 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,8 +138,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="控制实例搜索"><a class="header" href="#控制实例搜索">控制实例搜索</a></h1>
-<p>An instance of the <code>Add</code> class is sufficient to allow two expressions with type <code>Pos</code> to be conveniently added, producing another <code>Pos</code>. However, in many cases, it can be useful to be more flexible and allow <em>heterogeneous</em> operator overloading, where the arguments may have different types. For example, adding a <code>Nat</code> to a <code>Pos</code> or a <code>Pos</code> to a <code>Nat</code> will always yield a <code>Pos</code>:</p>
+                        <h1 id="controlling-instance-search"><a class="header" href="#controlling-instance-search">Controlling Instance Search</a></h1>
+<p>An instance of the <code>Add</code> class is sufficient to allow two expressions with type <code>Pos</code> to be conveniently added, producing another <code>Pos</code>.
+However, in many cases, it can be useful to be more flexible and allow <em>heterogeneous</em> operator overloading, where the arguments may have different types.
+For example, adding a <code>Nat</code> to a <code>Pos</code> or a <code>Pos</code> to a <code>Nat</code> will always yield a <code>Pos</code>:</p>
 <pre><code class="language-lean">def addNatPos : Nat → Pos → Pos
   | 0, p =&gt; p
   | n + 1, p =&gt; Pos.succ (addNatPos n p)
@@ -150,7 +152,9 @@ def addPosNat : Pos → Nat → Pos
 </code></pre>
 <p>These functions allow natural numbers to be added to positive numbers, but they cannot be used with the <code>Add</code> type class, which expects both arguments to <code>add</code> to have the same type.</p>
 <h2 id="heterogeneous-overloadings"><a class="header" href="#heterogeneous-overloadings">Heterogeneous Overloadings</a></h2>
-<p>As mentioned in the section on <a href="pos.html#overloaded-addition">overloaded addition</a>, Lean provides a type class called <code>HAdd</code> for overloading addition heterogeneously. The <code>HAdd</code> class takes three type parameters: the two argument types and the return type. Instances of <code>HAdd Nat Pos Pos</code> and <code>HAdd Pos Nat Pos</code> allow ordinary addition notation to be used to mix the types:</p>
+<p>As mentioned in the section on <a href="pos.html#overloaded-addition">overloaded addition</a>, Lean provides a type class called <code>HAdd</code> for overloading addition heterogeneously.
+The <code>HAdd</code> class takes three type parameters: the two argument types and the return type.
+Instances of <code>HAdd Nat Pos Pos</code> and <code>HAdd Pos Nat Pos</code> allow ordinary addition notation to be used to mix the types:</p>
 <pre><code class="language-lean">instance : HAdd Nat Pos Pos where
   hAdd := addNatPos
 
@@ -176,14 +180,19 @@ instance : HPlus Nat Pos Pos where
 instance : HPlus Pos Nat Pos where
   hPlus := addPosNat
 </code></pre>
-<p>However, instances of <code>HPlus</code> are significantly less useful than instances of <code>HAdd</code>. When attempting to use these instances with <code>#eval</code>, an error occurs:</p>
+<p>However, instances of <code>HPlus</code> are significantly less useful than instances of <code>HAdd</code>.
+When attempting to use these instances with <code>#eval</code>, an error occurs:</p>
 <pre><code class="language-lean">#eval HPlus.hPlus (3 : Pos) (5 : Nat)
 </code></pre>
 <pre><code class="language-output error">typeclass instance problem is stuck, it is often due to metavariables
   HPlus Pos Nat ?m.7527
 </code></pre>
 <p>This happens because there is a metavariable in the type, and Lean has no way to solve it.</p>
-<p>As discussed in <a href="../getting-to-know/polymorphism.html">the initial description of polymorphism</a>, metavariables represent unknown parts of a program that could not be inferred. When an expression is written following <code>#eval</code>, Lean attempts to determine its type automatically. In this case, it could not. Because the third type parameter for <code>HPlus</code> was unknown, Lean couldn't carry out type class instance search, but instance search is the only way that Lean could determine the expression's type. That is, the <code>HPlus Pos Nat Pos</code> instance can only apply if the expression should have type <code>Pos</code>, but there's nothing in the program other than the instance itself to indicate that it should have this type.</p>
+<p>As discussed in <a href="../getting-to-know/polymorphism.html">the initial description of polymorphism</a>, metavariables represent unknown parts of a program that could not be inferred.
+When an expression is written following <code>#eval</code>, Lean attempts to determine its type automatically.
+In this case, it could not.
+Because the third type parameter for <code>HPlus</code> was unknown, Lean couldn't carry out type class instance search, but instance search is the only way that Lean could determine the expression's type.
+That is, the <code>HPlus Pos Nat Pos</code> instance can only apply if the expression should have type <code>Pos</code>, but there's nothing in the program other than the instance itself to indicate that it should have this type.</p>
 <p>One solution to the problem is to ensure that all three types are available by adding a type annotation to the whole expression:</p>
 <pre><code class="language-lean">#eval (HPlus.hPlus (3 : Pos) (5 : Nat) : Pos)
 </code></pre>
@@ -191,20 +200,38 @@ instance : HPlus Pos Nat Pos where
 </code></pre>
 <p>However, this solution is not very convenient for users of the positive number library.</p>
 <h2 id="output-parameters"><a class="header" href="#output-parameters">Output Parameters</a></h2>
-<p>This problem can also be solved by declaring <code>γ</code> to be an <em>output parameter</em>. Most type class parameters are inputs to the search algorithm: they are used to select an instance. For example, in an <code>OfNat</code> instance, both the type and the natural number are used to select a particular interpretation of a natural number literal. However, in some cases, it can be convenient to start the search process even when some of the type parameters are not yet known, and use the instances that are discovered in the search to determine values for metavariables. The parameters that aren't needed to start instance search are outputs of the process, which is declared with the <code>outParam</code> modifier:</p>
+<p>This problem can also be solved by declaring <code>γ</code> to be an <em>output parameter</em>.
+Most type class parameters are inputs to the search algorithm: they are used to select an instance.
+For example, in an <code>OfNat</code> instance, both the type and the natural number are used to select a particular interpretation of a natural number literal.
+However, in some cases, it can be convenient to start the search process even when some of the type parameters are not yet known, and use the instances that are discovered in the search to determine values for metavariables.
+The parameters that aren't needed to start instance search are outputs of the process, which is declared with the <code>outParam</code> modifier:</p>
 <pre><code class="language-lean">class HPlus (α : Type) (β : Type) (γ : outParam Type) where
   hPlus : α → β → γ
 </code></pre>
-<p>With this output parameter, type class instance search is able to select an instance without knowing <code>γ</code> in advance. For instance:</p>
+<p>With this output parameter, type class instance search is able to select an instance without knowing <code>γ</code> in advance.
+For instance:</p>
 <pre><code class="language-lean">#eval HPlus.hPlus (3 : Pos) (5 : Nat)
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>It might be helpful to think of output parameters as defining a kind of function. Any given instance of a type class that has one or more output parameters provides Lean with instructions for determining the outputs from the inputs. The process of searching for an instance, possibly recursively, ends up being more powerful than mere overloading. Output parameters can determine other types in the program, and instance search can assemble a collection of underlying instances into a program that has this type.</p>
+<p>It might be helpful to think of output parameters as defining a kind of function.
+Any given instance of a type class that has one or more output parameters provides Lean with instructions for determining the outputs from the inputs.
+The process of searching for an instance, possibly recursively, ends up being more powerful than mere overloading.
+Output parameters can determine other types in the program, and instance search can assemble a collection of underlying instances into a program that has this type.</p>
 <h2 id="default-instances"><a class="header" href="#default-instances">Default Instances</a></h2>
-<p>Deciding whether a parameter is an input or an output controls the circumstances under which Lean will initiate type class search. In particular, type class search does not occur until all inputs are known. However, in some cases, output parameters are not enough, and instance search should also occur when some inputs are unknown. This is a bit like default values for optional function arguments in Python or Kotlin, except default <em>types</em> are being selected.</p>
-<p><em>Default instances</em> are instances that are available for instance search <em>even when not all their inputs are known</em>. When one of these instances can be used, it will be used. This can cause programs to successfully type check, rather than failing with errors related to unknown types and metavariables. On the other hand, default instances can make instance selection less predictable. In particular, if an undesired default instance is selected, then an expression may have a different type than expected, which can cause confusing type errors to occur elsewhere in the program. Be selective about where default instances are used!</p>
-<p>One example of where default instances can be useful is an instance of <code>HPlus</code> that can be derived from an <code>Add</code> instance. In other words, ordinary addition is a special case of heterogeneous addition in which all three types happen to be the same. This can be implemented using the following instance:</p>
+<p>Deciding whether a parameter is an input or an output controls the circumstances under which Lean will initiate type class search.
+In particular, type class search does not occur until all inputs are known.
+However, in some cases, output parameters are not enough, and instance search should also occur when some inputs are unknown.
+This is a bit like default values for optional function arguments in Python or Kotlin, except default <em>types</em> are being selected.</p>
+<p><em>Default instances</em> are instances that are available for instance search <em>even when not all their inputs are known</em>.
+When one of these instances can be used, it will be used.
+This can cause programs to successfully type check, rather than failing with errors related to unknown types and metavariables.
+On the other hand, default instances can make instance selection less predictable.
+In particular, if an undesired default instance is selected, then an expression may have a different type than expected, which can cause confusing type errors to occur elsewhere in the program.
+Be selective about where default instances are used!</p>
+<p>One example of where default instances can be useful is an instance of <code>HPlus</code> that can be derived from an <code>Add</code> instance.
+In other words, ordinary addition is a special case of heterogeneous addition in which all three types happen to be the same.
+This can be implemented using the following instance:</p>
 <pre><code class="language-lean">instance [Add α] : HPlus α α α where
   hPlus := Add.add
 </code></pre>
@@ -213,7 +240,8 @@ instance : HPlus Pos Nat Pos where
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>However, this instance will only be used in situations where the types of both arguments are known. For example,</p>
+<p>However, this instance will only be used in situations where the types of both arguments are known.
+For example,</p>
 <pre><code class="language-lean">#check HPlus.hPlus (5 : Nat) (3 : Nat)
 </code></pre>
 <p>yields the type</p>
@@ -225,7 +253,8 @@ instance : HPlus Pos Nat Pos where
 <p>yields a type that contains two metavariables, one for the remaining argument and one for the return type:</p>
 <pre><code class="language-output info">HPlus.hPlus 5 : ?m.7706 → ?m.7708
 </code></pre>
-<p>In the vast majority of cases, when someone supplies one argument to addition, the other argument will have the same type. To make this instance into a default instance, apply the <code>default_instance</code> attribute:</p>
+<p>In the vast majority of cases, when someone supplies one argument to addition, the other argument will have the same type.
+To make this instance into a default instance, apply the <code>default_instance</code> attribute:</p>
 <pre><code class="language-lean">@[default_instance]
 instance [Add α] : HPlus α α α where
   hPlus := Add.add
@@ -236,14 +265,19 @@ instance [Add α] : HPlus α α α where
 <p>yields</p>
 <pre><code class="language-output info">HPlus.hPlus 5 : Nat → Nat
 </code></pre>
-<p>Each operator that exists in overloadable heterogeneous and homogeneous versions follows the pattern of a default instance that allows the homogeneous version to be used in contexts where the heterogeneous is expected. The infix operator is replaced with a call to the heterogeneous version, and the homogeneous default instance is selected when possible.</p>
-<p>Similarly, simply writing <code>5</code> gives a <code>Nat</code> rather than a type with a metavariable that is waiting for more information in order to select an <code>OfNat</code> instance. This is because the <code>OfNat</code> instance for <code>Nat</code> is a default instance.</p>
-<p>Default instances can also be assigned <em>priorities</em> that affect which will be chosen in situations where more than one might apply. For more information on default instance priorities, please consult the Lean manual.</p>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
-<p>Define an instance of <code>HMul (PPoint α) α (PPoint α)</code> that multiplies both projections by the scalar. It should work for any type <code>α</code> for which there is a <code>Mul α</code> instance. For example,</p>
+<p>Each operator that exists in overloadable heterogeneous and homogeneous versions follows the pattern of a default instance that allows the homogeneous version to be used in contexts where the heterogeneous is expected.
+The infix operator is replaced with a call to the heterogeneous version, and the homogeneous default instance is selected when possible.</p>
+<p>Similarly, simply writing <code>5</code> gives a <code>Nat</code> rather than a type with a metavariable that is waiting for more information in order to select an <code>OfNat</code> instance.
+This is because the <code>OfNat</code> instance for <code>Nat</code> is a default instance.</p>
+<p>Default instances can also be assigned <em>priorities</em> that affect which will be chosen in situations where more than one might apply.
+For more information on default instance priorities, please consult the Lean manual.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<p>Define an instance of <code>HMul (PPoint α) α (PPoint α)</code> that multiplies both projections by the scalar.
+It should work for any type <code>α</code> for which there is a <code>Mul α</code> instance.
+For example,</p>
 <pre><code class="language-lean">#eval {x := 2.5, y := 3.7 : PPoint Float} * 2.0
 </code></pre>
-<p>应产生</p>
+<p>should yield</p>
 <pre><code class="language-output info">{ x := 5.000000, y := 7.400000 }
 </code></pre>
 

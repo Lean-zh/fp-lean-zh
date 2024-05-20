@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>依值类型编程 - Functional Programming in Lean</title>
+        <title>依值类型编程 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -138,10 +138,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="使用依值类型编程"><a class="header" href="#使用依值类型编程">使用依值类型编程</a></h1>
-<p>In most statically-typed programming languages, there is a hermetic seal between the world of types and the world of programs. Types and programs have different grammars and they are used at different times. Types are typically used at compile time, to check that a program obeys certain invariants. Programs are used at run time, to actually perform computations. When the two interact, it is usually in the form of a type-case operator like an &quot;instance-of&quot; check or a casting operator that provides the type checker with information that was otherwise unavailable, to be verified at run time. In other words, the interaction consists of types being inserted into the world of programs, gaining some limited run-time meaning.</p>
-<p>Lean does not impose this strict separation. In Lean, programs may compute types and types may contain programs. Placing programs in types allows their full computation power to be used at compile time, and the ability to return types from functions makes types into first-class participants in the programming process.</p>
-<p><em>Dependent types</em> are types that contain non-type expressions. A common source of dependent types is a named argument to a function. For example, the function <code>natOrStringThree</code> returns either a natural number or a string, depending on which <code>Bool</code> it is passed:</p>
+                        <h1 id="programming-with-dependent-types"><a class="header" href="#programming-with-dependent-types">Programming with Dependent Types</a></h1>
+<p>In most statically-typed programming languages, there is a hermetic seal between the world of types and the world of programs.
+Types and programs have different grammars and they are used at different times.
+Types are typically used at compile time, to check that a program obeys certain invariants.
+Programs are used at run time, to actually perform computations.
+When the two interact, it is usually in the form of a type-case operator like an &quot;instance-of&quot; check or a casting operator that provides the type checker with information that was otherwise unavailable, to be verified at run time.
+In other words, the interaction consists of types being inserted into the world of programs, gaining some limited run-time meaning.</p>
+<p>Lean does not impose this strict separation.
+In Lean, programs may compute types and types may contain programs.
+Placing programs in types allows their full computation power to be used at compile time, and the ability to return types from functions makes types into first-class participants in the programming process.</p>
+<p><em>Dependent types</em> are types that contain non-type expressions.
+A common source of dependent types is a named argument to a function.
+For example, the function <code>natOrStringThree</code> returns either a natural number or a string, depending on which <code>Bool</code> it is passed:</p>
 <pre><code class="language-lean">def natOrStringThree (b : Bool) : if b then Nat else String :=
   match b with
   | true =&gt; (3 : Nat)
@@ -155,8 +164,13 @@
 <li><a href="functor-applicative-monad/applicative.html#subtypes">Subtypes</a> contain propositions that refer to particular values.</li>
 <li>Essentially all interesting propositions, including those that determine the validity of <a href="props-proofs-indexing.html">array indexing notation</a>, are types that contain values and are thus dependent types.</li>
 </ul>
-<p>Dependent types vastly increase the power of a type system. The flexibility of return types that branch on argument values enables programs to be written that cannot easily be given types in other type systems. At the same time, dependent types allow a type signature to restrict which values may be returned from a function, enabling strong invariants to be enforced at compile time.</p>
-<p>However, programming with dependent types can be quite complex, and it requires a whole set of skills above and beyond functional programming. Expressive specifications can be complicated to fulfill, and there is a real risk of tying oneself in knots and being unable to complete the program. On the other hand, this process can lead to new understanding, which can be expressed in a refined type that can be fulfilled. While this chapter scratches the surface of dependently typed programming, it is a deep topic that deserves an entire book of its own.</p>
+<p>Dependent types vastly increase the power of a type system.
+The flexibility of return types that branch on argument values enables programs to be written that cannot easily be given types in other type systems.
+At the same time, dependent types allow a type signature to restrict which values may be returned from a function, enabling strong invariants to be enforced at compile time.</p>
+<p>However, programming with dependent types can be quite complex, and it requires a whole set of skills above and beyond functional programming.
+Expressive specifications can be complicated to fulfill, and there is a real risk of tying oneself in knots and being unable to complete the program.
+On the other hand, this process can lead to new understanding, which can be expressed in a refined type that can be fulfilled.
+While this chapter scratches the surface of dependently typed programming, it is a deep topic that deserves an entire book of its own.</p>
 
                     </main>
 

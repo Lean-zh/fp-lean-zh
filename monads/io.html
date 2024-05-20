@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>IO 单子 - Functional Programming in Lean</title>
+        <title>IO 单子 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,11 +138,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="io-单子"><a class="header" href="#io-单子">IO 单子</a></h1>
-<p><code>IO</code> as a monad can be understood from two perspectives, which were described in the section on <a href="../hello-world/running-a-program.html">running programs</a>. Each can help to understand the meanings of <code>pure</code> and <code>bind</code> for <code>IO</code>.</p>
-<p>From the first perspective, an <code>IO</code> action is an instruction to Lean's run-time system. For example, the instruction might be &quot;read a string from this file descriptor, then re-invoke the pure Lean code with the string&quot;. This perspective is an <em>exterior</em> one, viewing the program from the perspective of the operating system. In this case, <code>pure</code> is an <code>IO</code> action that does not request any effects from the RTS, and <code>bind</code> instructs the RTS to first carry out one potentially-effectful operation and then invoke the rest of the program with the resulting value.</p>
-<p>From the second perspective, an <code>IO</code> action transforms the whole world. <code>IO</code> actions are actually pure, because they receive a unique world as an argument and then return the changed world. This perspective is an <em>interior</em> one that matches how <code>IO</code> is represented inside of Lean. The world is represented in Lean as a token, and the <code>IO</code> monad is structured to make sure that each token is used exactly once.</p>
-<p>To see how this works, it can be helpful to peel back one definition at a time. The <code>#print</code> command reveals the internals of Lean datatypes and definitions. For example,</p>
+                        <h1 id="the-io-monad"><a class="header" href="#the-io-monad">The IO Monad</a></h1>
+<p><code>IO</code> as a monad can be understood from two perspectives, which were described in the section on <a href="../hello-world/running-a-program.html">running programs</a>.
+Each can help to understand the meanings of <code>pure</code> and <code>bind</code> for <code>IO</code>.</p>
+<p>From the first perspective, an <code>IO</code> action is an instruction to Lean's run-time system.
+For example, the instruction might be &quot;read a string from this file descriptor, then re-invoke the pure Lean code with the string&quot;.
+This perspective is an <em>exterior</em> one, viewing the program from the perspective of the operating system.
+In this case, <code>pure</code> is an <code>IO</code> action that does not request any effects from the RTS, and <code>bind</code> instructs the RTS to first carry out one potentially-effectful operation and then invoke the rest of the program with the resulting value.</p>
+<p>From the second perspective, an <code>IO</code> action transforms the whole world.
+<code>IO</code> actions are actually pure, because they receive a unique world as an argument and then return the changed world.
+This perspective is an <em>interior</em> one that matches how <code>IO</code> is represented inside of Lean.
+The world is represented in Lean as a token, and the <code>IO</code> monad is structured to make sure that each token is used exactly once.</p>
+<p>To see how this works, it can be helpful to peel back one definition at a time.
+The <code>#print</code> command reveals the internals of Lean datatypes and definitions.
+For example,</p>
 <pre><code class="language-lean">#print Nat
 </code></pre>
 <p>results in</p>
@@ -152,14 +161,15 @@ constructors:
 Nat.zero : Nat
 Nat.succ : Nat → Nat
 </code></pre>
-<p>和</p>
+<p>and</p>
 <pre><code class="language-lean">#print Char.isAlpha
 </code></pre>
 <p>results in</p>
 <pre><code class="language-output info">def Char.isAlpha : Char → Bool :=
 fun c =&gt; Char.isUpper c || Char.isLower c
 </code></pre>
-<p>Sometimes, the output of <code>#print</code> includes Lean features that have not yet been presented in this book. For example,</p>
+<p>Sometimes, the output of <code>#print</code> includes Lean features that have not yet been presented in this book.
+For example,</p>
 <pre><code class="language-lean">#print List.isEmpty
 </code></pre>
 <p>produces</p>
@@ -169,7 +179,8 @@ fun {α} x =&gt;
   | [] =&gt; true
   | head :: tail =&gt; false
 </code></pre>
-<p>which includes a <code>.{u}</code> after the definition's name, and annotates types as <code>Type u</code> rather than just <code>Type</code>. This can be safely ignored for now.</p>
+<p>which includes a <code>.{u}</code> after the definition's name, and annotates types as <code>Type u</code> rather than just <code>Type</code>.
+This can be safely ignored for now.</p>
 <p>Printing the definition of <code>IO</code> shows that it's defined in terms of simpler structures:</p>
 <pre><code class="language-lean">#print IO
 </code></pre>
@@ -202,14 +213,16 @@ IO.Error.noSuchThing : Option String → UInt32 → String → IO.Error
 IO.Error.unexpectedEof : IO.Error
 IO.Error.userError : String → IO.Error
 </code></pre>
-<p><code>EIO ε α</code> represents <code>IO</code> actions that will either terminate with an error of type <code>ε</code> or succeed with a value of type <code>α</code>. This means that, like the <code>Except ε</code> monad, the <code>IO</code> monad includes the ability to define error handling and exceptions.</p>
+<p><code>EIO ε α</code> represents <code>IO</code> actions that will either terminate with an error of type <code>ε</code> or succeed with a value of type <code>α</code>.
+This means that, like the <code>Except ε</code> monad, the <code>IO</code> monad includes the ability to define error handling and exceptions.</p>
 <p>Peeling back another layer, <code>EIO</code> is itself defined in terms of a simpler structure:</p>
 <pre><code class="language-lean">#print EIO
 </code></pre>
 <pre><code class="language-output info">def EIO : Type → Type → Type :=
 fun ε =&gt; EStateM ε IO.RealWorld
 </code></pre>
-<p>The <code>EStateM</code> monad includes both errors and state—it's a combination of <code>Except</code> and <code>State</code>. It is defined using another type, <code>EStateM.Result</code>:</p>
+<p>The <code>EStateM</code> monad includes both errors and state—it's a combination of <code>Except</code> and <code>State</code>.
+It is defined using another type, <code>EStateM.Result</code>:</p>
 <pre><code class="language-lean">#print EStateM
 </code></pre>
 <pre><code class="language-output info">def EStateM.{u} : Type u → Type u → Type u → Type u :=
@@ -225,15 +238,21 @@ constructors:
 EStateM.Result.ok : {ε σ α : Type u} → α → σ → EStateM.Result ε σ α
 EStateM.Result.error : {ε σ α : Type u} → ε → σ → EStateM.Result ε σ α
 </code></pre>
-<p>Just like <code>Except ε α</code>, the <code>ok</code> constructor includes a result of type <code>α</code>, and the <code>error</code> constructor includes an exception of type <code>ε</code>. Unlike <code>Except</code>, both constructors have an additional state field that includes the final state of the computation.</p>
-<p>The <code>Monad</code> instance for <code>EStateM ε σ</code> requires <code>pure</code> and <code>bind</code>. Just as with <code>State</code>, the implementation of <code>pure</code> for <code>EStateM</code> accepts an initial state and returns it unchanged, and just as with <code>Except</code>, it returns its argument in the <code>ok</code> constructor:</p>
+<p>Just like <code>Except ε α</code>, the <code>ok</code> constructor includes a result of type <code>α</code>, and the <code>error</code> constructor includes an exception of type <code>ε</code>.
+Unlike <code>Except</code>, both constructors have an additional state field that includes the final state of the computation.</p>
+<p>The <code>Monad</code> instance for <code>EStateM ε σ</code> requires <code>pure</code> and <code>bind</code>.
+Just as with <code>State</code>, the implementation of <code>pure</code> for <code>EStateM</code> accepts an initial state and returns it unchanged, and just as with <code>Except</code>, it returns its argument in the <code>ok</code> constructor:</p>
 <pre><code class="language-lean">#print EStateM.pure
 </code></pre>
 <pre><code class="language-output info">protected def EStateM.pure.{u} : {ε σ α : Type u} → α → EStateM ε σ α :=
 fun {ε σ α} a s =&gt; EStateM.Result.ok a s
 </code></pre>
 <p><code>protected</code> means that the full name <code>EStateM.pure</code> is needed even if the <code>EStateM</code> namespace has been opened.</p>
-<p>Similarly, <code>bind</code> for <code>EStateM</code> takes an initial state as an argument. It passes this initial state to its first action. Like <code>bind</code> for <code>Except</code>, it then checks whether the result is an error. If so, the error is returned unchanged and the second argument to <code>bind</code> remains unused. If the result was a success, then the second argument is applied to both the returned value and to the resulting state.</p>
+<p>Similarly, <code>bind</code> for <code>EStateM</code> takes an initial state as an argument.
+It passes this initial state to its first action.
+Like <code>bind</code> for <code>Except</code>, it then checks whether the result is an error.
+If so, the error is returned unchanged and the second argument to <code>bind</code> remains unused.
+If the result was a success, then the second argument is applied to both the returned value and to the resulting state.</p>
 <pre><code class="language-lean">#print EStateM.bind
 </code></pre>
 <pre><code class="language-output info">protected def EStateM.bind.{u} : {ε σ α β : Type u} → EStateM ε σ α → (α → EStateM ε σ β) → EStateM ε σ β :=
@@ -242,8 +261,14 @@ fun {ε σ α β} x f s =&gt;
   | EStateM.Result.ok a s =&gt; f a s
   | EStateM.Result.error e s =&gt; EStateM.Result.error e s
 </code></pre>
-<p>Putting all of this together, <code>IO</code> is a monad that tracks state and errors at the same time. The collection of available errors is that given by the datatype <code>IO.Error</code>, which has constructors that describe many things that can go wrong in a program. The state is a type that represents the real world, called <code>IO.RealWorld</code>. Each basic <code>IO</code> action receives this real world and returns another one, paired either with an error or a result. In <code>IO</code>, <code>pure</code> returns the world unchanged, while <code>bind</code> passes the modified world from one action into the next action.</p>
-<p>Because the entire universe doesn't fit in a computer's memory, the world being passed around is just a representation. So long as world tokens are not re-used, the representation is safe. This means that world tokens do not need to contain any data at all:</p>
+<p>Putting all of this together, <code>IO</code> is a monad that tracks state and errors at the same time.
+The collection of available errors is that given by the datatype <code>IO.Error</code>, which has constructors that describe many things that can go wrong in a program.
+The state is a type that represents the real world, called <code>IO.RealWorld</code>.
+Each basic <code>IO</code> action receives this real world and returns another one, paired either with an error or a result.
+In <code>IO</code>, <code>pure</code> returns the world unchanged, while <code>bind</code> passes the modified world from one action into the next action.</p>
+<p>Because the entire universe doesn't fit in a computer's memory, the world being passed around is just a representation.
+So long as world tokens are not re-used, the representation is safe.
+This means that world tokens do not need to contain any data at all:</p>
 <pre><code class="language-lean">#print IO.RealWorld
 </code></pre>
 <pre><code class="language-output info">def IO.RealWorld : Type :=

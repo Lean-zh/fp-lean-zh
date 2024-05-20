@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>应用函子 - Functional Programming in Lean</title>
+        <title>应用函子 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,8 +138,13 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="应用函子"><a class="header" href="#应用函子">应用函子</a></h1>
-<p>An <em>applicative functor</em> is a functor that has two additional operations available: <code>pure</code> and <code>seq</code>. <code>pure</code> is the same operator used in <code>Monad</code>, because <code>Monad</code> in fact inherits from <code>Applicative</code>. <code>seq</code> is much like <code>map</code>: it allows a function to be used in order to transform the contents of a datatype. However, with <code>seq</code>, the function is itself contained in the datatype: <code>f (α → β) → (Unit → f α) → f β</code>. Having the function under the type <code>f</code> allows the <code>Applicative</code> instance to control how the function is applied, while <code>Functor.map</code> unconditionally applies a function. The second argument has a type that begins with <code>Unit →</code> to allow the definition of <code>seq</code> to short-circuit in cases where the function will never be applied.</p>
+                        <h1 id="applicative-functors"><a class="header" href="#applicative-functors">Applicative Functors</a></h1>
+<p>An <em>applicative functor</em> is a functor that has two additional operations available: <code>pure</code> and <code>seq</code>.
+<code>pure</code> is the same operator used in <code>Monad</code>, because <code>Monad</code> in fact inherits from <code>Applicative</code>.
+<code>seq</code> is much like <code>map</code>: it allows a function to be used in order to transform the contents of a datatype.
+However, with <code>seq</code>, the function is itself contained in the datatype: <code>f (α → β) → (Unit → f α) → f β</code>.
+Having the function under the type <code>f</code> allows the <code>Applicative</code> instance to control how the function is applied, while <code>Functor.map</code> unconditionally applies a function.
+The second argument has a type that begins with <code>Unit →</code> to allow the definition of <code>seq</code> to short-circuit in cases where the function will never be applied.</p>
 <p>The value of this short-circuiting behavior can be seen in the instance of <code>Applicative Option</code>:</p>
 <pre><code class="language-lean">instance : Applicative Option where
   pure x := .some x
@@ -148,7 +153,8 @@
     | none =&gt; none
     | some g =&gt; g &lt;$&gt; x ()
 </code></pre>
-<p>In this case, if there is no function for <code>seq</code> to apply, then there is no need to compute its argument, so <code>x</code> is never called. The same consideration informs the instance of <code>Applicative</code> for <code>Except</code>:</p>
+<p>In this case, if there is no function for <code>seq</code> to apply, then there is no need to compute its argument, so <code>x</code> is never called.
+The same consideration informs the instance of <code>Applicative</code> for <code>Except</code>:</p>
 <pre><code class="language-lean">instance : Applicative (Except ε) where
   pure x := .ok x
   seq f x :=
@@ -157,21 +163,38 @@
     | .ok g =&gt; g &lt;$&gt; x ()
 </code></pre>
 <p>This short-circuiting behavior depends only on the <code>Option</code> or <code>Except</code> structures that <em>surround</em> the function, rather than on the function itself.</p>
-<p>Monads can be seen as a way of capturing the notion of sequentially executing statements into a pure functional language. The result of one statement can affect which further statements run. This can be seen in the type of <code>bind</code>: <code>m α → (α → m β) → m β</code>. The first statement's resulting value is an input into a function that computes the next statement to execute. Successive uses of <code>bind</code> are like a sequence of statements in an imperative programming language, and <code>bind</code> is powerful enough to implement control structures like conditionals and loops.</p>
-<p>Following this analogy, <code>Applicative</code> captures function application in a language that has side effects. The arguments to a function in languages like Kotlin or C# are evaluated from left to right. Side effects performed by earlier arguments occur before those performed by later arguments. A function is not powerful enough to implement custom short-circuiting operators that depend on the specific <em>value</em> of an argument, however.</p>
-<p>Typically, <code>seq</code> is not invoked directly. Instead, the operator <code>&lt;*&gt;</code> is used. This operator wraps its second argument in <code>fun () =&gt; ...</code>, simplifying the call site. In other words, <code>E1 &lt;*&gt; E2</code> is syntactic sugar for <code>Seq.seq E1 (fun () =&gt; E2)</code>.</p>
-<p>The key feature that allows <code>seq</code> to be used with multiple arguments is that a multiple-argument Lean function is really a single-argument function that returns another function that's waiting for the rest of the arguments. In other words, if the first argument to <code>seq</code> is awaiting multiple arguments, then the result of the <code>seq</code> will be awaiting the rest. For example, <code>some Plus.plus</code> can have the type <code>Option (Nat → Nat → Nat)</code>. Providing one argument, <code>some Plus.plus &lt;*&gt; some 4</code>, results in the type <code>Option (Nat → Nat)</code>. This can itself be used with <code>seq</code>, so <code>some Plus.plus &lt;*&gt; some 4 &lt;*&gt; some 7</code> has the type <code>Option Nat</code>.</p>
-<p>Not every functor is applicative. <code>Pair</code> is like the built-in product type <code>Prod</code>:</p>
+<p>Monads can be seen as a way of capturing the notion of sequentially executing statements into a pure functional language.
+The result of one statement can affect which further statements run.
+This can be seen in the type of <code>bind</code>: <code>m α → (α → m β) → m β</code>.
+The first statement's resulting value is an input into a function that computes the next statement to execute.
+Successive uses of <code>bind</code> are like a sequence of statements in an imperative programming language, and <code>bind</code> is powerful enough to implement control structures like conditionals and loops.</p>
+<p>Following this analogy, <code>Applicative</code> captures function application in a language that has side effects.
+The arguments to a function in languages like Kotlin or C# are evaluated from left to right.
+Side effects performed by earlier arguments occur before those performed by later arguments.
+A function is not powerful enough to implement custom short-circuiting operators that depend on the specific <em>value</em> of an argument, however.</p>
+<p>Typically, <code>seq</code> is not invoked directly.
+Instead, the operator <code>&lt;*&gt;</code> is used.
+This operator wraps its second argument in <code>fun () =&gt; ...</code>, simplifying the call site.
+In other words, <code>E1 &lt;*&gt; E2</code> is syntactic sugar for <code>Seq.seq E1 (fun () =&gt; E2)</code>.</p>
+<p>The key feature that allows <code>seq</code> to be used with multiple arguments is that a multiple-argument Lean function is really a single-argument function that returns another function that's waiting for the rest of the arguments.
+In other words, if the first argument to <code>seq</code> is awaiting multiple arguments, then the result of the <code>seq</code> will be awaiting the rest.
+For example, <code>some Plus.plus</code> can have the type <code>Option (Nat → Nat → Nat)</code>.
+Providing one argument, <code>some Plus.plus &lt;*&gt; some 4</code>, results in the type <code>Option (Nat → Nat)</code>.
+This can itself be used with <code>seq</code>, so <code>some Plus.plus &lt;*&gt; some 4 &lt;*&gt; some 7</code> has the type <code>Option Nat</code>.</p>
+<p>Not every functor is applicative.
+<code>Pair</code> is like the built-in product type <code>Prod</code>:</p>
 <pre><code class="language-lean">structure Pair (α β : Type) : Type where
   first : α
   second : β
 </code></pre>
-<p>Like <code>Except</code>, <code>Pair</code> has type <code>Type → Type → Type</code>. This means that <code>Pair α</code> has type <code>Type → Type</code>, and a <code>Functor</code> instance is possible:</p>
+<p>Like <code>Except</code>, <code>Pair</code> has type <code>Type → Type → Type</code>.
+This means that <code>Pair α</code> has type <code>Type → Type</code>, and a <code>Functor</code> instance is possible:</p>
 <pre><code class="language-lean">instance : Functor (Pair α) where
   map f x := ⟨x.first, f x.second⟩
 </code></pre>
 <p>This instance obeys the <code>Functor</code> contract.</p>
-<p>The two properties to check are that <code>id &lt;$&gt; Pair.mk x y = Pair.mk x y</code> and that <code>f &lt;$&gt; g &lt;$&gt; Pair.mk x y = (f ∘ g) &lt;$&gt; Pair.mk x y</code>. The first property can be checked by just stepping through the evaluation of the left side, and noticing that it evaluates to the right side:</p>
+<p>The two properties to check are that <code>id &lt;$&gt; Pair.mk x y = Pair.mk x y</code> and that <code>f &lt;$&gt; g &lt;$&gt; Pair.mk x y = (f ∘ g) &lt;$&gt; Pair.mk x y</code>.
+The first property can be checked by just stepping through the evaluation of the left side, and noticing that it evaluates to the right side:</p>
 <pre><code class="language-lean">id &lt;$&gt; Pair.mk x y
 ===&gt;
 Pair.mk x (id y)
@@ -191,7 +214,8 @@ Pair.mk x ((f ∘ g) y)
 ===&gt;
 Pair.mk x (f (g y))
 </code></pre>
-<p>Attempting to define an <code>Applicative</code> instance, however, does not work so well. It will require a definition of <code>pure</code>:</p>
+<p>Attempting to define an <code>Applicative</code> instance, however, does not work so well.
+It will require a definition of <code>pure</code>:</p>
 <pre><code class="language-lean">def Pair.pure (x : β) : Pair α β := _
 </code></pre>
 <pre><code class="language-output error">don't know how to synthesize placeholder
@@ -209,12 +233,22 @@ context:
 x : β
 ⊢ α
 </code></pre>
-<p>Unfortunately, there is no <code>α</code> available. Because <code>pure</code> would need to work for <em>all possible types</em> α to define an instance of <code>Applicative (Pair α)</code>, this is impossible. After all, a caller could choose <code>α</code> to be <code>Empty</code>, which has no values at all.</p>
+<p>Unfortunately, there is no <code>α</code> available.
+Because <code>pure</code> would need to work for <em>all possible types</em> α to define an instance of <code>Applicative (Pair α)</code>, this is impossible.
+After all, a caller could choose <code>α</code> to be <code>Empty</code>, which has no values at all.</p>
 <h2 id="a-non-monadic-applicative"><a class="header" href="#a-non-monadic-applicative">A Non-Monadic Applicative</a></h2>
-<p>When validating user input to a form, it's generally considered to be best to provide many errors at once, rather than one error at a time. This allows the user to have an overview of what is needed to please the computer, rather than feeling badgered as they correct the errors field by field.</p>
-<p>Ideally, validating user input will be visible in the type of the function that's doing the validating. It should return a datatype that is specific—checking that a text box contains a number should return an actual numeric type, for instance. A validation routine could throw an exception when the input does not pass validation. Exceptions have a major drawback, however: they terminate the program at the first error, making it impossible to accumulate a list of errors.</p>
-<p>On the other hand, the common design pattern of accumulating a list of errors and then failing when it is non-empty is also problematic. A long nested sequences of <code>if</code> statements that validate each sub-section of the input data is hard to maintain, and it's easy to lose track of an error message or two. Ideally, validation can be performed using an API that enables a new value to be returned yet automatically tracks and accumulates error messages.</p>
-<p>An applicative functor called <code>Validate</code> provides one way to implement this style of API. Like the <code>Except</code> monad, <code>Validate</code> allows a new value to be constructed that characterizes the validated data accurately. Unlike <code>Except</code>, it allows multiple errors to be accumulated, without a risk of forgetting to check whether the list is empty.</p>
+<p>When validating user input to a form, it's generally considered to be best to provide many errors at once, rather than one error at a time.
+This allows the user to have an overview of what is needed to please the computer, rather than feeling badgered as they correct the errors field by field.</p>
+<p>Ideally, validating user input will be visible in the type of the function that's doing the validating.
+It should return a datatype that is specific—checking that a text box contains a number should return an actual numeric type, for instance.
+A validation routine could throw an exception when the input does not pass validation.
+Exceptions have a major drawback, however: they terminate the program at the first error, making it impossible to accumulate a list of errors.</p>
+<p>On the other hand, the common design pattern of accumulating a list of errors and then failing when it is non-empty is also problematic.
+A long nested sequences of <code>if</code> statements that validate each sub-section of the input data is hard to maintain, and it's easy to lose track of an error message or two.
+Ideally, validation can be performed using an API that enables a new value to be returned yet automatically tracks and accumulates error messages.</p>
+<p>An applicative functor called <code>Validate</code> provides one way to implement this style of API.
+Like the <code>Except</code> monad, <code>Validate</code> allows a new value to be constructed that characterizes the validated data accurately.
+Unlike <code>Except</code>, it allows multiple errors to be accumulated, without a risk of forgetting to check whether the list is empty.</p>
 <h3 id="user-input"><a class="header" href="#user-input">User Input</a></h3>
 <p>As an example of user input, take the following structure:</p>
 <pre><code class="language-lean">structure RawInput where
@@ -227,18 +261,30 @@ x : β
 <li>The birth year must be numeric and non-negative</li>
 <li>The birth year must be greater than 1900, and less than or equal to the year in which the form is validated</li>
 </ol>
-<p>Representing these as a datatype will require a new feature, called <em>subtypes</em>. With this tool in hand, a validation framework can be written that uses an applicative functor to track errors, and these rules can be implemented in the framework.</p>
+<p>Representing these as a datatype will require a new feature, called <em>subtypes</em>.
+With this tool in hand, a validation framework can be written that uses an applicative functor to track errors, and these rules can be implemented in the framework.</p>
 <h3 id="subtypes"><a class="header" href="#subtypes">Subtypes</a></h3>
 <p>Representing these conditions is easiest with one additional Lean type, called <code>Subtype</code>:</p>
 <pre><code class="language-lean">structure Subtype {α : Type} (p : α → Prop) where
   val : α
   property : p val
 </code></pre>
-<p>This structure has two type parameters: an implicit parameter that is the type of data <code>α</code>, and an explicit parameter <code>p</code> that is a predicate over <code>α</code>. A <em>predicate</em> is a logical statement with a variable in it that can be replaced with a value to yield an actual statement, like the <a href="../type-classes/indexing.html#overloading-indexing">parameter to <code>GetElem</code></a> that describes what it means for an index to be in bounds for a lookup. In the case of <code>Subtype</code>, the predicate slices out some subset of the values of <code>α</code> for which the predicate holds. The structure's two fields are, respectively, a value from <code>α</code> and evidence that the value satisfies the predicate <code>p</code>. Lean has special syntax for <code>Subtype</code>. If <code>p</code> has type <code>α → Prop</code>, then the type <code>Subtype p</code> can also be written <code>{x : α // p x}</code>, or even <code>{x // p x}</code> when the type can be inferred automatically.</p>
-<p><a href="../type-classes/pos.html">Representing positive numbers as inductive types</a> is clear and easy to program with. However, it has a key disadvantage. While <code>Nat</code> and <code>Int</code> have the structure of ordinary inductive types from the perspective of Lean programs, the compiler treats them specially and uses fast arbitrary-precision number libraries to implement them. This is not the case for additional user-defined types. However, a subtype of <code>Nat</code> that restricts it to non-zero numbers allows the new type to use the efficient representation while still ruling out zero at compile time:</p>
+<p>This structure has two type parameters: an implicit parameter that is the type of data <code>α</code>, and an explicit parameter <code>p</code> that is a predicate over <code>α</code>.
+A <em>predicate</em> is a logical statement with a variable in it that can be replaced with a value to yield an actual statement, like the <a href="../type-classes/indexing.html#overloading-indexing">parameter to <code>GetElem</code></a> that describes what it means for an index to be in bounds for a lookup.
+In the case of <code>Subtype</code>, the predicate slices out some subset of the values of <code>α</code> for which the predicate holds.
+The structure's two fields are, respectively, a value from <code>α</code> and evidence that the value satisfies the predicate <code>p</code>.
+Lean has special syntax for <code>Subtype</code>.
+If <code>p</code> has type <code>α → Prop</code>, then the type <code>Subtype p</code> can also be written <code>{x : α // p x}</code>, or even <code>{x // p x}</code> when the type can be inferred automatically.</p>
+<p><a href="../type-classes/pos.html">Representing positive numbers as inductive types</a> is clear and easy to program with.
+However, it has a key disadvantage.
+While <code>Nat</code> and <code>Int</code> have the structure of ordinary inductive types from the perspective of Lean programs, the compiler treats them specially and uses fast arbitrary-precision number libraries to implement them.
+This is not the case for additional user-defined types.
+However, a subtype of <code>Nat</code> that restricts it to non-zero numbers allows the new type to use the efficient representation while still ruling out zero at compile time:</p>
 <pre><code class="language-lean">def FastPos : Type := {x : Nat // x &gt; 0}
 </code></pre>
-<p>The smallest fast positive number is still one. Now, instead of being a constructor of an inductive type, it's an instance of a structure that's constructed with angle brackets. The first argument is the underlying <code>Nat</code>, and the second argument is the evidence that said <code>Nat</code> is greater than zero:</p>
+<p>The smallest fast positive number is still one.
+Now, instead of being a constructor of an inductive type, it's an instance of a structure that's constructed with angle brackets.
+The first argument is the underlying <code>Nat</code>, and the second argument is the evidence that said <code>Nat</code> is greater than zero:</p>
 <pre><code class="language-leantac">def one : FastPos := ⟨1, by simp⟩
 </code></pre>
 <p>The <code>OfNat</code> instance is very much like that for <code>Pos</code>, except it uses a short tactic proof to provide evidence that <code>n + 1 &gt; 0</code>:</p>
@@ -246,8 +292,14 @@ x : β
   ofNat := ⟨n + 1, by simp_arith⟩
 </code></pre>
 <p>The <code>simp_arith</code> tactic is a version of <code>simp</code> that takes additional arithmetic identities into account.</p>
-<p>Subtypes are a two-edged sword. They allow efficient representation of validation rules, but they transfer the burden of maintaining these rules to the users of the library, who have to <em>prove</em> that they are not violating important invariants. Generally, it's a good idea to use them internally to a library, providing an API to users that automatically ensures that all invariants are satisfied, with any necessary proofs being internal to the library.</p>
-<p>Checking whether a value of type <code>α</code> is in the subtype <code>{x : α // p x}</code> usually requires that the proposition <code>p x</code> be decidable. The <a href="../type-classes/standard-classes.html#equality-and-ordering">section on equality and ordering classes</a> describes how decidable propositions can be used with <code>if</code>. When <code>if</code> is used with a decidable proposition, a name can be provided. In the <code>then</code> branch, the name is bound to evidence that the proposition is true, and in the <code>else</code> branch, it is bound to evidence that the proposition is false. This comes in handy when checking whether a given <code>Nat</code> is positive:</p>
+<p>Subtypes are a two-edged sword.
+They allow efficient representation of validation rules, but they transfer the burden of maintaining these rules to the users of the library, who have to <em>prove</em> that they are not violating important invariants.
+Generally, it's a good idea to use them internally to a library, providing an API to users that automatically ensures that all invariants are satisfied, with any necessary proofs being internal to the library.</p>
+<p>Checking whether a value of type <code>α</code> is in the subtype <code>{x : α // p x}</code> usually requires that the proposition <code>p x</code> be decidable.
+The <a href="../type-classes/standard-classes.html#equality-and-ordering">section on equality and ordering classes</a> describes how decidable propositions can be used with <code>if</code>.
+When <code>if</code> is used with a decidable proposition, a name can be provided.
+In the <code>then</code> branch, the name is bound to evidence that the proposition is true, and in the <code>else</code> branch, it is bound to evidence that the proposition is false.
+This comes in handy when checking whether a given <code>Nat</code> is positive:</p>
 <pre><code class="language-lean">def Nat.asFastPos? (n : Nat) : Option FastPos :=
   if h : n &gt; 0 then
     some ⟨n, h⟩
@@ -265,13 +317,16 @@ x : β
   name : {n : String // n ≠ &quot;&quot;}
   birthYear : {y : Nat // y &gt; 1900 ∧ y ≤ thisYear}
 </code></pre>
-<p>An input validator should take the current year and a <code>RawInput</code> as arguments, returning either a checked input or at least one validation failure. This is represented by the <code>Validate</code> type:</p>
+<p>An input validator should take the current year and a <code>RawInput</code> as arguments, returning either a checked input or at least one validation failure.
+This is represented by the <code>Validate</code> type:</p>
 <pre><code class="language-lean">inductive Validate (ε α : Type) : Type where
   | ok : α → Validate ε α
   | errors : NonEmptyList ε → Validate ε α
 </code></pre>
-<p>It looks very much like <code>Except</code>. The only difference is that the <code>error</code> constructor may contain more than one failure.</p>
-<p>Validate is a functor. Mapping a function over it transforms any successful value that might be present, just as in the <code>Functor</code> instance for <code>Except</code>:</p>
+<p>It looks very much like <code>Except</code>.
+The only difference is that the <code>error</code> constructor may contain more than one failure.</p>
+<p>Validate is a functor.
+Mapping a function over it transforms any successful value that might be present, just as in the <code>Functor</code> instance for <code>Except</code>:</p>
 <pre><code class="language-lean">instance : Functor (Validate ε) where
   map f
    | .ok x =&gt; .ok (f x)
@@ -288,27 +343,36 @@ x : β
       | .ok _ =&gt; .errors errs
       | .errors errs' =&gt; .errors (errs ++ errs')
 </code></pre>
-<p>Using <code>.errors</code> together with the constructor for <code>NonEmptyList</code> is a bit verbose. Helpers like <code>reportError</code> make code more readable. In this application, error reports will consist of field names paired with messages:</p>
+<p>Using <code>.errors</code> together with the constructor for <code>NonEmptyList</code> is a bit verbose.
+Helpers like <code>reportError</code> make code more readable.
+In this application, error reports will consist of field names paired with messages:</p>
 <pre><code class="language-lean">def Field := String
 
 def reportError (f : Field) (msg : String) : Validate (Field × String) α :=
   .errors { head := (f, msg), tail := [] }
 </code></pre>
-<p>The <code>Applicative</code> instance for <code>Validate</code> allows the checking procedures for each field to be written independently and then composed. Checking a name consists of ensuring that a string is non-empty, then returning evidence of this fact in the form of a <code>Subtype</code>. This uses the evidence-binding version of <code>if</code>:</p>
+<p>The <code>Applicative</code> instance for <code>Validate</code> allows the checking procedures for each field to be written independently and then composed.
+Checking a name consists of ensuring that a string is non-empty, then returning evidence of this fact in the form of a <code>Subtype</code>.
+This uses the evidence-binding version of <code>if</code>:</p>
 <pre><code class="language-lean">def checkName (name : String) : Validate (Field × String) {n : String // n ≠ &quot;&quot;} :=
   if h : name = &quot;&quot; then
     reportError &quot;name&quot; &quot;Required&quot;
   else pure ⟨name, h⟩
 </code></pre>
 <p>In the <code>then</code> branch, <code>h</code> is bound to evidence that <code>name = &quot;&quot;</code>, while it is bound to evidence that <code>¬name = &quot;&quot;</code> in the <code>else</code> branch.</p>
-<p>It's certainly the case that some validation errors make other checks impossible. For example, it makes no sense to check whether the birth year field is greater than 1900 if a confused user wrote the word <code>&quot;syzygy&quot;</code> instead of a number. Checking the allowed range of the number is only meaningful after ensuring that the field in fact contains a number. This can be expressed using the function <code>andThen</code>:</p>
+<p>It's certainly the case that some validation errors make other checks impossible.
+For example, it makes no sense to check whether the birth year field is greater than 1900 if a confused user wrote the word <code>&quot;syzygy&quot;</code> instead of a number.
+Checking the allowed range of the number is only meaningful after ensuring that the field in fact contains a number.
+This can be expressed using the function <code>andThen</code>:</p>
 <pre><code class="language-lean">def Validate.andThen (val : Validate ε α) (next : α → Validate ε β) : Validate ε β :=
   match val with
   | .errors errs =&gt; .errors errs
   | .ok x =&gt; next x
 </code></pre>
-<p>While this function's type signature makes it suitable to be used as <code>bind</code> in a <code>Monad</code> instance, there are good reasons not to do so. They are described <a href="applicative-contract.html#additional-stipulations">in the section that describes the <code>Applicative</code> contract</a>.</p>
-<p>To check that the birth year is a number, a built-in function called <code>String.toNat? : String → Option Nat</code> is useful. It's most user-friendly to eliminate leading and trailing whitespace first using <code>String.trim</code>:</p>
+<p>While this function's type signature makes it suitable to be used as <code>bind</code> in a <code>Monad</code> instance, there are good reasons not to do so.
+They are described <a href="applicative-contract.html#additional-stipulations">in the section that describes the <code>Applicative</code> contract</a>.</p>
+<p>To check that the birth year is a number, a built-in function called <code>String.toNat? : String → Option Nat</code> is useful.
+It's most user-friendly to eliminate leading and trailing whitespace first using <code>String.trim</code>:</p>
 <pre><code class="language-lean">def checkYearIsNat (year : String) : Validate (Field × String) Nat :=
   match year.trim.toNat? with
   | none =&gt; reportError &quot;birth year&quot; &quot;Must be digits&quot;
@@ -342,7 +406,15 @@ def reportError (f : Field) (msg : String) : Validate (Field × String) α :=
 </code></pre>
 <pre><code class="language-output info">Validate.errors { head := (&quot;birth year&quot;, &quot;Must be digits&quot;), tail := [] }
 </code></pre>
-<p>Form validation with <code>checkInput</code> illustrates a key advantage of <code>Applicative</code> over <code>Monad</code>. Because <code>&gt;&gt;=</code> provides enough power to modify the rest of the program's execution based on the value from the first step, it <em>must</em> receive a value from the first step to pass on. If no value is received (e.g. because an error has occurred), then <code>&gt;&gt;=</code> cannot execute the rest of the program. <code>Validate</code> demonstrates why it can be useful to run the rest of the program anyway: in cases where the earlier data isn't needed, running the rest of the program can yield useful information (in this case, more validation errors). <code>Applicative</code>'s <code>&lt;*&gt;</code> may run both of its arguments before recombining the results. Similarly, <code>&gt;&gt;=</code> forces sequential execution. Each step must complete before the next may run. This is generally useful, but it makes it impossible to have parallel execution of different threads that naturally emerges from the program's actual data dependencies. A more powerful abstraction like <code>Monad</code> increases the flexibility that's available to the API consumer, but it decreases the flexibility that is available to the API implementor.</p>
+<p>Form validation with <code>checkInput</code> illustrates a key advantage of <code>Applicative</code> over <code>Monad</code>.
+Because <code>&gt;&gt;=</code> provides enough power to modify the rest of the program's execution based on the value from the first step, it <em>must</em> receive a value from the first step to pass on.
+If no value is received (e.g. because an error has occurred), then <code>&gt;&gt;=</code> cannot execute the rest of the program.
+<code>Validate</code> demonstrates why it can be useful to run the rest of the program anyway: in cases where the earlier data isn't needed, running the rest of the program can yield useful information (in this case, more validation errors).
+<code>Applicative</code>'s <code>&lt;*&gt;</code> may run both of its arguments before recombining the results.
+Similarly, <code>&gt;&gt;=</code> forces sequential execution.
+Each step must complete before the next may run.
+This is generally useful, but it makes it impossible to have parallel execution of different threads that naturally emerges from the program's actual data dependencies.
+A more powerful abstraction like <code>Monad</code> increases the flexibility that's available to the API consumer, but it decreases the flexibility that is available to the API implementor.</p>
 
                     </main>
 

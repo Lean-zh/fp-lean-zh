@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>其他便利的功能 - Functional Programming in Lean</title>
+        <title>其他便利的功能 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,9 +138,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="其他便利功能"><a class="header" href="#其他便利功能">其他便利功能</a></h1>
-<h2 id="嵌套操作"><a class="header" href="#嵌套操作">嵌套操作</a></h2>
-<p><code>feline</code> 中的许多函数都表现出一种重复模式，其中 <code>IO</code> 操作的结果被赋予一个名称，然后立即且仅使用一次。例如，在 <code>dump</code> 中：</p>
+                        <h1 id="additional-conveniences"><a class="header" href="#additional-conveniences">Additional Conveniences</a></h1>
+<h2 id="nested-actions"><a class="header" href="#nested-actions">Nested Actions</a></h2>
+<p>Many of the functions in <code>feline</code> exhibit a repetitive pattern in which an <code>IO</code> action's result is given a name, and then used immediately and only once.
+For instance, in <code>dump</code>:</p>
 <pre><code class="language-lean">partial def dump (stream : IO.FS.Stream) : IO Unit := do
   let buf ← stream.read bufsize
   if buf.isEmpty then
@@ -150,15 +151,17 @@
     stdout.write buf
     dump stream
 </code></pre>
-<p>模式发生在 <code>stdout</code> 中：</p>
+<p>the pattern occurs for <code>stdout</code>:</p>
 <pre><code class="language-lean">    let stdout ← IO.getStdout
     stdout.write buf
 </code></pre>
-<p>同样，<code>fileStream</code> 包含以下代码段：</p>
+<p>Similarly, <code>fileStream</code> contains the following snippet:</p>
 <pre><code class="language-lean">  let fileExists ← filename.pathExists
   if not fileExists then
 </code></pre>
-<p>当 Lean 编译 <code>do</code> 块时，由括号下方的左箭头组成的表达式会被提升到最近的封闭 <code>do</code> 中，并且其结果会被绑定到一个唯一名称。这个唯一名称替换了表达式的来源。这意味着 <code>dump</code> 也可以写成如下形式：</p>
+<p>When Lean is compiling a <code>do</code> block, expressions that consist of a left arrow immediately under parentheses are lifted to the nearest enclosing <code>do</code>, and their results are bound to a unique name.
+This unique name replaces the origin of the expression.
+This means that <code>dump</code> can also be written as follows:</p>
 <pre><code class="language-lean">partial def dump (stream : IO.FS.Stream) : IO Unit := do
   let buf ← stream.read bufsize
   if buf.isEmpty then
@@ -167,8 +170,9 @@
     (← IO.getStdout).write buf
     dump stream
 </code></pre>
-<p>此版本的 <code>dump</code> 避免了引入仅使用一次的名称，这可以极大地简化程序。Lean 从嵌套表达式上下文中提升的 <code>IO</code> 操作称为 <em>嵌套操作</em>。</p>
-<p><code>fileStream</code> 可以使用相同的技术进行简化：</p>
+<p>This version of <code>dump</code> avoids introducing names that are used only once, which can greatly simplify a program.
+<code>IO</code> actions that Lean lifts from a nested expression context are called <em>nested actions</em>.</p>
+<p><code>fileStream</code> can be simplified using the same technique:</p>
 <pre><code class="language-lean">def fileStream (filename : System.FilePath) : IO (Option IO.FS.Stream) := do
   if not (← filename.pathExists) then
     (← IO.getStderr).putStrLn s!&quot;File not found: {filename}&quot;
@@ -177,8 +181,11 @@
     let handle ← IO.FS.Handle.mk filename IO.FS.Mode.read
     pure (some (IO.FS.Stream.ofHandle handle))
 </code></pre>
-<p>In this case, the local name of <code>handle</code> could also have been eliminated using nested actions, but the resulting expression would have been long and complicated. Even though it's often good style to use nested actions, it can still sometimes be helpful to name intermediate results.</p>
-<p>It is important to remember, however, that nested actions are only a shorter notation for <code>IO</code> actions that occur in a surrounding <code>do</code> block. The side effects that are involved in executing them still occur in the same order, and execution of side effects is not interspersed with the evaluation of expressions. For an example of where this might be confusing, consider the following helper definitions that return data after announcing to the world that they have been executed:</p>
+<p>In this case, the local name of <code>handle</code> could also have been eliminated using nested actions, but the resulting expression would have been long and complicated.
+Even though it's often good style to use nested actions, it can still sometimes be helpful to name intermediate results.</p>
+<p>It is important to remember, however, that nested actions are only a shorter notation for <code>IO</code> actions that occur in a surrounding <code>do</code> block.
+The side effects that are involved in executing them still occur in the same order, and execution of side effects is not interspersed with the evaluation of expressions.
+For an example of where this might be confusing, consider the following helper definitions that return data after announcing to the world that they have been executed:</p>
 <pre><code class="language-lean">def getNumA : IO Nat := do
   (← IO.getStdout).putStrLn &quot;A&quot;
   pure 5
@@ -193,7 +200,9 @@ def getNumB : IO Nat := do
   let a : Nat := if (← getNumA) == 5 then 0 else (← getNumB)
   (← IO.getStdout).putStrLn s!&quot;The answer is {a}&quot;
 </code></pre>
-<p>However, this program probably has more side effects (such as prompting for user input or reading a database) than was intended. The definition of <code>getNumA</code> makes it clear that it will always return <code>5</code>, and thus the program should not read number B. However, running the program results in the following output:</p>
+<p>However, this program probably has more side effects (such as prompting for user input or reading a database) than was intended.
+The definition of <code>getNumA</code> makes it clear that it will always return <code>5</code>, and thus the program should not read number B.
+However, running the program results in the following output:</p>
 <pre><code class="language-output info">A
 B
 The answer is 0
@@ -205,9 +214,15 @@ The answer is 0
   let a : Nat := if x == 5 then 0 else y
   (← IO.getStdout).putStrLn s!&quot;The answer is {a}&quot;
 </code></pre>
-<p>This is due to the rule that nested actions are lifted to the <em>closest enclosing</em> <code>do</code> block. The branches of the <code>if</code> were not implicitly wrapped in <code>do</code> blocks because the <code>if</code> is not itself a statement in the <code>do</code> block—the statement is the <code>let</code> that defines <code>a</code>. Indeed, they could not be wrapped this way, because the type of the conditional expression is <code>Nat</code>, not <code>IO Nat</code>.</p>
+<p>This is due to the rule that nested actions are lifted to the <em>closest enclosing</em> <code>do</code> block.
+The branches of the <code>if</code> were not implicitly wrapped in <code>do</code> blocks because the <code>if</code> is not itself a statement in the <code>do</code> block—the statement is the <code>let</code> that defines <code>a</code>.
+Indeed, they could not be wrapped this way, because the type of the conditional expression is <code>Nat</code>, not <code>IO Nat</code>.</p>
 <h2 id="flexible-layouts-for-do"><a class="header" href="#flexible-layouts-for-do">Flexible Layouts for <code>do</code></a></h2>
-<p>In Lean, <code>do</code> expressions are whitespace-sensitive. Each <code>IO</code> action or local binding in the <code>do</code> is expected to start on its own line, and they should all have the same indentation. Almost all uses of <code>do</code> should be written this way. In some rare contexts, however, manual control over whitespace and indentation may be necessary, or it may be convenient to have multiple small actions on a single line. In these cases, newlines can be replaced with a semicolon and indentation can be replaced with curly braces.</p>
+<p>In Lean, <code>do</code> expressions are whitespace-sensitive.
+Each <code>IO</code> action or local binding in the <code>do</code> is expected to start on its own line, and they should all have the same indentation.
+Almost all uses of <code>do</code> should be written this way.
+In some rare contexts, however, manual control over whitespace and indentation may be necessary, or it may be convenient to have multiple small actions on a single line.
+In these cases, newlines can be replaced with a semicolon and indentation can be replaced with curly braces.</p>
 <p>For instance, all of the following programs are equivalent:</p>
 <pre><code class="language-lean">-- This version uses only whitespace-sensitive layout
 def main : IO Unit := do
@@ -238,7 +253,10 @@ def main : IO Unit := do
 </code></pre>
 <p>Idiomatic Lean code uses curly braces with <code>do</code> very rarely.</p>
 <h2 id="running-io-actions-with-eval"><a class="header" href="#running-io-actions-with-eval">Running <code>IO</code> Actions With <code>#eval</code></a></h2>
-<p>Lean's <code>#eval</code> command can be used to execute <code>IO</code> actions, rather than just evaluating them. Normally, adding a <code>#eval</code> command to a Lean file causes Lean to evaluate the provided expression, convert the resulting value to a string, and provide that string as a tooltip and in the info window. Rather than failing because <code>IO</code> actions can't be converted to strings, <code>#eval</code> executes them, carrying out their side effects. If the result of execution is the <code>Unit</code> value <code>()</code>, then no result string is shown, but if it is a type that can be converted to a string, then Lean displays the resulting value.</p>
+<p>Lean's <code>#eval</code> command can be used to execute <code>IO</code> actions, rather than just evaluating them.
+Normally, adding a <code>#eval</code> command to a Lean file causes Lean to evaluate the provided expression, convert the resulting value to a string, and provide that string as a tooltip and in the info window.
+Rather than failing because <code>IO</code> actions can't be converted to strings, <code>#eval</code> executes them, carrying out their side effects.
+If the result of execution is the <code>Unit</code> value <code>()</code>, then no result string is shown, but if it is a type that can be converted to a string, then Lean displays the resulting value.</p>
 <p>This means that, given the prior definitions of <code>countdown</code> and <code>runActions</code>,</p>
 <pre><code class="language-lean">#eval runActions (countdown 3)
 </code></pre>
@@ -248,8 +266,13 @@ def main : IO Unit := do
 1
 Blast off!
 </code></pre>
-<p>This is the output produced by running the <code>IO</code> action, rather than some opaque representation of the action itself. In other words, for <code>IO</code> actions, <code>#eval</code> both <em>evaluates</em> the provided expression and <em>executes</em> the resulting action value.</p>
-<p>Quickly testing <code>IO</code> actions with <code>#eval</code> can be much more convenient that compiling and running whole programs. However, there are some limitations. For instance, reading from standard input simply returns empty input. Additionally, the <code>IO</code> action is re-executed whenever Lean needs to update the diagnostic information that it provides to users, and this can happen at unpredictable times. An action that reads and writes files, for instance, may do so at inconvenient times.</p>
+<p>This is the output produced by running the <code>IO</code> action, rather than some opaque representation of the action itself.
+In other words, for <code>IO</code> actions, <code>#eval</code> both <em>evaluates</em> the provided expression and <em>executes</em> the resulting action value.</p>
+<p>Quickly testing <code>IO</code> actions with <code>#eval</code> can be much more convenient that compiling and running whole programs.
+However, there are some limitations.
+For instance, reading from standard input simply returns empty input.
+Additionally, the <code>IO</code> action is re-executed whenever Lean needs to update the diagnostic information that it provides to users, and this can happen at unpredictable times.
+An action that reads and writes files, for instance, may do so at inconvenient times.</p>
 
                     </main>
 

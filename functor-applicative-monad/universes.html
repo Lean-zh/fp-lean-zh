@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>全类 - Functional Programming in Lean</title>
+        <title>全类 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,31 +138,64 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="宇宙"><a class="header" href="#宇宙">宇宙</a></h1>
-<p>In the interests of simplicity, this book has thus far papered over an important feature of Lean: <em>universes</em>. A universe is a type that classifies other types. Two of them are familiar: <code>Type</code> and <code>Prop</code>. <code>Type</code> classifies ordinary types, such as <code>Nat</code>, <code>String</code>, <code>Int → String × Char</code>, and <code>IO Unit</code>. <code>Prop</code> classifies propositions that may be true or false, such as <code>&quot;nisse&quot; = &quot;elf&quot;</code> or <code>3 &gt; 2</code>. The type of <code>Prop</code> is <code>Type</code>:</p>
+                        <h1 id="universes"><a class="header" href="#universes">Universes</a></h1>
+<p>In the interests of simplicity, this book has thus far papered over an important feature of Lean: <em>universes</em>.
+A universe is a type that classifies other types.
+Two of them are familiar: <code>Type</code> and <code>Prop</code>.
+<code>Type</code> classifies ordinary types, such as <code>Nat</code>, <code>String</code>, <code>Int → String × Char</code>, and <code>IO Unit</code>.
+<code>Prop</code> classifies propositions that may be true or false, such as <code>&quot;nisse&quot; = &quot;elf&quot;</code> or <code>3 &gt; 2</code>.
+The type of <code>Prop</code> is <code>Type</code>:</p>
 <pre><code class="language-lean">#check Prop
 </code></pre>
 <pre><code class="language-output info">Prop : Type
 </code></pre>
-<p>For technical reasons, more universes than these two are needed. In particular, <code>Type</code> cannot itself be a <code>Type</code>. This would allow a logical paradox to be constructed and undermine Lean's usefulness as a theorem prover.</p>
-<p>The formal argument for this is known as <em>Girard's Paradox</em>. It related to a better-known paradox known as <em>Russell's Paradox</em>, which was used to show that early versions of set theory were inconsistent. In these set theories, a set can be defined by a property. For example, one might have the set of all red things, the set of all fruit, the set of all natural numbers, or even the set of all sets. Given a set, one can ask whether a given element is contained in it. For instance, a bluebird is not contained in the set of all red things, but the set of all red things is contained in the set of all sets. Indeed, the set of all sets even contains itself.</p>
-<p>What about the set of all sets that do not contain themselves? It contains the set of all red things, as the set of all red things is not itself red. It does not contain the set of all sets, because the set of all sets contains itself. But does it contain itself? If it does contain itself, then it cannot contain itself. But if it does not, then it must.</p>
-<p>This is a contradiction, which demonstrates that something was wrong with the initial assumptions. In particular, allowing sets to be constructed by providing an arbitrary property is too powerful. Later versions of set theory restrict the formation of sets to remove the paradox.</p>
-<p>A related paradox can be constructed in versions of dependent type theory that assign the type <code>Type</code> to <code>Type</code>. To ensure that Lean has consistent logical foundations and can be used as a tool for mathematics, <code>Type</code> needs to have some other type. This type is called <code>Type 1</code>:</p>
+<p>For technical reasons, more universes than these two are needed.
+In particular, <code>Type</code> cannot itself be a <code>Type</code>.
+This would allow a logical paradox to be constructed and undermine Lean's usefulness as a theorem prover.</p>
+<p>The formal argument for this is known as <em>Girard's Paradox</em>.
+It related to a better-known paradox known as <em>Russell's Paradox</em>, which was used to show that early versions of set theory were inconsistent.
+In these set theories, a set can be defined by a property.
+For example, one might have the set of all red things, the set of all fruit, the set of all natural numbers, or even the set of all sets.
+Given a set, one can ask whether a given element is contained in it.
+For instance, a bluebird is not contained in the set of all red things, but the set of all red things is contained in the set of all sets.
+Indeed, the set of all sets even contains itself.</p>
+<p>What about the set of all sets that do not contain themselves?
+It contains the set of all red things, as the set of all red things is not itself red.
+It does not contain the set of all sets, because the set of all sets contains itself.
+But does it contain itself?
+If it does contain itself, then it cannot contain itself.
+But if it does not, then it must.</p>
+<p>This is a contradiction, which demonstrates that something was wrong with the initial assumptions.
+In particular, allowing sets to be constructed by providing an arbitrary property is too powerful.
+Later versions of set theory restrict the formation of sets to remove the paradox.</p>
+<p>A related paradox can be constructed in versions of dependent type theory that assign the type <code>Type</code> to <code>Type</code>.
+To ensure that Lean has consistent logical foundations and can be used as a tool for mathematics, <code>Type</code> needs to have some other type.
+This type is called <code>Type 1</code>:</p>
 <pre><code class="language-lean">#check Type
 </code></pre>
 <pre><code class="language-output info">Type : Type 1
 </code></pre>
-<p>Similarly, <code>Type 1</code> is a <code>Type 2</code>, <code>Type 2</code> is a <code>Type 3</code>, <code>Type 3</code> is a <code>Type 4</code>, and so forth.</p>
-<p>Function types occupy the smallest universe that can contain both the argument type and the return type. This means that <code>Nat → Nat</code> is a <code>Type</code>, <code>Type → Type</code> is a <code>Type 1</code>, and <code>Type 1 → Type 2</code> is a <code>Type 3</code>.</p>
-<p>There is one exception to this rule. If the return type of a function is a <code>Prop</code>, then the whole function type is in <code>Prop</code>, even if the argument is in a larger universe such as <code>Type</code> or even <code>Type 1</code>. In particular, this means that predicates over values that have ordinary types are in <code>Prop</code>. For example, the type <code>(n : Nat) → n = n + 0</code> represents a function from a <code>Nat</code> to evidence that it is equal to itself plus zero. Even though <code>Nat</code> is in <code>Type</code>, this function type is in <code>Prop</code> due to this rule. Similarly, even though <code>Type</code> is in <code>Type 1</code>, the function type <code>Type → 2 + 2 = 4</code> is still in <code>Prop</code>.</p>
+<p>Similarly, <code>Type 1</code> is a <code>Type 2</code>,
+<code>Type 2</code> is a <code>Type 3</code>,
+<code>Type 3</code> is a <code>Type 4</code>, and so forth.</p>
+<p>Function types occupy the smallest universe that can contain both the argument type and the return type.
+This means that <code>Nat → Nat</code> is a <code>Type</code>, <code>Type → Type</code> is a <code>Type 1</code>, and <code>Type 1 → Type 2</code> is a <code>Type 3</code>.</p>
+<p>There is one exception to this rule.
+If the return type of a function is a <code>Prop</code>, then the whole function type is in <code>Prop</code>, even if the argument is in a larger universe such as <code>Type</code> or even <code>Type 1</code>.
+In particular, this means that predicates over values that have ordinary types are in <code>Prop</code>.
+For example, the type <code>(n : Nat) → n = n + 0</code> represents a function from a <code>Nat</code> to evidence that it is equal to itself plus zero.
+Even though <code>Nat</code> is in <code>Type</code>, this function type is in <code>Prop</code> due to this rule.
+Similarly, even though <code>Type</code> is in <code>Type 1</code>, the function type <code>Type → 2 + 2 = 4</code> is still in <code>Prop</code>.</p>
 <h2 id="user-defined-types"><a class="header" href="#user-defined-types">User Defined Types</a></h2>
-<p>Structures and inductive datatypes can be declared to inhabit particular universes. Lean then checks whether each datatype avoids paradoxes by being in a universe that's large enough to prevent it from containing its own type. For instance, in the following declaration, <code>MyList</code> is declared to reside in <code>Type</code>, and so is its type argument <code>α</code>:</p>
+<p>Structures and inductive datatypes can be declared to inhabit particular universes.
+Lean then checks whether each datatype avoids paradoxes by being in a universe that's large enough to prevent it from containing its own type.
+For instance, in the following declaration, <code>MyList</code> is declared to reside in <code>Type</code>, and so is its type argument <code>α</code>:</p>
 <pre><code class="language-lean">inductive MyList (α : Type) : Type where
   | nil : MyList α
   | cons : α → MyList α → MyList α
 </code></pre>
-<p><code>MyList</code> itself is a <code>Type → Type</code>. This means that it cannot be used to contain actual types, because then its argument would be <code>Type</code>, which is a <code>Type 1</code>:</p>
+<p><code>MyList</code> itself is a <code>Type → Type</code>.
+This means that it cannot be used to contain actual types, because then its argument would be <code>Type</code>, which is a <code>Type 1</code>:</p>
 <pre><code class="language-lean">def myListOfNat : MyList Type :=
   .cons Nat .nil
 </code></pre>
@@ -187,12 +220,22 @@ at universe level
 it must be smaller than or equal to the inductive datatype universe level
   1
 </code></pre>
-<p>This error occurs because the argument to <code>cons</code> with type <code>α</code> is from a larger universe than <code>MyList</code>. Placing <code>MyList</code> itself in <code>Type 1</code> solves this issue, but at the cost of <code>MyList</code> now being itself inconvenient to use in contexts that expect a <code>Type</code>.</p>
-<p>The specific rules that govern whether a datatype is allowed are somewhat complicated. Generally speaking, it's easiest to start with the datatype in the same universe as the largest of its arguments. Then, if Lean rejects the definition, increase its level by one, which will usually go through.</p>
+<p>This error occurs because the argument to <code>cons</code> with type <code>α</code> is from a larger universe than <code>MyList</code>.
+Placing <code>MyList</code> itself in <code>Type 1</code> solves this issue, but at the cost of <code>MyList</code> now being itself inconvenient to use in contexts that expect a <code>Type</code>.</p>
+<p>The specific rules that govern whether a datatype is allowed are somewhat complicated.
+Generally speaking, it's easiest to start with the datatype in the same universe as the largest of its arguments.
+Then, if Lean rejects the definition, increase its level by one, which will usually go through.</p>
 <h2 id="universe-polymorphism"><a class="header" href="#universe-polymorphism">Universe Polymorphism</a></h2>
-<p>Defining a datatype in a specific universe can lead to code duplication. Placing <code>MyList</code> in <code>Type → Type</code> means that it can't be used for an actual list of types. Placing it in <code>Type 1 → Type 1</code> means that it can't be used for a list of lists of types. Rather than copy-pasting the datatype to create versions in <code>Type</code>, <code>Type 1</code>, <code>Type 2</code>, and so on, a feature called <em>universe polymorphism</em> can be used to write a single definition that can be instantiated in any of these universes.</p>
-<p>Ordinary polymorphic types use variables to stand for types in a definition. This allows Lean to fill in the variables differently, which enables these definitions to be used with a variety of types. Similarly, universe polymorphism allows variables to stand for universes in a definition, enabling Lean to fill them in differently so that they can be used with a variety of universes. Just as type arguments are conventionally named with Greek letters, universe arguments are conventionally named <code>u</code>, <code>v</code>, and <code>w</code>.</p>
-<p>This definition of <code>MyList</code> doesn't specify a particular universe level, but instead uses a variable <code>u</code> to stand for any level. If the resulting datatype is used with <code>Type</code>, then <code>u</code> is <code>0</code>, and if it's used with <code>Type 3</code>, then <code>u</code> is <code>3</code>:</p>
+<p>Defining a datatype in a specific universe can lead to code duplication.
+Placing <code>MyList</code> in <code>Type → Type</code> means that it can't be used for an actual list of types.
+Placing it in <code>Type 1 → Type 1</code> means that it can't be used for a list of lists of types.
+Rather than copy-pasting the datatype to create versions in <code>Type</code>, <code>Type 1</code>, <code>Type 2</code>, and so on, a feature called <em>universe polymorphism</em> can be used to write a single definition that can be instantiated in any of these universes.</p>
+<p>Ordinary polymorphic types use variables to stand for types in a definition.
+This allows Lean to fill in the variables differently, which enables these definitions to be used with a variety of types.
+Similarly, universe polymorphism allows variables to stand for universes in a definition, enabling Lean to fill them in differently so that they can be used with a variety of universes.
+Just as type arguments are conventionally named with Greek letters, universe arguments are conventionally named <code>u</code>, <code>v</code>, and <code>w</code>.</p>
+<p>This definition of <code>MyList</code> doesn't specify a particular universe level, but instead uses a variable <code>u</code> to stand for any level.
+If the resulting datatype is used with <code>Type</code>, then <code>u</code> is <code>0</code>, and if it's used with <code>Type 3</code>, then <code>u</code> is <code>3</code>:</p>
 <pre><code class="language-lean">inductive MyList (α : Type u) : Type u where
   | nil : MyList α
   | cons : α → MyList α → MyList α
@@ -208,7 +251,11 @@ def myListOfNat : MyList Type :=
 <pre><code class="language-lean">def myListOfList : MyList (Type → Type) :=
   .cons MyList .nil
 </code></pre>
-<p>It would seem that this would make it possible to write a logical paradox. After all, the whole point of the universe system is to rule out self-referential types. Behind the scenes, however, each occurrence of <code>MyList</code> is provided with a universe level argument. In essence, the universe-polymorphic definition of <code>MyList</code> created a <em>copy</em> of the datatype at each level, and the level argument selects which copy is to be used. These level arguments are written with a dot and curly braces, so <code>MyList.{0} : Type → Type</code>, <code>MyList.{1} : Type 1 → Type 1</code>, and <code>MyList.{2} : Type 2 → Type 2</code>.</p>
+<p>It would seem that this would make it possible to write a logical paradox.
+After all, the whole point of the universe system is to rule out self-referential types.
+Behind the scenes, however, each occurrence of <code>MyList</code> is provided with a universe level argument.
+In essence, the universe-polymorphic definition of <code>MyList</code> created a <em>copy</em> of the datatype at each level, and the level argument selects which copy is to be used.
+These level arguments are written with a dot and curly braces, so <code>MyList.{0} : Type → Type</code>, <code>MyList.{1} : Type 1 → Type 1</code>, and <code>MyList.{2} : Type 2 → Type 2</code>.</p>
 <p>Writing the levels explicitly, the prior example becomes:</p>
 <pre><code class="language-lean">def myListOfNumbers : MyList.{0} Nat :=
   .cons 0 (.cons 1 .nil)
@@ -219,7 +266,8 @@ def myListOfNat : MyList.{1} Type :=
 def myListOfList : MyList.{1} (Type → Type) :=
   .cons MyList.{0} .nil
 </code></pre>
-<p>When a universe-polymorphic definition takes multiple types as arguments, it's a good idea to give each argument its own level variable for maximum flexibility. For example, a version of <code>Sum</code> with a single level argument can be written as follows:</p>
+<p>When a universe-polymorphic definition takes multiple types as arguments, it's a good idea to give each argument its own level variable for maximum flexibility.
+For example, a version of <code>Sum</code> with a single level argument can be written as follows:</p>
 <pre><code class="language-lean">inductive Sum (α : Type u) (β : Type u) : Type u where
   | inl : α → Sum α β
   | inr : β → Sum α β
@@ -257,11 +305,24 @@ but is expected to have type
 <li>A level increase, written with <code>+ 1</code></li>
 </ul>
 <h3 id="writing-universe-polymorphic-definitions"><a class="header" href="#writing-universe-polymorphic-definitions">Writing Universe-Polymorphic Definitions</a></h3>
-<p>Until now, every datatype defined in this book has been in <code>Type</code>, the smallest universe of data. When presenting polymorphic datatypes from the Lean standard library, such as <code>List</code> and <code>Sum</code>, this book created non-universe-polymorphic versions of them. The real versions use universe polymorphism to enable code re-use between type-level and non-type-level programs.</p>
-<p>There are a few general guidelines to follow when writing universe-polymorphic types. First off, independent type arguments should have different universe variables, which enables the polymorphic definition to be used with a wider variety of arguments, increasing the potential for code reuse. Secondly, the whole type is itself typically either in the maximum of all the universe variables, or one greater than this maximum. Try the smaller of the two first. Finally, it's a good idea to put the new type in as small of a universe as possible, which allows it to be used more flexibly in other contexts. Non-polymorphic types, such as <code>Nat</code> and <code>String</code>, can be placed directly in <code>Type 0</code>.</p>
+<p>Until now, every datatype defined in this book has been in <code>Type</code>, the smallest universe of data.
+When presenting polymorphic datatypes from the Lean standard library, such as <code>List</code> and <code>Sum</code>, this book created non-universe-polymorphic versions of them.
+The real versions use universe polymorphism to enable code re-use between type-level and non-type-level programs.</p>
+<p>There are a few general guidelines to follow when writing universe-polymorphic types.
+First off, independent type arguments should have different universe variables, which enables the polymorphic definition to be used with a wider variety of arguments, increasing the potential for code reuse.
+Secondly, the whole type is itself typically either in the maximum of all the universe variables, or one greater than this maximum.
+Try the smaller of the two first.
+Finally, it's a good idea to put the new type in as small of a universe as possible, which allows it to be used more flexibly in other contexts.
+Non-polymorphic types, such as <code>Nat</code> and <code>String</code>, can be placed directly in <code>Type 0</code>.</p>
 <h3 id="prop-and-polymorphism"><a class="header" href="#prop-and-polymorphism"><code>Prop</code> and Polymorphism</a></h3>
-<p>Just as <code>Type</code>, <code>Type 1</code>, and so on describe types that classify programs and data, <code>Prop</code> classifies logical propositions. A type in <code>Prop</code> describes what counts as convincing evidence for the truth of a statement. Propositions are like ordinary types in many ways: they can be declared inductively, they can have constructors, and functions can take propositions as arguments. However, unlike datatypes, it typically doesn't matter <em>which</em> evidence is provided for the truth of a statement, only <em>that</em> evidence is provided. On the other hand, it is very important that a program not only return a <code>Nat</code>, but that it's the <em>correct</em> <code>Nat</code>.</p>
-<p><code>Prop</code> is at the bottom of the universe hierarchy, and the type of <code>Prop</code> is <code>Type</code>. This means that <code>Prop</code> is a suitable argument to provide to <code>List</code>, for the same reason that <code>Nat</code> is. Lists of propositions have type <code>List Prop</code>:</p>
+<p>Just as <code>Type</code>, <code>Type 1</code>, and so on describe types that classify programs and data, <code>Prop</code> classifies logical propositions.
+A type in <code>Prop</code> describes what counts as convincing evidence for the truth of a statement.
+Propositions are like ordinary types in many ways: they can be declared inductively, they can have constructors, and functions can take propositions as arguments.
+However, unlike datatypes, it typically doesn't matter <em>which</em> evidence is provided for the truth of a statement, only <em>that</em> evidence is provided.
+On the other hand, it is very important that a program not only return a <code>Nat</code>, but that it's the <em>correct</em> <code>Nat</code>.</p>
+<p><code>Prop</code> is at the bottom of the universe hierarchy, and the type of <code>Prop</code> is <code>Type</code>.
+This means that <code>Prop</code> is a suitable argument to provide to <code>List</code>, for the same reason that <code>Nat</code> is.
+Lists of propositions have type <code>List Prop</code>:</p>
 <pre><code class="language-lean">def someTruePropositions : List Prop := [
   1 + 1 = 2,
   &quot;Hello, &quot; ++ &quot;world!&quot; = &quot;Hello, world!&quot;
@@ -273,9 +334,16 @@ but is expected to have type
   &quot;Hello, &quot; ++ &quot;world!&quot; = &quot;Hello, world!&quot;
 ]
 </code></pre>
-<p>Behind the scenes, <code>Prop</code> and <code>Type</code> are united into a single hierarchy called <code>Sort</code>. <code>Prop</code> is the same as <code>Sort 0</code>, <code>Type 0</code> is <code>Sort 1</code>, <code>Type 1</code> is <code>Sort 2</code>, and so forth. In fact, <code>Type u</code> is the same as <code>Sort (u+1)</code>. When writing programs with Lean, this is typically not relevant, but it may occur in error messages from time to time, and it explains the name of the <code>CoeSort</code> class. Additionally, having <code>Prop</code> as <code>Sort 0</code> allows one more universe operator to become useful. The universe level <code>imax u v</code> is <code>0</code> when <code>v</code> is <code>0</code>, or the larger of <code>u</code> or <code>v</code> otherwise. Together with <code>Sort</code>, this allows the special rule for functions that return <code>Prop</code>s to be used when writing code that should be as portable as possible between <code>Prop</code> and <code>Type</code> universes.</p>
+<p>Behind the scenes, <code>Prop</code> and <code>Type</code> are united into a single hierarchy called <code>Sort</code>.
+<code>Prop</code> is the same as <code>Sort 0</code>, <code>Type 0</code> is <code>Sort 1</code>, <code>Type 1</code> is <code>Sort 2</code>, and so forth.
+In fact, <code>Type u</code> is the same as <code>Sort (u+1)</code>.
+When writing programs with Lean, this is typically not relevant, but it may occur in error messages from time to time, and it explains the name of the <code>CoeSort</code> class.
+Additionally, having <code>Prop</code> as <code>Sort 0</code> allows one more universe operator to become useful.
+The universe level <code>imax u v</code> is <code>0</code> when <code>v</code> is <code>0</code>, or the larger of <code>u</code> or <code>v</code> otherwise.
+Together with <code>Sort</code>, this allows the special rule for functions that return <code>Prop</code>s to be used when writing code that should be as portable as possible between <code>Prop</code> and <code>Type</code> universes.</p>
 <h2 id="polymorphism-in-practice"><a class="header" href="#polymorphism-in-practice">Polymorphism in Practice</a></h2>
-<p>In the remainder of the book, definitions of polymorphic datatypes, structures, and classes will use universe polymorphism in order to be consistent with the Lean standard library. This will enable the complete presentation of the <code>Functor</code>, <code>Applicative</code>, and <code>Monad</code> classes to be completely consistent with their actual definitions.</p>
+<p>In the remainder of the book, definitions of polymorphic datatypes, structures, and classes will use universe polymorphism in order to be consistent with the Lean standard library.
+This will enable the complete presentation of the <code>Functor</code>, <code>Applicative</code>, and <code>Monad</code> classes to be completely consistent with their actual definitions.</p>
 
                     </main>
 

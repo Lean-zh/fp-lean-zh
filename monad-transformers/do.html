@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>更多 do 的特性 - Functional Programming in Lean</title>
+        <title>更多 do 的特性 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,10 +138,13 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="更多-do-的特性"><a class="header" href="#更多-do-的特性">更多 do 的特性</a></h1>
-<p>Lean's <code>do</code>-notation provides a syntax for writing programs with monads that resembles imperative programming languages. In addition to providing a convenient syntax for programs with monads, <code>do</code>-notation provides syntax for using certain monad transformers.</p>
+                        <h1 id="more-do-features"><a class="header" href="#more-do-features">More do Features</a></h1>
+<p>Lean's <code>do</code>-notation provides a syntax for writing programs with monads that resembles imperative programming languages.
+In addition to providing a convenient syntax for programs with monads, <code>do</code>-notation provides syntax for using certain monad transformers.</p>
 <h2 id="single-branched-if"><a class="header" href="#single-branched-if">Single-Branched <code>if</code></a></h2>
-<p>When working in a monad, a common pattern is to carry out a side effect only if some condition is true. For instance, <code>countLetters</code> contains a check for vowels or consonants, and letters that are neither have no effect on the state. This is captured by having the <code>else</code> branch evaluate to <code>pure ()</code>, which has no effects:</p>
+<p>When working in a monad, a common pattern is to carry out a side effect only if some condition is true.
+For instance, <code>countLetters</code> contains a check for vowels or consonants, and letters that are neither have no effect on the state.
+This is captured by having the <code>else</code> branch evaluate to <code>pure ()</code>, which has no effects:</p>
 <pre><code class="language-lean">def countLetters (str : String) : StateT LetterCounts (Except Err) Unit :=
   let rec loop (chars : List Char) := do
     match chars with
@@ -158,7 +161,8 @@
       loop cs
   loop str.toList
 </code></pre>
-<p>When an <code>if</code> is a statement in a <code>do</code>-block, rather than being an expression, then <code>else pure ()</code> can simply be omitted, and Lean inserts it automatically. The following definition of <code>countLetters</code> is completely equivalent:</p>
+<p>When an <code>if</code> is a statement in a <code>do</code>-block, rather than being an expression, then <code>else pure ()</code> can simply be omitted, and Lean inserts it automatically.
+The following definition of <code>countLetters</code> is completely equivalent:</p>
 <pre><code class="language-lean">def countLetters (str : String) : StateT LetterCounts (Except Err) Unit :=
   let rec loop (chars : List Char) := do
     match chars with
@@ -181,7 +185,8 @@
       modify (· + 1)
     count p xs
 </code></pre>
-<p>Similarly, <code>if not E1 then STMT...</code> can instead be written <code>unless E1 do STMT...</code>. The converse of <code>count</code> that counts entries that don't satisfy the monadic check can be written by replacing <code>if</code> with <code>unless</code>:</p>
+<p>Similarly, <code>if not E1 then STMT...</code> can instead be written <code>unless E1 do STMT...</code>.
+The converse of <code>count</code> that counts entries that don't satisfy the monadic check can be written by replacing <code>if</code> with <code>unless</code>:</p>
 <pre><code class="language-lean">def countNot [Monad m] [MonadState Nat m] (p : α → m Bool) : List α → m Unit
   | [] =&gt; pure ()
   | x :: xs =&gt; do
@@ -189,9 +194,12 @@
       modify (· + 1)
     countNot p xs
 </code></pre>
-<p>Understanding single-branched <code>if</code> and <code>unless</code> does not require thinking about monad transformers. They simply replace the missing branch with <code>pure ()</code>. The remaining extensions in this section, however, require Lean to automatically rewrite the <code>do</code>-block to add a local transformer on top of the monad that the <code>do</code>-block is written in.</p>
+<p>Understanding single-branched <code>if</code> and <code>unless</code> does not require thinking about monad transformers.
+They simply replace the missing branch with <code>pure ()</code>.
+The remaining extensions in this section, however, require Lean to automatically rewrite the <code>do</code>-block to add a local transformer on top of the monad that the <code>do</code>-block is written in.</p>
 <h2 id="early-return"><a class="header" href="#early-return">Early Return</a></h2>
-<p>The standard library contains a function <code>List.find?</code> that returns the first entry in a list that satisfies some check. A simple implementation that doesn't make use of the fact that <code>Option</code> is a monad loops over the list using a recursive function, with an <code>if</code> to stop the loop when the desired entry is found:</p>
+<p>The standard library contains a function <code>List.find?</code> that returns the first entry in a list that satisfies some check.
+A simple implementation that doesn't make use of the fact that <code>Option</code> is a monad loops over the list using a recursive function, with an <code>if</code> to stop the loop when the desired entry is found:</p>
 <pre><code class="language-lean">def List.find? (p : α → Bool) : List α → Option α
   | [] =&gt; none
   | x :: xs =&gt;
@@ -200,14 +208,21 @@
     else
       find? p xs
 </code></pre>
-<p>Imperative languages typically sport the <code>return</code> keyword that aborts the execution of a function, immediately returning some value to the caller. In Lean, this is available in <code>do</code>-notation, and <code>return</code> halts the execution of a <code>do</code>-block, with <code>return</code>'s argument being the value returned from the monad. In other words, <code>List.find?</code> could have been written like this:</p>
+<p>Imperative languages typically sport the <code>return</code> keyword that aborts the execution of a function, immediately returning some value to the caller.
+In Lean, this is available in <code>do</code>-notation, and <code>return</code> halts the execution of a <code>do</code>-block, with <code>return</code>'s argument being the value returned from the monad.
+In other words, <code>List.find?</code> could have been written like this:</p>
 <pre><code class="language-lean">def List.find? (p : α → Bool) : List α → Option α
   | [] =&gt; failure
   | x :: xs =&gt; do
     if p x then return x
     find? p xs
 </code></pre>
-<p>Early return in imperative languages is a bit like an exception that can only cause the current stack frame to be unwound. Both early return and exceptions terminate execution of a block of code, effectively replacing the surrounding code with the thrown value. Behind the scenes, early return in Lean is implemented using a version of <code>ExceptT</code>. Each <code>do</code>-block that uses early return is wrapped in an exception handler (in the sense of the function <code>tryCatch</code>). Early returns are translated to throwing the value as an exception, and the handlers catch the thrown value and return it immediately. In other words, the <code>do</code>-block's original return value type is also used as the exception type.</p>
+<p>Early return in imperative languages is a bit like an exception that can only cause the current stack frame to be unwound.
+Both early return and exceptions terminate execution of a block of code, effectively replacing the surrounding code with the thrown value.
+Behind the scenes, early return in Lean is implemented using a version of <code>ExceptT</code>.
+Each <code>do</code>-block that uses early return is wrapped in an exception handler (in the sense of the function <code>tryCatch</code>).
+Early returns are translated to throwing the value as an exception, and the handlers catch the thrown value and return it immediately.
+In other words, the <code>do</code>-block's original return value type is also used as the exception type.</p>
 <p>Making this more concrete, the helper function <code>runCatch</code> strips a layer of <code>ExceptT</code> from the top of a monad transformer stack when the exception type and return type are the same:</p>
 <pre><code class="language-lean">def runCatch [Monad m] (action : ExceptT α m α) : m α := do
   match ← action with
@@ -222,7 +237,9 @@
       if p x then throw x else pure ()
       monadLift (find? p xs)
 </code></pre>
-<p>Another situation in which early return is useful is command-line applications that terminate early if the arguments or input are incorrect. Many programs begin with a section that validates arguments and inputs before proceeding to the main body of the program. The following version of <a href="../hello-world/running-a-program.html">the greeting program <code>hello-name</code></a> checks that no command-line arguments were provided:</p>
+<p>Another situation in which early return is useful is command-line applications that terminate early if the arguments or input are incorrect.
+Many programs begin with a section that validates arguments and inputs before proceeding to the main body of the program.
+The following version of <a href="../hello-world/running-a-program.html">the greeting program <code>hello-name</code></a> checks that no command-line arguments were provided:</p>
 <pre><code class="language-lean">def main (argv : List String) : IO UInt32 := do
   let stdin ← IO.getStdin
   let stdout ← IO.getStdout
@@ -281,19 +298,32 @@ No name provided
       stdout.putStrLn s!&quot;Hello, {name}!&quot;
       pure 0
 </code></pre>
-<p>One important difference between early return in Lean and early return in imperative languages is that Lean's early return applies only to the current <code>do</code>-block. When the entire definition of a function is in the same <code>do</code> block, this difference doesn't matter. But if <code>do</code> occurs underneath some other structures, then the difference becomes apparent. For example, given the following definition of <code>greet</code>:</p>
+<p>One important difference between early return in Lean and early return in imperative languages is that Lean's early return applies only to the current <code>do</code>-block.
+When the entire definition of a function is in the same <code>do</code> block, this difference doesn't matter.
+But if <code>do</code> occurs underneath some other structures, then the difference becomes apparent.
+For example, given the following definition of <code>greet</code>:</p>
 <pre><code class="language-lean">def greet (name : String) : String :=
   &quot;Hello, &quot; ++ Id.run do return name
 </code></pre>
 <p>the expression <code>greet &quot;David&quot;</code> evaluates to <code>&quot;Hello, David&quot;</code>, not just <code>&quot;David&quot;</code>.</p>
 <h2 id="loops"><a class="header" href="#loops">Loops</a></h2>
-<p>Just as every program with mutable state can be rewritten to a program that passes the state as arguments, every loop can be rewritten as a recursive function. From one perspective, <code>List.find?</code> is most clear as a recursive function. After all, its definition mirrors the structure of the list: if the head passes the check, then it should be returned; otherwise look in the tail. When no more entries remain, the answer is <code>none</code>. From another perspective, <code>List.find?</code> is most clear as a loop. After all, the program consults the entries in order until a satisfactory one is found, at which point it terminates. If the loop terminates without having returned, the answer is <code>none</code>.</p>
+<p>Just as every program with mutable state can be rewritten to a program that passes the state as arguments, every loop can be rewritten as a recursive function.
+From one perspective, <code>List.find?</code> is most clear as a recursive function.
+After all, its definition mirrors the structure of the list: if the head passes the check, then it should be returned; otherwise look in the tail.
+When no more entries remain, the answer is <code>none</code>.
+From another perspective, <code>List.find?</code> is most clear as a loop.
+After all, the program consults the entries in order until a satisfactory one is found, at which point it terminates.
+If the loop terminates without having returned, the answer is <code>none</code>.</p>
 <h3 id="looping-with-form"><a class="header" href="#looping-with-form">Looping with ForM</a></h3>
-<p>Lean includes a type class that describes looping over a container type in some monad. This class is called <code>ForM</code>:</p>
+<p>Lean includes a type class that describes looping over a container type in some monad.
+This class is called <code>ForM</code>:</p>
 <pre><code class="language-lean">class ForM (m : Type u → Type v) (γ : Type w₁) (α : outParam (Type w₂)) where
   forM [Monad m] : γ → (α → m PUnit) → m PUnit
 </code></pre>
-<p>This class is quite general. The parameter <code>m</code> is a monad with some desired effects, <code>γ</code> is the collection to be looped over, and <code>α</code> is the type of elements from the collection. Typically, <code>m</code> is allowed to be any monad, but it is possible to have a data structure that e.g. only supports looping in <code>IO</code>. The method <code>forM</code> takes a collection, a monadic action to be run for its effects on each element from the collection, and is then responsible for running the actions.</p>
+<p>This class is quite general.
+The parameter <code>m</code> is a monad with some desired effects, <code>γ</code> is the collection to be looped over, and <code>α</code> is the type of elements from the collection.
+Typically, <code>m</code> is allowed to be any monad, but it is possible to have a data structure that e.g. only supports looping in <code>IO</code>.
+The method <code>forM</code> takes a collection, a monadic action to be run for its effects on each element from the collection, and is then responsible for running the actions.</p>
 <p>The instance for <code>List</code> allows <code>m</code> to be any monad, it sets <code>γ</code> to be <code>List α</code>, and sets the class's <code>α</code> to be the same <code>α</code> found in the list:</p>
 <pre><code class="language-lean">def List.forM [Monad m] : List α → (α → m PUnit) → m PUnit
   | [], _ =&gt; pure ()
@@ -304,7 +334,9 @@ No name provided
 instance : ForM m (List α) α where
   forM := List.forM
 </code></pre>
-<p>The <a href="reader-io.html#implementation">function <code>doList</code> from <code>doug</code></a> is <code>forM</code> for lists. Because <code>forM</code> is intended to be used in <code>do</code>-blocks, it uses <code>Monad</code> rather than <code>Applicative</code>. <code>forM</code> can be used to make <code>countLetters</code> much shorter:</p>
+<p>The <a href="reader-io.html#implementation">function <code>doList</code> from <code>doug</code></a> is <code>forM</code> for lists.
+Because <code>forM</code> is intended to be used in <code>do</code>-blocks, it uses <code>Monad</code> rather than <code>Applicative</code>.
+<code>forM</code> can be used to make <code>countLetters</code> much shorter:</p>
 <pre><code class="language-lean">def countLetters (str : String) : StateT LetterCounts (Except Err) Unit :=
   forM str.toList fun c =&gt; do
     if c.isAlpha then
@@ -324,7 +356,8 @@ instance : ForM m (List α) α where
 instance : ForM m (Many α) α where
   forM := Many.forM
 </code></pre>
-<p>Because <code>γ</code> can be any type at all, <code>ForM</code> can support non-polymorphic collections. A very simple collection is one of the natural numbers less than some given number, in reverse order:</p>
+<p>Because <code>γ</code> can be any type at all, <code>ForM</code> can support non-polymorphic collections.
+A very simple collection is one of the natural numbers less than some given number, in reverse order:</p>
 <pre><code class="language-lean">structure AllLessThan where
   num : Nat
 </code></pre>
@@ -362,7 +395,8 @@ partial def LinesOf.forM (readFrom : LinesOf) (action : String → IO Unit) : IO
 instance : ForM IO LinesOf String where
   forM := LinesOf.forM
 </code></pre>
-<p>The definition of <code>forM</code> is marked <code>partial</code> because there is no guarantee that the stream is finite. In this case, <code>IO.FS.Stream.getLine</code> works only in the <code>IO</code> monad, so no other monad can be used for looping.</p>
+<p>The definition of <code>forM</code> is marked <code>partial</code> because there is no guarantee that the stream is finite.
+In this case, <code>IO.FS.Stream.getLine</code> works only in the <code>IO</code> monad, so no other monad can be used for looping.</p>
 <p>This example program uses this looping construct to filter out lines that don't contain letters:</p>
 <pre><code class="language-lean">def main (argv : List String) : IO UInt32 := do
   if argv != [] then
@@ -390,7 +424,10 @@ abc123
 Ok
 </code></pre>
 <h3 id="stopping-iteration"><a class="header" href="#stopping-iteration">Stopping Iteration</a></h3>
-<p>Terminating a loop early is difficult to do with <code>forM</code>. Writing a function that iterates over the <code>Nat</code>s in an <code>AllLessThan</code> only until <code>3</code> is reached requires a means of stopping the loop partway through. One way to achieve this is to use <code>forM</code> with the <code>OptionT</code> monad transformer. The first step is to define <code>OptionT.exec</code>, which discards information about both the return value and whether or not the transformed computation succeeded:</p>
+<p>Terminating a loop early is difficult to do with <code>forM</code>.
+Writing a function that iterates over the <code>Nat</code>s in an <code>AllLessThan</code> only until <code>3</code> is reached requires a means of stopping the loop partway through.
+One way to achieve this is to use <code>forM</code> with the <code>OptionT</code> monad transformer.
+The first step is to define <code>OptionT.exec</code>, which discards information about both the return value and whether or not the transformed computation succeeded:</p>
 <pre><code class="language-lean">def OptionT.exec [Applicative m] (action : OptionT m α) : m Unit :=
   action *&gt; pure ()
 </code></pre>
@@ -408,7 +445,9 @@ Ok
 4
 3
 </code></pre>
-<p>However, this code is not so easy to read. Terminating a loop early is a common task, and Lean provides more syntactic sugar to make this easier. This same function can also be written as follows:</p>
+<p>However, this code is not so easy to read.
+Terminating a loop early is a common task, and Lean provides more syntactic sugar to make this easier.
+This same function can also be written as follows:</p>
 <pre><code class="language-lean">def countToThree (n : Nat) : IO Unit := do
   let nums : AllLessThan := ⟨n⟩
   for i in nums do
@@ -423,33 +462,45 @@ Ok
 4
 3
 </code></pre>
-<p>At the time of writing, the <code>for ... in ... do ...</code> syntax desugars to the use of a type class called <code>ForIn</code>, which is a somewhat more complicated version of <code>ForM</code> that keeps track of state and early termination. However, there is a plan to refactor <code>for</code> loops to use the simpler <code>ForM</code>, with monad transformers inserted as necessary. In the meantime, an adapter is provided that converts a <code>ForM</code> instance into a <code>ForIn</code> instance, called <code>ForM.forIn</code>. To enable <code>for</code> loops based on a <code>ForM</code> instance, add something like the following, with appropriate replacements for <code>AllLessThan</code> and <code>Nat</code>:</p>
+<p>At the time of writing, the <code>for ... in ... do ...</code> syntax desugars to the use of a type class called <code>ForIn</code>, which is a somewhat more complicated version of <code>ForM</code> that keeps track of state and early termination.
+However, there is a plan to refactor <code>for</code> loops to use the simpler <code>ForM</code>, with monad transformers inserted as necessary.
+In the meantime, an adapter is provided that converts a <code>ForM</code> instance into a <code>ForIn</code> instance, called <code>ForM.forIn</code>.
+To enable <code>for</code> loops based on a <code>ForM</code> instance, add something like the following, with appropriate replacements for <code>AllLessThan</code> and <code>Nat</code>:</p>
 <pre><code class="language-lean">instance : ForIn m AllLessThan Nat where
   forIn := ForM.forIn
 </code></pre>
-<p>Note, however, that this adapter only works for <code>ForM</code> instances that keep the monad unconstrained, as most of them do. This is because the adapter uses <code>StateT</code> and <code>ExceptT</code>, rather than the underlying monad.</p>
-<p>Early return is supported in <code>for</code> loops. The translation of <code>do</code> blocks with early return into a use of an exception monad transformer applies equally well underneath <code>forM</code> as the earlier use of <code>OptionT</code> to halt iteration does. This version of <code>List.find?</code> makes use of both:</p>
+<p>Note, however, that this adapter only works for <code>ForM</code> instances that keep the monad unconstrained, as most of them do.
+This is because the adapter uses <code>StateT</code> and <code>ExceptT</code>, rather than the underlying monad.</p>
+<p>Early return is supported in <code>for</code> loops.
+The translation of <code>do</code> blocks with early return into a use of an exception monad transformer applies equally well underneath <code>forM</code> as the earlier use of <code>OptionT</code> to halt iteration does.
+This version of <code>List.find?</code> makes use of both:</p>
 <pre><code class="language-lean">def List.find? (p : α → Bool) (xs : List α) : Option α := do
   for x in xs do
     if p x then return x
   failure
 </code></pre>
-<p>In addition to <code>break</code>, <code>for</code> loops support <code>continue</code> to skip the rest of the loop body in an iteration. An alternative (but confusing) formulation of <code>List.find?</code> skips elements that don't satisfy the check:</p>
+<p>In addition to <code>break</code>, <code>for</code> loops support <code>continue</code> to skip the rest of the loop body in an iteration.
+An alternative (but confusing) formulation of <code>List.find?</code> skips elements that don't satisfy the check:</p>
 <pre><code class="language-lean">def List.find? (p : α → Bool) (xs : List α) : Option α := do
   for x in xs do
     if not (p x) then continue
     return x
   failure
 </code></pre>
-<p>A <code>Range</code> is a structure that consists of a starting number, an ending number, and a step. They represent a sequence of natural numbers, from the starting number to the ending number, increasing by the step each time. Lean has special syntax to construct ranges, consisting of square brackets, numbers, and colons that comes in four varieties. The stopping point must always be provided, while the start and the step are optional, defaulting to <code>0</code> and <code>1</code>, respectively:</p>
+<p>A <code>Range</code> is a structure that consists of a starting number, an ending number, and a step.
+They represent a sequence of natural numbers, from the starting number to the ending number, increasing by the step each time.
+Lean has special syntax to construct ranges, consisting of square brackets, numbers, and colons that comes in four varieties.
+The stopping point must always be provided, while the start and the step are optional, defaulting to <code>0</code> and <code>1</code>, respectively:</p>
 <table><thead><tr><th>Expression</th><th>Start</th><th>Stop</th><th>Step</th><th>As List</th></tr></thead><tbody>
 <tr><td><code>[:10]</code></td><td><code>0</code></td><td><code>10</code></td><td><code>1</code></td><td><code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></td></tr>
 <tr><td><code>[2:10]</code></td><td><code>2</code></td><td><code>10</code></td><td><code>1</code></td><td><code>[2, 3, 4, 5, 6, 7, 8, 9]</code></td></tr>
 <tr><td><code>[:10:3]</code></td><td><code>0</code></td><td><code>10</code></td><td><code>3</code></td><td><code>[0, 3, 6, 9]</code></td></tr>
 <tr><td><code>[2:10:3]</code></td><td><code>2</code></td><td><code>10</code></td><td><code>3</code></td><td><code>[2, 5, 8]</code></td></tr>
 </tbody></table>
-<p>Note that the starting number <em>is</em> included in the range, while the stopping numbers is not. All three arguments are <code>Nat</code>s, which means that ranges cannot count down—a range where the starting number is greater than or equal to the stopping number simply contains no numbers.</p>
-<p>Ranges can be used with <code>for</code> loops to draw numbers from the range. This program counts even numbers from four to eight:</p>
+<p>Note that the starting number <em>is</em> included in the range, while the stopping numbers is not.
+All three arguments are <code>Nat</code>s, which means that ranges cannot count down—a range where the starting number is greater than or equal to the stopping number simply contains no numbers.</p>
+<p>Ranges can be used with <code>for</code> loops to draw numbers from the range.
+This program counts even numbers from four to eight:</p>
 <pre><code class="language-lean">def fourToEight : IO Unit := do
   for i in [4:9:2] do
     IO.println i
@@ -459,7 +510,8 @@ Ok
 6
 8
 </code></pre>
-<p>Finally, <code>for</code> loops support iterating over multiple collections in parallel, by separating the <code>in</code> clauses with commas. Looping halts when the first collection runs out of elements, so the declaration:</p>
+<p>Finally, <code>for</code> loops support iterating over multiple collections in parallel, by separating the <code>in</code> clauses with commas.
+Looping halts when the first collection runs out of elements, so the declaration:</p>
 <pre><code class="language-lean">def parallelLoop := do
   for x in [&quot;currant&quot;, &quot;gooseberry&quot;, &quot;rowan&quot;], y in [4:8] do
     IO.println (x, y)
@@ -472,8 +524,11 @@ Ok
 (rowan, 6)
 </code></pre>
 <h2 id="mutable-variables"><a class="header" href="#mutable-variables">Mutable Variables</a></h2>
-<p>In addition to early <code>return</code>, <code>else</code>-less <code>if</code>, and <code>for</code> loops, Lean supports local mutable variables within a <code>do</code> block. Behind the scenes, these mutable variables desugar to a use of <code>StateT</code>, rather than being implemented by true mutable variables. Once again, functional programming is used to simulate imperative programming.</p>
-<p>A local mutable variable is introduced with <code>let mut</code> instead of plain <code>let</code>. The definition <code>two</code>, which uses the identity monad <code>Id</code> to enable <code>do</code>-syntax without introducing any effects, counts to <code>2</code>:</p>
+<p>In addition to early <code>return</code>, <code>else</code>-less <code>if</code>, and <code>for</code> loops, Lean supports local mutable variables within a <code>do</code> block.
+Behind the scenes, these mutable variables desugar to a use of <code>StateT</code>, rather than being implemented by true mutable variables.
+Once again, functional programming is used to simulate imperative programming.</p>
+<p>A local mutable variable is introduced with <code>let mut</code> instead of plain <code>let</code>.
+The definition <code>two</code>, which uses the identity monad <code>Id</code> to enable <code>do</code>-syntax without introducing any effects, counts to <code>2</code>:</p>
 <pre><code class="language-lean">def two : Nat := Id.run do
   let mut x := 0
   x := x + 1
@@ -489,7 +544,8 @@ Ok
   let (result, _finalState) := block 0
   result
 </code></pre>
-<p>Local mutable variables work well with all the other features of <code>do</code>-notation that provide convenient syntax for monad transformers. The definition <code>three</code> counts the number of entries in a three-entry list:</p>
+<p>Local mutable variables work well with all the other features of <code>do</code>-notation that provide convenient syntax for monad transformers.
+The definition <code>three</code> counts the number of entries in a three-entry list:</p>
 <pre><code class="language-lean">def three : Nat := Id.run do
   let mut x := 0
   for _ in [1, 2, 3] do
@@ -510,7 +566,11 @@ Ok
     if p x then found := found + 1
   return found
 </code></pre>
-<p>Local mutable variables can be more convenient to use and easier to read than an explicit local use of <code>StateT</code>. However, they don't have the full power of unrestricted mutable variables from imperative languages. In particular, they can only be modified in the <code>do</code>-block in which they are introduced. This means, for instance, that <code>for</code>-loops can't be replaced by otherwise-equivalent recursive helper functions. This version of <code>List.count</code>:</p>
+<p>Local mutable variables can be more convenient to use and easier to read than an explicit local use of <code>StateT</code>.
+However, they don't have the full power of unrestricted mutable variables from imperative languages.
+In particular, they can only be modified in the <code>do</code>-block in which they are introduced.
+This means, for instance, that <code>for</code>-loops can't be replaced by otherwise-equivalent recursive helper functions.
+This version of <code>List.count</code>:</p>
 <pre><code class="language-lean">def List.count (p : α → Bool) (xs : List α) : Nat := Id.run do
   let mut found := 0
   let rec go : List α → Id Unit
@@ -525,8 +585,14 @@ Ok
 </code></pre>
 <p>This is because the recursive function is written in the identity monad, and only the monad of the <code>do</code>-block in which the variable is introduced is transformed with <code>StateT</code>.</p>
 <h2 id="what-counts-as-a-do-block"><a class="header" href="#what-counts-as-a-do-block">What counts as a <code>do</code> block?</a></h2>
-<p>Many features of <code>do</code>-notation apply only to a single <code>do</code>-block. Early return terminates the current block, and mutable variables can only be mutated in the block that they are defined in. To use them effectively, it's important to know what counts as &quot;the same block&quot;.</p>
-<p>Generally speaking, the indented block following the <code>do</code> keyword counts as a block, and the immediate sequence of statements underneath it are part of that block. Statements in independent blocks that are nonetheless contained in a block are not considered part of the block. However, the rules that govern what exactly counts as the same block are slightly subtle, so some examples are in order. The precise nature of the rules can be tested by setting up a program with a mutable variable and seeing where the mutation is allowed. This program has a mutation that is clearly in the same block as the mutable variable:</p>
+<p>Many features of <code>do</code>-notation apply only to a single <code>do</code>-block.
+Early return terminates the current block, and mutable variables can only be mutated in the block that they are defined in.
+To use them effectively, it's important to know what counts as &quot;the same block&quot;.</p>
+<p>Generally speaking, the indented block following the <code>do</code> keyword counts as a block, and the immediate sequence of statements underneath it are part of that block.
+Statements in independent blocks that are nonetheless contained in a block are not considered part of the block.
+However, the rules that govern what exactly counts as the same block are slightly subtle, so some examples are in order.
+The precise nature of the rules can be tested by setting up a program with a mutable variable and seeing where the mutation is allowed.
+This program has a mutation that is clearly in the same block as the mutable variable:</p>
 <pre><code class="language-lean">example : Id Unit := do
   let mut x := 0
   x := x + 1
@@ -540,14 +606,16 @@ Ok
 </code></pre>
 <pre><code class="language-output error">`x` cannot be mutated, only variables declared using `let mut` can be mutated. If you did not intent to mutate but define `x`, consider using `let x` instead
 </code></pre>
-<p>However, a <code>do</code>-block that occurs under a <code>let</code>-statement that defines a name using <code>←</code> is considered part of the surrounding block. The following program is accepted:</p>
+<p>However, a <code>do</code>-block that occurs under a <code>let</code>-statement that defines a name using <code>←</code> is considered part of the surrounding block.
+The following program is accepted:</p>
 <pre><code class="language-lean">example : Id Unit := do
   let mut x := 0
   let other ← do
     x := x + 1
   pure other
 </code></pre>
-<p>Similarly, <code>do</code>-blocks that occur as arguments to functions are independent of their surrounding blocks. The following program is not accepted:</p>
+<p>Similarly, <code>do</code>-blocks that occur as arguments to functions are independent of their surrounding blocks.
+The following program is not accepted:</p>
 <pre><code class="language-lean">example : Id Unit := do
   let mut x := 0
   let addFour (y : Id Nat) := Id.run y + 4
@@ -556,12 +624,14 @@ Ok
 </code></pre>
 <pre><code class="language-output error">`x` cannot be mutated, only variables declared using `let mut` can be mutated. If you did not intent to mutate but define `x`, consider using `let x` instead
 </code></pre>
-<p>If the <code>do</code> keyword is completely redundant, then it does not introduce a new block. This program is accepted, and is equivalent to the first one in this section:</p>
+<p>If the <code>do</code> keyword is completely redundant, then it does not introduce a new block.
+This program is accepted, and is equivalent to the first one in this section:</p>
 <pre><code class="language-lean">example : Id Unit := do
   let mut x := 0
   do x := x + 1
 </code></pre>
-<p>The contents of branches under a <code>do</code> (such as those introduced by <code>match</code> or <code>if</code>) are considered to be part of the surrounding block, whether or not a redundant <code>do</code> is added. The following programs are all accepted:</p>
+<p>The contents of branches under a <code>do</code> (such as those introduced by <code>match</code> or <code>if</code>) are considered to be part of the surrounding block, whether or not a redundant <code>do</code> is added.
+The following programs are all accepted:</p>
 <pre><code class="language-lean">example : Id Unit := do
   let mut x := 0
   if x &gt; 2 then
@@ -586,7 +656,8 @@ example : Id Unit := do
   | false =&gt; do
     x := 17
 </code></pre>
-<p>Similarly, the <code>do</code> that occurs as part of the <code>for</code> and <code>unless</code> syntax is just part of their syntax, and does not introduce a fresh <code>do</code>-block. These programs are also accepted:</p>
+<p>Similarly, the <code>do</code> that occurs as part of the <code>for</code> and <code>unless</code> syntax is just part of their syntax, and does not introduce a fresh <code>do</code>-block.
+These programs are also accepted:</p>
 <pre><code class="language-lean">example : Id Unit := do
   let mut x := 0
   for y in [1:5] do
@@ -598,8 +669,11 @@ example : Id Unit := do
     x := x + 1
 </code></pre>
 <h2 id="imperative-or-functional-programming"><a class="header" href="#imperative-or-functional-programming">Imperative or Functional Programming?</a></h2>
-<p>The imperative features provided by Lean's <code>do</code>-notation allow many programs to very closely resemble their counterparts in languages like Rust, Java, or C#. This resemblance is very convenient when translating an imperative algorithm into Lean, and some tasks are just most naturally thought of imperatively. The introduction of monads and monad transformers enables imperative programs to be written in purely functional languages, and <code>do</code>-notation as a specialized syntax for monads (potentially locally transformed) allows functional programmers to have the best of both worlds: the strong reasoning principles afforded by immutability and a tight control over available effects through the type system are combined with syntax and libraries that allow programs that use effects to look familiar and be easy to read. Monads and monad transformers allow functional versus imperative programming to be a matter of perspective.</p>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<p>The imperative features provided by Lean's <code>do</code>-notation allow many programs to very closely resemble their counterparts in languages like Rust, Java, or C#.
+This resemblance is very convenient when translating an imperative algorithm into Lean, and some tasks are just most naturally thought of imperatively.
+The introduction of monads and monad transformers enables imperative programs to be written in purely functional languages, and <code>do</code>-notation as a specialized syntax for monads (potentially locally transformed) allows functional programmers to have the best of both worlds: the strong reasoning principles afforded by immutability and a tight control over available effects through the type system are combined with syntax and libraries that allow programs that use effects to look familiar and be easy to read.
+Monads and monad transformers allow functional versus imperative programming to be a matter of perspective.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ul>
 <li>Rewrite <code>doug</code> to use <code>for</code> instead of the <code>doList</code> function. Are there other opportunities to use the features introduced in this section to improve the code? If so, use them!</li>
 </ul>

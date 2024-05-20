@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>其他便利的功能 - Functional Programming in Lean</title>
+        <title>其他便利的功能 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -156,7 +156,10 @@ Instead, they can simply be mentioned.
 If Lean can determine their type, then they are automatically inserted as implicit arguments.
 In other words, the previous definition of `length`:
 -->
-<p>When writing polymorphic functions in Lean, it is typically not necessary to list all the implicit arguments. Instead, they can simply be mentioned. If Lean can determine their type, then they are automatically inserted as implicit arguments. In other words, the previous definition of <code>length</code>:</p>
+<p>When writing polymorphic functions in Lean, it is typically not necessary to list all the implicit arguments.
+Instead, they can simply be mentioned.
+If Lean can determine their type, then they are automatically inserted as implicit arguments.
+In other words, the previous definition of <code>length</code>:</p>
 <pre><code class="language-lean">def length {α : Type} (xs : List α) : Nat :=
   match xs with
   | [] =&gt; 0
@@ -184,13 +187,17 @@ When defining functions with `def`, it is quite common to name an argument and t
 For instance, in `length`, the argument `xs` is used only in `match`.
 In these situations, the cases of the `match` expression can be written directly, without naming the argument at all.
 -->
-<p>When defining functions with <code>def</code>, it is quite common to name an argument and then immediately use it with pattern matching. For instance, in <code>length</code>, the argument <code>xs</code> is used only in <code>match</code>. In these situations, the cases of the <code>match</code> expression can be written directly, without naming the argument at all.</p>
+<p>When defining functions with <code>def</code>, it is quite common to name an argument and then immediately use it with pattern matching.
+For instance, in <code>length</code>, the argument <code>xs</code> is used only in <code>match</code>.
+In these situations, the cases of the <code>match</code> expression can be written directly, without naming the argument at all.</p>
 <!--
 The first step is to move the arguments' types to the right of the colon, so the return type is a function type.
 For instance, the type of `length` is `List α → Nat`.
 Then, replace the `:=` with each case of the pattern match:
 -->
-<p>The first step is to move the arguments' types to the right of the colon, so the return type is a function type. For instance, the type of <code>length</code> is <code>List α → Nat</code>. Then, replace the <code>:=</code> with each case of the pattern match:</p>
+<p>The first step is to move the arguments' types to the right of the colon, so the return type is a function type.
+For instance, the type of <code>length</code> is <code>List α → Nat</code>.
+Then, replace the <code>:=</code> with each case of the pattern match:</p>
 <pre><code class="language-lean">def length : List α → Nat
   | [] =&gt; 0
   | y :: ys =&gt; Nat.succ (length ys)
@@ -200,7 +207,9 @@ This syntax can also be used to define functions that take more than one argumen
 In this case, their patterns are separated by commas.
 For instance, `drop` takes a number \\( n \\) and a list, and returns the list after removing the first \\( n \\) entries.
 -->
-<p>This syntax can also be used to define functions that take more than one argument. In this case, their patterns are separated by commas. For instance, <code>drop</code> takes a number \( n \) and a list, and returns the list after removing the first \( n \) entries.</p>
+<p>This syntax can also be used to define functions that take more than one argument.
+In this case, their patterns are separated by commas.
+For instance, <code>drop</code> takes a number \( n \) and a list, and returns the list after removing the first \( n \) entries.</p>
 <pre><code class="language-lean">def drop : Nat → List α → List α
   | Nat.zero, xs =&gt; xs
   | _, [] =&gt; []
@@ -210,7 +219,8 @@ For instance, `drop` takes a number \\( n \\) and a list, and returns the list a
 Named arguments and patterns can also be used in the same definition.
 For instance, a function that takes a default value and an optional value, and returns the default when the optional value is `none`, can be written:
 -->
-<p>Named arguments and patterns can also be used in the same definition. For instance, a function that takes a default value and an optional value, and returns the default when the optional value is <code>none</code>, can be written:</p>
+<p>Named arguments and patterns can also be used in the same definition.
+For instance, a function that takes a default value and an optional value, and returns the default when the optional value is <code>none</code>, can be written:</p>
 <pre><code class="language-lean">def fromOption (default : α) : Option α → α
   | none =&gt; default
   | some x =&gt; x
@@ -237,14 +247,20 @@ In many cases, intermediate values represent useful concepts all on their own, a
 In other cases, the intermediate value is used more than once.
 As in most other languages, writing down the same code twice in Lean causes it to be computed twice, while saving the result in a variable leads to the result of the computation being saved and re-used.
 -->
-<p>It is often useful to name intermediate steps in a computation. In many cases, intermediate values represent useful concepts all on their own, and naming them explicitly can make the program easier to read. In other cases, the intermediate value is used more than once. As in most other languages, writing down the same code twice in Lean causes it to be computed twice, while saving the result in a variable leads to the result of the computation being saved and re-used.</p>
+<p>It is often useful to name intermediate steps in a computation.
+In many cases, intermediate values represent useful concepts all on their own, and naming them explicitly can make the program easier to read.
+In other cases, the intermediate value is used more than once.
+As in most other languages, writing down the same code twice in Lean causes it to be computed twice, while saving the result in a variable leads to the result of the computation being saved and re-used.</p>
 <!--
 For instance, `unzip` is a function that transforms a list of pairs into a pair of lists.
 When the list of pairs is empty, then the result of `unzip` is a pair of empty lists.
 When the list of pairs has a pair at its head, then the two fields of the pair are added to the result of unzipping the rest of the list.
 This definition of `unzip` follows that description exactly:
 -->
-<p>For instance, <code>unzip</code> is a function that transforms a list of pairs into a pair of lists. When the list of pairs is empty, then the result of <code>unzip</code> is a pair of empty lists. When the list of pairs has a pair at its head, then the two fields of the pair are added to the result of unzipping the rest of the list. This definition of <code>unzip</code> follows that description exactly:</p>
+<p>For instance, <code>unzip</code> is a function that transforms a list of pairs into a pair of lists.
+When the list of pairs is empty, then the result of <code>unzip</code> is a pair of empty lists.
+When the list of pairs has a pair at its head, then the two fields of the pair are added to the result of unzipping the rest of the list.
+This definition of <code>unzip</code> follows that description exactly:</p>
 <pre><code class="language-lean">def unzip : List (α × β) → List α × List β
   | [] =&gt; ([], [])
   | (x, y) :: xys =&gt;
@@ -255,14 +271,19 @@ Unfortunately, there is a problem: this code is slower than it needs to be.
 Each entry in the list of pairs leads to two recursive calls, which makes this function take exponential time.
 However, both recursive calls will have the same result, so there is no reason to make the recursive call twice.
 -->
-<p>Unfortunately, there is a problem: this code is slower than it needs to be. Each entry in the list of pairs leads to two recursive calls, which makes this function take exponential time. However, both recursive calls will have the same result, so there is no reason to make the recursive call twice.</p>
+<p>Unfortunately, there is a problem: this code is slower than it needs to be.
+Each entry in the list of pairs leads to two recursive calls, which makes this function take exponential time.
+However, both recursive calls will have the same result, so there is no reason to make the recursive call twice.</p>
 <!--
 In Lean, the result of the recursive call can be named, and thus saved, using `let`.
 Local definitions with `let` resemble top-level definitions with `def`: it takes a name to be locally defined, arguments if desired, a type signature, and then a body following `:=`.
 After the local definition, the expression in which the local definition is available (called the _body_ of the `let`-expression) must be on a new line, starting at a column in the file that is less than or equal to that of the `let` keyword.
 For instance, `let` can be used in `unzip` like this:
 -->
-<p>In Lean, the result of the recursive call can be named, and thus saved, using <code>let</code>. Local definitions with <code>let</code> resemble top-level definitions with <code>def</code>: it takes a name to be locally defined, arguments if desired, a type signature, and then a body following <code>:=</code>. After the local definition, the expression in which the local definition is available (called the <em>body</em> of the <code>let</code>-expression) must be on a new line, starting at a column in the file that is less than or equal to that of the <code>let</code> keyword. For instance, <code>let</code> can be used in <code>unzip</code> like this:</p>
+<p>In Lean, the result of the recursive call can be named, and thus saved, using <code>let</code>.
+Local definitions with <code>let</code> resemble top-level definitions with <code>def</code>: it takes a name to be locally defined, arguments if desired, a type signature, and then a body following <code>:=</code>.
+After the local definition, the expression in which the local definition is available (called the <em>body</em> of the <code>let</code>-expression) must be on a new line, starting at a column in the file that is less than or equal to that of the <code>let</code> keyword.
+For instance, <code>let</code> can be used in <code>unzip</code> like this:</p>
 <pre><code class="language-lean">def unzip : List (α × β) → List α × List β
   | [] =&gt; ([], [])
   | (x, y) :: xys =&gt;
@@ -278,7 +299,9 @@ Local definitions with `let` may also use pattern matching when one pattern is e
 In the case of `unzip`, the result of the recursive call is a pair.
 Because pairs have only a single constructor, the name `unzipped` can be replaced with a pair pattern:
 -->
-<p>Local definitions with <code>let</code> may also use pattern matching when one pattern is enough to match all cases of a datatype. In the case of <code>unzip</code>, the result of the recursive call is a pair. Because pairs have only a single constructor, the name <code>unzipped</code> can be replaced with a pair pattern:</p>
+<p>Local definitions with <code>let</code> may also use pattern matching when one pattern is enough to match all cases of a datatype.
+In the case of <code>unzip</code>, the result of the recursive call is a pair.
+Because pairs have only a single constructor, the name <code>unzipped</code> can be replaced with a pair pattern:</p>
 <pre><code class="language-lean">def unzip : List (α × β) → List α × List β
   | [] =&gt; ([], [])
   | (x, y) :: xys =&gt;
@@ -293,7 +316,8 @@ Judicious use of patterns with `let` can make code easier to read, compared to w
 The biggest difference between `let` and `def` is that recursive `let` definitions must be explicitly indicated by writing `let rec`.
 For instance, one way to reverse a list involves a recursive helper function, as in this definition:
 -->
-<p>The biggest difference between <code>let</code> and <code>def</code> is that recursive <code>let</code> definitions must be explicitly indicated by writing <code>let rec</code>. For instance, one way to reverse a list involves a recursive helper function, as in this definition:</p>
+<p>The biggest difference between <code>let</code> and <code>def</code> is that recursive <code>let</code> definitions must be explicitly indicated by writing <code>let rec</code>.
+For instance, one way to reverse a list involves a recursive helper function, as in this definition:</p>
 <pre><code class="language-lean">def reverse (xs : List α) : List α :=
   let rec helper : List α → List α → List α
     | [], soFar =&gt; soFar
@@ -304,7 +328,8 @@ For instance, one way to reverse a list involves a recursive helper function, as
 The helper function walks down the input list, moving one entry at a time over to `soFar`.
 When it reaches the end of the input list, `soFar` contains a reversed version of the input.
 -->
-<p>The helper function walks down the input list, moving one entry at a time over to <code>soFar</code>. When it reaches the end of the input list, <code>soFar</code> contains a reversed version of the input.</p>
+<p>The helper function walks down the input list, moving one entry at a time over to <code>soFar</code>.
+When it reaches the end of the input list, <code>soFar</code> contains a reversed version of the input.</p>
 <!--
 ## Type Inference
 -->
@@ -314,7 +339,9 @@ In many situations, Lean can automatically determine an expression's type.
 In these cases, explicit types may be omitted from both top-level definitions (with `def`) and local definitions (with `let`).
 For instance, the recursive call to `unzip` does not need an annotation:
 -->
-<p>In many situations, Lean can automatically determine an expression's type. In these cases, explicit types may be omitted from both top-level definitions (with <code>def</code>) and local definitions (with <code>let</code>). For instance, the recursive call to <code>unzip</code> does not need an annotation:</p>
+<p>In many situations, Lean can automatically determine an expression's type.
+In these cases, explicit types may be omitted from both top-level definitions (with <code>def</code>) and local definitions (with <code>let</code>).
+For instance, the recursive call to <code>unzip</code> does not need an annotation:</p>
 <pre><code class="language-lean">def unzip : List (α × β) → List α × List β
   | [] =&gt; ([], [])
   | (x, y) :: xys =&gt;
@@ -333,7 +360,10 @@ Lean can usually determine a type for a function application, because it already
 Omitting return types for function definitions will often work, but function arguments typically require annotations.
 Definitions that are not functions, like `unzipped` in the example, do not need type annotations if their bodies do not need type annotations, and the body of this definition is a function application.
 -->
-<p>As a rule of thumb, omitting the types of literal values (like strings and numbers) usually works, although Lean may pick a type for literal numbers that is more specific than the intended type. Lean can usually determine a type for a function application, because it already knows the argument types and the return type. Omitting return types for function definitions will often work, but function arguments typically require annotations. Definitions that are not functions, like <code>unzipped</code> in the example, do not need type annotations if their bodies do not need type annotations, and the body of this definition is a function application.</p>
+<p>As a rule of thumb, omitting the types of literal values (like strings and numbers) usually works, although Lean may pick a type for literal numbers that is more specific than the intended type.
+Lean can usually determine a type for a function application, because it already knows the argument types and the return type.
+Omitting return types for function definitions will often work, but function arguments typically require annotations.
+Definitions that are not functions, like <code>unzipped</code> in the example, do not need type annotations if their bodies do not need type annotations, and the body of this definition is a function application.</p>
 <!--
 Omitting the return type for `unzip` is possible when using an explicit `match` expression:
 -->
@@ -359,7 +389,18 @@ Because Lean's type system is so expressive, there is no "best" or most general 
 This means that even if you get a type, there's no guarantee that it's the _right_ type for a given application.
 For instance, `14` can be a `Nat` or an `Int`:
 -->
-<p>Generally speaking, it is a good idea to err on the side of too many, rather than too few, type annotations. First off, explicit types communicate assumptions about the code to readers. Even if Lean can determine the type on its own, it can still be easier to read code without having to repeatedly query Lean for type information. Secondly, explicit types help localize errors. The more explicit a program is about its types, the more informative the error messages can be. This is especially important in a language like Lean that has a very expressive type system. Thirdly, explicit types make it easier to write the program in the first place. The type is a specification, and the compiler's feedback can be a helpful tool in writing a program that meets the specification. Finally, Lean's type inference is a best-effort system. Because Lean's type system is so expressive, there is no &quot;best&quot; or most general type to find for all expressions. This means that even if you get a type, there's no guarantee that it's the <em>right</em> type for a given application. For instance, <code>14</code> can be a <code>Nat</code> or an <code>Int</code>:</p>
+<p>Generally speaking, it is a good idea to err on the side of too many, rather than too few, type annotations.
+First off, explicit types communicate assumptions about the code to readers.
+Even if Lean can determine the type on its own, it can still be easier to read code without having to repeatedly query Lean for type information.
+Secondly, explicit types help localize errors.
+The more explicit a program is about its types, the more informative the error messages can be.
+This is especially important in a language like Lean that has a very expressive type system.
+Thirdly, explicit types make it easier to write the program in the first place.
+The type is a specification, and the compiler's feedback can be a helpful tool in writing a program that meets the specification.
+Finally, Lean's type inference is a best-effort system.
+Because Lean's type system is so expressive, there is no &quot;best&quot; or most general type to find for all expressions.
+This means that even if you get a type, there's no guarantee that it's the <em>right</em> type for a given application.
+For instance, <code>14</code> can be a <code>Nat</code> or an <code>Int</code>:</p>
 <pre><code class="language-lean">#check 14
 </code></pre>
 <pre><code class="language-output info">14 : Nat
@@ -372,7 +413,8 @@ For instance, `14` can be a `Nat` or an `Int`:
 Missing type annotations can give confusing error messages.
 Omitting all types from the definition of `unzip`:
 -->
-<p>Missing type annotations can give confusing error messages. Omitting all types from the definition of <code>unzip</code>:</p>
+<p>Missing type annotations can give confusing error messages.
+Omitting all types from the definition of <code>unzip</code>:</p>
 <pre><code class="language-lean">def unzip pairs :=
   match pairs with
   | [] =&gt; ([], [])
@@ -389,13 +431,17 @@ This is because `match` needs to know the type of the value being inspected, but
 A "metavariable" is an unknown part of a program, written `?m.XYZ` in error messages—they are described in the [section on Polymorphism](polymorphism.md).
 In this program, the type annotation on the argument is required.
 -->
-<p>This is because <code>match</code> needs to know the type of the value being inspected, but that type was not available. A &quot;metavariable&quot; is an unknown part of a program, written <code>?m.XYZ</code> in error messages—they are described in the <a href="polymorphism.html">section on Polymorphism</a>. In this program, the type annotation on the argument is required.</p>
+<p>This is because <code>match</code> needs to know the type of the value being inspected, but that type was not available.
+A &quot;metavariable&quot; is an unknown part of a program, written <code>?m.XYZ</code> in error messages—they are described in the <a href="polymorphism.html">section on Polymorphism</a>.
+In this program, the type annotation on the argument is required.</p>
 <!--
 Even some very simple programs require type annotations.
 For instance, the identity function just returns whatever argument it is passed.
 With argument and type annotations, it looks like this:
 -->
-<p>Even some very simple programs require type annotations. For instance, the identity function just returns whatever argument it is passed. With argument and type annotations, it looks like this:</p>
+<p>Even some very simple programs require type annotations.
+For instance, the identity function just returns whatever argument it is passed.
+With argument and type annotations, it looks like this:</p>
 <pre><code class="language-lean">def id (x : α) : α := x
 </code></pre>
 <!--
@@ -416,7 +462,8 @@ Omitting the argument type, however, causes an error:
 In general, messages that say something like "failed to infer" or that mention metavariables are often a sign that more type annotations are necessary.
 Especially while still learning Lean, it is useful to provide most types explicitly.
 -->
-<p>In general, messages that say something like &quot;failed to infer&quot; or that mention metavariables are often a sign that more type annotations are necessary. Especially while still learning Lean, it is useful to provide most types explicitly.</p>
+<p>In general, messages that say something like &quot;failed to infer&quot; or that mention metavariables are often a sign that more type annotations are necessary.
+Especially while still learning Lean, it is useful to provide most types explicitly.</p>
 <!--
 ## Simultaneous Matching
 -->
@@ -426,7 +473,9 @@ Pattern-matching expressions, just like pattern-matching definitions, can match 
 Both the expressions to be inspected and the patterns that they match against are written with commas between them, similarly to the syntax used for definitions.
 Here is a version of `drop` that uses simultaneous matching:
 -->
-<p>Pattern-matching expressions, just like pattern-matching definitions, can match on multiple values at once. Both the expressions to be inspected and the patterns that they match against are written with commas between them, similarly to the syntax used for definitions. Here is a version of <code>drop</code> that uses simultaneous matching:</p>
+<p>Pattern-matching expressions, just like pattern-matching definitions, can match on multiple values at once.
+Both the expressions to be inspected and the patterns that they match against are written with commas between them, similarly to the syntax used for definitions.
+Here is a version of <code>drop</code> that uses simultaneous matching:</p>
 <pre><code class="language-lean">def drop (n : Nat) (xs : List α) : List α :=
   match n, xs with
   | Nat.zero, ys =&gt; ys
@@ -450,7 +499,8 @@ In the section on [datatypes and patterns](datatypes-and-patterns.md), `even` wa
 Just as there is special syntax to make list patterns more readable than using `List.cons` and `List.nil` directly, natural numbers can be matched using literal numbers and `+`.
 For instance, `even` can also be defined like this:
 -->
-<p>Just as there is special syntax to make list patterns more readable than using <code>List.cons</code> and <code>List.nil</code> directly, natural numbers can be matched using literal numbers and <code>+</code>. For instance, <code>even</code> can also be defined like this:</p>
+<p>Just as there is special syntax to make list patterns more readable than using <code>List.cons</code> and <code>List.nil</code> directly, natural numbers can be matched using literal numbers and <code>+</code>.
+For instance, <code>even</code> can also be defined like this:</p>
 <pre><code class="language-lean">def even : Nat → Bool
   | 0 =&gt; true
   | n + 1 =&gt; not (even n)
@@ -460,7 +510,9 @@ In this notation, the arguments to the `+` pattern serve different roles.
 Behind the scenes, the left argument (`n` above) becomes an argument to some number of `Nat.succ` patterns, and the right argument (`1` above) determines how many `Nat.succ`s to wrap around the pattern.
 The explicit patterns in `halve`, which divides a `Nat` by two and drops the remainder:
 -->
-<p>In this notation, the arguments to the <code>+</code> pattern serve different roles. Behind the scenes, the left argument (<code>n</code> above) becomes an argument to some number of <code>Nat.succ</code> patterns, and the right argument (<code>1</code> above) determines how many <code>Nat.succ</code>s to wrap around the pattern. The explicit patterns in <code>halve</code>, which divides a <code>Nat</code> by two and drops the remainder:</p>
+<p>In this notation, the arguments to the <code>+</code> pattern serve different roles.
+Behind the scenes, the left argument (<code>n</code> above) becomes an argument to some number of <code>Nat.succ</code> patterns, and the right argument (<code>1</code> above) determines how many <code>Nat.succ</code>s to wrap around the pattern.
+The explicit patterns in <code>halve</code>, which divides a <code>Nat</code> by two and drops the remainder:</p>
 <pre><code class="language-lean">def halve : Nat → Nat
   | Nat.zero =&gt; 0
   | Nat.succ Nat.zero =&gt; 0
@@ -476,12 +528,14 @@ The explicit patterns in `halve`, which divides a `Nat` by two and drops the rem
 Behind the scenes, both definitions are completely equivalent.
 Remember: `halve n + 1` is equivalent to `(halve n) + 1`, not `halve (n + 1)`.
 -->
-<p>Behind the scenes, both definitions are completely equivalent. Remember: <code>halve n + 1</code> is equivalent to <code>(halve n) + 1</code>, not <code>halve (n + 1)</code>.</p>
+<p>Behind the scenes, both definitions are completely equivalent.
+Remember: <code>halve n + 1</code> is equivalent to <code>(halve n) + 1</code>, not <code>halve (n + 1)</code>.</p>
 <!--
 When using this syntax, the second argument to `+` should always be a literal `Nat`.
 Even though addition is commutative, flipping the arguments in a pattern can result in errors like the following:
 -->
-<p>When using this syntax, the second argument to <code>+</code> should always be a literal <code>Nat</code>. Even though addition is commutative, flipping the arguments in a pattern can result in errors like the following:</p>
+<p>When using this syntax, the second argument to <code>+</code> should always be a literal <code>Nat</code>.
+Even though addition is commutative, flipping the arguments in a pattern can result in errors like the following:</p>
 <pre><code class="language-lean">def halve : Nat → Nat
   | 0 =&gt; 0
   | 1 =&gt; 0
@@ -504,7 +558,10 @@ As expressions, functions are produced with the `fun` syntax.
 Function expressions begin with the keyword `fun`, followed by one or more arguments, which are separated from the return expression using `=>`.
 For instance, a function that adds one to a number can be written:
 -->
-<p>Functions in Lean need not be defined at the top level. As expressions, functions are produced with the <code>fun</code> syntax. Function expressions begin with the keyword <code>fun</code>, followed by one or more arguments, which are separated from the return expression using <code>=&gt;</code>. For instance, a function that adds one to a number can be written:</p>
+<p>Functions in Lean need not be defined at the top level.
+As expressions, functions are produced with the <code>fun</code> syntax.
+Function expressions begin with the keyword <code>fun</code>, followed by one or more arguments, which are separated from the return expression using <code>=&gt;</code>.
+For instance, a function that adds one to a number can be written:</p>
 <pre><code class="language-lean">#check fun x =&gt; x + 1
 </code></pre>
 <pre><code class="language-output info">fun x =&gt; x + 1 : Nat → Nat
@@ -529,12 +586,14 @@ Similarly, implicit arguments may be written with curly braces:
 This style of anonymous function expression is often referred to as a _lambda expression_, because the typical notation used in mathematical descriptions of programming languages uses the Greek letter λ (lambda) where Lean has the keyword `fun`.
 Even though Lean does permit `λ` to be used instead of `fun`, it is most common to write `fun`.
 -->
-<p>This style of anonymous function expression is often referred to as a <em>lambda expression</em>, because the typical notation used in mathematical descriptions of programming languages uses the Greek letter λ (lambda) where Lean has the keyword <code>fun</code>. Even though Lean does permit <code>λ</code> to be used instead of <code>fun</code>, it is most common to write <code>fun</code>.</p>
+<p>This style of anonymous function expression is often referred to as a <em>lambda expression</em>, because the typical notation used in mathematical descriptions of programming languages uses the Greek letter λ (lambda) where Lean has the keyword <code>fun</code>.
+Even though Lean does permit <code>λ</code> to be used instead of <code>fun</code>, it is most common to write <code>fun</code>.</p>
 <!--
 Anonymous functions also support the multiple-pattern style used in `def`.
 For instance, a function that returns the predecessor of a natural number if it exists can be written:
 -->
-<p>Anonymous functions also support the multiple-pattern style used in <code>def</code>. For instance, a function that returns the predecessor of a natural number if it exists can be written:</p>
+<p>Anonymous functions also support the multiple-pattern style used in <code>def</code>.
+For instance, a function that returns the predecessor of a natural number if it exists can be written:</p>
 <pre><code class="language-lean">#check fun
   | 0 =&gt; none
   | n + 1 =&gt; some n
@@ -548,12 +607,14 @@ For instance, a function that returns the predecessor of a natural number if it 
 Note that Lean's own description of the function has a named argument and a `match` expression.
 Many of Lean's convenient syntactic shorthands are expanded to simpler syntax behind the scenes, and the abstraction sometimes leaks.
 -->
-<p>Note that Lean's own description of the function has a named argument and a <code>match</code> expression. Many of Lean's convenient syntactic shorthands are expanded to simpler syntax behind the scenes, and the abstraction sometimes leaks.</p>
+<p>Note that Lean's own description of the function has a named argument and a <code>match</code> expression.
+Many of Lean's convenient syntactic shorthands are expanded to simpler syntax behind the scenes, and the abstraction sometimes leaks.</p>
 <!--
 Definitions using `def` that take arguments may be rewritten as function expressions.
 For instance, a function that doubles its argument can be written as follows:
 -->
-<p>Definitions using <code>def</code> that take arguments may be rewritten as function expressions. For instance, a function that doubles its argument can be written as follows:</p>
+<p>Definitions using <code>def</code> that take arguments may be rewritten as function expressions.
+For instance, a function that doubles its argument can be written as follows:</p>
 <pre><code class="language-lean">def double : Nat → Nat := fun
   | 0 =&gt; 0
   | k + 1 =&gt; double k + 2
@@ -565,13 +626,19 @@ For these simple cases, Lean provides a shorthand.
 In an expression surrounded by parentheses, a centered dot character `·` can stand for an argument, and the expression inside the parentheses becomes the function's body.
 That particular function can also be written `(· + 1)`.
 -->
-<p>When an anonymous function is very simple, like <code>fun x =&gt; x + 1</code>, the syntax for creating the function can be fairly verbose. In that particular example, six non-whitespace characters are used to introduce the function, and its body consists of only three non-whitespace characters. For these simple cases, Lean provides a shorthand. In an expression surrounded by parentheses, a centered dot character <code>·</code> can stand for an argument, and the expression inside the parentheses becomes the function's body. That particular function can also be written <code>(· + 1)</code>.</p>
+<p>When an anonymous function is very simple, like <code>fun x =&gt; x + 1</code>, the syntax for creating the function can be fairly verbose.
+In that particular example, six non-whitespace characters are used to introduce the function, and its body consists of only three non-whitespace characters.
+For these simple cases, Lean provides a shorthand.
+In an expression surrounded by parentheses, a centered dot character <code>·</code> can stand for an argument, and the expression inside the parentheses becomes the function's body.
+That particular function can also be written <code>(· + 1)</code>.</p>
 <!--
 The centered dot always creates a function out of the _closest_ surrounding set of parentheses.
 For instance, `(· + 5, 3)` is a function that returns a pair of numbers, while `((· + 5), 3)` is a pair of a function and a number.
 If multiple dots are used, then they become arguments from left to right:
 -->
-<p>The centered dot always creates a function out of the <em>closest</em> surrounding set of parentheses. For instance, <code>(· + 5, 3)</code> is a function that returns a pair of numbers, while <code>((· + 5), 3)</code> is a pair of a function and a number. If multiple dots are used, then they become arguments from left to right:</p>
+<p>The centered dot always creates a function out of the <em>closest</em> surrounding set of parentheses.
+For instance, <code>(· + 5, 3)</code> is a function that returns a pair of numbers, while <code>((· + 5), 3)</code> is a pair of a function and a number.
+If multiple dots are used, then they become arguments from left to right:</p>
 <pre><code class="language-lean">(· , ·) 1 2
 ===&gt;
 (1, ·) 2
@@ -582,7 +649,8 @@ If multiple dots are used, then they become arguments from left to right:
 Anonymous functions can be applied in precisely the same way as functions defined using `def` or `let`.
 The command `#eval (fun x => x + x) 5` results in:
 -->
-<p>Anonymous functions can be applied in precisely the same way as functions defined using <code>def</code> or <code>let</code>. The command <code>#eval (fun x =&gt; x + x) 5</code> results in:</p>
+<p>Anonymous functions can be applied in precisely the same way as functions defined using <code>def</code> or <code>let</code>.
+The command <code>#eval (fun x =&gt; x + x) 5</code> results in:</p>
 <pre><code class="language-output info">10
 </code></pre>
 <!--
@@ -602,12 +670,17 @@ Names in different namespaces do not conflict with each other, even if they are 
 This means that `List.map` and `Array.map` are different names.
 Namespaces may be nested, so `Project.Frontend.User.loginTime` is the name `loginTime` in the nested namespace `Project.Frontend.User`.
 -->
-<p>Each name in Lean occurs in a <em>namespace</em>, which is a collection of names. Names are placed in namespaces using <code>.</code>, so <code>List.map</code> is the name <code>map</code> in the <code>List</code> namespace. Names in different namespaces do not conflict with each other, even if they are otherwise identical. This means that <code>List.map</code> and <code>Array.map</code> are different names. Namespaces may be nested, so <code>Project.Frontend.User.loginTime</code> is the name <code>loginTime</code> in the nested namespace <code>Project.Frontend.User</code>.</p>
+<p>Each name in Lean occurs in a <em>namespace</em>, which is a collection of names.
+Names are placed in namespaces using <code>.</code>, so <code>List.map</code> is the name <code>map</code> in the <code>List</code> namespace.
+Names in different namespaces do not conflict with each other, even if they are otherwise identical.
+This means that <code>List.map</code> and <code>Array.map</code> are different names.
+Namespaces may be nested, so <code>Project.Frontend.User.loginTime</code> is the name <code>loginTime</code> in the nested namespace <code>Project.Frontend.User</code>.</p>
 <!--
 Names can be directly defined within a namespace.
 For instance, the name `double` can be defined in the `Nat` namespace:
 -->
-<p>Names can be directly defined within a namespace. For instance, the name <code>double</code> can be defined in the <code>Nat</code> namespace:</p>
+<p>Names can be directly defined within a namespace.
+For instance, the name <code>double</code> can be defined in the <code>Nat</code> namespace:</p>
 <pre><code class="language-lean">def Nat.double (x : Nat) : Nat := x + x
 </code></pre>
 <!--
@@ -622,7 +695,8 @@ Because `Nat` is also the name of a type, dot notation is available to call `Nat
 In addition to defining names directly in a namespace, a sequence of declarations can be placed in a namespace using the `namespace` and `end` commands.
 For instance, this defines `triple` and `quadruple` in the namespace `NewNamespace`:
 -->
-<p>In addition to defining names directly in a namespace, a sequence of declarations can be placed in a namespace using the <code>namespace</code> and <code>end</code> commands. For instance, this defines <code>triple</code> and <code>quadruple</code> in the namespace <code>NewNamespace</code>:</p>
+<p>In addition to defining names directly in a namespace, a sequence of declarations can be placed in a namespace using the <code>namespace</code> and <code>end</code> commands.
+For instance, this defines <code>triple</code> and <code>quadruple</code> in the namespace <code>NewNamespace</code>:</p>
 <pre><code class="language-lean">namespace NewNamespace
 def triple (x : Nat) : Nat := 3 * x
 def quadruple (x : Nat) : Nat := 2 * x + 2 * x
@@ -645,7 +719,9 @@ Namespaces may be _opened_, which allows the names in them to be used without ex
 Writing `open MyNamespace in` before an expression causes the contents of `MyNamespace` to be available in the expression.
 For example, `timesTwelve` uses both `quadruple` and `triple` after opening `NewNamespace`:
 -->
-<p>Namespaces may be <em>opened</em>, which allows the names in them to be used without explicit qualification. Writing <code>open MyNamespace in</code> before an expression causes the contents of <code>MyNamespace</code> to be available in the expression. For example, <code>timesTwelve</code> uses both <code>quadruple</code> and <code>triple</code> after opening <code>NewNamespace</code>:</p>
+<p>Namespaces may be <em>opened</em>, which allows the names in them to be used without explicit qualification.
+Writing <code>open MyNamespace in</code> before an expression causes the contents of <code>MyNamespace</code> to be available in the expression.
+For example, <code>timesTwelve</code> uses both <code>quadruple</code> and <code>triple</code> after opening <code>NewNamespace</code>:</p>
 <pre><code class="language-lean">def timesTwelve (x : Nat) :=
   open NewNamespace in
   quadruple (triple x)
@@ -655,7 +731,9 @@ Namespaces can also be opened prior to a command.
 This allows all parts of the command to refer to the contents of the namespace, rather than just a single expression.
 To do this, place the `open ... in` prior to the command.
 -->
-<p>Namespaces can also be opened prior to a command. This allows all parts of the command to refer to the contents of the namespace, rather than just a single expression. To do this, place the <code>open ... in</code> prior to the command.</p>
+<p>Namespaces can also be opened prior to a command.
+This allows all parts of the command to refer to the contents of the namespace, rather than just a single expression.
+To do this, place the <code>open ... in</code> prior to the command.</p>
 <pre><code class="language-lean">open NewNamespace in
 #check quadruple
 </code></pre>
@@ -666,7 +744,9 @@ Function signatures show the name's full namespace.
 Namespaces may additionally be opened for _all_ following commands for the rest of the file.
 To do this, simply omit the `in` from a top-level usage of `open`.
 -->
-<p>Function signatures show the name's full namespace. Namespaces may additionally be opened for <em>all</em> following commands for the rest of the file. To do this, simply omit the <code>in</code> from a top-level usage of <code>open</code>.</p>
+<p>Function signatures show the name's full namespace.
+Namespaces may additionally be opened for <em>all</em> following commands for the rest of the file.
+To do this, simply omit the <code>in</code> from a top-level usage of <code>open</code>.</p>
 <!--
 ## if let
 -->
@@ -675,7 +755,8 @@ To do this, simply omit the `in` from a top-level usage of `open`.
 When consuming values that have a sum type, it is often the case that only a single constructor is of interest.
 For instance, given this type that represents a subset of Markdown inline elements:
 -->
-<p>When consuming values that have a sum type, it is often the case that only a single constructor is of interest. For instance, given this type that represents a subset of Markdown inline elements:</p>
+<p>When consuming values that have a sum type, it is often the case that only a single constructor is of interest.
+For instance, given this type that represents a subset of Markdown inline elements:</p>
 <pre><code class="language-lean">inductive Inline : Type where
   | lineBreak
   | string : String → Inline
@@ -705,7 +786,9 @@ This is very much like the pattern-matching `let` syntax.
 The difference is that it can be used with sum types, because a fallback is provided in the `else` case.
 In some contexts, using `if let` instead of `match` can make code easier to read.
 -->
-<p>This is very much like the pattern-matching <code>let</code> syntax. The difference is that it can be used with sum types, because a fallback is provided in the <code>else</code> case. In some contexts, using <code>if let</code> instead of <code>match</code> can make code easier to read.</p>
+<p>This is very much like the pattern-matching <code>let</code> syntax.
+The difference is that it can be used with sum types, because a fallback is provided in the <code>else</code> case.
+In some contexts, using <code>if let</code> instead of <code>match</code> can make code easier to read.</p>
 <!--
 ## Positional Structure Arguments
 -->
@@ -730,12 +813,19 @@ Be careful!
 Even though they look like the less-than sign `<` and greater-than sign `>`, these brackets are different.
 They can be input using `\<` and `\>`, respectively.
 -->
-<p>In some contexts, it can be convenient to pass arguments positionally, rather than by name, but without naming the constructor directly. For instance, defining a variety of similar structure types can help keep domain concepts separate, but the natural way to read the code may treat each of them as being essentially a tuple. In these contexts, the arguments can be enclosed in angle brackets <code>⟨</code> and <code>⟩</code>. A <code>Point</code> can be written <code>⟨1, 2⟩</code>. Be careful! Even though they look like the less-than sign <code>&lt;</code> and greater-than sign <code>&gt;</code>, these brackets are different. They can be input using <code>\&lt;</code> and <code>\&gt;</code>, respectively.</p>
+<p>In some contexts, it can be convenient to pass arguments positionally, rather than by name, but without naming the constructor directly.
+For instance, defining a variety of similar structure types can help keep domain concepts separate, but the natural way to read the code may treat each of them as being essentially a tuple.
+In these contexts, the arguments can be enclosed in angle brackets <code>⟨</code> and <code>⟩</code>.
+A <code>Point</code> can be written <code>⟨1, 2⟩</code>.
+Be careful!
+Even though they look like the less-than sign <code>&lt;</code> and greater-than sign <code>&gt;</code>, these brackets are different.
+They can be input using <code>\&lt;</code> and <code>\&gt;</code>, respectively.</p>
 <!--
 Just as with the brace notation for named constructor arguments, this positional syntax can only be used in a context where Lean can determine the structure's type, either from a type annotation or from other type information in the program.
 For instance, `#eval ⟨1, 2⟩` yields the following error:
 -->
-<p>Just as with the brace notation for named constructor arguments, this positional syntax can only be used in a context where Lean can determine the structure's type, either from a type annotation or from other type information in the program. For instance, <code>#eval ⟨1, 2⟩</code> yields the following error:</p>
+<p>Just as with the brace notation for named constructor arguments, this positional syntax can only be used in a context where Lean can determine the structure's type, either from a type annotation or from other type information in the program.
+For instance, <code>#eval ⟨1, 2⟩</code> yields the following error:</p>
 <pre><code class="language-output error">invalid constructor ⟨...⟩, expected type must be an inductive type 
   ?m.34991
 </code></pre>
@@ -743,7 +833,8 @@ For instance, `#eval ⟨1, 2⟩` yields the following error:
 The metavariable in the error is because there is no type information available.
 Adding an annotation, such as in `#eval (⟨1, 2⟩ : Point)`, solves the problem:
 -->
-<p>The metavariable in the error is because there is no type information available. Adding an annotation, such as in <code>#eval (⟨1, 2⟩ : Point)</code>, solves the problem:</p>
+<p>The metavariable in the error is because there is no type information available.
+Adding an annotation, such as in <code>#eval (⟨1, 2⟩ : Point)</code>, solves the problem:</p>
 <pre><code class="language-output info">{ x := 1.000000, y := 2.000000 }
 </code></pre>
 <!--
@@ -755,7 +846,9 @@ In Lean, prefixing a string with `s!` triggers _interpolation_, where expression
 This is similar to `f`-strings in Python and `$`-prefixed strings in C#.
 For instance,
 -->
-<p>In Lean, prefixing a string with <code>s!</code> triggers <em>interpolation</em>, where expressions contained in curly braces inside the string are replaced with their values. This is similar to <code>f</code>-strings in Python and <code>$</code>-prefixed strings in C#. For instance,</p>
+<p>In Lean, prefixing a string with <code>s!</code> triggers <em>interpolation</em>, where expressions contained in curly braces inside the string are replaced with their values.
+This is similar to <code>f</code>-strings in Python and <code>$</code>-prefixed strings in C#.
+For instance,</p>
 <pre><code class="language-lean">#eval s!&quot;three fives is {NewNamespace.triple 5}&quot;
 </code></pre>
 <!--
@@ -768,7 +861,8 @@ yields the output
 Not all expressions can be interpolated into a string.
 For instance, attempting to interpolate a function results in an error.
 -->
-<p>Not all expressions can be interpolated into a string. For instance, attempting to interpolate a function results in an error.</p>
+<p>Not all expressions can be interpolated into a string.
+For instance, attempting to interpolate a function results in an error.</p>
 <pre><code class="language-lean">#check s!&quot;three fives is {NewNamespace.triple}&quot;
 </code></pre>
 <!--
@@ -783,7 +877,9 @@ This is because there is no standard way to convert functions into strings.
 The Lean compiler maintains a table that describes how to convert values of various types into strings, and the message `failed to synthesize instance` means that the Lean compiler didn't find an entry in this table for the given type.
 This uses the same language feature as the `deriving Repr` syntax that was described in the [section on structures](structures.md).
 -->
-<p>This is because there is no standard way to convert functions into strings. The Lean compiler maintains a table that describes how to convert values of various types into strings, and the message <code>failed to synthesize instance</code> means that the Lean compiler didn't find an entry in this table for the given type. This uses the same language feature as the <code>deriving Repr</code> syntax that was described in the <a href="structures.html">section on structures</a>.</p>
+<p>This is because there is no standard way to convert functions into strings.
+The Lean compiler maintains a table that describes how to convert values of various types into strings, and the message <code>failed to synthesize instance</code> means that the Lean compiler didn't find an entry in this table for the given type.
+This uses the same language feature as the <code>deriving Repr</code> syntax that was described in the <a href="structures.html">section on structures</a>.</p>
 
                     </main>
 

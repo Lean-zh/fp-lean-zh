@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>强制转换 - Functional Programming in Lean</title>
+        <title>强制转换 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,16 +138,23 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="强制转换"><a class="header" href="#强制转换">强制转换</a></h1>
-<p>In mathematics, it is common to use the same symbol to stand for different aspects of some object in different contexts. For example, if a ring is referred to in a context where a set is expected, then it is understood that the ring's underlying set is what's intended. In programming languages, it is common to have rules to automatically translate values of one type into values of another type. For instance, Java allows a <code>byte</code> to be automatically promoted to an <code>int</code>, and Kotlin allows a non-nullable type to be used in a context that expects a nullable version of the type.</p>
-<p>In Lean, both purposes are served by a mechanism called <em>coercions</em>. When Lean encounters an expression of one type in a context that expects a different type, it will attempt to coerce the expression before reporting a type error. Unlike Java, C, and Kotlin, the coercions are extensible by defining instances of type classes.</p>
-<h2 id="正数"><a class="header" href="#正数">正数</a></h2>
-<p>For example, every positive number corresponds to a natural number. The function <code>Pos.toNat</code> that was defined earlier converts a <code>Pos</code> to the corresponding <code>Nat</code>:</p>
+                        <h1 id="coercions"><a class="header" href="#coercions">Coercions</a></h1>
+<p>In mathematics, it is common to use the same symbol to stand for different aspects of some object in different contexts.
+For example, if a ring is referred to in a context where a set is expected, then it is understood that the ring's underlying set is what's intended.
+In programming languages, it is common to have rules to automatically translate values of one type into values of another type.
+For instance, Java allows a <code>byte</code> to be automatically promoted to an <code>int</code>, and Kotlin allows a non-nullable type to be used in a context that expects a nullable version of the type.</p>
+<p>In Lean, both purposes are served by a mechanism called <em>coercions</em>.
+When Lean encounters an expression of one type in a context that expects a different type, it will attempt to coerce the expression before reporting a type error.
+Unlike Java, C, and Kotlin, the coercions are extensible by defining instances of type classes.</p>
+<h2 id="positive-numbers"><a class="header" href="#positive-numbers">Positive Numbers</a></h2>
+<p>For example, every positive number corresponds to a natural number.
+The function <code>Pos.toNat</code> that was defined earlier converts a <code>Pos</code> to the corresponding <code>Nat</code>:</p>
 <pre><code class="language-lean">def Pos.toNat : Pos → Nat
   | Pos.one =&gt; 1
   | Pos.succ n =&gt; n.toNat + 1
 </code></pre>
-<p>The function <code>List.drop</code>, with type <code>{α : Type} → Nat → List α → List α</code>, removes a prefix of a list. Applying <code>List.drop</code> to a <code>Pos</code>, however, leads to a type error:</p>
+<p>The function <code>List.drop</code>, with type <code>{α : Type} → Nat → List α → List α</code>, removes a prefix of a list.
+Applying <code>List.drop</code> to a <code>Pos</code>, however, leads to a type error:</p>
 <pre><code class="language-lean">[1, 2, 3, 4].drop (2 : Pos)
 </code></pre>
 <pre><code class="language-output error">application type mismatch
@@ -178,11 +185,14 @@ but is expected to have type
 <pre><code class="language-output info">List.drop (Pos.toNat 2) [1, 2, 3, 4] : List Nat
 </code></pre>
 <h2 id="chaining-coercions"><a class="header" href="#chaining-coercions">Chaining Coercions</a></h2>
-<p>When searching for coercions, Lean will attempt to assemble a coercion out of a chain of smaller coercions. For example, there is already a coercion from <code>Nat</code> to <code>Int</code>. Because of that instance, combined with the <code>Coe Pos Nat</code> instance, the following code is accepted:</p>
+<p>When searching for coercions, Lean will attempt to assemble a coercion out of a chain of smaller coercions.
+For example, there is already a coercion from <code>Nat</code> to <code>Int</code>.
+Because of that instance, combined with the <code>Coe Pos Nat</code> instance, the following code is accepted:</p>
 <pre><code class="language-lean">def oneInt : Int := Pos.one
 </code></pre>
 <p>This definition uses two coercions: from <code>Pos</code> to <code>Nat</code>, and then from <code>Nat</code> to <code>Int</code>.</p>
-<p>The Lean compiler does not get stuck in the presence of circular coercions. For example, even if two types <code>A</code> and <code>B</code> can be coerced to one another, their mutual coercions can be used to find a path:</p>
+<p>The Lean compiler does not get stuck in the presence of circular coercions.
+For example, even if two types <code>A</code> and <code>B</code> can be coerced to one another, their mutual coercions can be used to find a path:</p>
 <pre><code class="language-lean">inductive A where
   | a
 
@@ -200,23 +210,30 @@ instance : Coe Unit A where
 
 def coercedToB : B := ()
 </code></pre>
-<p>Remember: the double parentheses <code>()</code> is short for the constructor <code>Unit.unit</code>. After deriving a <code>Repr B</code> instance,</p>
+<p>Remember: the double parentheses <code>()</code> is short for the constructor <code>Unit.unit</code>.
+After deriving a <code>Repr B</code> instance,</p>
 <pre><code class="language-lean">#eval coercedToB
 </code></pre>
 <p>results in:</p>
 <pre><code class="language-output info">B.b
 </code></pre>
-<p>The <code>Option</code> type can be used similarly to nullable types in C# and Kotlin: the <code>none</code> constructor represents the absence of a value. The Lean standard library defines a coercion from any type <code>α</code> to <code>Option α</code> that wraps the value in <code>some</code>. This allows option types to be used in a manner even more similar to nullable types, because <code>some</code> can be omitted. For instance, the function <code>List.getLast?</code> that finds the last entry in a list can be written without a <code>some</code> around the return value <code>x</code>:</p>
+<p>The <code>Option</code> type can be used similarly to nullable types in C# and Kotlin: the <code>none</code> constructor represents the absence of a value.
+The Lean standard library defines a coercion from any type <code>α</code> to <code>Option α</code> that wraps the value in <code>some</code>.
+This allows option types to be used in a manner even more similar to nullable types, because <code>some</code> can be omitted.
+For instance, the function <code>List.getLast?</code> that finds the last entry in a list can be written without a <code>some</code> around the return value <code>x</code>:</p>
 <pre><code class="language-lean">def List.last? : List α → Option α
   | [] =&gt; none
   | [x] =&gt; x
   | _ :: x :: xs =&gt; last? (x :: xs)
 </code></pre>
-<p>Instance search finds the coercion, and inserts a call to <code>coe</code>, which wraps the argument in <code>some</code>. These coercions can be chained, so that nested uses of <code>Option</code> don't require nested <code>some</code> constructors:</p>
+<p>Instance search finds the coercion, and inserts a call to <code>coe</code>, which wraps the argument in <code>some</code>.
+These coercions can be chained, so that nested uses of <code>Option</code> don't require nested <code>some</code> constructors:</p>
 <pre><code class="language-lean">def perhapsPerhapsPerhaps : Option (Option (Option String)) :=
   &quot;Please don't tell me&quot;
 </code></pre>
-<p>Coercions are only activated automatically when Lean encounters a mismatch between an inferred type and a type that is imposed from the rest of the program. In cases with other errors, coercions are not activated. For example, if the error is that an instance is missing, coercions will not be used:</p>
+<p>Coercions are only activated automatically when Lean encounters a mismatch between an inferred type and a type that is imposed from the rest of the program.
+In cases with other errors, coercions are not activated.
+For example, if the error is that an instance is missing, coercions will not be used:</p>
 <pre><code class="language-lean">def perhapsPerhapsPerhapsNat : Option (Option (Option Nat)) :=
   392
 </code></pre>
@@ -231,24 +248,36 @@ def coercedToB : B := ()
 <pre><code class="language-lean">def perhapsPerhapsPerhapsNat : Option (Option (Option Nat)) :=
   ↑(392 : Nat)
 </code></pre>
-<p>In some cases, this can be used to ensure that Lean finds the right instances. It can also make the programmer's intentions more clear.</p>
+<p>In some cases, this can be used to ensure that Lean finds the right instances.
+It can also make the programmer's intentions more clear.</p>
 <h2 id="non-empty-lists-and-dependent-coercions"><a class="header" href="#non-empty-lists-and-dependent-coercions">Non-Empty Lists and Dependent Coercions</a></h2>
-<p>An instance of <code>Coe α β</code> makes sense when the type <code>β</code> has a value that can represent each value from the type <code>α</code>. Coercing from <code>Nat</code> to <code>Int</code> makes sense, because the type <code>Int</code> contains all the natural numbers. Similarly, a coercion from non-empty lists to ordinary lists makes sense because the <code>List</code> type can represent every non-empty list:</p>
+<p>An instance of <code>Coe α β</code> makes sense when the type <code>β</code> has a value that can represent each value from the type <code>α</code>.
+Coercing from <code>Nat</code> to <code>Int</code> makes sense, because the type <code>Int</code> contains all the natural numbers.
+Similarly, a coercion from non-empty lists to ordinary lists makes sense because the <code>List</code> type can represent every non-empty list:</p>
 <pre><code class="language-lean">instance : Coe (NonEmptyList α) (List α) where
   coe
     | { head := x, tail := xs } =&gt; x :: xs
 </code></pre>
 <p>This allows non-empty lists to be used with the entire <code>List</code> API.</p>
-<p>On the other hand, it is impossible to write an instance of <code>Coe (List α) (NonEmptyList α)</code>, because there's no non-empty list that can represent the empty list. This limitation can be worked around by using another version of coercions, which are called <em>dependent coercions</em>. Dependent coercions can be used when the ability to coerce from one type to another depends on which particular value is being coerced. Just as the <code>OfNat</code> type class takes the particular <code>Nat</code> being overloaded as a parameter, dependent coercion takes the value being coerced as a parameter:</p>
+<p>On the other hand, it is impossible to write an instance of <code>Coe (List α) (NonEmptyList α)</code>, because there's no non-empty list that can represent the empty list.
+This limitation can be worked around by using another version of coercions, which are called <em>dependent coercions</em>.
+Dependent coercions can be used when the ability to coerce from one type to another depends on which particular value is being coerced.
+Just as the <code>OfNat</code> type class takes the particular <code>Nat</code> being overloaded as a parameter, dependent coercion takes the value being coerced as a parameter:</p>
 <pre><code class="language-lean">class CoeDep (α : Type) (x : α) (β : Type) where
   coe : β
 </code></pre>
-<p>This is a chance to select only certain values, either by imposing further type class constraints on the value or by writing certain constructors directly. For example, any <code>List</code> that is not actually empty can be coerced to a <code>NonEmptyList</code>:</p>
+<p>This is a chance to select only certain values, either by imposing further type class constraints on the value or by writing certain constructors directly.
+For example, any <code>List</code> that is not actually empty can be coerced to a <code>NonEmptyList</code>:</p>
 <pre><code class="language-lean">instance : CoeDep (List α) (x :: xs) (NonEmptyList α) where
   coe := { head := x, tail := xs }
 </code></pre>
 <h2 id="coercing-to-types"><a class="header" href="#coercing-to-types">Coercing to Types</a></h2>
-<p>In mathematics, it is common to have a concept that consists of a set equipped with additional structure. For example, a monoid is some set <em>S</em>, an element <em>s</em> of <em>S</em>, and an associative binary operator on <em>S</em>, such that <em>s</em> is neutral on the left and right of the operator. <em>S</em> is referred to as the &quot;carrier set&quot; of the monoid. The natural numbers with zero and addition form a monoid, because addition is associative and adding zero to any number is the identity. Similarly, the natural numbers with one and multiplication also form a monoid. Monoids are also widely used in functional programming: lists, the empty list, and the append operator form a monoid, as do strings, the empty string, and string append:</p>
+<p>In mathematics, it is common to have a concept that consists of a set equipped with additional structure.
+For example, a monoid is some set <em>S</em>, an element <em>s</em> of <em>S</em>, and an associative binary operator on <em>S</em>, such that <em>s</em> is neutral on the left and right of the operator.
+<em>S</em> is referred to as the &quot;carrier set&quot; of the monoid.
+The natural numbers with zero and addition form a monoid, because addition is associative and adding zero to any number is the identity.
+Similarly, the natural numbers with one and multiplication also form a monoid.
+Monoids are also widely used in functional programming: lists, the empty list, and the append operator form a monoid, as do strings, the empty string, and string append:</p>
 <pre><code class="language-lean">structure Monoid where
   Carrier : Type
   neutral : Carrier
@@ -266,15 +295,20 @@ def stringMonoid : Monoid :=
 def listMonoid (α : Type) : Monoid :=
   { Carrier := List α, neutral := [], op := List.append }
 </code></pre>
-<p>Given a monoid, it is possible to write the <code>foldMap</code> function that, in a single pass, transforms the entries in a list into a monoid's carrier set and then combines them using the monoid's operator. Because monoids have a neutral element, there is a natural result to return when the list is empty, and because the operator is associative, clients of the function don't have to care whether the recursive function combines elements from left to right or from right to left.</p>
+<p>Given a monoid, it is possible to write the <code>foldMap</code> function that, in a single pass, transforms the entries in a list into a monoid's carrier set and then combines them using the monoid's operator.
+Because monoids have a neutral element, there is a natural result to return when the list is empty, and because the operator is associative, clients of the function don't have to care whether the recursive function combines elements from left to right or from right to left.</p>
 <pre><code class="language-lean">def foldMap (M : Monoid) (f : α → M.Carrier) (xs : List α) : M.Carrier :=
   let rec go (soFar : M.Carrier) : List α → M.Carrier
     | [] =&gt; soFar
     | y :: ys =&gt; go (M.op soFar (f y)) ys
   go M.neutral xs
 </code></pre>
-<p>Even though a monoid consists of three separate pieces of information, it is common to just refer to the monoid's name in order to refer to its set. Instead of saying &quot;Let A be a monoid and let <em>x</em> and <em>y</em> be elements of its carrier set&quot;, it is common to say &quot;Let <em>A</em> be a monoid and let <em>x</em> and <em>y</em> be elements of <em>A</em>&quot;. This practice can be encoded in Lean by defining a new kind of coercion, from the monoid to its carrier set.</p>
-<p>The <code>CoeSort</code> class is just like the <code>Coe</code> class, with the exception that the target of the coercion must be a <em>sort</em>, namely <code>Type</code> or <code>Prop</code>. The term <em>sort</em> in Lean refers to these types that classify other types—<code>Type</code> classifies types that themselves classify data, and <code>Prop</code> classifies propositions that themselves classify evidence of their truth. Just as <code>Coe</code> is checked when a type mismatch occurs, <code>CoeSort</code> is used when something other than a sort is provided in a context where a sort would be expected.</p>
+<p>Even though a monoid consists of three separate pieces of information, it is common to just refer to the monoid's name in order to refer to its set.
+Instead of saying &quot;Let A be a monoid and let <em>x</em> and <em>y</em> be elements of its carrier set&quot;, it is common to say &quot;Let <em>A</em> be a monoid and let <em>x</em> and <em>y</em> be elements of <em>A</em>&quot;.
+This practice can be encoded in Lean by defining a new kind of coercion, from the monoid to its carrier set.</p>
+<p>The <code>CoeSort</code> class is just like the <code>Coe</code> class, with the exception that the target of the coercion must be a <em>sort</em>, namely <code>Type</code> or <code>Prop</code>.
+The term <em>sort</em> in Lean refers to these types that classify other types—<code>Type</code> classifies types that themselves classify data, and <code>Prop</code> classifies propositions that themselves classify evidence of their truth.
+Just as <code>Coe</code> is checked when a type mismatch occurs, <code>CoeSort</code> is used when something other than a sort is provided in a context where a sort would be expected.</p>
 <p>The coercion from a monoid into its carrier set extracts the carrier:</p>
 <pre><code class="language-lean">instance : CoeSort Monoid Type where
   coe m := m.Carrier
@@ -286,18 +320,27 @@ def listMonoid (α : Type) : Monoid :=
     | y :: ys =&gt; go (M.op soFar (f y)) ys
   go M.neutral xs
 </code></pre>
-<p>Another useful example of <code>CoeSort</code> is used to bridge the gap between <code>Bool</code> and <code>Prop</code>. As discussed in <a href="standard-classes.html#equality-and-ordering">the section on ordering and equality</a>, Lean's <code>if</code> expression expects the condition to be a decidable proposition rather than a <code>Bool</code>. Programs typically need to be able to branch based on Boolean values, however. Rather than have two kinds of <code>if</code> expression, the Lean standard library defines a coercion from <code>Bool</code> to the proposition that the <code>Bool</code> in question is equal to <code>true</code>:</p>
+<p>Another useful example of <code>CoeSort</code> is used to bridge the gap between <code>Bool</code> and <code>Prop</code>.
+As discussed in <a href="standard-classes.html#equality-and-ordering">the section on ordering and equality</a>, Lean's <code>if</code> expression expects the condition to be a decidable proposition rather than a <code>Bool</code>.
+Programs typically need to be able to branch based on Boolean values, however.
+Rather than have two kinds of <code>if</code> expression, the Lean standard library defines a coercion from <code>Bool</code> to the proposition that the <code>Bool</code> in question is equal to <code>true</code>:</p>
 <pre><code class="language-lean">instance : CoeSort Bool Prop where
   coe b := b = true
 </code></pre>
 <p>In this case, the sort in question is <code>Prop</code> rather than <code>Type</code>.</p>
 <h2 id="coercing-to-functions"><a class="header" href="#coercing-to-functions">Coercing to Functions</a></h2>
-<p>Many datatypes that occur regularly in programming consist of a function along with some extra information about it. For example, a function might be accompanied by a name to show in logs or by some configuration data. Additionally, putting a type in a field of a structure, similarly to the <code>Monoid</code> example, can make sense in contexts where there is more than one way to implement an operation and more manual control is needed than type classes would allow. For example, the specific details of values emitted by a JSON serializer may be important because another application expects a particular format. Sometimes, the function itself may be derivable from just the configuration data.</p>
-<p>A type class called <code>CoeFun</code> can transform values from non-function types to function types. <code>CoeFun</code> has two parameters: the first is the type whose values should be transformed into functions, and the second is an output parameter that determines exactly which function type is being targeted.</p>
+<p>Many datatypes that occur regularly in programming consist of a function along with some extra information about it.
+For example, a function might be accompanied by a name to show in logs or by some configuration data.
+Additionally, putting a type in a field of a structure, similarly to the <code>Monoid</code> example, can make sense in contexts where there is more than one way to implement an operation and more manual control is needed than type classes would allow.
+For example, the specific details of values emitted by a JSON serializer may be important because another application expects a particular format.
+Sometimes, the function itself may be derivable from just the configuration data.</p>
+<p>A type class called <code>CoeFun</code> can transform values from non-function types to function types.
+<code>CoeFun</code> has two parameters: the first is the type whose values should be transformed into functions, and the second is an output parameter that determines exactly which function type is being targeted.</p>
 <pre><code class="language-lean">class CoeFun (α : Type) (makeFunctionType : outParam (α → Type)) where
   coe : (x : α) → makeFunctionType x
 </code></pre>
-<p>The second parameter is itself a function that computes a type. In Lean, types are first-class and can be passed to functions or returned from them, just like anything else.</p>
+<p>The second parameter is itself a function that computes a type.
+In Lean, types are first-class and can be passed to functions or returned from them, just like anything else.</p>
 <p>For example, a function that adds a constant amount to its argument can be represented as a wrapper around the amount to add, rather than by defining an actual function:</p>
 <pre><code class="language-lean">structure Adder where
   howMuch : Nat
@@ -322,7 +365,8 @@ term has type
 <pre><code class="language-output info">8
 </code></pre>
 <p>Because all <code>Adder</code>s should be transformed into <code>Nat → Nat</code> functions, the argument to <code>CoeFun</code>'s second parameter was ignored.</p>
-<p>When the value itself is needed to determine the right function type, then <code>CoeFun</code>'s second parameter is no longer ignored. For example, given the following representation of JSON values:</p>
+<p>When the value itself is needed to determine the right function type, then <code>CoeFun</code>'s second parameter is no longer ignored.
+For example, given the following representation of JSON values:</p>
 <pre><code class="language-lean">inductive JSON where
   | true : JSON
   | false : JSON
@@ -365,7 +409,11 @@ deriving Repr
    (&quot;record&quot;, JSON.string &quot;Programming is fun!&quot;)]
 </code></pre>
 <h3 id="aside-json-as-a-string"><a class="header" href="#aside-json-as-a-string">Aside: JSON as a String</a></h3>
-<p>It can be a bit difficult to understand JSON when encoded as Lean objects. To help make sure that the serialized response was what was expected, it can be convenient to write a simple converter from <code>JSON</code> to <code>String</code>. The first step is to simplify the display of numbers. <code>JSON</code> doesn't distinguish between integers and floating point numbers, and the type <code>Float</code> is used to represent both. In Lean, <code>Float.toString</code> includes a number of trailing zeros:</p>
+<p>It can be a bit difficult to understand JSON when encoded as Lean objects.
+To help make sure that the serialized response was what was expected, it can be convenient to write a simple converter from <code>JSON</code> to <code>String</code>.
+The first step is to simplify the display of numbers.
+<code>JSON</code> doesn't distinguish between integers and floating point numbers, and the type <code>Float</code> is used to represent both.
+In Lean, <code>Float.toString</code> includes a number of trailing zeros:</p>
 <pre><code class="language-lean">#eval (5 : Float).toString
 </code></pre>
 <pre><code class="language-output info">&quot;5.000000&quot;
@@ -384,9 +432,14 @@ deriving Repr
   | [] =&gt; &quot;&quot;
   | x :: xs =&gt; String.join (x :: xs.map (sep ++ ·))
 </code></pre>
-<p>This function is useful to account for comma-separated elements in JSON arrays and objects. <code>#eval &quot;, &quot;.separate [&quot;1&quot;, &quot;2&quot;]</code> yields <code>&quot;1, 2&quot;</code>, <code>#eval &quot;, &quot;.separate [&quot;1&quot;]</code> yields <code>&quot;1&quot;</code>, and <code>#eval &quot;, &quot;.separate []</code> yields <code>&quot;&quot;</code>.</p>
-<p>Finally, a string escaping procedure is needed for JSON strings, so that the Lean string containing <code>&quot;Hello!&quot;</code> can be output as <code>&quot;\&quot;Hello!\&quot;&quot;</code>. Fortunately, the Lean compiler contains an internal function for escaping JSON strings already, called <code>Lean.Json.escape</code>. To access this function, add <code>import Lean</code> to the beginning of your file.</p>
-<p>The function that emits a string from a <code>JSON</code> value is declared <code>partial</code> because Lean cannot see that it terminates. This is because recursive calls to <code>asString</code> occur in functions that are being applied by <code>List.map</code>, and this pattern of recursion is complicated enough that Lean cannot see that the recursive calls are actually being performed on smaller values. In an application that just needs to produce JSON strings and doesn't need to mathematically reason about the process, having the function be <code>partial</code> is not likely to cause problems.</p>
+<p>This function is useful to account for comma-separated elements in JSON arrays and objects.
+<code>#eval &quot;, &quot;.separate [&quot;1&quot;, &quot;2&quot;]</code> yields <code>&quot;1, 2&quot;</code>, <code>#eval &quot;, &quot;.separate [&quot;1&quot;]</code> yields <code>&quot;1&quot;</code>, and <code>#eval &quot;, &quot;.separate []</code> yields <code>&quot;&quot;</code>.</p>
+<p>Finally, a string escaping procedure is needed for JSON strings, so that the Lean string containing <code>&quot;Hello!&quot;</code> can be output as <code>&quot;\&quot;Hello!\&quot;&quot;</code>.
+Fortunately, the Lean compiler contains an internal function for escaping JSON strings already, called <code>Lean.Json.escape</code>.
+To access this function, add <code>import Lean</code> to the beginning of your file.</p>
+<p>The function that emits a string from a <code>JSON</code> value is declared <code>partial</code> because Lean cannot see that it terminates.
+This is because recursive calls to <code>asString</code> occur in functions that are being applied by <code>List.map</code>, and this pattern of recursion is complicated enough that Lean cannot see that the recursive calls are actually being performed on smaller values.
+In an application that just needs to produce JSON strings and doesn't need to mathematically reason about the process, having the function be <code>partial</code> is not likely to cause problems.</p>
 <pre><code class="language-lean">partial def JSON.asString (val : JSON) : String :=
   match val with
   | true =&gt; &quot;true&quot;
@@ -406,8 +459,9 @@ deriving Repr
 </code></pre>
 <pre><code class="language-output info">&quot;{\\&quot;title\\&quot;: \\&quot;Functional Programming in Lean\\&quot;, \\&quot;status\\&quot;: 200, \\&quot;record\\&quot;: \\&quot;Programming is fun!\\&quot;}&quot;
 </code></pre>
-<h2 id="可能会遇到的信息"><a class="header" href="#可能会遇到的信息">可能会遇到的信息</a></h2>
-<p>Natural number literals are overloaded with the <code>OfNat</code> type class. Because coercions fire in cases where types don't match, rather than in cases of missing instances, a missing <code>OfNat</code> instance for a type does not cause a coercion from <code>Nat</code> to be applied:</p>
+<h2 id="messages-you-may-meet"><a class="header" href="#messages-you-may-meet">Messages You May Meet</a></h2>
+<p>Natural number literals are overloaded with the <code>OfNat</code> type class.
+Because coercions fire in cases where types don't match, rather than in cases of missing instances, a missing <code>OfNat</code> instance for a type does not cause a coercion from <code>Nat</code> to be applied:</p>
 <pre><code class="language-lean">def perhapsPerhapsPerhapsNat : Option (Option (Option Nat)) :=
   392
 </code></pre>
@@ -415,12 +469,18 @@ deriving Repr
   OfNat (Option (Option (Option Nat))) 392
 </code></pre>
 <h2 id="design-considerations"><a class="header" href="#design-considerations">Design Considerations</a></h2>
-<p>Coercions are a powerful tool that should be used responsibly. On the one hand, they can allow an API to naturally follow the everyday rules of the domain being modeled. This can be the difference between a bureaucratic mess of manual conversion functions and a clear program. As Abelson and Sussman wrote in the preface to <em>Structure and Interpretation of Computer Programs</em> (MIT Press, 1996),</p>
+<p>Coercions are a powerful tool that should be used responsibly.
+On the one hand, they can allow an API to naturally follow the everyday rules of the domain being modeled.
+This can be the difference between a bureaucratic mess of manual conversion functions and a clear program.
+As Abelson and Sussman wrote in the preface to <em>Structure and Interpretation of Computer Programs</em> (MIT Press, 1996),</p>
 <blockquote>
 <p>Programs must be written for people to read, and only incidentally for machines to execute.</p>
 </blockquote>
-<p>Coercions, used wisely, are a valuable means of achieving readable code that can serve as the basis for communication with domain experts. APIs that rely heavily on coercions have a number of important limitations, however. Think carefully about these limitations before using coercions in your own libraries.</p>
-<p>First off, coercions are only applied in contexts where enough type information is available for Lean to know all of the types involved, because there are no output parameters in the coercion type classes. This means that a return type annotation on a function can be the difference between a type error and a successfully applied coercion. For example, the coercion from non-empty lists to lists makes the following program work:</p>
+<p>Coercions, used wisely, are a valuable means of achieving readable code that can serve as the basis for communication with domain experts.
+APIs that rely heavily on coercions have a number of important limitations, however.
+Think carefully about these limitations before using coercions in your own libraries.</p>
+<p>First off, coercions are only applied in contexts where enough type information is available for Lean to know all of the types involved, because there are no output parameters in the coercion type classes. This means that a return type annotation on a function can be the difference between a type error and a successfully applied coercion.
+For example, the coercion from non-empty lists to lists makes the following program work:</p>
 <pre><code class="language-lean">def lastSpider : Option String :=
   List.getLast? idahoSpiders
 </code></pre>
@@ -438,7 +498,8 @@ but is expected to have type
   List ?m.34258 : Type
 </code></pre>
 <p>More generally, when a coercion is not applied for some reason, the user receives the original type error, which can make it difficult to debug chains of coercions.</p>
-<p>Finally, coercions are not applied in the context of field accessor notation. This means that there is still an important difference between expressions that need to be coerced and those that don't, and this difference is visible to users of your API.</p>
+<p>Finally, coercions are not applied in the context of field accessor notation.
+This means that there is still an important difference between expressions that need to be coerced and those that don't, and this difference is visible to users of your API.</p>
 
                     </main>
 

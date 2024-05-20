@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>选择子 - Functional Programming in Lean</title>
+        <title>选择子 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,16 +138,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="替代"><a class="header" href="#替代">替代</a></h1>
+                        <h1 id="alternatives"><a class="header" href="#alternatives">Alternatives</a></h1>
 <h2 id="recovery-from-failure"><a class="header" href="#recovery-from-failure">Recovery from Failure</a></h2>
-<p><code>Validate</code> can also be used in situations where there is more than one way for input to be acceptable. For the input form <code>RawInput</code>, an alternative set of business rules that implement conventions from a legacy system might be the following:</p>
+<p><code>Validate</code> can also be used in situations where there is more than one way for input to be acceptable.
+For the input form <code>RawInput</code>, an alternative set of business rules that implement conventions from a legacy system might be the following:</p>
 <ol>
 <li>All human users must provide a birth year that is four digits.</li>
 <li>Users born prior to 1970 do not need to provide names, due to incomplete older records.</li>
 <li>Users born after 1970 must provide names.</li>
 <li>Companies should enter <code>&quot;FIRM&quot;</code> as their year of birth and provide a company name.</li>
 </ol>
-<p>No particular provision is made for users born in 1970. It is expected that they will either give up, lie about their year of birth, or call. The company considers this an acceptable cost of doing business.</p>
+<p>No particular provision is made for users born in 1970.
+It is expected that they will either give up, lie about their year of birth, or call.
+The company considers this an acceptable cost of doing business.</p>
 <p>The following inductive type captures the values that can be produced from these stated rules:</p>
 <pre><code class="language-lean">abbrev NonEmptyString := {s : String // s ≠ &quot;&quot;}
 
@@ -165,7 +168,9 @@ inductive LegacyCheckedInput where
     LegacyCheckedInput
 deriving Repr
 </code></pre>
-<p>A validator for these rules is more complicated, however, as it must address all three cases. While it can be written as a series of nested <code>if</code> expressions, it's easier to design the three cases independently and then combine them. This requires a means of recovering from failure while preserving error messages:</p>
+<p>A validator for these rules is more complicated, however, as it must address all three cases.
+While it can be written as a series of nested <code>if</code> expressions, it's easier to design the three cases independently and then combine them.
+This requires a means of recovering from failure while preserving error messages:</p>
 <pre><code class="language-lean">def Validate.orElse (a : Validate ε α) (b : Unit → Validate ε α) : Validate ε α :=
   match a with
   | .ok x =&gt; .ok x
@@ -178,11 +183,15 @@ deriving Repr
 <pre><code class="language-lean">class OrElse (α : Type) where
   orElse : α → (Unit → α) → α
 </code></pre>
-<p>The expression <code>E1 &lt;|&gt; E2</code> is short for <code>OrElse.orElse E1 (fun () =&gt; E2)</code>. An instance of <code>OrElse</code> for <code>Validate</code> allows this syntax to be used for error recovery:</p>
+<p>The expression <code>E1 &lt;|&gt; E2</code> is short for <code>OrElse.orElse E1 (fun () =&gt; E2)</code>.
+An instance of <code>OrElse</code> for <code>Validate</code> allows this syntax to be used for error recovery:</p>
 <pre><code class="language-lean">instance : OrElse (Validate ε α) where
   orElse := Validate.orElse
 </code></pre>
-<p>The validator for <code>LegacyCheckedInput</code> can be built from a validator for each constructor. The rules for a company state that the birth year should be the string <code>&quot;FIRM&quot;</code> and that the name should be non-empty. The constructor <code>LegacyCheckedInput.company</code>, however, has no representation of the birth year at all, so there's no easy way to carry it out using <code>&lt;*&gt;</code>. The key is to use a function with <code>&lt;*&gt;</code> that ignores its argument.</p>
+<p>The validator for <code>LegacyCheckedInput</code> can be built from a validator for each constructor.
+The rules for a company state that the birth year should be the string <code>&quot;FIRM&quot;</code> and that the name should be non-empty.
+The constructor <code>LegacyCheckedInput.company</code>, however, has no representation of the birth year at all, so there's no easy way to carry it out using <code>&lt;*&gt;</code>.
+The key is to use a function with <code>&lt;*&gt;</code> that ignores its argument.</p>
 <p>Checking that a Boolean condition holds without recording any evidence of this fact in a type can be accomplished with <code>checkThat</code>:</p>
 <pre><code class="language-lean">def checkThat (condition : Bool) (field : Field) (msg : String) : Validate (Field × String) Unit :=
   if condition then pure () else reportError field msg
@@ -193,7 +202,10 @@ deriving Repr
     checkThat (input.birthYear == &quot;FIRM&quot;) &quot;birth year&quot; &quot;FIRM if a company&quot; &lt;*&gt;
     checkName input.name
 </code></pre>
-<p>However, this definition is quite noisy. It can be simplified in two ways. The first is to replace the first use of <code>&lt;*&gt;</code> with a specialized version that automatically ignores the value returned by the first argument, called <code>*&gt;</code>. This operator is also controlled by a type class, called <code>SeqRight</code>, and <code>E1 *&gt; E2</code> is syntactic sugar for <code>SeqRight.seqRight E1 (fun () =&gt; E2)</code>:</p>
+<p>However, this definition is quite noisy.
+It can be simplified in two ways.
+The first is to replace the first use of <code>&lt;*&gt;</code> with a specialized version that automatically ignores the value returned by the first argument, called <code>*&gt;</code>.
+This operator is also controlled by a type class, called <code>SeqRight</code>, and <code>E1 *&gt; E2</code> is syntactic sugar for <code>SeqRight.seqRight E1 (fun () =&gt; E2)</code>:</p>
 <pre><code class="language-lean">class SeqRight (f : Type → Type) where
   seqRight : f α → (Unit → f β) → f β
 </code></pre>
@@ -203,19 +215,25 @@ deriving Repr
   checkThat (input.birthYear == &quot;FIRM&quot;) &quot;birth year&quot; &quot;FIRM if a company&quot; *&gt;
   pure .company &lt;*&gt; checkName input.name
 </code></pre>
-<p>One more simplification is possible. For every <code>Applicative</code>, <code>pure F &lt;*&gt; E</code> is equivalent to <code>f &lt;$&gt; E</code>. In other words, using <code>seq</code> to apply a function that was placed into the <code>Applicative</code> type using <code>pure</code> is overkill, and the function could have just been applied using <code>Functor.map</code>. This simplification yields:</p>
+<p>One more simplification is possible.
+For every <code>Applicative</code>, <code>pure F &lt;*&gt; E</code> is equivalent to <code>f &lt;$&gt; E</code>.
+In other words, using <code>seq</code> to apply a function that was placed into the <code>Applicative</code> type using <code>pure</code> is overkill, and the function could have just been applied using <code>Functor.map</code>.
+This simplification yields:</p>
 <pre><code class="language-lean">def checkCompany (input : RawInput) : Validate (Field × String) LegacyCheckedInput :=
   checkThat (input.birthYear == &quot;FIRM&quot;) &quot;birth year&quot; &quot;FIRM if a company&quot; *&gt;
   .company &lt;$&gt; checkName input.name
 </code></pre>
-<p>The remaining two constructors of <code>LegacyCheckedInput</code> use subtypes for their fields. A general-purpose tool for checking subtypes will make these easier to read:</p>
+<p>The remaining two constructors of <code>LegacyCheckedInput</code> use subtypes for their fields.
+A general-purpose tool for checking subtypes will make these easier to read:</p>
 <pre><code class="language-lean">def checkSubtype {α : Type} (v : α) (p : α → Prop) [Decidable (p v)] (err : ε) : Validate ε {x : α // p x} :=
   if h : p v then
     pure ⟨v, h⟩
   else
     .errors { head := err, tail := [] }
 </code></pre>
-<p>In the function's argument list, it's important that the type class <code>[Decidable (p v)]</code> occur after the specification of the arguments <code>v</code> and <code>p</code>. Otherwise, it would refer to an additional set of automatic implicit arguments, rather than to the manually-provided values. The <code>Decidable</code> instance is what allows the proposition <code>p v</code> to be checked using <code>if</code>.</p>
+<p>In the function's argument list, it's important that the type class <code>[Decidable (p v)]</code> occur after the specification of the arguments <code>v</code> and <code>p</code>.
+Otherwise, it would refer to an additional set of automatic implicit arguments, rather than to the manually-provided values.
+The <code>Decidable</code> instance is what allows the proposition <code>p v</code> to be checked using <code>if</code>.</p>
 <p>The two human cases do not need any additional tools:</p>
 <pre><code class="language-lean">def checkHumanBefore1970 (input : RawInput) : Validate (Field × String) LegacyCheckedInput :=
   (checkYearIsNat input.birthYear).andThen fun y =&gt;
@@ -257,7 +275,9 @@ def checkHumanAfter1970 (input : RawInput) : Validate (Field × String) LegacyCh
              (&quot;name&quot;, &quot;Required&quot;)] }
 </code></pre>
 <h2 id="the-alternative-class"><a class="header" href="#the-alternative-class">The <code>Alternative</code> Class</a></h2>
-<p>Many types support a notion of failure and recovery. The <code>Many</code> monad from the section on <a href="../monads/arithmetic.html#nondeterministic-search">evaluating arithmetic expressions in a variety of monads</a> is one such type, as is <code>Option</code>. Both support failure without providing a reason (unlike, say, <code>Except</code> and <code>Validate</code>, which require some indication of what went wrong).</p>
+<p>Many types support a notion of failure and recovery.
+The <code>Many</code> monad from the section on <a href="../monads/arithmetic.html#nondeterministic-search">evaluating arithmetic expressions in a variety of monads</a> is one such type, as is <code>Option</code>.
+Both support failure without providing a reason (unlike, say, <code>Except</code> and <code>Validate</code>, which require some indication of what went wrong).</p>
 <p>The <code>Alternative</code> class describes applicative functors that have additional operators for failure and recovery:</p>
 <pre><code class="language-lean">class Alternative (f : Type → Type) extends Applicative f where
   failure : f α
@@ -283,13 +303,15 @@ instance : Alternative Many where
   failure := .none
   orElse := Many.orElse
 </code></pre>
-<p>Like other type classes, <code>Alternative</code> enables the definition of a variety of operations that work for <em>any</em> applicative functor that implements <code>Alternative</code>. One of the most important is <code>guard</code>, which causes <code>failure</code> when a decidable proposition is false:</p>
+<p>Like other type classes, <code>Alternative</code> enables the definition of a variety of operations that work for <em>any</em> applicative functor that implements <code>Alternative</code>.
+One of the most important is <code>guard</code>, which causes <code>failure</code> when a decidable proposition is false:</p>
 <pre><code class="language-lean">def guard [Alternative f] (p : Prop) [Decidable p] : f Unit :=
   if p then
     pure ()
   else failure
 </code></pre>
-<p>It is very useful in monadic programs to terminate execution early. In <code>Many</code>, it can be used to filter out a whole branch of a search, as in the following program that computes all even divisors of a natural number:</p>
+<p>It is very useful in monadic programs to terminate execution early.
+In <code>Many</code>, it can be used to filter out a whole branch of a search, as in the following program that computes all even divisors of a natural number:</p>
 <pre><code class="language-lean">def Many.countdown : Nat → Many Nat
   | 0 =&gt; .none
   | n + 1 =&gt; .more n (fun () =&gt; countdown n)
@@ -305,9 +327,10 @@ def evenDivisors (n : Nat) : Many Nat := do
 </code></pre>
 <pre><code class="language-output info">[20, 10, 4, 2]
 </code></pre>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <h3 id="improve-validation-friendliness"><a class="header" href="#improve-validation-friendliness">Improve Validation Friendliness</a></h3>
-<p>The errors returned from <code>Validate</code> programs that use <code>&lt;|&gt;</code> can be difficult to read, because inclusion in the list of errors simply means that the error can be reached through <em>some</em> code path. A more structured error report can be used to guide the user through the process more accurately:</p>
+<p>The errors returned from <code>Validate</code> programs that use <code>&lt;|&gt;</code> can be difficult to read, because inclusion in the list of errors simply means that the error can be reached through <em>some</em> code path.
+A more structured error report can be used to guide the user through the process more accurately:</p>
 <ul>
 <li>Replace the <code>NonEmptyList</code> in <code>Validate.error</code> with a bare type variable, and then update the definitions of the <code>Applicative (Validate ε)</code> and <code>OrElse (Validate ε α)</code> instances to require only that there be an <code>Append ε</code> instance available.</li>
 <li>Define a function <code>Validate.mapErrors : Validate ε α → (ε → ε') → Validate ε' α</code> that transforms all the errors in a validation run.</li>

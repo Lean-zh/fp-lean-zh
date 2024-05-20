@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>应用函子的法则 - Functional Programming in Lean</title>
+        <title>应用函子的法则 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,7 +138,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="应用函子契约"><a class="header" href="#应用函子契约">应用函子契约</a></h1>
+                        <h1 id="the-applicative-contract"><a class="header" href="#the-applicative-contract">The Applicative Contract</a></h1>
 <p>Just like <code>Functor</code>, <code>Monad</code>, and types that implement <code>BEq</code> and <code>Hashable</code>, <code>Applicative</code> has a set of rules that all instances should adhere to.</p>
 <p>There are four rules that an applicative functor should follow:</p>
 <ol>
@@ -148,8 +148,12 @@
 <li>The ordering of pure operations doesn't matter, so <code>u &lt;*&gt; pure x = pure (fun f =&gt; f x) &lt;*&gt; u</code></li>
 </ol>
 <p>To check these for the <code>Applicative Option</code> instance, start by expanding <code>pure</code> into <code>some</code>.</p>
-<p>The first rule states that <code>some id &lt;*&gt; v = v</code>. The definition of <code>seq</code> for <code>Option</code> states that this is the same as <code>id &lt;$&gt; v = v</code>, which is one of the <code>Functor</code> rules that have already been checked.</p>
-<p>The second rule states that <code>some (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code>. If any of <code>u</code>, <code>v</code>, or <code>w</code> is <code>none</code>, then both sides are <code>none</code>, so the property holds. Assuming that <code>u</code> is <code>some f</code>, that <code>v</code> is <code>some g</code>, and that <code>w</code> is <code>some x</code>, then this is equivalent to saying that <code>some (· ∘ ·) &lt;*&gt; some f &lt;*&gt; some g &lt;*&gt; some x = some f &lt;*&gt; (some g &lt;*&gt; some x)</code>. Evaluating the two sides yields the same result:</p>
+<p>The first rule states that <code>some id &lt;*&gt; v = v</code>.
+The definition of <code>seq</code> for <code>Option</code> states that this is the same as <code>id &lt;$&gt; v = v</code>, which is one of the <code>Functor</code> rules that have already been checked.</p>
+<p>The second rule states that <code>some (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code>.
+If any of <code>u</code>, <code>v</code>, or <code>w</code> is <code>none</code>, then both sides are <code>none</code>, so the property holds.
+Assuming that <code>u</code> is <code>some f</code>, that <code>v</code> is <code>some g</code>, and that <code>w</code> is <code>some x</code>, then this is equivalent to saying that <code>some (· ∘ ·) &lt;*&gt; some f &lt;*&gt; some g &lt;*&gt; some x = some f &lt;*&gt; (some g &lt;*&gt; some x)</code>.
+Evaluating the two sides yields the same result:</p>
 <pre><code class="language-lean">some (· ∘ ·) &lt;*&gt; some f &lt;*&gt; some g &lt;*&gt; some x
 ===&gt;
 some (f ∘ ·) &lt;*&gt; some g &lt;*&gt; some x
@@ -173,13 +177,19 @@ f &lt;$&gt; some x
 ===&gt;
 some (f x)
 </code></pre>
-<p>In the fourth case, assume that <code>u</code> is <code>some f</code>, because if it's <code>none</code>, both sides of the equation are <code>none</code>. <code>some f &lt;*&gt; some x</code> evaluates directly to <code>some (f x)</code>, as does <code>some (fun g =&gt; g x) &lt;*&gt; some f</code>.</p>
+<p>In the fourth case, assume that <code>u</code> is <code>some f</code>, because if it's <code>none</code>, both sides of the equation are <code>none</code>.
+<code>some f &lt;*&gt; some x</code> evaluates directly to <code>some (f x)</code>, as does <code>some (fun g =&gt; g x) &lt;*&gt; some f</code>.</p>
 <h2 id="all-applicatives-are-functors"><a class="header" href="#all-applicatives-are-functors">All Applicatives are Functors</a></h2>
 <p>The two operators for <code>Applicative</code> are enough to define <code>map</code>:</p>
 <pre><code class="language-lean">def map [Applicative f] (g : α → β) (x : f α) : f β :=
   pure g &lt;*&gt; x
 </code></pre>
-<p>This can only be used to implement <code>Functor</code> if the contract for <code>Applicative</code> guarantees the contract for <code>Functor</code>, however. The first rule of <code>Functor</code> is that <code>id &lt;$&gt; x = x</code>, which follows directly from the first rule for <code>Applicative</code>. The second rule of <code>Functor</code> is that <code>map (f ∘ g) x = map f (map g x)</code>. Unfolding the definition of <code>map</code> here results in <code>pure (f ∘ g) &lt;*&gt; x = pure f &lt;*&gt; (pure g &lt;*&gt; x)</code>. Using the rule that sequencing pure operations is a no-op, the left side can be rewritten to <code>pure (· ∘ ·) &lt;*&gt; pure f &lt;*&gt; pure g &lt;*&gt; x</code>. This is an instance of the rule that states that applicative functors respect function composition.</p>
+<p>This can only be used to implement <code>Functor</code> if the contract for <code>Applicative</code> guarantees the contract for <code>Functor</code>, however.
+The first rule of <code>Functor</code> is that <code>id &lt;$&gt; x = x</code>, which follows directly from the first rule for <code>Applicative</code>.
+The second rule of <code>Functor</code> is that <code>map (f ∘ g) x = map f (map g x)</code>.
+Unfolding the definition of <code>map</code> here results in <code>pure (f ∘ g) &lt;*&gt; x = pure f &lt;*&gt; (pure g &lt;*&gt; x)</code>.
+Using the rule that sequencing pure operations is a no-op, the left side can be rewritten to <code>pure (· ∘ ·) &lt;*&gt; pure f &lt;*&gt; pure g &lt;*&gt; x</code>.
+This is an instance of the rule that states that applicative functors respect function composition.</p>
 <p>This justifies a definition of <code>Applicative</code> that extends <code>Functor</code>, with a default definition of <code>map</code> given in terms of <code>pure</code> and <code>seq</code>:</p>
 <pre><code class="language-lean">class Applicative (f : Type → Type) extends Functor f where
   pure : α → f α
@@ -187,22 +197,31 @@ some (f x)
   map g x := seq (pure g) (fun () =&gt; x)
 </code></pre>
 <h2 id="all-monads-are-applicative-functors"><a class="header" href="#all-monads-are-applicative-functors">All Monads are Applicative Functors</a></h2>
-<p>An instance of <code>Monad</code> already requires an implementation of <code>pure</code>. Together with <code>bind</code>, this is enough to define <code>seq</code>:</p>
+<p>An instance of <code>Monad</code> already requires an implementation of <code>pure</code>.
+Together with <code>bind</code>, this is enough to define <code>seq</code>:</p>
 <pre><code class="language-lean">def seq [Monad m] (f : m (α → β)) (x : Unit → m α) : m β := do
   let g ← f
   let y ← x ()
   pure (g y)
 </code></pre>
 <p>Once again, checking that the <code>Monad</code> contract implies the <code>Applicative</code> contract will allow this to be used as a default definition for <code>seq</code> if <code>Monad</code> extends <code>Applicative</code>.</p>
-<p>The rest of this section consists of an argument that this implementation of <code>seq</code> based on <code>bind</code> in fact satisfies the <code>Applicative</code> contract. One of the beautiful things about functional programming is that this kind of argument can be worked out on a piece of paper with a pencil, using the kinds of evaluation rules from <a href="../getting-to-know/evaluating.html">the initial section on evaluating expressions</a>. Thinking about the meanings of the operations while reading these arguments can sometimes help with understanding.</p>
+<p>The rest of this section consists of an argument that this implementation of <code>seq</code> based on <code>bind</code> in fact satisfies the <code>Applicative</code> contract.
+One of the beautiful things about functional programming is that this kind of argument can be worked out on a piece of paper with a pencil, using the kinds of evaluation rules from <a href="../getting-to-know/evaluating.html">the initial section on evaluating expressions</a>.
+Thinking about the meanings of the operations while reading these arguments can sometimes help with understanding.</p>
 <p>Replacing <code>do</code>-notation with explicit uses of <code>&gt;&gt;=</code> makes it easier to apply the <code>Monad</code> rules:</p>
 <pre><code class="language-lean">def seq [Monad m] (f : m (α → β)) (x : Unit → m α) : m β := do
   f &gt;&gt;= fun g =&gt;
   x () &gt;&gt;= fun y =&gt;
   pure (g y)
 </code></pre>
-<p>To check that this definition respects identity, check that <code>seq (pure id) (fun () =&gt; v) = v</code>. The left hand side is equivalent to <code>pure id &gt;&gt;= fun g =&gt; (fun () =&gt; v) () &gt;&gt;= fun y =&gt; pure (g y)</code>. The unit function in the middle can be eliminated immediately, yielding <code>pure id &gt;&gt;= fun g =&gt; v &gt;&gt;= fun y =&gt; pure (g y)</code>. Using the fact that <code>pure</code> is a left identity of <code>&gt;&gt;=</code>, this is the same as <code>v &gt;&gt;= fun y =&gt; pure (id y)</code>, which is <code>v &gt;&gt;= fun y =&gt; pure y</code>. Because <code>fun x =&gt; f x</code> is the same as <code>f</code>, this is the same as <code>v &gt;&gt;= pure</code>, and the fact that <code>pure</code> is a right identity of <code>&gt;&gt;=</code> can be used to get <code>v</code>.</p>
-<p>This kind of informal reasoning can be made easier to read with a bit of reformatting. In the following chart, read &quot;EXPR1 ={ REASON }= EXPR2&quot; as &quot;EXPR1 is the same as EXPR2 because REASON&quot;: <div class="equational"></p>
+<p>To check that this definition respects identity, check that <code>seq (pure id) (fun () =&gt; v) = v</code>.
+The left hand side is equivalent to <code>pure id &gt;&gt;= fun g =&gt; (fun () =&gt; v) () &gt;&gt;= fun y =&gt; pure (g y)</code>.
+The unit function in the middle can be eliminated immediately, yielding <code>pure id &gt;&gt;= fun g =&gt; v &gt;&gt;= fun y =&gt; pure (g y)</code>.
+Using the fact that <code>pure</code> is a left identity of <code>&gt;&gt;=</code>, this is the same as <code>v &gt;&gt;= fun y =&gt; pure (id y)</code>, which is <code>v &gt;&gt;= fun y =&gt; pure y</code>.
+Because <code>fun x =&gt; f x</code> is the same as <code>f</code>, this is the same as <code>v &gt;&gt;= pure</code>, and the fact that <code>pure</code> is a right identity of <code>&gt;&gt;=</code> can be used to get <code>v</code>.</p>
+<p>This kind of informal reasoning can be made easier to read with a bit of reformatting.
+In the following chart, read &quot;EXPR1 ={ REASON }= EXPR2&quot; as &quot;EXPR1 is the same as EXPR2 because REASON&quot;:</p>
+<div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">pure id >>= fun g => v >>= fun y => pure (g y)</code></pre>
 </div>
@@ -231,7 +250,10 @@ some (f x)
 <pre><code class="language-lean hljs">v</code></pre>
 </div>
 </div>
-<p>To check that it respects function composition, check that <code>pure (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code>. The first step is to replace <code>&lt;*&gt;</code> with this definition of <code>seq</code>. After that, a (somewhat long) series of steps that use the identity and associativity rules from the <code>Monad</code> contract is enough to get from one to the other: <div class="equational"></p>
+<p>To check that it respects function composition, check that <code>pure (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code>.
+The first step is to replace <code>&lt;*&gt;</code> with this definition of <code>seq</code>.
+After that, a (somewhat long) series of steps that use the identity and associativity rules from the <code>Monad</code> contract is enough to get from one to the other:</p>
+<div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">seq (seq (seq (pure (· ∘ ·)) (fun _ => u))
       (fun _ => v))
@@ -364,7 +386,8 @@ pure (x q)</code></pre>
 <pre><code class="language-lean hljs">seq u (fun () => seq v (fun () => w))</code></pre>
 </div>
 </div>
-<p>To check that sequencing pure operations is a no-op: <div class="equational"></p>
+<p>To check that sequencing pure operations is a no-op:</p>
+<div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">seq (pure f) (fun () => pure x)</code></pre>
 </div>
@@ -390,7 +413,8 @@ pure (g x)</code></pre>
 <pre><code class="language-lean hljs">pure (f x)</code></pre>
 </div>
 </div>
-<p>And finally, to check that the ordering of pure operations doesn't matter: <div class="equational"></p>
+<p>And finally, to check that the ordering of pure operations doesn't matter:</p>
+<div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">seq u (fun () => pure x)</code></pre>
 </div>
@@ -441,8 +465,15 @@ pure (h f)</code></pre>
 </code></pre>
 <p><code>Applicative</code>'s own default definition of <code>map</code> means that every <code>Monad</code> instance automatically generates <code>Applicative</code> and <code>Functor</code> instances as well.</p>
 <h2 id="additional-stipulations"><a class="header" href="#additional-stipulations">Additional Stipulations</a></h2>
-<p>In addition to adhering to the individual contracts associated with each type class, combined implementations <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> should work equivalently to these default implementations. In other words, a type that provides both <code>Applicative</code> and <code>Monad</code> instances should not have an implementation of <code>seq</code> that works differently from the version that the <code>Monad</code> instance generates as a default implementation. This is important because polymorphic functions may be refactored to replace a use of <code>&gt;&gt;=</code> with an equivalent use of <code>&lt;*&gt;</code>, or a use of <code>&lt;*&gt;</code> with an equivalent use of <code>&gt;&gt;=</code>. This refactoring should not change the meaning of programs that use this code.</p>
-<p>This rule explains why <code>Validate.andThen</code> should not be used to implement <code>bind</code> in a <code>Monad</code> instance. On its own, it obeys the monad contract. However, when it is used to implement <code>seq</code>, the behavior is not equivalent to <code>seq</code> itself. To see where they differ, take the example of two computations, both of which return errors. Start with an example of a case where two errors should be returned, one from validating a function (which could have just as well resulted from a prior argument to the function), and one from validating an argument:</p>
+<p>In addition to adhering to the individual contracts associated with each type class, combined implementations <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> should work equivalently to these default implementations.
+In other words, a type that provides both <code>Applicative</code> and <code>Monad</code> instances should not have an implementation of <code>seq</code> that works differently from the version that the <code>Monad</code> instance generates as a default implementation.
+This is important because polymorphic functions may be refactored to replace a use of <code>&gt;&gt;=</code> with an equivalent use of <code>&lt;*&gt;</code>, or a use of <code>&lt;*&gt;</code> with an equivalent use of <code>&gt;&gt;=</code>.
+This refactoring should not change the meaning of programs that use this code.</p>
+<p>This rule explains why <code>Validate.andThen</code> should not be used to implement <code>bind</code> in a <code>Monad</code> instance.
+On its own, it obeys the monad contract.
+However, when it is used to implement <code>seq</code>, the behavior is not equivalent to <code>seq</code> itself.
+To see where they differ, take the example of two computations, both of which return errors.
+Start with an example of a case where two errors should be returned, one from validating a function (which could have just as well resulted from a prior argument to the function), and one from validating an argument:</p>
 <pre><code class="language-lean">def notFun : Validate String (Nat → String) :=
   .errors { head := &quot;First error&quot;, tail := [] }
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>插曲：策略、归纳与证明 - Functional Programming in Lean</title>
+        <title>插曲：策略、归纳与证明 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -138,21 +138,36 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="插曲策略归纳与证明"><a class="header" href="#插曲策略归纳与证明">插曲：策略、归纳与证明</a></h1>
+                        <h1 id="interlude-tactics-induction-and-proofs"><a class="header" href="#interlude-tactics-induction-and-proofs">Interlude: Tactics, Induction, and Proofs</a></h1>
 <h2 id="a-note-on-proofs-and-user-interfaces"><a class="header" href="#a-note-on-proofs-and-user-interfaces">A Note on Proofs and User Interfaces</a></h2>
-<p>This book presents the process of writing proofs as if they are written in one go and submitted to Lean, which then replies with error messages that describe what remains to be done. The actual process of interacting with Lean is much more pleasant. Lean provides information about the proof as the cursor is moved through it and there are a number of interactive features that make proving easier. Please consult the documentation of your Lean development environment for more information.</p>
-<p>The approach in this book that focuses on incrementally building a proof and showing the messages that result demonstrates the kinds of interactive feedback that Lean provides while writing a proof, even though it is much slower than the process used by experts. At the same time, seeing incomplete proofs evolve towards completeness is a useful perspective on proving. As your skill in writing proofs increases, Lean's feedback will come to feel less like errors and more like support for your own thought processes. Learning the interactive approach is very important.</p>
+<p>This book presents the process of writing proofs as if they are written in one go and submitted to Lean, which then replies with error messages that describe what remains to be done.
+The actual process of interacting with Lean is much more pleasant.
+Lean provides information about the proof as the cursor is moved through it and there are a number of interactive features that make proving easier.
+Please consult the documentation of your Lean development environment for more information.</p>
+<p>The approach in this book that focuses on incrementally building a proof and showing the messages that result demonstrates the kinds of interactive feedback that Lean provides while writing a proof, even though it is much slower than the process used by experts.
+At the same time, seeing incomplete proofs evolve towards completeness is a useful perspective on proving.
+As your skill in writing proofs increases, Lean's feedback will come to feel less like errors and more like support for your own thought processes.
+Learning the interactive approach is very important.</p>
 <h2 id="recursion-and-induction"><a class="header" href="#recursion-and-induction">Recursion and Induction</a></h2>
-<p>The functions <code>plusR_succ_left</code> and <code>plusR_zero_left</code> from the preceding chapter can be seen from two perspectives. On the one hand, they are recursive functions that build up evidence for a proposition, just as other recursive functions might construct a list, a string, or any other data structure. On the other, they also correspond to proofs by <em>mathematical induction</em>.</p>
+<p>The functions <code>plusR_succ_left</code> and <code>plusR_zero_left</code> from the preceding chapter can be seen from two perspectives.
+On the one hand, they are recursive functions that build up evidence for a proposition, just as other recursive functions might construct a list, a string, or any other data structure.
+On the other, they also correspond to proofs by <em>mathematical induction</em>.</p>
 <p>Mathematical induction is a proof technique where a statement is proven for <em>all</em> natural numbers in two steps:</p>
 <ol>
 <li>The statement is shown to hold for \( 0 \). This is called the <em>base case</em>.</li>
 <li>Under the assumption that the statement holds for some arbitrarily chosen number \( n \), it is shown to hold for \( n + 1 \). This is called the <em>induction step</em>. The assumption that the statement holds for \( n \) is called the <em>induction hypothesis</em>.</li>
 </ol>
-<p>Because it's impossible to check the statement for <em>every</em> natural number, induction provides a means of writing a proof that could, in principle, be expanded to any particular natural number. For example, if a concrete proof were desired for the number 3, then it could be constructed by using first the base case and then the induction step three times, to show the statement for 0, 1, 2, and finally 3. Thus, it proves the statement for all natural numbers.</p>
+<p>Because it's impossible to check the statement for <em>every</em> natural number, induction provides a means of writing a proof that could, in principle, be expanded to any particular natural number.
+For example, if a concrete proof were desired for the number 3, then it could be constructed by using first the base case and then the induction step three times, to show the statement for 0, 1, 2, and finally 3.
+Thus, it proves the statement for all natural numbers.</p>
 <h2 id="the-induction-tactic"><a class="header" href="#the-induction-tactic">The Induction Tactic</a></h2>
-<p>Writing proofs by induction as recursive functions that use helpers such as <code>congrArg</code> does not always do a good job of expressing the intentions behind the proof. While recursive functions indeed have the structure of induction, they should probably be viewed as an <em>encoding</em> of a proof. Furthermore, Lean's tactic system provides a number of opportunities to automate the construction of a proof that are not available when writing the recursive function explicitly. Lean provides an induction <em>tactic</em> that can carry out an entire proof by induction in a single tactic block. Behind the scenes, Lean constructs the recursive function that corresponds the use of induction.</p>
-<p>To prove <code>plusR_zero_left</code> with the induction tactic, begin by writing its signature (using <code>theorem</code>, because this really is a proof). Then, use <code>by induction k</code> as the body of the definition:</p>
+<p>Writing proofs by induction as recursive functions that use helpers such as <code>congrArg</code> does not always do a good job of expressing the intentions behind the proof.
+While recursive functions indeed have the structure of induction, they should probably be viewed as an <em>encoding</em> of a proof.
+Furthermore, Lean's tactic system provides a number of opportunities to automate the construction of a proof that are not available when writing the recursive function explicitly.
+Lean provides an induction <em>tactic</em> that can carry out an entire proof by induction in a single tactic block.
+Behind the scenes, Lean constructs the recursive function that corresponds the use of induction.</p>
+<p>To prove <code>plusR_zero_left</code> with the induction tactic, begin by writing its signature (using <code>theorem</code>, because this really is a proof).
+Then, use <code>by induction k</code> as the body of the definition:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k
 </code></pre>
@@ -166,16 +181,31 @@ n✝ : Nat
 n_ih✝ : n✝ = Nat.plusR 0 n✝
 ⊢ Nat.succ n✝ = Nat.plusR 0 (Nat.succ n✝)
 </code></pre>
-<p>A tactic block is a program that is run while the Lean type checker processes a file, somewhat like a much more powerful C preprocessor macro. The tactics generate the actual program.</p>
-<p>In the tactic language, there can be a number of goals. Each goal consists of a type together with some assumptions. These are analogous to using underscores as placeholders—the type in the goal represents what is to be proved, and the assumptions represent what is in-scope and can be used. In the case of the goal <code>case zero</code>, there are no assumptions and the type is <code>Nat.zero = Nat.plusR 0 Nat.zero</code>—this is the theorem statement with <code>0</code> instead of <code>k</code>. In the goal <code>case succ</code>, there are two assumptions, named <code>n✝</code> and <code>n_ih✝</code>. Behind the scenes, the <code>induction</code> tactic creates a dependent pattern match that refines the overall type, and <code>n✝</code> represents the argument to <code>Nat.succ</code> in the pattern. The assumption <code>n_ih✝</code> represents the result of calling the generated function recursively on <code>n✝</code>. Its type is the overall type of the theorem, just with <code>n✝</code> instead of <code>k</code>. The type to be fulfilled as part of the goal <code>case succ</code> is the overall theorem statement, with <code>Nat.succ n✝</code> instead of <code>k</code>.</p>
-<p>The two goals that result from the use of the <code>induction</code> tactic correspond to the base case and the induction step in the description of mathematical induction. The base case is <code>case zero</code>. In <code>case succ</code>, <code>n_ih✝</code> corresponds to the induction hypothesis, while the whole of <code>case succ</code> is the induction step.</p>
-<p>The next step in writing the proof is to focus on each of the two goals in turn. Just as <code>pure ()</code> can be used in a <code>do</code> block to indicate &quot;do nothing&quot;, the tactic language has a statement <code>skip</code> that also does nothing. This can be used when Lean's syntax requires a tactic, but it's not yet clear which one should be used. Adding <code>with</code> to the end of the <code>induction</code> statement provides a syntax that is similar to pattern matching:</p>
+<p>A tactic block is a program that is run while the Lean type checker processes a file, somewhat like a much more powerful C preprocessor macro.
+The tactics generate the actual program.</p>
+<p>In the tactic language, there can be a number of goals.
+Each goal consists of a type together with some assumptions.
+These are analogous to using underscores as placeholders—the type in the goal represents what is to be proved, and the assumptions represent what is in-scope and can be used.
+In the case of the goal <code>case zero</code>, there are no assumptions and the type is <code>Nat.zero = Nat.plusR 0 Nat.zero</code>—this is the theorem statement with <code>0</code> instead of <code>k</code>.
+In the goal <code>case succ</code>, there are two assumptions, named <code>n✝</code> and <code>n_ih✝</code>.
+Behind the scenes, the <code>induction</code> tactic creates a dependent pattern match that refines the overall type, and <code>n✝</code> represents the argument to <code>Nat.succ</code> in the pattern.
+The assumption <code>n_ih✝</code> represents the result of calling the generated function recursively on <code>n✝</code>.
+Its type is the overall type of the theorem, just with <code>n✝</code> instead of <code>k</code>.
+The type to be fulfilled as part of the goal <code>case succ</code> is the overall theorem statement, with <code>Nat.succ n✝</code> instead of <code>k</code>.</p>
+<p>The two goals that result from the use of the <code>induction</code> tactic correspond to the base case and the induction step in the description of mathematical induction.
+The base case is <code>case zero</code>.
+In <code>case succ</code>, <code>n_ih✝</code> corresponds to the induction hypothesis, while the whole of <code>case succ</code> is the induction step.</p>
+<p>The next step in writing the proof is to focus on each of the two goals in turn.
+Just as <code>pure ()</code> can be used in a <code>do</code> block to indicate &quot;do nothing&quot;, the tactic language has a statement <code>skip</code> that also does nothing.
+This can be used when Lean's syntax requires a tactic, but it's not yet clear which one should be used.
+Adding <code>with</code> to the end of the <code>induction</code> statement provides a syntax that is similar to pattern matching:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k with
   | zero =&gt; skip
   | succ n ih =&gt; skip
 </code></pre>
-<p>Each of the two <code>skip</code> statements has a message associated with it. The first shows the base case:</p>
+<p>Each of the two <code>skip</code> statements has a message associated with it.
+The first shows the base case:</p>
 <pre><code class="language-output error">unsolved goals
 case zero
 ⊢ Nat.zero = Nat.plusR 0 Nat.zero
@@ -188,7 +218,8 @@ ih : n = Nat.plusR 0 n
 ⊢ Nat.succ n = Nat.plusR 0 (Nat.succ n)
 </code></pre>
 <p>In the induction step, the inaccessible names with daggers have been replaced with the names provided after <code>succ</code>, namely <code>n</code> and <code>ih</code>.</p>
-<p>The cases after <code>induction ... with</code> are not patterns: they consist of the name of a goal followed by zero or more names. The names are used for assumptions introduced in the goal; it is an error to provide more names than the goal introduces:</p>
+<p>The cases after <code>induction ... with</code> are not patterns: they consist of the name of a goal followed by zero or more names.
+The names are used for assumptions introduced in the goal; it is an error to provide more names than the goal introduces:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k with
   | zero =&gt; skip
@@ -202,7 +233,9 @@ ih : n = Nat.plusR 0 n
   | zero =&gt; rfl
   | succ n ih =&gt; skip
 </code></pre>
-<p>In the recursive function version of the proof, a type annotation made the expected type something that was easier to understand. In the tactic language, there are a number of specific ways to transform a goal to make it easier to solve. The <code>unfold</code> tactic replaces a defined name with its definition:</p>
+<p>In the recursive function version of the proof, a type annotation made the expected type something that was easier to understand.
+In the tactic language, there are a number of specific ways to transform a goal to make it easier to solve.
+The <code>unfold</code> tactic replaces a defined name with its definition:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k with
   | zero =&gt; rfl
@@ -216,7 +249,9 @@ n : Nat
 ih : n = Nat.plusR 0 n
 ⊢ Nat.succ n = Nat.plusR 0 n + 1
 </code></pre>
-<p>Instead of appealing to functions like <code>congrArg</code> and operators like <code>▸</code>, there are tactics that allow equality proofs to be used to transform proof goals. One of the most important is <code>rw</code>, which takes a list of equality proofs and replaces the left side with the right side in the goal. This almost does the right thing in <code>plusR_zero_left</code>:</p>
+<p>Instead of appealing to functions like <code>congrArg</code> and operators like <code>▸</code>, there are tactics that allow equality proofs to be used to transform proof goals.
+One of the most important is <code>rw</code>, which takes a list of equality proofs and replaces the left side with the right side in the goal.
+This almost does the right thing in <code>plusR_zero_left</code>:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k with
   | zero =&gt; rfl
@@ -224,7 +259,8 @@ ih : n = Nat.plusR 0 n
     unfold Nat.plusR
     rw [ih]
 </code></pre>
-<p>However, the direction of the rewrite was incorrect. Replacing <code>n</code> with <code>Nat.plusR 0 n</code> made the goal more complicated rather than less complicated:</p>
+<p>However, the direction of the rewrite was incorrect.
+Replacing <code>n</code> with <code>Nat.plusR 0 n</code> made the goal more complicated rather than less complicated:</p>
 <pre><code class="language-output error">unsolved goals
 case succ
 n : Nat
@@ -239,10 +275,15 @@ ih : n = Nat.plusR 0 n
     unfold Nat.plusR
     rw [←ih]
 </code></pre>
-<p>This rewrite makes both sides of the equation identical, and Lean takes care of the <code>rfl</code> on its own. The proof is complete.</p>
+<p>This rewrite makes both sides of the equation identical, and Lean takes care of the <code>rfl</code> on its own.
+The proof is complete.</p>
 <h2 id="tactic-golf"><a class="header" href="#tactic-golf">Tactic Golf</a></h2>
-<p>So far, the tactic language has not shown its true value. The above proof is no shorter than the recursive function; it's merely written in a domain-specific language instead of the full Lean language. But proofs with tactics can be shorter, easier, and more maintainable. Just as a lower score is better in the game of golf, a shorter proof is better in the game of tactic golf.</p>
-<p>The induction step of <code>plusR_zero_left</code> can be proved using the simplification tactic <code>simp</code>. Using <code>simp</code> on its own does not help:</p>
+<p>So far, the tactic language has not shown its true value.
+The above proof is no shorter than the recursive function; it's merely written in a domain-specific language instead of the full Lean language.
+But proofs with tactics can be shorter, easier, and more maintainable.
+Just as a lower score is better in the game of golf, a shorter proof is better in the game of tactic golf.</p>
+<p>The induction step of <code>plusR_zero_left</code> can be proved using the simplification tactic <code>simp</code>.
+Using <code>simp</code> on its own does not help:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k with
   | zero =&gt; rfl
@@ -251,7 +292,9 @@ ih : n = Nat.plusR 0 n
 </code></pre>
 <pre><code class="language-output error">simp made no progress
 </code></pre>
-<p>However, <code>simp</code> can be configured to make use of a set of definitions. Just like <code>rw</code>, these arguments are provided in a list. Asking <code>simp</code> to take the definition of <code>Nat.plusR</code> into account leads to a simpler goal:</p>
+<p>However, <code>simp</code> can be configured to make use of a set of definitions.
+Just like <code>rw</code>, these arguments are provided in a list.
+Asking <code>simp</code> to take the definition of <code>Nat.plusR</code> into account leads to a simpler goal:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k with
   | zero =&gt; rfl
@@ -264,7 +307,9 @@ n : Nat
 ih : n = Nat.plusR 0 n
 ⊢ n = Nat.plusR 0 n
 </code></pre>
-<p>In particular, the goal is now identical to the induction hypothesis. In addition to automatically proving simple equality statements, the simplifier automatically replaces goals like <code>Nat.succ A = Nat.succ B</code> with <code>A = B</code>. Because the induction hypothesis <code>ih</code> has exactly the right type, the <code>exact</code> tactic can indicate that it should be used:</p>
+<p>In particular, the goal is now identical to the induction hypothesis.
+In addition to automatically proving simple equality statements, the simplifier automatically replaces goals like <code>Nat.succ A = Nat.succ B</code> with <code>A = B</code>.
+Because the induction hypothesis <code>ih</code> has exactly the right type, the <code>exact</code> tactic can indicate that it should be used:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k with
   | zero =&gt; rfl
@@ -272,7 +317,9 @@ ih : n = Nat.plusR 0 n
     simp [Nat.plusR]
     exact ih
 </code></pre>
-<p>However, the use of <code>exact</code> is somewhat fragile. Renaming the induction hypothesis, which may happen while &quot;golfing&quot; the proof, would cause this proof to stop working. The <code>assumption</code> tactic solves the current goal if <em>any</em> of the assumptions match it:</p>
+<p>However, the use of <code>exact</code> is somewhat fragile.
+Renaming the induction hypothesis, which may happen while &quot;golfing&quot; the proof, would cause this proof to stop working.
+The <code>assumption</code> tactic solves the current goal if <em>any</em> of the assumptions match it:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k with
   | zero =&gt; rfl
@@ -280,8 +327,15 @@ ih : n = Nat.plusR 0 n
     simp [Nat.plusR]
     assumption
 </code></pre>
-<p>This proof is no shorter than the prior proof that used unfolding and explicit rewriting. However, a series of transformations can make it much shorter, taking advantage of the fact that <code>simp</code> can solve many kinds of goals. The first step is to drop the <code>with</code> at the end of <code>induction</code>. For structured, readable proofs, the <code>with</code> syntax is convenient. It complains if any cases are missing, and it shows the structure of the induction clearly. But shortening proofs can often require a more liberal approach.</p>
-<p>Using <code>induction</code> without <code>with</code> simply results in a proof state with two goals. The <code>case</code> tactic can be used to select one of them, just as in the branches of the <code>induction ... with</code> tactic. In other words, the following proof is equivalent to the prior proof:</p>
+<p>This proof is no shorter than the prior proof that used unfolding and explicit rewriting.
+However, a series of transformations can make it much shorter, taking advantage of the fact that <code>simp</code> can solve many kinds of goals.
+The first step is to drop the <code>with</code> at the end of <code>induction</code>.
+For structured, readable proofs, the <code>with</code> syntax is convenient.
+It complains if any cases are missing, and it shows the structure of the induction clearly.
+But shortening proofs can often require a more liberal approach.</p>
+<p>Using <code>induction</code> without <code>with</code> simply results in a proof state with two goals.
+The <code>case</code> tactic can be used to select one of them, just as in the branches of the <code>induction ... with</code> tactic.
+In other words, the following proof is equivalent to the prior proof:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k
   case zero =&gt; rfl
@@ -289,8 +343,14 @@ ih : n = Nat.plusR 0 n
     simp [Nat.plusR]
     assumption
 </code></pre>
-<p>In a context with a single goal (namely, <code>k = Nat.plusR 0 k</code>), the <code>induction k</code> tactic yields two goals. In general, a tactic will either fail with an error or take a goal and transform it into zero or more new goals. Each new goal represents what remains to be proved. If the result is zero goals, then the tactic was a success, and that part of the proof is done.</p>
-<p>The <code>&lt;;&gt;</code> operator takes two tactics as arguments, resulting in a new tactic. <code>T1 &lt;;&gt; T2</code> applies <code>T1</code> to the current goal, and then applies <code>T2</code> in <em>all</em> goals created by <code>T1</code>. In other words, <code>&lt;;&gt;</code> enables a general tactic that can solve many kinds of goals to be used on multiple new goals all at once. One such general tactic is <code>simp</code>.</p>
+<p>In a context with a single goal (namely, <code>k = Nat.plusR 0 k</code>), the <code>induction k</code> tactic yields two goals.
+In general, a tactic will either fail with an error or take a goal and transform it into zero or more new goals.
+Each new goal represents what remains to be proved.
+If the result is zero goals, then the tactic was a success, and that part of the proof is done.</p>
+<p>The <code>&lt;;&gt;</code> operator takes two tactics as arguments, resulting in a new tactic.
+<code>T1 &lt;;&gt; T2</code> applies <code>T1</code> to the current goal, and then applies <code>T2</code> in <em>all</em> goals created by <code>T1</code>.
+In other words, <code>&lt;;&gt;</code> enables a general tactic that can solve many kinds of goals to be used on multiple new goals all at once.
+One such general tactic is <code>simp</code>.</p>
 <p>Because <code>simp</code> can both complete the proof of the base case and make progress on the proof of the induction step, using it with <code>induction</code> and <code>&lt;;&gt;</code> shortens the proof:</p>
 <pre><code class="language-leantac">theorem plusR_zero_left (k : Nat) : k = Nat.plusR 0 k := by
   induction k &lt;;&gt; simp [Nat.plusR]
@@ -307,10 +367,17 @@ n_ih✝ : n✝ = Nat.plusR 0 n✝
   induction k &lt;;&gt; simp [Nat.plusR] &lt;;&gt; assumption
 </code></pre>
 <p>Here, <code>exact</code> would not have been possible, because <code>ih</code> was never explicitly named.</p>
-<p>For beginners, this proof is not easier to read. However, a common pattern for expert users is to take care of a number of simple cases with powerful tactics like <code>simp</code>, allowing them to focus the text of the proof on the interesting cases. Additionally, these proofs tend to be more robust in the face of small changes to the functions and datatypes involved in the proof. The game of tactic golf is a useful part of developing good taste and style when writing proofs.</p>
+<p>For beginners, this proof is not easier to read.
+However, a common pattern for expert users is to take care of a number of simple cases with powerful tactics like <code>simp</code>, allowing them to focus the text of the proof on the interesting cases.
+Additionally, these proofs tend to be more robust in the face of small changes to the functions and datatypes involved in the proof.
+The game of tactic golf is a useful part of developing good taste and style when writing proofs.</p>
 <h2 id="induction-on-other-datatypes"><a class="header" href="#induction-on-other-datatypes">Induction on Other Datatypes</a></h2>
-<p>Mathematical induction proves a statement for natural numbers by providing a base case for <code>Nat.zero</code> and an induction step for <code>Nat.succ</code>. The principle of induction is also valid for other datatypes. Constructors without recursive arguments form the base cases, while constructors with recursive arguments form the induction steps. The ability to carry out proofs by induction is the very reason why they are called <em>inductive</em> datatypes.</p>
-<p>One example of this is induction on binary trees. Induction on binary trees is a proof technique where a statement is proven for <em>all</em> binary trees in two steps:</p>
+<p>Mathematical induction proves a statement for natural numbers by providing a base case for <code>Nat.zero</code> and an induction step for <code>Nat.succ</code>.
+The principle of induction is also valid for other datatypes.
+Constructors without recursive arguments form the base cases, while constructors with recursive arguments form the induction steps.
+The ability to carry out proofs by induction is the very reason why they are called <em>inductive</em> datatypes.</p>
+<p>One example of this is induction on binary trees.
+Induction on binary trees is a proof technique where a statement is proven for <em>all</em> binary trees in two steps:</p>
 <ol>
 <li>The statement is shown to hold for <code>BinTree.leaf</code>. This is called the base case.</li>
 <li>Under the assumption that the statement holds for some arbitrarily chosen trees <code>l</code> and <code>r</code>, it is shown to hold for <code>BinTree.branch l x r</code>, where <code>x</code> is an arbitrarily-chosen new data point. This is called the <em>induction step</em>. The assumptions that the statement holds for <code>l</code> and <code>r</code> are called the <em>induction hypotheses</em>.</li>
@@ -321,7 +388,9 @@ n_ih✝ : n✝ = Nat.plusR 0 n✝
   | .branch l _ r =&gt;
     1 + l.count + r.count
 </code></pre>
-<p><a href="monads/conveniences.html#leading-dot-notation">Mirroring a tree</a> does not change the number of branches in it. This can be proven using induction on trees. The first step is to state the theorem and invoke <code>induction</code>:</p>
+<p><a href="monads/conveniences.html#leading-dot-notation">Mirroring a tree</a> does not change the number of branches in it.
+This can be proven using induction on trees.
+The first step is to state the theorem and invoke <code>induction</code>:</p>
 <pre><code class="language-leantac">theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
   induction t with
   | leaf =&gt; skip
@@ -344,13 +413,15 @@ ihl : count (mirror l) = count l
 ihr : count (mirror r) = count r
 ⊢ count (mirror (branch l x r)) = count (branch l x r)
 </code></pre>
-<p>The base case is true because mirroring <code>leaf</code> results in <code>leaf</code>, so the left and right sides are definitionally equal. This can be expressed by using <code>simp</code> with instructions to unfold <code>BinTree.mirror</code>:</p>
+<p>The base case is true because mirroring <code>leaf</code> results in <code>leaf</code>, so the left and right sides are definitionally equal.
+This can be expressed by using <code>simp</code> with instructions to unfold <code>BinTree.mirror</code>:</p>
 <pre><code class="language-leantac">theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
   induction t with
   | leaf =&gt; simp [BinTree.mirror]
   | branch l x r ihl ihr =&gt; skip
 </code></pre>
-<p>In the induction step, nothing in the goal immediately matches the induction hypotheses. Simplifying using the definitions of <code>BinTree.count</code> and <code>BinTree.mirror</code> reveals the relationship:</p>
+<p>In the induction step, nothing in the goal immediately matches the induction hypotheses.
+Simplifying using the definitions of <code>BinTree.count</code> and <code>BinTree.mirror</code> reveals the relationship:</p>
 <pre><code class="language-leantac">theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
   induction t with
   | leaf =&gt; simp [BinTree.mirror]
@@ -394,14 +465,18 @@ ihr : count (mirror r) = count r
     rw [ihl, ihr]
     simp_arith
 </code></pre>
-<p>In addition to definitions to be unfolded, the simplifier can also be passed names of equality proofs to use as rewrites while it simplifies proof goals. <code>BinTree.mirror_count</code> can also be written:</p>
+<p>In addition to definitions to be unfolded, the simplifier can also be passed names of equality proofs to use as rewrites while it simplifies proof goals.
+<code>BinTree.mirror_count</code> can also be written:</p>
 <pre><code class="language-leantac">theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
   induction t with
   | leaf =&gt; simp [BinTree.mirror]
   | branch l x r ihl ihr =&gt;
     simp_arith [BinTree.mirror, BinTree.count, ihl, ihr]
 </code></pre>
-<p>As proofs grow more complicated, listing assumptions by hand can become tedious. Furthermore, manually writing assumption names can make it more difficult to re-use proof steps for multiple subgoals. The argument <code>*</code> to <code>simp</code> or <code>simp_arith</code> instructs them to use <em>all</em> assumptions while simplifying or solving the goal. In other words, the proof could also be written:</p>
+<p>As proofs grow more complicated, listing assumptions by hand can become tedious.
+Furthermore, manually writing assumption names can make it more difficult to re-use proof steps for multiple subgoals.
+The argument <code>*</code> to <code>simp</code> or <code>simp_arith</code> instructs them to use <em>all</em> assumptions while simplifying or solving the goal.
+In other words, the proof could also be written:</p>
 <pre><code class="language-leantac">theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
   induction t with
   | leaf =&gt; simp [BinTree.mirror]
@@ -412,7 +487,7 @@ ihr : count (mirror r) = count r
 <pre><code class="language-leantac">theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
   induction t &lt;;&gt; simp_arith [BinTree.mirror, BinTree.count, *]
 </code></pre>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ul>
 <li>Prove <code>plusR_succ_left</code> using the <code>induction ... with</code> tactic.</li>
 <li>Rewrite the proof of <code>plus_succ_left</code> to use <code>&lt;;&gt;</code> in a single line.</li>

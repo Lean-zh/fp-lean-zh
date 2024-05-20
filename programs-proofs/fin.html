@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>安全数组索引 - Functional Programming in Lean</title>
+        <title>安全数组索引 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,16 +138,26 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="安全数组索引"><a class="header" href="#安全数组索引">安全数组索引</a></h1>
-<p>The <code>GetElem</code> instance for <code>Array</code> and <code>Nat</code> requires a proof that the provided <code>Nat</code> is smaller than the array. In practice, these proofs often end up being passed to functions along with the indices. Rather than passing an index and a proof separately, a type called <code>Fin</code> can be used to bundle up the index and the proof into a single value. This can make code easier to read. Additionally, many of the built-in operations on arrays take their index arguments as <code>Fin</code> rather than as <code>Nat</code>, so using these built-in operations requires understanding how to use <code>Fin</code>.</p>
-<p>The type <code>Fin n</code> represents numbers that are strictly less than <code>n</code>. In other words, <code>Fin 3</code> describes <code>0</code>, <code>1</code>, and <code>2</code>, while <code>Fin 0</code> has no values at all. The definition of <code>Fin</code> resembles <code>Subtype</code>, as a <code>Fin n</code> is a structure that contains a <code>Nat</code> and a proof that it is less than <code>n</code>:</p>
+                        <h1 id="safe-array-indices"><a class="header" href="#safe-array-indices">Safe Array Indices</a></h1>
+<p>The <code>GetElem</code> instance for <code>Array</code> and <code>Nat</code> requires a proof that the provided <code>Nat</code> is smaller than the array.
+In practice, these proofs often end up being passed to functions along with the indices.
+Rather than passing an index and a proof separately, a type called <code>Fin</code> can be used to bundle up the index and the proof into a single value.
+This can make code easier to read.
+Additionally, many of the built-in operations on arrays take their index arguments as <code>Fin</code> rather than as <code>Nat</code>, so using these built-in operations requires understanding how to use <code>Fin</code>.</p>
+<p>The type <code>Fin n</code> represents numbers that are strictly less than <code>n</code>.
+In other words, <code>Fin 3</code> describes <code>0</code>, <code>1</code>, and <code>2</code>, while <code>Fin 0</code> has no values at all.
+The definition of <code>Fin</code> resembles <code>Subtype</code>, as a <code>Fin n</code> is a structure that contains a <code>Nat</code> and a proof that it is less than <code>n</code>:</p>
 <pre><code class="language-lean">structure Fin (n : Nat) where
   val  : Nat
   isLt : LT.lt val n
 </code></pre>
-<p>Lean includes instances of <code>ToString</code> and <code>OfNat</code> that allow <code>Fin</code> values to be conveniently used as numbers. In other words, the output of <code>#eval (5 : Fin 8)</code> is <code>5</code>, rather than something like <code>{val := 5, isLt := _}</code>.</p>
-<p>Instead of failing when the provided number is larger than the bound, the <code>OfNat</code> instance for <code>Fin</code> returns a value modulo the bound. This means that <code>#eval (45 : Fin 10)</code> results in <code>5</code> rather than a compile-time error.</p>
-<p>In a return type, a <code>Fin</code> returned as a found index makes its connection to the data structure in which it was found more clear. The <code>Array.find</code> in the <a href="./arrays-termination.html#proving-termination">previous section</a> returns an index that the caller cannot immediately use to perform lookups into the array, because the information about its validity has been lost. A more specific type results in a value that can be used without making the program significantly more complicated:</p>
+<p>Lean includes instances of <code>ToString</code> and <code>OfNat</code> that allow <code>Fin</code> values to be conveniently used as numbers.
+In other words, the output of <code>#eval (5 : Fin 8)</code> is <code>5</code>, rather than something like <code>{val := 5, isLt := _}</code>.</p>
+<p>Instead of failing when the provided number is larger than the bound, the <code>OfNat</code> instance for <code>Fin</code> returns a value modulo the bound.
+This means that <code>#eval (45 : Fin 10)</code> results in <code>5</code> rather than a compile-time error.</p>
+<p>In a return type, a <code>Fin</code> returned as a found index makes its connection to the data structure in which it was found more clear.
+The <code>Array.find</code> in the <a href="./arrays-termination.html#proving-termination">previous section</a> returns an index that the caller cannot immediately use to perform lookups into the array, because the information about its validity has been lost.
+A more specific type results in a value that can be used without making the program significantly more complicated:</p>
 <pre><code class="language-lean">def findHelper (arr : Array α) (p : α → Bool) (i : Nat) : Option (Fin arr.size × α) :=
   if h : i &lt; arr.size then
     let x := arr[i]
@@ -161,16 +171,17 @@ def Array.find (arr : Array α) (p : α → Bool) : Option (Fin arr.size × α) 
   findHelper arr p 0
 </code></pre>
 <h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Write a function <code>Fin.next? : Fin n → Option (Fin n)</code> that returns the next largest <code>Fin</code> when it would be in bounds, or <code>none</code> if not. Check that</p>
+<p>Write a function <code>Fin.next? : Fin n → Option (Fin n)</code> that returns the next largest <code>Fin</code> when it would be in bounds, or <code>none</code> if not.
+Check that</p>
 <pre><code class="language-lean">#eval (3 : Fin 8).next?
 </code></pre>
-<p>会输出</p>
+<p>outputs</p>
 <pre><code class="language-output info">some 4
 </code></pre>
 <p>and that</p>
 <pre><code class="language-lean">#eval (7 : Fin 8).next?
 </code></pre>
-<p>会输出</p>
+<p>outputs</p>
 <pre><code class="language-output info">none
 </code></pre>
 

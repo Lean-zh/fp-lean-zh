@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>索引族 - Functional Programming in Lean</title>
+        <title>索引族 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,15 +138,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="索引族"><a class="header" href="#索引族">索引族</a></h1>
-<p>Polymorphic inductive types take type arguments. For instance, <code>List</code> takes an argument that determines the type of the entries in the list, and <code>Except</code> takes arguments that determine the types of the exceptions or values. These type arguments, which are the same in every constructor of the datatype, are referred to as <em>parameters</em>.</p>
-<p>Arguments to inductive types need not be the same in every constructor, however. Inductive types in which the arguments to the type vary based on the choice of constructor are called <em>indexed families</em>, and the arguments that vary are referred to as <em>indices</em>. The &quot;hello world&quot; of indexed families is a type of lists that contains the length of the list in addition to the type of entries, conventionally referred to as &quot;vectors&quot;:</p>
+                        <h1 id="indexed-families"><a class="header" href="#indexed-families">Indexed Families</a></h1>
+<p>Polymorphic inductive types take type arguments.
+For instance, <code>List</code> takes an argument that determines the type of the entries in the list, and <code>Except</code> takes arguments that determine the types of the exceptions or values.
+These type arguments, which are the same in every constructor of the datatype, are referred to as <em>parameters</em>.</p>
+<p>Arguments to inductive types need not be the same in every constructor, however.
+Inductive types in which the arguments to the type vary based on the choice of constructor are called <em>indexed families</em>, and the arguments that vary are referred to as <em>indices</em>.
+The &quot;hello world&quot; of indexed families is a type of lists that contains the length of the list in addition to the type of entries, conventionally referred to as &quot;vectors&quot;:</p>
 <pre><code class="language-lean">inductive Vect (α : Type u) : Nat → Type u where
    | nil : Vect α 0
    | cons : α → Vect α n → Vect α (n + 1)
 </code></pre>
-<p>Function declarations may take some arguments before the colon, indicating that they are available in the entire definition, and some arguments after, indicating a desire to pattern-match on them and define the function case by case. Inductive datatypes have a similar principle: the argument <code>α</code> is named at the top of the datatype declaration, prior to the colon, which indicates that it is a parameter that must be provided as the first argument in all occurrences of <code>Vect</code> in the definition, while the <code>Nat</code> argument occurs after the colon, indicating that it is an index that may vary. Indeed, the three occurrences of <code>Vect</code> in the <code>nil</code> and <code>cons</code> constructor declarations consistently provide <code>α</code> as the first argument, while the second argument is different in each case.</p>
-<p>The declaration of <code>nil</code> states that it is a constructor of type <code>Vect α 0</code>. This means that using <code>Vect.nil</code> in a context expecting a <code>Vect String 3</code> is a type error, just as <code>[1, 2, 3]</code> is a type error in a context that expects a <code>List String</code>:</p>
+<p>Function declarations may take some arguments before the colon, indicating that they are available in the entire definition, and some arguments after, indicating a desire to pattern-match on them and define the function case by case.
+Inductive datatypes have a similar principle: the argument <code>α</code> is named at the top of the datatype declaration, prior to the colon, which indicates that it is a parameter that must be provided as the first argument in all occurrences of <code>Vect</code> in the definition, while the <code>Nat</code> argument occurs after the colon, indicating that it is an index that may vary.
+Indeed, the three occurrences of <code>Vect</code> in the <code>nil</code> and <code>cons</code> constructor declarations consistently provide <code>α</code> as the first argument, while the second argument is different in each case.</p>
+<p>The declaration of <code>nil</code> states that it is a constructor of type <code>Vect α 0</code>.
+This means that using <code>Vect.nil</code> in a context expecting a <code>Vect String 3</code> is a type error, just as <code>[1, 2, 3]</code> is a type error in a context that expects a <code>List String</code>:</p>
 <pre><code class="language-lean">example : Vect String 3 := Vect.nil
 </code></pre>
 <pre><code class="language-output error">type mismatch
@@ -157,8 +164,11 @@ but is expected to have type
   Vect String 3 : Type
 </code></pre>
 <p>The mismatch between <code>0</code> and <code>3</code> in this example plays exactly the same role as any other type mismatch, even though <code>0</code> and <code>3</code> are not themselves types.</p>
-<p>Indexed families are called <em>families</em> of types because different index values can make different constructors available for use. In some sense, an indexed family is not a type; rather, it is a collection of related types, and the choice of index values also chooses a type from the collection. Choosing the index <code>5</code> for <code>Vect</code> means that only the constructor <code>cons</code> is available, and choosing the index <code>0</code> means that only <code>nil</code> is available.</p>
-<p>If the index is not yet known (e.g. because it is a variable), then no constructor can be used until it becomes known. Using <code>n</code> for the length allows neither <code>Vect.nil</code> nor <code>Vect.cons</code>, because there's no way to know whether the variable <code>n</code> should stand for a <code>Nat</code> that matches <code>0</code> or <code>n + 1</code>:</p>
+<p>Indexed families are called <em>families</em> of types because different index values can make different constructors available for use.
+In some sense, an indexed family is not a type; rather, it is a collection of related types, and the choice of index values also chooses a type from the collection.
+Choosing the index <code>5</code> for <code>Vect</code> means that only the constructor <code>cons</code> is available, and choosing the index <code>0</code> means that only <code>nil</code> is available.</p>
+<p>If the index is not yet known (e.g. because it is a variable), then no constructor can be used until it becomes known.
+Using <code>n</code> for the length allows neither <code>Vect.nil</code> nor <code>Vect.cons</code>, because there's no way to know whether the variable <code>n</code> should stand for a <code>Nat</code> that matches <code>0</code> or <code>n + 1</code>:</p>
 <pre><code class="language-lean">example : Vect String n := Vect.nil
 </code></pre>
 <pre><code class="language-output error">type mismatch
@@ -177,10 +187,13 @@ has type
 but is expected to have type
   Vect String n : Type
 </code></pre>
-<p>Having the length of the list as part of its type means that the type becomes more informative. For example, <code>Vect.replicate</code> is a function that creates a <code>Vect</code> with a number of copies of a given value. The type that says this precisely is:</p>
+<p>Having the length of the list as part of its type means that the type becomes more informative.
+For example, <code>Vect.replicate</code> is a function that creates a <code>Vect</code> with a number of copies of a given value.
+The type that says this precisely is:</p>
 <pre><code class="language-lean">def Vect.replicate (n : Nat) (x : α) : Vect α n := _
 </code></pre>
-<p>The argument <code>n</code> appears as the length of the result. The message associated with the underscore placeholder describes the task at hand:</p>
+<p>The argument <code>n</code> appears as the length of the result.
+The message associated with the underscore placeholder describes the task at hand:</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 α : Type u_1
@@ -188,13 +201,17 @@ n : Nat
 x : α
 ⊢ Vect α n
 </code></pre>
-<p>When working with indexed families, constructors can only be applied when Lean can see that the constructor's index matches the index in the expected type. However, neither constructor has an index that matches <code>n</code>—<code>nil</code> matches <code>Nat.zero</code>, and <code>cons</code> matches <code>Nat.succ</code>. Just as in the example type errors, the variable <code>n</code> could stand for either, depending on which <code>Nat</code> is provided to the function as an argument. The solution is to use pattern matching to consider both of the possible cases:</p>
+<p>When working with indexed families, constructors can only be applied when Lean can see that the constructor's index matches the index in the expected type.
+However, neither constructor has an index that matches <code>n</code>—<code>nil</code> matches <code>Nat.zero</code>, and <code>cons</code> matches <code>Nat.succ</code>.
+Just as in the example type errors, the variable <code>n</code> could stand for either, depending on which <code>Nat</code> is provided to the function as an argument.
+The solution is to use pattern matching to consider both of the possible cases:</p>
 <pre><code class="language-lean">def Vect.replicate (n : Nat) (x : α) : Vect α n :=
   match n with
   | 0 =&gt; _
   | k + 1 =&gt; _
 </code></pre>
-<p>Because <code>n</code> occurs in the expected type, pattern matching on <code>n</code> <em>refines</em> the expected type in the two cases of the match. In the first underscore, the expected type has become <code>Vect α 0</code>:</p>
+<p>Because <code>n</code> occurs in the expected type, pattern matching on <code>n</code> <em>refines</em> the expected type in the two cases of the match.
+In the first underscore, the expected type has become <code>Vect α 0</code>:</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 α : Type u_1
@@ -212,13 +229,15 @@ k : Nat
 ⊢ Vect α (k + 1)
 </code></pre>
 <p>When pattern matching refines the type of a program in addition to discovering the structure of a value, it is called <em>dependent pattern matching</em>.</p>
-<p>The refined type makes it possible to apply the constructors. The first underscore matches <code>Vect.nil</code>, and the second matches <code>Vect.cons</code>: </p>
+<p>The refined type makes it possible to apply the constructors.
+The first underscore matches <code>Vect.nil</code>, and the second matches <code>Vect.cons</code>: </p>
 <pre><code class="language-lean">def Vect.replicate (n : Nat) (x : α) : Vect α n :=
   match n with
   | 0 =&gt; .nil
   | k + 1 =&gt; .cons _ _
 </code></pre>
-<p>The first underscore under the <code>.cons</code> should have type <code>α</code>. There is an <code>α</code> available, namely <code>x</code>:</p>
+<p>The first underscore under the <code>.cons</code> should have type <code>α</code>.
+There is an <code>α</code> available, namely <code>x</code>:</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 α : Type u_1
@@ -242,7 +261,8 @@ k : Nat
   | 0 =&gt; .nil
   | k + 1 =&gt; .cons x (replicate k x)
 </code></pre>
-<p>In addition to providing assistance while writing the function, the informative type of <code>Vect.replicate</code> also allows client code to rule out a number of unexpected functions without having to read the source code. A version of <code>replicate</code> for lists could produce a list of the wrong length:</p>
+<p>In addition to providing assistance while writing the function, the informative type of <code>Vect.replicate</code> also allows client code to rule out a number of unexpected functions without having to read the source code.
+A version of <code>replicate</code> for lists could produce a list of the wrong length:</p>
 <pre><code class="language-lean">def List.replicate (n : Nat) (x : α) : List α :=
   match n with
   | 0 =&gt; []
@@ -263,7 +283,8 @@ has type
 but is expected to have type
   Vect α k : Type ?u.1998
 </code></pre>
-<p>The function <code>List.zip</code> combines two lists by pairing the first entry in the first list with the first entry in the second list, the second entry in the first list with the second entry in the second list, and so forth. <code>List.zip</code> can be used to pair the three highest peaks in the US state of Oregon with the three highest peaks in Denmark:</p>
+<p>The function <code>List.zip</code> combines two lists by pairing the first entry in the first list with the first entry in the second list, the second entry in the first list with the second entry in the second list, and so forth.
+<code>List.zip</code> can be used to pair the three highest peaks in the US state of Oregon with the three highest peaks in Denmark:</p>
 <pre><code class="language-lean">[&quot;Mount Hood&quot;,
  &quot;Mount Jefferson&quot;,
  &quot;South Sister&quot;].zip [&quot;Møllehøj&quot;, &quot;Yding Skovhøj&quot;, &quot;Ejer Bavnehøj&quot;]
@@ -273,13 +294,17 @@ but is expected to have type
  (&quot;Mount Jefferson&quot;, &quot;Yding Skovhøj&quot;),
  (&quot;South Sister&quot;, &quot;Ejer Bavnehøj&quot;)]
 </code></pre>
-<p>It's somewhat unclear what should happen when the lists have different lengths. Like many languages, Lean chooses to ignore the extra entries in one of the lists. For instance, combining the heights of the five highest peaks in Oregon with those of the three highest peaks in Denmark yields three pairs. In particular,</p>
+<p>It's somewhat unclear what should happen when the lists have different lengths.
+Like many languages, Lean chooses to ignore the extra entries in one of the lists.
+For instance, combining the heights of the five highest peaks in Oregon with those of the three highest peaks in Denmark yields three pairs.
+In particular,</p>
 <pre><code class="language-lean">[3428.8, 3201, 3158.5, 3075, 3064].zip [170.86, 170.77, 170.35]
 </code></pre>
-<p>会求值为</p>
+<p>evaluates to</p>
 <pre><code class="language-lean">[(3428.8, 170.86), (3201, 170.77), (3158.5, 170.35)]
 </code></pre>
-<p>While this approach is convenient because it always returns an answer, it runs the risk of throwing away data when the lists unintentionally have different lengths. F# takes a different approach: its version of <code>List.zip</code> throws an exception when the lengths don't match, as can be seen in this <code>fsi</code> session:</p>
+<p>While this approach is convenient because it always returns an answer, it runs the risk of throwing away data when the lists unintentionally have different lengths.
+F# takes a different approach: its version of <code>List.zip</code> throws an exception when the lengths don't match, as can be seen in this <code>fsi</code> session:</p>
 <pre><code class="language-fsharp">&gt; List.zip [3428.8; 3201.0; 3158.5; 3075.0; 3064.0] [170.86; 170.77; 170.35];;
 </code></pre>
 <pre><code class="language-output error">System.ArgumentException: The lists had different lengths.
@@ -291,7 +316,8 @@ list2 is 2 elements shorter than list1 (Parameter 'list2')
    at &lt;StartupCode$FSI_0006&gt;.$FSI_0006.main@()
 Stopped due to error
 </code></pre>
-<p>This avoids accidentally discarding information, but crashing a program comes with its own difficulties. The Lean equivalent, which would use the <code>Option</code> or <code>Except</code> monads, would introduce a burden that may not be worth the safety.</p>
+<p>This avoids accidentally discarding information, but crashing a program comes with its own difficulties.
+The Lean equivalent, which would use the <code>Option</code> or <code>Except</code> monads, would introduce a burden that may not be worth the safety.</p>
 <p>Using <code>Vect</code>, however, it is possible to write a version of <code>zip</code> with a type that requires that both arguments have the same length:</p>
 <pre><code class="language-lean">def Vect.zip : Vect α n → Vect β n → Vect (α × β) n
   | .nil, .nil =&gt; .nil
@@ -306,7 +332,10 @@ Stopped due to error
 (List.cons _ _), []
 [], (List.cons _ _)
 </code></pre>
-<p>This is because the constructor used in the first pattern, <code>nil</code> or <code>cons</code>, <em>refines</em> the type checker's knowledge about the length <code>n</code>. When the first pattern is <code>nil</code>, the type checker can additionally determine that the length was <code>0</code>, so the only possible choice for the second pattern is <code>nil</code>. Similarly, when the first pattern is <code>cons</code>, the type checker can determine that the length was <code>k+1</code> for some <code>Nat</code> <code>k</code>, so the only possible choice for the second pattern is <code>cons</code>. Indeed, adding a case that uses <code>nil</code> and <code>cons</code> together is a type error, because the lengths don't match:</p>
+<p>This is because the constructor used in the first pattern, <code>nil</code> or <code>cons</code>, <em>refines</em> the type checker's knowledge about the length <code>n</code>.
+When the first pattern is <code>nil</code>, the type checker can additionally determine that the length was <code>0</code>, so the only possible choice for the second pattern is <code>nil</code>.
+Similarly, when the first pattern is <code>cons</code>, the type checker can determine that the length was <code>k+1</code> for some <code>Nat</code> <code>k</code>, so the only possible choice for the second pattern is <code>cons</code>.
+Indeed, adding a case that uses <code>nil</code> and <code>cons</code> together is a type error, because the lengths don't match:</p>
 <pre><code class="language-lean">def Vect.zip : Vect α n → Vect β n → Vect (α × β) n
   | .nil, .nil =&gt; .nil
   | .nil, .cons y ys =&gt; .nil
@@ -324,17 +353,21 @@ but is expected to have type
   | 0, .nil, .nil =&gt; .nil
   | k + 1, .cons x xs, .cons y ys =&gt; .cons (x, y) (zip k xs ys)
 </code></pre>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
-<p>Getting a feel for programming with dependent types requires experience, and the exercises in this section are very important. For each exercise, try to see which mistakes the type checker can catch, and which ones it can't, by experimenting with the code as you go. This is also a good way to develop a feel for the error messages.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<p>Getting a feel for programming with dependent types requires experience, and the exercises in this section are very important.
+For each exercise, try to see which mistakes the type checker can catch, and which ones it can't, by experimenting with the code as you go.
+This is also a good way to develop a feel for the error messages.</p>
 <ul>
 <li>
-<p>Double-check that <code>Vect.zip</code> gives the right answer when combining the three highest peaks in Oregon with the three highest peaks in Denmark. Because <code>Vect</code> doesn't have the syntactic sugar that <code>List</code> has, it can be helpful to begin by defining <code>oregonianPeaks : Vect String 3</code> and <code>danishPeaks : Vect String 3</code>.</p>
+<p>Double-check that <code>Vect.zip</code> gives the right answer when combining the three highest peaks in Oregon with the three highest peaks in Denmark.
+Because <code>Vect</code> doesn't have the syntactic sugar that <code>List</code> has, it can be helpful to begin by defining <code>oregonianPeaks : Vect String 3</code> and <code>danishPeaks : Vect String 3</code>.</p>
 </li>
 <li>
 <p>Define a function <code>Vect.map</code> with type <code>(α → β) → Vect α n → Vect β n</code>.</p>
 </li>
 <li>
-<p>Define a function <code>Vect.zipWith</code> that combines the entries in a <code>Vect</code> one at a time with a function. It should have the type <code>(α → β → γ) → Vect α n → Vect β n → Vect γ n</code>.</p>
+<p>Define a function <code>Vect.zipWith</code> that combines the entries in a <code>Vect</code> one at a time with a function.
+It should have the type <code>(α → β → γ) → Vect α n → Vect β n → Vect γ n</code>.</p>
 </li>
 <li>
 <p>Define a function <code>Vect.unzip</code> that splits a <code>Vect</code> of pairs into a pair of <code>Vect</code>s. It should have the type <code>Vect (α × β) n → Vect α n × Vect β n</code>.</p>
@@ -346,7 +379,8 @@ but is expected to have type
 <p>Define a function <code>Vect.reverse</code> that reverses the order of a <code>Vect</code>.</p>
 </li>
 <li>
-<p>Define a function <code>Vect.drop</code> with the following type: <code>(n : Nat) → Vect α (k + n) → Vect α k</code>. Verify that it works by checking that <code>#eval danishPeaks.drop 2</code> yields <code>Vect.cons &quot;Ejer Bavnehøj&quot; (Vect.nil)</code>.</p>
+<p>Define a function <code>Vect.drop</code> with the following type: <code>(n : Nat) → Vect α (k + n) → Vect α k</code>.
+Verify that it works by checking that <code>#eval danishPeaks.drop 2</code> yields <code>Vect.cons &quot;Ejer Bavnehøj&quot; (Vect.nil)</code>.</p>
 </li>
 <li>
 <p>Define a function <code>Vect.take</code> with type <code>(n : Nat) → Vect α (k + n) → Vect α n</code> that returns the first <code>n</code> entries in the <code>Vect</code>. Check that it works on an example.</p>

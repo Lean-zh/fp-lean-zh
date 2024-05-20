@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>单子 - Functional Programming in Lean</title>
+        <title>单子 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -138,16 +138,27 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="单子"><a class="header" href="#单子">单子</a></h1>
-<p>In C# and Kotlin, the <code>?.</code> operator is a way to look up a property or call a method on a potentially-null value. If the receiver is <code>null</code>, the whole expression is null. Otherwise, the underlying non-<code>null</code> value receives the call. Uses of <code>?.</code> can be chained, in which case the first <code>null</code> result terminates the chain of lookups. Chaining null-checks like this is much more convenient than writing and maintaining deeply nested <code>if</code>s.</p>
-<p>Similarly, exceptions are significantly more convenient than manually checking and propagating error codes. At the same time, logging is easiest to accomplish by having a dedicated logging framework, rather than having each function return both its log results and its return value. Chained null checks and exceptions typically require language designers to anticipate this use case, while logging frameworks typically make use of side effects to decouple code that logs from the accumulation of the logs.</p>
-<p>All these features and more can be implemented in library code as instances of a common API called <code>Monad</code>. Lean provides dedicated syntax that makes this API convenient to use, but can also get in the way of understanding what is going on behind the scenes. This chapter begins with the nitty-gritty presentation of manually nesting null checks, and builds from there to the convenient, general API. Please suspend your disbelief in the meantime.</p>
+                        <h1 id="monads"><a class="header" href="#monads">Monads</a></h1>
+<p>In C# and Kotlin, the <code>?.</code> operator is a way to look up a property or call a method on a potentially-null value.
+If the receiver is <code>null</code>, the whole expression is null.
+Otherwise, the underlying non-<code>null</code> value receives the call.
+Uses of <code>?.</code> can be chained, in which case the first <code>null</code> result terminates the chain of lookups.
+Chaining null-checks like this is much more convenient than writing and maintaining deeply nested <code>if</code>s.</p>
+<p>Similarly, exceptions are significantly more convenient than manually checking and propagating error codes.
+At the same time, logging is easiest to accomplish by having a dedicated logging framework, rather than having each function return both its log results and its return value.
+Chained null checks and exceptions typically require language designers to anticipate this use case, while logging frameworks typically make use of side effects to decouple code that logs from the accumulation of the logs.</p>
+<p>All these features and more can be implemented in library code as instances of a common API called <code>Monad</code>.
+Lean provides dedicated syntax that makes this API convenient to use, but can also get in the way of understanding what is going on behind the scenes.
+This chapter begins with the nitty-gritty presentation of manually nesting null checks, and builds from there to the convenient, general API.
+Please suspend your disbelief in the meantime.</p>
 <h2 id="checking-for-none-dont-repeat-yourself"><a class="header" href="#checking-for-none-dont-repeat-yourself">Checking for <code>none</code>: Don't Repeat Yourself</a></h2>
-<p>In Lean, pattern matching can be used to chain checks for null. Getting the first entry from a list can just use the optional indexing notation:</p>
+<p>In Lean, pattern matching can be used to chain checks for null.
+Getting the first entry from a list can just use the optional indexing notation:</p>
 <pre><code class="language-lean">def first (xs : List α) : Option α :=
   xs[0]?
 </code></pre>
-<p>The result must be an <code>Option</code> because empty lists have no first entry. Extracting the first and third entries requires a check that each is not <code>none</code>:</p>
+<p>The result must be an <code>Option</code> because empty lists have no first entry.
+Extracting the first and third entries requires a check that each is not <code>none</code>:</p>
 <pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
   match xs[0]? with
   | none =&gt; none
@@ -186,33 +197,50 @@
         | some seventh =&gt;
           some (first, third, fifth, seventh)
 </code></pre>
-<p>The fundamental problem with this code is that it addresses two concerns: extracting the numbers and checking that all of them are present, but the second concern is addressed by copying and pasting the code that handles the <code>none</code> case. It is often good style to lift a repetitive segment into a helper function:</p>
+<p>The fundamental problem with this code is that it addresses two concerns: extracting the numbers and checking that all of them are present, but the second concern is addressed by copying and pasting the code that handles the <code>none</code> case.
+It is often good style to lift a repetitive segment into a helper function:</p>
 <pre><code class="language-lean">def andThen (opt : Option α) (next : α → Option β) : Option β :=
   match opt with
   | none =&gt; none
   | some x =&gt; next x
 </code></pre>
-<p>This helper, which is used similarly to <code>?.</code> in C# and Kotlin, takes care of propagating <code>none</code> values. It takes two arguments: an optional value and a function to apply when the value is not <code>none</code>. If the first argument is <code>none</code>, then the helper returns <code>none</code>. If the first argument is not <code>none</code>, then the function is applied to the contents of the <code>some</code> constructor.</p>
+<p>This helper, which is used similarly to <code>?.</code> in C# and Kotlin, takes care of propagating <code>none</code> values.
+It takes two arguments: an optional value and a function to apply when the value is not <code>none</code>.
+If the first argument is <code>none</code>, then the helper returns <code>none</code>.
+If the first argument is not <code>none</code>, then the function is applied to the contents of the <code>some</code> constructor.</p>
 <p>Now, <code>firstThird</code> can be rewritten to use <code>andThen</code> instead of pattern matching:</p>
 <pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
   andThen xs[0]? fun first =&gt;
   andThen xs[2]? fun third =&gt;
   some (first, third)
 </code></pre>
-<p>In Lean, functions don't need to be enclosed in parentheses when passed as arguments. The following equivalent definition uses more parentheses and indents the bodies of functions:</p>
+<p>In Lean, functions don't need to be enclosed in parentheses when passed as arguments.
+The following equivalent definition uses more parentheses and indents the bodies of functions:</p>
 <pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
   andThen xs[0]? (fun first =&gt;
     andThen xs[2]? (fun third =&gt;
       some (first, third)))
 </code></pre>
-<p>The <code>andThen</code> helper provides a sort of &quot;pipeline&quot; through which values flow, and the version with the somewhat unusual indentation is more suggestive of this fact. Improving the syntax used to write <code>andThen</code> can make these computations even easier to understand.</p>
+<p>The <code>andThen</code> helper provides a sort of &quot;pipeline&quot; through which values flow, and the version with the somewhat unusual indentation is more suggestive of this fact.
+Improving the syntax used to write <code>andThen</code> can make these computations even easier to understand.</p>
 <h3 id="infix-operators"><a class="header" href="#infix-operators">Infix Operators</a></h3>
-<p>In Lean, infix operators can be declared using the <code>infix</code>, <code>infixl</code>, and <code>infixr</code> commands, which create (respectively) non-associative, left-associative, and right-associative operators. When used multiple times in a row, a <em>left associative</em> operator stacks up the opening parentheses on the left side of the expression. The addition operator <code>+</code> is left associative, so <code>w + x + y + z</code> is equivalent to <code>(((w + x) + y) + z)</code>. The exponentiation operator <code>^</code> is right associative, so <code>w ^ x ^ y ^ z</code> is equivalent to <code>(w ^ (x ^ (y ^ z)))</code>. Comparison operators such as <code>&lt;</code> are non-associative, so <code>x &lt; y &lt; z</code> is a syntax error and requires manual parentheses.</p>
+<p>In Lean, infix operators can be declared using the <code>infix</code>, <code>infixl</code>, and <code>infixr</code> commands, which create (respectively) non-associative, left-associative, and right-associative operators.
+When used multiple times in a row, a <em>left associative</em> operator stacks up the opening parentheses on the left side of the expression.
+The addition operator <code>+</code> is left associative, so <code>w + x + y + z</code> is equivalent to <code>(((w + x) + y) + z)</code>.
+The exponentiation operator <code>^</code> is right associative, so <code>w ^ x ^ y ^ z</code> is equivalent to <code>(w ^ (x ^ (y ^ z)))</code>.
+Comparison operators such as <code>&lt;</code> are non-associative, so <code>x &lt; y &lt; z</code> is a syntax error and requires manual parentheses.</p>
 <p>The following declaration makes <code>andThen</code> into an infix operator:</p>
 <pre><code class="language-lean">infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 </code></pre>
-<p>The number following the colon declares the <em>precedence</em> of the new infix operator. In ordinary mathematical notation, <code>x + y * z</code> is equivalent to <code>x + (y * z)</code> even though both <code>+</code> and <code>*</code> are left associative. In Lean, <code>+</code> has precedence 65 and <code>*</code> has precedence 70. Higher-precedence operators are applied before lower-precedence operators. According to the declaration of <code>~~&gt;</code>, both <code>+</code> and <code>*</code> have higher precedence, and thus apply first. Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.</p>
-<p>Following the new infix operator is a double arrow <code>=&gt;</code>, which specifies the named function to be used for the infix operator. Lean's standard library uses this feature to define <code>+</code> and <code>*</code> as infix operators that point at <code>HAdd.hAdd</code> and <code>HMul.hMul</code>, respectively, allowing type classes to be used to overload the infix operators. Here, however, <code>andThen</code> is just an ordinary function.</p>
+<p>The number following the colon declares the <em>precedence</em> of the new infix operator.
+In ordinary mathematical notation, <code>x + y * z</code> is equivalent to <code>x + (y * z)</code> even though both <code>+</code> and <code>*</code> are left associative.
+In Lean, <code>+</code> has precedence 65 and <code>*</code> has precedence 70.
+Higher-precedence operators are applied before lower-precedence operators.
+According to the declaration of <code>~~&gt;</code>, both <code>+</code> and <code>*</code> have higher precedence, and thus apply first.
+Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.</p>
+<p>Following the new infix operator is a double arrow <code>=&gt;</code>, which specifies the named function to be used for the infix operator.
+Lean's standard library uses this feature to define <code>+</code> and <code>*</code> as infix operators that point at <code>HAdd.hAdd</code> and <code>HMul.hMul</code>, respectively, allowing type classes to be used to overload the infix operators.
+Here, however, <code>andThen</code> is just an ordinary function.</p>
 <p>Having defined an infix operator for <code>andThen</code>, <code>firstThird</code> can be rewritten in a way that brings the &quot;pipeline&quot; feeling of <code>none</code>-checks front and center:</p>
 <pre><code class="language-lean">def firstThirdInfix (xs : List α) : Option (α × α) :=
   xs[0]? ~~&gt; fun first =&gt;
@@ -228,15 +256,19 @@
   some (first, third, fifth, seventh)
 </code></pre>
 <h2 id="propagating-error-messages"><a class="header" href="#propagating-error-messages">Propagating Error Messages</a></h2>
-<p>Pure functional languages such as Lean have no built-in exception mechanism for error handling, because throwing or catching an exception is outside of the step-by-step evaluation model for expressions. However, functional programs certainly need to handle errors. In the case of <code>firstThirdFifthSeventh</code>, it is likely relevant for a user to know just how long the list was and where the lookup failed.</p>
+<p>Pure functional languages such as Lean have no built-in exception mechanism for error handling, because throwing or catching an exception is outside of the step-by-step evaluation model for expressions.
+However, functional programs certainly need to handle errors.
+In the case of <code>firstThirdFifthSeventh</code>, it is likely relevant for a user to know just how long the list was and where the lookup failed.</p>
 <p>This is typically accomplished by defining a datatype that can be either an error or a result, and translating functions with exceptions into functions that return this datatype:</p>
 <pre><code class="language-lean">inductive Except (ε : Type) (α : Type) where
   | error : ε → Except ε α
   | ok : α → Except ε α
 deriving BEq, Hashable, Repr
 </code></pre>
-<p>The type variable <code>ε</code> stands for the type of errors that can be produced by the function. Callers are expected to handle both errors and successes, which makes the type variable <code>ε</code> play a role that is a bit like that of a list of checked exceptions in Java.</p>
-<p>Similarly to <code>Option</code>, <code>Except</code> can be used to indicate a failure to find an entry in a list. In this case, the error type is a <code>String</code>:</p>
+<p>The type variable <code>ε</code> stands for the type of errors that can be produced by the function.
+Callers are expected to handle both errors and successes, which makes the type variable <code>ε</code> play a role that is a bit like that of a list of checked exceptions in Java.</p>
+<p>Similarly to <code>Option</code>, <code>Except</code> can be used to indicate a failure to find an entry in a list.
+In this case, the error type is a <code>String</code>:</p>
 <pre><code class="language-lean">def get (xs : List α) (i : Nat) : Except String α :=
   match xs[i]? with
   | none =&gt; Except.error s!&quot;Index {i} not found (maximum is {xs.length - 1})&quot;
@@ -298,7 +330,9 @@ deriving BEq, Hashable, Repr
         | Except.ok seventh =&gt;
           Except.ok (first, third, fifth, seventh)
 </code></pre>
-<p>Once again, a common pattern can be factored out into a helper. Each step through the function checks for an error, and only proceeds with the rest of the computation if the result was a success. A new version of <code>andThen</code> can be defined for <code>Except</code>:</p>
+<p>Once again, a common pattern can be factored out into a helper.
+Each step through the function checks for an error, and only proceeds with the rest of the computation if the result was a success.
+A new version of <code>andThen</code> can be defined for <code>Except</code>:</p>
 <pre><code class="language-lean">def andThen (attempt : Except e α) (next : α → Except e β) : Except e β :=
   match attempt with
   | Except.error msg =&gt; Except.error msg
@@ -310,7 +344,8 @@ deriving BEq, Hashable, Repr
   andThen (get xs 2) fun third =&gt;
   Except.ok (first, third)
 </code></pre>
-<p>In both the <code>Option</code> and <code>Except</code> case, there are two repeating patterns: there is the checking of intermediate results at each step, which has been factored out into <code>andThen</code>, and there is the final successful result, which is <code>some</code> or <code>Except.ok</code>, respectively. For the sake of convenience, success can be factored out into a helper called <code>ok</code>:</p>
+<p>In both the <code>Option</code> and <code>Except</code> case, there are two repeating patterns: there is the checking of intermediate results at each step, which has been factored out into <code>andThen</code>, and there is the final successful result, which is <code>some</code> or <code>Except.ok</code>, respectively.
+For the sake of convenience, success can be factored out into a helper called <code>ok</code>:</p>
 <pre><code class="language-lean">def ok (x : α) : Except ε α := Except.ok x
 </code></pre>
 <p>Similarly, failure can be factored out into a helper called <code>fail</code>:</p>
@@ -350,7 +385,10 @@ def firstThird (xs : List α) : Except String (α × α) :=
     let (moreEven, sum) := sumAndFindEvens is
     (if isEven i then i :: moreEven else moreEven, sum + i)
 </code></pre>
-<p>This function is a simplified example of a common pattern. Many programs need to traverse a data structure once, while both computing a main result and accumulating some kind of tertiary extra result. One example of this is logging: a program that is an <code>IO</code> action can always log to a file on disk, but because the disk is outside of the mathematical world of Lean functions, it becomes much more difficult to prove things about logs based on <code>IO</code>. Another example is a function that computes the sum of all the nodes in a tree with an inorder traversal, while simultaneously recording each nodes visited:</p>
+<p>This function is a simplified example of a common pattern.
+Many programs need to traverse a data structure once, while both computing a main result and accumulating some kind of tertiary extra result.
+One example of this is logging: a program that is an <code>IO</code> action can always log to a file on disk, but because the disk is outside of the mathematical world of Lean functions, it becomes much more difficult to prove things about logs based on <code>IO</code>.
+Another example is a function that computes the sum of all the nodes in a tree with an inorder traversal, while simultaneously recording each nodes visited:</p>
 <pre><code class="language-lean">def inorderSum : BinTree Int → List Int × Int
   | BinTree.leaf =&gt; ([], 0)
   | BinTree.branch l x r =&gt;
@@ -359,7 +397,10 @@ def firstThird (xs : List α) : Except String (α × α) :=
     let (rightVisited, rightSum) := inorderSum r
     (leftVisited ++ hereVisited ++ rightVisited, leftSum + hereSum + rightSum)
 </code></pre>
-<p>Both <code>sumAndFindEvens</code> and <code>inorderSum</code> have a common repetitive structure. Each step of computation returns a pair that consists of a list of data that have been saved along with the primary result. The lists are then appended, and the primary result is computed and paired with the appended lists. The common structure becomes more apparent with a small rewrite of <code>sumAndFindEvens</code> that more cleanly separates the concerns of saving even numbers and computing the sum:</p>
+<p>Both <code>sumAndFindEvens</code> and <code>inorderSum</code> have a common repetitive structure.
+Each step of computation returns a pair that consists of a list of data that have been saved along with the primary result.
+The lists are then appended, and the primary result is computed and paired with the appended lists.
+The common structure becomes more apparent with a small rewrite of <code>sumAndFindEvens</code> that more cleanly separates the concerns of saving even numbers and computing the sum:</p>
 <pre><code class="language-lean">def sumAndFindEvens : List Int → List Int × Int
   | [] =&gt; ([], 0)
   | i :: is =&gt;
@@ -378,10 +419,12 @@ def firstThird (xs : List α) : Except String (α × α) :=
   let {log := nextOut, val := nextRes} := next thisRes
   {log := thisOut ++ nextOut, val := nextRes}
 </code></pre>
-<p>In the case of errors, <code>ok</code> represents an operation that always succeeds. Here, however, it is an operation that simply returns a value without logging anything:</p>
+<p>In the case of errors, <code>ok</code> represents an operation that always succeeds.
+Here, however, it is an operation that simply returns a value without logging anything:</p>
 <pre><code class="language-lean">def ok (x : β) : WithLog α β := {log := [], val := x}
 </code></pre>
-<p>Just as <code>Except</code> provides <code>fail</code> as a possibility, <code>WithLog</code> should allow items to be added to a log. This has no interesting return value associated with it, so it returns <code>Unit</code>:</p>
+<p>Just as <code>Except</code> provides <code>fail</code> as a possibility, <code>WithLog</code> should allow items to be added to a log.
+This has no interesting return value associated with it, so it returns <code>Unit</code>:</p>
 <pre><code class="language-lean">def save (data : α) : WithLog α Unit :=
   {log := [data], val := ()}
 </code></pre>
@@ -420,7 +463,8 @@ def inorderSum : BinTree Int → WithLog Int Int
     ok (leftSum + x + rightSum)
 </code></pre>
 <h2 id="numbering-tree-nodes"><a class="header" href="#numbering-tree-nodes">Numbering Tree Nodes</a></h2>
-<p>An <em>inorder numbering</em> of a tree associates each data point in the tree with the step it would be visited at in an inorder traversal of the tree. For example, consider <code>aTree</code>:</p>
+<p>An <em>inorder numbering</em> of a tree associates each data point in the tree with the step it would be visited at in an inorder traversal of the tree.
+For example, consider <code>aTree</code>:</p>
 <pre><code class="language-lean">open BinTree in
 def aTree :=
   branch
@@ -440,7 +484,10 @@ def aTree :=
   (3, &quot;d&quot;)
   (BinTree.branch (BinTree.leaf) (4, &quot;e&quot;) (BinTree.leaf))
 </code></pre>
-<p>Trees are most naturally processed with recursive functions, but the usual pattern of recursion on trees makes it difficult to compute an inorder numbering. This is because the highest number assigned anywhere in the left subtree is used to determine the numbering of a node's data value, and then again to determine the starting point for numbering the right subtree. In an imperative language, this issue can be worked around by using a mutable variable that contains the next number to be assigned. The following Python program computes an inorder numbering using a mutable variable:</p>
+<p>Trees are most naturally processed with recursive functions, but the usual pattern of recursion on trees makes it difficult to compute an inorder numbering.
+This is because the highest number assigned anywhere in the left subtree is used to determine the numbering of a node's data value, and then again to determine the starting point for numbering the right subtree.
+In an imperative language, this issue can be worked around by using a mutable variable that contains the next number to be assigned.
+The following Python program computes an inorder numbering using a mutable variable:</p>
 <pre><code class="language-python">class Branch:
     def __init__(self, value, left=None, right=None):
         self.left = left
@@ -475,7 +522,10 @@ def number(tree):
 <pre><code>&gt;&gt;&gt; number(a_tree)
 Branch((3, 'd'), left=Branch((2, 'c'), left=Branch((0, 'a'), left=None, right=Branch((1, 'b'), left=None, right=None)), right=None), right=Branch((4, 'e'), left=None, right=None))
 </code></pre>
-<p>Even though Lean does not have mutable variables, a workaround exists. From the point of view of the rest of the world, the mutable variable can be thought of as having two relevant aspects: its value when the function is called, and its value when the function returns. In other words, a function that uses a mutable variable can be seen as a function that takes the mutable variable's starting value as an argument, returning a pair of the variable's final value and the function's result. This final value can then be passed as an argument to the next step.</p>
+<p>Even though Lean does not have mutable variables, a workaround exists.
+From the point of view of the rest of the world, the mutable variable can be thought of as having two relevant aspects: its value when the function is called, and its value when the function returns.
+In other words, a function that uses a mutable variable can be seen as a function that takes the mutable variable's starting value as an argument, returning a pair of the variable's final value and the function's result.
+This final value can then be passed as an argument to the next step.</p>
 <p>Just as the Python example uses an outer function that establishes a mutable variable and an inner helper function that changes the variable, a Lean version of the function uses an outer function that provides the variable's starting value and explicitly returns the function's result along with an inner helper function that threads the variable's value while computing the numbered tree:</p>
 <pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
   let rec helper (n : Nat) : BinTree α → (Nat × BinTree (Nat × α))
@@ -486,7 +536,9 @@ Branch((3, 'd'), left=Branch((2, 'c'), left=Branch((0, 'a'), left=None, right=Br
       (i, BinTree.branch numberedLeft (k, x) numberedRight)
   (helper 0 t).snd
 </code></pre>
-<p>This code, like the <code>none</code>-propagating <code>Option</code> code, the <code>error</code>-propagating <code>Except</code> code, and the log-accumulating <code>WithLog</code> code, commingles two concerns: propagating the value of the counter, and actually traversing the tree to find the result. Just as in those cases, an <code>andThen</code> helper can be defined to propagate state from one step of a computation to another. The first step is to give a name to the pattern of taking an input state as an argument and returning an output state together with a value:</p>
+<p>This code, like the <code>none</code>-propagating <code>Option</code> code, the <code>error</code>-propagating <code>Except</code> code, and the log-accumulating <code>WithLog</code> code, commingles two concerns: propagating the value of the counter, and actually traversing the tree to find the result.
+Just as in those cases, an <code>andThen</code> helper can be defined to propagate state from one step of a computation to another.
+The first step is to give a name to the pattern of taking an input state as an argument and returning an output state together with a value:</p>
 <pre><code class="language-lean">def State (σ : Type) (α : Type) : Type :=
   σ → (σ × α)
 </code></pre>
@@ -494,7 +546,8 @@ Branch((3, 'd'), left=Branch((2, 'c'), left=Branch((0, 'a'), left=None, right=Br
 <pre><code class="language-lean">def ok (x : α) : State σ α :=
   fun s =&gt; (s, x)
 </code></pre>
-<p>When working with a mutable variable, there are two fundamental operations: reading the value and replacing it with a new one. Reading the current value is accomplished with a function that places the input state unmodified into the output state, and also places it into the value field:</p>
+<p>When working with a mutable variable, there are two fundamental operations: reading the value and replacing it with a new one.
+Reading the current value is accomplished with a function that places the input state unmodified into the output state, and also places it into the value field:</p>
 <pre><code class="language-lean">def get : State σ σ :=
   fun s =&gt; (s, s)
 </code></pre>
@@ -531,7 +584,10 @@ infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 <li>An operator <code>ok</code> that is (in some sense) the most boring way to use the type</li>
 <li>A collection of other operations, such as <code>none</code>, <code>fail</code>, <code>save</code>, and <code>get</code>, that name ways of using the type</li>
 </ul>
-<p>This style of API is called a <em>monad</em>. While the idea of monads is derived from a branch of mathematics called category theory, no understanding of category theory is needed in order to use them for programming. The key idea of monads is that each monad encodes a particular kind of side effect using the tools provided by the pure functional language Lean. For example, <code>Option</code> represents programs that can fail by returning <code>none</code>, <code>Except</code> represents programs that can throw exceptions, <code>WithLog</code> represents programs that accumulate a log while running, and <code>State</code> represents programs with a single mutable variable.</p>
+<p>This style of API is called a <em>monad</em>.
+While the idea of monads is derived from a branch of mathematics called category theory, no understanding of category theory is needed in order to use them for programming.
+The key idea of monads is that each monad encodes a particular kind of side effect using the tools provided by the pure functional language Lean.
+For example, <code>Option</code> represents programs that can fail by returning <code>none</code>, <code>Except</code> represents programs that can throw exceptions, <code>WithLog</code> represents programs that accumulate a log while running, and <code>State</code> represents programs with a single mutable variable.</p>
 
                     </main>
 

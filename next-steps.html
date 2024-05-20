@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>接下来做什么 - Functional Programming in Lean</title>
+        <title>接下来做什么 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -138,8 +138,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="接下来做什么"><a class="header" href="#接下来做什么">接下来做什么</a></h1>
-<p>This book introduces the very basics of functional programming in Lean, including a tiny amount of interactive theorem proving. Using dependently-typed functional languages like Lean is a deep topic, and much can be said. Depending on your interests, the following resources might be useful for learning Lean 4.</p>
+                        <h1 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h1>
+<p>This book introduces the very basics of functional programming in Lean, including a tiny amount of interactive theorem proving.
+Using dependently-typed functional languages like Lean is a deep topic, and much can be said.
+Depending on your interests, the following resources might be useful for learning Lean 4.</p>
 <h2 id="learning-lean"><a class="header" href="#learning-lean">Learning Lean</a></h2>
 <p>Lean 4 itself is described in the following resources:</p>
 <ul>
@@ -149,21 +151,34 @@
 <li><a href="https://github.com/arthurpaulino/lean4-metaprogramming-book">Metaprogramming in Lean 4</a> provides an overview of Lean's extension mechanisms, from infix operators and notations to macros, custom tactics, and full-on custom embedded languages.</li>
 <li><a href="https://lean-lang.org/functional_programming_in_lean/">Functional Programming in Lean</a> may be interesting to readers who enjoy jokes about recursion.</li>
 </ul>
-<p>However, the best way to continue learning Lean is to start reading and writing code, consulting the documentation when you get stuck. Additionally, the <a href="https://leanprover.zulipchat.com/">Lean Zulip</a> is an excellent place to meet other Lean users, ask for help, and help others.</p>
+<p>However, the best way to continue learning Lean is to start reading and writing code, consulting the documentation when you get stuck.
+Additionally, the <a href="https://leanprover.zulipchat.com/">Lean Zulip</a> is an excellent place to meet other Lean users, ask for help, and help others.</p>
 <h2 id="the-standard-library"><a class="header" href="#the-standard-library">The Standard Library</a></h2>
-<p>Out of the box, Lean itself includes a fairly minimal library. Lean is self-hosted, and the included code is just enough to implement Lean itself. For many applications, a larger standard library is needed.</p>
-<p><a href="https://github.com/leanprover/std4">std4</a> is an in-progress standard library that includes many data structures, tactics, type class instances, and functions that are out of scope for the Lean compiler itself. To use <code>std4</code>, the first step is to find a commit in its history that's compatible with the version of Lean 4 that you're using (that is, one in which the <code>lean-toolchain</code> file matches the one in your project). Then, add the following to the top level of your <code>lakefile.lean</code>, where <code>COMMIT_HASH</code> is the appropriate version:</p>
+<p>Out of the box, Lean itself includes a fairly minimal library.
+Lean is self-hosted, and the included code is just enough to implement Lean itself.
+For many applications, a larger standard library is needed.</p>
+<p><a href="https://github.com/leanprover/std4">std4</a> is an in-progress standard library that includes many data structures, tactics, type class instances, and functions that are out of scope for the Lean compiler itself.
+To use <code>std4</code>, the first step is to find a commit in its history that's compatible with the version of Lean 4 that you're using (that is, one in which the <code>lean-toolchain</code> file matches the one in your project).
+Then, add the following to the top level of your <code>lakefile.lean</code>, where <code>COMMIT_HASH</code> is the appropriate version:</p>
 <pre><code class="language-lean">require std from git
   &quot;https://github.com/leanprover/std4/&quot; @ &quot;COMMIT_HASH&quot;
 </code></pre>
 <h2 id="mathematics-in-lean"><a class="header" href="#mathematics-in-lean">Mathematics in Lean</a></h2>
-<p>Most resources for mathematicians are written for Lean 3. A wide selection are available at <a href="https://leanprover-community.github.io/learn.html">the community site</a>. To get started doing mathematics in Lean 4, it is probably easiest to participate in the process of porting the mathematics library <code>mathlib</code> from Lean 3 to Lean 4. Please see the <a href="https://github.com/leanprover-community/mathlib4"><code>mathlib4</code> README</a> for further information.</p>
+<p>Most resources for mathematicians are written for Lean 3.
+A wide selection are available at <a href="https://leanprover-community.github.io/learn.html">the community site</a>.
+To get started doing mathematics in Lean 4, it is probably easiest to participate in the process of porting the mathematics library <code>mathlib</code> from Lean 3 to Lean 4.
+Please see the <a href="https://github.com/leanprover-community/mathlib4"><code>mathlib4</code> README</a> for further information.</p>
 <h2 id="using-dependent-types-in-computer-science"><a class="header" href="#using-dependent-types-in-computer-science">Using Dependent Types in Computer Science</a></h2>
-<p>Coq is a language that has a lot in common with Lean. For computer scientists, the <a href="https://softwarefoundations.cis.upenn.edu/">Software Foundations</a> series of interactive textbooks provides an excellent introduction to applications of Coq in computer science. The fundamental ideas of Lean and Coq are very similar, and skills are readily transferable between the systems.</p>
-<h2 id="使用依值类型编程"><a class="header" href="#使用依值类型编程">使用依值类型编程</a></h2>
-<p>For programmers who are interested in learning to use indexed families and dependent types to structure programs, Edwin Brady's <a href="https://www.manning.com/books/type-driven-development-with-idris"><em>Type Driven Development with Idris</em></a> provides an excellent introduction. Like Coq, Idris is a close cousin of Lean, though it lacks tactics.</p>
+<p>Coq is a language that has a lot in common with Lean.
+For computer scientists, the <a href="https://softwarefoundations.cis.upenn.edu/">Software Foundations</a> series of interactive textbooks provides an excellent introduction to applications of Coq in computer science.
+The fundamental ideas of Lean and Coq are very similar, and skills are readily transferable between the systems.</p>
+<h2 id="programming-with-dependent-types"><a class="header" href="#programming-with-dependent-types">Programming with Dependent Types</a></h2>
+<p>For programmers who are interested in learning to use indexed families and dependent types to structure programs, Edwin Brady's <a href="https://www.manning.com/books/type-driven-development-with-idris"><em>Type Driven Development with Idris</em></a> provides an excellent introduction.
+Like Coq, Idris is a close cousin of Lean, though it lacks tactics.</p>
 <h2 id="understanding-dependent-types"><a class="header" href="#understanding-dependent-types">Understanding Dependent Types</a></h2>
-<p><a href="https://thelittletyper.com/"><em>The Little Typer</em></a> is a book for programmers who haven't formally studied logic or the theory of programming languages, but who want to build an understanding of the core ideas of dependent type theory. While all of the above resources aim to be as practical as possible, <em>The Little Typer</em> presents an approach to dependent type theory where the very basics are built up from scratch, using only concepts from programming. Disclaimer: the author of <em>Functional Programming in Lean</em> is also an author of <em>The Little Typer</em>.</p>
+<p><a href="https://thelittletyper.com/"><em>The Little Typer</em></a> is a book for programmers who haven't formally studied logic or the theory of programming languages, but who want to build an understanding of the core ideas of dependent type theory.
+While all of the above resources aim to be as practical as possible, <em>The Little Typer</em> presents an approach to dependent type theory where the very basics are built up from scratch, using only concepts from programming.
+Disclaimer: the author of <em>Functional Programming in Lean</em> is also an author of <em>The Little Typer</em>.</p>
 
                     </main>
 

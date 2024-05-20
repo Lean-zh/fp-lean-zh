@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>多态 - Functional Programming in Lean</title>
+        <title>多态 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -148,20 +148,28 @@ For instance, the type `List Nat` describes lists of natural numbers, `List Stri
 This is very similar to `List<Nat>`, `List<String>`, or `List<List<Point>>` in a language like C# or Java.
 Just as Lean uses a space to pass an argument to a function, it uses a space to pass an argument to a type.
 -->
-<p>和大多数语言一样，Lean 中的类型可以接受参数。例如，类型 <code>List Nat</code> 描述自然数列表， <code>List String</code> 描述字符串列表，<code>List (List Point)</code> 描述点列表列表。这与 C# 或 Java 中的 <code>List&lt;Nat&gt;</code>、<code>List&lt;String&gt;</code> 或 <code>List&lt;List&lt;Point&gt;&gt;</code> 非常相似。就像 Lean 使用空格将参数传递给函数一样，它也使用空格将参数传递给类型。</p>
+<p>和大多数语言一样，Lean 中的类型可以接受参数。例如，类型 <code>List Nat</code> 描述自然数列表，
+<code>List String</code> 描述字符串列表，<code>List (List Point)</code> 描述点列表列表。这与 C# 或 Java 中的
+<code>List&lt;Nat&gt;</code>、<code>List&lt;String&gt;</code> 或 <code>List&lt;List&lt;Point&gt;&gt;</code> 非常相似。就像 Lean
+使用空格将参数传递给函数一样，它也使用空格将参数传递给类型。</p>
 <!--
 In functional programming, the term _polymorphism_ typically refers to datatypes and definitions that take types as arguments.
 This is different from the object-oriented programming community, where the term typically refers to subclasses that may override some behavior of their superclass.
 In this book, "polymorphism" always refers to the first sense of the word.
 These type arguments can be used in the datatype or definition, which allows the same datatype or definition to be used with any type that results from replacing the arguments' names with some other types.
 -->
-<p>在函数式编程中，术语<strong>多态（Polymorphism）</strong>&quot;通常指将类型作为参数的数据类型和定义。 这不同于面向对象编程社区，其中该术语通常指可以覆盖其超类某些行为的子类。 在这本书中，「多态」总是指这个词的第一个含义。这些类型参数可以在数据类型或定义中使用， 通过将数据类型和定义的类型参数替换为其他类型，可以产生新的不同类型。</p>
+<p>在函数式编程中，术语<strong>多态（Polymorphism）</strong>&quot;通常指将类型作为参数的数据类型和定义。
+这不同于面向对象编程社区，其中该术语通常指可以覆盖其超类某些行为的子类。
+在这本书中，「多态」总是指这个词的第一个含义。这些类型参数可以在数据类型或定义中使用，
+通过将数据类型和定义的类型参数替换为其他类型，可以产生新的不同类型。</p>
 <!--
 The `Point` structure requires that both the `x` and `y` fields are `Float`s.
 There is, however, nothing about points that require a specific representation for each coordinate.
 A polymorphic version of `Point`, called `PPoint`, can take a type as an argument, and then use that type for both fields:
 -->
-<p><code>Point</code> 结构体要求 <code>x</code> 和 <code>y</code> 字段都是 <code>Float</code>。然而，对于点来说， 并没有每个坐标都需要特定表示形式的要求。<code>Point</code> 的多态版本称为 <code>PPoint</code>， 它可以将类型作为参数，然后将该类型用于两个字段：</p>
+<p><code>Point</code> 结构体要求 <code>x</code> 和 <code>y</code> 字段都是 <code>Float</code>。然而，对于点来说，
+并没有每个坐标都需要特定表示形式的要求。<code>Point</code> 的多态版本称为 <code>PPoint</code>，
+它可以将类型作为参数，然后将该类型用于两个字段：</p>
 <pre><code class="language-lean">structure PPoint (α : Type) where
   x : α
   y : α
@@ -172,7 +180,9 @@ Just as a function definition's arguments are written immediately after the name
 It is customary to use Greek letters to name type arguments in Lean when no more specific name suggests itself.
 `Type` is a type that describes other types, so `Nat`, `List String`, and `PPoint Int` all have type `Type`.
 -->
-<p>就像函数定义的参数紧跟在被定义的名称之后一样，结构体的参数紧跟在结构体的名称之后。 在 Lean 中，当没有更具体的名称时，通常使用希腊字母来命名类型参数。 <code>Type</code> 是描述其他类型的类型，因此 <code>Nat</code>、<code>List String</code> 和 <code>PPoint Int</code> 都具有 <code>Type</code> 类型。</p>
+<p>就像函数定义的参数紧跟在被定义的名称之后一样，结构体的参数紧跟在结构体的名称之后。
+在 Lean 中，当没有更具体的名称时，通常使用希腊字母来命名类型参数。
+<code>Type</code> 是描述其他类型的类型，因此 <code>Nat</code>、<code>List String</code> 和 <code>PPoint Int</code> 都具有 <code>Type</code> 类型。</p>
 <p>和 <code>List</code> 一样，<code>PPoint</code> 可以通过提供特定类型作为其参数来使用：</p>
 <pre><code class="language-lean">def natOrigin : PPoint Nat :=
   { x := Nat.zero, y := Nat.zero }
@@ -182,14 +192,19 @@ In this example, both fields are expected to be `Nat`s.
 Just as a function is called by replacing its argument variables with its argument values, providing `PPoint` with the type `Nat` as an argument yields a structure in which the fields `x` and `y` have the type `Nat`, because the argument name `α` has been replaced by the argument type `Nat`.
 Types are ordinary expressions in Lean, so passing arguments to polymorphic types (like `PPoint`) doesn't require any special syntax.
 -->
-<p>在此示例中，期望的两个字段都是 <code>Nat</code>。就和通过用其参数值替换其参数变量来调用函数一样， 向 <code>PPoint</code> 传入类型参数 <code>Nat</code> 会产生一个结构体，其中字段 <code>x</code> 和 <code>y</code> 具有类型 <code>Nat</code>， 因为参数名称 <code>α</code> 已被参数类型 <code>Nat</code> 替换。类型是 Lean 中的普通表达式， 因此向多态类型（如 <code>PPoint</code>）传递参数不需要任何特殊语法。&quot;</p>
+<p>在此示例中，期望的两个字段都是 <code>Nat</code>。就和通过用其参数值替换其参数变量来调用函数一样，
+向 <code>PPoint</code> 传入类型参数 <code>Nat</code> 会产生一个结构体，其中字段 <code>x</code> 和 <code>y</code> 具有类型 <code>Nat</code>，
+因为参数名称 <code>α</code> 已被参数类型 <code>Nat</code> 替换。类型是 Lean 中的普通表达式，
+因此向多态类型（如 <code>PPoint</code>）传递参数不需要任何特殊语法。&quot;</p>
 <!--
 Definitions may also take types as arguments, which makes them polymorphic.
 The function `replaceX` replaces the `x` field of a `PPoint` with a new value.
 In order to allow `replaceX` to work with _any_ polymorphic point, it must be polymorphic itself.
 This is achieved by having its first argument be the type of the point's fields, with later arguments referring back to the first argument's name.
 -->
-<p>定义也可以将类型作为参数，这使得它们具有多态性。函数 <code>replaceX</code> 用新值替换 <code>PPoint</code> 的 <code>x</code> 字段。为了能够让 <code>replaceX</code> 与<strong>任何</strong>多态的点一起使用，它本身必须是多态的。 这是通过让其第一个参数成为点字段的类型，后面的参数引用第一个参数的名称来实现的。</p>
+<p>定义也可以将类型作为参数，这使得它们具有多态性。函数 <code>replaceX</code> 用新值替换
+<code>PPoint</code> 的 <code>x</code> 字段。为了能够让 <code>replaceX</code> 与<strong>任何</strong>多态的点一起使用，它本身必须是多态的。
+这是通过让其第一个参数成为点字段的类型，后面的参数引用第一个参数的名称来实现的。</p>
 <pre><code class="language-lean">def replaceX (α : Type) (point : PPoint α) (newX : α) : PPoint α :=
   { point with x := newX }
 </code></pre>
@@ -197,7 +212,8 @@ This is achieved by having its first argument be the type of the point's fields,
 In other words, when the types of the arguments `point` and `newX` mention `α`, they are referring to _whichever type was provided as the first argument_.
 This is similar to the way that function argument names refer to the values that were provided when they occur in the function's body.
 -->
-<p>换句话说，当参数 <code>point</code> 和 <code>newX</code> 的类型提到 <code>α</code> 时，它们指的是 <strong>作为第一个参数提供的任何类型</strong>。这类似于函数参数名称引用函数体中提供的值的方式。</p>
+<p>换句话说，当参数 <code>point</code> 和 <code>newX</code> 的类型提到 <code>α</code> 时，它们指的是
+<strong>作为第一个参数提供的任何类型</strong>。这类似于函数参数名称引用函数体中提供的值的方式。</p>
 <!--
 This can be seen by asking Lean to check the type of `replaceX`, and then asking it to check the type of `replaceX Nat`.
 -->
@@ -211,7 +227,10 @@ This function type includes the _name_ of the first argument, and later argument
 Just as the value of a function application is found by replacing the argument name with the provided argument value in the function's body, the type of a function application is found by replacing the argument's name with the provided value in the function's return type.
 Providing the first argument, `Nat`, causes all occurrences of `α` in the remainder of the type to be replaced with `Nat`:
 -->
-<p>此函数类型包括第一个参数的<strong>名称</strong>，类型中的后续参数会引用此名称。 就像函数应用的值，是通过在函数体中，用所提供的参数值替换参数名称来找到的那样， 函数应用的类型，也是通过在函数的返回类型中，用所提供的参数值替换参数的名称来找到的。 提供第一个参数 <code>Nat</code>，会导致类型其余部分中所有的 <code>α</code> 都替换为 <code>Nat</code>：</p>
+<p>此函数类型包括第一个参数的<strong>名称</strong>，类型中的后续参数会引用此名称。
+就像函数应用的值，是通过在函数体中，用所提供的参数值替换参数名称来找到的那样，
+函数应用的类型，也是通过在函数的返回类型中，用所提供的参数值替换参数的名称来找到的。
+提供第一个参数 <code>Nat</code>，会导致类型其余部分中所有的 <code>α</code> 都替换为 <code>Nat</code>：</p>
 <pre><code class="language-lean">#check replaceX Nat
 </code></pre>
 <pre><code class="language-output info">replaceX Nat : PPoint Nat → Nat → PPoint Nat
@@ -241,7 +260,8 @@ Polymorphic functions work by taking a named type argument and having later type
 However, there's nothing special about type arguments that allows them to be named.
 Given a datatype that represents positive or negative signs:
 -->
-<p>多态函数通过接受一个命名的类型参数并让后续类型引用参数的名称来工作。 然而，类型参数并没有什么可以让它们被命名的特殊之处。给定一个表示正负号的数据类型：</p>
+<p>多态函数通过接受一个命名的类型参数并让后续类型引用参数的名称来工作。
+然而，类型参数并没有什么可以让它们被命名的特殊之处。给定一个表示正负号的数据类型：</p>
 <pre><code class="language-lean">inductive Sign where
   | pos
   | neg
@@ -260,12 +280,16 @@ If the argument is positive, the function returns a `Nat`, while if it's negativ
 Because types are first class and can be computed using the ordinary rules of the Lean language, they can be computed by pattern-matching against a datatype.
 When Lean is checking this function, it uses the fact that the `match`-expression in the function's body corresponds to the `match`-expression in the type to make `Nat` be the expected type for the `pos` case and to make `Int` be the expected type for the `neg` case.
 -->
-<p>由于类型是一等公民，且可以使用 Lean 语言的普通规则进行计算， 因此可以通过针对数据类型的模式匹配来计算它们。当 Lean 检查此函数时，它根据函数体中的 <code>match</code> 表达式与类型中的 <code>match</code> 表达式相对应，使 <code>Nat</code> 成为 <code>pos</code> 情况的期望类型， <code>Int</code> 成为 <code>neg</code> 情况的期望类型。</p>
+<p>由于类型是一等公民，且可以使用 Lean 语言的普通规则进行计算，
+因此可以通过针对数据类型的模式匹配来计算它们。当 Lean 检查此函数时，它根据函数体中的
+<code>match</code> 表达式与类型中的 <code>match</code> 表达式相对应，使 <code>Nat</code> 成为 <code>pos</code> 情况的期望类型，
+<code>Int</code> 成为 <code>neg</code> 情况的期望类型。</p>
 <!--
 Applying `posOrNegThree` to `Sign.pos` results in the argument name `s` in both the body of the function and its return type being replaced by `Sign.pos`.
 Evaluation can occur both in the expression and its type:
 -->
-<p>将 <code>posOrNegThree</code> 应用于 <code>Sign.pos</code> 会导致函数体和其返回类型中的参数名称 <code>s</code> 都被 <code>Sign.pos</code> 替换。求值可以在表达式及其类型中同时发生：</p>
+<p>将 <code>posOrNegThree</code> 应用于 <code>Sign.pos</code> 会导致函数体和其返回类型中的参数名称 <code>s</code>
+都被 <code>Sign.pos</code> 替换。求值可以在表达式及其类型中同时发生：</p>
 <pre><code class="language-lean">(posOrNegThree Sign.pos : match Sign.pos with | Sign.pos =&gt; Nat | Sign.neg =&gt; Int)
 ===&gt;
 ((match Sign.pos with
@@ -289,7 +313,8 @@ Lean's standard library includes a canonical linked list datatype, called `List`
 Lists are written in square brackets.
 For instance, a list that contains the prime numbers less than 10 can be written:
 -->
-<p>Lean 的标准库包含一个典型的链表数据类型，称为 <code>List</code>，以及使其更易于使用的特殊语法。 链表写在方括号中。例如，包含小于 10 的质数的链表可以写成：</p>
+<p>Lean 的标准库包含一个典型的链表数据类型，称为 <code>List</code>，以及使其更易于使用的特殊语法。
+链表写在方括号中。例如，包含小于 10 的质数的链表可以写成：</p>
 <pre><code class="language-lean">def primesUnder10 : List Nat := [2, 3, 5, 7]
 </code></pre>
 <!--
@@ -309,7 +334,12 @@ The constructor `nil` represents empty lists and the constructor `cons` is used 
 The first argument to `cons` is the head of the list, and the second argument is its tail.
 A list that contains \\( n \\) entries contains \\( n \\) `cons` constructors, the last of which has `nil` as its tail.
 -->
-<p>标准库中的实际定义略有不同，因为它使用了尚未介绍的特性，但它们大体上是相似的。 此定义表示 <code>List</code> 将单个类型作为其参数，就像 <code>PPoint</code> 那样。 此类型是存储在列表中的项的类型。根据构造子，<code>List α</code> 可以使用 <code>nil</code> 或 <code>cons</code> 构建。 构造子 <code>nil</code> 表示空列表，构造子 <code>cons</code> 用于非空列表。 <code>cons</code> 的第一个参数是列表的头部，第二个参数是其尾部。包含 \( n \) 个项的列表包含 \( n \) 个 <code>cons</code> 构造子，最后一个以 <code>nil</code> 为尾部。</p>
+<p>标准库中的实际定义略有不同，因为它使用了尚未介绍的特性，但它们大体上是相似的。
+此定义表示 <code>List</code> 将单个类型作为其参数，就像 <code>PPoint</code> 那样。
+此类型是存储在列表中的项的类型。根据构造子，<code>List α</code> 可以使用 <code>nil</code> 或 <code>cons</code> 构建。
+构造子 <code>nil</code> 表示空列表，构造子 <code>cons</code> 用于非空列表。
+<code>cons</code> 的第一个参数是列表的头部，第二个参数是其尾部。包含 \( n \)
+个项的列表包含 \( n \) 个 <code>cons</code> 构造子，最后一个以 <code>nil</code> 为尾部。</p>
 <!--
 The `primesUnder10` example can be written more explicitly by using `List`'s constructors directly:
 -->
@@ -329,7 +359,13 @@ Just as `replaceX` took the type of the fields of the point as an argument, `len
 For example, if the list contains strings, then the first argument is `String`: `length String ["Sourdough", "bread"]`.
 It should compute like this:
 -->
-<p>使用 <code>List</code> 的函数可以与使用 <code>Nat</code> 的函数以相同的方式定义。 事实上，一种考虑链表的方式是将其视为一个 <code>Nat</code>，每个 <code>succ</code> 构造函数都悬挂着一个额外的数据字段。从这个角度来看，计算列表的长度的过程是将每个 <code>cons</code> 替换为 <code>succ</code>，将最终的 <code>nil</code> 替换为 <code>zero</code>。就像 <code>replaceX</code> 将点的字段类型作为参数一样，<code>length</code> 采用列表项的类型。例如，如果列表包含字符串， 则第一个参数是 <code>String</code>：<code>length String [&quot;Sourdough&quot;, &quot;bread&quot;]</code>。 它应该这样计算：</p>
+<p>使用 <code>List</code> 的函数可以与使用 <code>Nat</code> 的函数以相同的方式定义。
+事实上，一种考虑链表的方式是将其视为一个 <code>Nat</code>，每个 <code>succ</code>
+构造函数都悬挂着一个额外的数据字段。从这个角度来看，计算列表的长度的过程是将每个
+<code>cons</code> 替换为 <code>succ</code>，将最终的 <code>nil</code> 替换为 <code>zero</code>。就像 <code>replaceX</code>
+将点的字段类型作为参数一样，<code>length</code> 采用列表项的类型。例如，如果列表包含字符串，
+则第一个参数是 <code>String</code>：<code>length String [&quot;Sourdough&quot;, &quot;bread&quot;]</code>。
+它应该这样计算：</p>
 <pre><code class="language-lean">length String [&quot;Sourdough&quot;, &quot;bread&quot;]
 ===&gt;
 length String (List.cons &quot;Sourdough&quot; (List.cons &quot;bread&quot; List.nil))
@@ -346,7 +382,8 @@ Nat.succ (Nat.succ Nat.zero)
 The definition of `length` is both polymorphic (because it takes the list entry type as an argument) and recursive (because it refers to itself).
 Generally, functions follow the shape of the data: recursive datatypes lead to recursive functions, and polymorphic datatypes lead to polymorphic functions.
 -->
-<p><code>length</code> 的定义既是多态的（因为它将列表项类型作为参数），又是递归的（因为它引用自身）。 通常，函数遵循数据的形状：递归数据类型导致递归函数，多态数据类型导致多态函数。&quot;</p>
+<p><code>length</code> 的定义既是多态的（因为它将列表项类型作为参数），又是递归的（因为它引用自身）。
+通常，函数遵循数据的形状：递归数据类型导致递归函数，多态数据类型导致多态函数。&quot;</p>
 <pre><code class="language-lean">def length (α : Type) (xs : List α) : Nat :=
   match xs with
   | List.nil =&gt; Nat.zero
@@ -356,11 +393,13 @@ Generally, functions follow the shape of the data: recursive datatypes lead to r
 Names such as `xs` and `ys` are conventionally used to stand for lists of unknown values.
 The `s` in the name indicates that they are plural, so they are pronounced "exes" and "whys" rather than "x s" and "y s".
 -->
-<p>按照惯例，<code>xs</code> 和 <code>ys</code> 等名称用于表示未知值的列表。名称中的 <code>s</code> 表示它们是复数， 因此它们的发音是「exes」和「whys」，而不是「x s」和「y s」。</p>
+<p>按照惯例，<code>xs</code> 和 <code>ys</code> 等名称用于表示未知值的列表。名称中的 <code>s</code> 表示它们是复数，
+因此它们的发音是「exes」和「whys」，而不是「x s」和「y s」。</p>
 <!--
 To make it easier to read functions on lists, the bracket notation `[]` can be used to pattern-match against `nil`, and an infix `::` can be used in place of `cons`:
 -->
-<p>为了便于阅读列表上的函数，可以使用方括号记法 <code>[]</code> 来匹配模式 <code>nil</code>， 并且可以使用中缀 <code>::</code> 来代替 <code>cons</code>：</p>
+<p>为了便于阅读列表上的函数，可以使用方括号记法 <code>[]</code> 来匹配模式 <code>nil</code>，
+并且可以使用中缀 <code>::</code> 来代替 <code>cons</code>：</p>
 <pre><code class="language-lean">def length (α : Type) (xs : List α) : Nat :=
   match xs with
   | [] =&gt; 0
@@ -377,7 +416,10 @@ This is also the case in Lean.
 Arguments can be declared _implicit_ by wrapping them in curly braces instead of parentheses when defining a function.
 For instance, a version of `replaceX` with an implicit type argument looks like this:
 -->
-<p><code>replaceX</code> 和 <code>length</code> 这两个函数使用起来有些繁琐，因为类型参数通常由后面的值唯一确定。 事实上，在大多数语言中，编译器完全有能力自行确定类型参数，并且只需要偶尔从用户那里获得帮助。 在 Lean 中也是如此。在定义函数时，可以通过用大括号而不是括号将参数括起来来声明参数为 **隐式（Implicit）**的。例如，一个具有隐式类型参数的 <code>replaceX</code> 版本如下所示：</p>
+<p><code>replaceX</code> 和 <code>length</code> 这两个函数使用起来有些繁琐，因为类型参数通常由后面的值唯一确定。
+事实上，在大多数语言中，编译器完全有能力自行确定类型参数，并且只需要偶尔从用户那里获得帮助。
+在 Lean 中也是如此。在定义函数时，可以通过用大括号而不是括号将参数括起来来声明参数为
+**隐式（Implicit）**的。例如，一个具有隐式类型参数的 <code>replaceX</code> 版本如下所示：</p>
 <pre><code class="language-lean">def replaceX {α : Type} (point : PPoint α) (newX : α) : PPoint α :=
   { point with x := newX }
 </code></pre>
@@ -409,7 +451,8 @@ This `length` function can be applied directly to `primesUnder10`:
 <!--
 In the standard library, Lean calls this function `List.length`, which means that the dot syntax that is used for structure field access can also be used to find the length of a list:
 -->
-<p>在标准库中，Lean 将此函数称为 <code>List.length</code>， 这意味着用于结构体字段访问的点语法也可以用于查找列表的长度：</p>
+<p>在标准库中，Lean 将此函数称为 <code>List.length</code>，
+这意味着用于结构体字段访问的点语法也可以用于查找列表的长度：</p>
 <pre><code class="language-lean">#eval primesUnder10.length
 </code></pre>
 <pre><code class="language-output info">4
@@ -419,7 +462,9 @@ Just as C# and Java require type arguments to be provided explicitly from time t
 In these cases, they can be provided using their names.
 For instance, a version of `List.length` that only works for lists of integers can be specified by setting `α` to `Int`:
 -->
-<p>正如 C# 和 Java 要求不时显式提供类型参数一样，Lean 并不总是能够找出隐式参数。 在这些情况下，可以使用它们的名称来提供它们。例如，可以通过将 <code>α</code> 设置为 <code>Int</code> 来指定仅适用于整数列表的 <code>List.length</code> 版本：</p>
+<p>正如 C# 和 Java 要求不时显式提供类型参数一样，Lean 并不总是能够找出隐式参数。
+在这些情况下，可以使用它们的名称来提供它们。例如，可以通过将 <code>α</code> 设置为 <code>Int</code>
+来指定仅适用于整数列表的 <code>List.length</code> 版本：</p>
 <pre><code class="language-lean">#check List.length (α := Int)
 </code></pre>
 <pre><code class="language-output info">List.length : List Int → Nat
@@ -442,19 +487,25 @@ Many operations on collections may fail to find what they are looking for.
 For instance, a function that finds the first entry in a list may not find any such entry.
 It must therefore have a way to signal that there was no first entry.
 -->
-<p>并非每个列表都有第一个条目，有些列表是空的。许多集合操作可能无法找到它们正在寻找的内容。 例如，查找列表中第一个条目的函数可能找不到任何此类条目。因此，它必须有一种方法来表示没有第一个条目。</p>
+<p>并非每个列表都有第一个条目，有些列表是空的。许多集合操作可能无法找到它们正在寻找的内容。
+例如，查找列表中第一个条目的函数可能找不到任何此类条目。因此，它必须有一种方法来表示没有第一个条目。</p>
 <!--
 Many languages have a `null` value that represents the absence of a value.
 Instead of equipping existing types with a special `null` value, Lean provides a datatype called `Option` that equips some other type with an indicator for missing values.
 For instance, a nullable `Int` is represented by `Option Int`, and a nullable list of strings is represented by the type `Option (List String)`.
 Introducing a new type to represent nullability means that the type system ensures that checks for `null` cannot be forgotten, because an `Option Int` can't be used in a context where an `Int` is expected.
 -->
-<p>许多语言都有一个 <code>null</code> 值来表示没有值。Lean 没有为现有类型配备一个特殊的 <code>null</code> 值， 而是提供了一个名为 <code>Option</code> 的数据类型，为其他类型配备了一个缺失值指示器。 例如，一个可为空的 <code>Int</code> 由 <code>Option Int</code> 表示，一个可为空的字符串列表由类型 <code>Option (List String)</code> 表示。引入一个新类型来表示可空性意味着类型系统确保无法忘记对 <code>null</code> 的检查，因为 <code>Option Int</code> 不能在需要 <code>Int</code> 的上下文中使用。</p>
+<p>许多语言都有一个 <code>null</code> 值来表示没有值。Lean 没有为现有类型配备一个特殊的 <code>null</code> 值，
+而是提供了一个名为 <code>Option</code> 的数据类型，为其他类型配备了一个缺失值指示器。
+例如，一个可为空的 <code>Int</code> 由 <code>Option Int</code> 表示，一个可为空的字符串列表由类型
+<code>Option (List String)</code> 表示。引入一个新类型来表示可空性意味着类型系统确保无法忘记对
+<code>null</code> 的检查，因为 <code>Option Int</code> 不能在需要 <code>Int</code> 的上下文中使用。</p>
 <!--
 `Option` has two constructors, called `some` and `none`, that respectively represent the non-null and null versions of the underlying type.
 The non-null constructor, `some`, contains the underlying value, while `none` takes no arguments:
 -->
-<p><code>Option</code> 有两个构造函数，称为 <code>some</code> 和 <code>none</code>，它们分别表示基础类型的非空和空的版本。 非空构造函数 <code>some</code> 包含基础值，而 <code>none</code> 不带参数：</p>
+<p><code>Option</code> 有两个构造函数，称为 <code>some</code> 和 <code>none</code>，它们分别表示基础类型的非空和空的版本。
+非空构造函数 <code>some</code> 包含基础值，而 <code>none</code> 不带参数：</p>
 <pre><code class="language-lean">inductive Option (α : Type) : Type where
   | none : Option α
   | some (val : α) : Option α
@@ -468,7 +519,16 @@ However, these nullable types differ from Lean's `Option` in one very important 
 C#, on the other hand, forbids multiple layers of nullability by only allowing `?` to be added to non-nullable types, while Kotlin treats `T??` as being equivalent to `T?`.
 This subtle difference is rarely relevant in practice, but it can matter from time to time.
 -->
-<p><code>Option</code> 类型与 C# 和 Kotlin 等语言中的可空类型非常相似，但并非完全相同。 在这些语言中，如果一个类型（比如 <code>Boolean</code>）总是引用该类型的实际值（<code>true</code> 和 <code>false</code>）， 那么类型 <code>Boolean?</code> 或 <code>Nullable&lt;Boolean&gt;</code> 额外允许 <code>null</code> 值。 在类型系统中跟踪这一点非常有用：类型检查器和其他工具可以帮助程序员记住检查 null， 并且通过类型签名明确描述可空性的 API 比不描述可空性的 API 更具信息性量。 然而，这些可空类型与 Lean 的 <code>Option</code> 在一个非常重要的方面有所不同，那就是它们不允许多层可选项性。 <code>Option (Option Int)</code> 可以用 <code>none</code>、 <code>some none</code> 或 <code>some (some 360)</code> 构造。另一方面，C# 禁止多层可空性，只允许将 <code>?</code> 添加到不可空类型，而 Kotlin 将 <code>T??</code> 视为等同于 <code>T?</code>。这种细微的差别在实践中大多无关紧要，但有时会很重要。</p>
+<p><code>Option</code> 类型与 C# 和 Kotlin 等语言中的可空类型非常相似，但并非完全相同。
+在这些语言中，如果一个类型（比如 <code>Boolean</code>）总是引用该类型的实际值（<code>true</code> 和 <code>false</code>），
+那么类型 <code>Boolean?</code> 或 <code>Nullable&lt;Boolean&gt;</code> 额外允许 <code>null</code> 值。
+在类型系统中跟踪这一点非常有用：类型检查器和其他工具可以帮助程序员记住检查 null，
+并且通过类型签名明确描述可空性的 API 比不描述可空性的 API 更具信息性量。
+然而，这些可空类型与 Lean 的 <code>Option</code> 在一个非常重要的方面有所不同，那就是它们不允许多层可选项性。
+<code>Option (Option Int)</code> 可以用 <code>none</code>、
+<code>some none</code> 或 <code>some (some 360)</code>
+构造。另一方面，C# 禁止多层可空性，只允许将 <code>?</code> 添加到不可空类型，而 Kotlin 将 <code>T??</code>
+视为等同于 <code>T?</code>。这种细微的差别在实践中大多无关紧要，但有时会很重要。</p>
 <!--
 To find the first entry in a list, if it exists, use `List.head?`.
 The question mark is part of the name, and is not related to the use of question marks to indicate nullable types in C# or Kotlin.
@@ -476,7 +536,10 @@ In the definition of `List.head?`, an underscore is used to represent the tail o
 In patterns, underscores match anything at all, but do not introduce variables to refer to the matched data.
 Using underscores instead of names is a way to clearly communicate to readers that part of the input is ignored.
 -->
-<p>要查找列表中的第一个条目（如果存在），请使用 <code>List.head?</code>。 问号是名称的一部分，与在 C# 或 Kotlin 中使用问号表示可空类型并不相同。在 <code>List.head?</code> 的定义中，下划线用于表示列表的尾部。在模式匹配中，下划线匹配任何内容， 但不会引入变量来引用匹配的数据。使用下划线而不是名称是一种向读者清楚传达输入部分被忽略的方式。</p>
+<p>要查找列表中的第一个条目（如果存在），请使用 <code>List.head?</code>。
+问号是名称的一部分，与在 C# 或 Kotlin 中使用问号表示可空类型并不相同。在 <code>List.head?</code>
+的定义中，下划线用于表示列表的尾部。在模式匹配中，下划线匹配任何内容，
+但不会引入变量来引用匹配的数据。使用下划线而不是名称是一种向读者清楚传达输入部分被忽略的方式。</p>
 <pre><code class="language-lean">def List.head? {α : Type} (xs : List α) : Option α :=
   match xs with
   | [] =&gt; none
@@ -487,7 +550,11 @@ A Lean naming convention is to define operations that might fail in groups using
 For instance, `head` requires the caller to provide mathematical evidence that the list is not empty, `head?` returns an `Option`, `head!` crashes the program when passed an empty list, and `headD` takes a default value to return in case the list is empty.
 The question mark and exclamation mark are part of the name, not special syntax, as Lean's naming rules are more liberal than many languages.
 -->
-<p>Lean 的命名约定是使用后缀 <code>?</code> 定义可能失败的操作，用于返回 <code>Option</code> 的版本， <code>！</code> 用于在提供无效输入时崩溃的版本，<code>D</code> 用于在操作在其他情况下失败时返回默认值的版本。 例如，<code>head</code> 要求调用者提供数学证据证明列表不为空，<code>head?</code> 返回 <code>Option</code>，<code>head!</code> 在传递空列表时使程序崩溃，<code>headD</code> 采用一个默认值，以便在列表为空时返回。 问号和感叹号是名称的一部分，而不是特殊语法，因为 Lean 的命名规则比许多语言更自由。</p>
+<p>Lean 的命名约定是使用后缀 <code>?</code> 定义可能失败的操作，用于返回 <code>Option</code> 的版本，
+<code>！</code> 用于在提供无效输入时崩溃的版本，<code>D</code> 用于在操作在其他情况下失败时返回默认值的版本。
+例如，<code>head</code> 要求调用者提供数学证据证明列表不为空，<code>head?</code> 返回 <code>Option</code>，<code>head!</code>
+在传递空列表时使程序崩溃，<code>headD</code> 采用一个默认值，以便在列表为空时返回。
+问号和感叹号是名称的一部分，而不是特殊语法，因为 Lean 的命名规则比许多语言更自由。</p>
 <!--
 Because `head?` is defined in the `List` namespace, it can be used with accessor notation:
 -->
@@ -520,7 +587,11 @@ These unknown parts are called _metavariables_, and they occur in some error mes
 In order to evaluate an expression, Lean needs to be able to find its type, and the type was unavailable because the empty list does not have any entries from which the type can be found.
 Explicitly providing a type allows Lean to proceed:
 -->
-<p>这是因为 Lean 无法完全确定表达式的类型。特别是，它既找不到 <code>List.head?</code> 的隐式类型参数， 也找不到 <code>List.nil</code> 的隐式类型参数。在 Lean 的输出中，<code>?m.XYZ</code> 表示程序中无法推断的部分。 这些未知部分称为<strong>元变量（Metavariable）</strong>，它们出现在一些错误消息中。为了计算一个表达式， Lean 需要能够找到它的类型，而类型不可用，因为空列表没有任何条目可以从中找到类型。 显式提供类型可以让 Lean 继续：</p>
+<p>这是因为 Lean 无法完全确定表达式的类型。特别是，它既找不到 <code>List.head?</code> 的隐式类型参数，
+也找不到 <code>List.nil</code> 的隐式类型参数。在 Lean 的输出中，<code>?m.XYZ</code> 表示程序中无法推断的部分。
+这些未知部分称为<strong>元变量（Metavariable）</strong>，它们出现在一些错误消息中。为了计算一个表达式，
+Lean 需要能够找到它的类型，而类型不可用，因为空列表没有任何条目可以从中找到类型。
+显式提供类型可以让 Lean 继续：</p>
 <pre><code class="language-lean">#eval [].head? (α := Int)
 </code></pre>
 <pre><code class="language-output info">none
@@ -537,7 +608,8 @@ The type can also be provided with a type annotation:
 The error messages provide a useful clue.
 Both messages use the _same_ metavariable to describe the missing implicit argument, which means that Lean has determined that the two missing pieces will share a solution, even though it was unable to determine the actual value of the solution.
 -->
-<p>错误信息提供了一个有用的线索。两个信息都使用<strong>相同</strong>的元变量来描述缺少的隐式参数， 这意味着 Lean 已经确定两个缺少的部分将共享一个解决方案，即使它无法确定解决方案的实际值。</p>
+<p>错误信息提供了一个有用的线索。两个信息都使用<strong>相同</strong>的元变量来描述缺少的隐式参数，
+这意味着 Lean 已经确定两个缺少的部分将共享一个解决方案，即使它无法确定解决方案的实际值。</p>
 <!--
 ### `Prod`
 -->
@@ -550,13 +622,20 @@ In other words, `PPoint Nat` could be replaced by `Prod Nat Nat`.
 Many applications are best served by defining their own structures, even for simple cases like `Point`, because using domain terminology can make it easier to read the code.
 Additionally, defining structure types helps catch more errors by assigning different types to different domain concepts, preventing them from being mixed up.
 -->
-<p><code>Prod</code> 结构体，即**积（Product）**2的缩写，是一种将两个值连接在一起的通用方法。 例如，<code>Prod Nat String</code> 包含一个 <code>Nat</code> 和一个 <code>String</code>。换句话说，<code>PPoint Nat</code> 可以替换为 <code>Prod Nat Nat</code>。<code>Prod</code> 非常类似于 C# 的元组、Kotlin 中的 <code>Pair</code> 和 <code>Triple</code> 类型以及 C++ 中的 <code>tuple</code>。许多应用最适合定义自己的结构体，即使对于像 <code>Point</code> 这样的简单情况也是如此，因为使用领域术语可以使代码更加易读。 此外，定义结构体类型有助于通过为不同的领域概念分配不同的类型来捕获更多错误，防止它们混淆。</p>
+<p><code>Prod</code> 结构体，即**积（Product）**2的缩写，是一种将两个值连接在一起的通用方法。
+例如，<code>Prod Nat String</code> 包含一个 <code>Nat</code> 和一个 <code>String</code>。换句话说，<code>PPoint Nat</code>
+可以替换为 <code>Prod Nat Nat</code>。<code>Prod</code> 非常类似于 C# 的元组、Kotlin 中的 <code>Pair</code> 和 <code>Triple</code>
+类型以及 C++ 中的 <code>tuple</code>。许多应用最适合定义自己的结构体，即使对于像 <code>Point</code>
+这样的简单情况也是如此，因为使用领域术语可以使代码更加易读。
+此外，定义结构体类型有助于通过为不同的领域概念分配不同的类型来捕获更多错误，防止它们混淆。</p>
 <!--
 On the other hand, there are some cases where it is not worth the overhead of defining a new type.
 Additionally, some libraries are sufficiently generic that there is no more specific concept than "pair".
 Finally, the standard library contains a variety of convenience functions that make it easier to work with the built-in pair type.
 -->
-<p>另一方面，在某些情况下，定义新类型是不值得的开销。此外，一些库足够通用， 以至于没有比**偶对（Pair）**更具体的概念。最后，标准库也包含了各种便利函数， 让使用内置对类型变得更容易。</p>
+<p>另一方面，在某些情况下，定义新类型是不值得的开销。此外，一些库足够通用，
+以至于没有比**偶对（Pair）**更具体的概念。最后，标准库也包含了各种便利函数，
+让使用内置对类型变得更容易。</p>
 <!--
 The standard pair structure is called `Prod`.
 -->
@@ -572,7 +651,9 @@ The type `Prod α β` is typically written `α × β`, mirroring the usual notat
 Similarly, the usual mathematical notation for pairs is available for `Prod`.
 In other words, instead of writing:
 -->
-<p>列表的使用如此频繁，以至于有特殊的语法使它们更具可读性。 出于同样的原因，积类型及其构造子都有特殊的语法。类型 <code>Prod α β</code> 通常写为 <code>α × β</code>， 反映了集合的笛卡尔积的常用记法。与此类似，偶对的常用数学记法可用于 <code>Prod</code>。换句话说，不要写：</p>
+<p>列表的使用如此频繁，以至于有特殊的语法使它们更具可读性。
+出于同样的原因，积类型及其构造子都有特殊的语法。类型 <code>Prod α β</code> 通常写为 <code>α × β</code>，
+反映了集合的笛卡尔积的常用记法。与此类似，偶对的常用数学记法可用于 <code>Prod</code>。换句话说，不要写：</p>
 <pre><code class="language-lean">def fives : String × Int := { fst := &quot;five&quot;, snd := 5 }
 </code></pre>
 <!--
@@ -604,7 +685,10 @@ For instance, a `Sum String Int` is either a `String` or an `Int`.
 Like `Prod`, `Sum` should be used either when writing very generic code, for a very small section of code where there is no sensible domain-specific type, or when the standard library contains useful functions.
 In most situations, it is more readable and maintainable to use a custom inductive type.
 -->
-<p>**和（<code>Sum</code>）**数据类型是一种允许在两种不同类型的值之间进行选择的一般方式。 例如，<code>Sum String Int</code> 要么是 <code>String</code>，要么是 <code>Int</code>。与 <code>Prod</code> 一样， <code>Sum</code> 应该在编写非常通用的代码时使用，对于没有合适的特定领域类型的一小段代码， 或者当标准库包含有用的函数时使用。在大多数情况下，使用自定义归纳类型更具可读性和可维护性。</p>
+<p>**和（<code>Sum</code>）**数据类型是一种允许在两种不同类型的值之间进行选择的一般方式。
+例如，<code>Sum String Int</code> 要么是 <code>String</code>，要么是 <code>Int</code>。与 <code>Prod</code> 一样，
+<code>Sum</code> 应该在编写非常通用的代码时使用，对于没有合适的特定领域类型的一小段代码，
+或者当标准库包含有用的函数时使用。在大多数情况下，使用自定义归纳类型更具可读性和可维护性。</p>
 <!--
 Values of type `Sum α β` are either the constructor `inl` applied to a value of type `α` or the constructor `inr` applied to a value of type `β`:
 -->
@@ -618,7 +702,9 @@ These names are abbreviations for "left injection" and "right injection", respec
 Just as the Cartesian product notation is used for `Prod`, a "circled plus" notation is used for `Sum`, so `α ⊕ β` is another way to write `Sum α β`.
 There is no special syntax for `Sum.inl` and `Sum.inr`.
 -->
-<p>这些名称分别是「左注入（left injection）」和「右注入（right injection）」的缩写。 就像笛卡尔积符号用于 <code>Prod</code> 一样，「圆圈加号」符号用于 <code>Sum</code>，因此 <code>α ⊕ β</code> 是 <code>Sum α β</code> 的另一种记法。<code>Sum.inl</code> 和 <code>Sum.inr</code> 没有特殊语法。</p>
+<p>这些名称分别是「左注入（left injection）」和「右注入（right injection）」的缩写。
+就像笛卡尔积符号用于 <code>Prod</code> 一样，「圆圈加号」符号用于 <code>Sum</code>，因此 <code>α ⊕ β</code> 是
+<code>Sum α β</code> 的另一种记法。<code>Sum.inl</code> 和 <code>Sum.inr</code> 没有特殊语法。</p>
 <!--
 For instance, if pet names can either be dog names or cat names, then a type for them can be introduced as a sum of strings:
 -->
@@ -630,7 +716,8 @@ In a real program, it would usually be better to define a custom inductive datat
 Here, `Sum.inl` is to be used for dog names, and `Sum.inr` is to be used for cat names.
 These constructors can be used to write a list of animal names:
 -->
-<p>在实际程序中，通常最好为此目的自定义一个归纳数据类型，并使用有意义的构造子名称。 在这里，<code>Sum.inl</code> 用于狗的名字，<code>Sum.inr</code> 用于猫的名字。这些构造子可用于编写动物名称列表：</p>
+<p>在实际程序中，通常最好为此目的自定义一个归纳数据类型，并使用有意义的构造子名称。
+在这里，<code>Sum.inl</code> 用于狗的名字，<code>Sum.inr</code> 用于猫的名字。这些构造子可用于编写动物名称列表：</p>
 <pre><code class="language-lean">def animals : List PetName :=
   [Sum.inl &quot;Spot&quot;, Sum.inr &quot;Tiger&quot;, Sum.inl &quot;Fifi&quot;, Sum.inl &quot;Rex&quot;, Sum.inr &quot;Floof&quot;]
 </code></pre>
@@ -638,7 +725,8 @@ These constructors can be used to write a list of animal names:
 Pattern matching can be used to distinguish between the two constructors.
 For instance, a function that counts the number of dogs in a list of animal names (that is, the number of `Sum.inl` constructors) looks like this:
 -->
-<p>模式匹配可用于区分两个构造子。例如，一个函数用于统计动物名称列表中狗的数量（即 <code>Sum.inl</code> 构造子的数量），如下所示：</p>
+<p>模式匹配可用于区分两个构造子。例如，一个函数用于统计动物名称列表中狗的数量（即 <code>Sum.inl</code>
+构造子的数量），如下所示：</p>
 <pre><code class="language-lean">def howManyDogs (pets : List PetName) : Nat :=
   match pets with
   | [] =&gt; 0
@@ -649,7 +737,9 @@ For instance, a function that counts the number of dogs in a list of animal name
 Function calls are evaluated before infix operators, so `howManyDogs morePets + 1` is the same as `(howManyDogs morePets) + 1`.
 As expected, `#eval howManyDogs animals` yields `3`.
 -->
-<p>函数调用在中缀运算符之前进行求值，因此 <code>howManyDogs morePets + 1</code> 等价于 <code>(howManyDogs morePets) + 1</code>。如预期的那样，<code>#eval howManyDogs animals</code> 会产生 <code>3</code>。</p>
+<p>函数调用在中缀运算符之前进行求值，因此 <code>howManyDogs morePets + 1</code> 等价于
+<code>(howManyDogs morePets) + 1</code>。如预期的那样，<code>#eval howManyDogs animals</code>
+会产生 <code>3</code>。</p>
 <!--
 ### `Unit`
 -->
@@ -659,7 +749,8 @@ As expected, `#eval howManyDogs animals` yields `3`.
 In other words, it describes only a single value, which consists of said constructor applied to no arguments whatsoever.
 `Unit` is defined as follows:
 -->
-<p><code>Unit</code> 是仅有一个无参构造子（称为 <code>unit</code>）的类型。换句话说，它只描述一个值， 该值由没有应用于任何参数的构造子组成。<code>Unit</code> 定义如下：</p>
+<p><code>Unit</code> 是仅有一个无参构造子（称为 <code>unit</code>）的类型。换句话说，它只描述一个值，
+该值由没有应用于任何参数的构造子组成。<code>Unit</code> 定义如下：</p>
 <pre><code class="language-lean">inductive Unit : Type where
   | unit : Unit
 </code></pre>
@@ -668,7 +759,8 @@ On its own, `Unit` is not particularly useful.
 However, in polymorphic code, it can be used as a placeholder for data that is missing.
 For instance, the following inductive datatype represents arithmetic expressions:
 -->
-<p>单独使用时，<code>Unit</code> 并不是特别有用。但是，在多态代码中，它可以用作缺少数据的占位符。 例如，以下归纳数据类型表示算术表达式：</p>
+<p>单独使用时，<code>Unit</code> 并不是特别有用。但是，在多态代码中，它可以用作缺少数据的占位符。
+例如，以下归纳数据类型表示算术表达式：</p>
 <pre><code class="language-lean">inductive ArithExpr (ann : Type) : Type where
   | int : ann → Int → ArithExpr ann
   | plus : ann → ArithExpr ann → ArithExpr ann → ArithExpr ann
@@ -680,7 +772,9 @@ The type argument `ann` stands for annotations, and each constructor is annotate
 Expressions coming from a parser might be annotated with source locations, so a return type of `ArithExpr SourcePos` ensures that the parser put a `SourcePos` at each subexpression.
 Expressions that don't come from the parser, however, will not have source locations, so their type can be `ArithExpr Unit`.
 -->
-<p>类型参数 <code>ann</code> 表示标注，每个构造子都有标注。来自解析器的表达式可能带有源码位置标注， 因此 <code>ArithExpr SourcePos</code> 的返回类型需要确保解析器在每个子表达式中放置 <code>SourcePos</code>。 然而，不来自于解析器的表达式没有源码位置，因此它们的类型可以是 <code>ArithExpr Unit</code>。</p>
+<p>类型参数 <code>ann</code> 表示标注，每个构造子都有标注。来自解析器的表达式可能带有源码位置标注，
+因此 <code>ArithExpr SourcePos</code> 的返回类型需要确保解析器在每个子表达式中放置 <code>SourcePos</code>。
+然而，不来自于解析器的表达式没有源码位置，因此它们的类型可以是 <code>ArithExpr Unit</code>。</p>
 <!--
 Additionally, because all Lean functions have arguments, zero-argument functions in other languages can be represented as functions that take a `Unit` argument.
 In a return position, the `Unit` type is similar to `void` in languages derived from C.
@@ -688,7 +782,12 @@ In the C family, a function that returns `void` will return control to its calle
 By being an intentionally uninteresting value, `Unit` allows this to be expressed without requiring a special-purpose `void` feature in the type system.
 Unit's constructor can be written as empty parentheses: `() : Unit`.
 -->
-<p>此外，由于所有 Lean 函数都有参数，因此其他语言中的零参数函数可以表示为接受 <code>Unit</code> 参数的函数。 在返回位置，<code>Unit</code> 类型类似于 C 的语言中的 <code>void</code>。在 C 系列中， 返回 <code>void</code> 的函数会将控制权返回给调用者，但不会返回任何有意义的值。 <code>Unit</code> 作为一个特意表示无意义的值，可以在类型系统无需具有特殊用途的 <code>void</code> 特性的情况下表达这一点。Unit 的构造子可以写成空括号： <code>() : Unit</code>。</p>
+<p>此外，由于所有 Lean 函数都有参数，因此其他语言中的零参数函数可以表示为接受 <code>Unit</code> 参数的函数。
+在返回位置，<code>Unit</code> 类型类似于 C 的语言中的 <code>void</code>。在 C 系列中，
+返回 <code>void</code> 的函数会将控制权返回给调用者，但不会返回任何有意义的值。
+<code>Unit</code> 作为一个特意表示无意义的值，可以在类型系统无需具有特殊用途的 <code>void</code>
+特性的情况下表达这一点。Unit 的构造子可以写成空括号：
+<code>() : Unit</code>。</p>
 <!--
 ### `Empty`
 -->
@@ -697,7 +796,8 @@ Unit's constructor can be written as empty parentheses: `() : Unit`.
 The `Empty` datatype has no constructors whatsoever.
 Thus, it indicates unreachable code, because no series of calls can ever terminate with a value at type `Empty`.
 -->
-<p><code>Empty</code> 数据类型没有任何构造子。 因此，它表示不可达代码，因为任何调用序列都无法以 <code>Empty</code> 类型的返回值终止。</p>
+<p><code>Empty</code> 数据类型没有任何构造子。 因此，它表示不可达代码，因为任何调用序列都无法以
+<code>Empty</code> 类型的返回值终止。</p>
 <!--
 `Empty` is not used nearly as often as `Unit`.
 However, it is useful in some specialized contexts.
@@ -706,7 +806,10 @@ For instance, `Sum.inl` and `Sum.inr` each use only one of `Sum`'s type argument
 Using `Empty` as one of the type arguments to `Sum` can rule out one of the constructors at a particular point in a program.
 This can allow generic code to be used in contexts that have additional restrictions.
 -->
-<p><code>Empty</code> 的使用频率远不及 <code>Unit</code>。然而，它在一些特殊情况下很有用。 许多多态数据类型并非在其所有构造子中使用其所有类型参数。例如，<code>Sum.inl</code> 和 <code>Sum.inr</code> 各自只使用 <code>Sum</code> 的一个类型参数。将 <code>Empty</code> 用作 <code>Sum</code> 的类型参数之一可以在程序的特定点排除一个构造子。这能让我们在具有额外限制的语境中使用泛型代码。</p>
+<p><code>Empty</code> 的使用频率远不及 <code>Unit</code>。然而，它在一些特殊情况下很有用。
+许多多态数据类型并非在其所有构造子中使用其所有类型参数。例如，<code>Sum.inl</code> 和 <code>Sum.inr</code>
+各自只使用 <code>Sum</code> 的一个类型参数。将 <code>Empty</code> 用作 <code>Sum</code>
+的类型参数之一可以在程序的特定点排除一个构造子。这能让我们在具有额外限制的语境中使用泛型代码。</p>
 <!--
 ### Naming: Sums, Products, and Units
 -->
@@ -720,7 +823,15 @@ For instance, `Bool` has two values: `true` and `false`, and `Unit` has one valu
 The product `Bool × Unit` has the two values `(true, Unit.unit)` and `(false, Unit.unit)`, and the sum `Bool ⊕ Unit` has the three values `Sum.inl true`, `Sum.inl false`, and `Sum.inr unit`.
 Similarly, \\( 2 \times 1 = 2 \\), and \\( 2 + 1 = 3 \\).
 -->
-<p>一般来说，提供多个构造子的类型称为<strong>和类型（Sum Type）</strong>， 而其单个构造子接受多个参数的类型称为<strong>积类型（Product Type）</strong>。 这些术语与普通算术中使用的和与积有关。当涉及的类型包含有限数量的值时，这种关系最容易看出。 如果 <code>α</code> 和 <code>β</code> 是分别包含 \( n \) 和 \( k \) 个不同值的数据类型， 则 <code>α ⊕ β</code> 包含 \( n + k \) 个不同值，<code>α × β</code> 包含 \( n \times k \) 个不同值。 例如，<code>Bool</code> 有两个值：<code>true</code> 和 <code>false</code>，<code>Unit</code> 有一个值：<code>Unit.unit</code>。 积 <code>Bool × Unit</code> 有两个值 <code>(true, Unit.unit)</code> 和 <code>(false, Unit.unit)</code>， 和 <code>Bool ⊕ Unit</code> 有三个值 <code>Sum.inl true</code>、<code>Sum.inl false</code> 和 <code>Sum.inr unit</code>。 类似地，\( 2 \times 1 = 2 \)，\( 2 + 1 = 3 \)。</p>
+<p>一般来说，提供多个构造子的类型称为<strong>和类型（Sum Type）</strong>，
+而其单个构造子接受多个参数的类型称为<strong>积类型（Product Type）</strong>。
+这些术语与普通算术中使用的和与积有关。当涉及的类型包含有限数量的值时，这种关系最容易看出。
+如果 <code>α</code> 和 <code>β</code> 是分别包含 \( n \) 和 \( k \) 个不同值的数据类型，
+则 <code>α ⊕ β</code> 包含 \( n + k \) 个不同值，<code>α × β</code> 包含 \( n \times k \) 个不同值。
+例如，<code>Bool</code> 有两个值：<code>true</code> 和 <code>false</code>，<code>Unit</code> 有一个值：<code>Unit.unit</code>。
+积 <code>Bool × Unit</code> 有两个值 <code>(true, Unit.unit)</code> 和 <code>(false, Unit.unit)</code>，
+和 <code>Bool ⊕ Unit</code> 有三个值 <code>Sum.inl true</code>、<code>Sum.inl false</code> 和 <code>Sum.inr unit</code>。
+类似地，\( 2 \times 1 = 2 \)，\( 2 + 1 = 3 \)。</p>
 <!--
 ## Messages You May Meet
 -->
@@ -731,7 +842,9 @@ In particular, if a constructor takes an arbitrary type as an argument, then the
 These errors usually state something about "universe levels".
 For example, for this inductive type:
 -->
-<p>并非所有可定义的结构体或归纳类型都可以具有类型 <code>Type</code>。 特别是，如果一个构造子将任意类型作为参数，则归纳类型必须具有不同的类型。 这些错误通常会说明一些关于「全类层级」的内容。例如，对于这个归纳类型：</p>
+<p>并非所有可定义的结构体或归纳类型都可以具有类型 <code>Type</code>。
+特别是，如果一个构造子将任意类型作为参数，则归纳类型必须具有不同的类型。
+这些错误通常会说明一些关于「全类层级」的内容。例如，对于这个归纳类型：</p>
 <pre><code class="language-lean">inductive MyType : Type where
   | ctor : (α : Type) → α → MyType
 </code></pre>
@@ -750,7 +863,8 @@ it must be smaller than or equal to the inductive datatype universe level
 A later chapter describes why this is the case, and how to modify definitions to make them work.
 For now, try making the type an argument to the inductive type as a whole, rather than to the constructor.
 -->
-<p>后面的章节会描述为什么会这样，以及如何修改定义使其正常工作。 现在，尝试将类型作为参数传递给整个归纳类型，而不是传递给构造子。</p>
+<p>后面的章节会描述为什么会这样，以及如何修改定义使其正常工作。
+现在，尝试将类型作为参数传递给整个归纳类型，而不是传递给构造子。</p>
 <!--
 Similarly, if a constructor's argument is a function that takes the datatype being defined as an argument, then the definition is rejected.
 For example:
@@ -773,7 +887,8 @@ For technical reasons, allowing these datatypes could make it possible to underm
 Forgetting an argument to an inductive type can also yield a confusing message.
 For example, when the argument `α` is not passed to `MyType` in `ctor`'s type:
 -->
-<p>忘记归纳类型的参数也可能产生令人困惑的消息。 例如，当参数 <code>α</code> 没有传递给 <code>ctor</code> 的类型中的 <code>MyType</code> 时：</p>
+<p>忘记归纳类型的参数也可能产生令人困惑的消息。
+例如，当参数 <code>α</code> 没有传递给 <code>ctor</code> 的类型中的 <code>MyType</code> 时：</p>
 <pre><code class="language-lean">inductive MyType (α : Type) : Type where
   | ctor : α → MyType
 </code></pre>
@@ -788,7 +903,8 @@ Lean replies with the following error:
 The error message is saying that `MyType`'s type, which is `Type → Type`, does not itself describe types.
 `MyType` requires an argument to become an actual honest-to-goodness type.
 -->
-<p>该错误信息表明 <code>MyType</code> 的类型 <code>Type → Type</code> 本身并不描述类型。 <code>MyType</code> 需要一个参数才能成为一个真正的类型。</p>
+<p>该错误信息表明 <code>MyType</code> 的类型 <code>Type → Type</code> 本身并不描述类型。
+<code>MyType</code> 需要一个参数才能成为一个真正的类型。</p>
 <!--
 The same message can appear when type arguments are omitted in other contexts, such as in a type signature for a definition:
 -->
@@ -814,13 +930,23 @@ def ofFive : MyType := ctor 5
 -->
 <ul>
 <li>编写一个函数来查找列表中的最后一个条目。它应该返回一个 <code>Option</code>。</li>
-<li>编写一个函数，在列表中找到满足给定谓词的第一个条目。从 <code>def List.findFirst? {α : Type} (xs : List α) (predicate : α → Bool) : Option α :=</code> 开始定义。</li>
-<li>编写一个函数 <code>Prod.swap</code>，用于交换偶对中的两个字段。 定义以 <code>def Prod.swap {α β : Type} (pair : α × β) : β × α :=</code> 开始。</li>
+<li>编写一个函数，在列表中找到满足给定谓词的第一个条目。从
+<code>def List.findFirst? {α : Type} (xs : List α) (predicate : α → Bool) : Option α :=</code> 开始定义。</li>
+<li>编写一个函数 <code>Prod.swap</code>，用于交换偶对中的两个字段。
+定义以 <code>def Prod.swap {α β : Type} (pair : α × β) : β × α :=</code> 开始。</li>
 <li>使用自定义数据类型重写 <code>PetName</code> 示例，并将其与使用 <code>Sum</code> 的版本进行比较。</li>
-<li>编写一个函数 <code>zip</code>，用于将两个列表组合成一个偶对列表。结果列表的长度应与最短的输入列表相同。 定义以 <code>def zip {α β : Type} (xs : List α) (ys : List β) : List (α × β) :=</code> 开始。</li>
-<li>编写一个多态函数 <code>take</code>，返回列表中的前 \( n \) 个条目，其中 \( n \) 是一个 <code>Nat</code>。 如果列表包含的条目少于 <code>n</code> 个，则结果列表应为输入列表。 <code>#eval take 3 [&quot;bolete&quot;, &quot;oyster&quot;]</code> 应当产生 <code>[&quot;bolete&quot;, &quot;oyster&quot;]</code>，而 <code>#eval take 1 [&quot;bolete&quot;, &quot;oyster&quot;]</code> 应当产生 <code>[&quot;bolete&quot;]</code>。</li>
-<li>利用类型和算术之间的类比，编写一个将积分配到和上的函数。 换句话说，它的类型应为 <code>α × (β ⊕ γ) → (α × β) ⊕ (α × γ)</code>。</li>
-<li>利用类型和算术之间的类比，编写一个将乘以 2 转换为和的函数。 换句话说，它的类型应为 <code>Bool × α → α ⊕ α</code>。</li>
+<li>编写一个函数 <code>zip</code>，用于将两个列表组合成一个偶对列表。结果列表的长度应与最短的输入列表相同。
+定义以 <code>def zip {α β : Type} (xs : List α) (ys : List β) : List (α × β) :=</code> 开始。</li>
+<li>编写一个多态函数 <code>take</code>，返回列表中的前 \( n \) 个条目，其中 \( n \) 是一个 <code>Nat</code>。
+如果列表包含的条目少于 <code>n</code> 个，则结果列表应为输入列表。
+<code>#eval take 3 [&quot;bolete&quot;, &quot;oyster&quot;]</code> 应当产生
+<code>[&quot;bolete&quot;, &quot;oyster&quot;]</code>，而
+<code>#eval take 1 [&quot;bolete&quot;, &quot;oyster&quot;]</code> 应当产生
+<code>[&quot;bolete&quot;]</code>。</li>
+<li>利用类型和算术之间的类比，编写一个将积分配到和上的函数。
+换句话说，它的类型应为 <code>α × (β ⊕ γ) → (α × β) ⊕ (α × γ)</code>。</li>
+<li>利用类型和算术之间的类比，编写一个将乘以 2 转换为和的函数。
+换句话说，它的类型应为 <code>Bool × α → α ⊕ α</code>。</li>
 </ul>
 
                     </main>

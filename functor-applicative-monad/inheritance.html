@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>结构和继承 - Functional Programming in Lean</title>
+        <title>结构和继承 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,8 +138,12 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="结构体和继承"><a class="header" href="#结构体和继承">结构体和继承</a></h1>
-<p>In order to understand the full definitions of <code>Functor</code>, <code>Applicative</code>, and <code>Monad</code>, another Lean feature is necessary: structure inheritance. Structure inheritance allows one structure type to provide the interface of another, along with additional fields. This can be useful when modeling concepts that have a clear taxonomic relationship. For example, take a model of mythical creatures. Some of them are large, and some are small:</p>
+                        <h1 id="structures-and-inheritance"><a class="header" href="#structures-and-inheritance">Structures and Inheritance</a></h1>
+<p>In order to understand the full definitions of <code>Functor</code>, <code>Applicative</code>, and <code>Monad</code>, another Lean feature is necessary: structure inheritance.
+Structure inheritance allows one structure type to provide the interface of another, along with additional fields.
+This can be useful when modeling concepts that have a clear taxonomic relationship.
+For example, take a model of mythical creatures.
+Some of them are large, and some are small:</p>
 <pre><code class="language-lean">structure MythicalCreature where
   large : Bool
 deriving Repr
@@ -154,23 +158,31 @@ deriving Repr
 </code></pre>
 <pre><code class="language-output info">MythicalCreature.large (self : MythicalCreature) : Bool
 </code></pre>
-<p>In most old stories, each monster can be defeated in some way. A description of a monster should include this information, along with whether it is large:</p>
+<p>In most old stories, each monster can be defeated in some way.
+A description of a monster should include this information, along with whether it is large:</p>
 <pre><code class="language-lean">structure Monster extends MythicalCreature where
   vulnerability : String
 deriving Repr
 </code></pre>
-<p>The <code>extends MythicalCreature</code> in the heading states that every monster is also mythical. To define a <code>Monster</code>, both the fields from <code>MythicalCreature</code> and the fields from <code>Monster</code> should be provided. A troll is a large monster that is vulnerable to sunlight:</p>
+<p>The <code>extends MythicalCreature</code> in the heading states that every monster is also mythical.
+To define a <code>Monster</code>, both the fields from <code>MythicalCreature</code> and the fields from <code>Monster</code> should be provided.
+A troll is a large monster that is vulnerable to sunlight:</p>
 <pre><code class="language-lean">def troll : Monster where
   large := true
   vulnerability := &quot;sunlight&quot;
 </code></pre>
-<p>Behind the scenes, inheritance is implemented using composition. The constructor <code>Monster.mk</code> takes a <code>MythicalCreature</code> as its argument:</p>
+<p>Behind the scenes, inheritance is implemented using composition.
+The constructor <code>Monster.mk</code> takes a <code>MythicalCreature</code> as its argument:</p>
 <pre><code class="language-lean">#check Monster.mk
 </code></pre>
 <pre><code class="language-output info">Monster.mk (toMythicalCreature : MythicalCreature) (vulnerability : String) : Monster
 </code></pre>
-<p>In addition to defining functions to extract the value of each new field, a function <code>Monster.toMythicalCreature</code> is defined with type <code>Monster → MythicalCreature</code>. This can be used to extract the underlying creature.</p>
-<p>Moving up the inheritance hierarchy in Lean is not the same thing as upcasting in object-oriented languages. An upcast operator causes a value from a derived class to be treated as an instance of the parent class, but the value retains its identity and structure. In Lean, however, moving up the inheritance hierarchy actually erases the underlying information. To see this in action, consider the result of evaluating <code>troll.toMythicalCreature</code>:</p>
+<p>In addition to defining functions to extract the value of each new field, a function <code>Monster.toMythicalCreature</code> is defined with type <code>Monster → MythicalCreature</code>.
+This can be used to extract the underlying creature.</p>
+<p>Moving up the inheritance hierarchy in Lean is not the same thing as upcasting in object-oriented languages.
+An upcast operator causes a value from a derived class to be treated as an instance of the parent class, but the value retains its identity and structure.
+In Lean, however, moving up the inheritance hierarchy actually erases the underlying information.
+To see this in action, consider the result of evaluating <code>troll.toMythicalCreature</code>:</p>
 <pre><code class="language-lean">#eval troll.toMythicalCreature
 </code></pre>
 <pre><code class="language-output info">{ large := true }
@@ -194,7 +206,9 @@ but is expected to have type
 <p>An extra set of angle brackets is required, which invokes <code>MythicalCreature.mk</code> on <code>true</code>:</p>
 <pre><code class="language-lean">def troll : Monster := ⟨⟨true⟩, &quot;sunlight&quot;⟩
 </code></pre>
-<p>Lean's dot notation is capable of taking inheritance into account. In other words, the existing <code>MythicalCreature.large</code> can be used with a <code>Monster</code>, and Lean automatically inserts the call to <code>Monster.toMythicalCreature</code> before the call to <code>MythicalCreature.large</code>. However, this only occurs when using dot notation, and applying the field lookup function using normal function call syntax results in a type error:</p>
+<p>Lean's dot notation is capable of taking inheritance into account.
+In other words, the existing <code>MythicalCreature.large</code> can be used with a <code>Monster</code>, and Lean automatically inserts the call to <code>Monster.toMythicalCreature</code> before the call to <code>MythicalCreature.large</code>.
+However, this only occurs when using dot notation, and applying the field lookup function using normal function call syntax results in a type error:</p>
 <pre><code class="language-lean">#eval MythicalCreature.large troll
 </code></pre>
 <pre><code class="language-output error">application type mismatch
@@ -206,7 +220,8 @@ has type
 but is expected to have type
   MythicalCreature : Type
 </code></pre>
-<p>Dot notation can also take inheritance into account for user-defined functions. A small creature is one that is not large:</p>
+<p>Dot notation can also take inheritance into account for user-defined functions.
+A small creature is one that is not large:</p>
 <pre><code class="language-lean">def MythicalCreature.small (c : MythicalCreature) : Bool := !c.large
 </code></pre>
 <p>Evaluating <code>troll.small</code> yields <code>false</code>, while attempting to evaluate <code>MythicalCreature.small troll</code> results in:</p>
@@ -232,7 +247,9 @@ deriving Repr
   assistance := &quot;household tasks&quot;
   payment := &quot;porridge&quot;
 </code></pre>
-<p>If domesticated, trolls make excellent helpers. They are strong enough to plow a whole field in a single night, though they require model goats to keep them satisfied with their lot in life. A monstrous assistant is a monster that is also a helper:</p>
+<p>If domesticated, trolls make excellent helpers.
+They are strong enough to plow a whole field in a single night, though they require model goats to keep them satisfied with their lot in life.
+A monstrous assistant is a monster that is also a helper:</p>
 <pre><code class="language-lean">structure MonstrousAssistant extends Monster, Helper where
 deriving Repr
 </code></pre>
@@ -243,22 +260,29 @@ deriving Repr
   payment := &quot;toy goats&quot;
   vulnerability := &quot;sunlight&quot;
 </code></pre>
-<p>Both of the parent structure types extend <code>MythicalCreature</code>. If multiple inheritance were implemented naïvely, then this could lead to a &quot;diamond problem&quot;, where it would be unclear which path to <code>large</code> should be taken from a given <code>MonstrousAssistant</code>. Should it take <code>large</code> from the contained <code>Monster</code> or from the contained <code>Helper</code>? In Lean, the answer is that the first specified path to the grandparent structure is taken, and the additional parent structures' fields are copied rather than having the new structure include both parents directly.</p>
+<p>Both of the parent structure types extend <code>MythicalCreature</code>.
+If multiple inheritance were implemented naïvely, then this could lead to a &quot;diamond problem&quot;, where it would be unclear which path to <code>large</code> should be taken from a given <code>MonstrousAssistant</code>.
+Should it take <code>large</code> from the contained <code>Monster</code> or from the contained <code>Helper</code>?
+In Lean, the answer is that the first specified path to the grandparent structure is taken, and the additional parent structures' fields are copied rather than having the new structure include both parents directly.</p>
 <p>This can be seen by examining the signature of the constructor for <code>MonstrousAssistant</code>:</p>
 <pre><code class="language-lean">#check MonstrousAssistant.mk
 </code></pre>
 <pre><code class="language-output info">MonstrousAssistant.mk (toMonster : Monster) (assistance payment : String) : MonstrousAssistant
 </code></pre>
-<p>It takes a <code>Monster</code> as an argument, along with the two fields that <code>Helper</code> introduces on top of <code>MythicalCreature</code>. Similarly, while <code>MonstrousAssistant.toMonster</code> merely extracts the <code>Monster</code> from the constructor, <code>MonstrousAssistant.toHelper</code> has no <code>Helper</code> to extract. The <code>#print</code> command exposes its implementation:</p>
+<p>It takes a <code>Monster</code> as an argument, along with the two fields that <code>Helper</code> introduces on top of <code>MythicalCreature</code>.
+Similarly, while <code>MonstrousAssistant.toMonster</code> merely extracts the <code>Monster</code> from the constructor, <code>MonstrousAssistant.toHelper</code> has no <code>Helper</code> to extract.
+The <code>#print</code> command exposes its implementation:</p>
 <pre><code class="language-lean">#print MonstrousAssistant.toHelper
 </code></pre>
 <pre><code class="language-output info">@[reducible] def MonstrousAssistant.toHelper : MonstrousAssistant → Helper :=
 fun self =&gt;
   { toMythicalCreature := self.toMonster.toMythicalCreature, assistance := self.assistance, payment := self.payment }
 </code></pre>
-<p>This function constructs a <code>Helper</code> from the fields of <code>MonstrousAssistant</code>. The <code>@[reducible]</code> attribute has the same effect as writing <code>abbrev</code>.</p>
+<p>This function constructs a <code>Helper</code> from the fields of <code>MonstrousAssistant</code>.
+The <code>@[reducible]</code> attribute has the same effect as writing <code>abbrev</code>.</p>
 <h3 id="default-declarations"><a class="header" href="#default-declarations">Default Declarations</a></h3>
-<p>When one structure inherits from another, default field definitions can be used to instantiate the parent structure's fields based on the child structure's fields. If more size specificity is required than whether a creature is large or not, a dedicated datatype describing sizes can be used together with inheritance, yielding a structure in which the <code>large</code> field is computed from the contents of the <code>size</code> field:</p>
+<p>When one structure inherits from another, default field definitions can be used to instantiate the parent structure's fields based on the child structure's fields.
+If more size specificity is required than whether a creature is large or not, a dedicated datatype describing sizes can be used together with inheritance, yielding a structure in which the <code>large</code> field is computed from the contents of the <code>size</code> field:</p>
 <pre><code class="language-lean">inductive Size where
   | small
   | medium
@@ -269,7 +293,8 @@ structure SizedCreature extends MythicalCreature where
   size : Size
   large := size == Size.large
 </code></pre>
-<p>This default definition is only a default definition, however. Unlike property inheritance in a language like C# or Scala, the definitions in the child structure are only used when no specific value for <code>large</code> is provided, and nonsensical results can occur:</p>
+<p>This default definition is only a default definition, however.
+Unlike property inheritance in a language like C# or Scala, the definitions in the child structure are only used when no specific value for <code>large</code> is provided, and nonsensical results can occur:</p>
 <pre><code class="language-lean">def nonsenseCreature : SizedCreature where
   large := false
   size := .large
@@ -284,8 +309,10 @@ structure SizedCreature extends MythicalCreature where
 <pre><code class="language-lean">abbrev SizesMatch (sc : SizedCreature) : Prop :=
   sc.large = (sc.size == Size.large)
 </code></pre>
-<p>Note that a single equality sign is used to indicate the equality <em>proposition</em>, while a double equality sign is used to indicate a function that checks equality and returns a <code>Bool</code>. <code>SizesMatch</code> is defined as an <code>abbrev</code> because it should automatically be unfolded in proofs, so that <code>simp</code> can see the equality that should be proven.</p>
-<p>A <em>huldre</em> is a medium-sized mythical creature—in fact, they are the same size as humans. The two sized fields on <code>huldre</code> match one another:</p>
+<p>Note that a single equality sign is used to indicate the equality <em>proposition</em>, while a double equality sign is used to indicate a function that checks equality and returns a <code>Bool</code>.
+<code>SizesMatch</code> is defined as an <code>abbrev</code> because it should automatically be unfolded in proofs, so that <code>simp</code> can see the equality that should be proven.</p>
+<p>A <em>huldre</em> is a medium-sized mythical creature—in fact, they are the same size as humans.
+The two sized fields on <code>huldre</code> match one another:</p>
 <pre><code class="language-lean">def huldre : SizedCreature where
   size := .medium
 
@@ -293,8 +320,13 @@ example : SizesMatch huldre := by
   simp
 </code></pre>
 <h3 id="type-class-inheritance"><a class="header" href="#type-class-inheritance">Type Class Inheritance</a></h3>
-<p>Behind the scenes, type classes are structures. Defining a new type class defines a new structure, and defining an instance creates a value of that structure type. They are then added to internal tables in Lean that allow it to find the instances upon request. A consequence of this is that type classes may inherit from other type classes.</p>
-<p>Because it uses precisely the same language features, type class inheritance supports all the features of structure inheritance, including multiple inheritance, default implementations of parent types' methods, and automatic collapsing of diamonds. This is useful in many of the same situations that multiple interface inheritance is useful in languages like Java, C# and Kotlin. By carefully designing type class inheritance hierarchies, programmers can get the best of both worlds: a fine-grained collection of independently-implementable abstractions, and automatic construction of these specific abstractions from larger, more general abstractions.</p>
+<p>Behind the scenes, type classes are structures.
+Defining a new type class defines a new structure, and defining an instance creates a value of that structure type.
+They are then added to internal tables in Lean that allow it to find the instances upon request.
+A consequence of this is that type classes may inherit from other type classes.</p>
+<p>Because it uses precisely the same language features, type class inheritance supports all the features of structure inheritance, including multiple inheritance, default implementations of parent types' methods, and automatic collapsing of diamonds.
+This is useful in many of the same situations that multiple interface inheritance is useful in languages like Java, C# and Kotlin.
+By carefully designing type class inheritance hierarchies, programmers can get the best of both worlds: a fine-grained collection of independently-implementable abstractions, and automatic construction of these specific abstractions from larger, more general abstractions.</p>
 
                     </main>
 

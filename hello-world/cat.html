@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>现实示例：cat - Functional Programming in Lean</title>
+        <title>现实示例：cat - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,12 +138,24 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="现实示例cat"><a class="header" href="#现实示例cat">现实示例：<code>cat</code></a></h1>
-<p>The standard Unix utility <code>cat</code> takes a number of command-line options, followed by zero or more input files. If no files are provided, or if one of them is a dash (<code>-</code>), then it takes the standard input as the corresponding input instead of reading a file. The contents of the inputs are written, one after the other, to the standard output. If a specified input file does not exist, this is noted on standard error, but <code>cat</code> continues concatenating the remaining inputs. A non-zero exit code is returned if any of the input files do not exist.</p>
-<p>This section describes a simplified version of <code>cat</code>, called <code>feline</code>. Unlike commonly-used versions of <code>cat</code>, <code>feline</code> has no command-line options for features such as numbering lines, indicating non-printing characters, or displaying help text. Furthermore, it cannot read more than once from a standard input that's associated with a terminal device.</p>
-<p>To get the most benefit from this section, follow along yourself. It's OK to copy-paste the code examples, but it's even better to type them in by hand. This makes it easier to learn the mechanical process of typing in code, recovering from mistakes, and interpreting feedback from the compiler.</p>
+                        <h1 id="worked-example-cat"><a class="header" href="#worked-example-cat">Worked Example: <code>cat</code></a></h1>
+<p>The standard Unix utility <code>cat</code> takes a number of command-line options, followed by zero or more input files.
+If no files are provided, or if one of them is a dash (<code>-</code>), then it takes the standard input as the corresponding input instead of reading a file.
+The contents of the inputs are written, one after the other, to the standard output.
+If a specified input file does not exist, this is noted on standard error, but <code>cat</code> continues concatenating the remaining inputs.
+A non-zero exit code is returned if any of the input files do not exist.</p>
+<p>This section describes a simplified version of <code>cat</code>, called <code>feline</code>.
+Unlike commonly-used versions of <code>cat</code>, <code>feline</code> has no command-line options for features such as numbering lines, indicating non-printing characters, or displaying help text.
+Furthermore, it cannot read more than once from a standard input that's associated with a terminal device.</p>
+<p>To get the most benefit from this section, follow along yourself.
+It's OK to copy-paste the code examples, but it's even better to type them in by hand.
+This makes it easier to learn the mechanical process of typing in code, recovering from mistakes, and interpreting feedback from the compiler.</p>
 <h2 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h2>
-<p>The first step in implementing <code>feline</code> is to create a package and decide how to organize the code. In this case, because the program is so simple, all the code will be placed in <code>Main.lean</code>. The first step is to run <code>lake new feline</code>. Edit the Lakefile to remove the library, and delete the generated library code and the reference to it from <code>Main.lean</code>. Once this has been done, <code>lakefile.lean</code> should contain:</p>
+<p>The first step in implementing <code>feline</code> is to create a package and decide how to organize the code.
+In this case, because the program is so simple, all the code will be placed in <code>Main.lean</code>.
+The first step is to run <code>lake new feline</code>.
+Edit the Lakefile to remove the library, and delete the generated library code and the reference to it from <code>Main.lean</code>.
+Once this has been done, <code>lakefile.lean</code> should contain:</p>
 <pre><code class="language-lean">import Lake
 open Lake DSL
 
@@ -163,8 +175,13 @@ lean_exe «feline» {
 <p>Alternatively, running <code>lake new feline exe</code> instructs <code>lake</code> to use a template that does not include a library section, making it unnecessary to edit the file.</p>
 <p>Ensure that the code can be built by running <code>lake build</code>.</p>
 <h2 id="concatenating-streams"><a class="header" href="#concatenating-streams">Concatenating Streams</a></h2>
-<p>Now that the basic skeleton of the program has been built, it's time to actually enter the code. A proper implementation of <code>cat</code> can be used with infinite IO streams, such as <code>/dev/random</code>, which means that it can't read its input into memory before outputting it. Furthermore, it should not work one character at a time, as this leads to frustratingly slow performance. Instead, it's better to read contiguous blocks of data all at once, directing the data to the standard output one block at a time.</p>
-<p>The first step is to decide how big of a block to read. For the sake of simplicity, this implementation uses a conservative 20 kilobyte block. <code>USize</code> is analogous to <code>size_t</code> in C—it's an unsigned integer type that is big enough to represent all valid array sizes.</p>
+<p>Now that the basic skeleton of the program has been built, it's time to actually enter the code.
+A proper implementation of <code>cat</code> can be used with infinite IO streams, such as <code>/dev/random</code>, which means that it can't read its input into memory before outputting it.
+Furthermore, it should not work one character at a time, as this leads to frustratingly slow performance.
+Instead, it's better to read contiguous blocks of data all at once, directing the data to the standard output one block at a time.</p>
+<p>The first step is to decide how big of a block to read.
+For the sake of simplicity, this implementation uses a conservative 20 kilobyte block.
+<code>USize</code> is analogous to <code>size_t</code> in C—it's an unsigned integer type that is big enough to represent all valid array sizes.</p>
 <pre><code class="language-lean">def bufsize : USize := 20 * 1024
 </code></pre>
 <h3 id="streams"><a class="header" href="#streams">Streams</a></h3>
@@ -178,8 +195,14 @@ lean_exe «feline» {
     stdout.write buf
     dump stream
 </code></pre>
-<p>The <code>dump</code> function is declared <code>partial</code>, because it calls itself recursively on input that is not immediately smaller than an argument. When a function is declared to be partial, Lean does not require a proof that it terminates. On the other hand, partial functions are also much less amenable to proofs of correctness, because allowing infinite loops in Lean's logic would make it unsound. However, there is no way to prove that <code>dump</code> terminates, because infinite input (such as from <code>/dev/random</code>) would mean that it does not, in fact, terminate. In cases like this, there is no alternative to declaring the function <code>partial</code>.</p>
-<p>The type <code>IO.FS.Stream</code> represents a POSIX stream. Behind the scenes, it is represented as a structure that has one field for each POSIX stream operation. Each operation is represented as an IO action that provides the corresponding operation:</p>
+<p>The <code>dump</code> function is declared <code>partial</code>, because it calls itself recursively on input that is not immediately smaller than an argument.
+When a function is declared to be partial, Lean does not require a proof that it terminates.
+On the other hand, partial functions are also much less amenable to proofs of correctness, because allowing infinite loops in Lean's logic would make it unsound.
+However, there is no way to prove that <code>dump</code> terminates, because infinite input (such as from <code>/dev/random</code>) would mean that it does not, in fact, terminate.
+In cases like this, there is no alternative to declaring the function <code>partial</code>.</p>
+<p>The type <code>IO.FS.Stream</code> represents a POSIX stream.
+Behind the scenes, it is represented as a structure that has one field for each POSIX stream operation.
+Each operation is represented as an IO action that provides the corresponding operation:</p>
 <pre><code class="language-lean">structure Stream where
   flush   : IO Unit
   read    : USize → IO ByteArray
@@ -187,11 +210,22 @@ lean_exe «feline» {
   getLine : IO String
   putStr  : String → IO Unit
 </code></pre>
-<p>The Lean compiler contains <code>IO</code> actions (such as <code>IO.getStdout</code>, which is called in <code>dump</code>) to get streams that represent standard input, standard output, and standard error. These are <code>IO</code> actions rather than ordinary definitions because Lean allows these standard POSIX streams to be replaced in a process, which makes it easier to do things like capturing the output from a program into a string by writing a custom <code>IO.FS.Stream</code>.</p>
-<p>The control flow in <code>dump</code> is essentially a <code>while</code> loop. When <code>dump</code> is called, if the stream has reached the end of the file, <code>pure ()</code> terminates the function by returning the constructor for <code>Unit</code>. If the stream has not yet reached the end of the file, one block is read, and its contents are written to <code>stdout</code>, after which <code>dump</code> calls itself directly. The recursive calls continue until <code>stream.read</code> returns an empty byte array, which indicates that the end of the file has been reached.</p>
-<p>When an <code>if</code> expression occurs as a statement in a <code>do</code>, as in <code>dump</code>, each branch of the <code>if</code> is implicitly provided with a <code>do</code>. In other words, the sequence of steps following the <code>else</code> are treated as a sequence of <code>IO</code> actions to be executed, just as if they had a <code>do</code> at the beginning. Names introduced with <code>let</code> in the branches of the <code>if</code> are visible only in their own branches, and are not in scope outside of the <code>if</code>.</p>
-<p>There is no danger of running out of stack space while calling <code>dump</code> because the recursive call happens as the very last step in the function, and its result is returned directly rather than being manipulated or computed with. This kind of recursion is called <em>tail recursion</em>, and it is described in more detail <a href="../programs-proofs/tail-recursion.html">later in this book</a>. Because the compiled code does not need to retain any state, the Lean compiler can compile the recursive call to a jump.</p>
-<p>If <code>feline</code> only redirected standard input to standard output, then <code>dump</code> would be sufficient. However, it also needs to be able to open files that are provided as command-line arguments and emit their contents. When its argument is the name of a file that exists, <code>fileStream</code> returns a stream that reads the file's contents. When the argument is not a file, <code>fileStream</code> emits an error and returns <code>none</code>.</p>
+<p>The Lean compiler contains <code>IO</code> actions (such as <code>IO.getStdout</code>, which is called in <code>dump</code>) to get streams that represent standard input, standard output, and standard error.
+These are <code>IO</code> actions rather than ordinary definitions because Lean allows these standard POSIX streams to be replaced in a process, which makes it easier to do things like capturing the output from a program into a string by writing a custom <code>IO.FS.Stream</code>.</p>
+<p>The control flow in <code>dump</code> is essentially a <code>while</code> loop.
+When <code>dump</code> is called, if the stream has reached the end of the file, <code>pure ()</code> terminates the function by returning the constructor for <code>Unit</code>.
+If the stream has not yet reached the end of the file, one block is read, and its contents are written to <code>stdout</code>, after which <code>dump</code> calls itself directly.
+The recursive calls continue until <code>stream.read</code> returns an empty byte array, which indicates that the end of the file has been reached.</p>
+<p>When an <code>if</code> expression occurs as a statement in a <code>do</code>, as in <code>dump</code>, each branch of the <code>if</code> is implicitly provided with a <code>do</code>.
+In other words, the sequence of steps following the <code>else</code> are treated as a sequence of <code>IO</code> actions to be executed, just as if they had a <code>do</code> at the beginning.
+Names introduced with <code>let</code> in the branches of the <code>if</code> are visible only in their own branches, and are not in scope outside of the <code>if</code>.</p>
+<p>There is no danger of running out of stack space while calling <code>dump</code> because the recursive call happens as the very last step in the function, and its result is returned directly rather than being manipulated or computed with.
+This kind of recursion is called <em>tail recursion</em>, and it is described in more detail <a href="../programs-proofs/tail-recursion.html">later in this book</a>.
+Because the compiled code does not need to retain any state, the Lean compiler can compile the recursive call to a jump.</p>
+<p>If <code>feline</code> only redirected standard input to standard output, then <code>dump</code> would be sufficient.
+However, it also needs to be able to open files that are provided as command-line arguments and emit their contents.
+When its argument is the name of a file that exists, <code>fileStream</code> returns a stream that reads the file's contents.
+When the argument is not a file, <code>fileStream</code> emits an error and returns <code>none</code>.</p>
 <pre><code class="language-lean">def fileStream (filename : System.FilePath) : IO (Option IO.FS.Stream) := do
   let fileExists ← filename.pathExists
   if not fileExists then
@@ -202,9 +236,15 @@ lean_exe «feline» {
     let handle ← IO.FS.Handle.mk filename IO.FS.Mode.read
     pure (some (IO.FS.Stream.ofHandle handle))
 </code></pre>
-<p>Opening a file as a stream takes two steps. First, a file handle is created by opening the file in read mode. A Lean file handle tracks an underlying file descriptor. When there are no references to the file handle value, a finalizer closes the file descriptor. Second, the file handle is given the same interface as a POSIX stream using <code>IO.FS.Stream.ofHandle</code>, which fills each field of the <code>Stream</code> structure with the corresponding <code>IO</code> action that works on file handles.</p>
+<p>Opening a file as a stream takes two steps.
+First, a file handle is created by opening the file in read mode.
+A Lean file handle tracks an underlying file descriptor.
+When there are no references to the file handle value, a finalizer closes the file descriptor.
+Second, the file handle is given the same interface as a POSIX stream using <code>IO.FS.Stream.ofHandle</code>, which fills each field of the <code>Stream</code> structure with the corresponding <code>IO</code> action that works on file handles.</p>
 <h3 id="handling-input"><a class="header" href="#handling-input">Handling Input</a></h3>
-<p>The main loop of <code>feline</code> is another tail-recursive function, called <code>process</code>. In order to return a non-zero exit code if any of the inputs could not be read, <code>process</code> takes an argument <code>exitCode</code> that represents the current exit code for the whole program. Additionally, it takes a list of input files to be processed.</p>
+<p>The main loop of <code>feline</code> is another tail-recursive function, called <code>process</code>.
+In order to return a non-zero exit code if any of the inputs could not be read, <code>process</code> takes an argument <code>exitCode</code> that represents the current exit code for the whole program.
+Additionally, it takes a list of input files to be processed.</p>
 <pre><code class="language-lean">def process (exitCode : UInt32) (args : List String) : IO UInt32 := do
   match args with
   | [] =&gt; pure exitCode
@@ -222,27 +262,42 @@ lean_exe «feline» {
       process exitCode args
 </code></pre>
 <p>Just as with <code>if</code>, each branch of a <code>match</code> that is used as a statement in a <code>do</code> is implicitly provided with its own <code>do</code>.</p>
-<p>There are three possibilities. One is that no more files remain to be processed, in which case <code>process</code> returns the error code unchanged. Another is that the specified filename is <code>&quot;-&quot;</code>, in which case <code>process</code> dumps the contents of the standard input and then processes the remaining filenames. The final possibility is that an actual filename was specified. In this case, <code>fileStream</code> is used to attempt to open the file as a POSIX stream. Its argument is encased in <code>⟨ ... ⟩</code> because a <code>FilePath</code> is a single-field structure that contains a string. If the file could not be opened, it is skipped, and the recursive call to <code>process</code> sets the exit code to <code>1</code>. If it could, then it is dumped, and the recursive call to <code>process</code> leaves the exit code unchanged.</p>
-<p><code>process</code> does not need to be marked <code>partial</code> because it is structurally recursive. Each recursive call is provided with the tail of the input list, and all Lean lists are finite. Thus, <code>process</code> does not introduce any non-termination.</p>
+<p>There are three possibilities.
+One is that no more files remain to be processed, in which case <code>process</code> returns the error code unchanged.
+Another is that the specified filename is <code>&quot;-&quot;</code>, in which case <code>process</code> dumps the contents of the standard input and then processes the remaining filenames.
+The final possibility is that an actual filename was specified.
+In this case, <code>fileStream</code> is used to attempt to open the file as a POSIX stream.
+Its argument is encased in <code>⟨ ... ⟩</code> because a <code>FilePath</code> is a single-field structure that contains a string.
+If the file could not be opened, it is skipped, and the recursive call to <code>process</code> sets the exit code to <code>1</code>.
+If it could, then it is dumped, and the recursive call to <code>process</code> leaves the exit code unchanged.</p>
+<p><code>process</code> does not need to be marked <code>partial</code> because it is structurally recursive.
+Each recursive call is provided with the tail of the input list, and all Lean lists are finite.
+Thus, <code>process</code> does not introduce any non-termination.</p>
 <h3 id="main"><a class="header" href="#main">Main</a></h3>
-<p>The final step is to write the <code>main</code> action. Unlike prior examples, <code>main</code> in <code>feline</code> is a function. In Lean, <code>main</code> can have one of three types:</p>
+<p>The final step is to write the <code>main</code> action.
+Unlike prior examples, <code>main</code> in <code>feline</code> is a function.
+In Lean, <code>main</code> can have one of three types:</p>
 <ul>
 <li><code>main : IO Unit</code> corresponds to programs that cannot read their command-line arguments and always indicate success with an exit code of <code>0</code>,</li>
 <li><code>main : IO UInt32</code> corresponds to <code>int main(void)</code> in C, for programs without arguments that return exit codes, and</li>
 <li><code>main : List String → IO UInt32</code> corresponds to <code>int main(int argc, char **argv)</code> in C, for programs that take arguments and signal success or failure.</li>
 </ul>
-<p>If no arguments were provided, <code>feline</code> should read from standard input as if it were called with a single <code>&quot;-&quot;</code> argument. Otherwise, the arguments should be processed one after the other.</p>
+<p>If no arguments were provided, <code>feline</code> should read from standard input as if it were called with a single <code>&quot;-&quot;</code> argument.
+Otherwise, the arguments should be processed one after the other.</p>
 <pre><code class="language-lean">def main (args : List String) : IO UInt32 :=
   match args with
   | [] =&gt; process 0 [&quot;-&quot;]
   | _ =&gt;  process 0 args
 </code></pre>
 <h2 id="meow"><a class="header" href="#meow">Meow!</a></h2>
-<p>To check whether <code>feline</code> works, the first step is to build it with <code>lake build</code>. First off, when called without arguments, it should emit what it receives from standard input. Check that</p>
+<p>To check whether <code>feline</code> works, the first step is to build it with <code>lake build</code>.
+First off, when called without arguments, it should emit what it receives from standard input.
+Check that</p>
 <pre><code>echo &quot;It works!&quot; | ./build/bin/feline
 </code></pre>
 <p>emits <code>It works!</code>.</p>
-<p>Secondly, when called with files as arguments, it should print them. If the file <code>test1.txt</code> contains</p>
+<p>Secondly, when called with files as arguments, it should print them.
+If the file <code>test1.txt</code> contains</p>
 <pre><code>It's time to find a warm spot
 </code></pre>
 <p>and <code>test2.txt</code> contains</p>
@@ -255,16 +310,17 @@ lean_exe «feline» {
 <pre><code>It's time to find a warm spot
 and curl up!
 </code></pre>
-<p>最终，<code>-</code> 参数应得到适当处理。</p>
+<p>Finally, the <code>-</code> argument should be handled appropriately.</p>
 <pre><code>echo &quot;and purr&quot; | ./build/bin/feline test1.txt - test2.txt
 </code></pre>
-<p>应产生</p>
+<p>should yield</p>
 <pre><code>It's time to find a warm spot
 and purr
 and curl up!
 </code></pre>
 <h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>扩展 <code>feline</code> 以支持使用信息。扩展版本应接受命令行参数 <code>--help</code>，该参数会导致有关可用命令行选项的文档被写入标准输出。</p>
+<p>Extend <code>feline</code> with support for usage information.
+The extended version should accept a command-line argument <code>--help</code> that causes documentation about the available command-line options to be written to standard output.</p>
 
                     </main>
 

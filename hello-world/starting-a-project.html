@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>启动项目 - Functional Programming in Lean</title>
+        <title>启动项目 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,17 +138,27 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="开始一个项目"><a class="header" href="#开始一个项目">开始一个项目</a></h1>
-<p>As a program written in Lean becomes more serious, an ahead-of-time compiler-based workflow that results in an executable becomes more attractive. Like other languages, Lean has tools for building multiple-file packages and managing dependencies. The standard Lean build tool is called Lake (short for &quot;Lean Make&quot;), and it is configured in Lean. Just as Lean contains a special-purpose language for writing programs with effects (the <code>do</code> language), Lake contains a special-purpose language for configuring builds. These languages are referred to as <em>embedded domain-specific languages</em> (or sometimes <em>domain-specific embedded languages</em>, abbreviated EDSL or DSEL). They are <em>domain-specific</em> in the sense that they are used for a particular purpose, with concepts from some sub-domain, and they are typically not suitable for general-purpose programming. They are <em>embedded</em> because they occur inside another language's syntax. While Lean contains rich facilities for creating EDSLs, they are beyond the scope of this book.</p>
+                        <h1 id="starting-a-project"><a class="header" href="#starting-a-project">Starting a Project</a></h1>
+<p>As a program written in Lean becomes more serious, an ahead-of-time compiler-based workflow that results in an executable becomes more attractive.
+Like other languages, Lean has tools for building multiple-file packages and managing dependencies.
+The standard Lean build tool is called Lake (short for &quot;Lean Make&quot;), and it is configured in Lean.
+Just as Lean contains a special-purpose language for writing programs with effects (the <code>do</code> language), Lake contains a special-purpose language for configuring builds.
+These languages are referred to as <em>embedded domain-specific languages</em> (or sometimes <em>domain-specific embedded languages</em>, abbreviated EDSL or DSEL).
+They are <em>domain-specific</em> in the sense that they are used for a particular purpose, with concepts from some sub-domain, and they are typically not suitable for general-purpose programming.
+They are <em>embedded</em> because they occur inside another language's syntax.
+While Lean contains rich facilities for creating EDSLs, they are beyond the scope of this book.</p>
 <h2 id="first-steps"><a class="header" href="#first-steps">First steps</a></h2>
-<p>To get started with a project that uses Lake, use the command <code>lake new greeting</code> in a directory that does not already contain a file or directory called <code>greeting</code>. This creates a directory called <code>greeting</code> that contains the following files:</p>
+<p>To get started with a project that uses Lake, use the command <code>lake new greeting</code> in a directory that does not already contain a file or directory called <code>greeting</code>.
+This creates a directory called <code>greeting</code> that contains the following files:</p>
 <ul>
 <li><code>Main.lean</code> is the file in which the Lean compiler will look for the <code>main</code> action.</li>
 <li><code>Greeting.lean</code> and <code>Greeting/Basic.lean</code> are the scaffolding of a support library for the program.</li>
 <li><code>lakefile.lean</code> contains the configuration that <code>lake</code> needs to build the application.</li>
 <li><code>lean-toolchain</code> contains an identifier for the specific version of Lean that is used for the project.</li>
 </ul>
-<p>Additionally, <code>lake new</code> initializes the project as a Git repository and configures its <code>.gitignore</code> file to ignore intermediate build products. Typically, the majority of the application logic will be in a collection of libraries for the program, while <code>Main.lean</code> will contain a small wrapper around these pieces that does things like parsing command lines and executing the central application logic. To create a project in an already-existing directory, run <code>lake init</code> instead of <code>lake new</code>.</p>
+<p>Additionally, <code>lake new</code> initializes the project as a Git repository and configures its <code>.gitignore</code> file to ignore intermediate build products.
+Typically, the majority of the application logic will be in a collection of libraries for the program, while <code>Main.lean</code> will contain a small wrapper around these pieces that does things like parsing command lines and executing the central application logic.
+To create a project in an already-existing directory, run <code>lake init</code> instead of <code>lake new</code>.</p>
 <p>By default, the library file <code>Greeting/Basic.lean</code> contains a single definition:</p>
 <pre><code class="language-lean">def hello := &quot;world&quot;
 </code></pre>
@@ -157,7 +167,10 @@
 -- Import modules here that should be built as part of the library.
 import «Greeting».Basic
 </code></pre>
-<p>This means that everything defined in <code>Greetings/Basic.lean</code> is also available to files that import <code>Greetings.lean</code>. In <code>import</code> statements, dots are interpreted as directories on disk. Placing guillemets around a name, as in <code>«Greeting»</code>, allow it to contain spaces or other characters that are normally not allowed in Lean names, and it allows reserved keywords such as <code>if</code> or <code>def</code> to be used as ordinary names by writing <code>«if»</code> or <code>«def»</code>. This prevents issues when the package name provided to <code>lake new</code> contains such characters.</p>
+<p>This means that everything defined in <code>Greetings/Basic.lean</code> is also available to files that import <code>Greetings.lean</code>.
+In <code>import</code> statements, dots are interpreted as directories on disk.
+Placing guillemets around a name, as in <code>«Greeting»</code>, allow it to contain spaces or other characters that are normally not allowed in Lean names, and it allows reserved keywords such as <code>if</code> or <code>def</code> to be used as ordinary names by writing <code>«if»</code> or <code>«def»</code>.
+This prevents issues when the package name provided to <code>lake new</code> contains such characters.</p>
 <p>The executable source <code>Main.lean</code> contains:</p>
 <pre><code class="language-lean">import «Greeting»
 
@@ -165,9 +178,14 @@ def main : IO Unit :=
   IO.println s!&quot;Hello, {hello}!&quot;
 </code></pre>
 <p>Because <code>Main.lean</code> imports <code>Greetings.lean</code> and <code>Greetings.lean</code> imports <code>Greetings/Basic.lean</code>, the definition of <code>hello</code> is available in <code>main</code>.</p>
-<p>要构建包，运行命令 <code>lake build</code>。在滚动显示一些构建命令后，结果二进制文件已放置在 <code>build/bin</code> 中。运行 <code>./build/bin/greeting</code> 会生成 <code>Hello, world!</code>。</p>
-<h2 id="lakefile"><a class="header" href="#lakefile">Lakefile</a></h2>
-<p><code>lakefile.lean</code> 描述了一个 <em>包</em>，它是一个连贯的 Lean 代码集合，用于分发，类似于 <code>npm</code> 或 <code>nuget</code> 包或 Rust 箱子。一个包可以包含任意数量的库或可执行文件。虽然 <a href="https://github.com/leanprover/lean4/blob/master/src/lake/README.md">Lake 文档</a> 描述了 lakefile 中的可用选项，但它使用了此处尚未描述的许多 Lean 特性。生成的 <code>lakefile.lean</code> 包含以下内容：</p>
+<p>To build the package, run the command <code>lake build</code>.
+After a number of build commands scroll by, the resulting binary has been placed in <code>build/bin</code>.
+Running <code>./build/bin/greeting</code> results in <code>Hello, world!</code>.</p>
+<h2 id="lakefiles"><a class="header" href="#lakefiles">Lakefiles</a></h2>
+<p>A <code>lakefile.lean</code> describes a <em>package</em>, which is a coherent collection of Lean code for distribution, analogous to an <code>npm</code> or <code>nuget</code> package or a Rust crate.
+A package may contain any number of libraries or executables.
+While the <a href="https://github.com/leanprover/lean4/blob/master/src/lake/README.md">documentation for Lake</a> describes the available options in a lakefile, it makes use of a number of Lean features that have not yet been described here.
+The generated <code>lakefile.lean</code> contains the following:</p>
 <pre><code class="language-lean">import Lake
 open Lake DSL
 
@@ -185,18 +203,31 @@ lean_exe «greeting» where
   -- Remove this line if you do not need such functionality.
   supportInterpreter := true
 </code></pre>
-<p>这个初始 Lakefile 由三项组成：</p>
+<p>This initial Lakefile consists of three items:</p>
 <ul>
-<li>一个名为 <code>greeting</code> 的 _包_声明，</li>
-<li>一个名为 <code>Greeting</code> 的 _库_声明，以及</li>
-<li>一个也名为 <code>greeting</code> 的 <em>可执行文件</em>。</li>
+<li>a <em>package</em> declaration, named <code>greeting</code>,</li>
+<li>a <em>library</em> declaration, named <code>Greeting</code>, and</li>
+<li>an <em>executable</em>, also named <code>greeting</code>.</li>
 </ul>
-<p>这些名称中的每一个都用引号括起来，以允许用户在选择包名称时有更大的自由度。</p>
-<p>每个 Lakefile 将只包含一个包，但可以包含任意数量的库或可执行文件。此外，Lakefile 可能包含 <em>外部库</em>（不是用 Lean 编写的库，将与结果可执行文件静态链接）、<em>自定义目标</em>（不自然地适合于库/可执行文件分类的构建目标）、<em>依赖项</em>（其他 Lean 包的声明（在本地或来自远程 Git 存储库））、以及 <em>脚本</em>（本质上是 <code>IO</code> 操作（类似于 <code>main</code>），但还可以访问有关包配置的元数据）。Lakefile 中的项允许配置源文件位置、模块层次结构体和编译器标志。然而，一般来说，默认值是合理的。</p>
-<p>Libraries, executables, and custom targets are all called <em>targets</em>. By default, <code>lake build</code> builds those targets that are annotated with <code>@[default_target]</code>. This annotation is an <em>attribute</em>, which is metadata that can be associated with a Lean declaration. Attributes are similar to Java annotations or C# and Rust attributes. They are used pervasively throughout Lean. To build a target that is not annotated with <code>@[default_target]</code>, specify the target's name as an argument after <code>lake build</code>.</p>
+<p>Each of these names is enclosed in guillemets to allow users more freedom in picking package names.</p>
+<p>Each Lakefile will contain exactly one package, but any number of libraries or executables.
+Additionally, Lakefiles may contain <em>external libraries</em>, which are libraries not written in Lean to be statically linked with the resulting executable, <em>custom targets</em>, which are build targets that don't fit naturally into the library/executable taxonomy, <em>dependencies</em>, which are declarations of other Lean packages (either locally or from remote Git repositories), and <em>scripts</em>, which are essentially <code>IO</code> actions (similar to <code>main</code>), but that additionally have access to metadata about the package configuration.
+The items in the Lakefile allow things like source file locations, module hierarchies, and compiler flags to be configured.
+Generally speaking, however, the defaults are reasonable.</p>
+<p>Libraries, executables, and custom targets are all called <em>targets</em>.
+By default, <code>lake build</code> builds those targets that are annotated with <code>@[default_target]</code>.
+This annotation is an <em>attribute</em>, which is metadata that can be associated with a Lean declaration.
+Attributes are similar to Java annotations or C# and Rust attributes.
+They are used pervasively throughout Lean.
+To build a target that is not annotated with <code>@[default_target]</code>, specify the target's name as an argument after <code>lake build</code>.</p>
 <h2 id="libraries-and-imports"><a class="header" href="#libraries-and-imports">Libraries and Imports</a></h2>
-<p>A Lean library consists of a hierarchically organized collection of source files from which names can be imported, called <em>modules</em>. By default, a library has a single root file that matches its name. In this case, the root file for the library <code>Greeting</code> is <code>Greeting.lean</code>. The first line of <code>Main.lean</code>, which is <code>import Greeting</code>, makes the contents of <code>Greeting.lean</code> available in <code>Main.lean</code>.</p>
-<p>Additional module files may be added to the library by creating a directory called <code>Greeting</code> and placing them inside. These names can be imported by replacing the directory separator with a dot. For instance, creating the file <code>Greeting/Smile.lean</code> with the contents:</p>
+<p>A Lean library consists of a hierarchically organized collection of source files from which names can be imported, called <em>modules</em>.
+By default, a library has a single root file that matches its name.
+In this case, the root file for the library <code>Greeting</code> is <code>Greeting.lean</code>.
+The first line of <code>Main.lean</code>, which is <code>import Greeting</code>, makes the contents of <code>Greeting.lean</code> available in <code>Main.lean</code>.</p>
+<p>Additional module files may be added to the library by creating a directory called <code>Greeting</code> and placing them inside.
+These names can be imported by replacing the directory separator with a dot.
+For instance, creating the file <code>Greeting/Smile.lean</code> with the contents:</p>
 <pre><code class="language-lean">def expression : String := &quot;a big smile&quot;
 </code></pre>
 <p>means that <code>Main.lean</code> can use the definition as follows:</p>
@@ -206,8 +237,18 @@ import Greeting.Smile
 def main : IO Unit :=
   IO.println s!&quot;Hello, {hello}, with {expression}!&quot;
 </code></pre>
-<p>The module name hierarchy is decoupled from the namespace hierarchy. In Lean, modules are units of code distribution, while namespaces are units of code organization. That is, names defined in the module <code>Greeting.Smile</code> are not automatically in a corresponding namespace <code>Greeting.Smile</code>. Modules may place names into any namespace they like, and the code that imports them may <code>open</code> the namespace or not. <code>import</code> is used to make the contents of a source file available, while <code>open</code> makes names from a namespace available in the current context without prefixes. In the Lakefile, the line <code>import Lake</code> makes the contents of the <code>Lake</code> module available, while the line <code>open Lake DSL</code> makes the contents of the <code>Lake</code> and <code>Lake.DSL</code> namespaces available without any prefixes. <code>Lake.DSL</code> is opened because opening <code>Lake</code> makes <code>Lake.DSL</code> available as just <code>DSL</code>, just like all other names in the <code>Lake</code> namespace. The <code>Lake</code> module places names into both the <code>Lake</code> and <code>Lake.DSL</code> namespaces.</p>
-<p>Namespaces may also be opened <em>selectively</em>, making only some of their names available without explicit prefixes. This is done by writing the desired names in parentheses. For example, <code>Nat.toFloat</code> converts a natural number to a <code>Float</code>. It can be made available as <code>toFloat</code> using <code>open Nat (toFloat)</code>.</p>
+<p>The module name hierarchy is decoupled from the namespace hierarchy.
+In Lean, modules are units of code distribution, while namespaces are units of code organization.
+That is, names defined in the module <code>Greeting.Smile</code> are not automatically in a corresponding namespace <code>Greeting.Smile</code>.
+Modules may place names into any namespace they like, and the code that imports them may <code>open</code> the namespace or not.
+<code>import</code> is used to make the contents of a source file available, while <code>open</code> makes names from a namespace available in the current context without prefixes.
+In the Lakefile, the line <code>import Lake</code> makes the contents of the <code>Lake</code> module available, while the line <code>open Lake DSL</code> makes the contents of the <code>Lake</code> and <code>Lake.DSL</code> namespaces available without any prefixes.
+<code>Lake.DSL</code> is opened because opening <code>Lake</code> makes <code>Lake.DSL</code> available as just <code>DSL</code>, just like all other names in the <code>Lake</code> namespace.
+The <code>Lake</code> module places names into both the <code>Lake</code> and <code>Lake.DSL</code> namespaces.</p>
+<p>Namespaces may also be opened <em>selectively</em>, making only some of their names available without explicit prefixes.
+This is done by writing the desired names in parentheses.
+For example, <code>Nat.toFloat</code> converts a natural number to a <code>Float</code>.
+It can be made available as <code>toFloat</code> using <code>open Nat (toFloat)</code>.</p>
 
                     </main>
 

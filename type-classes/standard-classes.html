@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>标准类 - Functional Programming in Lean</title>
+        <title>标准类 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,10 +138,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="标准类"><a class="header" href="#标准类">标准类</a></h1>
-<p>This section presents a variety of operators and functions that can be overloaded using type classes in Lean. Each operator or function corresponds to a method of a type class. Unlike C++, infix operators in Lean are defined as abbreviations for named functions; this means that overloading them for new types is not done using the operator itself, but rather using the underlying name (such as <code>HAdd.hAdd</code>).</p>
+                        <h1 id="standard-classes"><a class="header" href="#standard-classes">Standard Classes</a></h1>
+<p>This section presents a variety of operators and functions that can be overloaded using type classes in Lean.
+Each operator or function corresponds to a method of a type class.
+Unlike C++, infix operators in Lean are defined as abbreviations for named functions; this means that overloading them for new types is not done using the operator itself, but rather using the underlying name (such as <code>HAdd.hAdd</code>).</p>
 <h2 id="arithmetic"><a class="header" href="#arithmetic">Arithmetic</a></h2>
-<p>Most arithmetic operators are available in a heterogeneous form, where the arguments may have different type and an output parameter decides the type of the resulting expression. For each heterogeneous operator, there is a corresponding homogeneous version that can found by removing the letter <code>h</code>, so that <code>HAdd.hAdd</code> becomes <code>Add.add</code>. The following arithmetic operators are overloaded:</p>
+<p>Most arithmetic operators are available in a heterogeneous form, where the arguments may have different type and an output parameter decides the type of the resulting expression.
+For each heterogeneous operator, there is a corresponding homogeneous version that can found by removing the letter <code>h</code>, so that <code>HAdd.hAdd</code> becomes <code>Add.add</code>.
+The following arithmetic operators are overloaded:</p>
 <table><thead><tr><th>Expression</th><th>Desugaring</th><th>Class Name</th></tr></thead><tbody>
 <tr><td><code>x + y</code></td><td><code>HAdd.hAdd x y</code></td><td><code>HAdd</code></td></tr>
 <tr><td><code>x - y</code></td><td><code>HSub.hSub x y</code></td><td><code>HSub</code></td></tr>
@@ -152,7 +156,10 @@
 <tr><td><code>(- x)</code></td><td><code>Neg.neg x</code></td><td><code>Neg</code></td></tr>
 </tbody></table>
 <h2 id="bitwise-operators"><a class="header" href="#bitwise-operators">Bitwise Operators</a></h2>
-<p>Lean contains a number of standard bitwise operators that are overloaded using type classes. There are instances for fixed-width types such as <code>UInt8</code>, <code>UInt16</code>, <code>UInt32</code>, <code>UInt64</code>, and <code>USize</code>. The latter is the size of words on the current platform, typically 32 or 64 bits. The following bitwise operators are overloaded:</p>
+<p>Lean contains a number of standard bitwise operators that are overloaded using type classes.
+There are instances for fixed-width types such as <code>UInt8</code>, <code>UInt16</code>, <code>UInt32</code>, <code>UInt64</code>, and <code>USize</code>.
+The latter is the size of words on the current platform, typically 32 or 64 bits.
+The following bitwise operators are overloaded:</p>
 <table><thead><tr><th>Expression</th><th>Desugaring</th><th>Class Name</th></tr></thead><tbody>
 <tr><td><code>x &amp;&amp;&amp; y</code></td><td><code>HAnd.hAnd x y</code></td><td><code>HAnd</code></td></tr>
 <tr><td><code class="hljs">x ||| y </code></td><td><code>HOr.hOr x y</code></td><td><code>HOr</code></td></tr>
@@ -163,25 +170,46 @@
 </tbody></table>
 <p>Because the names <code>And</code> and <code>Or</code> are already taken as the names of logical connectives, the homogeneous versions of <code>HAnd</code> and <code>HOr</code> are called <code>AndOp</code> and <code>OrOp</code> rather than <code>And</code> and <code>Or</code>.</p>
 <h2 id="equality-and-ordering"><a class="header" href="#equality-and-ordering">Equality and Ordering</a></h2>
-<p>Testing equality of two values typically uses the <code>BEq</code> class, which is short for &quot;Boolean equality&quot;. Due to Lean's use as a theorem prover, there are really two kinds of equality operators in Lean:</p>
+<p>Testing equality of two values typically uses the <code>BEq</code> class, which is short for &quot;Boolean equality&quot;.
+Due to Lean's use as a theorem prover, there are really two kinds of equality operators in Lean:</p>
 <ul>
 <li><em>Boolean equality</em> is the same kind of equality that is found in other programming languages. It is a function that takes two values and returns a <code>Bool</code>. Boolean equality is written with two equals signs, just as in Python and C#. Because Lean is a pure functional language, there's no separate notions of reference vs value equality—pointers cannot be observed directly.</li>
 <li><em>Propositional equality</em> is the mathematical statement that two things are equal. Propositional equality is not a function; rather, it is a mathematical statement that admits proof. It is written with a single equals sign. A statement of propositional equality is like a type that classifies evidence of this equality.</li>
 </ul>
-<p>Both notions of equality are important, and used for different purposes. Boolean equality is useful in programs, when a decision needs to be made about whether two values are equal. For example, <code>&quot;Octopus&quot; ==  &quot;Cuttlefish&quot;</code> evaluates to <code>false</code>, and <code>&quot;Octopodes&quot; ==  &quot;Octo&quot;.append &quot;podes&quot;</code> evaluates to <code>true</code>. Some values, such as functions, cannot be checked for equality. For example, <code>(fun (x : Nat) =&gt; 1 + x) == (Nat.succ ·)</code> yields the error:</p>
+<p>Both notions of equality are important, and used for different purposes.
+Boolean equality is useful in programs, when a decision needs to be made about whether two values are equal.
+For example, <code>&quot;Octopus&quot; ==  &quot;Cuttlefish&quot;</code> evaluates to <code>false</code>, and <code>&quot;Octopodes&quot; ==  &quot;Octo&quot;.append &quot;podes&quot;</code> evaluates to <code>true</code>.
+Some values, such as functions, cannot be checked for equality.
+For example, <code>(fun (x : Nat) =&gt; 1 + x) == (Nat.succ ·)</code> yields the error:</p>
 <pre><code class="language-output error">failed to synthesize instance
   BEq (Nat → Nat)
 </code></pre>
-<p>As this message indicates, <code>==</code> is overloaded using a type class. The expression <code>x == y</code> is actually shorthand for <code>BEq.beq x y</code>.</p>
-<p>Propositional equality is a mathematical statement rather than an invocation of a program. Because propositions are like types that describe evidence for some statement, propositional equality has more in common with types like <code>String</code> and <code>Nat → List Int</code> than it does with Boolean equality. This means that it can't automatically be checked. However, the equality of any two expressions can be stated in Lean, so long as they have the same type. The statement <code>(fun (x : Nat) =&gt; 1 + x) = (Nat.succ ·)</code> is a perfectly reasonable statement. From the perspective of mathematics, two functions are equal if they map equal inputs to equal outputs, so this statement is even true, though it requires a two-line proof to convince Lean of this fact.</p>
-<p>Generally speaking, when using Lean as a programming language, it's easiest to stick to Boolean functions rather than propositions. However, as the names <code>true</code> and <code>false</code> for <code>Bool</code>'s constructors suggest, this difference is sometimes blurred. Some propositions are <em>decidable</em>, which means that they can be checked just like a Boolean function. The function that checks whether the proposition is true or false is called a <em>decision procedure</em>, and it returns <em>evidence</em> of the truth or falsity of the proposition. Some examples of decidable propositions include equality and inequality of natural numbers, equality of strings, and &quot;ands&quot; and &quot;ors&quot; of propositions that are themselves decidable.</p>
-<p>In Lean, <code>if</code> works with decidable propositions. For example, <code>2 &lt; 4</code> is a proposition:</p>
+<p>As this message indicates, <code>==</code> is overloaded using a type class.
+The expression <code>x == y</code> is actually shorthand for <code>BEq.beq x y</code>.</p>
+<p>Propositional equality is a mathematical statement rather than an invocation of a program.
+Because propositions are like types that describe evidence for some statement, propositional equality has more in common with types like <code>String</code> and <code>Nat → List Int</code> than it does with Boolean equality.
+This means that it can't automatically be checked.
+However, the equality of any two expressions can be stated in Lean, so long as they have the same type.
+The statement <code>(fun (x : Nat) =&gt; 1 + x) = (Nat.succ ·)</code> is a perfectly reasonable statement.
+From the perspective of mathematics, two functions are equal if they map equal inputs to equal outputs, so this statement is even true, though it requires a two-line proof to convince Lean of this fact.</p>
+<p>Generally speaking, when using Lean as a programming language, it's easiest to stick to Boolean functions rather than propositions.
+However, as the names <code>true</code> and <code>false</code> for <code>Bool</code>'s constructors suggest, this difference is sometimes blurred.
+Some propositions are <em>decidable</em>, which means that they can be checked just like a Boolean function.
+The function that checks whether the proposition is true or false is called a <em>decision procedure</em>, and it returns <em>evidence</em> of the truth or falsity of the proposition.
+Some examples of decidable propositions include equality and inequality of natural numbers, equality of strings, and &quot;ands&quot; and &quot;ors&quot; of propositions that are themselves decidable.</p>
+<p>In Lean, <code>if</code> works with decidable propositions.
+For example, <code>2 &lt; 4</code> is a proposition:</p>
 <pre><code class="language-lean">#check 2 &lt; 4
 </code></pre>
 <pre><code class="language-output info">2 &lt; 4 : Prop
 </code></pre>
-<p>Nonetheless, it is perfectly acceptable to write it as the condition in an <code>if</code>. For example, <code>if 2 &lt; 4 then 1 else 2</code> has type <code>Nat</code> and evaluates to <code>1</code>.</p>
-<p>Not all propositions are decidable. If they were, then computers would be able to prove any true proposition just by running the decision procedure, and mathematicians would be out of a job. More specifically, decidable propositions have an instance of the <code>Decidable</code> type class which has a method that is the decision procedure. Trying to use a proposition that isn't decidable as if it were a <code>Bool</code> results in a failure to find the <code>Decidable</code> instance. For example, <code>if (fun (x : Nat) =&gt; 1 + x) = (Nat.succ ·) then &quot;yes&quot; else &quot;no&quot;</code> results in:</p>
+<p>Nonetheless, it is perfectly acceptable to write it as the condition in an <code>if</code>.
+For example, <code>if 2 &lt; 4 then 1 else 2</code> has type <code>Nat</code> and evaluates to <code>1</code>.</p>
+<p>Not all propositions are decidable.
+If they were, then computers would be able to prove any true proposition just by running the decision procedure, and mathematicians would be out of a job.
+More specifically, decidable propositions have an instance of the <code>Decidable</code> type class which has a method that is the decision procedure.
+Trying to use a proposition that isn't decidable as if it were a <code>Bool</code> results in a failure to find the <code>Decidable</code> instance.
+For example, <code>if (fun (x : Nat) =&gt; 1 + x) = (Nat.succ ·) then &quot;yes&quot; else &quot;no&quot;</code> results in:</p>
 <pre><code class="language-output error">failed to synthesize instance
   Decidable ((fun x =&gt; 1 + x) = fun x =&gt; Nat.succ x)
 </code></pre>
@@ -193,13 +221,18 @@
 <tr><td><code>x ≥ y</code></td><td><code>LE.le y x</code></td><td><code>LE</code></td></tr>
 </tbody></table>
 <p>Because defining new propositions hasn't yet been demonstrated, it may be difficult to define new instances of <code>LT</code> and <code>LE</code>.</p>
-<p>Additionally, comparing values using <code>&lt;</code>, <code>==</code>, and <code>&gt;</code> can be inefficient. Checking first whether one value is less than another, and then whether they are equal, can require two traversals over large data structures. To solve this problem, Java and C# have standard <code>compareTo</code> and <code>CompareTo</code> methods (respectively) that can be overridden by a class in order to implement all three operations at the same time. These methods return a negative integer if the receiver is less than the argument, zero if they are equal, and a positive integer if the receiver is greater than the argument. Rather than overload the meaning of integers, Lean has a built-in inductive type that describes these three possibilities:</p>
+<p>Additionally, comparing values using <code>&lt;</code>, <code>==</code>, and <code>&gt;</code> can be inefficient.
+Checking first whether one value is less than another, and then whether they are equal, can require two traversals over large data structures.
+To solve this problem, Java and C# have standard <code>compareTo</code> and <code>CompareTo</code> methods (respectively) that can be overridden by a class in order to implement all three operations at the same time.
+These methods return a negative integer if the receiver is less than the argument, zero if they are equal, and a positive integer if the receiver is greater than the argument.
+Rather than overload the meaning of integers, Lean has a built-in inductive type that describes these three possibilities:</p>
 <pre><code class="language-lean">inductive Ordering where
 | lt
 | eq
 | gt
 </code></pre>
-<p>The <code>Ord</code> type class can be overloaded to produce these comparisons. For <code>Pos</code>, an implementation can be:</p>
+<p>The <code>Ord</code> type class can be overloaded to produce these comparisons.
+For <code>Pos</code>, an implementation can be:</p>
 <pre><code class="language-lean">def Pos.comp : Pos → Pos → Ordering
   | Pos.one, Pos.one =&gt; Ordering.eq
   | Pos.one, Pos.succ _ =&gt; Ordering.lt
@@ -211,12 +244,18 @@ instance : Ord Pos where
 </code></pre>
 <p>In situations where <code>compareTo</code> would be the right approach in Java, use <code>Ord.compare</code> in Lean.</p>
 <h2 id="hashing"><a class="header" href="#hashing">Hashing</a></h2>
-<p>Java and C# have <code>hashCode</code> and <code>GetHashCode</code> methods, respectively, that compute a hash of a value for use in data structures such as hash tables. The Lean equivalent is a type class called <code>Hashable</code>:</p>
+<p>Java and C# have <code>hashCode</code> and <code>GetHashCode</code> methods, respectively, that compute a hash of a value for use in data structures such as hash tables.
+The Lean equivalent is a type class called <code>Hashable</code>:</p>
 <pre><code class="language-lean">class Hashable (α : Type) where
   hash : α → UInt64
 </code></pre>
-<p>If two values are considered equal according to a <code>BEq</code> instance for their type, then they should have the same hashes. In other words, if <code>x == y</code> then <code>hash x == hash y</code>. If <code>x ≠ y</code>, then <code>hash x</code> won't necessarily differ from <code>hash y</code> (after all, there are infinitely more <code>Nat</code> values than there are <code>UInt64</code> values), but data structures built on hashing will have better performance if unequal values are likely to have unequal hashes. This is the same expectation as in Java and C#.</p>
-<p>The standard library contains a function <code>mixHash</code> with type <code>UInt64 → UInt64 → UInt64</code> that can be used to combine hashes for different fields for a constructor. A reasonable hash function for an inductive datatype can be written by assigning a unique number to each constructor, and then mixing that number with the hashes of each field. For example, a <code>Hashable</code> instance for <code>Pos</code> can be written:</p>
+<p>If two values are considered equal according to a <code>BEq</code> instance for their type, then they should have the same hashes.
+In other words, if <code>x == y</code> then <code>hash x == hash y</code>.
+If <code>x ≠ y</code>, then <code>hash x</code> won't necessarily differ from <code>hash y</code> (after all, there are infinitely more <code>Nat</code> values than there are <code>UInt64</code> values), but data structures built on hashing will have better performance if unequal values are likely to have unequal hashes.
+This is the same expectation as in Java and C#.</p>
+<p>The standard library contains a function <code>mixHash</code> with type <code>UInt64 → UInt64 → UInt64</code> that can be used to combine hashes for different fields for a constructor.
+A reasonable hash function for an inductive datatype can be written by assigning a unique number to each constructor, and then mixing that number with the hashes of each field.
+For example, a <code>Hashable</code> instance for <code>Pos</code> can be written:</p>
 <pre><code class="language-lean">def hashPos : Pos → UInt64
   | Pos.one =&gt; 0
   | Pos.succ n =&gt; mixHash 1 (hashPos n)
@@ -224,7 +263,8 @@ instance : Ord Pos where
 instance : Hashable Pos where
   hash := hashPos
 </code></pre>
-<p><code>Hashable</code> instances for polymorphic types can use recursive instance search. Hashing a <code>NonEmptyList α</code> is only possible when <code>α</code> can be hashed:</p>
+<p><code>Hashable</code> instances for polymorphic types can use recursive instance search.
+Hashing a <code>NonEmptyList α</code> is only possible when <code>α</code> can be hashed:</p>
 <pre><code class="language-lean">instance [Hashable α] : Hashable (NonEmptyList α) where
   hash xs := mixHash (hash xs.head) (hash xs.tail)
 </code></pre>
@@ -254,8 +294,14 @@ instance [Hashable α] : Hashable (BinTree α) where
   hash := hashBinTree
 </code></pre>
 <h2 id="deriving-standard-classes"><a class="header" href="#deriving-standard-classes">Deriving Standard Classes</a></h2>
-<p>Instance of classes like <code>BEq</code> and <code>Hashable</code> are often quite tedious to implement by hand. Lean includes a feature called <em>instance deriving</em> that allows the compiler to automatically construct well-behaved instances of many type classes. In fact, the <code>deriving Repr</code> phrase in the definition of <code>Point</code> in the <a href="../getting-to-know/structures.html">section on structures</a> is an example of instance deriving.</p>
-<p>Instances can be derived in two ways. The first can be used when defining a structure or inductive type. In this case, add <code>deriving</code> to the end of the type declaration followed by the names of the classes for which instances should be derived. For a type that is already defined, a standalone <code>deriving</code> command can be used. Write <code>deriving instance C1, C2, ... for T</code> to derive instances of <code>C1, C2, ...</code> for the type <code>T</code> after the fact.</p>
+<p>Instance of classes like <code>BEq</code> and <code>Hashable</code> are often quite tedious to implement by hand.
+Lean includes a feature called <em>instance deriving</em> that allows the compiler to automatically construct well-behaved instances of many type classes.
+In fact, the <code>deriving Repr</code> phrase in the definition of <code>Point</code> in the <a href="../getting-to-know/structures.html">section on structures</a> is an example of instance deriving.</p>
+<p>Instances can be derived in two ways.
+The first can be used when defining a structure or inductive type.
+In this case, add <code>deriving</code> to the end of the type declaration followed by the names of the classes for which instances should be derived.
+For a type that is already defined, a standalone <code>deriving</code> command can be used.
+Write <code>deriving instance C1, C2, ... for T</code> to derive instances of <code>C1, C2, ...</code> for the type <code>T</code> after the fact.</p>
 <p><code>BEq</code> and <code>Hashable</code> instances can be derived for <code>Pos</code> and <code>NonEmptyList</code> using a very small amount of code:</p>
 <pre><code class="language-lean">deriving instance BEq, Hashable for Pos
 deriving instance BEq, Hashable, Repr for NonEmptyList
@@ -268,14 +314,19 @@ deriving instance BEq, Hashable, Repr for NonEmptyList
 <li><code>Hashable</code></li>
 <li><code>Ord</code></li>
 </ul>
-<p>In some cases, however, the derived <code>Ord</code> instance may not produce precisely the ordering desired in an application. When this is the case, it's fine to write an <code>Ord</code> instance by hand. The collection of classes for which instances can be derived can be extended by advanced users of Lean.</p>
-<p>Aside from the clear advantages in programmer productivity and code readability, deriving instances also makes code easier to maintain, because the instances are updated as the definitions of types evolve. Changesets involving updates to datatypes are easier to read without line after line of formulaic modifications to equality tests and hash computation.</p>
+<p>In some cases, however, the derived <code>Ord</code> instance may not produce precisely the ordering desired in an application.
+When this is the case, it's fine to write an <code>Ord</code> instance by hand.
+The collection of classes for which instances can be derived can be extended by advanced users of Lean.</p>
+<p>Aside from the clear advantages in programmer productivity and code readability, deriving instances also makes code easier to maintain, because the instances are updated as the definitions of types evolve.
+Changesets involving updates to datatypes are easier to read without line after line of formulaic modifications to equality tests and hash computation.</p>
 <h2 id="appending"><a class="header" href="#appending">Appending</a></h2>
-<p>Many datatypes have some sort of append operator. In Lean, appending two values is overloaded with the type class <code>HAppend</code>, which is a heterogeneous operation like that used for arithmetic operations:</p>
+<p>Many datatypes have some sort of append operator.
+In Lean, appending two values is overloaded with the type class <code>HAppend</code>, which is a heterogeneous operation like that used for arithmetic operations:</p>
 <pre><code class="language-lean">class HAppend (α : Type) (β : Type) (γ : outParam Type) where
   hAppend : α → β → γ
 </code></pre>
-<p>The syntax <code>xs ++ ys</code> desugars to <code>HAppend.hAppend xs ys</code>. For homogeneous cases, it's enough to implement an instance of <code>Append</code>, which follows the usual pattern:</p>
+<p>The syntax <code>xs ++ ys</code> desugars to <code>HAppend.hAppend xs ys</code>.
+For homogeneous cases, it's enough to implement an instance of <code>Append</code>, which follows the usual pattern:</p>
 <pre><code class="language-lean">instance : Append (NonEmptyList α) where
   append xs ys :=
     { head := xs.head, tail := xs.tail ++ ys.head :: ys.tail }
@@ -308,14 +359,18 @@ tail := [&quot;Long-legged Sac Spider&quot;,
   tail := [&quot;Long-legged Sac Spider&quot;, &quot;Wolf Spider&quot;, &quot;Hobo Spider&quot;, &quot;Cat-faced Spider&quot;, &quot;Trapdoor Spider&quot;] }
 </code></pre>
 <h2 id="functors"><a class="header" href="#functors">Functors</a></h2>
-<p>A polymorphic type is a <em>functor</em> if it has an overload for a function named <code>map</code> that transforms every element contained in it by a function. While most languages use this terminology, C#'s equivalent to <code>map</code> is called <code>System.Linq.Enumerable.Select</code>. For example, mapping a function over a list constructs a new list in which each entry from the starting list has been replaced by the result of the function on that entry. Mapping a function <code>f</code> over an <code>Option</code> leaves <code>none</code> untouched, and replaces <code>some x</code> with <code>some (f x)</code>.</p>
+<p>A polymorphic type is a <em>functor</em> if it has an overload for a function named <code>map</code> that transforms every element contained in it by a function.
+While most languages use this terminology, C#'s equivalent to <code>map</code> is called <code>System.Linq.Enumerable.Select</code>.
+For example, mapping a function over a list constructs a new list in which each entry from the starting list has been replaced by the result of the function on that entry.
+Mapping a function <code>f</code> over an <code>Option</code> leaves <code>none</code> untouched, and replaces <code>some x</code> with <code>some (f x)</code>.</p>
 <p>Here are some examples of functors and how their <code>Functor</code> instances overload <code>map</code>:</p>
 <ul>
 <li><code>Functor.map (· + 5) [1, 2, 3]</code> evaluates to <code>[6, 7, 8]</code></li>
 <li><code>Functor.map toString (some (List.cons 5 List.nil))</code> evaluates to <code>some &quot;[5]&quot;</code></li>
 <li><code>Functor.map List.reverse [[1, 2, 3], [4, 5, 6]]</code> evaluates to <code>[[3, 2, 1], [6, 5, 4]]</code></li>
 </ul>
-<p>Because <code>Functor.map</code> is a bit of a long name for this common operation, Lean also provides an infix operator for mapping a function, namely <code>&lt;$&gt;</code>. The prior examples can be rewritten as follows:</p>
+<p>Because <code>Functor.map</code> is a bit of a long name for this common operation, Lean also provides an infix operator for mapping a function, namely <code>&lt;$&gt;</code>.
+The prior examples can be rewritten as follows:</p>
 <ul>
 <li><code>(· + 5) &lt;$&gt; [1, 2, 3]</code> evaluates to <code>[6, 7, 8]</code></li>
 <li><code>toString &lt;$&gt; (some (List.cons 5 List.nil))</code> evaluates to <code>some &quot;[5]&quot;</code></li>
@@ -325,14 +380,20 @@ tail := [&quot;Long-legged Sac Spider&quot;,
 <pre><code class="language-lean">instance : Functor NonEmptyList where
   map f xs := { head := f xs.head, tail := f &lt;$&gt; xs.tail }
 </code></pre>
-<p>Here, <code>map</code> uses the <code>Functor</code> instance for <code>List</code> to map the function over the tail. This instance is defined for <code>NonEmptyList</code> rather than for <code>NonEmptyList α</code> because the argument type <code>α</code> plays no role in resolving the type class. A <code>NonEmptyList</code> can have a function mapped over it <em>no matter what the type of entries is</em>. If <code>α</code> were a parameter to the class, then it would be possible to make versions of <code>Functor</code> that only worked for <code>NonEmptyList Nat</code>, but part of being a functor is that <code>map</code> works for any entry type.</p>
+<p>Here, <code>map</code> uses the <code>Functor</code> instance for <code>List</code> to map the function over the tail.
+This instance is defined for <code>NonEmptyList</code> rather than for <code>NonEmptyList α</code> because the argument type <code>α</code> plays no role in resolving the type class.
+A <code>NonEmptyList</code> can have a function mapped over it <em>no matter what the type of entries is</em>.
+If <code>α</code> were a parameter to the class, then it would be possible to make versions of <code>Functor</code> that only worked for <code>NonEmptyList Nat</code>, but part of being a functor is that <code>map</code> works for any entry type.</p>
 <p>Here is an instance of <code>Functor</code> for <code>PPoint</code>:</p>
 <pre><code class="language-lean">instance : Functor PPoint where
   map f p := { x := f p.x, y := f p.y }
 </code></pre>
 <p>In this case, <code>f</code> has been applied to both <code>x</code> and <code>y</code>.</p>
-<p>Even when the type contained in a functor is itself a functor, mapping a function only goes down one layer. That is, when using <code>map</code> on a <code>NonEmptyList (PPoint Nat)</code>, the function being mapped should take <code>PPoint Nat</code> as its argument rather than <code>Nat</code>.</p>
-<p>The definition of the <code>Functor</code> class uses one more language feature that has not yet been discussed: default method definitions. Normally, a class will specify some minimal set of overloadable operations that make sense together, and then use polymorphic functions with instance implicit arguments that build on the overloaded operations to provide a larger library of features. For example, the function <code>concat</code> can concatenate any non-empty list whose entries are appendable:</p>
+<p>Even when the type contained in a functor is itself a functor, mapping a function only goes down one layer.
+That is, when using <code>map</code> on a <code>NonEmptyList (PPoint Nat)</code>, the function being mapped should take <code>PPoint Nat</code> as its argument rather than <code>Nat</code>.</p>
+<p>The definition of the <code>Functor</code> class uses one more language feature that has not yet been discussed: default method definitions.
+Normally, a class will specify some minimal set of overloadable operations that make sense together, and then use polymorphic functions with instance implicit arguments that build on the overloaded operations to provide a larger library of features.
+For example, the function <code>concat</code> can concatenate any non-empty list whose entries are appendable:</p>
 <pre><code class="language-lean">def concat [Append α] (xs : NonEmptyList α) : α :=
   let rec catList (start : α) : List α → α
     | [] =&gt; start
@@ -340,29 +401,43 @@ tail := [&quot;Long-legged Sac Spider&quot;,
   catList xs.head xs.tail
 </code></pre>
 <p>However, for some classes, there are operations that can be more efficiently implemented with knowledge of the internals of a datatype.</p>
-<p>In these cases, a default method definition can be provided. A default method definition provides a default implementation of a method in terms of the other methods. However, instance implementors may choose to override this default with something more efficient. Default method definitions contain <code>:=</code> in a <code>class</code> definition.</p>
-<p>In the case of <code>Functor</code>, some types have a more efficient way of implementing <code>map</code> when the function being mapped ignores its argument. Functions that ignore their arguments are called <em>constant functions</em> because they always return the same value. Here is the definition of <code>Functor</code>, in which <code>mapConst</code> has a default implementation:</p>
+<p>In these cases, a default method definition can be provided.
+A default method definition provides a default implementation of a method in terms of the other methods.
+However, instance implementors may choose to override this default with something more efficient.
+Default method definitions contain <code>:=</code> in a <code>class</code> definition.</p>
+<p>In the case of <code>Functor</code>, some types have a more efficient way of implementing <code>map</code> when the function being mapped ignores its argument.
+Functions that ignore their arguments are called <em>constant functions</em> because they always return the same value.
+Here is the definition of <code>Functor</code>, in which <code>mapConst</code> has a default implementation:</p>
 <pre><code class="language-lean">class Functor (f : Type → Type) where
   map : {α β : Type} → (α → β) → f α → f β
 
   mapConst {α β : Type} (x : α) (coll : f β) : f α :=
     map (fun _ =&gt; x) coll
 </code></pre>
-<p>Just as a <code>Hashable</code> instance that doesn't respect <code>BEq</code> is buggy, a <code>Functor</code> instance that moves around the data as it maps the function is also buggy. For example, a buggy <code>Functor</code> instance for <code>List</code> might throw away its argument and always return the empty list, or it might reverse the list. A bad instance for <code>PPoint</code> might place <code>f x</code> in both the <code>x</code> and the <code>y</code> fields. Specifically, <code>Functor</code> instances should follow two rules:</p>
+<p>Just as a <code>Hashable</code> instance that doesn't respect <code>BEq</code> is buggy, a <code>Functor</code> instance that moves around the data as it maps the function is also buggy.
+For example, a buggy <code>Functor</code> instance for <code>List</code> might throw away its argument and always return the empty list, or it might reverse the list.
+A bad instance for <code>PPoint</code> might place <code>f x</code> in both the <code>x</code> and the <code>y</code> fields.
+Specifically, <code>Functor</code> instances should follow two rules:</p>
 <ol>
 <li>Mapping the identity function should result in the original argument.</li>
 <li>Mapping two composed functions should have the same effect as composing their mapping.</li>
 </ol>
-<p>More formally, the first rule says that <code>id &lt;$&gt; x</code> equals <code>x</code>. The second rule says that <code>map (fun y =&gt; f (g y)) x</code> equals <code>map f (map g x)</code>. The composition <code>fun y =&gt; f (g y)</code> can also be written <code>f ∘ g</code>. These rules prevent implementations of <code>map</code> that move the data around or delete some of it.</p>
-<h2 id="可能会遇到的信息"><a class="header" href="#可能会遇到的信息">可能会遇到的信息</a></h2>
-<p>Lean is not able to derive instances for all classes. For example, the code</p>
+<p>More formally, the first rule says that <code>id &lt;$&gt; x</code> equals <code>x</code>.
+The second rule says that <code>map (fun y =&gt; f (g y)) x</code> equals <code>map f (map g x)</code>.
+The composition <code>fun y =&gt; f (g y)</code> can also be written <code>f ∘ g</code>.
+These rules prevent implementations of <code>map</code> that move the data around or delete some of it.</p>
+<h2 id="messages-you-may-meet"><a class="header" href="#messages-you-may-meet">Messages You May Meet</a></h2>
+<p>Lean is not able to derive instances for all classes.
+For example, the code</p>
 <pre><code class="language-lean">deriving instance ToString for NonEmptyList
 </code></pre>
-<p>会导致以下错误：</p>
+<p>results in the following error:</p>
 <pre><code class="language-output error">default handlers have not been implemented yet, class: 'ToString' types: [NonEmptyList]
 </code></pre>
-<p>Invoking <code>deriving instance</code> causes Lean to consult an internal table of code generators for type class instances. If the code generator is found, then it is invoked on the provided type to create the instance. This message, however, means that no code generator was found for <code>ToString</code>.</p>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<p>Invoking <code>deriving instance</code> causes Lean to consult an internal table of code generators for type class instances.
+If the code generator is found, then it is invoked on the provided type to create the instance.
+This message, however, means that no code generator was found for <code>ToString</code>.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ul>
 <li>Write an instance of <code>HAppend (List α) (NonEmptyList α) (NonEmptyList α)</code> and test it.</li>
 <li>Implement a <code>Functor</code> instance for the binary tree datatype.</li>

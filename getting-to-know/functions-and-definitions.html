@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>函数与定义 - Functional Programming in Lean</title>
+        <title>函数与定义 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -145,7 +145,9 @@
 <!--
 In Lean, definitions are introduced using the `def` keyword. For instance, to define the name `hello` to refer to the string `"Hello"`, write:
 -->
-<p>在 Lean 中，使用 <code>def</code> 关键字引入定义。例如，若要定义名称 <code>hello</code> 来引用字符串 <code>&quot;Hello&quot;</code>，请编写：</p>
+<p>在 Lean 中，使用 <code>def</code> 关键字引入定义。例如，若要定义名称
+<code>hello</code> 来引用字符串
+<code>&quot;Hello&quot;</code>，请编写：</p>
 <pre><code class="language-lean">def hello := &quot;Hello&quot;
 </code></pre>
 <!--
@@ -154,13 +156,17 @@ rather than `=`. This is because `=` is used to describe equalities
 between existing expressions, and using two different operators helps
 prevent confusion.
 -->
-<p>在 Lean 中，使用冒号加等号运算符 <code>:=</code> 而不是 <code>=</code> 来定义新名称。这是因为 <code>=</code> 用于描述现有表达式之间的相等性，而使用两个不同的运算符有助于防止混淆。</p>
+<p>在 Lean 中，使用冒号加等号运算符 <code>:=</code> 而不是 <code>=</code> 来定义新名称。这是因为 <code>=</code>
+用于描述现有表达式之间的相等性，而使用两个不同的运算符有助于防止混淆。</p>
 <!--
 In the definition of `hello`, the expression `"Hello"` is simple enough that Lean is able to determine the definition's type automatically.
 However, most definitions are not so simple, so it will usually be necessary to add a type.
 This is done using a colon after the name being defined.
 -->
-<p>在 <code>hello</code> 的定义中，表达式 <code>&quot;Hello&quot;</code> 足够简单，Lean 能够自动确定定义的类型。但是，大多数定义并不那么简单，因此通常需要添加类型。 这可以通过在要定义的名称后使用冒号来完成。</p>
+<p>在 <code>hello</code> 的定义中，表达式
+<code>&quot;Hello&quot;</code> 足够简单，Lean
+能够自动确定定义的类型。但是，大多数定义并不那么简单，因此通常需要添加类型。
+这可以通过在要定义的名称后使用冒号来完成。</p>
 <pre><code class="language-lean">def lean : String := &quot;Lean&quot;
 </code></pre>
 <!--
@@ -185,7 +191,9 @@ For instance, Python function definitions begin with the `def` keyword, while ot
 In Lean, functions are defined using the same `def` keyword as other values.
 Nonetheless, definitions such as `hello` introduce names that refer _directly_ to their values, rather than to zero-argument functions that return equivalent results each time they are called.
 -->
-<p>在很多语言中，函数定义的语法与其他值的不同。例如，Python 函数定义以 <code>def</code> 关键字开头， 而其他定义则以等号定义。在 Lean 中，函数使用与其他值相同的 <code>def</code> 关键字定义。 尽管如此，像 <code>hello</code> 这类的定义引入的名字会<strong>直接</strong>引用其值，而非每次调用一个零参函数返回等价的值。</p>
+<p>在很多语言中，函数定义的语法与其他值的不同。例如，Python 函数定义以 <code>def</code> 关键字开头，
+而其他定义则以等号定义。在 Lean 中，函数使用与其他值相同的 <code>def</code> 关键字定义。
+尽管如此，像 <code>hello</code> 这类的定义引入的名字会<strong>直接</strong>引用其值，而非每次调用一个零参函数返回等价的值。</p>
 <!--
 ## Defining Functions
 -->
@@ -193,7 +201,8 @@ Nonetheless, definitions such as `hello` introduce names that refer _directly_ t
 <!--
 There are a variety of ways to define functions in Lean. The simplest is to place the function's arguments before the definition's type, separated by spaces. For instance, a function that adds one to its argument can be written:
 -->
-<p>在 Lean 中有各种方法可以定义函数。最简单的方法是在定义的类型之前放置函数的参数，并用空格分隔。 例如，可以编写一个将其参数加 1 的函数：</p>
+<p>在 Lean 中有各种方法可以定义函数。最简单的方法是在定义的类型之前放置函数的参数，并用空格分隔。
+例如，可以编写一个将其参数加 1 的函数：</p>
 <pre><code class="language-lean">def add1 (n : Nat) : Nat := n + 1
 </code></pre>
 <!--
@@ -205,7 +214,8 @@ Testing this function with `#eval` gives `8`, as expected:
 <!--
 Just as functions are applied to multiple arguments by writing spaces between each argument, functions that accept multiple arguments are defined with spaces between the arguments' names and types. The function `maximum`, whose result is equal to the greatest of its two arguments, takes two `Nat` arguments `n` and `k` and returns a `Nat`.
 -->
-<p>就像将函数应用于多个参数会用空格分隔一样，接受多个参数的函数定义也是在参数名与类型之间添加空格。 函数 <code>maximum</code> 的结果等于其两个参数中最大的一个，它接受两个 <code>Nat</code> 参数 <code>n</code> 和 <code>k</code>，并返回一个 <code>Nat</code>。</p>
+<p>就像将函数应用于多个参数会用空格分隔一样，接受多个参数的函数定义也是在参数名与类型之间添加空格。
+函数 <code>maximum</code> 的结果等于其两个参数中最大的一个，它接受两个 <code>Nat</code> 参数 <code>n</code> 和 <code>k</code>，并返回一个 <code>Nat</code>。</p>
 <pre><code class="language-lean">def maximum (n : Nat) (k : Nat) : Nat :=
   if n &lt; k then
     k
@@ -214,7 +224,8 @@ Just as functions are applied to multiple arguments by writing spaces between ea
 <!--
 When a defined function like `maximum` has been provided with its arguments, the result is determined by first replacing the argument names with the provided values in the body, and then evaluating the resulting body. For example:
 -->
-<p>当向 <code>maximum</code> 这样的已定义函数被提供参数时，其结果会首先用提供的值替换函数体中对应的参数名称， 然后对产生的函数体求值。例如：</p>
+<p>当向 <code>maximum</code> 这样的已定义函数被提供参数时，其结果会首先用提供的值替换函数体中对应的参数名称，
+然后对产生的函数体求值。例如：</p>
 <pre><code class="language-lean">maximum (5 + 8) (2 * 7)
 ===&gt;
 maximum 13 14
@@ -228,14 +239,26 @@ Expressions that evaluate to natural numbers, integers, and strings have types t
 This is also true of functions.
 A function that accepts a `Nat` and returns a `Bool` has type `Nat → Bool`, and a function that accepts two `Nat`s and returns a `Nat` has type `Nat → Nat → Nat`.
 -->
-<p>求值结果为自然数、整数和字符串的表达式具有表示它们的类型（分别为 <code>Nat</code>、<code>Int</code> 和 <code>String</code>）。 函数也是如此，接受一个 <code>Nat</code> 并返回一个 <code>Bool</code> 的函数的类型为 <code>Nat → Bool</code>，接受两个 <code>Nat</code> 并返回一个 <code>Nat</code> 的函数的类型为 <code>Nat → Nat → Nat</code>。</p>
+<p>求值结果为自然数、整数和字符串的表达式具有表示它们的类型（分别为 <code>Nat</code>、<code>Int</code> 和 <code>String</code>）。
+函数也是如此，接受一个 <code>Nat</code> 并返回一个 <code>Bool</code> 的函数的类型为 <code>Nat → Bool</code>，接受两个 <code>Nat</code>
+并返回一个 <code>Nat</code> 的函数的类型为 <code>Nat → Nat → Nat</code>。</p>
 <!--
 As a special case, Lean returns a function's signature when its name is used directly with `#check`.
 Entering `#check add1` yields `add1 (n : Nat) : Nat`.
 However, Lean can be "tricked" into showing the function's type by writing the function's name in parentheses, which causes the function to be treated as an ordinary expression, so `#check (add1)` yields `add1 : Nat → Nat` and `#check (maximum)` yields `maximum : Nat → Nat → Nat`.
 This arrow can also be written with an ASCII alternative arrow `->`, so the preceding function types can be written `Nat -> Nat` and `Nat -> Nat -> Nat`, respectively.
 -->
-<p>作为一个特例，当函数的名称直接与 <code>#check</code> 一起使用时，Lean 会返回函数的签名。 输入 <code>#check add1</code> 会产生 <code>add1 (n : Nat) : Nat</code>。 但是，可以通过用括号括住函数名称来「欺骗」Lean 显示函数的类型， 这会导致函数被视为一个普通表达式，所以 <code>#check (add1)</code> 会产生 <code>add1 : Nat → Nat</code> 而 <code>#check (maximum)</code> 会产生 <code>maximum : Nat → Nat → Nat</code>。 此箭头也可以写作 ASCII 的箭头 <code>-&gt;</code>，因此前面的函数类型可以分别写作 <code>Nat -&gt; Nat</code> 和 <code>Nat -&gt; Nat -&gt; Nat</code>。</p>
+<p>作为一个特例，当函数的名称直接与 <code>#check</code> 一起使用时，Lean 会返回函数的签名。
+输入 <code>#check add1</code>
+会产生 <code>add1 (n : Nat) : Nat</code>。
+但是，可以通过用括号括住函数名称来「欺骗」Lean 显示函数的类型，
+这会导致函数被视为一个普通表达式，所以 <code>#check (add1)</code>
+会产生 <code>add1 : Nat → Nat</code>
+而 <code>#check (maximum)</code>
+会产生 <code>maximum : Nat → Nat → Nat</code>。
+此箭头也可以写作 ASCII 的箭头 <code>-&gt;</code>，因此前面的函数类型可以分别写作
+<code>Nat -&gt; Nat</code> 和
+<code>Nat -&gt; Nat -&gt; Nat</code>。</p>
 <!--
 Behind the scenes, all functions actually expect precisely one argument.
 Functions like `maximum` that seem to take more than one argument are in fact functions that take one argument and then return a new function.
@@ -244,7 +267,16 @@ This can be seen by providing one argument to a multiple-argument function: `#ch
 Using a function that returns a function to implement multiple-argument functions is called _currying_ after the mathematician Haskell Curry.
 Function arrows associate to the right, which means that `Nat → Nat → Nat` should be parenthesized `Nat → (Nat → Nat)`.
 -->
-<p>在幕后，所有函数实际上都刚好接受一个参数。像 <code>maximum</code> 这样的函数看起来需要多个参数， 但实际上它们时接受一个参数并返回一个新的函数。这个新函数接受下一个参数， 一直持续到不再需要更多参数。可以通过向一个多参数函数提供一个参数来看到这一点： <code>#check maximum 3</code> 会产生 <code>maximum 3 : Nat → Nat</code>， 而 <code>#check String.append &quot;Hello &quot;</code> 会产生 <code>String.append &quot;Hello &quot; : String → String</code>。 使用返回函数的函数来实现多参数函数被称为&quot;<strong>柯里化（Currying）</strong>， 以数学家哈斯克尔·柯里（Haskell Curry）命名。 函数箭头是右结合的，这意味着 <code>Nat → Nat → Nat</code> 等价于 <code>Nat → (Nat → Nat)</code>。</p>
+<p>在幕后，所有函数实际上都刚好接受一个参数。像 <code>maximum</code> 这样的函数看起来需要多个参数，
+但实际上它们时接受一个参数并返回一个新的函数。这个新函数接受下一个参数，
+一直持续到不再需要更多参数。可以通过向一个多参数函数提供一个参数来看到这一点：
+<code>#check maximum 3</code>
+会产生 <code>maximum 3 : Nat → Nat</code>，
+而 <code>#check String.append &quot;Hello &quot;</code>
+会产生 <code>String.append &quot;Hello &quot; : String → String</code>。
+使用返回函数的函数来实现多参数函数被称为&quot;<strong>柯里化（Currying）</strong>，
+以数学家哈斯克尔·柯里（Haskell Curry）命名。
+函数箭头是右结合的，这意味着 <code>Nat → Nat → Nat</code> 等价于 <code>Nat → (Nat → Nat)</code>。</p>
 <!--
 ### Exercises
 -->
@@ -255,9 +287,13 @@ Function arrows associate to the right, which means that `Nat → Nat → Nat` s
  * Define a function `volume` with type `Nat → Nat → Nat → Nat` that computes the volume of a rectangular prism with the given height, width, and depth.
 -->
 <ul>
-<li>定义函数 <code>joinStringsWith</code>，类型为 <code>String -&gt; String -&gt; String -&gt; String</code>， 它通过将第一个参数放在第二个和第三个参数之间来创建一个新字符串。 <code>joinStringsWith &quot;, &quot; &quot;one&quot; &quot;and another&quot;</code> 应当会求值为 <code>&quot;one, and another&quot;</code>。</li>
+<li>定义函数 <code>joinStringsWith</code>，类型为 <code>String -&gt; String -&gt; String -&gt; String</code>，
+它通过将第一个参数放在第二个和第三个参数之间来创建一个新字符串。
+<code>joinStringsWith &quot;, &quot; &quot;one&quot; &quot;and another&quot;</code> 应当会求值为
+<code>&quot;one, and another&quot;</code>。</li>
 <li><code>joinStringsWith &quot;: &quot;</code> 的类型是什么？用 Lean 检查你的答案。</li>
-<li>定义一个函数 <code>volume</code>，类型为 <code>Nat → Nat → Nat → Nat</code>， 它计算给定高度、宽度和深度的矩形棱柱的体积。</li>
+<li>定义一个函数 <code>volume</code>，类型为 <code>Nat → Nat → Nat → Nat</code>，
+它计算给定高度、宽度和深度的矩形棱柱的体积。</li>
 </ul>
 <!--
 ## Defining Types
@@ -268,7 +304,9 @@ Most typed programming languages have some means of defining aliases for types, 
 In Lean, however, types are a first-class part of the language - they are expressions like any other.
 This means that definitions can refer to types just as well as they can refer to other values.
 -->
-<p>大多数类型化编程语言都有一些方法来定义类型的别名，例如 C 语言的 <code>typedef</code>。 然而，在 Lean 中，类型是语言的一等部分——它们与其他任何表达式一样都是表达式， 这意味着定义可以引用类型，就像它们可以引用其他值一样。</p>
+<p>大多数类型化编程语言都有一些方法来定义类型的别名，例如 C 语言的 <code>typedef</code>。
+然而，在 Lean 中，类型是语言的一等部分——它们与其他任何表达式一样都是表达式，
+这意味着定义可以引用类型，就像它们可以引用其他值一样。</p>
 <!--
 For instance, if ``String`` is too much to type, a shorter abbreviation ``Str`` can be defined:
 -->
@@ -286,7 +324,9 @@ The reason this works is that types follow the same rules as the rest of Lean.
 Types are expressions, and in an expression, a defined name can be replaced with its definition.
 Because ``Str`` has been defined to mean ``String``, the definition of ``aStr`` makes sense.
 -->
-<p>这之所以可行，是因为类型遵循与 Lean 其他部分相同的规则。 类型是表达式，而在表达式中，已定义的名称可以用其定义替换。由于 <code>Str</code> 已被定义为 <code>String</code>，因此 <code>aStr</code> 的定义是有意义的。</p>
+<p>这之所以可行，是因为类型遵循与 Lean 其他部分相同的规则。
+类型是表达式，而在表达式中，已定义的名称可以用其定义替换。由于 <code>Str</code> 已被定义为
+<code>String</code>，因此 <code>aStr</code> 的定义是有意义的。</p>
 <!--
 ### Messages You May Meet
 -->
@@ -295,7 +335,8 @@ Because ``Str`` has been defined to mean ``String``, the definition of ``aStr`` 
 Experimenting with using definitions for types is made more complicated by the way that Lean supports overloaded integer literals.
 If ``Nat`` is too short, a longer name ``NaturalNumber`` can be defined:
 -->
-<p>由于 Lean 支持重载整数字面量，因此使用定义作为类型进行实验会变得更加复杂。 如果 <code>Nat</code> 太短，可以定义一个较长的名称 <code>NaturalNumber</code>：</p>
+<p>由于 Lean 支持重载整数字面量，因此使用定义作为类型进行实验会变得更加复杂。
+如果 <code>Nat</code> 太短，可以定义一个较长的名称 <code>NaturalNumber</code>：</p>
 <pre><code class="language-lean">def NaturalNumber : Type := Nat
 </code></pre>
 <!--
@@ -318,7 +359,11 @@ When it makes sense to do so, natural number literals can be used for new types,
 This is part of Lean's mission of making it convenient to represent mathematics, and different branches of mathematics use number notation for very different purposes.
 The specific feature that allows this overloading does not replace all defined names with their definitions before looking for overloading, which is what leads to the error message above.
 -->
-<p>产生该错误的原因是 Lean 允许数字字面量被<strong>重载（Overload）</strong>。 当有意义时，自然数字面量可用作新类型，就像这些类型内置在系统中一样。 这能让 Lean 方便地表示数学，而数学的不同分支会将数字符号用作完全不同的目的。 这种允许重载的特性，并不会在找到重载之前用其定义替换所有已定义的名称， 这正是导致出现以上错误消息的原因。</p>
+<p>产生该错误的原因是 Lean 允许数字字面量被<strong>重载（Overload）</strong>。
+当有意义时，自然数字面量可用作新类型，就像这些类型内置在系统中一样。
+这能让 Lean 方便地表示数学，而数学的不同分支会将数字符号用作完全不同的目的。
+这种允许重载的特性，并不会在找到重载之前用其定义替换所有已定义的名称，
+这正是导致出现以上错误消息的原因。</p>
 <!--
 One way to work around this limitation is by providing the type `Nat` on the right-hand side of the definition, causing `Nat`'s overloading rules to be used for `38`:
 -->
@@ -328,18 +373,21 @@ One way to work around this limitation is by providing the type `Nat` on the rig
 <!--
 The definition is still type-correct because `NaturalNumber` is the same type as `Nat`—by definition!
 -->
-<p>该定义的类型仍然正确，因为根据定义，<code>NaturalNumber</code> 与 <code>Nat</code> 是同一种类型！</p>
+<p>该定义的类型仍然正确，因为根据定义，<code>NaturalNumber</code>
+与 <code>Nat</code> 是同一种类型！</p>
 <!--
 Another solution is to define an overloading for `NaturalNumber` that works equivalently to the one for `Nat`.
 This requires more advanced features of Lean, however.
 -->
-<p>另一种解决方案是为 <code>NaturalNumber</code> 定义一个重载，其作用等同于 <code>Nat</code> 的重载。 然而，这需要 Lean 的更多高级特性。</p>
+<p>另一种解决方案是为 <code>NaturalNumber</code> 定义一个重载，其作用等同于 <code>Nat</code> 的重载。
+然而，这需要 Lean 的更多高级特性。</p>
 <!--
 Finally, defining the new name for `Nat` using `abbrev` instead of `def` allows overloading resolution to replace the defined name with its definition.
 Definitions written using `abbrev` are always unfolded.
 For instance,
 -->
-<p>最后，使用 <code>abbrev</code> 而非 <code>def</code> 来为 <code>Nat</code> 定义新名称， 能够让重载解析以其定义来替换所定义的名称。使用 <code>abbrev</code> 编写的定义总是会展开。例如，</p>
+<p>最后，使用 <code>abbrev</code> 而非 <code>def</code> 来为 <code>Nat</code> 定义新名称，
+能够让重载解析以其定义来替换所定义的名称。使用 <code>abbrev</code> 编写的定义总是会展开。例如，</p>
 <pre><code class="language-lean">abbrev N : Type := Nat
 </code></pre>
 <!--
@@ -358,7 +406,10 @@ Definitions that are to be unfolded are called _reducible_.
 Control over reducibility is essential to allow Lean to scale: fully unfolding all definitions can result in very large types that are slow for a machine to process and difficult for users to understand.
 Definitions produced with `abbrev` are marked as reducible.
 -->
-<p>在幕后，一些定义会在重载解析期间被内部标记为可展开的，而另一些则不会标记。 可展开的定义称为<strong>可约的（Reducible）</strong>。控制可约性对 Lean 的灵活性而言至关重要： 完全展开所有的定义可能会产生非常大的类型，这对于机器处理和用户理解来说都很困难。 使用 <code>abbrev</code> 生成的定义会被标记为可约定义。</p>
+<p>在幕后，一些定义会在重载解析期间被内部标记为可展开的，而另一些则不会标记。
+可展开的定义称为<strong>可约的（Reducible）</strong>。控制可约性对 Lean 的灵活性而言至关重要：
+完全展开所有的定义可能会产生非常大的类型，这对于机器处理和用户理解来说都很困难。
+使用 <code>abbrev</code> 生成的定义会被标记为可约定义。</p>
 
                     </main>
 

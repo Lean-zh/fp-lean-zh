@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>总结 - Functional Programming in Lean</title>
+        <title>总结 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,25 +138,49 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="总结"><a class="header" href="#总结">总结</a></h1>
+                        <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <h2 id="type-classes-and-structures"><a class="header" href="#type-classes-and-structures">Type Classes and Structures</a></h2>
-<p>Behind the scenes, type classes are represented by structures. Defining a class defines a structure, and additionally creates an empty table of instances. Defining an instance creates a value that either has the structure as its type or is a function that can return the structure, and additionally adds an entry to the table. Instance search consists of constructing an instance by consulting the instance tables. Both structures and classes may provide default values for fields (which are default implementations of methods).</p>
-<h2 id="结构体和继承"><a class="header" href="#结构体和继承">结构体和继承</a></h2>
-<p>Structures may inherit from other structures. Behind the scenes, a structure that inherits from another structure contains an instance of the original structure as a field. In other words, inheritance is implemented with composition. When multiple inheritance is used, only the unique fields from the additional parent structures are used to avoid a diamond problem, and the functions that would normally extract the parent value are instead organized to construct one. Record dot notation takes structure inheritance into account.</p>
-<p>Because type classes are just structures with some additional automation applied, all of these features are available in type classes. Together with default methods, this can be used to create a fine-grained hierarchy of interfaces that nonetheless does not impose a large burden on clients, because the small classes that the large classes inherit from can be automatically implemented.</p>
-<h2 id="应用函子"><a class="header" href="#应用函子">应用函子</a></h2>
+<p>Behind the scenes, type classes are represented by structures.
+Defining a class defines a structure, and additionally creates an empty table of instances.
+Defining an instance creates a value that either has the structure as its type or is a function that can return the structure, and additionally adds an entry to the table.
+Instance search consists of constructing an instance by consulting the instance tables.
+Both structures and classes may provide default values for fields (which are default implementations of methods).</p>
+<h2 id="structures-and-inheritance"><a class="header" href="#structures-and-inheritance">Structures and Inheritance</a></h2>
+<p>Structures may inherit from other structures.
+Behind the scenes, a structure that inherits from another structure contains an instance of the original structure as a field.
+In other words, inheritance is implemented with composition.
+When multiple inheritance is used, only the unique fields from the additional parent structures are used to avoid a diamond problem, and the functions that would normally extract the parent value are instead organized to construct one.
+Record dot notation takes structure inheritance into account.</p>
+<p>Because type classes are just structures with some additional automation applied, all of these features are available in type classes.
+Together with default methods, this can be used to create a fine-grained hierarchy of interfaces that nonetheless does not impose a large burden on clients, because the small classes that the large classes inherit from can be automatically implemented.</p>
+<h2 id="applicative-functors"><a class="header" href="#applicative-functors">Applicative Functors</a></h2>
 <p>An applicative functor is a functor with two additional operations:</p>
 <ul>
 <li><code>pure</code>, which is the same operator as that for <code>Monad</code></li>
 <li><code>seq</code>, which allows a function to be applied in the context of the functor.</li>
 </ul>
-<p>While monads can represent arbitrary programs with control flow, applicative functors can only run function arguments from left to right. Because they are less powerful, they provide less control to programs written against the interface, while the implementor of the method has a greater degree of freedom. Some useful types can implement <code>Applicative</code> but not <code>Monad</code>.</p>
-<p>In fact, the type classes <code>Functor</code>, <code>Applicative</code>, and <code>Monad</code> form a hierarchy of power. Moving up the hierarchy, from <code>Functor</code> towards <code>Monad</code>, allows more powerful programs to be written, but fewer types implement the more powerful classes. Polymorphic programs should be written to use as weak of an abstraction as possible, while datatypes should be given instances that are as powerful as possible. This maximizes code re-use. The more powerful type classes extend the less powerful ones, which means that an implementation of <code>Monad</code> provides implementations of <code>Functor</code> and <code>Applicative</code> for free.</p>
-<p>Each class has a set of methods to be implemented and a corresponding contract that specifies additional rules for the methods. Programs that are written against these interfaces expect that the additional rules are followed, and may be buggy if they are not. The default implementations of <code>Functor</code>'s methods in terms of <code>Applicative</code>'s, and of <code>Applicative</code>'s in terms of <code>Monad</code>'s, will obey these rules.</p>
-<h2 id="宇宙"><a class="header" href="#宇宙">宇宙</a></h2>
-<p>To allow Lean to be used as both a programming language and a theorem prover, some restrictions on the language are necessary. This includes restrictions on recursive functions that ensure that they all either terminate or are marked as <code>partial</code> and written to return types that are not uninhabited. Additionally, it must be impossible to represent certain kinds of logical paradoxes as types.</p>
-<p>One of the restrictions that rules out certain paradoxes is that every type is assigned to a <em>universe</em>. Universes are types such as <code>Prop</code>, <code>Type</code>, <code>Type 1</code>, <code>Type 2</code>, and so forth. These types describe other types—just as <code>0</code> and <code>17</code> are described by <code>Nat</code>, <code>Nat</code> is itself described by <code>Type</code>, and <code>Type</code> is described by <code>Type 1</code>. The type of functions that take a type as an argument must be a larger universe than the argument's universe.</p>
-<p>Because each declared datatype has a universe, writing code that uses types like data would quickly become annoying, requiring each polymorphic type to be copy-pasted to take arguments from <code>Type 1</code>. A feature called <em>universe polymorphism</em> allows Lean programs and datatypes to take universe levels as arguments, just as ordinary polymorphism allows programs to take types as arguments. Generally speaking, Lean libraries should use universe polymorphism when implementing libraries of polymorphic operations.</p>
+<p>While monads can represent arbitrary programs with control flow, applicative functors can only run function arguments from left to right.
+Because they are less powerful, they provide less control to programs written against the interface, while the implementor of the method has a greater degree of freedom.
+Some useful types can implement <code>Applicative</code> but not <code>Monad</code>.</p>
+<p>In fact, the type classes <code>Functor</code>, <code>Applicative</code>, and <code>Monad</code> form a hierarchy of power.
+Moving up the hierarchy, from <code>Functor</code> towards <code>Monad</code>, allows more powerful programs to be written, but fewer types implement the more powerful classes.
+Polymorphic programs should be written to use as weak of an abstraction as possible, while datatypes should be given instances that are as powerful as possible.
+This maximizes code re-use.
+The more powerful type classes extend the less powerful ones, which means that an implementation of <code>Monad</code> provides implementations of <code>Functor</code> and <code>Applicative</code> for free.</p>
+<p>Each class has a set of methods to be implemented and a corresponding contract that specifies additional rules for the methods.
+Programs that are written against these interfaces expect that the additional rules are followed, and may be buggy if they are not.
+The default implementations of <code>Functor</code>'s methods in terms of <code>Applicative</code>'s, and of <code>Applicative</code>'s in terms of <code>Monad</code>'s, will obey these rules.</p>
+<h2 id="universes"><a class="header" href="#universes">Universes</a></h2>
+<p>To allow Lean to be used as both a programming language and a theorem prover, some restrictions on the language are necessary.
+This includes restrictions on recursive functions that ensure that they all either terminate or are marked as <code>partial</code> and written to return types that are not uninhabited.
+Additionally, it must be impossible to represent certain kinds of logical paradoxes as types.</p>
+<p>One of the restrictions that rules out certain paradoxes is that every type is assigned to a <em>universe</em>.
+Universes are types such as <code>Prop</code>, <code>Type</code>, <code>Type 1</code>, <code>Type 2</code>, and so forth.
+These types describe other types—just as <code>0</code> and <code>17</code> are described by <code>Nat</code>, <code>Nat</code> is itself described by <code>Type</code>, and <code>Type</code> is described by <code>Type 1</code>.
+The type of functions that take a type as an argument must be a larger universe than the argument's universe.</p>
+<p>Because each declared datatype has a universe, writing code that uses types like data would quickly become annoying, requiring each polymorphic type to be copy-pasted to take arguments from <code>Type 1</code>.
+A feature called <em>universe polymorphism</em> allows Lean programs and datatypes to take universe levels as arguments, just as ordinary polymorphism allows programs to take types as arguments.
+Generally speaking, Lean libraries should use universe polymorphism when implementing libraries of polymorphic operations.</p>
 
                     </main>
 

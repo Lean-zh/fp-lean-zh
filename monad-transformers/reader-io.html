@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>组合 IO 与 Reader - Functional Programming in Lean</title>
+        <title>组合 IO 与 Reader - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,8 +138,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="组合-io-与-reader"><a class="header" href="#组合-io-与-reader">组合 IO 与 Reader</a></h1>
-<p>One case where a reader monad can be useful is when there is some notion of the &quot;current configuration&quot; of the application that is passed through many recursive calls. An example of such a program is <code>tree</code>, which recursively prints the files in the current directory and its subdirectories, indicating their tree structure using characters. The version of <code>tree</code> in this chapter, called <code>doug</code> after the mighty Douglas Fir tree that adorns the west coast of North America, provides the option of Unicode box-drawing characters or their ASCII equivalents when indicating directory structure.</p>
+                        <h1 id="combining-io-and-reader"><a class="header" href="#combining-io-and-reader">Combining IO and Reader</a></h1>
+<p>One case where a reader monad can be useful is when there is some notion of the &quot;current configuration&quot; of the application that is passed through many recursive calls.
+An example of such a program is <code>tree</code>, which recursively prints the files in the current directory and its subdirectories, indicating their tree structure using characters.
+The version of <code>tree</code> in this chapter, called <code>doug</code> after the mighty Douglas Fir tree that adorns the west coast of North America, provides the option of Unicode box-drawing characters or their ASCII equivalents when indicating directory structure.</p>
 <p>For example, the following commands create a directory structure and some empty files in a directory called <code>doug-demo</code>:</p>
 <pre><code>$ cd doug-demo
 $ mkdir -p a/b/c
@@ -163,13 +165,18 @@ $ touch a/e/still-another-file-again
 │   │   │   ├── another-file
 </code></pre>
 <h2 id="implementation"><a class="header" href="#implementation">Implementation</a></h2>
-<p>Internally, <code>doug</code> passes a configuration value downwards as it recursively traverses the directory structure. This configuration contains two fields: <code>useASCII</code> determines whether to use Unicode box-drawing characters or ASCII vertical line and dash characters to indicate structure, and <code>currentPrefix</code> contains a string to prepend to each line of output. As the current directory deepens, the prefix string accumulates indicators of being in a directory. The configuration is a structure:</p>
+<p>Internally, <code>doug</code> passes a configuration value downwards as it recursively traverses the directory structure.
+This configuration contains two fields: <code>useASCII</code> determines whether to use Unicode box-drawing characters or ASCII vertical line and dash characters to indicate structure, and <code>currentPrefix</code> contains a string to prepend to each line of output.
+As the current directory deepens, the prefix string accumulates indicators of being in a directory.
+The configuration is a structure:</p>
 <pre><code class="language-lean">structure Config where
   useASCII : Bool := false
   currentPrefix : String := &quot;&quot;
 </code></pre>
-<p>This structure has default definitions for both fields. The default <code>Config</code> uses Unicode display with no prefix.</p>
-<p>Users who invoke <code>doug</code> will need to be able to provide command-line arguments. The usage information is as follows:</p>
+<p>This structure has default definitions for both fields.
+The default <code>Config</code> uses Unicode display with no prefix.</p>
+<p>Users who invoke <code>doug</code> will need to be able to provide command-line arguments.
+The usage information is as follows:</p>
 <pre><code class="language-lean">def usage : String :=
   &quot;Usage: doug [--ascii]
 Options:
@@ -181,7 +188,9 @@ Options:
   | [&quot;--ascii&quot;] =&gt; some {useASCII := true}
   | _ =&gt; none
 </code></pre>
-<p>The <code>main</code> function is a wrapper around an inner worker, called <code>dirTree</code>, that shows the contents of a directory using a configuration. Before calling <code>dirTree</code>, <code>main</code> is responsible for processing command-line arguments. It must also return the appropriate exit code to the operating system:</p>
+<p>The <code>main</code> function is a wrapper around an inner worker, called <code>dirTree</code>, that shows the contents of a directory using a configuration.
+Before calling <code>dirTree</code>, <code>main</code> is responsible for processing command-line arguments.
+It must also return the appropriate exit code to the operating system:</p>
 <pre><code class="language-lean">def main (args : List String) : IO UInt32 := do
   match configFromArgs args with
   | some config =&gt;
@@ -192,7 +201,9 @@ Options:
     IO.eprintln usage
     pure 1
 </code></pre>
-<p>Not all paths should be shown in the directory tree. In particular, files named <code>.</code> or <code>..</code> should be skipped, as they are actually features used for navigation rather than files <em>per se</em>. Of those files that should be shown, there are two kinds: ordinary files and directories:</p>
+<p>Not all paths should be shown in the directory tree.
+In particular, files named <code>.</code> or <code>..</code> should be skipped, as they are actually features used for navigation rather than files <em>per se</em>.
+Of those files that should be shown, there are two kinds: ordinary files and directories:</p>
 <pre><code class="language-lean">inductive Entry where
   | file : String → Entry
   | dir : String → Entry
@@ -205,8 +216,13 @@ Options:
   | some name =&gt;
     pure (some (if (← path.isDir) then .dir name else .file name))
 </code></pre>
-<p><code>System.FilePath.components</code> converts a path into a list of path components, splitting the name at directory separators. If there is no last component, then the path is the root directory. If the last component is a special navigation file (<code>.</code> or <code>..</code>), then the file should be excluded. Otherwise, directories and files are wrapped in the corresponding constructors.</p>
-<p>Lean's logic has no way to know that directory trees are finite. Indeed, some systems allow the construction of circular directory structures. Thus, <code>dirTree</code> is declared <code>partial</code>:</p>
+<p><code>System.FilePath.components</code> converts a path into a list of path components, splitting the name at directory separators.
+If there is no last component, then the path is the root directory.
+If the last component is a special navigation file (<code>.</code> or <code>..</code>), then the file should be excluded.
+Otherwise, directories and files are wrapped in the corresponding constructors.</p>
+<p>Lean's logic has no way to know that directory trees are finite.
+Indeed, some systems allow the construction of circular directory structures.
+Thus, <code>dirTree</code> is declared <code>partial</code>:</p>
 <pre><code class="language-lean">partial def dirTree (cfg : Config) (path : System.FilePath) : IO Unit := do
   match ← toEntry path with
   | none =&gt; pure ()
@@ -218,7 +234,10 @@ Options:
     doList contents.toList fun d =&gt;
       dirTree newConfig d.path
 </code></pre>
-<p>The call to <code>toEntry</code> is a <a href="../hello-world/conveniences.html#nested-actions">nested action</a>—the parentheses are optional in positions where the arrow couldn't have any other meaning, such as <code>match</code>. When the filename doesn't correspond to an entry in the tree (e.g. because it is <code>..</code>), <code>dirTree</code> does nothing. When the filename points to an ordinary file, <code>dirTree</code> calls a helper to show it with the current configuration. When the filename points to a directory, it is shown with a helper, and then its contents are recursively shown in a new configuration in which the prefix has been extended to account for being in a new directory.</p>
+<p>The call to <code>toEntry</code> is a <a href="../hello-world/conveniences.html#nested-actions">nested action</a>—the parentheses are optional in positions where the arrow couldn't have any other meaning, such as <code>match</code>.
+When the filename doesn't correspond to an entry in the tree (e.g. because it is <code>..</code>), <code>dirTree</code> does nothing.
+When the filename points to an ordinary file, <code>dirTree</code> calls a helper to show it with the current configuration.
+When the filename points to a directory, it is shown with a helper, and then its contents are recursively shown in a new configuration in which the prefix has been extended to account for being in a new directory.</p>
 <p>Showing the names of files and directories is achieved with <code>showFileName</code> and <code>showDirName</code>:</p>
 <pre><code class="language-lean">def showFileName (cfg : Config) (file : String) : IO Unit := do
   IO.println (cfg.fileName file)
@@ -243,7 +262,8 @@ def Config.dirName (cfg : Config) (dir : String) : String :=
 <pre><code class="language-lean">def Config.inDirectory (cfg : Config) : Config :=
   {cfg with currentPrefix := cfg.preDir ++ &quot; &quot; ++ cfg.currentPrefix}
 </code></pre>
-<p>Iterating an IO action over a list of directory contents is achieved using <code>doList</code>. Because <code>doList</code> carries out all the actions in a list and does not base control-flow decisions on the values returned by any of the actions, the full power of <code>Monad</code> is not necessary, and it will work for any <code>Applicative</code>:</p>
+<p>Iterating an IO action over a list of directory contents is achieved using <code>doList</code>.
+Because <code>doList</code> carries out all the actions in a list and does not base control-flow decisions on the values returned by any of the actions, the full power of <code>Monad</code> is not necessary, and it will work for any <code>Applicative</code>:</p>
 <pre><code class="language-lean">def doList [Applicative f] : List α → (α → f Unit) → f Unit
   | [], _ =&gt; pure ()
   | x :: xs, action =&gt;
@@ -251,7 +271,9 @@ def Config.dirName (cfg : Config) (dir : String) : String :=
     doList xs action
 </code></pre>
 <h2 id="using-a-custom-monad"><a class="header" href="#using-a-custom-monad">Using a Custom Monad</a></h2>
-<p>While this implementation of <code>doug</code> works, manually passing the configuration around is verbose and error-prone. The type system will not catch it if the wrong configuration is passed downwards, for instance. A reader effect ensures that the same configuration is passed to all recursive calls, unless it is manually overridden, and it helps make the code less verbose.</p>
+<p>While this implementation of <code>doug</code> works, manually passing the configuration around is verbose and error-prone.
+The type system will not catch it if the wrong configuration is passed downwards, for instance.
+A reader effect ensures that the same configuration is passed to all recursive calls, unless it is manually overridden, and it helps make the code less verbose.</p>
 <p>To create a version of <code>IO</code> that is also a reader of <code>Config</code>, first define the type and its <code>Monad</code> instance, following the recipe from <a href="../monads/arithmetic.html#custom-environments">the evaluator example</a>:</p>
 <pre><code class="language-lean">def ConfigIO (α : Type) : Type :=
   Config → IO α
@@ -262,32 +284,39 @@ instance : Monad ConfigIO where
     let v ← result cfg
     next v cfg
 </code></pre>
-<p>The difference between this <code>Monad</code> instance and the one for <code>Reader</code> is that this one uses <code>do</code>-notation in the <code>IO</code> monad as the body of the function that <code>bind</code> returns, rather than applying <code>next</code> directly to the value returned from <code>result</code>. Any <code>IO</code> effects performed by <code>result</code> must occur before <code>next</code> is invoked, which is ensured by the <code>IO</code> monad's <code>bind</code> operator. <code>ConfigIO</code> is not universe polymorphic because the underlying <code>IO</code> type is also not universe polymorphic.</p>
+<p>The difference between this <code>Monad</code> instance and the one for <code>Reader</code> is that this one uses <code>do</code>-notation in the <code>IO</code> monad as the body of the function that <code>bind</code> returns, rather than applying <code>next</code> directly to the value returned from <code>result</code>.
+Any <code>IO</code> effects performed by <code>result</code> must occur before <code>next</code> is invoked, which is ensured by the <code>IO</code> monad's <code>bind</code> operator.
+<code>ConfigIO</code> is not universe polymorphic because the underlying <code>IO</code> type is also not universe polymorphic.</p>
 <p>Running a <code>ConfigIO</code> action involves transforming it into an <code>IO</code> action by providing it with a configuration:</p>
 <pre><code class="language-lean">def ConfigIO.run (action : ConfigIO α) (cfg : Config) : IO α :=
   action cfg
 </code></pre>
-<p>This function is not really necessary, as a caller could simply provide the configuration directly. However, naming the operation can make it easier to see which parts of the code are intended to run in which monad.</p>
+<p>This function is not really necessary, as a caller could simply provide the configuration directly.
+However, naming the operation can make it easier to see which parts of the code are intended to run in which monad.</p>
 <p>The next step is to define a means of accessing the current configuration as part of <code>ConfigIO</code>:</p>
 <pre><code class="language-lean">def currentConfig : ConfigIO Config :=
   fun cfg =&gt; pure cfg
 </code></pre>
-<p>This is just like <code>read</code> from <a href="../monads/arithmetic.html#custom-environments">the evaluator example</a>, except it uses <code>IO</code>'s <code>pure</code> to return its value rather than doing so directly. Because entering a directory modifies the current configuration for the scope of a recursive call, it will be necessary to have a way to override a configuration:</p>
+<p>This is just like <code>read</code> from <a href="../monads/arithmetic.html#custom-environments">the evaluator example</a>, except it uses <code>IO</code>'s <code>pure</code> to return its value rather than doing so directly.
+Because entering a directory modifies the current configuration for the scope of a recursive call, it will be necessary to have a way to override a configuration:</p>
 <pre><code class="language-lean">def locally (change : Config → Config) (action : ConfigIO α) : ConfigIO α :=
   fun cfg =&gt; action (change cfg)
 </code></pre>
-<p>Much of the code used in <code>doug</code> has no need for configurations, and <code>doug</code> calls ordinary Lean <code>IO</code> actions from the standard library that certainly don't need a <code>Config</code>. Ordinary <code>IO</code> actions can be run using <code>runIO</code>, which ignores the configuration argument:</p>
+<p>Much of the code used in <code>doug</code> has no need for configurations, and <code>doug</code> calls ordinary Lean <code>IO</code> actions from the standard library that certainly don't need a <code>Config</code>.
+Ordinary <code>IO</code> actions can be run using <code>runIO</code>, which ignores the configuration argument:</p>
 <pre><code class="language-lean">def runIO (action : IO α) : ConfigIO α :=
   fun _ =&gt; action
 </code></pre>
-<p>With these components, <code>showFileName</code> and <code>showDirName</code> can be updated to take their configuration arguments implicitly through the <code>ConfigIO</code> monad. They use <a href="../hello-world/conveniences.html#nested-actions">nested actions</a> to retrieve the configuration, and <code>runIO</code> to actually execute the call to <code>IO.println</code>:</p>
+<p>With these components, <code>showFileName</code> and <code>showDirName</code> can be updated to take their configuration arguments implicitly through the <code>ConfigIO</code> monad.
+They use <a href="../hello-world/conveniences.html#nested-actions">nested actions</a> to retrieve the configuration, and <code>runIO</code> to actually execute the call to <code>IO.println</code>:</p>
 <pre><code class="language-lean">def showFileName (file : String) : ConfigIO Unit := do
   runIO (IO.println ((← currentConfig).fileName file))
 
 def showDirName (dir : String) : ConfigIO Unit := do
   runIO (IO.println ((← currentConfig).dirName dir))
 </code></pre>
-<p>In the new version of <code>dirTree</code>, the calls to <code>toEntry</code> and <code>System.FilePath.readDir</code> are wrapped in <code>runIO</code>. Additionally, instead of building a new configuration and then requiring the programmer to keep track of which one to pass to recursive calls, it uses <code>locally</code> to naturally delimit the modified configuration to only a small region of the program, in which it is the <em>only</em> valid configuration:</p>
+<p>In the new version of <code>dirTree</code>, the calls to <code>toEntry</code> and <code>System.FilePath.readDir</code> are wrapped in <code>runIO</code>.
+Additionally, instead of building a new configuration and then requiring the programmer to keep track of which one to pass to recursive calls, it uses <code>locally</code> to naturally delimit the modified configuration to only a small region of the program, in which it is the <em>only</em> valid configuration:</p>
 <pre><code class="language-lean">partial def dirTree (path : System.FilePath) : ConfigIO Unit := do
   match ← runIO (toEntry path) with
     | none =&gt; pure ()
@@ -322,14 +351,17 @@ def showDirName (dir : String) : ConfigIO Unit := do
 <li>Wrapping ordinary <code>IO</code> actions in <code>runIO</code> is noisy and distracts from the flow of the program</li>
 <li>Writing monads instances by hand is repetitive, and the technique for adding a reader effect to another monad is a design pattern that requires documentation and communication overhead</li>
 </ol>
-<p>Using a technique called <em>monad transformers</em>, all of these downsides can be addressed. A monad transformer takes a monad as an argument and returns a new monad. Monad transformers consist of:</p>
+<p>Using a technique called <em>monad transformers</em>, all of these downsides can be addressed.
+A monad transformer takes a monad as an argument and returns a new monad.
+Monad transformers consist of:</p>
 <ol>
 <li>A definition of the transformer itself, which is typically a function from types to types</li>
 <li>A <code>Monad</code> instance that assumes the inner type is already a monad</li>
 <li>An operator to &quot;lift&quot; an action from the inner monad to the transformed monad, akin to <code>runIO</code></li>
 </ol>
 <h2 id="adding-a-reader-to-any-monad"><a class="header" href="#adding-a-reader-to-any-monad">Adding a Reader to Any Monad</a></h2>
-<p>Adding a reader effect to <code>IO</code> was accomplished in <code>ConfigIO</code> by wrapping <code>IO α</code> in a function type. The Lean standard library contains a function that can do this to <em>any</em> polymorphic type, called <code>ReaderT</code>:</p>
+<p>Adding a reader effect to <code>IO</code> was accomplished in <code>ConfigIO</code> by wrapping <code>IO α</code> in a function type.
+The Lean standard library contains a function that can do this to <em>any</em> polymorphic type, called <code>ReaderT</code>:</p>
 <pre><code class="language-lean">def ReaderT (ρ : Type u) (m : Type u → Type v) (α : Type u) : Type (max u v) :=
   ρ → m α
 </code></pre>
@@ -337,17 +369,21 @@ def showDirName (dir : String) : ConfigIO Unit := do
 <ul>
 <li><code>ρ</code> is the environment that is accessible to the reader</li>
 <li><code>m</code> is the monad that is being transformed, such as <code>IO</code></li>
-<li><code>α</code> is the type of values being returned by the monadic computation Both <code>α</code> and <code>ρ</code> are in the same universe because the operator that retrieves the environment in the monad will have type <code>m ρ</code>.</li>
+<li><code>α</code> is the type of values being returned by the monadic computation
+Both <code>α</code> and <code>ρ</code> are in the same universe because the operator that retrieves the environment in the monad will have type <code>m ρ</code>.</li>
 </ul>
 <p>With <code>ReaderT</code>, <code>ConfigIO</code> becomes:</p>
 <pre><code class="language-lean">abbrev ConfigIO (α : Type) : Type := ReaderT Config IO α
 </code></pre>
-<p>It is an <code>abbrev</code> because <code>ReaderT</code> has many useful features defined in the standard library that a non-reducible definition would hide. Rather than taking responsibility for making these work directly for <code>ConfigIO</code>, it's easier to simply have <code>ConfigIO</code> behave identically to <code>ReaderT Config IO</code>.</p>
-<p>The manually-written <code>currentConfig</code> obtained the environment out of the reader. This effect can be defined in a generic form for all uses of <code>ReaderT</code>, under the name <code>read</code>:</p>
+<p>It is an <code>abbrev</code> because <code>ReaderT</code> has many useful features defined in the standard library that a non-reducible definition would hide.
+Rather than taking responsibility for making these work directly for <code>ConfigIO</code>, it's easier to simply have <code>ConfigIO</code> behave identically to <code>ReaderT Config IO</code>.</p>
+<p>The manually-written <code>currentConfig</code> obtained the environment out of the reader.
+This effect can be defined in a generic form for all uses of <code>ReaderT</code>, under the name <code>read</code>:</p>
 <pre><code class="language-lean">def read [Monad m] : ReaderT ρ m ρ :=
    fun env =&gt; pure env
 </code></pre>
-<p>However, not every monad that provides a reader effect is built with <code>ReaderT</code>. The type class <code>MonadReader</code> allows any monad to provide a <code>read</code> operator:</p>
+<p>However, not every monad that provides a reader effect is built with <code>ReaderT</code>.
+The type class <code>MonadReader</code> allows any monad to provide a <code>read</code> operator:</p>
 <pre><code class="language-lean">class MonadReader (ρ : outParam (Type u)) (m : Type u → Type v) : Type (max (u + 1) v) where
   read : m ρ
 
@@ -364,26 +400,35 @@ export MonadReader (read)
     let v ← result env
     next v env
 </code></pre>
-<p>The next step is to eliminate uses of <code>runIO</code>. When Lean encounters a mismatch in monad types, it automatically attempts to use a type class called <code>MonadLift</code> to transform the actual monad into the expected monad. This process is similar to the use of coercions. <code>MonadLift</code> is defined as follows:</p>
+<p>The next step is to eliminate uses of <code>runIO</code>.
+When Lean encounters a mismatch in monad types, it automatically attempts to use a type class called <code>MonadLift</code> to transform the actual monad into the expected monad.
+This process is similar to the use of coercions.
+<code>MonadLift</code> is defined as follows:</p>
 <pre><code class="language-lean">class MonadLift (m : Type u → Type v) (n : Type u → Type w) where
   monadLift : {α : Type u} → m α → n α
 </code></pre>
-<p>The method <code>monadLift</code> translates from the monad <code>m</code> to the monad <code>n</code>. The process is called &quot;lifting&quot; because it takes an action in the embedded monad and makes it into an action in the surrounding monad. In this case, it will be used to &quot;lift&quot; from <code>IO</code> to <code>ReaderT Config IO</code>, though the instance works for <em>any</em> inner monad <code>m</code>:</p>
+<p>The method <code>monadLift</code> translates from the monad <code>m</code> to the monad <code>n</code>.
+The process is called &quot;lifting&quot; because it takes an action in the embedded monad and makes it into an action in the surrounding monad.
+In this case, it will be used to &quot;lift&quot; from <code>IO</code> to <code>ReaderT Config IO</code>, though the instance works for <em>any</em> inner monad <code>m</code>:</p>
 <pre><code class="language-lean">instance : MonadLift m (ReaderT ρ m) where
   monadLift action := fun _ =&gt; action
 </code></pre>
-<p>The implementation of <code>monadLift</code> is very similar to that of <code>runIO</code>. Indeed, it is enough to define <code>showFileName</code> and <code>showDirName</code> without using <code>runIO</code>:</p>
+<p>The implementation of <code>monadLift</code> is very similar to that of <code>runIO</code>.
+Indeed, it is enough to define <code>showFileName</code> and <code>showDirName</code> without using <code>runIO</code>:</p>
 <pre><code class="language-lean">def showFileName (file : String) : ConfigIO Unit := do
   IO.println s!&quot;{(← read).currentPrefix} {file}&quot;
 
 def showDirName (dir : String) : ConfigIO Unit := do
   IO.println s!&quot;{(← read).currentPrefix} {dir}/&quot;
 </code></pre>
-<p>One final operation from the original <code>ConfigIO</code> remains to be translated to a use of <code>ReaderT</code>: <code>locally</code>. The definition can be translated directly to <code>ReaderT</code>, but the Lean standard library provides a more general version. The standard version is called <code>withReader</code>, and it is part of a type class called <code>MonadWithReader</code>:</p>
+<p>One final operation from the original <code>ConfigIO</code> remains to be translated to a use of <code>ReaderT</code>: <code>locally</code>.
+The definition can be translated directly to <code>ReaderT</code>, but the Lean standard library provides a more general version.
+The standard version is called <code>withReader</code>, and it is part of a type class called <code>MonadWithReader</code>:</p>
 <pre><code class="language-lean">class MonadWithReader (ρ : outParam (Type u)) (m : Type u → Type v) where
   withReader {α : Type u} : (ρ → ρ) → m α → m α
 </code></pre>
-<p>Just as in <code>MonadReader</code>, the environment <code>ρ</code> is an <code>outParam</code>. The <code>withReader</code> operation is exported, so that it doesn't need to be written with the type class name before it:</p>
+<p>Just as in <code>MonadReader</code>, the environment <code>ρ</code> is an <code>outParam</code>.
+The <code>withReader</code> operation is exported, so that it doesn't need to be written with the type class name before it:</p>
 <pre><code class="language-lean">export MonadWithReader (withReader)
 </code></pre>
 <p>The instance for <code>ReaderT</code> is essentially the same as the definition of <code>locally</code>:</p>
@@ -404,10 +449,18 @@ def showDirName (dir : String) : ConfigIO Unit := do
           dirTree d.path)
 </code></pre>
 <p>Aside from replacing <code>locally</code> with <code>withReader</code>, it is the same as before.</p>
-<p>Replacing the custom <code>ConfigIO</code> type with <code>ReaderT</code> did not save a large number of lines of code in this section. However, rewriting the code using components from the standard library does have long-term benefits. First, readers who know about <code>ReaderT</code> don't need to take time to understand the <code>Monad</code> instance for <code>ConfigIO</code>, working backwards to the meaning of monad itself. Instead, they can be confident in their initial understanding. Next, adding further effects to the monad (such as a state effect to count the files in each directory and display a count at the end) requires far fewer changes to the code, because the monad transformers and <code>MonadLift</code> instances provided in the library work well together. Finally, using a set of type classes included in the standard library, polymorphic code can be written in such a way that it can work with a variety of monads without having to care about details like the order in which the monad transformers were applied. Just as some functions work in any monad, others can work in any monad that provides a certain type of state, or a certain type of exceptions, without having to specifically describe the <em>way</em> in which a particular concrete monad provides the state or exceptions.</p>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<p>Replacing the custom <code>ConfigIO</code> type with <code>ReaderT</code> did not save a large number of lines of code in this section.
+However, rewriting the code using components from the standard library does have long-term benefits.
+First, readers who know about <code>ReaderT</code> don't need to take time to understand the <code>Monad</code> instance for <code>ConfigIO</code>, working backwards to the meaning of monad itself.
+Instead, they can be confident in their initial understanding.
+Next, adding further effects to the monad (such as a state effect to count the files in each directory and display a count at the end) requires far fewer changes to the code, because the monad transformers and <code>MonadLift</code> instances provided in the library work well together.
+Finally, using a set of type classes included in the standard library, polymorphic code can be written in such a way that it can work with a variety of monads without having to care about details like the order in which the monad transformers were applied.
+Just as some functions work in any monad, others can work in any monad that provides a certain type of state, or a certain type of exceptions, without having to specifically describe the <em>way</em> in which a particular concrete monad provides the state or exceptions.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <h3 id="controlling-the-display-of-dotfiles"><a class="header" href="#controlling-the-display-of-dotfiles">Controlling the Display of Dotfiles</a></h3>
-<p>Files whose names begin with a dot character (<code>'.'</code>) typically represent files that should usually be hidden, such as source-control metadata and configuration files. Modify <code>doug</code> with an option to show or hide filenames that begin with a dot. This option should be controlled with a <code>-a</code> command-line option.</p>
+<p>Files whose names begin with a dot character (<code>'.'</code>) typically represent files that should usually be hidden, such as source-control metadata and configuration files.
+Modify <code>doug</code> with an option to show or hide filenames that begin with a dot.
+This option should be controlled with a <code>-a</code> command-line option.</p>
 <h3 id="starting-directory-as-argument"><a class="header" href="#starting-directory-as-argument">Starting Directory as Argument</a></h3>
 <p>Modify <code>doug</code> so that it takes a starting directory as an additional command-line argument.</p>
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>总结 - Functional Programming in Lean</title>
+        <title>总结 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,29 +138,63 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="总结"><a class="header" href="#总结">总结</a></h1>
-<h2 id="求值表达式"><a class="header" href="#求值表达式">求值表达式</a></h2>
-<p>In Lean, computation occurs when expressions are evaluated. This follows the usual rules of mathematical expressions: sub-expressions are replaced by their values following the usual order of operations, until the entire expression has become a value. When evaluating an <code>if</code> or a <code>match</code>, the expressions in the branches are not evaluated until the value of the condition or the match subject has been found.</p>
-<p>Once they have been given a value, variables never change. Similarly to mathematics but unlike most programming languages, Lean variables are simply placeholders for values, rather than addresses to which new values can be written. Variables' values may come from global definitions with <code>def</code>, local definitions with <code>let</code>, as named arguments to functions, or from pattern matching.</p>
+                        <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
+<h2 id="evaluating-expressions"><a class="header" href="#evaluating-expressions">Evaluating Expressions</a></h2>
+<p>In Lean, computation occurs when expressions are evaluated.
+This follows the usual rules of mathematical expressions: sub-expressions are replaced by their values following the usual order of operations, until the entire expression has become a value.
+When evaluating an <code>if</code> or a <code>match</code>, the expressions in the branches are not evaluated until the value of the condition or the match subject has been found.</p>
+<p>Once they have been given a value, variables never change.
+Similarly to mathematics but unlike most programming languages, Lean variables are simply placeholders for values, rather than addresses to which new values can be written.
+Variables' values may come from global definitions with <code>def</code>, local definitions with <code>let</code>, as named arguments to functions, or from pattern matching.</p>
 <h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
-<p>Functions in Lean are first-class values, meaning that they can be passed as arguments to other functions, saved in variables, and used like any other value. Every Lean function takes exactly one argument. To encode a function that takes more than one argument, Lean uses a technique called currying, where providing the first argument returns a function that expects the remaining arguments. To encode a function that takes no arguments, Lean uses the <code>Unit</code> type, which is the least informative possible argument.</p>
+<p>Functions in Lean are first-class values, meaning that they can be passed as arguments to other functions, saved in variables, and used like any other value.
+Every Lean function takes exactly one argument.
+To encode a function that takes more than one argument, Lean uses a technique called currying, where providing the first argument returns a function that expects the remaining arguments.
+To encode a function that takes no arguments, Lean uses the <code>Unit</code> type, which is the least informative possible argument.</p>
 <p>There are three primary ways of creating functions:</p>
 <ol>
-<li>Anonymous functions are written using <code>fun</code>. For instance, a function that swaps the fields of a <code>Point</code> can be written <code>fun (point : Point) =&gt; { x := point.y, y := point.x : Point }</code></li>
-<li>Very simple anonymous functions are written by placing one or more centered dots <code>·</code> inside of parentheses. Each centered dot becomes an argument to the function, and the parentheses delimit its body. For instance, a function that subtracts one from its argument can be written as <code>(· - 1)</code> instead of as <code>fun x =&gt; x - 1</code>.</li>
+<li>Anonymous functions are written using <code>fun</code>.
+For instance, a function that swaps the fields of a <code>Point</code> can be written <code>fun (point : Point) =&gt; { x := point.y, y := point.x : Point }</code></li>
+<li>Very simple anonymous functions are written by placing one or more centered dots <code>·</code> inside of parentheses.
+Each centered dot becomes an argument to the function, and the parentheses delimit its body.
+For instance, a function that subtracts one from its argument can be written as <code>(· - 1)</code> instead of as <code>fun x =&gt; x - 1</code>.</li>
 <li>Functions can be defined using <code>def</code> or <code>let</code> by adding an argument list or by using pattern-matching notation.</li>
 </ol>
-<h2 id="类型"><a class="header" href="#类型">类型</a></h2>
-<p>Lean checks that every expression has a type. Types, such as <code>Int</code>, <code>Point</code>, <code>{α : Type} → Nat → α → List α</code>, and <code>Option (String ⊕ (Nat × String))</code>, describe the values that may eventually be found for an expression. Like other languages, types in Lean can express lightweight specifications for programs that are checked by the Lean compiler, obviating the need for certain classes of unit test. Unlike most languages, Lean's types can also express arbitrary mathematics, unifying the worlds of programming and theorem proving. While using Lean for proving theorems is mostly out of scope for this book, <em><a href="https://leanprover.github.io/theorem_proving_in_lean4/">Theorem Proving in Lean 4</a></em> contains more information on this topic.</p>
-<p>Some expressions can be given multiple types. For instance, <code>3</code> can be an <code>Int</code> or a <code>Nat</code>. In Lean, this should be understood as two separate expressions, one with type <code>Nat</code> and one with type <code>Int</code>, that happen to be written in the same way, rather than as two different types for the same thing.</p>
-<p>Lean is sometimes able to determine types automatically, but types must often be provided by the user. This is because Lean's type system is so expressive. Even when Lean can find a type, it may not find the desired type—<code>3</code> could be intended to be used as an <code>Int</code>, but Lean will give it the type <code>Nat</code> if there are no further constraints. In general, it is a good idea to write most types explicitly, only letting Lean fill out the very obvious types. This improves Lean's error messages and helps make programmer intent more clear.</p>
-<p>Some functions or datatypes take types as arguments. They are called <em>polymorphic</em>. Polymorphism allows programs such as one that calculates the length of a list without caring what type the entries in the list have. Because types are first class in Lean, polymorphism does not require any special syntax, so types are passed just like other arguments. Giving an argument a name in a function type allows later types to mention that argument, and the type of applying that function to an argument is found by replacing the argument's name with the argument's value.</p>
+<h2 id="types"><a class="header" href="#types">Types</a></h2>
+<p>Lean checks that every expression has a type.
+Types, such as <code>Int</code>, <code>Point</code>, <code>{α : Type} → Nat → α → List α</code>, and <code>Option (String ⊕ (Nat × String))</code>, describe the values that may eventually be found for an expression.
+Like other languages, types in Lean can express lightweight specifications for programs that are checked by the Lean compiler, obviating the need for certain classes of unit test.
+Unlike most languages, Lean's types can also express arbitrary mathematics, unifying the worlds of programming and theorem proving.
+While using Lean for proving theorems is mostly out of scope for this book, <em><a href="https://leanprover.github.io/theorem_proving_in_lean4/">Theorem Proving in Lean 4</a></em> contains more information on this topic.</p>
+<p>Some expressions can be given multiple types.
+For instance, <code>3</code> can be an <code>Int</code> or a <code>Nat</code>.
+In Lean, this should be understood as two separate expressions, one with type <code>Nat</code> and one with type <code>Int</code>, that happen to be written in the same way, rather than as two different types for the same thing.</p>
+<p>Lean is sometimes able to determine types automatically, but types must often be provided by the user.
+This is because Lean's type system is so expressive.
+Even when Lean can find a type, it may not find the desired type—<code>3</code> could be intended to be used as an <code>Int</code>, but Lean will give it the type <code>Nat</code> if there are no further constraints.
+In general, it is a good idea to write most types explicitly, only letting Lean fill out the very obvious types.
+This improves Lean's error messages and helps make programmer intent more clear.</p>
+<p>Some functions or datatypes take types as arguments.
+They are called <em>polymorphic</em>.
+Polymorphism allows programs such as one that calculates the length of a list without caring what type the entries in the list have.
+Because types are first class in Lean, polymorphism does not require any special syntax, so types are passed just like other arguments.
+Giving an argument a name in a function type allows later types to mention that argument, and the type of applying that function to an argument is found by replacing the argument's name with the argument's value.</p>
 <h2 id="structures-and-inductive-types"><a class="header" href="#structures-and-inductive-types">Structures and Inductive Types</a></h2>
-<p>Brand new datatypes can be introduced to Lean using the <code>structure</code> or <code>inductive</code> features. These new types are not considered to be equivalent to any other type, even if their definitions are otherwise identical. Datatypes have <em>constructors</em> that explain the ways in which their values can be constructed, and each constructor takes some number of arguments. Constructors in Lean are not the same as constructors in object-oriented languages: Lean's constructors are inert holders of data, rather than active code that initializes an allocated object.</p>
-<p>Typically, <code>structure</code> is used to introduce a product type (that is, a type with just one constructor that takes any number of arguments), while <code>inductive</code> is used to introduce a sum type (that is, a type with many distinct constructors). Datatypes defined with <code>structure</code> are provided with one accessor function for each of the constructor's arguments. Both structures and inductive datatypes may be consumed with pattern matching, which exposes the values stored inside of constructors using a subset of the syntax used to call said constructors. Pattern matching means that knowing how to create a value implies knowing how to consume it.</p>
-<h2 id="递归"><a class="header" href="#递归">递归</a></h2>
-<p>A definition is recursive when the name being defined is used in the definition itself. Because Lean is an interactive theorem prover in addition to being a programming language, there are certain restrictions placed on recursive definitions. In Lean's logical side, circular definitions could lead to logical inconsistency.</p>
-<p>In order to ensure that recursive definitions do not undermine the logical side of Lean, Lean must be able to prove that all recursive functions terminate, no matter what arguments they are called with. In practice, this means either that recursive calls are all performed on a structurally-smaller piece of the input, which ensures that there is always progress towards a base case, or that users must provide some other evidence that the function always terminates. Similarly, recursive inductive types are not allowed to have a constructor that takes a function <em>from</em> the type as an argument, because this would make it possible to encode non-terminating functions.</p>
+<p>Brand new datatypes can be introduced to Lean using the <code>structure</code> or <code>inductive</code> features.
+These new types are not considered to be equivalent to any other type, even if their definitions are otherwise identical.
+Datatypes have <em>constructors</em> that explain the ways in which their values can be constructed, and each constructor takes some number of arguments.
+Constructors in Lean are not the same as constructors in object-oriented languages: Lean's constructors are inert holders of data, rather than active code that initializes an allocated object.</p>
+<p>Typically, <code>structure</code> is used to introduce a product type (that is, a type with just one constructor that takes any number of arguments), while <code>inductive</code> is used to introduce a sum type (that is, a type with many distinct constructors).
+Datatypes defined with <code>structure</code> are provided with one accessor function for each of the constructor's arguments.
+Both structures and inductive datatypes may be consumed with pattern matching, which exposes the values stored inside of constructors using a subset of the syntax used to call said constructors.
+Pattern matching means that knowing how to create a value implies knowing how to consume it.</p>
+<h2 id="recursion"><a class="header" href="#recursion">Recursion</a></h2>
+<p>A definition is recursive when the name being defined is used in the definition itself.
+Because Lean is an interactive theorem prover in addition to being a programming language, there are certain restrictions placed on recursive definitions.
+In Lean's logical side, circular definitions could lead to logical inconsistency.</p>
+<p>In order to ensure that recursive definitions do not undermine the logical side of Lean, Lean must be able to prove that all recursive functions terminate, no matter what arguments they are called with.
+In practice, this means either that recursive calls are all performed on a structurally-smaller piece of the input, which ensures that there is always progress towards a base case, or that users must provide some other evidence that the function always terminates.
+Similarly, recursive inductive types are not allowed to have a constructor that takes a function <em>from</em> the type as an argument, because this would make it possible to encode non-terminating functions.</p>
 
                     </main>
 

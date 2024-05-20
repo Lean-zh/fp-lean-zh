@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>索引、形参与全类层级 - Functional Programming in Lean</title>
+        <title>索引、形参与全类层级 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,23 +138,34 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="索引参数和宇宙层级"><a class="header" href="#索引参数和宇宙层级">索引、参数和宇宙层级</a></h1>
-<p>The distinction between indices and parameters of an inductive type is more than just a way to describe arguments to the type that either vary or do not between the constructors. Whether an argument to an inductive type is a parameter or an index also matters when it comes time to determine the relationships between their universe levels. In particular, an inductive type may have the same universe level as a parameter, but it must be in a larger universe than its indices. This restriction is necessary to ensure that Lean can be used as a theorem prover as well as a programming language—without it, Lean's logic would be inconsistent. Experimenting with error messages is a good way to illustrate these rules, as well as the precise rules that determine whether an argument to a type is a parameter or an index.</p>
-<p>Generally speaking, the definition of an inductive type takes its parameters before a colon and its indices after the colon. Parameters are given names like function arguments, whereas indices only have their types described. This can be seen in the definition of <code>Vect</code>:</p>
+                        <h1 id="indices-parameters-and-universe-levels"><a class="header" href="#indices-parameters-and-universe-levels">Indices, Parameters, and Universe Levels</a></h1>
+<p>The distinction between indices and parameters of an inductive type is more than just a way to describe arguments to the type that either vary or do not between the constructors.
+Whether an argument to an inductive type is a parameter or an index also matters when it comes time to determine the relationships between their universe levels.
+In particular, an inductive type may have the same universe level as a parameter, but it must be in a larger universe than its indices.
+This restriction is necessary to ensure that Lean can be used as a theorem prover as well as a programming language—without it, Lean's logic would be inconsistent.
+Experimenting with error messages is a good way to illustrate these rules, as well as the precise rules that determine whether an argument to a type is a parameter or an index.</p>
+<p>Generally speaking, the definition of an inductive type takes its parameters before a colon and its indices after the colon.
+Parameters are given names like function arguments, whereas indices only have their types described.
+This can be seen in the definition of <code>Vect</code>:</p>
 <pre><code class="language-lean">inductive Vect (α : Type u) : Nat → Type u where
    | nil : Vect α 0
    | cons : α → Vect α n → Vect α (n + 1)
 </code></pre>
-<p>In this definition, <code>α</code> is a parameter and the <code>Nat</code> is an index. Parameters may be referred to throughout the definition (for example, <code>Vect.cons</code> uses <code>α</code> for the type of its first argument), but they must always be used consistently. Because indices are expected to change, they are assigned individual values at each constructor, rather than being provided as arguments at the top of the datatype definition.</p>
+<p>In this definition, <code>α</code> is a parameter and the <code>Nat</code> is an index.
+Parameters may be referred to throughout the definition (for example, <code>Vect.cons</code> uses <code>α</code> for the type of its first argument), but they must always be used consistently.
+Because indices are expected to change, they are assigned individual values at each constructor, rather than being provided as arguments at the top of the datatype definition.</p>
 <p>A very simple datatype with a parameter is <code>WithParameter</code>:</p>
 <pre><code class="language-lean">inductive WithParameter (α : Type u) : Type u where
   | test : α → WithParameter α
 </code></pre>
-<p>The universe level <code>u</code> can be used for both the parameter and for the inductive type itself, illustrating that parameters do not increase the universe level of a datatype. Similarly, when there are multiple parameters, the inductive type receives whichever universe level is greater:</p>
+<p>The universe level <code>u</code> can be used for both the parameter and for the inductive type itself, illustrating that parameters do not increase the universe level of a datatype.
+Similarly, when there are multiple parameters, the inductive type receives whichever universe level is greater:</p>
 <pre><code class="language-lean">inductive WithTwoParameters (α : Type u) (β : Type v) : Type (max u v) where
   | test : α → β → WithTwoParameters α β
 </code></pre>
-<p>Because parameters do not increase the universe level of a datatype, they can be more convenient to work with. Lean attempts to identify arguments that are described like indices (after the colon), but used like parameters, and turn them into parameters: Both of the following inductive datatypes have their parameter written after the colon:</p>
+<p>Because parameters do not increase the universe level of a datatype, they can be more convenient to work with.
+Lean attempts to identify arguments that are described like indices (after the colon), but used like parameters, and turn them into parameters:
+Both of the following inductive datatypes have their parameter written after the colon:</p>
 <pre><code class="language-lean">inductive WithParameterAfterColon : Type u → Type u where
   | test : α → WithParameterAfterColon α
 
@@ -162,7 +173,8 @@ inductive WithParameterAfterColon2 : Type u → Type u where
   | test1 : α → WithParameterAfterColon2 α
   | test2 : WithParameterAfterColon2 α
 </code></pre>
-<p>When a parameter is not named in the initial datatype declaration, different names may be used for it in each constructor, so long as they are used consistently. The following declaration is accepted:</p>
+<p>When a parameter is not named in the initial datatype declaration, different names may be used for it in each constructor, so long as they are used consistently.
+The following declaration is accepted:</p>
 <pre><code class="language-lean">inductive WithParameterAfterColonDifferentNames : Type u → Type u where
   | test1 : α → WithParameterAfterColonDifferentNames α
   | test2 : β → WithParameterAfterColonDifferentNames β
@@ -192,7 +204,8 @@ expected
   | test1 : WithIndex α
   | test2 : WithIndex α → WithIndex α → WithIndex (α × α)
 </code></pre>
-<p>Even though Lean can sometimes determine that an argument after the colon in an inductive type declaration is a parameter when it is used consistently in all constructors, all parameters are still required to come before all indices. Attempting to place a parameter after an index results in the argument being considered an index itself, which would require the universe level of the datatype to increase:</p>
+<p>Even though Lean can sometimes determine that an argument after the colon in an inductive type declaration is a parameter when it is used consistently in all constructors, all parameters are still required to come before all indices.
+Attempting to place a parameter after an index results in the argument being considered an index itself, which would require the universe level of the datatype to increase:</p>
 <pre><code class="language-lean">inductive ParamAfterIndex : Nat → Type u → Type u where
   | test1 : ParamAfterIndex 0 γ
   | test2 : ParamAfterIndex n γ → ParamAfterIndex k γ → ParamAfterIndex (n + k) γ
@@ -204,7 +217,8 @@ at universe level
 it must be smaller than or equal to the inductive datatype universe level
   u+1
 </code></pre>
-<p>Parameters need not be types. This example shows that ordinary datatypes such as <code>Nat</code> may be used as parameters:</p>
+<p>Parameters need not be types.
+This example shows that ordinary datatypes such as <code>Nat</code> may be used as parameters:</p>
 <pre><code class="language-lean">inductive NatParam (n : Nat) : Nat → Type u where
   | five : NatParam 4 5
 </code></pre>
@@ -217,14 +231,16 @@ expected
 <pre><code class="language-lean">inductive NatParam (n : Nat) : Nat → Type u where
   | five : NatParam n 5
 </code></pre>
-<p>What can be concluded from these experiments? The rules of parameters and indices are as follows:</p>
+<p>What can be concluded from these experiments?
+The rules of parameters and indices are as follows:</p>
 <ol>
 <li>Parameters must be used identically in each constructor's type.</li>
 <li>All parameters must come before all indices.</li>
 <li>The universe level of the datatype being defined must be at least as large as the largest parameter, and strictly larger than the largest index.</li>
 <li>Named arguments written before the colon are always parameters, while arguments after the colon are typically indices. Lean may determine that the usage of arguments after the colon makes them into parameters if they are used consistently in all constructors and don't come after any indices.</li>
 </ol>
-<p>When in doubt, the Lean command <code>#print</code> can be used to check how many of a datatype's arguments are parameters. For example, for <code>Vect</code>, it points out that the number of parameters is 1:</p>
+<p>When in doubt, the Lean command <code>#print</code> can be used to check how many of a datatype's arguments are parameters.
+For example, for <code>Vect</code>, it points out that the number of parameters is 1:</p>
 <pre><code class="language-lean">#print Vect
 </code></pre>
 <pre><code class="language-output info">inductive Vect.{u} : Type u → Nat → Type u
@@ -233,8 +249,11 @@ constructors:
 Vect.nil : {α : Type u} → Vect α 0
 Vect.cons : {α : Type u} → {n : Nat} → α → Vect α n → Vect α (n + 1)
 </code></pre>
-<p>It is worth thinking about which arguments should be parameters and which should be indices when choosing the order of arguments to a datatype. Having as many arguments as possible be parameters helps keep universe levels under control, which can make a complicated program easier to type check. One way to make this possible is to ensure that all parameters come before all indices in the argument list.</p>
-<p>Additionally, even though Lean is capable of determining that arguments after the colon are nonetheless parameters by their usage, it's a good idea to write parameters with explicit names. This makes the intention clear to readers, and it causes Lean to report an error if the argument is mistakenly used inconsistently across the constructors.</p>
+<p>It is worth thinking about which arguments should be parameters and which should be indices when choosing the order of arguments to a datatype.
+Having as many arguments as possible be parameters helps keep universe levels under control, which can make a complicated program easier to type check.
+One way to make this possible is to ensure that all parameters come before all indices in the argument list.</p>
+<p>Additionally, even though Lean is capable of determining that arguments after the colon are nonetheless parameters by their usage, it's a good idea to write parameters with explicit names.
+This makes the intention clear to readers, and it causes Lean to report an error if the argument is mistakenly used inconsistently across the constructors.</p>
 
                     </main>
 

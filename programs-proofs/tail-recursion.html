@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>尾递归 - Functional Programming in Lean</title>
+        <title>尾递归 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,10 +138,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="尾递归"><a class="header" href="#尾递归">尾递归</a></h1>
-<p>While Lean's <code>do</code>-notation makes it possible to use traditional loop syntax such as <code>for</code> and <code>while</code>, these constructs are translated behind the scenes to invocations of recursive functions. In most programming languages, recursive functions have a key disadvantage with respect to loops: loops consume no space on the stack, while recursive functions consume stack space proportional to the number of recursive calls. Stack space is typically limited, and it is often necessary to take algorithms that are naturally expressed as recursive functions and rewrite them as loops paired with an explicit mutable heap-allocated stack.</p>
-<p>In functional programming, the opposite is typically true. Programs that are naturally expressed as mutable loops may consume stack space, while rewriting them to recursive functions can cause them to run quickly. This is due to a key aspect of functional programming languages: <em>tail-call elimination</em>. A tail call is a call from one function to another that can be compiled to an ordinary jump, replacing the current stack frame rather than pushing a new one, and tail-call elimination is the process of implementing this transformation.</p>
-<p>Tail-call elimination is not just merely an optional optimization. Its presence is a fundamental part of being able to write efficient functional code. For it to be useful, it must be reliable. Programmers must be able to reliably identify tail calls, and they must be able to trust that the compiler will eliminate them.</p>
+                        <h1 id="tail-recursion"><a class="header" href="#tail-recursion">Tail Recursion</a></h1>
+<p>While Lean's <code>do</code>-notation makes it possible to use traditional loop syntax such as <code>for</code> and <code>while</code>, these constructs are translated behind the scenes to invocations of recursive functions.
+In most programming languages, recursive functions have a key disadvantage with respect to loops: loops consume no space on the stack, while recursive functions consume stack space proportional to the number of recursive calls.
+Stack space is typically limited, and it is often necessary to take algorithms that are naturally expressed as recursive functions and rewrite them as loops paired with an explicit mutable heap-allocated stack.</p>
+<p>In functional programming, the opposite is typically true.
+Programs that are naturally expressed as mutable loops may consume stack space, while rewriting them to recursive functions can cause them to run quickly.
+This is due to a key aspect of functional programming languages: <em>tail-call elimination</em>.
+A tail call is a call from one function to another that can be compiled to an ordinary jump, replacing the current stack frame rather than pushing a new one, and tail-call elimination is the process of implementing this transformation.</p>
+<p>Tail-call elimination is not just merely an optional optimization.
+Its presence is a fundamental part of being able to write efficient functional code.
+For it to be useful, it must be reliable.
+Programmers must be able to reliably identify tail calls, and they must be able to trust that the compiler will eliminate them.</p>
 <p>The function <code>NonTail.sum</code> adds the contents of a list of <code>Nat</code>s:</p>
 <pre><code class="language-lean">def NonTail.sum : List Nat → Nat
   | [] =&gt; 0
@@ -164,13 +172,19 @@
 ===&gt;
 6
 </code></pre>
-<p>In the evaluation steps, parentheses indicate recursive calls to <code>NonTail.sum</code>. In other words, to add the three numbers, the program must first check that the list is non-empty. To add the head of the list (<code>1</code>) to the sum of the tail of the list, it is first necessary to compute the sum of the tail of the list:</p>
+<p>In the evaluation steps, parentheses indicate recursive calls to <code>NonTail.sum</code>.
+In other words, to add the three numbers, the program must first check that the list is non-empty.
+To add the head of the list (<code>1</code>) to the sum of the tail of the list, it is first necessary to compute the sum of the tail of the list:</p>
 <pre><code class="language-lean">1 + (NonTail.sum [2, 3])
 </code></pre>
-<p>But to compute the sum of the tail of the list, the program must check whether it is empty. It is not - the tail is itself a list with <code>2</code> at its head. The resulting step is waiting for the return of <code>NonTail.sum [3]</code>:</p>
+<p>But to compute the sum of the tail of the list, the program must check whether it is empty.
+It is not - the tail is itself a list with <code>2</code> at its head.
+The resulting step is waiting for the return of <code>NonTail.sum [3]</code>:</p>
 <pre><code class="language-lean">1 + (2 + (NonTail.sum [3]))
 </code></pre>
-<p>The whole point of the run-time call stack is to keep track of the values <code>1</code>, <code>2</code>, and <code>3</code> along with the instruction to add them to the result of the recursive call. As recursive calls are completed, control returns to the stack frame that made the call, so each step of addition is performed. Storing the heads of the list and the instructions to add them is not free; it takes space proportional to the length of the list.</p>
+<p>The whole point of the run-time call stack is to keep track of the values <code>1</code>, <code>2</code>, and <code>3</code> along with the instruction to add them to the result of the recursive call.
+As recursive calls are completed, control returns to the stack frame that made the call, so each step of addition is performed.
+Storing the heads of the list and the instructions to add them is not free; it takes space proportional to the length of the list.</p>
 <p>The function <code>Tail.sum</code> also adds the contents of a list of <code>Nat</code>s:</p>
 <pre><code class="language-lean">def Tail.sumHelper (soFar : Nat) : List Nat → Nat
   | [] =&gt; soFar
@@ -198,15 +212,35 @@ Tail.sumHelper 6 []
 ===&gt;
 6
 </code></pre>
-<p>The internal helper function calls itself recursively, but it does so in a way where nothing needs to be remembered in order to compute the final result. When <code>Tail.sumHelper</code> reaches its base case, control can be returned directly to <code>Tail.sum</code>, because the intermediate invocations of <code>Tail.sumHelper</code> simply return the results of their recursive calls unmodified. In other words, a single stack frame can be re-used for each recursive invocation of <code>Tail.sumHelper</code>. Tail-call elimination is exactly this re-use of the stack frame, and <code>Tail.sumHelper</code> is referred to as a <em>tail-recursive function</em>.</p>
-<p>The first argument to <code>Tail.sumHelper</code> contains all of the information that would otherwise need to be tracked in the call stack—namely, the sum of the numbers encountered so far. In each recursive call, this argument is updated with new information, rather than adding new information to the call stack. Arguments like <code>soFar</code> that replace the information from the call stack are called <em>accumulators</em>.</p>
-<p>At the time of writing and on the author's computer, <code>NonTail.sum</code> crashes with a stack overflow when passed a list with 216,856 or more entries. <code>Tail.sum</code>, on the other hand, can sum a list of 100,000,000 elements without a stack overflow. Because no new stack frames need to be pushed while running <code>Tail.sum</code>, it is completely equivalent to a <code>while</code> loop with a mutable variable that holds the current list. At each recursive call, the function argument on the stack is simply replaced with the next node of the list.</p>
+<p>The internal helper function calls itself recursively, but it does so in a way where nothing needs to be remembered in order to compute the final result.
+When <code>Tail.sumHelper</code> reaches its base case, control can be returned directly to <code>Tail.sum</code>, because the intermediate invocations of <code>Tail.sumHelper</code> simply return the results of their recursive calls unmodified.
+In other words, a single stack frame can be re-used for each recursive invocation of <code>Tail.sumHelper</code>.
+Tail-call elimination is exactly this re-use of the stack frame, and <code>Tail.sumHelper</code> is referred to as a <em>tail-recursive function</em>.</p>
+<p>The first argument to <code>Tail.sumHelper</code> contains all of the information that would otherwise need to be tracked in the call stack—namely, the sum of the numbers encountered so far.
+In each recursive call, this argument is updated with new information, rather than adding new information to the call stack.
+Arguments like <code>soFar</code> that replace the information from the call stack are called <em>accumulators</em>.</p>
+<p>At the time of writing and on the author's computer, <code>NonTail.sum</code> crashes with a stack overflow when passed a list with 216,856 or more entries.
+<code>Tail.sum</code>, on the other hand, can sum a list of 100,000,000 elements without a stack overflow.
+Because no new stack frames need to be pushed while running <code>Tail.sum</code>, it is completely equivalent to a <code>while</code> loop with a mutable variable that holds the current list.
+At each recursive call, the function argument on the stack is simply replaced with the next node of the list.</p>
 <h2 id="tail-and-non-tail-positions"><a class="header" href="#tail-and-non-tail-positions">Tail and Non-Tail Positions</a></h2>
-<p>The reason why <code>Tail.sumHelper</code> is tail recursive is that the recursive call is in <em>tail position</em>. Informally speaking, a function call is in tail position when the caller does not need to modify the returned value in any way, but will just return it directly. More formally, tail position can be defined explicitly for expressions.</p>
-<p>If a <code>match</code>-expression is in tail position, then each of its branches is also in tail position. Once a <code>match</code> has selected a branch, control proceeds immediately to it. Similarly, both branches of an <code>if</code>-expression are in tail position if the <code>if</code>-expression itself is in tail position. Finally, if a <code>let</code>-expression is in tail position, then its body is as well.</p>
-<p>All other positions are not in tail position. The arguments to a function or a constructor are not in tail position because evaluation must track the function or constructor that will be applied to the argument's value. The body of an inner function is not in tail position because control may not even pass to it: function bodies are not evaluated until the function is called. Similarly, the body of a function type is not in tail position. To evaluate <code>E</code> in <code>(x : α) → E</code>, it is necessary to track that the resulting type must have <code>(x : α) → ...</code> wrapped around it.</p>
-<p>In <code>NonTail.sum</code>, the recursive call is not in tail position because it is an argument to <code>+</code>. In <code>Tail.sumHelper</code>, the recursive call is in tail position because it is immediately underneath a pattern match, which itself is the body of the function.</p>
-<p>At the time of writing, Lean only eliminates direct tail calls in recursive functions. This means that tail calls to <code>f</code> in <code>f</code>'s definition will be eliminated, but not tail calls to some other function <code>g</code>. While it is certainly possible to eliminate a tail call to some other function, saving a stack frame, this is not yet implemented in Lean.</p>
+<p>The reason why <code>Tail.sumHelper</code> is tail recursive is that the recursive call is in <em>tail position</em>.
+Informally speaking, a function call is in tail position when the caller does not need to modify the returned value in any way, but will just return it directly.
+More formally, tail position can be defined explicitly for expressions.</p>
+<p>If a <code>match</code>-expression is in tail position, then each of its branches is also in tail position.
+Once a <code>match</code> has selected a branch, control proceeds immediately to it.
+Similarly, both branches of an <code>if</code>-expression are in tail position if the <code>if</code>-expression itself is in tail position.
+Finally, if a <code>let</code>-expression is in tail position, then its body is as well.</p>
+<p>All other positions are not in tail position.
+The arguments to a function or a constructor are not in tail position because evaluation must track the function or constructor that will be applied to the argument's value.
+The body of an inner function is not in tail position because control may not even pass to it: function bodies are not evaluated until the function is called.
+Similarly, the body of a function type is not in tail position.
+To evaluate <code>E</code> in <code>(x : α) → E</code>, it is necessary to track that the resulting type must have <code>(x : α) → ...</code> wrapped around it.</p>
+<p>In <code>NonTail.sum</code>, the recursive call is not in tail position because it is an argument to <code>+</code>.
+In <code>Tail.sumHelper</code>, the recursive call is in tail position because it is immediately underneath a pattern match, which itself is the body of the function.</p>
+<p>At the time of writing, Lean only eliminates direct tail calls in recursive functions.
+This means that tail calls to <code>f</code> in <code>f</code>'s definition will be eliminated, but not tail calls to some other function <code>g</code>.
+While it is certainly possible to eliminate a tail call to some other function, saving a stack frame, this is not yet implemented in Lean.</p>
 <h2 id="reversing-lists"><a class="header" href="#reversing-lists">Reversing Lists</a></h2>
 <p>The function <code>NonTail.reverse</code> reverses lists by appending the head of each sub-list to the end of the result:</p>
 <pre><code class="language-lean">def NonTail.reverse : List α → List α
@@ -238,7 +272,9 @@ Tail.sumHelper 6 []
 def Tail.reverse (xs : List α) : List α :=
   Tail.reverseHelper [] xs
 </code></pre>
-<p>This is because the context saved in each stack frame while computing with <code>NonTail.reverse</code> is applied beginning at the base case. Each &quot;remembered&quot; piece of context is executed in last-in, first-out order. On the other hand, the accumulator-passing version modifies the accumulator beginning from the first entry in the list, rather than the original base case, as can be seen in the series of reduction steps:</p>
+<p>This is because the context saved in each stack frame while computing with <code>NonTail.reverse</code> is applied beginning at the base case.
+Each &quot;remembered&quot; piece of context is executed in last-in, first-out order.
+On the other hand, the accumulator-passing version modifies the accumulator beginning from the first entry in the list, rather than the original base case, as can be seen in the series of reduction steps:</p>
 <pre><code class="language-lean">Tail.reverse [1, 2, 3]
 ===&gt;
 Tail.reverseHelper [] [1, 2, 3]
@@ -251,17 +287,26 @@ Tail.reverseHelper [3, 2, 1] []
 ===&gt;
 [3, 2, 1]
 </code></pre>
-<p>In other words, the non-tail-recursive version starts at the base case, modifying the result of recursion from right to left through the list. The entries in the list affect the accumulator in a first-in, first-out order. The tail-recursive version with the accumulator starts at the head of the list, modifying an initial accumulator value from left to right through the list.</p>
-<p>Because addition is commutative, nothing needed to be done to account for this in <code>Tail.sum</code>. Appending lists is not commutative, so care must be taken to find an operation that has the same effect when run in the opposite direction. Appending <code>[x]</code> after the result of the recursion in <code>NonTail.reverse</code> is analogous to adding <code>x</code> to the beginning of the list when the result is built in the opposite order.</p>
+<p>In other words, the non-tail-recursive version starts at the base case, modifying the result of recursion from right to left through the list.
+The entries in the list affect the accumulator in a first-in, first-out order.
+The tail-recursive version with the accumulator starts at the head of the list, modifying an initial accumulator value from left to right through the list.</p>
+<p>Because addition is commutative, nothing needed to be done to account for this in <code>Tail.sum</code>.
+Appending lists is not commutative, so care must be taken to find an operation that has the same effect when run in the opposite direction.
+Appending <code>[x]</code> after the result of the recursion in <code>NonTail.reverse</code> is analogous to adding <code>x</code> to the beginning of the list when the result is built in the opposite order.</p>
 <h2 id="multiple-recursive-calls"><a class="header" href="#multiple-recursive-calls">Multiple Recursive Calls</a></h2>
 <p>In the definition of <code>BinTree.mirror</code>, there are two recursive calls:</p>
 <pre><code class="language-lean">def BinTree.mirror : BinTree α → BinTree α
   | .leaf =&gt; .leaf
   | .branch l x r =&gt; .branch (mirror r) x (mirror l)
 </code></pre>
-<p>Just as imperative languages would typically use a while loop for functions like <code>reverse</code> and <code>sum</code>, they would typically use recursive functions for this kind of traversal. This function cannot be straightforwardly rewritten to be tail recursive using accumulator-passing style.</p>
-<p>Typically, if more than one recursive call is required for each recursive step, then it will be difficult to use accumulator-passing style. This difficulty is similar to the difficulty of rewriting a recursive function to use a loop and an explicit data structure, with the added complication of convincing Lean that the function terminates. However, as in <code>BinTree.mirror</code>, multiple recursive calls often indicate a data structure that has a constructor with multiple recursive occurrences of itself. In these cases, the depth of the structure is often logarithmic with respect to its overall size, which makes the tradeoff between stack and heap less stark. There are systematic techniques for making these functions tail-recursive, such as using <em>continuation-passing style</em>, but they are outside the scope of this chapter.</p>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<p>Just as imperative languages would typically use a while loop for functions like <code>reverse</code> and <code>sum</code>, they would typically use recursive functions for this kind of traversal.
+This function cannot be straightforwardly rewritten to be tail recursive using accumulator-passing style.</p>
+<p>Typically, if more than one recursive call is required for each recursive step, then it will be difficult to use accumulator-passing style.
+This difficulty is similar to the difficulty of rewriting a recursive function to use a loop and an explicit data structure, with the added complication of convincing Lean that the function terminates.
+However, as in <code>BinTree.mirror</code>, multiple recursive calls often indicate a data structure that has a constructor with multiple recursive occurrences of itself.
+In these cases, the depth of the structure is often logarithmic with respect to its overall size, which makes the tradeoff between stack and heap less stark.
+There are systematic techniques for making these functions tail-recursive, such as using <em>continuation-passing style</em>, but they are outside the scope of this chapter.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <p>Translate each of the following non-tail-recursive functions into accumulator-passing tail-recursive functions:</p>
 <pre><code class="language-lean">def NonTail.length : List α → Nat
   | [] =&gt; 0
@@ -271,7 +316,8 @@ Tail.reverseHelper [3, 2, 1] []
   | 0 =&gt; 1
   | n + 1 =&gt; factorial n * (n + 1)
 </code></pre>
-<p>The translation of <code>NonTail.filter</code> should result in a program that takes constant stack space through tail recursion, and time linear in the length of the input list. A constant factor overhead is acceptable relative to the original:</p>
+<p>The translation of <code>NonTail.filter</code> should result in a program that takes constant stack space through tail recursion, and time linear in the length of the input list.
+A constant factor overhead is acceptable relative to the original:</p>
 <pre><code class="language-lean">def NonTail.filter (p : α → Bool) : List α → List α
   | [] =&gt; []
   | x :: xs =&gt;

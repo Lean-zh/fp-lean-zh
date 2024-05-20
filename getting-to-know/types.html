@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>类型 - Functional Programming in Lean</title>
+        <title>类型 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -165,7 +165,8 @@ compute. Types serve a number of roles in a program:
 <p>可以让编译器对值在内存中的表示做出决策。</p>
 </li>
 <li>
-<p>帮助程序员向他人传达他们的意图，作为函数输入和输出的轻量级规范， 编译器可以确保程序遵守该规范。</p>
+<p>帮助程序员向他人传达他们的意图，作为函数输入和输出的轻量级规范，
+编译器可以确保程序遵守该规范。</p>
 </li>
 <li>
 <p>防止各种潜在错误，例如将数字加到字符串上，从而减少程序所需的测试数量。</p>
@@ -180,7 +181,12 @@ Types can encode strong specifications like "this sorting function returns a per
 The type system can even be used as a full-blown logic for proving mathematical theorems.
 This cutting-edge expressive power doesn't obviate the need for simpler types, however, and understanding these simpler types is a prerequisite for using the more advanced features.
 -->
-<p>Lean 的类型系统具有非同寻常的表现力。类型可以编码强规范， 如「此排序函数返回其输入的排列」，以及灵活的规范， 如「此函数具有不同的返回类型，具体取决于其参数的值」。 类型系统甚至可以用作证明数学定理的完整逻辑系统。 然而，这种尖端的表现力并不能消除对更简单类型的需求， 理解这些更简单的类型是使用更高级功能的先决条件。</p>
+<p>Lean 的类型系统具有非同寻常的表现力。类型可以编码强规范，
+如「此排序函数返回其输入的排列」，以及灵活的规范，
+如「此函数具有不同的返回类型，具体取决于其参数的值」。
+类型系统甚至可以用作证明数学定理的完整逻辑系统。
+然而，这种尖端的表现力并不能消除对更简单类型的需求，
+理解这些更简单的类型是使用更高级功能的先决条件。</p>
 <!--
 Every program in Lean must have a type. In particular, every
 expression must have a type before it can be evaluated. In the
@@ -188,7 +194,9 @@ examples so far, Lean has been able to discover a type on its own, but
 it is sometimes necessary to provide one. This is done using the colon
 operator:
 -->
-<p>Lean 中的每个程序都必须有一个类型。特别是，每个表达式在求值之前都必须具有类型。 在迄今为止的示例中，Lean 已经能够自行发现类型，但有时也需要提供一个类型。 这是使用冒号运算符完成的：</p>
+<p>Lean 中的每个程序都必须有一个类型。特别是，每个表达式在求值之前都必须具有类型。
+在迄今为止的示例中，Lean 已经能够自行发现类型，但有时也需要提供一个类型。
+这是使用冒号运算符完成的：</p>
 <pre><code class="language-lean">#eval (1 + 2 : Nat)
 </code></pre>
 <!--
@@ -200,7 +208,11 @@ In C, unsigned integers underflow to the largest representable numbers when subt
 Thus, subtraction on `Nat` returns `0` when the answer would have otherwise been negative.
 For instance,
 -->
-<p>在这里，<code>Nat</code> 是<strong>自然数</strong>的类型，它们是任意精度的无符号整数。在 Lean 中，<code>Nat</code> 是非负整数字面量的默认类型。此默认类型并不总是最佳选择。 在 C 中，当减法运算结果小于零时，无符号整数会下溢到最大的可表示数字。然而，<code>Nat</code> 可以表示任意大的无符号数字，因此没有最大的数字可以下溢到。 因此，当答案原本为负数时，<code>Nat</code> 上的减法运算返回 <code>0</code>。例如，</p>
+<p>在这里，<code>Nat</code> 是<strong>自然数</strong>的类型，它们是任意精度的无符号整数。在 Lean 中，<code>Nat</code>
+是非负整数字面量的默认类型。此默认类型并不总是最佳选择。
+在 C 中，当减法运算结果小于零时，无符号整数会下溢到最大的可表示数字。然而，<code>Nat</code>
+可以表示任意大的无符号数字，因此没有最大的数字可以下溢到。
+因此，当答案原本为负数时，<code>Nat</code> 上的减法运算返回 <code>0</code>。例如，</p>
 <pre><code class="language-lean">#eval 1 - 2
 </code></pre>
 <!--
@@ -208,7 +220,8 @@ evaluates to `0` rather
 than `-1`. To use a type that can represent the negative integers,
 provide it directly:
 -->
-<p>求值为 <code>0</code> 而非 <code>-1</code>。 若要使用可以表示负整数的类型，请直接提供它：</p>
+<p>求值为 <code>0</code> 而非 <code>-1</code>。
+若要使用可以表示负整数的类型，请直接提供它：</p>
 <pre><code class="language-lean">#eval (1 - 2 : Int)
 </code></pre>
 <!--

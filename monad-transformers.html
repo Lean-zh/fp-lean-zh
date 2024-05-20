@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>单子变换器 - Functional Programming in Lean</title>
+        <title>单子变换器 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -138,15 +138,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="单子转换器"><a class="header" href="#单子转换器">单子转换器</a></h1>
-<p>A monad is a way to encode some collection of side effects in a pure language. Different monads provide different effects, such as state and error handling. Many monads even provide useful effects that aren't available in most languages, such as nondeterministic searches, readers, and even continuations.</p>
-<p>A typical application has a core set of easily testable functions written without monads paired with an outer wrapper that uses a monad to encode the necessary application logic. These monads are constructed from well-known components. For example:</p>
+                        <h1 id="monad-transformers"><a class="header" href="#monad-transformers">Monad Transformers</a></h1>
+<p>A monad is a way to encode some collection of side effects in a pure language.
+Different monads provide different effects, such as state and error handling.
+Many monads even provide useful effects that aren't available in most languages, such as nondeterministic searches, readers, and even continuations.</p>
+<p>A typical application has a core set of easily testable functions written without monads paired with an outer wrapper that uses a monad to encode the necessary application logic.
+These monads are constructed from well-known components.
+For example:</p>
 <ul>
 <li>Mutable state is encoded with a function parameter and a return value that have the same type</li>
 <li>Error handling is encoded by having a return type that is similar to <code>Except</code>, with constructors for success and failure</li>
 <li>Logging is encoded by pairing the return value with the log</li>
 </ul>
-<p>Writing each monad by hand is tedious, however, involving boilerplate definitions of the various type classes. Each of these components can also be extracted to a definition that modifies some other monad to add an additional effect. Such a definition is called a <em>monad transformer</em>. A concrete monad can be build from a collection of monad transformers, which enables much more code re-use.</p>
+<p>Writing each monad by hand is tedious, however, involving boilerplate definitions of the various type classes.
+Each of these components can also be extracted to a definition that modifies some other monad to add an additional effect.
+Such a definition is called a <em>monad transformer</em>.
+A concrete monad can be build from a collection of monad transformers, which enables much more code re-use.</p>
 
                     </main>
 

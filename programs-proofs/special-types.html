@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>特殊类型 - Functional Programming in Lean</title>
+        <title>特殊类型 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,12 +138,36 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="特殊类型"><a class="header" href="#特殊类型">特殊类型</a></h1>
-<p>Understanding the representation of data in memory is very important. Usually, the representation can be understood from the definition of a datatype. Each constructor corresponds to an object in memory that has a header that includes a tag and a reference count. The constructor's arguments are each represented by a pointer to some other object. In other words, <code>List</code> really is a linked list and extracting a field from a <code>structure</code> really does just chase a pointer.</p>
-<p>There are, however, some important exceptions to this rule. A number of types are treated specially by the compiler. For example, the type <code>UInt32</code> is defined as <code>Fin (2 ^ 32)</code>, but it is replaced at run-time with an actual native implementation based on machine words. Similarly, even though the definition of <code>Nat</code> suggests an implementation similar to <code>List Unit</code>, the actual run-time representation uses immediate machine words for sufficiently-small numbers and an efficient arbitrary-precision arithmetic library for larger numbers. The Lean compiler translates from definitions that use pattern matching into the appropriate operations for this representation, and calls to operations like addition and subtraction are mapped to fast operations from the underlying arithmetic library. After all, addition should not take time linear in the size of the addends.</p>
-<p>The fact that some types have special representations also means that care is needed when working with them. Most of these types consist of a <code>structure</code> that is treated specially by the compiler. With these structures, using the constructor or the field accessors directly can trigger an expensive conversion from an efficient representation to a slow one that is convenient for proofs. For example, <code>String</code> is defined as a structure that contains a list of characters, but the run-time representation of strings uses UTF-8, not linked lists of pointers to characters. Applying the constructor to a list of characters creates a byte array that encodes them in UTF-8, and accessing the field of the structure takes time linear in the length of the string to decode the UTF-8 representation and allocate a linked list. Arrays are represented similarly. From the logical perspective, arrays are structures that contain a list of array elements, but the run-time representation is a dynamically-sized array. At run time, the constructor translates the list into an array, and the field accessor allocates a linked list from the array. The various array operations are replaced with efficient versions by the compiler that mutate the array when possible instead of allocating a new one.</p>
-<p>Both types themselves and proofs of propositions are completely erased from compiled code. In other words, they take up no space, and any computations that might have been performed as part of a proof are similarly erased. This means that proofs can take advantage of the convenient interface to strings and arrays as inductively-defined lists, including using induction to prove things about them, without imposing slow conversion steps while the program is running. For these built-in types, a convenient logical representation of the data does not imply that the program must be slow.</p>
-<p>If a structure type has only a single non-type non-proof field, then the constructor itself disappears at run time, being replaced with its single argument. In other words, a subtype is represented identically to its underlying type, rather than with an extra layer of indirection. Similarly, <code>Fin</code> is just <code>Nat</code> in memory, and single-field structures can be created to keep track of different uses of <code>Nat</code>s or <code>String</code>s without paying a performance penalty. If a constructor has no non-type non-proof arguments, then the constructor also disappears and is replaced with a constant value where the pointer would otherwise be used. This means that <code>true</code>, <code>false</code>, and <code>none</code> are constant values, rather than pointers to heap-allocated objects.</p>
+                        <h1 id="special-types"><a class="header" href="#special-types">Special Types</a></h1>
+<p>Understanding the representation of data in memory is very important.
+Usually, the representation can be understood from the definition of a datatype.
+Each constructor corresponds to an object in memory that has a header that includes a tag and a reference count.
+The constructor's arguments are each represented by a pointer to some other object.
+In other words, <code>List</code> really is a linked list and extracting a field from a <code>structure</code> really does just chase a pointer.</p>
+<p>There are, however, some important exceptions to this rule.
+A number of types are treated specially by the compiler.
+For example, the type <code>UInt32</code> is defined as <code>Fin (2 ^ 32)</code>, but it is replaced at run-time with an actual native implementation based on machine words.
+Similarly, even though the definition of <code>Nat</code> suggests an implementation similar to <code>List Unit</code>, the actual run-time representation uses immediate machine words for sufficiently-small numbers and an efficient arbitrary-precision arithmetic library for larger numbers.
+The Lean compiler translates from definitions that use pattern matching into the appropriate operations for this representation, and calls to operations like addition and subtraction are mapped to fast operations from the underlying arithmetic library.
+After all, addition should not take time linear in the size of the addends.</p>
+<p>The fact that some types have special representations also means that care is needed when working with them.
+Most of these types consist of a <code>structure</code> that is treated specially by the compiler.
+With these structures, using the constructor or the field accessors directly can trigger an expensive conversion from an efficient representation to a slow one that is convenient for proofs.
+For example, <code>String</code> is defined as a structure that contains a list of characters, but the run-time representation of strings uses UTF-8, not linked lists of pointers to characters.
+Applying the constructor to a list of characters creates a byte array that encodes them in UTF-8, and accessing the field of the structure takes time linear in the length of the string to decode the UTF-8 representation and allocate a linked list.
+Arrays are represented similarly.
+From the logical perspective, arrays are structures that contain a list of array elements, but the run-time representation is a dynamically-sized array.
+At run time, the constructor translates the list into an array, and the field accessor allocates a linked list from the array.
+The various array operations are replaced with efficient versions by the compiler that mutate the array when possible instead of allocating a new one.</p>
+<p>Both types themselves and proofs of propositions are completely erased from compiled code.
+In other words, they take up no space, and any computations that might have been performed as part of a proof are similarly erased.
+This means that proofs can take advantage of the convenient interface to strings and arrays as inductively-defined lists, including using induction to prove things about them, without imposing slow conversion steps while the program is running.
+For these built-in types, a convenient logical representation of the data does not imply that the program must be slow.</p>
+<p>If a structure type has only a single non-type non-proof field, then the constructor itself disappears at run time, being replaced with its single argument.
+In other words, a subtype is represented identically to its underlying type, rather than with an extra layer of indirection.
+Similarly, <code>Fin</code> is just <code>Nat</code> in memory, and single-field structures can be created to keep track of different uses of <code>Nat</code>s or <code>String</code>s without paying a performance penalty.
+If a constructor has no non-type non-proof arguments, then the constructor also disappears and is replaced with a constant value where the pointer would otherwise be used.
+This means that <code>true</code>, <code>false</code>, and <code>none</code> are constant values, rather than pointers to heap-allocated objects.</p>
 <p>The following types have special representations:</p>
 <table><thead><tr><th>Type</th><th>Logical representation</th><th>Run-time Representation</th></tr></thead><tbody>
 <tr><td><code>Nat</code></td><td>Unary, with one pointer from each <code>Nat.succ</code></td><td>Efficient arbitrary-precision integers</td></tr>
@@ -156,7 +180,11 @@
 <tr><td>Proofs of propositions</td><td>Whatever data is suggested by the proposition when considered as a type of evidence</td><td>Erased completely</td></tr>
 </tbody></table>
 <h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>The <a href="../type-classes/pos.html">definition of <code>Pos</code></a> does not take advantage of Lean's compilation of <code>Nat</code> to an efficient type. At run time, it is essentially a linked list. Alternatively, a subtype can be defined that allows Lean's fast <code>Nat</code> type to be used internally, as described <a href="../functor-applicative-monad/applicative.html#subtypes">in the initial section on subtypes</a>. At run time, the proof will be erased. Because the resulting structure has only a single data field, it is represented as that field, which means that this new representation of <code>Pos</code> is identical to that of <code>Nat</code>.</p>
+<p>The <a href="../type-classes/pos.html">definition of <code>Pos</code></a> does not take advantage of Lean's compilation of <code>Nat</code> to an efficient type.
+At run time, it is essentially a linked list.
+Alternatively, a subtype can be defined that allows Lean's fast <code>Nat</code> type to be used internally, as described <a href="../functor-applicative-monad/applicative.html#subtypes">in the initial section on subtypes</a>.
+At run time, the proof will be erased.
+Because the resulting structure has only a single data field, it is represented as that field, which means that this new representation of <code>Pos</code> is identical to that of <code>Nat</code>.</p>
 <p>After proving the theorem <code>∀ {n k : Nat}, n ≠ 0 → k ≠ 0 → n + k ≠ 0</code>, define instances of <code>ToString</code>, and <code>Add</code> for this new representation of <code>Pos</code>. Then, define an instance of <code>Mul</code>, proving any necessary theorems along the way.</p>
 
                     </main>

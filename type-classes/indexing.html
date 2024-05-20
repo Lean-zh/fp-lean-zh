@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>数组与索引 - Functional Programming in Lean</title>
+        <title>数组与索引 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,16 +138,27 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="数组和索引"><a class="header" href="#数组和索引">数组和索引</a></h1>
-<p>The <a href="../props-proofs-indexing.html">Interlude</a> describes how to use indexing notation in order to look up entries in a list by their position. This syntax is also governed by a type class, and it can be used for a variety of different types.</p>
+                        <h1 id="arrays-and-indexing"><a class="header" href="#arrays-and-indexing">Arrays and Indexing</a></h1>
+<p>The <a href="../props-proofs-indexing.html">Interlude</a> describes how to use indexing notation in order to look up entries in a list by their position.
+This syntax is also governed by a type class, and it can be used for a variety of different types.</p>
 <h2 id="arrays"><a class="header" href="#arrays">Arrays</a></h2>
-<p>For instance, Lean arrays are much more efficient than linked lists for most purposes. In Lean, the type <code>Array α</code> is a dynamically-sized array holding values of type <code>α</code>, much like a Java <code>ArrayList</code>, a C++ <code>std::vector</code>, or a Rust <code>Vec</code>. Unlike <code>List</code>, which has a pointer indirection on each use of the <code>cons</code> constructor, arrays occupy a contiguous region of memory, which is much better for processor caches. Also, looking up a value in an array takes constant time, while lookup in a linked list takes time proportional to the index being accessed.</p>
-<p>In pure functional languages like Lean, it is not possible to mutate a given position in a data structure. Instead, a copy is made that has the desired modifications. When using an array, the Lean compiler and runtime contain an optimization that can allow modifications to be implemented as mutations behind the scenes when there is only a single unique reference to an array.</p>
+<p>For instance, Lean arrays are much more efficient than linked lists for most purposes.
+In Lean, the type <code>Array α</code> is a dynamically-sized array holding values of type <code>α</code>, much like a Java <code>ArrayList</code>, a C++ <code>std::vector</code>, or a Rust <code>Vec</code>.
+Unlike <code>List</code>, which has a pointer indirection on each use of the <code>cons</code> constructor, arrays occupy a contiguous region of memory, which is much better for processor caches.
+Also, looking up a value in an array takes constant time, while lookup in a linked list takes time proportional to the index being accessed.</p>
+<p>In pure functional languages like Lean, it is not possible to mutate a given position in a data structure.
+Instead, a copy is made that has the desired modifications.
+When using an array, the Lean compiler and runtime contain an optimization that can allow modifications to be implemented as mutations behind the scenes when there is only a single unique reference to an array.</p>
 <p>Arrays are written similarly to lists, but with a leading <code>#</code>:</p>
 <pre><code class="language-lean">def northernTrees : Array String :=
   #[&quot;sloe&quot;, &quot;birch&quot;, &quot;elm&quot;, &quot;oak&quot;]
 </code></pre>
-<p>The number of values in an array can be found using <code>Array.size</code>. For instance, <code>northernTrees.size</code> evaluates to <code>4</code>. For indices that are smaller than an array's size, indexing notation can be used to find the corresponding value, just as with lists. That is, <code>northernTrees[2]</code> evaluates to <code>&quot;elm&quot;</code>. Similarly, the compiler requires a proof that an index is in bounds, and attempting to look up a value outside the bounds of the array results in a compile-time error, just as with lists. For instance, <code>northernTrees[8]</code> results in:</p>
+<p>The number of values in an array can be found using <code>Array.size</code>.
+For instance, <code>northernTrees.size</code> evaluates to <code>4</code>.
+For indices that are smaller than an array's size, indexing notation can be used to find the corresponding value, just as with lists.
+That is, <code>northernTrees[2]</code> evaluates to <code>&quot;elm&quot;</code>.
+Similarly, the compiler requires a proof that an index is in bounds, and attempting to look up a value outside the bounds of the array results in a compile-time error, just as with lists.
+For instance, <code>northernTrees[8]</code> results in:</p>
 <pre><code class="language-output error">failed to prove index is valid, possible solutions:
   - Use `have`-expressions to prove the index is valid
   - Use `a[i]!` notation instead, runtime check is perfomed, and 'Panic' error message is produced if index is not valid
@@ -184,17 +195,23 @@
   | {head := _, tail := []}, _ + 1 =&gt; none
   | {head := _, tail := h :: t}, n + 1 =&gt; get? {head := h, tail := t} n
 </code></pre>
-<p>Each case in the pattern match corresponds to one of the possibilities above. The recursive call to <code>get?</code> does not require a <code>NonEmptyList</code> namespace qualifier because the body of the definition is implicitly in the definition's namespace. Another way to write this function uses <code>get?</code> for lists when the index is greater than zero:</p>
+<p>Each case in the pattern match corresponds to one of the possibilities above.
+The recursive call to <code>get?</code> does not require a <code>NonEmptyList</code> namespace qualifier because the body of the definition is implicitly in the definition's namespace.
+Another way to write this function uses <code>get?</code> for lists when the index is greater than zero:</p>
 <pre><code class="language-lean">def NonEmptyList.get? : NonEmptyList α → Nat → Option α
   | xs, 0 =&gt; some xs.head
   | xs, n + 1 =&gt; xs.tail.get? n
 </code></pre>
-<p>If the list contains one entry, then only <code>0</code> is a valid index. If it contains two entries, then both <code>0</code> and <code>1</code> are valid indices. If it contains three entries, then <code>0</code>, <code>1</code>, and <code>2</code> are valid indices. In other words, the valid indices into a non-empty list are natural numbers that are strictly less than the length of the list, which are less than or equal to the length of the tail.</p>
+<p>If the list contains one entry, then only <code>0</code> is a valid index.
+If it contains two entries, then both <code>0</code> and <code>1</code> are valid indices.
+If it contains three entries, then <code>0</code>, <code>1</code>, and <code>2</code> are valid indices.
+In other words, the valid indices into a non-empty list are natural numbers that are strictly less than the length of the list, which are less than or equal to the length of the tail.</p>
 <p>The definition of what it means for an index to be in bounds should be written as an <code>abbrev</code> because the tactics used to find evidence that indices are acceptable are able to solve inequalities of numbers, but they don't know anything about the name <code>NonEmptyList.inBounds</code>:</p>
 <pre><code class="language-lean">abbrev NonEmptyList.inBounds (xs : NonEmptyList α) (i : Nat) : Prop :=
   i ≤ xs.tail.length
 </code></pre>
-<p>This function returns a proposition that might be true or false. For instance, <code>2</code> is in bounds for <code>idahoSpiders</code>, while <code>5</code> is not:</p>
+<p>This function returns a proposition that might be true or false.
+For instance, <code>2</code> is in bounds for <code>idahoSpiders</code>, while <code>5</code> is not:</p>
 <pre><code class="language-leantac">theorem atLeastThreeSpiders : idahoSpiders.inBounds 2 := by simp
 
 theorem notSixSpiders : ¬idahoSpiders.inBounds 5 := by simp
@@ -206,16 +223,19 @@ theorem notSixSpiders : ¬idahoSpiders.inBounds 5 := by simp
   | 0 =&gt; xs.head
   | n + 1 =&gt; xs.tail[n]
 </code></pre>
-<p>It is, of course, possible to write this function to use the evidence directly, rather than delegating to a standard library function that happens to be able to use the same evidence. This requires techniques for working with proofs and propositions that are described later in this book.</p>
+<p>It is, of course, possible to write this function to use the evidence directly, rather than delegating to a standard library function that happens to be able to use the same evidence.
+This requires techniques for working with proofs and propositions that are described later in this book.</p>
 <h2 id="overloading-indexing"><a class="header" href="#overloading-indexing">Overloading Indexing</a></h2>
-<p>Indexing notation for a collection type can be overloaded by defining an instance of the <code>GetElem</code> type class. For the sake of flexiblity, <code>GetElem</code> has four parameters:</p>
+<p>Indexing notation for a collection type can be overloaded by defining an instance of the <code>GetElem</code> type class.
+For the sake of flexiblity, <code>GetElem</code> has four parameters:</p>
 <ul>
 <li>The type of the collection</li>
 <li>The type of the index</li>
 <li>The type of elements that are extracted from the collection</li>
 <li>A function that determines what counts as evidence that the index is in bounds</li>
 </ul>
-<p>The element type and the evidence function are both output parameters. <code>GetElem</code> has a single method, <code>getElem</code>, which takes a collection value, an index value, and evidence that the index is in bounds as arguments, and returns an element:</p>
+<p>The element type and the evidence function are both output parameters.
+<code>GetElem</code> has a single method, <code>getElem</code>, which takes a collection value, an index value, and evidence that the index is in bounds as arguments, and returns an element:</p>
 <pre><code class="language-lean">class GetElem (coll : Type) (idx : Type) (item : outParam Type) (inBounds : outParam (coll → idx → Prop)) where
   getElem : (c : coll) → (i : idx) → inBounds c i → item
 </code></pre>
@@ -230,7 +250,8 @@ theorem notSixSpiders : ¬idahoSpiders.inBounds 5 := by simp
 <pre><code class="language-lean">instance : GetElem (NonEmptyList α) Nat α NonEmptyList.inBounds where
   getElem := NonEmptyList.get
 </code></pre>
-<p>With this instance, <code>NonEmptyList</code> becomes just as convenient to use as <code>List</code>. Evaluating <code>idahoSpiders[0]</code> yields <code>&quot;Banded Garden Spider&quot;</code>, while <code>idahoSpiders[9]</code> leads to the compile-time error:</p>
+<p>With this instance, <code>NonEmptyList</code> becomes just as convenient to use as <code>List</code>.
+Evaluating <code>idahoSpiders[0]</code> yields <code>&quot;Banded Garden Spider&quot;</code>, while <code>idahoSpiders[9]</code> leads to the compile-time error:</p>
 <pre><code class="language-output error">failed to prove index is valid, possible solutions:
   - Use `have`-expressions to prove the index is valid
   - Use `a[i]!` notation instead, runtime check is perfomed, and 'Panic' error message is produced if index is not valid
@@ -238,16 +259,20 @@ theorem notSixSpiders : ¬idahoSpiders.inBounds 5 := by simp
   - Use `a[i]'h` notation instead, where `h` is a proof that index is valid
 ⊢ NonEmptyList.inBounds idahoSpiders 9
 </code></pre>
-<p>Because both the collection type and the index type are input parameters to the <code>GetElem</code> type class, new types can be used to index into existing collections. The positive number type <code>Pos</code> is a perfectly reasonable index into a <code>List</code>, with the caveat that it cannot point at the first entry. The follow instance of <code>GetElem</code> allows <code>Pos</code> to be used just as conveniently as <code>Nat</code> to find a list entry:</p>
+<p>Because both the collection type and the index type are input parameters to the <code>GetElem</code> type class, new types can be used to index into existing collections.
+The positive number type <code>Pos</code> is a perfectly reasonable index into a <code>List</code>, with the caveat that it cannot point at the first entry.
+The follow instance of <code>GetElem</code> allows <code>Pos</code> to be used just as conveniently as <code>Nat</code> to find a list entry:</p>
 <pre><code class="language-lean">instance : GetElem (List α) Pos α (fun list n =&gt; list.length &gt; n.toNat) where
   getElem (xs : List α) (i : Pos) ok := xs[i.toNat]
 </code></pre>
-<p>Indexing can also make sense for non-numeric indices. For example, <code>Bool</code> can be used to select between the fields in a point, with <code>false</code> corresponding to <code>x</code> and <code>true</code> corresponding to <code>y</code>:</p>
+<p>Indexing can also make sense for non-numeric indices.
+For example, <code>Bool</code> can be used to select between the fields in a point, with <code>false</code> corresponding to <code>x</code> and <code>true</code> corresponding to <code>y</code>:</p>
 <pre><code class="language-lean">instance : GetElem (PPoint α) Bool α (fun _ _ =&gt; True) where
   getElem (p : PPoint α) (i : Bool) _ :=
     if not i then p.x else p.y
 </code></pre>
-<p>In this case, both Booleans are valid indices. Because every possible <code>Bool</code> is in bounds, the evidence is simply the true proposition <code>True</code>.</p>
+<p>In this case, both Booleans are valid indices.
+Because every possible <code>Bool</code> is in bounds, the evidence is simply the true proposition <code>True</code>.</p>
 
                     </main>
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>函子、应用函子与单子 - Functional Programming in Lean</title>
+        <title>函子、应用函子与单子 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -138,10 +138,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="函子应用函子和单子"><a class="header" href="#函子应用函子和单子">函子、应用函子和单子</a></h1>
-<p><code>Functor</code> and <code>Monad</code> both describe operations for types that are still waiting for a type argument. One way to understand them is that <code>Functor</code> describes containers in which the contained data can be transformed, and <code>Monad</code> describes an encoding of programs with side effects. This understanding is incomplete, however. After all, <code>Option</code> has instances for both <code>Functor</code> and <code>Monad</code>, and simultaneously represents an optional value <em>and</em> a computation that might fail to return a value.</p>
-<p>From the perspective of data structures, <code>Option</code> is a bit like a nullable type or like a list that can contain at most one entry. From the perspective of control structures, <code>Option</code> represents a computation that might terminate early without a result. Typically, programs that use the <code>Functor</code> instance are easiest to think of as using <code>Option</code> as a data structure, while programs that use the <code>Monad</code> instance are easiest to think of as using <code>Option</code> to allow early failure, but learning to use both of these perspectives fluently is an important part of becoming proficient at functional programming.</p>
-<p>There is a deeper relationship between functors and monads. It turns out that <em>every monad is a functor</em>. Another way to say this is that the monad abstraction is more powerful than the functor abstraction, because not every functor is a monad. Furthermore, there is an additional intermediate abstraction, called <em>applicative functors</em>, that has enough power to write many interesting programs and yet permits libraries that cannot use the <code>Monad</code> interface. The type class <code>Applicative</code> provides the overloadable operations of applicative functors. Every monad is an applicative functor, and every applicative functor is a functor, but the converses do not hold.</p>
+                        <h1 id="functors-applicative-functors-and-monads"><a class="header" href="#functors-applicative-functors-and-monads">Functors, Applicative Functors, and Monads</a></h1>
+<p><code>Functor</code> and <code>Monad</code> both describe operations for types that are still waiting for a type argument.
+One way to understand them is that <code>Functor</code> describes containers in which the contained data can be transformed, and <code>Monad</code> describes an encoding of programs with side effects.
+This understanding is incomplete, however.
+After all, <code>Option</code> has instances for both <code>Functor</code> and <code>Monad</code>, and simultaneously represents an optional value <em>and</em> a computation that might fail to return a value.</p>
+<p>From the perspective of data structures, <code>Option</code> is a bit like a nullable type or like a list that can contain at most one entry.
+From the perspective of control structures, <code>Option</code> represents a computation that might terminate early without a result.
+Typically, programs that use the <code>Functor</code> instance are easiest to think of as using <code>Option</code> as a data structure, while programs that use the <code>Monad</code> instance are easiest to think of as using <code>Option</code> to allow early failure, but learning to use both of these perspectives fluently is an important part of becoming proficient at functional programming.</p>
+<p>There is a deeper relationship between functors and monads.
+It turns out that <em>every monad is a functor</em>.
+Another way to say this is that the monad abstraction is more powerful than the functor abstraction, because not every functor is a monad.
+Furthermore, there is an additional intermediate abstraction, called <em>applicative functors</em>, that has enough power to write many interesting programs and yet permits libraries that cannot use the <code>Monad</code> interface.
+The type class <code>Applicative</code> provides the overloadable operations of applicative functors.
+Every monad is an applicative functor, and every applicative functor is a functor, but the converses do not hold.</p>
 
                     </main>
 

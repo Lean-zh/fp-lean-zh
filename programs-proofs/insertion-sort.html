@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>插入排序与数组可变性 - Functional Programming in Lean</title>
+        <title>插入排序与数组可变性 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,7 +138,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="插入排序与数组可变性"><a class="header" href="#插入排序与数组可变性">插入排序与数组可变性</a></h1>
+                        <h1 id="insertion-sort-and-array-mutation"><a class="header" href="#insertion-sort-and-array-mutation">Insertion Sort and Array Mutation</a></h1>
 <p>While insertion sort does not have the optimal worst-case time complexity for a sorting algorithm, it still has a number of useful properties:</p>
 <ul>
 <li>It is simple and straightforward to implement and understand</li>
@@ -146,26 +146,50 @@
 <li>It is a stable sort</li>
 <li>It is fast when the input is already almost sorted</li>
 </ul>
-<p>In-place algorithms are particularly useful in Lean due to the way it manages memory. In some cases, operations that would normally copy an array can be optimized into mutation. This includes swapping elements in an array.</p>
-<p>Most languages and run-time systems with automatic memory management, including JavaScript, the JVM, and .NET, use tracing garbage collection. When memory needs to be reclaimed, the system starts at a number of <em>roots</em> (such as the call stack and global values) and then determines which values can be reached by recursively chasing pointers. Any values that can't be reached are deallocated, freeing memory.</p>
-<p>Reference counting is an alternative to tracing garbage collection that is used by a number of languages, including Python, Swift, and Lean. In a system with reference counting, each object in memory has a field that tracks how many references there are to it. When a new reference is established, the counter is incremented. When a reference ceases to exist, the counter is decremented. When the counter reaches zero, the object is immediately deallocated.</p>
-<p>Reference counting has one major disadvantage compared to a tracing garbage collector: circular references can lead to memory leaks. If object \( A \) references object \( B \) , and object \( B \) references object \( A \), they will never be deallocated, even if nothing else in the program references either \( A \) or \( B \). Circular references result either from uncontrolled recursion or from mutable references. Because Lean supports neither, it is impossible to construct circular references.</p>
-<p>Reference counting means that the Lean runtime system's primitives for allocating and deallocating data structures can check whether a reference count is about to fall to zero, and re-use an existing object instead of allocating a new one. This is particularly important when working with large arrays.</p>
+<p>In-place algorithms are particularly useful in Lean due to the way it manages memory.
+In some cases, operations that would normally copy an array can be optimized into mutation.
+This includes swapping elements in an array.</p>
+<p>Most languages and run-time systems with automatic memory management, including JavaScript, the JVM, and .NET, use tracing garbage collection.
+When memory needs to be reclaimed, the system starts at a number of <em>roots</em> (such as the call stack and global values) and then determines which values can be reached by recursively chasing pointers.
+Any values that can't be reached are deallocated, freeing memory.</p>
+<p>Reference counting is an alternative to tracing garbage collection that is used by a number of languages, including Python, Swift, and Lean.
+In a system with reference counting, each object in memory has a field that tracks how many references there are to it.
+When a new reference is established, the counter is incremented.
+When a reference ceases to exist, the counter is decremented.
+When the counter reaches zero, the object is immediately deallocated.</p>
+<p>Reference counting has one major disadvantage compared to a tracing garbage collector: circular references can lead to memory leaks.
+If object \( A \) references object \( B \) , and object \( B \) references object \( A \), they will never be deallocated, even if nothing else in the program references either \( A \) or \( B \).
+Circular references result either from uncontrolled recursion or from mutable references.
+Because Lean supports neither, it is impossible to construct circular references.</p>
+<p>Reference counting means that the Lean runtime system's primitives for allocating and deallocating data structures can check whether a reference count is about to fall to zero, and re-use an existing object instead of allocating a new one.
+This is particularly important when working with large arrays.</p>
 <p>An implementation of insertion sort for Lean arrays should satisfy the following criteria:</p>
 <ol>
 <li>Lean should accept the function without a <code>partial</code> annotation</li>
 <li>If passed an array to which there are no other references, it should modify the array in-place rather than allocating a new one</li>
 </ol>
-<p>The first criterion is easy to check: if Lean accepts the definition, then it is satisfied. The second, however, requires a means of testing it. Lean provides a built-in function called <code>dbgTraceIfShared</code> with the following signature:</p>
+<p>The first criterion is easy to check: if Lean accepts the definition, then it is satisfied.
+The second, however, requires a means of testing it.
+Lean provides a built-in function called <code>dbgTraceIfShared</code> with the following signature:</p>
 <pre><code class="language-lean">#check dbgTraceIfShared
 </code></pre>
 <pre><code class="language-output info">dbgTraceIfShared.{u} {α : Type u} (s : String) (a : α) : α
 </code></pre>
-<p>It takes a string and a value as arguments, and prints a message that uses the string to standard error if the value has more than one reference, returning the value. This is not, strictly speaking, a pure function. However, it is intended to be used only during development to check that a function is in fact able to re-use memory rather than allocating and copying.</p>
-<p>When learning to use <code>dbgTraceIfShared</code>, it's important to know that <code>#eval</code> will report that many more values are shared than in compiled code. This can be confusing. It's important to build an executable with <code>lake</code> rather than experimenting in an editor.</p>
-<p>Insertion sort consists of two loops. The outer loop moves a pointer from left to right across the array to be sorted. After each iteration, the region of the array to the left of the pointer is sorted, while the region to the right may not yet be sorted. The inner loop takes the element pointed to by the pointer and moves it to the left until the appropriate location has been found and the loop invariant has been restored. In other words, each iteration inserts the next element of the array into the appropriate location in the sorted region.</p>
+<p>It takes a string and a value as arguments, and prints a message that uses the string to standard error if the value has more than one reference, returning the value.
+This is not, strictly speaking, a pure function.
+However, it is intended to be used only during development to check that a function is in fact able to re-use memory rather than allocating and copying.</p>
+<p>When learning to use <code>dbgTraceIfShared</code>, it's important to know that <code>#eval</code> will report that many more values are shared than in compiled code.
+This can be confusing.
+It's important to build an executable with <code>lake</code> rather than experimenting in an editor.</p>
+<p>Insertion sort consists of two loops.
+The outer loop moves a pointer from left to right across the array to be sorted.
+After each iteration, the region of the array to the left of the pointer is sorted, while the region to the right may not yet be sorted.
+The inner loop takes the element pointed to by the pointer and moves it to the left until the appropriate location has been found and the loop invariant has been restored.
+In other words, each iteration inserts the next element of the array into the appropriate location in the sorted region.</p>
 <h2 id="the-inner-loop"><a class="header" href="#the-inner-loop">The Inner Loop</a></h2>
-<p>The inner loop of insertion sort can be implemented as a tail-recursive function that takes the array and the index of the element being inserted as arguments. The element being inserted is repeatedly swapped with the element to its left until either the element to the left is smaller or the beginning of the array is reached. The inner loop is structurally recursive on the <code>Nat</code> that is inside the <code>Fin</code> used to index into the array:</p>
+<p>The inner loop of insertion sort can be implemented as a tail-recursive function that takes the array and the index of the element being inserted as arguments.
+The element being inserted is repeatedly swapped with the element to its left until either the element to the left is smaller or the beginning of the array is reached.
+The inner loop is structurally recursive on the <code>Nat</code> that is inside the <code>Fin</code> used to index into the array:</p>
 <pre><code class="language-leantac">def insertSorted [Ord α] (arr : Array α) (i : Fin arr.size) : Array α :=
   match i with
   | ⟨0, _⟩ =&gt; arr
@@ -177,7 +201,10 @@
     | .gt =&gt;
       insertSorted (arr.swap ⟨i', by assumption⟩ i) ⟨i', by simp [*]⟩
 </code></pre>
-<p>If the index <code>i</code> is <code>0</code>, then the element being inserted into the sorted region has reached the beginning of the region and is the smallest. If the index is <code>i' + 1</code>, then the element at <code>i'</code> should be compared to the element at <code>i</code>. Note that while <code>i</code> is a <code>Fin arr.size</code>, <code>i'</code> is just a <code>Nat</code> because it results from the <code>val</code> field of <code>i</code>. It is thus necessary to prove that <code>i' &lt; arr.size</code> before <code>i'</code> can be used to index into <code>arr</code>.</p>
+<p>If the index <code>i</code> is <code>0</code>, then the element being inserted into the sorted region has reached the beginning of the region and is the smallest.
+If the index is <code>i' + 1</code>, then the element at <code>i'</code> should be compared to the element at <code>i</code>.
+Note that while <code>i</code> is a <code>Fin arr.size</code>, <code>i'</code> is just a <code>Nat</code> because it results from the <code>val</code> field of <code>i</code>.
+It is thus necessary to prove that <code>i' &lt; arr.size</code> before <code>i'</code> can be used to index into <code>arr</code>.</p>
 <p>Omitting the <code>have</code>-expression with the proof that <code>i' &lt; arr.size</code> reveals the following goal:</p>
 <pre><code class="language-output error">unsolved goals
 α : Type ?u.7
@@ -188,13 +215,22 @@ i' : Nat
 isLt✝ : i' + 1 &lt; Array.size arr
 ⊢ i' &lt; Array.size arr
 </code></pre>
-<p>The hint <code>Nat.lt_of_succ_lt</code> is a theorem from Lean's standard library. Its signature, found by <code>#check Nat.lt_of_succ_lt</code>, is</p>
+<p>The hint <code>Nat.lt_of_succ_lt</code> is a theorem from Lean's standard library.
+Its signature, found by <code>#check Nat.lt_of_succ_lt</code>, is</p>
 <pre><code class="language-output info">Nat.lt_of_succ_lt {n m : Nat} (a✝ : Nat.succ n &lt; m) : n &lt; m
 </code></pre>
-<p>In other words, it states that if <code>n + 1 &lt; m</code>, then <code>n &lt; m</code>. The <code>*</code> passed to <code>simp</code> causes it to combine <code>Nat.lt_of_succ_lt</code> with the <code>isLt</code> field from <code>i</code> to get the final proof.</p>
-<p>Having established that <code>i'</code> can be used to look up the element to the left of the element being inserted, the two elements are looked up and compared.  If the element to the left is less than or equal to the element being inserted, then the loop is finished and the invariant has been restored. If the element to the left is greater than the element being inserted, then the elements are swapped and the inner loop begins again. <code>Array.swap</code> takes both of its indices as <code>Fin</code>s, and the <code>by assumption</code> that establishes that <code>i' &lt; arr.size</code> makes use of the <code>have</code>. The index to be examined on the next round through the inner loop is also <code>i'</code>, but <code>by assumption</code> is not sufficient in this case. This is because the proof was written for the original array <code>arr</code>, not the result of swapping two elements. The <code>simp</code> tactic's database contains the fact that swapping two elements of an array doesn't change its size, and the <code>[*]</code> argument instructs it to additionally use the assumption introduced by <code>have</code>.</p>
+<p>In other words, it states that if <code>n + 1 &lt; m</code>, then <code>n &lt; m</code>.
+The <code>*</code> passed to <code>simp</code> causes it to combine <code>Nat.lt_of_succ_lt</code> with the <code>isLt</code> field from <code>i</code> to get the final proof.</p>
+<p>Having established that <code>i'</code> can be used to look up the element to the left of the element being inserted, the two elements are looked up and compared. 
+If the element to the left is less than or equal to the element being inserted, then the loop is finished and the invariant has been restored.
+If the element to the left is greater than the element being inserted, then the elements are swapped and the inner loop begins again.
+<code>Array.swap</code> takes both of its indices as <code>Fin</code>s, and the <code>by assumption</code> that establishes that <code>i' &lt; arr.size</code> makes use of the <code>have</code>.
+The index to be examined on the next round through the inner loop is also <code>i'</code>, but <code>by assumption</code> is not sufficient in this case.
+This is because the proof was written for the original array <code>arr</code>, not the result of swapping two elements.
+The <code>simp</code> tactic's database contains the fact that swapping two elements of an array doesn't change its size, and the <code>[*]</code> argument instructs it to additionally use the assumption introduced by <code>have</code>.</p>
 <h2 id="the-outer-loop"><a class="header" href="#the-outer-loop">The Outer Loop</a></h2>
-<p>The outer loop of insertion sort moves the pointer from left to right, invoking <code>insertSorted</code> at each iteration to insert the element at the pointer into the correct position in the array. The basic form of the loop resembles the implementation of <code>Array.map</code>:</p>
+<p>The outer loop of insertion sort moves the pointer from left to right, invoking <code>insertSorted</code> at each iteration to insert the element at the pointer into the correct position in the array.
+The basic form of the loop resembles the implementation of <code>Array.map</code>:</p>
 <pre><code class="language-lean">def insertionSortLoop [Ord α] (arr : Array α) (i : Nat) : Array α :=
   if h : i &lt; arr.size then
     insertionSortLoop (insertSorted arr ⟨i, h⟩) (i + 1)
@@ -229,7 +265,8 @@ failed to prove termination, use `termination_by` to specify a well-founded rela
 <pre><code class="language-output info">#[&quot;igneous&quot;, &quot;metamorphic&quot;, &quot;sedentary&quot;]
 </code></pre>
 <h3 id="termination"><a class="header" href="#termination">Termination</a></h3>
-<p>Once again, the function terminates because the difference between the index and the size of the array being processed decreases on each recursive call. This time, however, Lean does not accept the <code>termination_by</code>:</p>
+<p>Once again, the function terminates because the difference between the index and the size of the array being processed decreases on each recursive call.
+This time, however, Lean does not accept the <code>termination_by</code>:</p>
 <pre><code class="language-lean">def insertionSortLoop [Ord α] (arr : Array α) (i : Nat) : Array α :=
   if h : i &lt; arr.size then
     insertionSortLoop (insertSorted arr ⟨i, h⟩) (i + 1)
@@ -248,7 +285,9 @@ i : Nat
 h : i &lt; Array.size arr
 ⊢ Array.size (insertSorted arr { val := i, isLt := h }) - (i + 1) &lt; Array.size arr - i
 </code></pre>
-<p>The problem is that Lean has no way to know that <code>insertSorted</code> returns an array that's the same size as the one it is passed. In order to prove that <code>insertionSortLoop</code> terminates, it is necessary to first prove that <code>insertSorted</code> doesn't change the size of the array. Copying the unproved termination condition from the error message to the function and &quot;proving&quot; it with <code>sorry</code> allows the function to be temporarily accepted:</p>
+<p>The problem is that Lean has no way to know that <code>insertSorted</code> returns an array that's the same size as the one it is passed.
+In order to prove that <code>insertionSortLoop</code> terminates, it is necessary to first prove that <code>insertSorted</code> doesn't change the size of the array.
+Copying the unproved termination condition from the error message to the function and &quot;proving&quot; it with <code>sorry</code> allows the function to be temporarily accepted:</p>
 <pre><code class="language-leantac">def insertionSortLoop [Ord α] (arr : Array α) (i : Nat) : Array α :=
   if h : i &lt; arr.size then
     have : (insertSorted arr ⟨i, h⟩).size - (i + 1) &lt; arr.size - i := by
@@ -260,7 +299,12 @@ termination_by insertionSortLoop arr i =&gt; arr.size - i
 </code></pre>
 <pre><code class="language-output warning">declaration uses 'sorry'
 </code></pre>
-<p>Because <code>insertSorted</code> is structurally recursive on the index of the element being inserted, the proof should be by induction on the index. In the base case, the array is returned unchanged, so its length certainly does not change. For the inductive step, the induction hypothesis is that a recursive call on the next smaller index will not change the length of the array. There are two cases two consider: either the element has been fully inserted into the sorted region and the array is returned unchanged, in which case the length is also unchanged, or the element is swapped with the next one before the recursive call. However, swapping two elements in an array doesn't change the size of it, and the induction hypothesis states that the recursive call with the next index returns an array that's the same size as its argument. Thus, the size remains unchanged.</p>
+<p>Because <code>insertSorted</code> is structurally recursive on the index of the element being inserted, the proof should be by induction on the index.
+In the base case, the array is returned unchanged, so its length certainly does not change.
+For the inductive step, the induction hypothesis is that a recursive call on the next smaller index will not change the length of the array.
+There are two cases two consider: either the element has been fully inserted into the sorted region and the array is returned unchanged, in which case the length is also unchanged, or the element is swapped with the next one before the recursive call.
+However, swapping two elements in an array doesn't change the size of it, and the induction hypothesis states that the recursive call with the next index returns an array that's the same size as its argument.
+Thus, the size remains unchanged.</p>
 <p>Translating this English-language theorem statement to Lean and proceeding using the techniques from this chapter is enough to prove the base case and make progress in the inductive step:</p>
 <pre><code class="language-leantac">theorem insert_sorted_size_eq [Ord α] (arr : Array α) (i : Fin arr.size) :
     (insertSorted arr i).size = arr.size := by
@@ -390,8 +434,12 @@ heq✝ : compare arr[j'] arr[{ val := Nat.succ j', isLt := isLt }] = Ordering.gt
                     { val := Nat.succ j', isLt := isLt })) }) =
     Array.size arr
 </code></pre>
-<p>Unfortunately, the induction hypothesis is not strong enough to prove this goal. The induction hypothesis states that calling <code>insertSorted</code> on <code>arr</code> leaves the size unchanged, but the proof goal is to show that the result of the recursive call with the result of swapping leaves the size unchanged. Successfully completing the proof requires an induction hypothesis that works for <em>any</em> array that is passed to <code>insertSorted</code> together with the smaller index as an argument</p>
-<p>It is possible to get a strong induction hypothesis by using the <code>generalizing</code> option to the <code>induction</code> tactic. This option brings additional assumptions from the context into the statement that's used to generate the base case, the induction hypothesis, and the goal to be shown in the inductive step. Generalizing over <code>arr</code> leads to a stronger hypothesis:</p>
+<p>Unfortunately, the induction hypothesis is not strong enough to prove this goal.
+The induction hypothesis states that calling <code>insertSorted</code> on <code>arr</code> leaves the size unchanged, but the proof goal is to show that the result of the recursive call with the result of swapping leaves the size unchanged.
+Successfully completing the proof requires an induction hypothesis that works for <em>any</em> array that is passed to <code>insertSorted</code> together with the smaller index as an argument</p>
+<p>It is possible to get a strong induction hypothesis by using the <code>generalizing</code> option to the <code>induction</code> tactic.
+This option brings additional assumptions from the context into the statement that's used to generate the base case, the induction hypothesis, and the goal to be shown in the inductive step.
+Generalizing over <code>arr</code> leads to a stronger hypothesis:</p>
 <pre><code class="language-leantac">theorem insert_sorted_size_eq [Ord α] (arr : Array α) (i : Fin arr.size) :
     (insertSorted arr i).size = arr.size := by
   match i with
@@ -429,7 +477,11 @@ heq✝ : compare arr[j'] arr[{ val := Nat.succ j', isLt := isLt }] = Ordering.gt
                     { val := Nat.succ j', isLt := isLt })) }) =
     Array.size arr
 </code></pre>
-<p>However, this whole proof is beginning to get unmanageable. The next step would be to introduce a variable standing for the length of the result of swapping, show that it is equal to <code>arr.size</code>, and then show that this variable is also equal to the length of the array that results from the recursive call. These equality statement can then be chained together to prove the goal. It's much easier, however, to carefully reformulate the theorem statement such that the induction hypothesis is automatically strong enough and the variables are already introduced. The reformulated statement reads:</p>
+<p>However, this whole proof is beginning to get unmanageable.
+The next step would be to introduce a variable standing for the length of the result of swapping, show that it is equal to <code>arr.size</code>, and then show that this variable is also equal to the length of the array that results from the recursive call.
+These equality statement can then be chained together to prove the goal.
+It's much easier, however, to carefully reformulate the theorem statement such that the induction hypothesis is automatically strong enough and the variables are already introduced.
+The reformulated statement reads:</p>
 <pre><code class="language-leantac">theorem insert_sorted_size_eq [Ord α] (len : Nat) (i : Nat) :
     (arr : Array α) → (isLt : i &lt; arr.size) → arr.size = len →
     (insertSorted arr ⟨i, isLt⟩).size = len := by
@@ -437,8 +489,10 @@ heq✝ : compare arr[j'] arr[{ val := Nat.succ j', isLt := isLt }] = Ordering.gt
 </code></pre>
 <p>This version of the theorem statement is easier to prove for a few reasons:</p>
 <ol>
-<li>Rather than bundling up the index and the proof of its validity in a <code>Fin</code>, the index comes before the array. This allows the induction hypothesis to naturally generalize over the array and the proof that <code>i</code> is in bounds.</li>
-<li>An abstract length <code>len</code> is introduced to stand for <code>array.size</code>. Proof automation is often better at working with explicit statements of equality.</li>
+<li>Rather than bundling up the index and the proof of its validity in a <code>Fin</code>, the index comes before the array.
+This allows the induction hypothesis to naturally generalize over the array and the proof that <code>i</code> is in bounds.</li>
+<li>An abstract length <code>len</code> is introduced to stand for <code>array.size</code>.
+Proof automation is often better at working with explicit statements of equality.</li>
 </ol>
 <p>The resulting proof state shows the statement that will be used to generate the induction hypothesis, as well as the base case and the goal of the inductive step:</p>
 <pre><code class="language-output error">unsolved goals
@@ -456,7 +510,8 @@ len i : Nat
   | zero =&gt; skip
   | succ i' ih =&gt; skip
 </code></pre>
-<p>In the base case, each occurrence of <code>i</code> has been replaced by <code>0</code>. Using <code>intro</code> to introduce each assumption and then simplifying using <code>insertSorted</code> will prove the goal, because <code>insertSorted</code> at index <code>zero</code> returns its argument unchanged:</p>
+<p>In the base case, each occurrence of <code>i</code> has been replaced by <code>0</code>.
+Using <code>intro</code> to introduce each assumption and then simplifying using <code>insertSorted</code> will prove the goal, because <code>insertSorted</code> at index <code>zero</code> returns its argument unchanged:</p>
 <pre><code class="language-output error">unsolved goals
 case zero
 α : Type u_1
@@ -465,7 +520,8 @@ len : Nat
 ⊢ ∀ (arr : Array α) (isLt : Nat.zero &lt; Array.size arr),
     Array.size arr = len → Array.size (insertSorted arr { val := Nat.zero, isLt := isLt }) = len
 </code></pre>
-<p>In the inductive step, the induction hypothesis has exactly the right strength. It will be useful for <em>any</em> array, so long as that array has length <code>len</code>:</p>
+<p>In the inductive step, the induction hypothesis has exactly the right strength.
+It will be useful for <em>any</em> array, so long as that array has length <code>len</code>:</p>
 <pre><code class="language-output error">unsolved goals
 case succ
 α : Type u_1
@@ -497,7 +553,8 @@ isLt : Nat.zero &lt; Array.size arr
 hLen : Array.size arr = len
 ⊢ Array.size arr = len
 </code></pre>
-<p>This can be proved using the assumption <code>hLen</code>. Adding the <code>*</code> parameter to <code>simp</code> instructs it to additionally use assumptions, which solves the goal:</p>
+<p>This can be proved using the assumption <code>hLen</code>.
+Adding the <code>*</code> parameter to <code>simp</code> instructs it to additionally use assumptions, which solves the goal:</p>
 <pre><code class="language-leantac">theorem insert_sorted_size_eq [Ord α] (len : Nat) (i : Nat) :
     (arr : Array α) → (isLt : i &lt; arr.size) → arr.size = len →
     (insertSorted arr ⟨i, isLt⟩).size = len := by
@@ -546,7 +603,8 @@ hLen : Array.size arr = len
                       { val := Nat.succ i', isLt := isLt })) }) =
     len
 </code></pre>
-<p>Using the <code>split</code> tactic results in one goal for each pattern. Once again, the first two goals result from branches without recursive calls, so the induction hypothesis is not necessary:</p>
+<p>Using the <code>split</code> tactic results in one goal for each pattern.
+Once again, the first two goals result from branches without recursive calls, so the induction hypothesis is not necessary:</p>
 <pre><code class="language-leantac">theorem insert_sorted_size_eq [Ord α] (len : Nat) (i : Nat) :
     (arr : Array α) → (isLt : i &lt; arr.size) → (arr.size = len) →
     (insertSorted arr ⟨i, isLt⟩).size = len := by
@@ -650,7 +708,8 @@ heq✝ : compare arr[i'] arr[{ val := Nat.succ i', isLt := isLt }] = Ordering.gt
                     { val := Nat.succ i', isLt := isLt })) }) =
     len
 </code></pre>
-<p>The new formulation of the proof goal, in which a constant <code>len</code> is used for the lengths of all the arrays involved in the recursive function, falls nicely within the kinds of problems that <code>simp</code> can solve. This final proof goal can be solved by <code>simp [*]</code>, because the assumptions that relate the array's length to <code>len</code> are important:</p>
+<p>The new formulation of the proof goal, in which a constant <code>len</code> is used for the lengths of all the arrays involved in the recursive function, falls nicely within the kinds of problems that <code>simp</code> can solve.
+This final proof goal can be solved by <code>simp [*]</code>, because the assumptions that relate the array's length to <code>len</code> are important:</p>
 <pre><code class="language-leantac">theorem insert_sorted_size_eq [Ord α] (len : Nat) (i : Nat) :
     (arr : Array α) → (isLt : i &lt; arr.size) → (arr.size = len) →
     (insertSorted arr ⟨i, isLt⟩).size = len := by
@@ -677,7 +736,8 @@ heq✝ : compare arr[i'] arr[{ val := Nat.succ i', isLt := isLt }] = Ordering.gt
     simp [insertSorted]
     split &lt;;&gt; simp [*]
 </code></pre>
-<p>This proof can now be used to replace the <code>sorry</code> in <code>insertionSortLoop</code>. Providing <code>arr.size</code> as the <code>len</code> argument to the theorem causes the final conclusion to be <code>(insertSorted arr ⟨i, isLt⟩).size = arr.size</code>, so the rewrite ends with a very manageable proof goal:</p>
+<p>This proof can now be used to replace the <code>sorry</code> in <code>insertionSortLoop</code>.
+Providing <code>arr.size</code> as the <code>len</code> argument to the theorem causes the final conclusion to be <code>(insertSorted arr ⟨i, isLt⟩).size = arr.size</code>, so the rewrite ends with a very manageable proof goal:</p>
 <pre><code class="language-leantacnorfl">  def insertionSortLoop [Ord α] (arr : Array α) (i : Nat) : Array α :=
     if h : i &lt; arr.size then
       have : (insertSorted arr ⟨i, h⟩).size - (i + 1) &lt; arr.size - i := by
@@ -695,7 +755,8 @@ i : Nat
 h : i &lt; Array.size arr
 ⊢ Array.size arr - (i + 1) &lt; Array.size arr - i
 </code></pre>
-<p>The proof <code>Nat.sub_succ_lt_self</code> is part of Lean's standard library. It's type is <code>∀ (a i : Nat), i &lt; a → a - (i + 1) &lt; a - i</code>, which is exactly what's needed:</p>
+<p>The proof <code>Nat.sub_succ_lt_self</code> is part of Lean's standard library.
+It's type is <code>∀ (a i : Nat), i &lt; a → a - (i + 1) &lt; a - i</code>, which is exactly what's needed:</p>
 <pre><code class="language-leantacnorfl">def insertionSortLoop [Ord α] (arr : Array α) (i : Nat) : Array α :=
   if h : i &lt; arr.size then
     have : (insertSorted arr ⟨i, h⟩).size - (i + 1) &lt; arr.size - i := by
@@ -721,10 +782,22 @@ termination_by insertionSortLoop arr i =&gt; arr.size - i
 <pre><code class="language-output info">#[&quot;granite&quot;, &quot;hematite&quot;, &quot;marble&quot;, &quot;quartz&quot;]
 </code></pre>
 <h2 id="is-this-really-insertion-sort"><a class="header" href="#is-this-really-insertion-sort">Is This Really Insertion Sort?</a></h2>
-<p>Insertion sort is <em>defined</em> to be an in-place sorting algorithm. What makes it useful, despite its quadratic worst-case run time, is that it is a stable sorting algorithm that doesn't allocate extra space and that handles almost-sorted data efficiently. If each iteration of the inner loop allocated a new array, then the algorithm wouldn't <em>really</em> be insertion sort.</p>
-<p>Lean's array operations, such as <code>Array.set</code> and <code>Array.swap</code>, check whether the array in question has a reference count that is greater than one. If so, then the array is visible to multiple parts of the code, which means that it must be copied. Otherwise, Lean would no longer be a pure functional language. However, when the reference count is exactly one, there are no other potential observers of the value. In these cases, the array primitives mutate the array in place. What other parts of the program don't know can't hurt them.</p>
-<p>Lean's proof logic works at the level of pure functional programs, not the underlying implementation. This means that the best way to discover whether a program unnecessarily copies data is to test it. Adding calls to <code>dbgTraceIfShared</code> at each point where mutation is desired causes the provided message to be printed to <code>stderr</code> when the value in question has more than one reference.</p>
-<p>Insertion sort has precisely one place that is at risk of copying rather than mutating: the call to <code>Array.swap</code>. Replacing <code>arr.swap ⟨i', by assumption⟩ i</code> with <code>((dbgTraceIfShared &quot;array to swap&quot; arr).swap ⟨i', by assumption⟩ i)</code> causes the program to emit <code>shared RC array to swap</code> whenever it is unable to mutate the array. However, this change to the program changes the proofs as well, because now there's a call to an additional function. Because <code>dbgTraceIfShared</code> returns its second argument directly, adding it to the calls to <code>simp</code> is enough to fix the proofs.</p>
+<p>Insertion sort is <em>defined</em> to be an in-place sorting algorithm.
+What makes it useful, despite its quadratic worst-case run time, is that it is a stable sorting algorithm that doesn't allocate extra space and that handles almost-sorted data efficiently.
+If each iteration of the inner loop allocated a new array, then the algorithm wouldn't <em>really</em> be insertion sort.</p>
+<p>Lean's array operations, such as <code>Array.set</code> and <code>Array.swap</code>, check whether the array in question has a reference count that is greater than one.
+If so, then the array is visible to multiple parts of the code, which means that it must be copied.
+Otherwise, Lean would no longer be a pure functional language.
+However, when the reference count is exactly one, there are no other potential observers of the value.
+In these cases, the array primitives mutate the array in place.
+What other parts of the program don't know can't hurt them.</p>
+<p>Lean's proof logic works at the level of pure functional programs, not the underlying implementation.
+This means that the best way to discover whether a program unnecessarily copies data is to test it.
+Adding calls to <code>dbgTraceIfShared</code> at each point where mutation is desired causes the provided message to be printed to <code>stderr</code> when the value in question has more than one reference.</p>
+<p>Insertion sort has precisely one place that is at risk of copying rather than mutating: the call to <code>Array.swap</code>.
+Replacing <code>arr.swap ⟨i', by assumption⟩ i</code> with <code>((dbgTraceIfShared &quot;array to swap&quot; arr).swap ⟨i', by assumption⟩ i)</code> causes the program to emit <code>shared RC array to swap</code> whenever it is unable to mutate the array.
+However, this change to the program changes the proofs as well, because now there's a call to an additional function.
+Because <code>dbgTraceIfShared</code> returns its second argument directly, adding it to the calls to <code>simp</code> is enough to fix the proofs.</p>
 <p>The complete instrumented code for insertion sort is:</p>
 <pre><code class="language-leantacnorfl">def insertSorted [Ord α] (arr : Array α) (i : Fin arr.size) : Array α :=
   match i with
@@ -764,7 +837,13 @@ termination_by insertionSortLoop arr i =&gt; arr.size - i
 def insertionSort [Ord α] (arr : Array α) : Array α :=
   insertionSortLoop arr 0
 </code></pre>
-<p>A bit of cleverness is required to check whether the instrumentation actually works. First off, the Lean compiler aggressively optimizes function calls away when all their arguments are known at compile time. Simply writing a program that applies <code>insertionSort</code> to a large array is not sufficient, because the resulting compiled code may contain only the sorted array as a constant. The easiest way to ensure that the compiler doesn't optimize away the sorting routine is to read the array from <code>stdin</code>. Secondly, the compiler performs dead code elimination. Adding extra <code>let</code>s to the program won't necessarily result in more references in running code if the <code>let</code>-bound variables are never used. To ensure that the extra reference is not eliminated entirely, it's important to ensure that the extra reference is somehow used.</p>
+<p>A bit of cleverness is required to check whether the instrumentation actually works.
+First off, the Lean compiler aggressively optimizes function calls away when all their arguments are known at compile time.
+Simply writing a program that applies <code>insertionSort</code> to a large array is not sufficient, because the resulting compiled code may contain only the sorted array as a constant.
+The easiest way to ensure that the compiler doesn't optimize away the sorting routine is to read the array from <code>stdin</code>.
+Secondly, the compiler performs dead code elimination.
+Adding extra <code>let</code>s to the program won't necessarily result in more references in running code if the <code>let</code>-bound variables are never used.
+To ensure that the extra reference is not eliminated entirely, it's important to ensure that the extra reference is somehow used.</p>
 <p>The first step in testing the instrumentation is to write <code>getLines</code>, which reads an array of lines from standard input:</p>
 <pre><code class="language-lean">def getLines : IO (Array String) := do
   let stdin ← IO.getStdin
@@ -776,8 +855,13 @@ def insertionSort [Ord α] (arr : Array α) : Array α :=
     currLine ← stdin.getLine
   pure lines
 </code></pre>
-<p><code>IO.FS.Stream.getLine</code> returns a complete line of text, including the trailing newline. It returns <code>&quot;&quot;</code> when the end-of-file marker has been reached.</p>
-<p>Next, two separate <code>main</code> routines are needed. Both read the array to be sorted from standard input, ensuring that the calls to <code>insertionSort</code> won't be replaced by their return values at compile time. Both then print to the console, ensuring that the calls to <code>insertionSort</code> won't be optimized away entirely. One of them prints only the sorted array, while the other prints both the sorted array and the original array. The second function should trigger a warning that <code>Array.swap</code> had to allocate a new array:</p>
+<p><code>IO.FS.Stream.getLine</code> returns a complete line of text, including the trailing newline.
+It returns <code>&quot;&quot;</code> when the end-of-file marker has been reached.</p>
+<p>Next, two separate <code>main</code> routines are needed.
+Both read the array to be sorted from standard input, ensuring that the calls to <code>insertionSort</code> won't be replaced by their return values at compile time.
+Both then print to the console, ensuring that the calls to <code>insertionSort</code> won't be optimized away entirely.
+One of them prints only the sorted array, while the other prints both the sorted array and the original array.
+The second function should trigger a warning that <code>Array.swap</code> had to allocate a new array:</p>
 <pre><code class="language-lean">def mainUnique : IO Unit := do
   let lines ← getLines
   for line in insertionSort lines do
@@ -855,10 +939,16 @@ gneiss
 marble
 flint
 </code></pre>
-<p>The fact that only a single <code>shared RC</code> notification appears means that the array is copied only once. This is because the copy that results from the call to <code>Array.swap</code> is itself unique, so no further copies need to be made. In an imperative language, subtle bugs can result from forgetting to explicitly copy an array before passing it by reference. When running <code>sort --shared</code>, the array is copied as needed to preserve the pure functional meaning of Lean programs, but no more.</p>
+<p>The fact that only a single <code>shared RC</code> notification appears means that the array is copied only once.
+This is because the copy that results from the call to <code>Array.swap</code> is itself unique, so no further copies need to be made.
+In an imperative language, subtle bugs can result from forgetting to explicitly copy an array before passing it by reference.
+When running <code>sort --shared</code>, the array is copied as needed to preserve the pure functional meaning of Lean programs, but no more.</p>
 <h2 id="other-opportunities-for-mutation"><a class="header" href="#other-opportunities-for-mutation">Other Opportunities for Mutation</a></h2>
-<p>The use of mutation instead of copying when references are unique is not limited to array update operators. Lean also attempts to &quot;recycle&quot; constructors whose reference counts are about to fall to zero, reusing them instead of allocating new data. This means, for instance, that <code>List.map</code> will mutate a linked list in place, at least in cases when nobody could possibly notice. One of the most important steps in optimizing hot loops in Lean code is making sure that the data being modified is not referred to from multiple locations.</p>
-<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<p>The use of mutation instead of copying when references are unique is not limited to array update operators.
+Lean also attempts to &quot;recycle&quot; constructors whose reference counts are about to fall to zero, reusing them instead of allocating new data.
+This means, for instance, that <code>List.map</code> will mutate a linked list in place, at least in cases when nobody could possibly notice.
+One of the most important steps in optimizing hot loops in Lean code is making sure that the data being modified is not referred to from multiple locations.</p>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <ul>
 <li>
 <p>Write a function that reverses arrays. Test that if the input array has a reference count of one, then your function does not allocate a new array.</p>

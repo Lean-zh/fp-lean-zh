@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>其他便利的功能 - Functional Programming in Lean</title>
+        <title>其他便利的功能 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -108,7 +108,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Functional Programming in Lean</h1>
+                    <h1 class="menu-title">Lean 函数式编程</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -138,9 +138,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="其他便利功能"><a class="header" href="#其他便利功能">其他便利功能</a></h1>
+                        <h1 id="additional-conveniences"><a class="header" href="#additional-conveniences">Additional Conveniences</a></h1>
 <h2 id="shared-argument-types"><a class="header" href="#shared-argument-types">Shared Argument Types</a></h2>
-<p>When defining a function that takes multiple arguments that have the same type, both can be written before the same colon. For example,</p>
+<p>When defining a function that takes multiple arguments that have the same type, both can be written before the same colon.
+For example,</p>
 <pre><code class="language-lean">def equal? [BEq α] (x : α) (y : α) : Option α :=
   if x == y then
     some x
@@ -156,7 +157,10 @@
 </code></pre>
 <p>This is especially useful when the type signature is large.</p>
 <h2 id="leading-dot-notation"><a class="header" href="#leading-dot-notation">Leading Dot Notation</a></h2>
-<p>The constructors of an inductive type are in a namespace. This allows multiple related inductive types to use the same constructor names, but it can lead to programs becoming verbose. In contexts where the inductive type in question is known, the namespace can be omitted by preceding the constructor's name with a dot, and Lean uses the expected type to resolve the constructor names. For example, a function that mirrors a binary tree can be written:</p>
+<p>The constructors of an inductive type are in a namespace.
+This allows multiple related inductive types to use the same constructor names, but it can lead to programs becoming verbose.
+In contexts where the inductive type in question is known, the namespace can be omitted by preceding the constructor's name with a dot, and Lean uses the expected type to resolve the constructor names.
+For example, a function that mirrors a binary tree can be written:</p>
 <pre><code class="language-lean">def BinTree.mirror : BinTree α → BinTree α
   | BinTree.leaf =&gt; BinTree.leaf
   | BinTree.branch l x r =&gt; BinTree.branch (mirror r) x (mirror l)
@@ -166,7 +170,8 @@
   | .leaf =&gt; .leaf
   | .branch l x r =&gt; .branch (mirror r) x (mirror l)
 </code></pre>
-<p>Using the expected type of an expression to disambiguate a namespace is also applicable to names other than constructors. If <code>BinTree.empty</code> is defined as an alternative way of creating <code>BinTree</code>s, then it can also be used with dot notation:</p>
+<p>Using the expected type of an expression to disambiguate a namespace is also applicable to names other than constructors.
+If <code>BinTree.empty</code> is defined as an alternative way of creating <code>BinTree</code>s, then it can also be used with dot notation:</p>
 <pre><code class="language-lean">def BinTree.empty : BinTree α := .leaf
 
 #check (.empty : BinTree Nat)
@@ -174,7 +179,8 @@
 <pre><code class="language-output info">BinTree.empty : BinTree Nat
 </code></pre>
 <h2 id="or-patterns"><a class="header" href="#or-patterns">Or-Patterns</a></h2>
-<p>In contexts that allow multiple patterns, such as <code>match</code>-expressions, multiple patterns may share their result expressions. The datatype <code>Weekday</code> that represents days of the week:</p>
+<p>In contexts that allow multiple patterns, such as <code>match</code>-expressions, multiple patterns may share their result expressions.
+The datatype <code>Weekday</code> that represents days of the week:</p>
 <pre><code class="language-lean">inductive Weekday where
   | monday
   | tuesday
@@ -210,15 +216,18 @@
   | .saturday | .sunday =&gt; true
   | _ =&gt; false
 </code></pre>
-<p>Behind the scenes, the result expression is simply duplicated across each pattern. This means that patterns can bind variables, as in this example that removes the <code>inl</code> and <code>inr</code> constructors from a sum type in which both contain the same type of value:</p>
+<p>Behind the scenes, the result expression is simply duplicated across each pattern.
+This means that patterns can bind variables, as in this example that removes the <code>inl</code> and <code>inr</code> constructors from a sum type in which both contain the same type of value:</p>
 <pre><code class="language-lean">def condense : α ⊕ α → α
   | .inl x | .inr x =&gt; x
 </code></pre>
-<p>Because the result expression is duplicated, the variables bound by the patterns are not required to have the same types. Overloaded functions that work for multiple types may be used to write a single result expression that works for patterns that bind variables of different types:</p>
+<p>Because the result expression is duplicated, the variables bound by the patterns are not required to have the same types.
+Overloaded functions that work for multiple types may be used to write a single result expression that works for patterns that bind variables of different types:</p>
 <pre><code class="language-lean">def stringy : Nat ⊕ Weekday → String
   | .inl x | .inr x =&gt; s!&quot;It is {repr x}&quot;
 </code></pre>
-<p>In practice, only variables shared in all patterns can be referred to in the result expression, because the result must make sense for each pattern. In <code>getTheNat</code>, only <code>n</code> can be accessed, and attempts to use either <code>x</code> or <code>y</code> lead to errors.</p>
+<p>In practice, only variables shared in all patterns can be referred to in the result expression, because the result must make sense for each pattern.
+In <code>getTheNat</code>, only <code>n</code> can be accessed, and attempts to use either <code>x</code> or <code>y</code> lead to errors.</p>
 <pre><code class="language-lean">def getTheNat : (Nat × α) ⊕ (Nat × β) → Nat
   | .inl (n, x) | .inr (n, y) =&gt; n
 </code></pre>
@@ -228,13 +237,15 @@
 </code></pre>
 <pre><code class="language-output error">unknown identifier 'x'
 </code></pre>
-<p>The fact that the result expression is essentially copy-pasted to each branch of the pattern match can lead to some surprising behavior. For example, the following definitions are acceptable because the <code>inr</code> version of the result expression refers to the global definition of <code>str</code>:</p>
+<p>The fact that the result expression is essentially copy-pasted to each branch of the pattern match can lead to some surprising behavior.
+For example, the following definitions are acceptable because the <code>inr</code> version of the result expression refers to the global definition of <code>str</code>:</p>
 <pre><code class="language-lean">def str := &quot;Some string&quot;
 
 def getTheString : (Nat × String) ⊕ (Nat × β) → String
   | .inl (n, str) | .inr (n, y) =&gt; str
 </code></pre>
-<p>Calling this function on both constructors reveals the confusing behavior. In the first case, a type annotation is needed to tell Lean which type <code>β</code> should be:</p>
+<p>Calling this function on both constructors reveals the confusing behavior.
+In the first case, a type annotation is needed to tell Lean which type <code>β</code> should be:</p>
 <pre><code class="language-lean">#eval getTheString (.inl (20, &quot;twenty&quot;) : (Nat × String) ⊕ (Nat × String))
 </code></pre>
 <pre><code class="language-output info">&quot;twenty&quot;
@@ -244,7 +255,8 @@ def getTheString : (Nat × String) ⊕ (Nat × β) → String
 </code></pre>
 <pre><code class="language-output info">&quot;Some string&quot;
 </code></pre>
-<p>Using or-patterns can vastly simplify some definitions and increase their clarity, as in <code>Weekday.isWeekend</code>. Because there is a potential for confusing behavior, it's a good idea to be careful when using them, especially when variables of multiple types or disjoint sets of variables are involved.</p>
+<p>Using or-patterns can vastly simplify some definitions and increase their clarity, as in <code>Weekday.isWeekend</code>.
+Because there is a potential for confusing behavior, it's a good idea to be careful when using them, especially when variables of multiple types or disjoint sets of variables are involved.</p>
 
                     </main>
 
