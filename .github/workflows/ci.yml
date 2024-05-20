@@ -61,17 +61,13 @@ jobs:
 
     - name: Build example code
       run: |
-        cargo install mdbook-i18n-helpers
-
-    - name: Build example code
-      run: |
         cd examples
         lake build
 
     - name: Build book
       run: |
         cd functional-programming-lean
-        MDBOOK_BOOK__LANGUAGE=zh-CN mdbook build
+        mdbook build
 
     - name: Zip html contents
       run: |
