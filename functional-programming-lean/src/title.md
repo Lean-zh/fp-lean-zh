@@ -14,6 +14,8 @@
 
 *版权所有：Microsoft Corporation 2023*
 
+**[Lean-zh 项目组](https://github.com/orgs/Lean-zh) 译**
+
 <!--
 This is a free book on using Lean 4 as a programming language. All code samples are tested with Lean 4 release `{{#lean_version}}`.
 -->

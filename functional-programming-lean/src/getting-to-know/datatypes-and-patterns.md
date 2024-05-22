@@ -37,10 +37,6 @@ Recursive sum types are called _inductive datatypes_, because mathematical induc
 When programming, inductive datatypes are consumed through pattern matching and recursive functions.
 -->
 
-Datatypes that allow choices are called _sum types_ and datatypes that can include instances of themselves are called _recursive datatypes_.
-Recursive sum types are called _inductive datatypes_, because mathematical induction may be used to prove statements about them.
-When programming, inductive datatypes are consumed through pattern matching and recursive functions.
-
 允许选择的类型称为**和类型（Sum Type）**，而可以包含自身实例的类型称为
 **递归类型（Recursive Datatype）**。递归和类型称**归纳类型（Inductive Datatype）**，
 因为可以用数学归纳法来证明有关它们的陈述。在编程时，归纳类型通过模式匹配和递归函数来消耗。
@@ -259,9 +255,6 @@ That smaller number can then be used to compute the final result of the expressi
 Just as the successor of some number \\( n \\) is one greater than \\( n \\) (that is, \\( n + 1\\)), the predecessor of a number is one less than it.
 If `pred` is a function that finds the predecessor of a `Nat`, then it should be the case that the following examples find the expected result:
 -->
-
-Just as the successor of some number \\( n \\) is one greater than \\( n \\) (that is, \\( n + 1\\)), the predecessor of a number is one less than it.
-If `pred` is a function that finds the predecessor of a `Nat`, then it should be the case that the following examples find the expected result:
 
 正如某个数字 \\( n \\) 的后继比 \\( n \\) 大 1（即 \\( n + 1\\)），
 某个数字的前驱比它小 1。如果 `pred` 是一个查找 `Nat` 前驱的函数，

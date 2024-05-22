@@ -579,7 +579,7 @@ Lean 需要能够找到它的类型，而类型不可用，因为空列表没有
 The type can also be provided with a type annotation:
 -->
 
-类型也可以用类型注解提供：
+类型也可以用类型标注提供：
 
 ```lean
 {{#example_in Examples/Intro.lean headNoneTwo}}
