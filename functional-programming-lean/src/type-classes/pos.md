@@ -1,21 +1,21 @@
-<!-- 
-# Positive Numbers 
+<!--
+# Positive Numbers
 -->
 
 # 正数
 
-<!-- 
+<!--
 In some applications, only positive numbers make sense.
 For example, compilers and interpreters typically use one-indexed line and column numbers for source positions, and a datatype that represents only non-empty lists will never report a length of zero.
-Rather than relying on natural numbers, and littering the code with assertions that the number is not zero, it can be useful to design a datatype that represents only positive numbers. 
+Rather than relying on natural numbers, and littering the code with assertions that the number is not zero, it can be useful to design a datatype that represents only positive numbers.
 -->
 
 在一些应用场景下，我们只需要用到正数。
 对于编译器和解释器来说，它们通常使用起始于1的行和列数来表示源代码位置，
 并且一个用于表示非空列表的数据结构永远不会出现长度为零的情况。
 
-<!-- 
-One way to represent positive numbers is very similar to `Nat`, except with `one` as the base case instead of `zero`: 
+<!--
+One way to represent positive numbers is very similar to `Nat`, except with `one` as the base case instead of `zero`:
 -->
 
 一种表示正数的方法其实和 `Nat` 十分相似，只是用 `one` 作为基本情况而不是 `zero` 。
@@ -24,9 +24,9 @@ One way to represent positive numbers is very similar to `Nat`, except with `one
 {{#example_decl Examples/Classes.lean Pos}}
 ```
 
-<!-- 
+<!--
 This datatype represents exactly the intended set of values, but it is not very convenient to use.
-For example, numeric literals are rejected: 
+For example, numeric literals are rejected:
 -->
 
 这个数据类型很好的代表了我们期望的值的集合，但是它用起来并不是很方便。比如说，无法使用数字字面量。
@@ -38,8 +38,8 @@ For example, numeric literals are rejected:
 {{#example_out Examples/Classes.lean sevenOops}}
 ```
 
-<!-- 
-Instead, the constructors must be used directly: 
+<!--
+Instead, the constructors must be used directly:
 -->
 
 而是必须要直接使用构造子。
@@ -48,8 +48,8 @@ Instead, the constructors must be used directly:
 {{#example_decl Examples/Classes.lean seven}}
 ```
 
-<!-- 
-Similarly, addition and multiplication are not easy to use: 
+<!--
+Similarly, addition and multiplication are not easy to use:
 -->
 
 类似地，加法和乘法用起来也很费劲。
@@ -67,27 +67,27 @@ Similarly, addition and multiplication are not easy to use:
 {{#example_out Examples/Classes.lean fortyNineOops}}
 ```
 
-<!-- 
+<!--
 Each of these error messages begins with `failed to synthesize instance`.
-This indicates that the error is due to an overloaded operation that has not been implemented, and it describes the type class that must be implemented. 
+This indicates that the error is due to an overloaded operation that has not been implemented, and it describes the type class that must be implemented.
 -->
 
 这类错误都会以 `failed to synthesize instance` 开头。这意味着这个错误是因为使用的操作符重载还没有被实现，
 并且指出了应该实现的类型类。
 
-<!-- 
-## Classes and Instances 
+<!--
+## Classes and Instances
 -->
 
 ## 类与实例
 
-<!-- 
+<!--
 A type class consists of a name, some parameters, and a collection of _methods_.
 The parameters describe the types for which overloadable operations are being defined, and the methods are the names and type signatures of the overloadable operations.
 Once again, there is a terminology clash with object-oriented languages.
 In object-oriented programming, a method is essentially a function that is connected to a particular object in memory, with special access to the object's private state.
 Objects are interacted with via their methods.
-In Lean, the term "method" refers to an operation that has been declared to be overloadable, with no special connection to objects or values or private fields. 
+In Lean, the term "method" refers to an operation that has been declared to be overloadable, with no special connection to objects or values or private fields.
 -->
 
 一个类型类是由名称，一些参数，和一族 **方法（method）** 构成的。参数定义了可重载运算符的类型，
@@ -119,7 +119,7 @@ Adding more instances allows `Plus.plus` to take more types of arguments.
 In the following type class declaration, `Plus` is the name of the class, `α : Type` is the only argument, and `plus : α → α → α` is the only method:
 -->
 
-在下面的类型类声明中，`Plus`是类的名称，`α : Type`是唯一的参数，并且`plus : α → α → α`是唯一的方法：
+在下面的类型类声明中，`Plus` 是类的名称，`α : Type` 是唯一的参数，并且 `plus : α → α → α` 是唯一的方法：
 
 ```lean
 {{#example_decl Examples/Classes.lean Plus}}
