@@ -12,7 +12,7 @@ This type says that `IO.println` accepts an argument of type `α`, which Lean sh
 It returns an `IO` action.
 -->
 
-编写适用于给定函数的 **任意** 重载可能会很有用。
+编写适用于给定函数的**任意**重载可能会很有用。
 例如，`IO.println` 适用于任何具有 `ToString` 实例的类型。这通过在所需实例周围使用方括号来表示：
 `IO.println` 的类型是 `{{#example_out Examples/Classes.lean printlnType}}`。
 这个类型表示 `IO.println` 接受一个类型为 `α` 的参数，并且 Lean 应该自动确定这个类型，
@@ -67,7 +67,7 @@ For now, ignore these parameters to `Type`.
 -->
 
 在这个输出信息中，实例本身被给予了 `inst` 这个名字。
-此外，`Type` 后面有一个 `u_1` ，这是 Lean 
+此外，`Type` 后面有一个 `u_1` ，这是 Lean
 目前，可以忽略这些Type的参数。
 
 <!--
@@ -127,12 +127,12 @@ This process relies only on the specific types involved in the function's defini
 For instance implicits, Lean instead consults a built-in table of instance values.
 -->
 
-在方括号中的所需实例规范被称为 **隐式实例** 。
+在方括号中的所需实例规范被称为**隐式实例**。
 在幕后，每个类型类都定义了一个结构，该结构具有每个重载操作的字段。
 实例是该结构类型的值，每个字段包含一个实现。
 在调用时，Lean负责为每个隐式实例参数找到一个实例值传递。
 普通的隐式参数和隐式实例最重要的不同就是 Lean 寻找参数值的策略。
-对于普通的隐式参数，Lean 使用一种被称为 **归一化** 的技术来找到一个唯一的能使程序通过类型检查的参数值。
+对于普通的隐式参数，Lean 使用一种被称为**归一化**的技术来找到一个唯一的能使程序通过类型检查的参数值。
 这个过程只依赖于函数定义中的具体类型和调用时。
 
 <!--
