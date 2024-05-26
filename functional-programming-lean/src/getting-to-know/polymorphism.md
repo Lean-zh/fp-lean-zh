@@ -579,7 +579,7 @@ Lean 需要能够找到它的类型，而类型不可用，因为空列表没有
 The type can also be provided with a type annotation:
 -->
 
-类型也可以用类型注解提供：
+类型也可以用类型标注提供：
 
 ```lean
 {{#example_in Examples/Intro.lean headNoneTwo}}
@@ -892,7 +892,7 @@ For example, for this inductive type:
 
 并非所有可定义的结构体或归纳类型都可以具有类型 `Type`。
 特别是，如果一个构造子将任意类型作为参数，则归纳类型必须具有不同的类型。
-这些错误通常会说明一些关于「全类层级」的内容。例如，对于这个归纳类型：
+这些错误通常会说明一些关于「宇宙层级」的内容。例如，对于这个归纳类型：
 
 ```lean
 {{#example_in Examples/Intro.lean TypeInType}}
