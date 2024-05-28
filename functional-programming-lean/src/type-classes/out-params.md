@@ -299,8 +299,8 @@ Each operator that exists in overloadable heterogeneous and homogeneous versions
 The infix operator is replaced with a call to the heterogeneous version, and the homogeneous default instance is selected when possible.
 -->
 
-每个同时具有可重载异质和同质版本的操作符都遵循在期望使用异质版本的语境中可以使用同质版本作为默认实例的设计模式。
-中缀运算符会被替换为对异质版本的调用，同质的默认实例会在可能的时候被选取。
+每个同时重载了异质和同质运算的运算符，都能在默认实例需要异质运算的语境中使用同质运算。
+中缀运算符会被替换为异质运算，并且在需要时尽可能选择同质的默认实例。
 
 <!--
 Similarly, simply writing `{{#example_in Examples/Classes.lean fiveType}}` gives a `{{#example_out Examples/Classes.lean fiveType}}` rather than a type with a metavariable that is waiting for more information in order to select an `OfNat` instance.
