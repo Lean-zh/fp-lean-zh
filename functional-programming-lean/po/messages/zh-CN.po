@@ -11391,6 +11391,7 @@ msgstr ""
 "类拦截在编译函数应用程序时原本会出现的“不是函数”错误，并允许在可能的情况下将函数位置中的值转换为实际函数。"
 
 #: src/monads.md:3
+#, fuzzy
 msgid ""
 "In C# and Kotlin, the `?.` operator is a way to look up a property or call a"
 " method on a potentially-null value. If the receiver is `null`, the whole "
@@ -11399,11 +11400,12 @@ msgid ""
 "terminates the chain of lookups. Chaining null-checks like this is much more"
 " convenient than writing and maintaining deeply nested `if`s."
 msgstr ""
-"在 C# 和 Kotlin 中，`?.` 运算符是一种在可能为 null 的值上查找属性或调用方法的方式。如果 `?.` 前的值为 `null`，则整个表达式为 "
-"null。否则，该非 `null` 值会被用于调用。多个 `?.` 可以链接起来，在这种情况下，第一个 `null` "
-"结果将终止查找链。像这样链接null检查比编写和维护深层嵌套的 `if` 方便得多。"
+"在 C# 和 Kotlin 中，`?.` 运算符是一种在可能为 null 的值上查找属性或调用方法的方式。如果接收者为 `null`，则整个表达式为 "
+"null。否则，基础非 `null` 值接收调用。`?.` 的用法可以链接，在这种情况下，第一个 `null` "
+"结果将终止查找链。像这样链接空检查比编写和维护深度嵌套的 `if` 方便得多。"
 
 #: src/monads.md:9
+#, fuzzy
 msgid ""
 "Similarly, exceptions are significantly more convenient than manually "
 "checking and propagating error codes. At the same time, logging is easiest "
@@ -11413,9 +11415,10 @@ msgid ""
 "this use case, while logging frameworks typically make use of side effects "
 "to decouple code that logs from the accumulation of the logs."
 msgstr ""
-"类似地，异常机制比手动检查和传递错误码方便得多。同时，通过使用专用日志记录框架（而不是让每个函数同时返回其日志结果和返回值）可以轻松地完成日志记录。链接的空检查和异常通常要求语言设计者预料到这种用法，而日志记录框架通常利用副作用将记录日志的代码与日志的累积解耦。"
+"同样，异常比手动检查和传播错误代码方便得多。同时，通过使用专用日志记录框架（而不是让每个函数同时返回其日志结果和返回值）可以最轻松地完成日志记录。链接的空检查和异常通常要求语言设计者预见到此用例，而日志记录框架通常利用副作用将记录日志的代码与日志的累积解耦。"
 
 #: src/monads.md:13
+#, fuzzy
 msgid ""
 "All these features and more can be implemented in library code as instances "
 "of a common API called `Monad`. Lean provides dedicated syntax that makes "
@@ -11425,39 +11428,45 @@ msgid ""
 "to the convenient, general API. Please suspend your disbelief in the "
 "meantime."
 msgstr ""
-"所有这些功能以及更多功能都可以作为通用 API —— `Monad` 的实例在库代码中实现。Lean 提供了专门的语法，使此 API "
+"所有这些功能以及更多功能都可以作为通用 API `Monad` 的实例在库代码中实现。Lean 提供了专门的语法，使此 API "
 "易于使用，但也会妨碍理解幕后发生的事情。本章从手动嵌套空检查的细节介绍开始，并由此构建到方便、通用的 API。在此期间，请暂时搁置你的怀疑。"
 
 #: src/monads.md:18
+#, fuzzy
 msgid "Checking for `none`: Don't Repeat Yourself"
-msgstr "检查 `none`：避免重复代码"
+msgstr "检查 `none`：不要重复自己"
 
 #: src/monads.md:20
+#, fuzzy
 msgid ""
 "In Lean, pattern matching can be used to chain checks for null. Getting the "
 "first entry from a list can just use the optional indexing notation:"
-msgstr "在 Lean 中，模式匹配可用于链接空检查。从列表中获取第一个项可通过可选的索引记号："
+msgstr "在 Lean 中，模式匹配可用于链接空检查。从列表中获取第一个条目可以使用可选的索引表示法："
 
 #: src/monads.md:26
+#, fuzzy
 msgid ""
 "The result must be an `Option` because empty lists have no first entry. "
 "Extracting the first and third entries requires a check that each is not "
 "`none`:"
-msgstr "结果必须是 `Option`，因为空列表没有第一个项。提取第一个和第三个项需要检查每个项非 `none`："
+msgstr "结果必须是 `Option`，因为空列表没有第一个条目。提取第一个和第三个条目需要检查每个条目是否不是 `none`："
 
 #: src/monads.md:38
+#, fuzzy
 msgid ""
 "Similarly, extracting the first, third, and fifth entries requires more "
 "checks that the values are not `none`:"
-msgstr "类似地，提取第一个、第三个和第五个项需要更多检查，以确保这些值不是 `none`："
+msgstr "同样，提取第一个、第三个和第五个条目需要更多检查，以确保这些值不是 `none`："
 
 #: src/monads.md:52
+#, fuzzy
 msgid ""
 "And adding the seventh entry to this sequence begins to become quite "
 "unmanageable:"
-msgstr "而将第七个项添加到此序列中开始变得相当难以管理："
+msgstr "而将第七个条目添加到此序列中开始变得相当难以管理："
 
 #: src/monads.md:71
+#, fuzzy
 msgid ""
 "The fundamental problem with this code is that it addresses two concerns: "
 "extracting the numbers and checking that all of them are present, but the "
@@ -11465,10 +11474,11 @@ msgid ""
 " `none` case. It is often good style to lift a repetitive segment into a "
 "helper function:"
 msgstr ""
-"这段代码的基本问题在于它解决了两个问题：提取数字和检查它们是否全部存在，但第二个问题是通过复制粘贴处理 `none` "
-"情况的代码来解决的。通常将重复的片段提取到辅助函数中是一种好的做法："
+"这段代码的基本问题在于它解决了两个问题：提取数字和检查它们是否全部存在，但第二个问题是通过复制和粘贴处理 `none` "
+"情况的代码来解决的。通常，将重复的片段提升到辅助函数中是一种好风格："
 
 #: src/monads.md:79
+#, fuzzy
 msgid ""
 "This helper, which is used similarly to `?.` in C# and Kotlin, takes care of"
 " propagating `none` values. It takes two arguments: an optional value and a "
@@ -11476,38 +11486,43 @@ msgid ""
 "`none`, then the helper returns `none`. If the first argument is not `none`,"
 " then the function is applied to the contents of the `some` constructor."
 msgstr ""
-"该辅助函数类似于 C# 和 Kotlin 中的 `?.`，用于处理 `none` 值。它接受两个参数：一个可选值和一个在该值非 `none` "
+"此辅助函数类似于 C# 和 Kotlin 中的 `?.`，用于处理 `none` 值。它接受两个参数：一个可选值和一个在该值不是 `none` "
 "时应用的函数。如果第一个参数是 `none`，则辅助函数返回 `none`。如果第一个参数不是 `none`，则该函数将应用于 `some` "
-"构造器的内容。"
+"构造函数的内容。"
 
 #: src/monads.md:84
+#, fuzzy
 msgid ""
 "Now, `firstThird` can be rewritten to use `andThen` instead of pattern "
 "matching:"
-msgstr "现在，`firstThird` 可以重写为使用 `andThen` 而非模式匹配："
+msgstr "现在，`firstThird` 可以重写为使用 `andThen` 而不是模式匹配："
 
 #: src/monads.md:91
+#, fuzzy
 msgid ""
 "In Lean, functions don't need to be enclosed in parentheses when passed as "
 "arguments. The following equivalent definition uses more parentheses and "
 "indents the bodies of functions:"
-msgstr "在 Lean 中，作为参数传递时，函数不需要用括号括起来。以下等价定义使用了更多括号并缩进了函数体："
+msgstr "在 Lean 中，作为参数传递时，函数不需要用括号括起来。以下等效定义使用了更多的括号并缩进了函数的主体："
 
 #: src/monads.md:99
+#, fuzzy
 msgid ""
 "The `andThen` helper provides a sort of \"pipeline\" through which values "
 "flow, and the version with the somewhat unusual indentation is more "
 "suggestive of this fact. Improving the syntax used to write `andThen` can "
 "make these computations even easier to understand."
 msgstr ""
-"`andThen` 辅助函数提供了一种让值流过的“管道”，具有特殊缩进的版本更能说明这一事实。改进 `andThen` "
-"的语法可以使其更容易阅读。"
+"`andThen` 辅助函数提供了一种值流经的“管道”，而具有有些不寻常缩进的版本更能说明这一事实。改进用于编写 `andThen` "
+"的语法可以使这些计算更容易理解。"
 
 #: src/monads.md:102
+#, fuzzy
 msgid "Infix Operators"
 msgstr "中缀运算符"
 
 #: src/monads.md:104
+#, fuzzy
 msgid ""
 "In Lean, infix operators can be declared using the `infix`, `infixl`, and "
 "`infixr` commands, which create (respectively) non-associative, left-"
@@ -11521,16 +11536,18 @@ msgid ""
 "parentheses."
 msgstr ""
 "在 Lean 中，可以使用 `infix`、`infixl` 和 `infixr` "
-"命令声明中缀运算符，它们分别声明非结合、左结合和右结合运算符。当连续多次使用时，**左结合** 运算符会将（开）括号堆叠在表达式的左侧。加法运算符 "
+"命令声明中缀运算符，它们分别创建（分别）非结合、左结合和右结合运算符。当连续多次使用时，_左结合_ 运算符会将左括号堆叠在表达式的左侧。加法运算符 "
 "`+` 是左结合的，因此 `w + x + y + z` 等价于 `(((w + x) + y) + z)`。指数运算符 `^` 是右结合的，因此 `w"
 " ^ x ^ y ^ z` 等价于 `(w ^ (x ^ (y ^ z)))`。比较运算符（如 `<`）是非结合的，因此 `x < y < z` "
 "是一个语法错误，需要手动添加括号。"
 
 #: src/monads.md:110
+#, fuzzy
 msgid "The following declaration makes `andThen` into an infix operator:"
 msgstr "以下声明将 `andThen` 声明为中缀运算符："
 
 #: src/monads.md:111
+#, fuzzy
 msgid ""
 "```lean\n"
 "infixl:55 \" ~~> \" => andThen\n"
@@ -11541,6 +11558,7 @@ msgstr ""
 "```"
 
 #: src/monads.md:114
+#, fuzzy
 msgid ""
 "The number following the colon declares the _precedence_ of the new infix "
 "operator. In ordinary mathematical notation, `x + y * z` is equivalent to `x"
@@ -11551,11 +11569,12 @@ msgid ""
 "Typically, figuring out the most convenient precedences for a group of "
 "operators requires some experimentation and a large collection of examples."
 msgstr ""
-"冒号后面的数字声明了新中缀运算符的**优先级**。在普通数学记号中，`x + y * z` 等价于 `x + (y * z)`，即使 `+` 和 `*` "
-"都是左结合的。在 Lean 中，`+` 的优先级为 65，`*` 的优先级为 70。优先级更高的运算符应用于优先级较低的运算符之前。根据 `~~>` "
+"冒号后面的数字声明了新中缀运算符的_优先级_。在普通数学符号中，`x + y * z` 等价于 `x + (y * z)`，即使 `+` 和 `*` "
+"都是左结合的。在 Lean 中，`+` 的优先级为 65，`*` 的优先级为 70。优先级更高的运算符在优先级较低的运算符之前应用。根据 `~~>` "
 "的声明，`+` 和 `*` 都具有更高的优先级，因此首先应用。通常，找出最适合一组运算符的优先级需要一些实验和大量的示例。"
 
 #: src/monads.md:121
+#, fuzzy
 msgid ""
 "Following the new infix operator is a double arrow `=>`, which specifies the"
 " named function to be used for the infix operator. Lean's standard library "
@@ -11564,26 +11583,30 @@ msgid ""
 "to overload the infix operators. Here, however, `andThen` is just an "
 "ordinary function."
 msgstr ""
-"在新的中缀运算符后面是一个双箭头 `=>`，指定中缀运算符使用的命名的函数。Lean 的标准库使用此功能将 `+` 和 `*` 定义为指向 "
-"`HAdd.hAdd` 和 `HMul.hMul` 的中缀运算符，从而允许类型类用于重载中缀运算符。然而这里 `andThen` 只是一个普通函数。"
+"在新的中缀运算符后面是一个双箭头 `=>`，它指定要用于中缀运算符的命名函数。Lean 的标准库使用此功能将 `+` 和 `*` 定义为指向 "
+"`HAdd.hAdd` 和 `HMul.hMul` 的中缀运算符，从而允许类型类用于重载中缀运算符。然而，这里 `andThen` 只是一个普通函数。"
 
 #: src/monads.md:125
+#, fuzzy
 msgid ""
 "Having defined an infix operator for `andThen`, `firstThird` can be "
 "rewritten in a way that brings the \"pipeline\" feeling of `none`\\-checks "
 "front and center:"
 msgstr ""
-"通过为 `andThen` 定义一个中缀运算符，`firstThird` 可以改写成一种将 `none` 检查的“管道”风格显化的方式："
+"通过为 `andThen` 定义一个中缀运算符，`firstThird` 可以改写成一种将 `none` 检查的“管道”感觉置于首要位置的方式："
 
 #: src/monads.md:132
+#, fuzzy
 msgid "This style is much more concise when writing larger functions:"
-msgstr "这种风格在编写较长的函数时更加简洁："
+msgstr "这种风格在编写较大的函数时更加简洁："
 
 #: src/monads.md:142
+#, fuzzy
 msgid "Propagating Error Messages"
-msgstr "传递错误消息"
+msgstr "传播错误消息"
 
 #: src/monads.md:144
+#, fuzzy
 msgid ""
 "Pure functional languages such as Lean have no built-in exception mechanism "
 "for error handling, because throwing or catching an exception is outside of "
@@ -11592,32 +11615,36 @@ msgid ""
 "`firstThirdFifthSeventh`, it is likely relevant for a user to know just how "
 "long the list was and where the lookup failed."
 msgstr ""
-"像 Lean 这样的纯函数式语言没有用于错误处理的内置异常机制，因为抛出或捕获异常超出了表达式逐步求值模型考虑的范围。然而函数式程序肯定需要处理错误。在 "
+"像 Lean 这样的纯函数式语言没有用于错误处理的内置异常机制，因为抛出或捕获异常超出了表达式逐步求值模型的范围。然而，函数式程序肯定需要处理错误。在 "
 "`firstThirdFifthSeventh` 的情况下，用户很可能需要知道列表有多长以及查找失败的位置。"
 
 #: src/monads.md:148
+#, fuzzy
 msgid ""
 "This is typically accomplished by defining a datatype that can be either an "
 "error or a result, and translating functions with exceptions into functions "
 "that return this datatype:"
-msgstr "这通常通过定义一个不然是错误、不然是结果的数据类型，并将带有异常的函数改写为返回此类型来实现："
+msgstr "这通常通过定义一个可以是错误或结果的数据类型，并将带有异常的函数转换为返回此数据类型的函数来实现："
 
 #: src/monads.md:155
+#, fuzzy
 msgid ""
 "The type variable `ε` stands for the type of errors that can be produced by "
 "the function. Callers are expected to handle both errors and successes, "
 "which makes the type variable `ε` play a role that is a bit like that of a "
 "list of checked exceptions in Java."
 msgstr ""
-"类型变量 `ε` 表示函数可能产生的错误类型。调用者需要处理错误和成功，这使得类型变量 `ε` 有点像 Java 中需要检查的异常列表。"
+"类型变量 `ε` 表示函数可能产生的错误类型。调用者需要处理错误和成功，这使得类型变量 `ε` 扮演的角色有点像 Java 中受检异常列表的角色。"
 
 #: src/monads.md:158
+#, fuzzy
 msgid ""
 "Similarly to `Option`, `Except` can be used to indicate a failure to find an"
 " entry in a list. In this case, the error type is a `String`:"
-msgstr "类似于 `Option`，`Except` 可用于指示在列表中找不到项的情况。在这种情况下，错误的类型为 `String`："
+msgstr "类似于 `Option`，`Except` 可用于指示在列表中找不到条目的情况。在这种情况下，错误类型为 `String`："
 
 #: src/monads.md:160
+#, fuzzy
 msgid ""
 "```lean\n"
 "def get (xs : List α) (i : Nat) : Except String α :=\n"
@@ -11634,10 +11661,12 @@ msgstr ""
 "```"
 
 #: src/monads.md:166
+#, fuzzy
 msgid "Looking up an in-bounds value yields an `Except.ok`:"
-msgstr "查找一个范围内的值会产生 `Except.ok`："
+msgstr "查找一个界内值会产生一个 `Except.ok`："
 
 #: src/monads.md:167
+#, fuzzy
 msgid ""
 "```lean\n"
 "def ediblePlants : List String :=\n"
@@ -11654,65 +11683,75 @@ msgstr ""
 "```"
 
 #: src/monads.md:173
+#, fuzzy
 msgid ""
 "```output info\n"
 "Except.ok \"sea buckthorn\"\n"
 "```"
 msgstr ""
 "```output info\n"
-"Except.ok \"sea buckthorn\"\n"
+"Except.ok \"沙棘\"\n"
 "```"
 
 #: src/monads.md:176
+#, fuzzy
 msgid "Looking up an out-of-bounds value yields an `Except.error`:"
 msgstr "查找越界值将产生 `Except.error`："
 
 #: src/monads.md:180
+#, fuzzy
 msgid ""
 "```output info\n"
 "Except.error \"Index 4 not found (maximum is 3)\"\n"
 "```"
 msgstr ""
 "```output info\n"
-"Except.error \"Index 4 not found (maximum is 3)\"\n"
+"Except.error \"索引 4 不存在（最大值为 3）\"\n"
 "```"
 
 #: src/monads.md:184
+#, fuzzy
 msgid "A single list lookup can conveniently return a value or an error:"
 msgstr "单个列表查找可以方便地返回一个值或一个错误："
 
 #: src/monads.md:189
+#, fuzzy
 msgid ""
 "However, performing two list lookups requires handling potential failures:"
-msgstr "然而，执行两个列表查找需要处理可能的失败情况："
+msgstr "然而，执行两个列表查找需要处理潜在的失败："
 
 #: src/monads.md:200
+#, fuzzy
 msgid ""
 "Adding another list lookup to the function requires still more error "
 "handling:"
-msgstr "向函数中添加另一个列表查找需要额外的错误处理："
+msgstr "向函数中添加另一个列表查找需要更多的错误处理："
 
 #: src/monads.md:214
+#, fuzzy
 msgid "And one more list lookup begins to become quite unmanageable:"
-msgstr "再继续添加一个列表查找则开始变得相当难以管理："
+msgstr "再添加一个列表查找开始变得相当难以管理："
 
 #: src/monads.md:232
+#, fuzzy
 msgid ""
 "Once again, a common pattern can be factored out into a helper. Each step "
 "through the function checks for an error, and only proceeds with the rest of"
 " the computation if the result was a success. A new version of `andThen` can"
 " be defined for `Except`:"
 msgstr ""
-"同样，一个通用的模式可以提取为一个辅助函数。函数中的每一步都检查错误，并且只有在成功的情况下才进行之后的计算。可以为 `Except` 定义 "
+"同样，一个常见的模式可以分解为一个助手。函数中的每一步都检查错误，并且只有在结果成功的情况下才继续进行其余的计算。可以为 `Except` 定义 "
 "`andThen` 的新版本："
 
 #: src/monads.md:241
+#, fuzzy
 msgid ""
 "Just as with `Option`, this version of `andThen` allows a more concise "
 "definition of `firstThird`:"
-msgstr "与 `Option` 一样，该版本的 `andThen` 允许更简洁地定义 `firstThird`："
+msgstr "与 `Option` 一样，此版本的 `andThen` 允许更简洁地定义 `firstThird`："
 
 #: src/monads.md:249
+#, fuzzy
 msgid ""
 "In both the `Option` and `Except` case, there are two repeating patterns: "
 "there is the checking of intermediate results at each step, which has been "
@@ -11721,17 +11760,20 @@ msgid ""
 "success can be factored out into a helper called `ok`:"
 msgstr ""
 "在 `Option` 和 `Except` 情况下，都有两个重复的模式：每一步都有对中间结果的检查，该检查已分解为 "
-"`andThen`，并且有最终的成功结果，分别是 `some` 或 `Except.ok`。为了方便起见，成功的情况可提取为辅助函数 `ok` ："
+"`andThen`，并且有最终的成功结果，分别是 `some` 或 `Except.ok`。为了方便起见，可以将成功分解为一个名为 `ok` 的助手："
 
 #: src/monads.md:254
+#, fuzzy
 msgid "Similarly, failure can be factored out into a helper called `fail`:"
-msgstr "类似地，失败的情况可提取为辅助函数 `fail` ："
+msgstr "同样，可以将失败分解为一个名为 `fail` 的助手："
 
 #: src/monads.md:258
+#, fuzzy
 msgid "Using `ok` and `fail` makes `get` a little more readable:"
-msgstr " `ok` 和 `fail` 使得 `get` 可读性更好："
+msgstr "使用 `ok` 和 `fail` 使得 `get` 更具可读性："
 
 #: src/monads.md:259
+#, fuzzy
 msgid ""
 "```lean\n"
 "def get (xs : List α) (i : Nat) : Except String α :=\n"
@@ -11743,17 +11785,19 @@ msgstr ""
 "```lean\n"
 "def get (xs : List α) (i : Nat) : Except String α :=\n"
 "  match xs[i]? with\n"
-"  | none => fail s!\"Index {i} not found (maximum is {xs.length - 1})\"\n"
+"  | none => fail s!\"索引 {i} 不存在（最大值为 {xs.length - 1})\"\n"
 "  | some x => ok x\n"
 "```"
 
 #: src/monads.md:267
+#, fuzzy
 msgid ""
 "After adding the infix declaration for `andThen`, `firstThird` can be just "
 "as concise as the version that returns an `Option`:"
-msgstr "在为 `andThen` 添加中缀运算符后，`firstThird` 可以与返回 `Option` 的版本一样简洁："
+msgstr "在为 `andThen` 添加中缀声明后，`firstThird` 可以与返回 `Option` 的版本一样简洁："
 
 #: src/monads.md:268
+#, fuzzy
 msgid ""
 "```lean\n"
 "infixl:55 \" ~~> \" => andThen\n"
@@ -11772,26 +11816,31 @@ msgstr ""
 "  ok (first, third)\n"
 
 #: src/monads.md:276
+#, fuzzy
 msgid "The technique scales similarly to larger functions:"
 msgstr ""
 "\n"
-"该技术同样适用于更长的函数："
+"该技术同样适用于更大的函数："
 
 #: src/monads.md:286
+#, fuzzy
 msgid "Logging"
 msgstr "日志"
 
 #: src/monads.md:288
+#, fuzzy
 msgid "A number is even if dividing it by 2 leaves no remainder:"
-msgstr "称一个数字是偶数，当它除以 2 时没有余数："
+msgstr "一个数字是偶数，当它除以 2 时没有余数："
 
 #: src/monads.md:293
+#, fuzzy
 msgid ""
 "The function `sumAndFindEvens` computes the sum of a list while remembering "
 "the even numbers encountered along the way:"
-msgstr "函数 `sumAndFindEvens` 计算列表元素的加和，同时记录沿途遇到的偶数："
+msgstr "函数 `sumAndFindEvens` 计算列表的和，同时记住沿途遇到的偶数："
 
 #: src/monads.md:301
+#, fuzzy
 msgid ""
 "This function is a simplified example of a common pattern. Many programs "
 "need to traverse a data structure once, while both computing a main result "
@@ -11803,11 +11852,12 @@ msgid ""
 "tree with an inorder traversal, while simultaneously recording each nodes "
 "visited:"
 msgstr ""
-"此函数是一个常见模式的简化示例。许多程序需要遍历一次数据结构，计算一个主要结果的同时累积某种额外的结果。一个例子是日志记录：一个类型为 `IO` "
-"的程序会将日志输出到磁盘上的文件中，但是由于磁盘在 Lean 函数的数学世界之外，因此对基于 `IO` "
-"的日志相关的证明变得十分困难。另一个例子是同时计算树的中序遍历和所有节点的加和的函数，它必须记录每个访问的节点："
+"此函数是一个常见模式的简化示例。许多程序需要遍历一次数据结构，同时计算一个主要结果和累积某种第三额外结果。一个例子是日志记录：一个 `IO` "
+"动作的程序总是可以记录到磁盘上的一个文件中，但是由于磁盘在 Lean 函数的数学世界之外，因此基于 `IO` "
+"证明日志变得困难得多。另一个例子是一个函数，它计算树中所有节点的和，同时按中序遍历记录每个访问的节点："
 
 #: src/monads.md:315
+#, fuzzy
 msgid ""
 "Both `sumAndFindEvens` and `inorderSum` have a common repetitive structure. "
 "Each step of computation returns a pair that consists of a list of data that"
@@ -11818,50 +11868,57 @@ msgid ""
 "numbers and computing the sum:"
 msgstr ""
 "`sumAndFindEvens` 和 `inorderSum` "
-"都具有共同的重复结构。计算的每一步都返回一个对(pair)——由数据列表和主要结果组成。在下一步中列表会被附加新的元素，计算新的主要结果并与附加的列表再次配对。通过对 "
-"`sumAndFindEvens` 稍微改写，保存偶数和计算加和的关注点则更加清晰地分离，共同的结构变得更加明显："
+"都具有共同的重复结构。计算的每一步都返回一个对，该对由已保存的数据列表和主要结果组成。然后附加列表，并计算主要结果并与附加的列表配对。通过对 "
+"`sumAndFindEvens` 进行小改写，更清晰地分离了保存偶数和计算和的关注点，共同的结构变得更加明显："
 
 #: src/monads.md:328
+#, fuzzy
 msgid ""
 "For the sake of clarity, a pair that consists of an accumulated result "
 "together with a value can be given its own name:"
-msgstr "为了清晰起见，可以给由累积结果和值组成的对(pair)起一个专有的名字："
+msgstr "为了清晰起见，可以给由累积结果和值组成的对起一个自己的名字："
 
 #: src/monads.md:334
+#, fuzzy
 msgid ""
 "Similarly, the process of saving a list of accumulated results while passing"
 " a value on to the next step of a computation can be factored out into a "
 "helper, once again named `andThen`:"
-msgstr "同样，在保存累积结果列表的同时传递一个值到下一步计算的过程可以提取为一个辅助函数，再次命名为 `andThen`："
+msgstr "同样，在计算的下一步传递值时保存累积结果列表的过程可以分解为一个辅助函数，再次命名为 `andThen`："
 
 #: src/monads.md:341
+#, fuzzy
 msgid ""
 "In the case of errors, `ok` represents an operation that always succeeds. "
 "Here, however, it is an operation that simply returns a value without "
 "logging anything:"
-msgstr "在错误的情况下，`ok` 表示一个总是成功的操作。然而在这里，它仅是简单地返回一个值而不记录任何内容的操作："
+msgstr "在错误的情况下，`ok` 表示一个总是成功的操作。然而，这里它是一个简单地返回一个值而不记录任何内容的操作："
 
 #: src/monads.md:346
+#, fuzzy
 msgid ""
 "Just as `Except` provides `fail` as a possibility, `WithLog` should allow "
 "items to be added to a log. This has no interesting return value associated "
 "with it, so it returns `Unit`:"
 msgstr ""
-"正如 `Except` 提供 `fail` 作为一种可能性，`WithLog` 应该允许将项添加到日志中。它不需要返回任何有意义的结果，所以返回 "
+"正如 `Except` 提供 `fail` 作为一种可能性，`WithLog` 应该允许将项添加到日志中。这没有与其关联的有趣返回值，所以它返回 "
 "`Unit`："
 
 #: src/monads.md:353
+#, fuzzy
 msgid ""
 "`WithLog`, `andThen`, `ok`, and `save` can be used to separate the logging "
 "concern from the summing concern in both programs:"
-msgstr "`WithLog`、`andThen`、`ok` 和 `save` 可以将两个程序中日志记录与求和问题分开："
+msgstr "`WithLog`、`andThen`、`ok` 和 `save` 可以用来将日志记录问题与两个程序中的求和问题分开："
 
 #: src/monads.md:370
+#, fuzzy
 msgid ""
 "And, once again, the infix operator helps put focus on the correct steps:"
-msgstr "同样地，中缀运算符有助于专注于正确的过程："
+msgstr "再次，中缀运算符有助于关注正确的步骤："
 
 #: src/monads.md:371
+#, fuzzy
 msgid ""
 "```lean\n"
 "infixl:55 \" ~~> \" => andThen\n"
@@ -11902,17 +11959,20 @@ msgstr ""
 "```"
 
 #: src/monads.md:390
+#, fuzzy
 msgid "Numbering Tree Nodes"
 msgstr "对树节点编号"
 
 #: src/monads.md:392
+#, fuzzy
 msgid ""
 "An _inorder numbering_ of a tree associates each data point in the tree with"
 " the step it would be visited at in an inorder traversal of the tree. For "
 "example, consider `aTree`:"
-msgstr "树的**中序编号**将树中的每个数据节点与其在中序遍历中被访问的次序相关联。例如，考虑 `aTree`："
+msgstr "树的_中序编号_将树中的每个数据点与其在树的中序遍历中访问的步骤相关联。例如，考虑 `aTree`："
 
 #: src/monads.md:394
+#, fuzzy
 msgid ""
 "```lean\n"
 "open BinTree in\n"
@@ -11939,10 +11999,12 @@ msgstr ""
 "```"
 
 #: src/monads.md:405
+#, fuzzy
 msgid "Its inorder numbering is:"
 msgstr "其中序编号为："
 
 #: src/monads.md:406
+#, fuzzy
 msgid ""
 "```output info\n"
 "BinTree.branch\n"
@@ -11965,6 +12027,7 @@ msgstr ""
 "```"
 
 #: src/monads.md:416
+#, fuzzy
 msgid ""
 "Trees are most naturally processed with recursive functions, but the usual "
 "pattern of recursion on trees makes it difficult to compute an inorder "
@@ -11975,54 +12038,66 @@ msgid ""
 "variable that contains the next number to be assigned. The following Python "
 "program computes an inorder numbering using a mutable variable:"
 msgstr ""
-"树用递归函数来处理最为自然，但树的通常的递归模式并不适合计算中序编号。这是因为左子树中分配的最大编号将用于确定当前节点的编号，然后再次用于确定右子树编号的起点。在命令式语言中，可以使用持有下一个被分配编号的可变变量来解决此问题。以下"
+"树最自然地用递归函数处理，但树上的通常递归模式使得计算中序编号变得困难。这是因为在左子树中分配的最高编号用于确定节点数据值的编号，然后再次用于确定对右子树进行编号的起始点。在命令式语言中，可以通过使用包含要分配的下一个编号的可变变量来解决此问题。以下"
 " Python 程序使用可变变量计算中序编号："
 
 #: src/monads.md:427
+#, fuzzy
 msgid "'Branch("
 msgstr "'Branch("
 
 #: src/monads.md:427
+#, fuzzy
 msgid ", left="
 msgstr ", left="
 
 #: src/monads.md:427
+#, fuzzy
 msgid ", right="
 msgstr ", right="
 
 #: src/monads.md:427
+#, fuzzy
 msgid ")'"
 msgstr ")'"
 
 #: src/monads.md:444
+#, fuzzy
 msgid "The numbering of the Python equivalent of `aTree` is:"
-msgstr "`aTree` 的 Python 等价项的编号为："
+msgstr "`aTree` 的 Python 等效项的编号为："
 
 #: src/monads.md:446
+#, fuzzy
 msgid "\"d\""
 msgstr "\"d\""
 
 #: src/monads.md:447
+#, fuzzy
 msgid "\"c\""
 msgstr "\"c\""
 
 #: src/monads.md:448
+#, fuzzy
 msgid "\"a\""
 msgstr "\"a\""
 
 #: src/monads.md:448
+#, fuzzy
 msgid "\"b\""
 msgstr "\"b\""
 
 #: src/monads.md:450
+#, fuzzy
 msgid "\"e\""
 msgstr "\"e\""
 
 #: src/monads.md:452
+#, fuzzy
 msgid "and its numbering is:"
 msgstr "并且它的编号为："
 
 #: src/monads.md:459
+#, fuzzy
 msgid ""
 "Even though Lean does not have mutable variables, a workaround exists. From "
 "the point of view of the rest of the world, the mutable variable can be "
@@ -12034,10 +12109,10 @@ msgid ""
 "be passed as an argument to the next step."
 msgstr ""
 "尽管 Lean "
-"没有可变变量，但存在一种解决方法。从其他角度来看，可变变量可以被认为具有两个相关方面：函数调用时的值和函数返回时的值。"
-"换句话说，使用可变变量的函数可以看作——将可变变量的起始值作为参数，返回变量的最终值和结果的元组的函数。然后可以将此最终值作为参数传递给下一步。"
+"没有可变变量，但存在一种解决方法。从世界其他地方的角度来看，可变变量可以被认为具有两个相关方面：函数调用时的值和函数返回时的值。换句话说，使用可变变量的函数可以看作是将可变变量的起始值作为参数的函数，返回变量的最终值和函数结果的元组。然后可以将此最终值作为参数传递给下一步。"
 
 #: src/monads.md:464
+#, fuzzy
 msgid ""
 "Just as the Python example uses an outer function that establishes a mutable"
 " variable and an inner helper function that changes the variable, a Lean "
@@ -12046,10 +12121,11 @@ msgid ""
 "inner helper function that threads the variable's value while computing the "
 "numbered tree:"
 msgstr ""
-"正如 Python 示例使用建立可变变量的外部函数和更改变量的内部辅助函数一样，Lean "
-"版本的函数使用提供变量初值并明确返回函数结果的外部函数，以及在计算编号树同时传递变量值的内部辅助函数："
+"正如 Python 示例使用建立可变变量的外部函数和更改变量的内部帮助函数一样，Lean "
+"版本的函数使用提供变量起始值并明确返回函数结果的外部函数，以及在计算编号树时传递变量值的内部帮助函数："
 
 #: src/monads.md:475
+#, fuzzy
 msgid ""
 "This code, like the `none`\\-propagating `Option` code, the "
 "`error`\\-propagating `Except` code, and the log-accumulating `WithLog` "
@@ -12060,36 +12136,40 @@ msgid ""
 "taking an input state as an argument and returning an output state together "
 "with a value:"
 msgstr ""
-"此代码与不传递 `none` 的 `Option` 代码、传递 `error` 的 `Except` 代码和累积日志的 `WithLog` "
-"代码一样，混杂了两个问题：传递计数器的值，以及实际遍历树以查找结果。与那些情况一样，可以定义一个 `andThen` "
-"辅助函数，将状态在计算的步骤之间传递。第一步是为以下模式命名：将输入状态作为参数并返回输出状态和值："
+"此代码与不传播 `none` 的 `Option` 代码、传播 `error` 的 `Except` 代码和累积日志的 `WithLog` "
+"代码一样，混杂了两个问题：传播计数器的值，以及实际遍历树以查找结果。与那些情况一样，可以定义一个 `andThen` "
+"帮助器，以将状态从计算的一个步骤传播到另一个步骤。第一步是为以下模式命名：将输入状态作为参数并返回输出状态和值："
 
 #: src/monads.md:483
+#, fuzzy
 msgid ""
 "In the case of `State`, `ok` is a function that returns the input state "
 "unchanged, along with the provided value:"
-msgstr "在 `State` 的情况下，`ok` 是一个函数，返回未更改的输入状态以及输入的值："
+msgstr "在 `State` 的情况下，`ok` 是一个函数，它返回未更改的输入状态以及提供的值："
 
 #: src/monads.md:488
+#, fuzzy
 msgid ""
 "When working with a mutable variable, there are two fundamental operations: "
 "reading the value and replacing it with a new one. Reading the current value"
 " is accomplished with a function that places the input state unmodified into"
 " the output state, and also places it into the value field:"
-msgstr "在使用可变变量时，有两个基本操作：读取并用新值替换。读取当前值意味着——将输入状态原封不动地放入输入状态并返回："
+msgstr "在使用可变变量时，有两个基本操作：读取值并用新值替换它。读取当前值是使用将输入状态未修改地放入输出状态并将其放入值字段的函数来完成的："
 
 #: src/monads.md:494
+#, fuzzy
 msgid ""
 "Writing a new value consists of ignoring the input state, and placing the "
 "provided new value into the output state:"
-msgstr "写入新值意味着——忽略输入状态，并将提供的新值放入输出状态："
+msgstr "写入新值包括忽略输入状态，并将提供的新值放入输出状态："
 
 #: src/monads.md:499
+#, fuzzy
 msgid ""
 "Finally, two computations that use state can be sequenced by finding both "
 "the output state and return value of the first function, then passing them "
 "both into the next function:"
-msgstr "最后，可以将`first`函数的输出状态和返回值传递到`next`函数中，以此实现这两个函数的先后调用："
+msgstr "最后，可以通过找到第一个函数的输出状态和返回值，然后将它们都传递到下一个函数中，对使用状态的两个计算进行排序："
 
 #: src/monads.md:500
 msgid ""
@@ -12112,47 +12192,56 @@ msgstr ""
 "```"
 
 #: src/monads.md:509
+#, fuzzy
 msgid "Using `State` and its helpers, local mutable state can be simulated:"
-msgstr "使用 `State` 和它的辅助函数可以模拟局部可变状态："
+msgstr "`State` 和它的辅助函数可以模拟局部可变状态："
 
 #: src/monads.md:522
+#, fuzzy
 msgid ""
 "Because `State` simulates only a single local variable, `get` and `set` "
 "don't need to refer to any particular variable name."
 msgstr "因为 `State` 只模拟了一个局部变量，所以 `get` 和 `set` 不需要引用任何特定的变量名。"
 
 #: src/monads.md:524
+#, fuzzy
 msgid "Monads: A Functional Design Pattern"
 msgstr "单子：一种函数式设计模式"
 
 #: src/monads.md:526
+#, fuzzy
 msgid "Each of these examples has consisted of:"
 msgstr "每个示例都包含："
 
 #: src/monads.md:527
+#, fuzzy
 msgid ""
 "A polymorphic type, such as `Option`, `Except ε`, `WithLog logged`, or "
 "`State σ`"
 msgstr "一个多态类型，例如 `Option`、`Except ε`、`WithLog logged` 或 `State σ`"
 
 #: src/monads.md:528
+#, fuzzy
 msgid ""
 "An operator `andThen` that takes care of some repetitive aspect of "
 "sequencing programs that have this type"
-msgstr "一个运算符 `andThen`，用来处理重复、有序的具有此类型的程序片段"
+msgstr "一个运算符 `andThen`，它处理具有此类型的程序序列的一些重复方面"
 
 #: src/monads.md:529
+#, fuzzy
 msgid ""
 "An operator `ok` that is (in some sense) the most boring way to use the type"
 msgstr "一个运算符 `ok`，它（在某种意义上）是使用该类型最无聊的方式"
 
 #: src/monads.md:530
+#, fuzzy
 msgid ""
 "A collection of other operations, such as `none`, `fail`, `save`, and `get`,"
 " that name ways of using the type"
-msgstr "一系列其他操作，例如 `none`、`fail`、`save` 和 `get`，它们命名了使用该类型的方式"
+msgstr "一系列其他操作，例如 `none`、`fail`、`save` 和 `get`，它们命名了使用该类型的方法"
 
 #: src/monads.md:532
+#, fuzzy
 msgid ""
 "This style of API is called a _monad_. While the idea of monads is derived "
 "from a branch of mathematics called category theory, no understanding of "
@@ -12165,11 +12254,12 @@ msgid ""
 " single mutable variable."
 msgstr ""
 "这种风格的 API 称为 "
-"**单子**(Monad)。虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。单子的关键思想是，每个单子都使用纯函数式语言 Lean"
+"_单子_。虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。单子的关键思想是，每个单子都使用纯函数式语言 Lean"
 " 提供的工具对特定类型的副作用进行编码。例如，`Option` 表示可能通过返回 `none` 而失败的程序，`Except` "
 "表示可能抛出异常的程序，`WithLog` 表示在运行时累积日志的程序，`State` 表示具有单个可变变量的程序。"
 
 #: src/monads/class.md:3
+#, fuzzy
 msgid ""
 "Rather than having to import an operator like `ok` or `andThen` for each "
 "type that is a monad, the Lean standard library contains a type class that "
@@ -12178,21 +12268,24 @@ msgid ""
 "and `andThen`:"
 msgstr ""
 "无需为每个单子类型导入像 `ok` 或 `andThen` 这样的运算符，Lean 标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于 "
-"**任何** 单子。单子有两个操作，它们相当于 `ok` 和 `andThen`："
+"_任何_ 单子。单子有两个操作，它们相当于 `ok` 和 `andThen`："
 
 #: src/monads/class.md:10
+#, fuzzy
 msgid ""
 "This definition is slightly simplified. The actual definition in the Lean "
 "library is somewhat more involved, and will be presented later."
 msgstr "这个定义略微简化了。Lean 库中的实际定义更复杂一些，稍后会介绍。"
 
 #: src/monads/class.md:13
+#, fuzzy
 msgid ""
 "The `Monad` instances for `Option` and `Except` can be created by adapting "
 "the definitions of their respective `andThen` operations:"
 msgstr "`Option` 和 `Except` 的 `Monad` 实例可以通过调整它们各自的 `andThen` 操作的定义来创建："
 
 #: src/monads/class.md:30
+#, fuzzy
 msgid ""
 "As an example, `firstThirdFifthSeventh` was defined separately for `Option "
 "α` and `Except String α` return types. Now, it can be defined "
@@ -12202,16 +12295,18 @@ msgid ""
 "role as `~~>` in the examples."
 msgstr ""
 "例如，`firstThirdFifthSeventh` 针对 `Option α` 和 `Except String α` "
-"返回类型分别定义。现在，它可以多态地对 **任何** 单子定义。但是，它需要一个查找函数作为参数，因为不同的 monad "
+"返回类型分别定义。现在，它可以针对 _任何_ monad 多态定义。但是，它需要一个查找函数作为参数，因为不同的 monad "
 "可能以不同的方式找不到结果。`bind` 的中缀版本是 `>>=`, 它在示例中扮演与 `~~>` 相同的角色。"
 
 #: src/monads/class.md:43
+#, fuzzy
 msgid ""
 "Given example lists of slow mammals and fast birds, this implementation of "
 "`firstThirdFifthSeventh` can be used with `Option`:"
 msgstr "给定慢哺乳动物和快鸟的示例列表，`firstThirdFifthSeventh` 的此实现可与 `Option` 一起使用："
 
 #: src/monads/class.md:44
+#, fuzzy
 msgid ""
 "```lean\n"
 "def slowMammals : List String :=\n"
@@ -12248,6 +12343,7 @@ msgstr ""
 "```"
 
 #: src/monads/class.md:66
+#, fuzzy
 msgid ""
 "```output info\n"
 "some (\"Peregrine falcon\", \"Golden eagle\", \"Spur-winged goose\", \"Anna's hummingbird\")\n"
@@ -12258,6 +12354,7 @@ msgstr ""
 "```"
 
 #: src/monads/class.md:70
+#, fuzzy
 msgid ""
 "After renaming `Except`'s lookup function `get` to something more specific, "
 "the very same  implementation of `firstThirdFifthSeventh` can be used with "
@@ -12267,6 +12364,7 @@ msgstr ""
 "`Except` 一起使用："
 
 #: src/monads/class.md:71
+#, fuzzy
 msgid ""
 "```lean\n"
 "def getOrExcept (xs : List α) (i : Nat) : Except String α :=\n"
@@ -12323,7 +12421,7 @@ msgid ""
 "version of `map` that uses a `Monad` to sequence and combine the results of "
 "applying a function:"
 msgstr ""
-"由于许多不同类型都是 monad，因此在 **任何** monad 上多态的函数非常强大。例如，函数 `mapM` 是 `map` 的一个版本，它使用 "
+"由于许多不同类型都是 monad，因此在 _任何_ monad 上多态的函数非常强大。例如，函数 `mapM` 是 `map` 的一个版本，它使用 "
 "`Monad` 对应用函数的结果进行排序和组合："
 
 #: src/monads/class.md:103
@@ -12348,8 +12446,8 @@ msgid ""
 "should mention the state type `σ`, which becomes a parameter to the "
 "instance:"
 msgstr ""
-"如 [本章简介](../monads.md#对树节点编号) 所述，`State σ α` 表示使用类型为 `σ` "
-"的可变变量并返回类型为 `α` 的值的程序。这些程序实际上是从起始状态到值和最终状态对(pair)的函数。`Monad` 类要求其参数期望单个类型参数，即它应该是 "
+"如 [本章简介](../monads.md#numbering-tree-nodes) 所述，`State σ α` 表示使用类型为 `σ` "
+"的可变变量并返回类型为 `α` 的值的程序。这些程序实际上是从起始状态到值和最终状态对的函数。`Monad` 类要求其参数期望单个类型参数，即它应该是 "
 "`Type → Type`。这意味着 `State` 的实例应提及状态类型 `σ`，它成为实例的参数："
 
 #: src/monads/class.md:119
@@ -12360,9 +12458,10 @@ msgid ""
 " given amount, returning the old value:"
 msgstr ""
 "这意味着在使用 `bind` 对 `get` 和 `set` 进行排序时，状态的类型不能更改，这是有状态计算的合理规则。运算符 `increment` "
-"将保存的状态增加一定量，并返回旧值："
+"将保存的状态增加给定量，并返回旧值："
 
 #: src/monads/class.md:128
+#, fuzzy
 msgid ""
 "Using `mapM` with `increment` results in a program that computes the sum of "
 "the entries in a list. More specifically, the mutable variable contains the "
@@ -12372,36 +12471,41 @@ msgid ""
 "takes an initial sum as an argument, which should be `0`:"
 msgstr ""
 "使用 `mapM` 和 `increment` "
-"会生成一个计算列表元素之加和的程序。更具体地说，可变变量包含到目前为止的和，而结果列表包含一个运行和。换句话说，`mapM increment` 的类型为"
+"会生成一个计算列表中条目和的程序。更具体地说，可变变量包含到目前为止的和，而结果列表包含一个运行和。换句话说，`mapM increment` 的类型为"
 " `List Int → State Int (List Int)`，展开 `State` 的定义会得到 `List Int → Int → (Int "
 "× List Int)`。它将初始和作为参数，该参数应为 `0`："
 
 #: src/monads/class.md:139
+#, fuzzy
 msgid ""
 "A [logging effect](../monads.md#logging) can be represented using `WithLog`."
 " Just like `State`, its `Monad` instance is polymorphic with respect to the "
 "type of the logged data:"
 msgstr ""
-"可以使用 `WithLog` 表示 [日志记录效果](../monads.md#日志)。就像 `State` 一样，它的 `Monad` "
+"可以使用 `WithLog` 表示 [日志记录效果](../monads.md#logging)。就像 `State` 一样，它的 `Monad` "
 "实例对于已记录数据的类型是多态的："
 
 #: src/monads/class.md:149
+#, fuzzy
 msgid ""
 "`saveIfEven` is a function that logs even numbers but returns its argument "
 "unchanged:"
-msgstr "`saveIfEven` 是一个记录偶数但返回参数不变的函数："
+msgstr "`saveIfEven` 是一个记录偶数但返回其参数不变的函数："
 
 #: src/monads/class.md:157
+#, fuzzy
 msgid ""
 "Using this function with `mapM` results in a log containing even numbers "
 "paired with an unchanged input list:"
 msgstr "使用 `mapM` 和此函数会生成一个包含偶数和未更改输入列表的日志："
 
 #: src/monads/class.md:167
+#, fuzzy
 msgid "The Identity Monad"
-msgstr "单位单子"
+msgstr "Identity Monad"
 
 #: src/monads/class.md:169
+#, fuzzy
 msgid ""
 "Monads encode programs with effects, such as failure, exceptions, or "
 "logging, into explicit representations as data and functions. Sometimes, "
@@ -12410,33 +12514,37 @@ msgid ""
 "monad that has no effects, and allows pure code to be used with monadic "
 "APIs:"
 msgstr ""
-"Monad 将具有效果(Effects)的程序（例如失败、异常或日志记录）编码为数据和函数的显式表示。然而，有时会编写 API 以使用单子来提高灵活性，但 "
-"API 的使用方可能不需要任何编码的效果。**单位单子**(Identity Monad) 是一个没有效果的单子，允许将纯(Pure)代码与 monadic API "
+"Monad 将具有效果的程序（例如失败、异常或日志记录）编码为数据和函数的显式表示。然而，有时会编写 API 以使用 monad 来提高灵活性，但 "
+"API 的客户端可能不需要任何编码效果。_identity monad_ 是一个没有效果的 monad，允许将纯代码与 monadic API "
 "一起使用："
 
 #: src/monads/class.md:179
+#, fuzzy
 msgid ""
 "The type of `pure` should be `α → Id α`, but `Id α` reduces to just `α`. "
 "Similarly, the type of `bind` should be `α → (α → Id β) → Id β`. Because "
 "this reduces to `α → (α → β) → β`, the second argument can be applied to the"
 " first to find the result."
 msgstr ""
-"`pure` 的类型应为 `α → Id α`，但 `Id α` 简化(译者注：beta-reduces)为 `α`。类似地，`bind` 的类型应为 `α → (α → Id β) → "
+"`pure` 的类型应为 `α → Id α`，但 `Id α` 简化为 `α`。类似地，`bind` 的类型应为 `α → (α → Id β) → "
 "Id β`。由于这简化为 `α → (α → β) → β`，因此可以将第二个参数应用于第一个参数以找到结果。"
 
 #: src/monads/class.md:183
+#, fuzzy
 msgid ""
 "With the identity monad, `mapM` becomes equivalent to `map`. To call it this"
 " way, however, Lean requires a hint that the intended monad is `Id`:"
 msgstr ""
-"使用 identity monad，`mapM` 等同于 `map`。但是，要以这种方式调用它，Lean 需要一个提示表明目标单子是 "
+"使用 identity monad，`mapM` 等同于 `map`。但是，要以这种方式调用它，Lean 需要一个提示，表明目标 monad 是 "
 "`Id`："
 
 #: src/monads/class.md:191
+#, fuzzy
 msgid "Omitting the hint results in an error:"
 msgstr "省略提示会导致错误："
 
 #: src/monads/class.md:199
+#, fuzzy
 msgid ""
 "In this error, the application of one metavariable to another indicates that"
 " Lean doesn't run the type-level computation backwards. The return type of "
@@ -12445,14 +12553,16 @@ msgid ""
 "specific hints about which monad is to be used results in an \"instance "
 "problem stuck\" message:"
 msgstr ""
-"在此错误中，一个元变量应用于另一个元变量使得 Lean 不会反向运行类型计算。函数的返回类型为应用于其他类型的单子。类似地，使用 `mapM` "
-"和未提供任何特定单子类型信息的函数会导致“instance problem stuck”错误："
+"在此错误中，一个元变量应用于另一个元变量表明 Lean 不会反向运行类型级计算。函数的返回类型应为应用于其他类型的单子。类似地，使用 `mapM` "
+"和其类型未提供要使用哪个单子的任何特定提示的函数会导致“实例问题卡住”消息："
 
 #: src/monads/class.md:211
+#, fuzzy
 msgid "The Monad Contract"
-msgstr "单子约定"
+msgstr "单子契约"
 
 #: src/monads/class.md:212
+#, fuzzy
 msgid ""
 "Just as every pair of instances of `BEq` and `Hashable` should ensure that "
 "any two equal values have the same hash, there is a contract that each "
@@ -12463,11 +12573,12 @@ msgid ""
 "same as `bind v (fun x => bind (f x) g)`."
 msgstr ""
 "正如 `BEq` 和 `Hashable` 的每一对实例都应确保任何两个相等的值具有相同的哈希值，`Monad` "
-"的每个实例都应遵守一些约定。首先，`pure` 应为 `bind` 的左单位元。即，`bind (pure v) f` 应与 `f v` "
-"相等。其次，`pure` 应为 `bind` 的右单位元，因此 `bind v pure` 与 `v` 相等。最后，`bind` 应满足结合律，因此 "
-"`bind (bind v f) g` 与 `bind v (fun x => bind (f x) g)` 相等。"
+"的每个实例都应遵守契约。首先，`pure` 应为 `bind` 的左单位。即，`bind (pure v) f` 应与 `f v` "
+"相同。其次，`pure` 应为 `bind` 的右单位，因此 `bind v pure` 与 `v` 相同。最后，`bind` 应为结合的，因此 "
+"`bind (bind v f) g` 与 `bind v (fun x => bind (f x) g)` 相同。"
 
 #: src/monads/class.md:218
+#, fuzzy
 msgid ""
 "This contract specifies the expected properties of programs with effects "
 "more generally. Because `pure` has no effects, sequencing its effects with "
@@ -12475,14 +12586,16 @@ msgid ""
 "basically says that the sequencing bookkeeping itself doesn't matter, so "
 "long as the order in which things are happening is preserved."
 msgstr ""
-"这些约定指定了具有效果(Effects)的程序的预期属性。由于 `pure` 没有效果，因此将其效果与 `bind` 顺序执行不应改变结果。`bind` "
-"满足的结合律意味着序列的执行先后本身无关紧要，只要保证事情发生的顺序即可。"
+"此契约指定了具有效果的程序的预期属性。由于 `pure` 没有效果，因此将其效果与 `bind` 顺序执行不应改变结果。`bind` "
+"的结合属性基本上表示顺序记账本身无关紧要，只要保留事情发生的顺序即可。"
 
 #: src/monads/class.md:224
+#, fuzzy
 msgid "Mapping on a Tree"
 msgstr "映射树"
 
 #: src/monads/class.md:226
+#, fuzzy
 msgid ""
 "Define a function `BinTree.mapM`. By analogy to `mapM` for lists, this "
 "function should apply a monadic function to each data entry in a tree, as a "
@@ -12491,22 +12604,26 @@ msgstr ""
 "定义函数 `BinTree.mapM`。通过类比列表的 `mapM`，此函数应将单子函数应用于树中的每个数据项，作为前序遍历。类型签名应为："
 
 #: src/monads/class.md:234
+#, fuzzy
 msgid "The Option Monad Contract"
-msgstr "Option单子的约定"
+msgstr "选项单子契约"
 
 #: src/monads/class.md:236
+#, fuzzy
 msgid ""
 "First, write a convincing argument that the `Monad` instance for `Option` "
 "satisfies the monad contract. Then, consider the following instance:"
-msgstr "首先，充分论证 `Option` 的 `Monad` 实例满足单子约定。然后，考虑以下实例："
+msgstr "首先，写一个令人信服的论证，证明 `Option` 的 `Monad` 实例满足 monad 契约。然后，考虑以下实例："
 
 #: src/monads/class.md:243
+#, fuzzy
 msgid ""
 "Both methods have the correct type. Why does this instance violate the monad"
 " contract?"
-msgstr "这两个方法都有正确的类型。为什么这个实例违反了单子约定？"
+msgstr "这两个方法都有正确的类型。为什么这个实例违反了 monad 契约？"
 
 #: src/monads/arithmetic.md:3
+#, fuzzy
 msgid ""
 "Monads are a way of encoding programs with side effects into a language that"
 " does not have them. It would be easy to read this as a sort of admission "
@@ -12515,18 +12632,20 @@ msgid ""
 "while using the `Monad` API does impose a syntactic cost on a program, it "
 "brings two important benefits:"
 msgstr ""
-"单子 "
-"是一种将具有副作用的程序编入没有副作用的语言中的方式。很容易将此误解为承认纯函数式编程缺少一些重要的东西，程序员要越过这些障碍才能编写一个普通的程序。虽然使用"
+"Monad "
+"是一种将具有副作用的程序编码到没有副作用的语言中的方式。很容易将此解读为一种承认，纯函数式程序缺少一些重要的东西，要求程序员跳过障碍才能编写一个普通的程序。然而，虽然使用"
 " `Monad` API 确实给程序带来了语法成本，但它带来了两个重要的优点："
 
 #: src/monads/arithmetic.md:6
+#, fuzzy
 msgid ""
 "Programs must be honest about which effects they use in their types. A quick"
 " glance at a type signature describes _everything_ that the program can do, "
 "rather than just what it accepts and what it returns."
-msgstr "程序必须诚实地说明它们在类型中使用的效果(Effects)。看一眼类型签名就可以知道程序能做什么，而不只是接受什么和返回什么。"
+msgstr "程序必须诚实地说明它们在类型中使用的效果。快速浏览类型签名描述了程序可以做的一切，而不仅仅是它接受什么和返回什么。"
 
 #: src/monads/arithmetic.md:7
+#, fuzzy
 msgid ""
 "Not every language provides the same effects. For example, only some "
 "language have exceptions. Other languages have unique, exotic effects, such "
@@ -12536,42 +12655,49 @@ msgid ""
 "choose which ones are the best fit for a given application, rather than "
 "being stuck with what the language developers provided."
 msgstr ""
-"并非每种语言都提供相同的效果。例如只有某些语言有异常。其他语言具有独特的新奇效果，例如 [Icon's "
-"searching over multiple values](https://www2.cs.arizona.edu/icon/) 以及 Scheme 或 Ruby 的continuations。由于 单子 "
-"可以编码**任何**效果，因此程序员可以选择最适合给定程序的效果，而不是局限于语言开发者提供的效果。"
+"并非每种语言都提供相同的效果。例如，只有某些语言有异常。其他语言具有独特的新奇效果，例如 [Icon "
+"对多个值进行搜索](https://www2.cs.arizona.edu/icon/) 以及 Scheme 或 Ruby 的延续。由于 monad "
+"可以编码任何效果，因此程序员可以选择最适合给定应用程序的效果，而不是局限于语言开发者提供的效果。"
 
 #: src/monads/arithmetic.md:9
+#, fuzzy
 msgid ""
 "One example of a program that can make sense in a variety of monads is an "
 "evaluator for arithmetic expressions."
-msgstr "在各种 单子 中有意义的一个例子是算术表达式的求值器。"
+msgstr "一个可以在各种 monad 中有意义的程序示例是算术表达式的求值器。"
 
 #: src/monads/arithmetic.md:11
+#, fuzzy
 msgid "Arithmetic Expressions"
 msgstr "算术表达式"
 
 #: src/monads/arithmetic.md:13
+#, fuzzy
 msgid ""
 "An arithmetic expression is either a literal integer or a primitive binary "
 "operator applied to two expressions. The operators are addition, "
 "subtraction, multiplication, and division:"
-msgstr "算术表达式要么是字面量(Literal)，要么是应用于两个表达式的二元运算符。运算符是加法、减法、乘法和除法："
+msgstr "算术表达式要么是字面整数，要么是应用于两个表达式的原始二元运算符。运算符是加法、减法、乘法和除法："
 
 #: src/monads/arithmetic.md:26
+#, fuzzy
 msgid "The expression `2 + 3` is represented:"
 msgstr "表达式 `2 + 3` 表示为："
 
 #: src/monads/arithmetic.md:33
+#, fuzzy
 msgid "and `14 / (45 - 5 * 9)` is represented:"
 msgstr "而 `14 / (45 - 5 * 9)` 表示为："
 
 #: src/monads/arithmetic.md:43
+#, fuzzy
 msgid ""
 "Because expressions include division, and division by zero is undefined, "
 "evaluation might fail. One way to represent failure is to use `Option`:"
 msgstr "由于表达式包含除法，而除以零是未定义的，因此求值可能会失败。表示失败的一种方法是使用 `Option`："
 
 #: src/monads/arithmetic.md:57
+#, fuzzy
 msgid ""
 "This definition uses the `Monad Option` instance to propagate failures from "
 "evaluating both branches of a binary operator. However, the function mixes "
@@ -12579,9 +12705,10 @@ msgid ""
 "the results. It can be improved by splitting it into two functions:"
 msgstr ""
 "此定义使用 `Monad Option` "
-"实例来传播从二元运算符的两个分支求值产生的失败。但是，该函数混合了两个问题：对子表达式的求值和对运算符的应用。可以将其拆分为两个函数来改进："
+"实例来传播从二元运算符的两个分支求值产生的失败。但是，该函数混合了两个问题：求值子表达式和将二元运算符应用于结果。可以通过将其拆分为两个函数来改进它："
 
 #: src/monads/arithmetic.md:75
+#, fuzzy
 msgid ""
 "Running `#eval evaluateOption fourteenDivided` yields `none`, as expected, "
 "but this is not a very useful error message. Because the code was written "
@@ -12590,10 +12717,11 @@ msgid ""
 "failure:"
 msgstr ""
 "运行 `#eval evaluateOption fourteenDivided` 会产生 "
-"`none`，正如预期的那样，但这并不是一个非常有用的错误消息。由于代码是使用 `>>=` 编写的，而不是显式处理 `none` "
-"构造器，因此只需进行少量修改即可在失败时提供错误消息："
+"`none`，正如预期的那样，但这不是一个非常有用的错误消息。由于代码是使用 `>>=` 编写的，而不是显式处理 `none` "
+"构造函数，因此只需进行少量修改即可在失败时提供错误消息："
 
 #: src/monads/arithmetic.md:77
+#, fuzzy
 msgid ""
 "```lean\n"
 "def applyPrim : Arith → Int → Int → Except String Int\n"
@@ -12634,6 +12762,7 @@ msgstr ""
 "```"
 
 #: src/monads/arithmetic.md:95
+#, fuzzy
 msgid ""
 "The only difference is that the type signature mentions `Except String` "
 "instead of `Option`, and the failing case uses `Except.error` instead of "
@@ -12641,10 +12770,11 @@ msgid ""
 "`applyPrim` as an argument, a single evaluator becomes capable of both forms"
 " of error reporting:"
 msgstr ""
-"唯一区别是类型签名提到的是 `Except String` 而不是 `Option`，并且失败时使用 `Except.error` 而不是 "
-"`none`。通过让 `evaluate` 在单子上具有多态性并将其作为参数传递给 `applyPrim`，单个求值器能够以两种形式报告错误："
+"唯一的区别是类型签名提到 `Except String` 而不是 `Option`，并且失败的情况使用 `Except.error` 而不是 "
+"`none`。通过使 `evaluate` 在其单子上多态并将其作为参数传递给 `applyPrim`，单个求值器能够以两种形式进行错误报告："
 
 #: src/monads/arithmetic.md:97
+#, fuzzy
 msgid ""
 "```lean\n"
 "def applyPrimOption : Arith → Int → Int → Option Int\n"
@@ -12672,65 +12802,68 @@ msgid ""
 "    evaluateM applyPrim e2 >>= fun v2 =>\n"
 "    applyPrim p v1 v2\n"
 "```"
-msgstr ""
-"```lean\n"
-"def applyPrimOption : Arith → Int → Int → Option Int\n"
-"  | Arith.plus, x, y => pure (x + y)\n"
-"  | Arith.minus, x, y => pure (x - y)\n"
-"  | Arith.times, x, y => pure (x * y)\n"
-"  | Arith.div, x, y =>\n"
-"    if y == 0 then\n"
-"      none\n"
-"    else pure (x / y)\n"
-"\n"
-"def applyPrimExcept : Arith → Int → Int → Except String Int\n"
-"  | Arith.plus, x, y => pure (x + y)\n"
-"  | Arith.minus, x, y => pure (x - y)\n"
-"  | Arith.times, x, y => pure (x * y)\n"
-"  | Arith.div, x, y =>\n"
-"    if y == 0 then\n"
-"      Except.error s!\"Tried to divide {x} by zero\"\n"
-"    else pure (x / y)\n"
-"\n"
-"def evaluateM [Monad m] (applyPrim : Arith → Int → Int → m Int): Expr Arith → m Int\n"
-"  | Expr.const i => pure i\n"
-"  | Expr.prim p e1 e2 =>\n"
-"    evaluateM applyPrim e1 >>= fun v1 =>\n"
-"    evaluateM applyPrim e2 >>= fun v2 =>\n"
-"    applyPrim p v1 v2\n"
-"```"
+msgstr "**applyPrimOption** 函数与 `evaluate` 的第一个版本类似，使用它时效果相同。"
 
 #: src/monads/arithmetic.md:123
+#, fuzzy
 msgid ""
 "Using it with `applyPrimOption` works just like the first version of "
 "`evaluate`:"
-msgstr "将其与`applyPrimOption`一起使用效果就和最初的`evaluate`一样："
+msgstr "同样，使用 **applyPrimExcept** 函数时效果与带有错误消息的版本相同："
 
 #: src/monads/arithmetic.md:130
+#, fuzzy
 msgid ""
 "Similarly, using it with `applyPrimExcept` works just like the version with "
 "error messages:"
 msgstr ""
-msgstr "类似地，和 **applyPrimExcept** 函数一起使用时效果与带有错误消息的版本相同："
+"```output info\n"
+"Except.error \"尝试将 14 除以零\"\n"
+"```"
 
 #: src/monads/arithmetic.md:134
+#, fuzzy
 msgid ""
 "```output info\n"
 "Except.error \"Tried to divide 14 by zero\"\n"
 "```"
 msgstr ""
-"```output info\n"
-"Except.error \"Tried to divide 14 by zero\"\n"
-"```"
+"代码仍有改进空间。**applyPrimOption** 和 **applyPrimExcept** "
+"函数仅在除法处理上有所不同，可以将其提取到求值器的另一个参数中："
 
 #: src/monads/arithmetic.md:138
+#, fuzzy
 msgid ""
 "The code can still be improved. The functions `applyPrimOption` and "
 "`applyPrimExcept` differ only in their treatment of division, which can be "
 "extracted into another parameter to the evaluator:"
 msgstr ""
-"代码仍有改进空间。**applyPrimOption** 和 **applyPrimExcept** "
-"函数仅在除法处理上有所不同，可以将其提取到求值器的另一个参数中："
+"```lean\n"
+"def applyDivOption (x : Int) (y : Int) : Option Int :=\n"
+"    如果 y == 0 则\n"
+"      无\n"
+"    否则\n"
+"      纯 (x / y)\n"
+"\n"
+"def applyDivExcept (x : Int) (y : Int) : Except String Int :=\n"
+"    如果 y == 0 则\n"
+"      Except.error s!\"尝试将 {x} 除以零\"\n"
+"    否则\n"
+"      纯 (x / y)\n"
+"\n"
+"def applyPrim [Monad m] (applyDiv : Int → Int → m Int) : Arith → Int → Int → m Int\n"
+"  | Arith.plus, x, y => 纯 (x + y)\n"
+"  | Arith.minus, x, y => 纯 (x - y)\n"
+"  | Arith.times, x, y => 纯 (x * y)\n"
+"  | Arith.div, x, y => applyDiv x y\n"
+"\n"
+"def evaluateM [Monad m] (applyDiv : Int → Int → m Int): Expr Arith → m Int\n"
+"  | Expr.const i => 纯 i\n"
+"  | Expr.prim p e1 e2 =>\n"
+"    evaluateM applyDiv e1 >>= fun v1 =>\n"
+"    evaluateM applyDiv e2 >>= fun v2 =>\n"
+"    applyPrim applyDiv p v1 v2\n"
+"```"
 
 #: src/monads/arithmetic.md:140
 msgid ""
@@ -12759,68 +12892,51 @@ msgid ""
 "    applyPrim applyDiv p v1 v2\n"
 "```"
 msgstr ""
-"```lean\n"
-"def applyDivOption (x : Int) (y : Int) : Option Int :=\n"
-"    if y == 0 then\n"
-"      none\n"
-"    else pure (x / y)\n"
-"\n"
-"def applyDivExcept (x : Int) (y : Int) : Except String Int :=\n"
-"    if y == 0 then\n"
-"      Except.error s!\"Tried to divide {x} by zero\"\n"
-"    else pure (x / y)\n"
-"\n"
-"def applyPrim [Monad m] (applyDiv : Int → Int → m Int) : Arith → Int → Int → m Int\n"
-"  | Arith.plus, x, y => pure (x + y)\n"
-"  | Arith.minus, x, y => pure (x - y)\n"
-"  | Arith.times, x, y => pure (x * y)\n"
-"  | Arith.div, x, y => applyDiv x y\n"
-"\n"
-"def evaluateM [Monad m] (applyDiv : Int → Int → m Int): Expr Arith → m Int\n"
-"  | Expr.const i => pure i\n"
-"  | Expr.prim p e1 e2 =>\n"
-"    evaluateM applyDiv e1 >>= fun v1 =>\n"
-"    evaluateM applyDiv e2 >>= fun v2 =>\n"
-"    applyPrim applyDiv p v1 v2\n"
-"```"
 
 #: src/monads/arithmetic.md:165
+#, fuzzy
 msgid ""
 "In this refactored code, the fact that the two code paths differ only in "
 "their treatment of failure has been made fully apparent."
-msgstr "在重构后的代码中，两个代码路径仅在对失败情况的处理上有所不同，这一事实显而易见。"
+msgstr "在重构后的代码中，两个代码路径仅在对失败的处理上有所不同，这一事实已完全显而易见。"
 
 #: src/monads/arithmetic.md:167
+#, fuzzy
 msgid "Further Effects"
-msgstr "其他作用"
+msgstr "其他影响"
 
 #: src/monads/arithmetic.md:169
+#, fuzzy
 msgid ""
 "Failure and exceptions are not the only kinds of effects that can be "
 "interesting when working with an evaluator. While division's only side "
 "effect is failure, adding other primitive operators to the expressions make "
 "it possible to express other effects."
-msgstr "在考虑求值器时，失败和异常并不是唯一值得在意的作用(Effects)。虽然除法的唯一副作用是失败，但若要增加其他运算符的支持，则可能需要表达对应的作用。"
+msgstr "在使用求值器时，失败和异常并不是唯一可能引起兴趣的影响类型。虽然除法的唯一副作用是失败，但将其他原始运算符添加到表达式中可以表达其他影响。"
 
 #: src/monads/arithmetic.md:172
+#, fuzzy
 msgid ""
 "The first step is an additional refactoring, extracting division from the "
 "datatype of primitives:"
-msgstr "第一步是重构，从原始数据类型中提取除法："
+msgstr "第一步是进行额外的重构，从原始数据类型中提取除法："
 
 #: src/monads/arithmetic.md:183
+#, fuzzy
 msgid ""
 "The name `CanFail` suggests that the effect introduced by division is "
 "potential failure."
-msgstr "名称 `CanFail` 表明被除法引入的作用是可能发生的失败。"
+msgstr "名称 `CanFail` 表明除法引入的影响是潜在的失败。"
 
 #: src/monads/arithmetic.md:185
+#, fuzzy
 msgid ""
 "The second step is to broaden the scope of the division handler argument to "
 "`evaluateM` so that it can process any special operator:"
-msgstr "第二步是将除法计算函数的参数扩展到 `evaluateM`，以便它可以处理任何特殊运算符："
+msgstr "第二步是将除法处理程序参数的作用域扩展到 `evaluateM`，以便它可以处理任何特殊运算符："
 
 #: src/monads/arithmetic.md:186
+#, fuzzy
 msgid ""
 "```lean\n"
 "def divOption : CanFail → Int → Int → Option Int\n"
@@ -12871,10 +12987,12 @@ msgstr ""
 "```"
 
 #: src/monads/arithmetic.md:210
+#, fuzzy
 msgid "No Effects"
-msgstr "无作用"
+msgstr "无副作用"
 
 #: src/monads/arithmetic.md:212
+#, fuzzy
 msgid ""
 "The type `Empty` has no constructors, and thus no values, like the `Nothing`"
 " type in Scala or Kotlin. In Scala and Kotlin, `Nothing` can represent "
@@ -12888,13 +13006,14 @@ msgid ""
 "current expression need not return a result, because it could never have "
 "been called. "
 msgstr ""
-"`Empty` 类型没有构造子，因此没有值，就像 Scala 或 Kotlin 中的 `Nothing` 类型。在 Scala 和 Kotlin "
+"`Empty` 类型没有构造函数，因此没有值，就像 Scala 或 Kotlin 中的 `Nothing` 类型。在 Scala 和 Kotlin "
 "中，`Nothing` 可以表示永不返回结果的计算，例如导致程序崩溃、引发异常或始终陷入无限循环的函数。类型为 `Nothing` "
 "的函数或方法的参数表示死代码，因为永远不会有合适的参数值。Lean 不支持无限循环和异常，但 `Empty` "
-"仍然可作为向类型系统说明函数不可调用的标志。当 `E` 是类型没有构造子的表达式时，使用语法 `nomatch E` 向 Lean "
-"说明当前表达式不需要返回结果，因为它永远不会被调用。"
+"仍然可作为指示类型系统函数不可调用的标志。当 `E` 是类型没有构造函数的表达式的表达式时，使用语法 `nomatch E` 向 Lean "
+"指示当前表达式不需要返回结果，因为它永远不会被调用。"
 
 #: src/monads/arithmetic.md:218
+#, fuzzy
 msgid ""
 "Using `Empty` as the parameter to `Prim` indicates that there are no "
 "additional cases beyond `Prim.plus`, `Prim.minus`, and `Prim.times`, because"
@@ -12903,21 +13022,24 @@ msgid ""
 "`Empty` to two integers can never be called, it doesn't need to return a "
 "result. Thus, it can be used in _any_ monad:"
 msgstr ""
-"将 `Empty` 用作 `Prim` 的参数，表示除了 `Prim.plus`、`Prim.minus` 和 `Prim.times` "
-"之外没有其他情况，因为不可能找到一个 `Empty` 类型的值来放在 `Prim.other` 构造函数中。由于类型为 `Empty` "
-"的运算符应用于两个整数的函数永远不会被调用，所以它不需要返回结果。因此，它可以在 **任何** 单子中使用："
+"将 `Empty` 用作 `Prim` 的参数表示除了 `Prim.plus`、`Prim.minus` 和 `Prim.times` "
+"之外没有其他情况，因为不可能想出一个 `Empty` 类型的值来放在 `Prim.other` 构造函数中。由于应用类型为 `Empty` "
+"的运算符到两个整数的函数永远不会被调用，因此它不需要返回结果。因此，它可以在 _任何_ 单子中使用："
 
 #: src/monads/arithmetic.md:225
+#, fuzzy
 msgid ""
 "This can be used together with `Id`, the identity monad, to evaluate "
 "expressions that have no effects whatsoever:"
 msgstr "这可以与恒等单子 `Id` 一起使用，以计算没有任何副作用的表达式："
 
 #: src/monads/arithmetic.md:234
+#, fuzzy
 msgid "Nondeterministic Search"
 msgstr "非确定性搜索"
 
 #: src/monads/arithmetic.md:236
+#, fuzzy
 msgid ""
 "Instead of simply failing when encountering division by zero, it would also "
 "be sensible to backtrack and try a different input. Given the right monad, "
@@ -12928,30 +13050,34 @@ msgid ""
 "the evaluator to pick either of its arguments while searching for non-"
 "failing results."
 msgstr ""
-"遇到除以零时，除了直接失败之外，还可以回溯并尝试不同的输入。给定适当的单子，同一个 `evaluateM` 可以对不致失败的答案 **集合** "
-"执行非确定性搜索。除了除法之外，还需要指定选择结果的方法。一种方法是在表达式的语言中添加一个函数 "
-"`choose`，告诉求值器在搜索非失败结果时选择其中一个参数。"
+"遇到除以零时，除了直接失败之外，还可以回溯并尝试不同的输入。给定正确的单子，同一个 `evaluateM` 可以对不导致失败的答案 _集_ "
+"执行非确定性搜索。除了除法之外，还需要一些指定结果选择的方法。一种方法是在表达式的语言中添加一个函数 "
+"`choose`，指示求值器在搜索非失败结果时选择其任一参数。"
 
 #: src/monads/arithmetic.md:241
+#, fuzzy
 msgid ""
 "The result of the evaluator is now a multiset of values, rather than a "
 "single value. The rules for evaluation into a multiset are:"
-msgstr "求值结果现在变成一个多重集合(multiset)，而不是一个单一值。求值到多重集合的规则如下："
+msgstr "求值结果现在是一个多重集，而不是一个单一值。求值到多重集的规则如下："
 
 #: src/monads/arithmetic.md:243
+#, fuzzy
 msgid "Constants \\\\( n \\\\) evaluate to singleton sets \\\\( {n} \\\\)."
 msgstr "常量 \\\\( n \\\\) 求值为单元素集 \\\\( {n} \\\\)。"
 
 #: src/monads/arithmetic.md:244
+#, fuzzy
 msgid ""
 "Arithmetic operators other than division are called on each pair from the "
 "Cartesian product of the operators, so \\\\( X + Y \\\\) evaluates to \\\\( "
 "\\\\{ x + y \\\\mid x ∈ X, y ∈ Y \\\\} \\\\)."
 msgstr ""
-"除法以外的算术运算符作用于两个参数的笛卡尔积中的每一对，所以 \\\\( X + Y \\\\) 求值为 \\\\( \\\\{ x + y "
+"除法以外的算术运算符对运算符笛卡尔积中的每一对进行调用，所以 \\\\( X + Y \\\\) 求值为 \\\\( \\\\{ x + y "
 "\\\\mid x ∈ X, y ∈ Y \\\\} \\\\)。"
 
 #: src/monads/arithmetic.md:245
+#, fuzzy
 msgid ""
 "Division \\\\( X / Y \\\\) evaluates to \\\\( \\\\{ x / y \\\\mid x ∈ X, y ∈"
 " Y, y ≠ 0\\\\} \\\\). In other words, all \\\\( 0 \\\\) values in \\\\( Y "
@@ -12961,10 +13087,12 @@ msgstr ""
 "\\\\)。换句话说，\\\\( Y \\\\) 中的所有 \\\\( 0 \\\\) 值都被丢弃。"
 
 #: src/monads/arithmetic.md:246
+#, fuzzy
 msgid "A choice \\\\( \\\\mathrm{choose}(x, y) \\\\) evaluates to \\\\( \\\\{ x, y \\\\} \\\\)."
 msgstr "一个选择 \\\\( \\\\mathrm{choose}(x, y) \\\\) 求值为 \\\\( \\\\{ x, y \\\\} \\\\)。"
 
 #: src/monads/arithmetic.md:248
+#, fuzzy
 msgid ""
 "For example, \\\\( 1 + \\\\mathrm{choose}(2, 5) \\\\) evaluates to \\\\( "
 "\\\\{ 3, 6 \\\\} \\\\), \\\\(1 + 2 / 0 \\\\) evaluates to \\\\( \\\\{\\\\} "
@@ -12975,54 +13103,60 @@ msgstr ""
 "例如，\\\\( 1 + \\\\mathrm{choose}(2, 5) \\\\) 求值为 \\\\( \\\\{ 3, 6 \\\\} "
 "\\\\)，\\\\(1 + 2 / 0 \\\\) 求值为 \\\\( \\\\{\\\\} \\\\)，\\\\( 90 / "
 "(\\\\mathrm{choose}(-5, 5) + 5) \\\\) 求值为 \\\\( \\\\{ 9 \\\\} "
-"\\\\)。使用多重集合而不是集合，因为多重集合无需检查元素的唯一性。"
+"\\\\)。使用多重集代替真集简化了代码，无需再检查元素的唯一性。"
 
 #: src/monads/arithmetic.md:251
+#, fuzzy
 msgid ""
 "A monad that represents this non-deterministic effect must be able to "
 "represent a situation in which there are no answers, and a situation in "
 "which there is at least one answer together with any remaining answers:"
-msgstr "表示这种非确定性效果的单子必须能够表示没有答案的情况，以及至少有一个答案和其他答案的情况："
+msgstr "表示这种非确定性效果的单子必须能够表示没有答案的情况，以及至少有一个答案和任何剩余答案的情况："
 
 #: src/monads/arithmetic.md:257
+#, fuzzy
 msgid ""
 "This datatype looks very much like `List`. The difference is that where "
 "`cons` stores the rest of the list, `more` stores a function that should "
 "compute the next value on demand. This means that a consumer of `Many` can "
 "stop the search when some number of results have been found."
 msgstr ""
-"该数据类型看起来非常像 `List`。不同之处在于，`cons` 存储列表的其余部分，而 `more` 存储一个函数，该函数仅在需要时才会被调用来计算下一个值。这意味着"
+"此数据类型看起来非常像 `List`。不同之处在于，`cons` 存储列表的其余部分，而 `more` 存储一个函数，该函数应按需计算下一个值。这意味着"
 " `Many` 的使用者可以在找到一定数量的结果后停止搜索。"
 
 #: src/monads/arithmetic.md:261
+#, fuzzy
 msgid ""
 "A single result is represented by a `more` constructor that returns no "
 "further results:"
-msgstr "单个结果由 `more` 构造子表示，该构造子不返回任何进一步的结果："
+msgstr "单个结果由 `more` 构造器表示，该构造器不返回任何进一步的结果："
 
 #: src/monads/arithmetic.md:265
+#, fuzzy
 msgid ""
 "The union of two multisets of results can be computed by checking whether "
 "the first multiset is empty. If so, the second multiset is the union. If "
 "not, the union consists of the first element of the first multiset followed "
 "by the union of the rest of the first multiset with the second multiset:"
 msgstr ""
-"两个结果多重集合的并集可以通过检查第一个多重集合是否为空来计算。如果为空则第二个多重集合就是并集。"
-"如果非空，则并集由第一个多重集合的第一个元素，跟着第一个多重集的其余部分与第二个多重集的并集组成："
+"两个结果多重集的并集可以通过检查第一个多重集是否为空来计算。如果是，则第二个多重集是并集。如果不是，则并集由第一个多重集的第一个元素后跟第一个多重集的其余部分与第二个多重集的并集组成："
 
 #: src/monads/arithmetic.md:274
+#, fuzzy
 msgid ""
 "It can be convenient to start a search process with a list of values. "
 "`Many.fromList` converts a list into a multiset of results:"
-msgstr "对值列表进行搜索会很方便。`Many.fromList` 将列表转换为结果的多重集合："
+msgstr "从值列表开始搜索过程会很方便。`Many.fromList` 将列表转换为结果的多重集合："
 
 #: src/monads/arithmetic.md:281
+#, fuzzy
 msgid ""
 "Similarly, once a search has been specified, it can be convenient to extract"
 " either a number of values, or all the values:"
-msgstr "同样地，一旦搜索已经确定，就可以方便地提取固定数量的值或所有值："
+msgstr "同样，一旦指定了搜索，就可以方便地提取多个值或所有值："
 
 #: src/monads/arithmetic.md:293
+#, fuzzy
 msgid ""
 "A `Monad Many` instance requires a `bind` operator. In a nondeterministic "
 "search, sequencing two operations consists of taking all possibilities from "
@@ -13033,19 +13167,20 @@ msgid ""
 "their union represents the entire search space."
 msgstr ""
 "`Monad Many` 实例需要一个 `bind` "
-"运算符。在非确定性搜索中，对两个操作进行排序包括，从第一步中获取所有可能性，并对每种可能性都运行程序的其余部分，取结果的并集。"
-"换句话说，如果第一步返回三个可能的答案，则需要对这三个答案分别尝试第二步。由于第二步为每个输入可返回任意数量的答案，因此取它们的并集表示整个搜索空间。"
+"运算符。在非确定性搜索中，对两个操作进行排序包括从第一步中获取所有可能性，并在每个可能性上运行程序的其余部分，取结果的并集。换句话说，如果第一步返回三个可能的答案，则需要对所有三个答案尝试第二步。由于第二步可以为每个输入返回任意数量的答案，因此取它们的并集表示整个搜索空间。"
 
 #: src/monads/arithmetic.md:305
+#, fuzzy
 msgid ""
 "`Many.one` and `Many.bind` obey the monad contract. To check that `Many.bind"
 " (Many.one v) f` is the same as `f v`, start by evaluating the expression as"
 " far as possible:"
 msgstr ""
-"`Many.one` 和 `Many.bind` 遵循 monad 约定。要检查 `Many.bind (Many.one v) f` 是否与 `f "
-"v` 相同，首先应最大限度地计算表达式："
+"`Many.one` 和 `Many.bind` 遵循 monad 契约。要检查 `Many.bind (Many.one v) f` 是否与 `f "
+"v` 相同，首先尽可能地计算表达式："
 
 #: src/monads/arithmetic.md:316
+#, fuzzy
 msgid ""
 "The empty multiset is a right identity of `union`, so the answer is "
 "equivalent to `f v`. To check that `Many.bind v Many.one` is the same as "
@@ -13054,22 +13189,24 @@ msgid ""
 " then `Many.bind v Many.one` is `{v1} ∪ {v2} ∪ {v3} ∪ ... ∪ {vn}`, which is "
 "`{v1, v2, v3, ..., vn}`."
 msgstr ""
-"空的多重集合是 `union` 的右单位元，因此答案等同于 `f v`。要检查 `Many.bind v Many.one` 是否与 `v` 相同，需要考虑 "
+"空多重集合是 `union` 的右单位，因此答案等同于 `f v`。要检查 `Many.bind v Many.one` 是否与 `v` 相同，请考虑 "
 "`bind` 取 `Many.one` 应用于 `v` 的每个元素的并集。换句话说，如果 `v` 的形式为 `{v1, v2, v3, ..., "
 "vn}`，则 `Many.bind v Many.one` 为 `{v1} ∪ {v2} ∪ {v3} ∪ ... ∪ {vn}`，即 `{v1, "
 "v2, v3, ..., vn}`。"
 
 #: src/monads/arithmetic.md:320
+#, fuzzy
 msgid ""
 "Finally, to check that `Many.bind` is associative, check that `Many.bind "
 "(Many.bind bind v f) g` is the same as `Many.bind v (fun x => Many.bind (f "
 "x) g)`. If `v` has the form `{v1, v2, v3, ..., vn}`, then:"
 msgstr ""
-"最后，要检查 `Many.bind` 是否满足结合律，需要检查 `Many.bind (Many.bind bind v f) g` 是否与 "
+"最后，要检查 `Many.bind` 是否关联，请检查 `Many.bind (Many.bind bind v f) g` 是否与 "
 "`Many.bind v (fun x => Many.bind (f x) g)` 相同。如果 `v` 的形式为 `{v1, v2, v3, ...,"
 " vn}`，则："
 
 #: src/monads/arithmetic.md:327
+#, fuzzy
 msgid "which means that"
 msgstr "这意味着"
 
@@ -13079,20 +13216,24 @@ msgid "Similarly,"
 msgstr "同样地，"
 
 #: src/monads/arithmetic.md:353
+#, fuzzy
 msgid "Thus, both sides are equal, so `Many.bind` is associative."
-msgstr "因此，两边相等，所以 `Many.bind` 满足结合律。"
+msgstr "因此，两边相等，所以 `Many.bind` 是结合的。"
 
 #: src/monads/arithmetic.md:355
+#, fuzzy
 msgid "The resulting monad instance is:"
 msgstr "由此产生的单子实例为："
 
 #: src/monads/arithmetic.md:361
+#, fuzzy
 msgid ""
 "An example search using this monad finds all the combinations of numbers in "
 "a list that add to 15:"
-msgstr "此单子的示例搜索可找到列表中所有加起来等于 15 的数字组合："
+msgstr "使用此单子的示例搜索可找到列表中所有加起来等于 15 的数字组合："
 
 #: src/monads/arithmetic.md:377
+#, fuzzy
 msgid ""
 "The search process is recursive over the list. The empty list is a "
 "successful search when the goal is `0`; otherwise, it fails. When the list "
@@ -13107,22 +13248,25 @@ msgid ""
 "the head from the goal, and then attaching the head to the solutions that "
 "result from the recursive call."
 msgstr ""
-"(译者注：这是一个动态规划算法)对列表进行递归搜索。当输入列表为空且目标为 `0` 时，返回空列表表示成功；否则返回 `Many.none` 表示失败，因为空输入不可能得到非0加和。"
-"当列表非空时，有两种可能性：若输入列表的第一个元素大于goal，此时它的任何加和都大于 `0` 因此不可能是结果之一；若第一个元素不大于goal，则可以参与后续的搜索。"
-"如果列表的头部x **不是** 候选者，则对列表的尾部xs进行递归搜索。如果头部是候选者，则有两种用 `Many.union` 合并的可能性："
-"找到的解含有当前的x，或者不含有。不含x的解是对xs递归搜索找到的；而含有x的解则是通过从goal中减去x，然后将x附加到递归的解中得到的。"
+"搜索过程对列表进行递归。当目标为 `0` "
+"时，空列表是一个成功的搜索；否则，它将失败。当列表非空时，有两种可能性：列表的头部大于目标，在这种情况下，它不能参与任何成功的搜索，或者不是，在这种情况下，它可以。如果列表的头部"
+" _不是_ 候选者，则搜索将继续进行到列表的尾部。如果头部是候选者，则有两个可能性与 `Many.union` "
+"结合：找到的解包含头部，或者不包含。不包含头部的解通过对尾部进行递归调用找到，而包含头部的解则通过从目标中减去头部，然后将头部附加到递归调用产生的解中得到。"
 
 #: src/monads/arithmetic.md:384
+#, fuzzy
 msgid ""
 "Returning to the arithmetic evaluator that produces multisets of results, "
 "the `both` and `neither` operators can be written as follows:"
-msgstr "回到返回多重集合的算术求值器，`both` 和 `neither` 运算符可以写成如下形式："
+msgstr "回到产生结果多重集的算术求值器，`both` 和 `neither` 运算符可以写成如下形式："
 
 #: src/monads/arithmetic.md:398
+#, fuzzy
 msgid "Using these operators, the earlier examples can be evaluated:"
-msgstr "可以用这些运算符对前面的示例求值："
+msgstr "使用这些运算符，可以对前面的示例进行求值："
 
 #: src/monads/arithmetic.md:420
+#, fuzzy
 msgid "Custom Environments"
 msgstr "自定义环境"
 
@@ -13136,10 +13280,11 @@ msgid ""
 "arguments. The mapping from function names to function implementations is "
 "called an _environment_."
 msgstr ""
-"可以通过允许将字符串当作运算符，然后提供从字符串到它们的实现函数之间的映射，使求值器可由用户扩展。"
-"例如，用户可以用余数运算符或最大值运算符来扩展求值器。从函数名称到函数实现的映射称为 **环境**。"
+"可以通过允许将字符串用作运算符，然后提供从字符串到实现它们的函数的映射，使求值器可由用户扩展。例如，用户可以用余数运算符或返回其两个参数最大值的运算符来扩展求值器。从函数名称到函数实现的映射称为"
+" _环境_。"
 
 #: src/monads/arithmetic.md:426
+#, fuzzy
 msgid ""
 "The environments needs to be passed in each recursive call. Initially, it "
 "might seem that `evaluateM` needs an extra argument to hold the environment,"
@@ -13147,25 +13292,28 @@ msgid ""
 "However, passing an argument like this is another form of monad, so an "
 "appropriate `Monad` instance allows the evaluator to be used unchanged."
 msgstr ""
-"环境需要在每次递归调用中传递。因此`evaluateM` 看起来需要一个额外的参数来保存环境。"
-"并且该参数需要在每次递归调用时传递。然而，像这样传递参数是单子的另一种形式，因此一个适当的 `Monad` "
-"实例允许求值器本身保持不变。"
+"环境需要在每次递归调用中传递。最初，`evaluateM` "
+"似乎需要一个额外的参数来保存环境，并且该参数应该传递给每个递归调用。然而，像这样传递参数是单子的另一种形式，因此一个合适的 `Monad` "
+"实例允许评估器保持不变。"
 
 #: src/monads/arithmetic.md:430
+#, fuzzy
 msgid ""
 "Using functions as a monad is typically called a _reader_ monad. When "
 "evaluating expressions in the reader monad, the following rules are used:"
-msgstr "将函数用作单子通常称为 **reader** 单子。在 reader 单子中求值表达式使用以下规则："
+msgstr "将函数用作单子通常称为 _reader_ 单子。在 reader 单子中求值表达式时，使用以下规则："
 
 #: src/monads/arithmetic.md:432
+#, fuzzy
 msgid "Constants \\\\( n \\\\) evaluate to constant functions \\\\( λ e . n \\\\),"
-msgstr "常量 \\\\( n \\\\) 映射为常量函数 \\\\( λ e . n \\\\)；"
+msgstr "常量 \\\\( n \\\\) 求值为常量函数 \\\\( λ e . n \\\\)；"
 
 #: src/monads/arithmetic.md:433
+#, fuzzy
 msgid ""
 "Arithmetic operators evaluate to functions that pass their arguments on, so "
 "\\\\( f + g \\\\) evaluates to \\\\( λ e . f(e) + g(e) \\\\), and"
-msgstr "算术运算符映射为将参数各自传递然后计算的函数，因此 \\\\( f + g \\\\) 求值为 \\\\( λ e . f(e) + g(e) \\\\)；"
+msgstr "算术运算符求值为将参数传递给它们的函数，因此 \\\\( f + g \\\\) 求值为 \\\\( λ e . f(e) + g(e) \\\\)；"
 
 #: src/monads/arithmetic.md:434
 #, fuzzy
