@@ -138,7 +138,9 @@ In other words, the valid indices into a non-empty list are natural numbers that
 The definition of what it means for an index to be in bounds should be written as an `abbrev` because the tactics used to find evidence that indices are acceptable are able to solve inequalities of numbers, but they don't know anything about the name `NonEmptyList.inBounds`:
 -->
 
-“索引值没有出界”意味着什么的这个定义，应该被写成一个 `abbrev`。因为这个可以用来证明索引值未越界的策略（tactics）要在不知道 `NonEmptyList.inBounds` 这个方法的情况下解决数字之间的不等关系。
+“索引值没有出界”意味着什么的这个定义，应该被写成一个 `abbrev`。
+因为这个可以用来证明索引值未越界的策略（tactics）要在不知道 `NonEmptyList.inBounds` 这个方法的情况下解决数字之间的不等关系。
+(此处原文表意不明，按原文字面意思译出。原文大致意思应为 `abbrev` 比 `def` 对tactic的适应性更好)
 ```lean
 {{#example_decl Examples/Classes.lean inBoundsNEList}}
 ```
