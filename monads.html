@@ -139,26 +139,51 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="monads"><a class="header" href="#monads">Monads</a></h1>
-<p>In C# and Kotlin, the <code>?.</code> operator is a way to look up a property or call a method on a potentially-null value.
-If the receiver is <code>null</code>, the whole expression is null.
-Otherwise, the underlying non-<code>null</code> value receives the call.
-Uses of <code>?.</code> can be chained, in which case the first <code>null</code> result terminates the chain of lookups.
-Chaining null-checks like this is much more convenient than writing and maintaining deeply nested <code>if</code>s.</p>
-<p>Similarly, exceptions are significantly more convenient than manually checking and propagating error codes.
+<!--
+In C# and Kotlin, the `?.` operator is a way to look up a property or call a method on a potentially-null value.
+If the receiver is `null`, the whole expression is null.
+Otherwise, the underlying non-`null` value receives the call.
+Uses of `?.` can be chained, in which case the first `null` result terminates the chain of lookups.
+Chaining null-checks like this is much more convenient than writing and maintaining deeply nested `if`s.
+-->
+<p>在C#和Kotlin中，<code>?.</code>运算符是一种在可能为null的值上查找属性或调用方法的方式。如果<code>?.</code>前的值为<code>null</code>，则整个表达式为null。否则，该非<code>null</code>值会被用于调用。多个<code>?.</code>可以链接起来，在这种情况下，第一个 <code>null</code> 
+结果将终止查找链。像这样链接null检查比编写和维护深层嵌套的 <code>if</code> 方便得多。</p>
+<!--
+Similarly, exceptions are significantly more convenient than manually checking and propagating error codes.
 At the same time, logging is easiest to accomplish by having a dedicated logging framework, rather than having each function return both its log results and its return value.
-Chained null checks and exceptions typically require language designers to anticipate this use case, while logging frameworks typically make use of side effects to decouple code that logs from the accumulation of the logs.</p>
-<p>All these features and more can be implemented in library code as instances of a common API called <code>Monad</code>.
+Chained null checks and exceptions typically require language designers to anticipate this use case, while logging frameworks typically make use of side effects to decouple code that logs from the accumulation of the logs.
+-->
+<p>类似地，异常机制比手动检查和传递错误码方便得多。同时，通过使用专用日志记录框架（而不是让每个函数同时返回其日志结果和返回值）可以轻松地完成日志记录。
+链接的空检查和异常通常要求语言设计者预料到这种用法，而日志记录框架通常利用副作用将记录日志的代码与日志的累积解耦。</p>
+<!--
+All these features and more can be implemented in library code as instances of a common API called `Monad`.
 Lean provides dedicated syntax that makes this API convenient to use, but can also get in the way of understanding what is going on behind the scenes.
 This chapter begins with the nitty-gritty presentation of manually nesting null checks, and builds from there to the convenient, general API.
-Please suspend your disbelief in the meantime.</p>
-<h2 id="checking-for-none-dont-repeat-yourself"><a class="header" href="#checking-for-none-dont-repeat-yourself">Checking for <code>none</code>: Don't Repeat Yourself</a></h2>
-<p>In Lean, pattern matching can be used to chain checks for null.
-Getting the first entry from a list can just use the optional indexing notation:</p>
+Please suspend your disbelief in the meantime.
+-->
+<p>所有这些功能以及更多功能都可以作为通用 API —— <code>Monad</code> 的实例在库代码中实现。Lean 提供了专门的语法，使此 API 
+易于使用，但也会妨碍理解幕后发生的事情。
+本章从手动嵌套空检查的细节介绍开始，并由此构建到方便、通用的 API。
+在此期间，请暂时搁置你的怀疑。</p>
+<!--
+## Checking for `none`: Don't Repeat Yourself
+-->
+<h2 id="检查none避免重复代码"><a class="header" href="#检查none避免重复代码">检查<code>none</code>：避免重复代码</a></h2>
+<!--
+In Lean, pattern matching can be used to chain checks for null.
+Getting the first entry from a list can just use the optional indexing notation:
+-->
+<p>在Lean中，模式匹配可用于链接空检查。
+从列表中获取第一个项可通过可选的索引记号：</p>
 <pre><code class="language-lean">def first (xs : List α) : Option α :=
   xs[0]?
 </code></pre>
-<p>The result must be an <code>Option</code> because empty lists have no first entry.
-Extracting the first and third entries requires a check that each is not <code>none</code>:</p>
+<!--
+The result must be an `Option` because empty lists have no first entry.
+Extracting the first and third entries requires a check that each is not `none`:
+-->
+<p>&quot;结果必须是<code>Option</code>，因为空列表没有第一个项。
+提取第一个和第三个项需要检查每个项都不为 <code>none</code>：</p>
 <pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
   match xs[0]? with
   | none =&gt; none
@@ -168,7 +193,10 @@ Extracting the first and third entries requires a check that each is not <code>n
     | some third =&gt;
       some (first, third)
 </code></pre>
-<p>Similarly, extracting the first, third, and fifth entries requires more checks that the values are not <code>none</code>:</p>
+<!--
+Similarly, extracting the first, third, and fifth entries requires more checks that the values are not `none`:
+-->
+<p>类似地，提取第一个、第三个和第五个项需要更多检查，以确保这些值不是 <code>none</code>：</p>
 <pre><code class="language-lean">def firstThirdFifth (xs : List α) : Option (α × α × α) :=
   match xs[0]? with
   | none =&gt; none
@@ -181,7 +209,10 @@ Extracting the first and third entries requires a check that each is not <code>n
       | some fifth =&gt;
         some (first, third, fifth)
 </code></pre>
-<p>And adding the seventh entry to this sequence begins to become quite unmanageable:</p>
+<!--
+And adding the seventh entry to this sequence begins to become quite unmanageable:
+-->
+<p>而将第七个项添加到此序列中则开始变得相当难以管理：</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
   match xs[0]? with
   | none =&gt; none
@@ -197,57 +228,110 @@ Extracting the first and third entries requires a check that each is not <code>n
         | some seventh =&gt;
           some (first, third, fifth, seventh)
 </code></pre>
-<p>The fundamental problem with this code is that it addresses two concerns: extracting the numbers and checking that all of them are present, but the second concern is addressed by copying and pasting the code that handles the <code>none</code> case.
-It is often good style to lift a repetitive segment into a helper function:</p>
+<!--
+The fundamental problem with this code is that it addresses two concerns: extracting the numbers and checking that all of them are present, but the second concern is addressed by copying and pasting the code that handles the `none` case.
+It is often good style to lift a repetitive segment into a helper function:
+-->
+<p>这段代码有两个问题：提取数字和检查它们是否全部存在，但第二个问题是通过复制粘贴处理<code>none</code>情况的代码来解决的。
+通常鼓励将重复的片段提取到辅助函数中：</p>
 <pre><code class="language-lean">def andThen (opt : Option α) (next : α → Option β) : Option β :=
   match opt with
   | none =&gt; none
   | some x =&gt; next x
 </code></pre>
-<p>This helper, which is used similarly to <code>?.</code> in C# and Kotlin, takes care of propagating <code>none</code> values.
-It takes two arguments: an optional value and a function to apply when the value is not <code>none</code>.
-If the first argument is <code>none</code>, then the helper returns <code>none</code>.
-If the first argument is not <code>none</code>, then the function is applied to the contents of the <code>some</code> constructor.</p>
-<p>Now, <code>firstThird</code> can be rewritten to use <code>andThen</code> instead of pattern matching:</p>
+<!--
+This helper, which is used similarly to `?.` in C# and Kotlin, takes care of propagating `none` values.
+It takes two arguments: an optional value and a function to apply when the value is not `none`.
+If the first argument is `none`, then the helper returns `none`.
+If the first argument is not `none`, then the function is applied to the contents of the `some` constructor.
+-->
+<p>该辅助函数类似于C#和Kotlin中的<code>?.</code>，用于处理<code>none</code>值。
+它接受两个参数：一个可选值和一个在该值非<code>none</code>时应用的函数。
+如果第一个参数是<code>none</code>，则辅助函数返回<code>none</code>。
+如果第一个参数不是<code>none</code>，则该函数将应用于<code>some</code> 构造器的内容。</p>
+<!--
+Now, `firstThird` can be rewritten to use `andThen` instead of pattern matching:
+-->
+<p>现在，<code>firstThird</code> 可以使用<code>andThen</code>重写：</p>
 <pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
   andThen xs[0]? fun first =&gt;
   andThen xs[2]? fun third =&gt;
   some (first, third)
 </code></pre>
-<p>In Lean, functions don't need to be enclosed in parentheses when passed as arguments.
-The following equivalent definition uses more parentheses and indents the bodies of functions:</p>
+<!--
+In Lean, functions don't need to be enclosed in parentheses when passed as arguments.
+The following equivalent definition uses more parentheses and indents the bodies of functions:
+-->
+<p>在Lean中，作为参数传递时，函数不需要用括号括起来。
+以下等价定义使用了更多括号并缩进了函数体：</p>
 <pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
   andThen xs[0]? (fun first =&gt;
     andThen xs[2]? (fun third =&gt;
       some (first, third)))
 </code></pre>
-<p>The <code>andThen</code> helper provides a sort of &quot;pipeline&quot; through which values flow, and the version with the somewhat unusual indentation is more suggestive of this fact.
-Improving the syntax used to write <code>andThen</code> can make these computations even easier to understand.</p>
-<h3 id="infix-operators"><a class="header" href="#infix-operators">Infix Operators</a></h3>
-<p>In Lean, infix operators can be declared using the <code>infix</code>, <code>infixl</code>, and <code>infixr</code> commands, which create (respectively) non-associative, left-associative, and right-associative operators.
-When used multiple times in a row, a <em>left associative</em> operator stacks up the opening parentheses on the left side of the expression.
-The addition operator <code>+</code> is left associative, so <code>w + x + y + z</code> is equivalent to <code>(((w + x) + y) + z)</code>.
-The exponentiation operator <code>^</code> is right associative, so <code>w ^ x ^ y ^ z</code> is equivalent to <code>(w ^ (x ^ (y ^ z)))</code>.
-Comparison operators such as <code>&lt;</code> are non-associative, so <code>x &lt; y &lt; z</code> is a syntax error and requires manual parentheses.</p>
-<p>The following declaration makes <code>andThen</code> into an infix operator:</p>
+<!--
+The `andThen` helper provides a sort of "pipeline" through which values flow, and the version with the somewhat unusual indentation is more suggestive of this fact.
+Improving the syntax used to write `andThen` can make these computations even easier to understand.
+-->
+<p><code>andThen</code>辅助函数提供了一种让值流过的“管道”，具有特殊缩进的版本更能说明这一事实。
+改进 <code>andThen</code>的语法可以使其更容易阅读和理解。</p>
+<!--
+### Infix Operators
+-->
+<h3 id="中缀运算符"><a class="header" href="#中缀运算符">中缀运算符</a></h3>
+<!--
+In Lean, infix operators can be declared using the `infix`, `infixl`, and `infixr` commands, which create (respectively) non-associative, left-associative, and right-associative operators.
+When used multiple times in a row, a _left associative_ operator stacks up the opening parentheses on the left side of the expression.
+The addition operator `+` is left associative, so `w + x + y + z` is equivalent to `(((w + x) + y) + z)`.
+The exponentiation operator `^` is right associative, so `w ^ x ^ y ^ z` is equivalent to `(w ^ (x ^ (y ^ z)))`.
+Comparison operators such as `<` are non-associative, so `x < y < z` is a syntax error and requires manual parentheses.
+-->
+<p>在 Lean 中，可以使用 <code>infix</code>、<code>infixl</code> 和 <code>infixr</code>命令声明中缀运算符，分别用于非结合、左结合和右结合的情况。
+当连续多次使用时，<strong>左结合</strong>运算符会将（开）括号堆叠在表达式的左侧。
+加法运算符<code>+</code> 是左结合的，因此 <code>w + x + y + z</code> 等价于 <code>(((w + x) + y) + z)</code>。
+指数运算符 <code>^</code> 是右结合的，因此 <code>w ^ x ^ y ^ z</code> 等价于 <code>(w ^ (x ^ (y ^ z)))</code>。
+比较运算符（如 <code>&lt;</code>）是非结合的，因此 <code>x &lt; y &lt; z</code>是一个语法错误，需要手动添加括号。</p>
+<!--
+The following declaration makes `andThen` into an infix operator:
+-->
+<p>以下声明将<code>andThen</code>声明为中缀运算符：</p>
 <pre><code class="language-lean">infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 </code></pre>
-<p>The number following the colon declares the <em>precedence</em> of the new infix operator.
-In ordinary mathematical notation, <code>x + y * z</code> is equivalent to <code>x + (y * z)</code> even though both <code>+</code> and <code>*</code> are left associative.
-In Lean, <code>+</code> has precedence 65 and <code>*</code> has precedence 70.
+<!--
+The number following the colon declares the _precedence_ of the new infix operator.
+In ordinary mathematical notation, `x + y * z` is equivalent to `x + (y * z)` even though both `+` and `*` are left associative.
+In Lean, `+` has precedence 65 and `*` has precedence 70.
 Higher-precedence operators are applied before lower-precedence operators.
-According to the declaration of <code>~~&gt;</code>, both <code>+</code> and <code>*</code> have higher precedence, and thus apply first.
-Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.</p>
-<p>Following the new infix operator is a double arrow <code>=&gt;</code>, which specifies the named function to be used for the infix operator.
-Lean's standard library uses this feature to define <code>+</code> and <code>*</code> as infix operators that point at <code>HAdd.hAdd</code> and <code>HMul.hMul</code>, respectively, allowing type classes to be used to overload the infix operators.
-Here, however, <code>andThen</code> is just an ordinary function.</p>
-<p>Having defined an infix operator for <code>andThen</code>, <code>firstThird</code> can be rewritten in a way that brings the &quot;pipeline&quot; feeling of <code>none</code>-checks front and center:</p>
+According to the declaration of `~~>`, both `+` and `*` have higher precedence, and thus apply first.
+Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.
+-->
+<p>冒号后面的数字声明了新中缀运算符的<strong>优先级</strong>。
+在一般的数学记号中，<code>x + y * z</code> 等价于 <code>x + (y * z)</code>，即使 <code>+</code> 和 <code>*</code> 都是左结合的。
+在 Lean 中，<code>+</code> 的优先级为 65，<code>*</code> 的优先级为 70。
+优先级更高的运算符应用于优先级较低的运算符之前。
+根据<code>~~&gt;</code>的声明，<code>+</code>和<code>*</code>都具有更高的优先级，因此会被首先计算。
+通常来说，找出最适合一组运算符的优先级需要一些实验和大量的示例。</p>
+<!--
+Following the new infix operator is a double arrow `=>`, which specifies the named function to be used for the infix operator.
+Lean's standard library uses this feature to define `+` and `*` as infix operators that point at `HAdd.hAdd` and `HMul.hMul`, respectively, allowing type classes to be used to overload the infix operators.
+Here, however, `andThen` is just an ordinary function.
+-->
+<p>在新的中缀运算符后面是一个双箭头 <code>=&gt;</code>，指定中缀运算符使用的命名的函数。
+Lean的标准库使用此功能将<code>+</code>和<code>*</code>定义为指向<code>HAdd.hAdd</code>和<code>HMul.hMul</code>的中缀运算符，从而允许将类型类用于重载中缀运算符。
+不过这里的<code>andThen</code>只是一个普通函数。</p>
+<!--
+Having defined an infix operator for `andThen`, `firstThird` can be rewritten in a way that brings the "pipeline" feeling of `none`-checks front and center:
+-->
+<p>通过为<code>andThen</code>定义一个中缀运算符，<code>firstThird</code>可以被改写成一种，显化<code>none</code>检查的“管道”风格的方式：</p>
 <pre><code class="language-lean">def firstThirdInfix (xs : List α) : Option (α × α) :=
   xs[0]? ~~&gt; fun first =&gt;
   xs[2]? ~~&gt; fun third =&gt;
   some (first, third)
 </code></pre>
-<p>This style is much more concise when writing larger functions:</p>
+<!--
+This style is much more concise when writing larger functions:
+-->
+<p>这种风格在编写较长的函数时更加精炼：</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
   xs[0]? ~~&gt; fun first =&gt;
   xs[2]? ~~&gt; fun third =&gt;
@@ -255,26 +339,48 @@ Here, however, <code>andThen</code> is just an ordinary function.</p>
   xs[6]? ~~&gt; fun seventh =&gt;
   some (first, third, fifth, seventh)
 </code></pre>
-<h2 id="propagating-error-messages"><a class="header" href="#propagating-error-messages">Propagating Error Messages</a></h2>
-<p>Pure functional languages such as Lean have no built-in exception mechanism for error handling, because throwing or catching an exception is outside of the step-by-step evaluation model for expressions.
+<!--
+## Propagating Error Messages
+-->
+<h2 id="错误消息的传递"><a class="header" href="#错误消息的传递">错误消息的传递</a></h2>
+<!--
+Pure functional languages such as Lean have no built-in exception mechanism for error handling, because throwing or catching an exception is outside of the step-by-step evaluation model for expressions.
 However, functional programs certainly need to handle errors.
-In the case of <code>firstThirdFifthSeventh</code>, it is likely relevant for a user to know just how long the list was and where the lookup failed.</p>
-<p>This is typically accomplished by defining a datatype that can be either an error or a result, and translating functions with exceptions into functions that return this datatype:</p>
+In the case of `firstThirdFifthSeventh`, it is likely relevant for a user to know just how long the list was and where the lookup failed.
+-->
+<p>像Lean这样的纯函数式语言并没有用于错误处理的内置异常机制，因为抛出或捕获异常超出了表达式逐步求值模型考虑的范围。
+然而函数式程序肯定需要处理错误。
+在<code>firstThirdFifthSeventh</code>的情况下，用户很可能需要知道列表有多长以及查找失败发生的位置。&quot;</p>
+<!--
+This is typically accomplished by defining a datatype that can be either an error or a result, and translating functions with exceptions into functions that return this datatype:
+-->
+<p>这通常通过定义一个——错误或结果——的数据类型，并让带有异常的函数返回此类型来实现：</p>
 <pre><code class="language-lean">inductive Except (ε : Type) (α : Type) where
   | error : ε → Except ε α
   | ok : α → Except ε α
 deriving BEq, Hashable, Repr
 </code></pre>
-<p>The type variable <code>ε</code> stands for the type of errors that can be produced by the function.
-Callers are expected to handle both errors and successes, which makes the type variable <code>ε</code> play a role that is a bit like that of a list of checked exceptions in Java.</p>
-<p>Similarly to <code>Option</code>, <code>Except</code> can be used to indicate a failure to find an entry in a list.
-In this case, the error type is a <code>String</code>:</p>
+<!--
+The type variable `ε` stands for the type of errors that can be produced by the function.
+Callers are expected to handle both errors and successes, which makes the type variable `ε` play a role that is a bit like that of a list of checked exceptions in Java.
+-->
+<p>类型变量<code>ε</code>表示函数可能产生的错误类型。
+调用者需要处理错误和成功两种情况，因此类型变量<code>ε</code>有点类似Java中需要检查的异常列表。</p>
+<!--
+Similarly to `Option`, `Except` can be used to indicate a failure to find an entry in a list.
+In this case, the error type is a `String`:
+-->
+<p>类似于 <code>Option</code>，<code>Except</code>可用于指示在列表中找不到项的情况。
+此时，错误的类型为 <code>String</code>：</p>
 <pre><code class="language-lean">def get (xs : List α) (i : Nat) : Except String α :=
   match xs[i]? with
   | none =&gt; Except.error s!&quot;Index {i} not found (maximum is {xs.length - 1})&quot;
   | some x =&gt; Except.ok x
 </code></pre>
-<p>Looking up an in-bounds value yields an <code>Except.ok</code>:</p>
+<!--
+Looking up an in-bounds value yields an `Except.ok`:
+-->
+<p>查找没有越界的值会得到<code>Except.ok</code>：</p>
 <pre><code class="language-lean">def ediblePlants : List String :=
   [&quot;ramsons&quot;, &quot;sea plantain&quot;, &quot;sea buckthorn&quot;, &quot;garden nasturtium&quot;]
 
@@ -282,16 +388,25 @@ In this case, the error type is a <code>String</code>:</p>
 </code></pre>
 <pre><code class="language-output info">Except.ok &quot;sea buckthorn&quot;
 </code></pre>
-<p>Looking up an out-of-bounds value yields an <code>Except.error</code>:</p>
+<!--
+Looking up an out-of-bounds value yields an `Except.error`:
+-->
+<p>查找越界的值将产生<code>Except.error</code>：</p>
 <pre><code class="language-lean">#eval get ediblePlants 4
 </code></pre>
 <pre><code class="language-output info">Except.error &quot;Index 4 not found (maximum is 3)&quot;
 </code></pre>
-<p>A single list lookup can conveniently return a value or an error:</p>
+<!--
+A single list lookup can conveniently return a value or an error:
+-->
+<p>单个列表查找可以方便地返回一个值或错误：</p>
 <pre><code class="language-lean">def first (xs : List α) : Except String α :=
   get xs 0
 </code></pre>
-<p>However, performing two list lookups requires handling potential failures:</p>
+<!--
+However, performing two list lookups requires handling potential failures:
+-->
+<p>然而，连续的两个列表查找则需要处理可能发生的失败情况：</p>
 <pre><code class="language-lean">def firstThird (xs : List α) : Except String (α × α) :=
   match get xs 0 with
   | Except.error msg =&gt; Except.error msg
@@ -301,7 +416,10 @@ In this case, the error type is a <code>String</code>:</p>
     | Except.ok third =&gt;
       Except.ok (first, third)
 </code></pre>
-<p>Adding another list lookup to the function requires still more error handling:</p>
+<!--
+Adding another list lookup to the function requires still more error handling:
+-->
+<p>向函数中添加另一个列表查找需要额外的错误处理：</p>
 <pre><code class="language-lean">def firstThirdFifth (xs : List α) : Except String (α × α × α) :=
   match get xs 0 with
   | Except.error msg =&gt; Except.error msg
@@ -314,7 +432,10 @@ In this case, the error type is a <code>String</code>:</p>
       | Except.ok fifth =&gt;
         Except.ok (first, third, fifth)
 </code></pre>
-<p>And one more list lookup begins to become quite unmanageable:</p>
+<!--
+And one more list lookup begins to become quite unmanageable:
+-->
+<p>再继续添加一个列表查找则开始变得相当难以管理：</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh (xs : List α) : Except String (α × α × α × α) :=
   match get xs 0 with
   | Except.error msg =&gt; Except.error msg
@@ -330,34 +451,55 @@ In this case, the error type is a <code>String</code>:</p>
         | Except.ok seventh =&gt;
           Except.ok (first, third, fifth, seventh)
 </code></pre>
-<p>Once again, a common pattern can be factored out into a helper.
+<!--
+Once again, a common pattern can be factored out into a helper.
 Each step through the function checks for an error, and only proceeds with the rest of the computation if the result was a success.
-A new version of <code>andThen</code> can be defined for <code>Except</code>:</p>
+A new version of `andThen` can be defined for `Except`:
+-->
+<p>同样，一个通用的模式可以提取为一个辅助函数。
+函数中的每一步都会检查错误，并只有在成功的情况下才进行之后的计算。
+可以为<code>Except</code>定义<code>andThen</code>的新版本：</p>
 <pre><code class="language-lean">def andThen (attempt : Except e α) (next : α → Except e β) : Except e β :=
   match attempt with
   | Except.error msg =&gt; Except.error msg
   | Except.ok x =&gt; next x
 </code></pre>
-<p>Just as with <code>Option</code>, this version of <code>andThen</code> allows a more concise definition of <code>firstThird</code>:</p>
+<!--
+Just as with `Option`, this version of `andThen` allows a more concise definition of `firstThird`:
+-->
+<p>与<code>Option</code>一样，该<code>andThen</code>允许更简洁地定义<code>firstThird</code>：</p>
 <pre><code class="language-lean">def firstThird' (xs : List α) : Except String (α × α) :=
   andThen (get xs 0) fun first  =&gt;
   andThen (get xs 2) fun third =&gt;
   Except.ok (first, third)
 </code></pre>
-<p>In both the <code>Option</code> and <code>Except</code> case, there are two repeating patterns: there is the checking of intermediate results at each step, which has been factored out into <code>andThen</code>, and there is the final successful result, which is <code>some</code> or <code>Except.ok</code>, respectively.
-For the sake of convenience, success can be factored out into a helper called <code>ok</code>:</p>
+<!--
+In both the `Option` and `Except` case, there are two repeating patterns: there is the checking of intermediate results at each step, which has been factored out into `andThen`, and there is the final successful result, which is `some` or `Except.ok`, respectively.
+For the sake of convenience, success can be factored out into a helper called `ok`:
+-->
+<p>在<code>Option</code>和<code>Except</code>情况下，都有两个重复的模式：每一步都有对中间结果的检查，并已提取为<code>andThen</code>；有最终的成功结果，分别是<code>some</code> 或<code>Except.ok</code>。
+为了方便起见，成功的情况可提取为辅助函数<code>ok</code>：</p>
 <pre><code class="language-lean">def ok (x : α) : Except ε α := Except.ok x
 </code></pre>
-<p>Similarly, failure can be factored out into a helper called <code>fail</code>:</p>
+<!--
+Similarly, failure can be factored out into a helper called `fail`:
+-->
+<p>类似地，失败的情况可提取为辅助函数<code>fail</code> ：</p>
 <pre><code class="language-lean">def fail (err : ε) : Except ε α := Except.error err
 </code></pre>
-<p>Using <code>ok</code> and <code>fail</code> makes <code>get</code> a little more readable:</p>
+<!--
+Using `ok` and `fail` makes `get` a little more readable:
+-->
+<p><code>ok</code>和<code>fail</code>使得<code>get</code>可读性更好：</p>
 <pre><code class="language-lean">def get (xs : List α) (i : Nat) : Except String α :=
   match xs[i]? with
   | none =&gt; fail s!&quot;Index {i} not found (maximum is {xs.length - 1})&quot;
   | some x =&gt; ok x
 </code></pre>
-<p>After adding the infix declaration for <code>andThen</code>, <code>firstThird</code> can be just as concise as the version that returns an <code>Option</code>:</p>
+<!--
+After adding the infix declaration for `andThen`, `firstThird` can be just as concise as the version that returns an `Option`:
+-->
+<p>在为<code>andThen</code>添加中缀运算符后，<code>firstThird</code>可以和返回<code>Option</code>的版本一样简洁：</p>
 <pre><code class="language-lean">infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 
 def firstThird (xs : List α) : Except String (α × α) :=
@@ -365,7 +507,10 @@ def firstThird (xs : List α) : Except String (α × α) :=
   get xs 2 ~~&gt; fun third =&gt;
   ok (first, third)
 </code></pre>
-<p>The technique scales similarly to larger functions:</p>
+<!--
+The technique scales similarly to larger functions:
+-->
+<p>该技术同样适用于更长的函数：</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh (xs : List α) : Except String (α × α × α × α) :=
   get xs 0 ~~&gt; fun first =&gt;
   get xs 2 ~~&gt; fun third =&gt;
@@ -373,22 +518,34 @@ def firstThird (xs : List α) : Except String (α × α) :=
   get xs 6 ~~&gt; fun seventh =&gt;
   ok (first, third, fifth, seventh)
 </code></pre>
-<h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
-<p>A number is even if dividing it by 2 leaves no remainder:</p>
+<h2 id="日志记录"><a class="header" href="#日志记录">日志记录</a></h2>
+<!--
+A number is even if dividing it by 2 leaves no remainder:
+-->
+<p>当一个数字除以2时没有余数则称它为偶数：</p>
 <pre><code class="language-lean">def isEven (i : Int) : Bool :=
   i % 2 == 0
 </code></pre>
-<p>The function <code>sumAndFindEvens</code> computes the sum of a list while remembering the even numbers encountered along the way:</p>
+<!--
+The function `sumAndFindEvens` computes the sum of a list while remembering the even numbers encountered along the way:
+-->
+<p>函数<code>sumAndFindEvens</code>计算列表所有元素的加和，同时记录沿途遇到的偶数：</p>
 <pre><code class="language-lean">def sumAndFindEvens : List Int → List Int × Int
   | [] =&gt; ([], 0)
   | i :: is =&gt;
     let (moreEven, sum) := sumAndFindEvens is
     (if isEven i then i :: moreEven else moreEven, sum + i)
 </code></pre>
-<p>This function is a simplified example of a common pattern.
+<!--
+This function is a simplified example of a common pattern.
 Many programs need to traverse a data structure once, while both computing a main result and accumulating some kind of tertiary extra result.
-One example of this is logging: a program that is an <code>IO</code> action can always log to a file on disk, but because the disk is outside of the mathematical world of Lean functions, it becomes much more difficult to prove things about logs based on <code>IO</code>.
-Another example is a function that computes the sum of all the nodes in a tree with an inorder traversal, while simultaneously recording each nodes visited:</p>
+One example of this is logging: a program that is an `IO` action can always log to a file on disk, but because the disk is outside of the mathematical world of Lean functions, it becomes much more difficult to prove things about logs based on `IO`.
+Another example is a function that computes the sum of all the nodes in a tree with an inorder traversal, while simultaneously recording each nodes visited:
+-->
+<p>此函数是一个常见模式的简化示例。
+许多程序需要遍历一次数据结构，计算一个主要结果的同时累积某种额外的结果。
+一个例子是日志记录：一个类型为<code>IO</code>的程序会将日志输出到磁盘上的文件中，但是由于磁盘在 Lean 函数的数学世界之外，因此对基于<code>IO</code>的日志相关的证明变得十分困难。
+另一个例子是同时计算树的中序遍历和所有节点的加和的函数，它必须记录每个访问的节点：</p>
 <pre><code class="language-lean">def inorderSum : BinTree Int → List Int × Int
   | BinTree.leaf =&gt; ([], 0)
   | BinTree.branch l x r =&gt;
@@ -397,10 +554,16 @@ Another example is a function that computes the sum of all the nodes in a tree w
     let (rightVisited, rightSum) := inorderSum r
     (leftVisited ++ hereVisited ++ rightVisited, leftSum + hereSum + rightSum)
 </code></pre>
-<p>Both <code>sumAndFindEvens</code> and <code>inorderSum</code> have a common repetitive structure.
+<!--
+Both `sumAndFindEvens` and `inorderSum` have a common repetitive structure.
 Each step of computation returns a pair that consists of a list of data that have been saved along with the primary result.
 The lists are then appended, and the primary result is computed and paired with the appended lists.
-The common structure becomes more apparent with a small rewrite of <code>sumAndFindEvens</code> that more cleanly separates the concerns of saving even numbers and computing the sum:</p>
+The common structure becomes more apparent with a small rewrite of `sumAndFindEvens` that more cleanly separates the concerns of saving even numbers and computing the sum:
+-->
+<p><code>sumAndFindEvens</code>和<code>inorderSum</code>都具有共同的重复结构。
+计算的每一步都返回一个对(pair)，由由数据列表和主要结果组成。
+在下一步中列表会被附加新的元素，计算新的主要结果并与附加的列表再次配对。
+通过对<code>sumAndFindEvens</code>稍微改写，保存偶数和计算加和的关注点则更加清晰地分离，共同的结构变得更加明显：</p>
 <pre><code class="language-lean">def sumAndFindEvens : List Int → List Int × Int
   | [] =&gt; ([], 0)
   | i :: is =&gt;
@@ -408,27 +571,43 @@ The common structure becomes more apparent with a small rewrite of <code>sumAndF
     let (evenHere, ()) := (if isEven i then [i] else [], ())
     (evenHere ++ moreEven, sum + i)
 </code></pre>
-<p>For the sake of clarity, a pair that consists of an accumulated result together with a value can be given its own name:</p>
+<!--
+For the sake of clarity, a pair that consists of an accumulated result together with a value can be given its own name:
+-->
+<p>为了清晰起见，可以给由累积结果和值组成的对(pair)起一个专有的名字：</p>
 <pre><code class="language-lean">structure WithLog (logged : Type) (α : Type) where
   log : List logged
   val : α
 </code></pre>
-<p>Similarly, the process of saving a list of accumulated results while passing a value on to the next step of a computation can be factored out into a helper, once again named <code>andThen</code>:</p>
+<!--
+Similarly, the process of saving a list of accumulated results while passing a value on to the next step of a computation can be factored out into a helper, once again named `andThen`:
+-->
+<p>同样，保存累积结果列表的同时传递一个值到下一步的过程，可以提取为一个辅助函数，再次命名为 <code>andThen</code>：</p>
 <pre><code class="language-lean">def andThen (result : WithLog α β) (next : β → WithLog α γ) : WithLog α γ :=
   let {log := thisOut, val := thisRes} := result
   let {log := nextOut, val := nextRes} := next thisRes
   {log := thisOut ++ nextOut, val := nextRes}
 </code></pre>
-<p>In the case of errors, <code>ok</code> represents an operation that always succeeds.
-Here, however, it is an operation that simply returns a value without logging anything:</p>
+<!--
+In the case of errors, `ok` represents an operation that always succeeds.
+Here, however, it is an operation that simply returns a value without logging anything:
+-->
+<p>在可能发生错误的语境下，<code>ok</code>表示一个总是成功的操作。然而在这里，它仅简单地返回一个值而不产生任何日志：</p>
 <pre><code class="language-lean">def ok (x : β) : WithLog α β := {log := [], val := x}
 </code></pre>
-<p>Just as <code>Except</code> provides <code>fail</code> as a possibility, <code>WithLog</code> should allow items to be added to a log.
-This has no interesting return value associated with it, so it returns <code>Unit</code>:</p>
+<!--
+Just as `Except` provides `fail` as a possibility, `WithLog` should allow items to be added to a log.
+This has no interesting return value associated with it, so it returns `Unit`:
+-->
+<p>正如<code>Except</code>提供<code>fail</code>作为一种可能性，<code>WithLog</code>应该允许将项添加到日志中。
+它不需要返回任何有意义的结果，所以返回类型为<code>Unit</code>：</p>
 <pre><code class="language-lean">def save (data : α) : WithLog α Unit :=
   {log := [data], val := ()}
 </code></pre>
-<p><code>WithLog</code>, <code>andThen</code>, <code>ok</code>, and <code>save</code> can be used to separate the logging concern from the summing concern in both programs:</p>
+<!--
+`WithLog`, `andThen`, `ok`, and `save` can be used to separate the logging concern from the summing concern in both programs:
+-->
+<p><code>WithLog</code>、<code>andThen</code>、<code>ok</code>和<code>save</code>可以将两个程序中的，日志记录与求和问题分开：</p>
 <pre><code class="language-lean">def sumAndFindEvens : List Int → WithLog Int Int
   | [] =&gt; ok 0
   | i :: is =&gt;
@@ -444,7 +623,10 @@ def inorderSum : BinTree Int → WithLog Int Int
     andThen (inorderSum r) fun rightSum =&gt;
     ok (leftSum + x + rightSum)
 </code></pre>
-<p>And, once again, the infix operator helps put focus on the correct steps:</p>
+<!--
+And, once again, the infix operator helps put focus on the correct steps:
+-->
+<p>同样地，中缀运算符有助于专注于正确的过程：</p>
 <pre><code class="language-lean">infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 
 def sumAndFindEvens : List Int → WithLog Int Int
@@ -462,9 +644,15 @@ def inorderSum : BinTree Int → WithLog Int Int
     inorderSum r ~~&gt; fun rightSum =&gt;
     ok (leftSum + x + rightSum)
 </code></pre>
-<h2 id="numbering-tree-nodes"><a class="header" href="#numbering-tree-nodes">Numbering Tree Nodes</a></h2>
-<p>An <em>inorder numbering</em> of a tree associates each data point in the tree with the step it would be visited at in an inorder traversal of the tree.
-For example, consider <code>aTree</code>:</p>
+<!--
+## Numbering Tree Nodes
+-->
+<h2 id="对树节点编号"><a class="header" href="#对树节点编号">对树节点编号</a></h2>
+<!--
+An _inorder numbering_ of a tree associates each data point in the tree with the step it would be visited at in an inorder traversal of the tree.
+For example, consider `aTree`:
+-->
+<p>树的每个节点的<strong>中序编号</strong>指的是：在中序遍历中被访问的次序。例如，考虑如下<code>aTree</code>：</p>
 <pre><code class="language-lean">open BinTree in
 def aTree :=
   branch
@@ -475,7 +663,10 @@ def aTree :=
     &quot;d&quot;
     (branch leaf &quot;e&quot; leaf)
 </code></pre>
-<p>Its inorder numbering is:</p>
+<!--
+Its inorder numbering is:
+-->
+<p>它的中序编号为：</p>
 <pre><code class="language-output info">BinTree.branch
   (BinTree.branch
     (BinTree.branch (BinTree.leaf) (0, &quot;a&quot;) (BinTree.branch (BinTree.leaf) (1, &quot;b&quot;) (BinTree.leaf)))
@@ -484,10 +675,16 @@ def aTree :=
   (3, &quot;d&quot;)
   (BinTree.branch (BinTree.leaf) (4, &quot;e&quot;) (BinTree.leaf))
 </code></pre>
-<p>Trees are most naturally processed with recursive functions, but the usual pattern of recursion on trees makes it difficult to compute an inorder numbering.
+<!--
+Trees are most naturally processed with recursive functions, but the usual pattern of recursion on trees makes it difficult to compute an inorder numbering.
 This is because the highest number assigned anywhere in the left subtree is used to determine the numbering of a node's data value, and then again to determine the starting point for numbering the right subtree.
 In an imperative language, this issue can be worked around by using a mutable variable that contains the next number to be assigned.
-The following Python program computes an inorder numbering using a mutable variable:</p>
+The following Python program computes an inorder numbering using a mutable variable:
+-->
+<p>树用递归函数来处理最为自然，但树的常见的递归模式并不适合计算中序编号。
+这是因为左子树中分配的最大编号将用于确定当前节点的编号，然后用于确定右子树编号的起点。
+在命令式语言中，可以使用持有下一个被分配编号的可变变量来解决此问题。
+以下Python程序使用可变变量计算中序编号：</p>
 <pre><code class="language-python">class Branch:
     def __init__(self, value, left=None, right=None):
         self.left = left
@@ -511,22 +708,37 @@ def number(tree):
 
     return helper(tree)
 </code></pre>
-<p>The numbering of the Python equivalent of <code>aTree</code> is:</p>
+<!--
+The numbering of the Python equivalent of `aTree` is:
+-->
+<p><code>aTree</code>在Python中等价定义是：</p>
 <pre><code class="language-python">a_tree = Branch(&quot;d&quot;,
                 left=Branch(&quot;c&quot;,
                             left=Branch(&quot;a&quot;, left=None, right=Branch(&quot;b&quot;)),
                             right=None),
                 right=Branch(&quot;e&quot;))
 </code></pre>
-<p>and its numbering is:</p>
+<!--
+and its numbering is:
+-->
+<p>并且它的编号是：</p>
 <pre><code>&gt;&gt;&gt; number(a_tree)
 Branch((3, 'd'), left=Branch((2, 'c'), left=Branch((0, 'a'), left=None, right=Branch((1, 'b'), left=None, right=None)), right=None), right=Branch((4, 'e'), left=None, right=None))
 </code></pre>
-<p>Even though Lean does not have mutable variables, a workaround exists.
+<!--
+Even though Lean does not have mutable variables, a workaround exists.
 From the point of view of the rest of the world, the mutable variable can be thought of as having two relevant aspects: its value when the function is called, and its value when the function returns.
 In other words, a function that uses a mutable variable can be seen as a function that takes the mutable variable's starting value as an argument, returning a pair of the variable's final value and the function's result.
-This final value can then be passed as an argument to the next step.</p>
-<p>Just as the Python example uses an outer function that establishes a mutable variable and an inner helper function that changes the variable, a Lean version of the function uses an outer function that provides the variable's starting value and explicitly returns the function's result along with an inner helper function that threads the variable's value while computing the numbered tree:</p>
+This final value can then be passed as an argument to the next step.
+-->
+<p>尽管Lean没有可变变量，但有另外一种解决方法。
+可变变量可以认为具有两个相关方面：函数调用时的值和函数返回时的值。
+换句话说，使用可变变量的函数可以看作：将变量的起始值作为参数、返回变量的最终值和结果构成的元组的函数。
+然后可以将此最终值作为参数传递给下一步。</p>
+<!--
+Just as the Python example uses an outer function that establishes a mutable variable and an inner helper function that changes the variable, a Lean version of the function uses an outer function that provides the variable's starting value and explicitly returns the function's result along with an inner helper function that threads the variable's value while computing the numbered tree:
+-->
+<p>正如Python示例中定义可变变量的外部函数和更改变量的内部辅助函数一样，Lean版本使用：提供变量初值并明确返回结果的外部函数，以及计算编号树的同时传递变量值的内部辅助函数：</p>
 <pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
   let rec helper (n : Nat) : BinTree α → (Nat × BinTree (Nat × α))
     | BinTree.leaf =&gt; (n, BinTree.leaf)
@@ -536,26 +748,44 @@ This final value can then be passed as an argument to the next step.</p>
       (i, BinTree.branch numberedLeft (k, x) numberedRight)
   (helper 0 t).snd
 </code></pre>
-<p>This code, like the <code>none</code>-propagating <code>Option</code> code, the <code>error</code>-propagating <code>Except</code> code, and the log-accumulating <code>WithLog</code> code, commingles two concerns: propagating the value of the counter, and actually traversing the tree to find the result.
-Just as in those cases, an <code>andThen</code> helper can be defined to propagate state from one step of a computation to another.
-The first step is to give a name to the pattern of taking an input state as an argument and returning an output state together with a value:</p>
+<!--
+This code, like the `none`-propagating `Option` code, the `error`-propagating `Except` code, and the log-accumulating `WithLog` code, commingles two concerns: propagating the value of the counter, and actually traversing the tree to find the result.
+Just as in those cases, an `andThen` helper can be defined to propagate state from one step of a computation to another.
+The first step is to give a name to the pattern of taking an input state as an argument and returning an output state together with a value:
+-->
+<p>此代码与传递<code>none</code>的<code>Option</code>代码、传递<code>error</code>的<code>Except</code>代码、以及累积日志的<code>WithLog</code>代码一样，混杂了两个问题：传递计数器的值，以及实际遍历树以查找结果。
+与那些情况一样，可以定义一个<code>andThen</code>辅助函数，将状态在计算的步骤之间传递。
+第一步是为以下模式命名：将输入状态作为参数并返回输出状态和值：</p>
 <pre><code class="language-lean">def State (σ : Type) (α : Type) : Type :=
   σ → (σ × α)
 </code></pre>
-<p>In the case of <code>State</code>, <code>ok</code> is a function that returns the input state unchanged, along with the provided value:</p>
+<!--
+In the case of `State`, `ok` is a function that returns the input state unchanged, along with the provided value:
+-->
+<p>在<code>State</code>的情况下，<code>ok</code>函数原封不动地传递输入状态、以及输入的值：</p>
 <pre><code class="language-lean">def ok (x : α) : State σ α :=
   fun s =&gt; (s, x)
 </code></pre>
-<p>When working with a mutable variable, there are two fundamental operations: reading the value and replacing it with a new one.
-Reading the current value is accomplished with a function that places the input state unmodified into the output state, and also places it into the value field:</p>
+<!--
+When working with a mutable variable, there are two fundamental operations: reading the value and replacing it with a new one.
+Reading the current value is accomplished with a function that places the input state unmodified into the output state, and also places it into the value field:
+-->
+<p>在使用可变变量时，有两个基本操作：读取和新值替换旧值。
+读取当前值意味着——记录输入状态、将其放入输出状态，然后直接返回记录的输入状态：</p>
 <pre><code class="language-lean">def get : State σ σ :=
   fun s =&gt; (s, s)
 </code></pre>
-<p>Writing a new value consists of ignoring the input state, and placing the provided new value into the output state:</p>
+<!--
+Writing a new value consists of ignoring the input state, and placing the provided new value into the output state:
+-->
+<p>写入新值意味着——忽略输入状态，并将提供的新值直接放入输出状态：</p>
 <pre><code class="language-lean">def set (s : σ) : State σ Unit :=
   fun _ =&gt; (s, ())
 </code></pre>
-<p>Finally, two computations that use state can be sequenced by finding both the output state and return value of the first function, then passing them both into the next function:</p>
+<!--
+Finally, two computations that use state can be sequenced by finding both the output state and return value of the first function, then passing them both into the next function:
+-->
+<p>最后，可以将<code>first</code>函数的输出状态和返回值传递到<code>next</code>函数中，以此实现这两个函数的先后调用：</p>
 <pre><code class="language-lean">def andThen (first : State σ α) (next : α → State σ β) : State σ β :=
   fun s =&gt;
     let (s', x) := first s
@@ -563,7 +793,10 @@ Reading the current value is accomplished with a function that places the input 
 
 infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 </code></pre>
-<p>Using <code>State</code> and its helpers, local mutable state can be simulated:</p>
+<!--
+Using `State` and its helpers, local mutable state can be simulated:
+-->
+<p>通过<code>State</code>和它的辅助函数，可以模拟局部可变状态：</p>
 <pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
   let rec helper : BinTree α → State Nat (BinTree (Nat × α))
     | BinTree.leaf =&gt; ok BinTree.leaf
@@ -575,19 +808,38 @@ infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
       ok (BinTree.branch numberedLeft (n, x) numberedRight)
   (helper t 0).snd
 </code></pre>
-<p>Because <code>State</code> simulates only a single local variable, <code>get</code> and <code>set</code> don't need to refer to any particular variable name.</p>
-<h2 id="monads-a-functional-design-pattern"><a class="header" href="#monads-a-functional-design-pattern">Monads: A Functional Design Pattern</a></h2>
-<p>Each of these examples has consisted of:</p>
+<!--
+Because `State` simulates only a single local variable, `get` and `set` don't need to refer to any particular variable name.
+-->
+<p>因为<code>State</code>只模拟一个局部变量，所以<code>get</code>和<code>set</code>不需要任何特定的变量名。</p>
+<!--
+## Monads: A Functional Design Pattern
+-->
+<h2 id="单子一种函数式设计模式"><a class="header" href="#单子一种函数式设计模式">单子：一种函数式设计模式</a></h2>
+<!--
+Each of these examples has consisted of:
+ * A polymorphic type, such as `Option`, `Except ε`, `WithLog logged`, or `State σ`
+ * An operator `andThen` that takes care of some repetitive aspect of sequencing programs that have this type
+ * An operator `ok` that is (in some sense) the most boring way to use the type
+ * A collection of other operations, such as `none`, `fail`, `save`, and `get`, that name ways of using the type
+-->
+<p>以上的每个示例都包含下述结构：</p>
 <ul>
-<li>A polymorphic type, such as <code>Option</code>, <code>Except ε</code>, <code>WithLog logged</code>, or <code>State σ</code></li>
-<li>An operator <code>andThen</code> that takes care of some repetitive aspect of sequencing programs that have this type</li>
-<li>An operator <code>ok</code> that is (in some sense) the most boring way to use the type</li>
-<li>A collection of other operations, such as <code>none</code>, <code>fail</code>, <code>save</code>, and <code>get</code>, that name ways of using the type</li>
+<li>一个多态类型，例如<code>Option</code>、<code>Except ε</code>、<code>WithLog logged</code>或<code>State σ</code></li>
+<li>一个运算符<code>andThen</code>，用来处理连续、重复、具有此类型的程序序列</li>
+<li>一个运算符<code>ok</code>，它（在某种意义上）是使用该类型最无聊的方式</li>
+<li>一系列其他操作，例如<code>none</code>、<code>fail</code>、<code>save</code>和<code>get</code>，指出了使用对应类型的方式</li>
 </ul>
-<p>This style of API is called a <em>monad</em>.
+<!--
+This style of API is called a _monad_.
 While the idea of monads is derived from a branch of mathematics called category theory, no understanding of category theory is needed in order to use them for programming.
 The key idea of monads is that each monad encodes a particular kind of side effect using the tools provided by the pure functional language Lean.
-For example, <code>Option</code> represents programs that can fail by returning <code>none</code>, <code>Except</code> represents programs that can throw exceptions, <code>WithLog</code> represents programs that accumulate a log while running, and <code>State</code> represents programs with a single mutable variable.</p>
+For example, `Option` represents programs that can fail by returning `none`, `Except` represents programs that can throw exceptions, `WithLog` represents programs that accumulate a log while running, and `State` represents programs with a single mutable variable.
+-->
+<p>这种风格的API统称为<strong>单子</strong>(Monad)。
+虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。
+单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。
+例如<code>Option</code>表示可能通过返回<code>none</code>而失败的程序，<code>Except</code>表示可能抛出异常的程序，<code>WithLog</code>表示在运行过程中累积日志的程序，<code>State</code>表示具有单个可变变量的程序。</p>
 
                     </main>
 

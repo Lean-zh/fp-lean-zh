@@ -138,16 +138,30 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="the-monad-type-class"><a class="header" href="#the-monad-type-class">The Monad Type Class</a></h1>
-<p>Rather than having to import an operator like <code>ok</code> or <code>andThen</code> for each type that is a monad, the Lean standard library contains a type class that allow them to be overloaded, so that the same operators can be used for <em>any</em> monad.
-Monads have two operations, which are the equivalent of <code>ok</code> and <code>andThen</code>:</p>
+                        <!--
+# The Monad Type Class
+-->
+<h1 id="monad类型类"><a class="header" href="#monad类型类">Monad类型类</a></h1>
+<!--
+Rather than having to import an operator like `ok` or `andThen` for each type that is a monad, the Lean standard library contains a type class that allow them to be overloaded, so that the same operators can be used for _any_ monad.
+Monads have two operations, which are the equivalent of `ok` and `andThen`:
+-->
+<p>无需为每个单子都实现<code>ok</code>或<code>andThen</code>这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于<strong>任何</strong>单子。
+单子有两个操作，分别相当于<code>ok</code>和<code>andThen</code>：</p>
 <pre><code class="language-lean">class Monad (m : Type → Type) where
   pure : α → m α
   bind : m α → (α → m β) → m β
 </code></pre>
-<p>This definition is slightly simplified.
-The actual definition in the Lean library is somewhat more involved, and will be presented later.</p>
-<p>The <code>Monad</code> instances for <code>Option</code> and <code>Except</code> can be created by adapting the definitions of their respective <code>andThen</code> operations:</p>
+<!--
+This definition is slightly simplified.
+The actual definition in the Lean library is somewhat more involved, and will be presented later.
+-->
+<p>这个定义略微简化了。
+Lean标准库中的实际定义更复杂一些，稍后会介绍。</p>
+<!--
+The `Monad` instances for `Option` and `Except` can be created by adapting the definitions of their respective `andThen` operations:
+-->
+<p><code>Option</code>和<code>Except</code>的<code>Monad</code>实例，可以通过调整它们各自的<code>andThen</code>操作的定义来创建：</p>
 <pre><code class="language-lean">instance : Monad Option where
   pure x := some x
   bind opt next :=
@@ -162,10 +176,16 @@ instance : Monad (Except ε) where
     | Except.error e =&gt; Except.error e
     | Except.ok x =&gt; next x
 </code></pre>
-<p>As an example, <code>firstThirdFifthSeventh</code> was defined separately for <code>Option α</code> and <code>Except String α</code> return types.
-Now, it can be defined polymorphically for <em>any</em> monad.
+<!--
+As an example, `firstThirdFifthSeventh` was defined separately for `Option α` and `Except String α` return types.
+Now, it can be defined polymorphically for _any_ monad.
 It does, however, require a lookup function as an argument, because different monads might fail to find a result in different ways.
-The infix version of <code>bind</code> is <code>&gt;&gt;=</code>, which plays the same role as <code>~~&gt;</code> in the examples.</p>
+The infix version of `bind` is `>>=`, which plays the same role as `~~>` in the examples.
+-->
+<p>例如<code>firstThirdFifthSeventh</code>原本对<code>Option α</code>和<code>Except String α</code>类型分别定义。
+现在，它可以被定义为对<strong>任何</strong>单子都有效的多态函数。
+但是，它需要接受一个参数作为查找函数，因为不同的单子可能以不同的方式找不到结果。
+<code>bind</code>的中缀运算符是<code>&gt;&gt;=</code>, 它扮演与示例中<code>~~&gt;</code>相同的角色。</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) :=
   lookup xs 0 &gt;&gt;= fun first =&gt;
   lookup xs 2 &gt;&gt;= fun third =&gt;
@@ -173,7 +193,10 @@ The infix version of <code>bind</code> is <code>&gt;&gt;=</code>, which plays th
   lookup xs 6 &gt;&gt;= fun seventh =&gt;
   pure (first, third, fifth, seventh)
 </code></pre>
-<p>Given example lists of slow mammals and fast birds, this implementation of <code>firstThirdFifthSeventh</code> can be used with <code>Option</code>:</p>
+<!--
+Given example lists of slow mammals and fast birds, this implementation of `firstThirdFifthSeventh` can be used with `Option`:
+-->
+<p>给定作为示例的slowMammals和fastBirds列表，该<code>firstThirdFifthSeventh</code>实现可与<code>Option</code>一起使用：</p>
 <pre><code class="language-lean">def slowMammals : List String :=
   [&quot;Three-toed sloth&quot;, &quot;Slow loris&quot;]
 
@@ -195,7 +218,10 @@ def fastBirds : List String := [
 </code></pre>
 <pre><code class="language-output info">some (&quot;Peregrine falcon&quot;, &quot;Golden eagle&quot;, &quot;Spur-winged goose&quot;, &quot;Anna's hummingbird&quot;)
 </code></pre>
-<p>After renaming <code>Except</code>'s lookup function <code>get</code> to something more specific, the very same  implementation of <code>firstThirdFifthSeventh</code> can be used with <code>Except</code> as well:</p>
+<!--
+After renaming `Except`'s lookup function `get` to something more specific, the very same  implementation of `firstThirdFifthSeventh` can be used with `Except` as well:
+-->
+<p>在将<code>Except</code>的查找函数<code>get</code>重命名为更具体的形式后，完全相同的<code>firstThirdFifthSeventh</code>实现也可以与<code>Except</code>一起使用：</p>
 <pre><code class="language-lean">def getOrExcept (xs : List α) (i : Nat) : Except String α :=
   match xs[i]? with
   | none =&gt; Except.error s!&quot;Index {i} not found (maximum is {xs.length - 1})&quot;
@@ -209,10 +235,20 @@ def fastBirds : List String := [
 </code></pre>
 <pre><code class="language-output info">Except.ok (&quot;Peregrine falcon&quot;, &quot;Golden eagle&quot;, &quot;Spur-winged goose&quot;, &quot;Anna's hummingbird&quot;)
 </code></pre>
-<p>The fact that <code>m</code> must have a <code>Monad</code> instance means that the <code>&gt;&gt;=</code> and <code>pure</code> operations are available.</p>
-<h2 id="general-monad-operations"><a class="header" href="#general-monad-operations">General Monad Operations</a></h2>
-<p>Because many different types are monads, functions that are polymorphic over <em>any</em> monad are very powerful.
-For example, the function <code>mapM</code> is a version of <code>map</code> that uses a <code>Monad</code> to sequence and combine the results of applying a function:</p>
+<!--
+The fact that `m` must have a `Monad` instance means that the `>>=` and `pure` operations are available.
+-->
+<p><code>m</code>必须有<code>Monad</code>实例，这一事实这意味着可以使用<code>&gt;&gt;=</code>和<code>pure</code>运算符。</p>
+<!--
+## General Monad Operations
+-->
+<h2 id="通用的单子运算符"><a class="header" href="#通用的单子运算符">通用的单子运算符</a></h2>
+<!--
+Because many different types are monads, functions that are polymorphic over _any_ monad are very powerful.
+For example, the function `mapM` is a version of `map` that uses a `Monad` to sequence and combine the results of applying a function:
+-->
+<p>由于许多不同类型都是单子，因此对<strong>任何</strong>单子多态的函数非常强大。
+例如，函数<code>mapM</code>是<code>map</code>的另一个版本，它使用<code>Monad</code>将函数调用的结果按顺序连接起来：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
   | x :: xs =&gt;
@@ -220,13 +256,25 @@ For example, the function <code>mapM</code> is a version of <code>map</code> tha
     mapM f xs &gt;&gt;= fun tl =&gt;
     pure (hd :: tl)
 </code></pre>
-<p>The return type of the function argument <code>f</code> determines which <code>Monad</code> instance will be used.
-In other words, <code>mapM</code> can be used for functions that produce logs, for functions that can fail, or for functions that use mutable state.
-Because <code>f</code>'s type determines the available effects, they can be tightly controlled by API designers.</p>
-<p>As described in <a href="../monads.html#numbering-tree-nodes">this chapter's introduction</a>, <code>State σ α</code> represents programs that make use of a mutable variable of type <code>σ</code> and return a value of type <code>α</code>.
+<!--
+The return type of the function argument `f` determines which `Monad` instance will be used.
+In other words, `mapM` can be used for functions that produce logs, for functions that can fail, or for functions that use mutable state.
+Because `f`'s type determines the available effects, they can be tightly controlled by API designers.
+-->
+<p>函数参数<code>f</code>的返回类型决定了将使用哪个<code>Monad</code>实例。
+换句话说，<code>mapM</code>可用于生成日志的函数、可能失败的函数、或使用可变状态的函数。
+由于<code>f</code>的类型直接决定了可用的效应(Effects)，因此API设计人员可以对其进行严格控制。
+<em>译者注：效应(Effects)是函数式编程中与Monad密切相关的主题，实际上对效应的控制比此处原文所述更复杂一些，但超出了本文的内容。另外副作用(Side Effects)也是一种效应。</em></p>
+<!--
+As described in [this chapter's introduction](../monads.md#numbering-tree-nodes), `State σ α` represents programs that make use of a mutable variable of type `σ` and return a value of type `α`.
 These programs are actually functions from a starting state to a pair of a value and a final state.
-The <code>Monad</code> class requires that its parameter expect a single type argument—that is, it should be a <code>Type → Type</code>.
-This means that the instance for <code>State</code> should mention the state type <code>σ</code>, which becomes a parameter to the instance:</p>
+The `Monad` class requires that its parameter expect a single type argument—that is, it should be a `Type → Type`.
+This means that the instance for `State` should mention the state type `σ`, which becomes a parameter to the instance:
+-->
+<p>如<a href="../monads.html#%E5%AF%B9%E6%A0%91%E8%8A%82%E7%82%B9%E7%BC%96%E5%8F%B7">本章简介</a>所介绍的，<code>State σ α</code>表示使用类型为<code>σ</code>的可变变量，并返回类型为<code>α</code>的值的程序。
+这些程序实际上是从起始状态到值和最终状态构成的对(pair)的函数。
+<code>Monad</code>类型类要求：类型参数期望另一个类型参数，即它应该是<code>Type → Type</code>。
+这意味着<code>State</code>的实例应提及状态类型<code>σ</code>，使它成为实例的参数：</p>
 <pre><code class="language-lean">instance : Monad (State σ) where
   pure x := fun s =&gt; (s, x)
   bind first next :=
@@ -234,23 +282,36 @@ This means that the instance for <code>State</code> should mention the state typ
       let (s', x) := first s
       next x s'
 </code></pre>
-<p>This means that the type of the state cannot change between calls to <code>get</code> and <code>set</code> that are sequenced using <code>bind</code>, which is a reasonable rule for stateful computations.
-The operator <code>increment</code> increases a saved state by a given amount, returning the old value:</p>
+<!--
+This means that the type of the state cannot change between calls to `get` and `set` that are sequenced using `bind`, which is a reasonable rule for stateful computations.
+The operator `increment` increases a saved state by a given amount, returning the old value:
+-->
+<p>这意味着在使用<code>bind</code>对<code>get</code>和<code>set</code>排序时，状态的类型不能更改，这是具有状态的计算的合理规则。运算符<code>increment</code>将保存的状态加上一定量，并返回原值：</p>
 <pre><code class="language-lean">def increment (howMuch : Int) : State Int Int :=
   get &gt;&gt;= fun i =&gt;
   set (i + howMuch) &gt;&gt;= fun () =&gt;
   pure i
 </code></pre>
-<p>Using <code>mapM</code> with <code>increment</code> results in a program that computes the sum of the entries in a list.
+<!--
+Using `mapM` with `increment` results in a program that computes the sum of the entries in a list.
 More specifically, the mutable variable contains the sum so far, while the resulting list contains a running sum.
-In other words, <code>mapM increment</code> has type <code>List Int → State Int (List Int)</code>, and expanding the definition of <code>State</code> yields <code>List Int → Int → (Int × List Int)</code>.
-It takes an initial sum as an argument, which should be <code>0</code>:</p>
+In other words, `mapM increment` has type `List Int → State Int (List Int)`, and expanding the definition of `State` yields `List Int → Int → (Int × List Int)`.
+It takes an initial sum as an argument, which should be `0`:
+-->
+<p>将<code>mapM</code>和<code>increment</code>一起使用会得到一个：计算列表元素加和的程序。
+更具体地说，可变变量包含到目前为止的和，而作为结果的列表包含各个步骤前状态变量的值。
+换句话说，<code>mapM increment</code>的类型为<code>List Int → State Int (List Int)</code>，展开 <code>State</code> 的定义得到<code>List Int → Int → (Int× List Int)</code>。
+它将初始值作为参数，应为<code>0</code>：</p>
 <pre><code class="language-lean">#eval mapM increment [1, 2, 3, 4, 5] 0
 </code></pre>
 <pre><code class="language-output info">(15, [0, 1, 3, 6, 10])
 </code></pre>
-<p>A <a href="../monads.html#logging">logging effect</a> can be represented using <code>WithLog</code>.
-Just like <code>State</code>, its <code>Monad</code> instance is polymorphic with respect to the type of the logged data:</p>
+<!--
+A [logging effect](../monads.md#logging) can be represented using `WithLog`.
+Just like `State`, its `Monad` instance is polymorphic with respect to the type of the logged data:
+-->
+<p>可以使用<code>WithLog</code>表示<a href="../monads.html#%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95">日志记录效应</a>。
+就和<code>State</code>一样，它的<code>Monad</code>实例对于被记录数据的类型也是多态的：</p>
 <pre><code class="language-lean">instance : Monad (WithLog logged) where
   pure x := {log := [], val := x}
   bind result next :=
@@ -258,76 +319,142 @@ Just like <code>State</code>, its <code>Monad</code> instance is polymorphic wit
     let {log := nextOut, val := nextRes} := next thisRes
     {log := thisOut ++ nextOut, val := nextRes}
 </code></pre>
-<p><code>saveIfEven</code> is a function that logs even numbers but returns its argument unchanged:</p>
+<!--
+`saveIfEven` is a function that logs even numbers but returns its argument unchanged:
+-->
+<p><code>saveIfEven</code>函数记录偶数，但将参数原封不动返回：</p>
 <pre><code class="language-lean">def saveIfEven (i : Int) : WithLog Int Int :=
   (if isEven i then
     save i
    else pure ()) &gt;&gt;= fun () =&gt;
   pure i
 </code></pre>
-<p>Using this function with <code>mapM</code> results in a log containing even numbers paired with an unchanged input list:</p>
+<!--
+Using this function with `mapM` results in a log containing even numbers paired with an unchanged input list:
+-->
+<p>将<code>mapM</code>和该函数一起使用，会生成一个记录偶数的日志、和未更改的输入列表：</p>
 <pre><code class="language-lean">#eval mapM saveIfEven [1, 2, 3, 4, 5]
 </code></pre>
 <pre><code class="language-output info">{ log := [2, 4], val := [1, 2, 3, 4, 5] }
 </code></pre>
-<h2 id="the-identity-monad"><a class="header" href="#the-identity-monad">The Identity Monad</a></h2>
-<p>Monads encode programs with effects, such as failure, exceptions, or logging, into explicit representations as data and functions.
+<!--
+## The Identity Monad
+-->
+<h2 id="恒等单子"><a class="header" href="#恒等单子">恒等单子</a></h2>
+<!--
+Monads encode programs with effects, such as failure, exceptions, or logging, into explicit representations as data and functions.
 Sometimes, however, an API will be written to use a monad for flexibility, but the API's client may not require any encoded effects.
-The <em>identity monad</em> is a monad that has no effects, and allows pure code to be used with monadic APIs:</p>
+The _identity monad_ is a monad that has no effects, and allows pure code to be used with monadic APIs:
+-->
+<p>单子将具有效应(Effects)的程序（例如失败、异常或日志记录）编码为数据和函数的显式表示。
+有时API会使用单子来提高灵活性，但API的使用方可能不需要任何效应。
+<strong>恒等单子</strong>(Identity Monad)是一个没有任何效应的单子，允许将纯(pure)代码与monadic API一起使用：</p>
 <pre><code class="language-lean">def Id (t : Type) : Type := t
 
 instance : Monad Id where
   pure x := x
   bind x f := f x
 </code></pre>
-<p>The type of <code>pure</code> should be <code>α → Id α</code>, but <code>Id α</code> reduces to just <code>α</code>.
-Similarly, the type of <code>bind</code> should be <code>α → (α → Id β) → Id β</code>.
-Because this reduces to <code>α → (α → β) → β</code>, the second argument can be applied to the first to find the result.</p>
-<p>With the identity monad, <code>mapM</code> becomes equivalent to <code>map</code>.
-To call it this way, however, Lean requires a hint that the intended monad is <code>Id</code>:</p>
+<!--
+The type of `pure` should be `α → Id α`, but `Id α` reduces to just `α`.
+Similarly, the type of `bind` should be `α → (α → Id β) → Id β`.
+Because this reduces to `α → (α → β) → β`, the second argument can be applied to the first to find the result.
+-->
+<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code><strong>简化</strong>为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
+由于这<strong>简化</strong>为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
+<em>译者注：此处<strong>简化</strong>一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
+<!--
+With the identity monad, `mapM` becomes equivalent to `map`.
+To call it this way, however, Lean requires a hint that the intended monad is `Id`:
+-->
+<p>&quot;使用恒等单子时，<code>mapM</code>等同于<code>map</code>。但是要以这种方式调用它，Lean需要额外的提示来表明目标单子是<code>Id</code>：</p>
 <pre><code class="language-lean">#eval mapM (m := Id) (· + 1) [1, 2, 3, 4, 5]
 </code></pre>
 <pre><code class="language-output info">[2, 3, 4, 5, 6]
 </code></pre>
-<p>Omitting the hint results in an error:</p>
+<!--
+Omitting the hint results in an error:
+-->
+<p>省略提示则会导致错误：</p>
 <pre><code class="language-lean">#eval mapM (· + 1) [1, 2, 3, 4, 5]
 </code></pre>
 <pre><code class="language-output error">failed to synthesize instance
   HAdd Nat Nat (?m.9063 ?m.9065)
 </code></pre>
-<p>In this error, the application of one metavariable to another indicates that Lean doesn't run the type-level computation backwards.
+<!--
+In this error, the application of one metavariable to another indicates that Lean doesn't run the type-level computation backwards.
 The return type of the function is expected to be the monad applied to some other type.
-Similarly, using <code>mapM</code> with a function whose type doesn't provide any specific hints about which monad is to be used results in an &quot;instance problem stuck&quot; message:</p>
+Similarly, using `mapM` with a function whose type doesn't provide any specific hints about which monad is to be used results in an "instance problem stuck" message:
+-->
+<p>导致错误的原因是：一个元变量应用于另一个元变量，使得Lean不会反向运行类型计算。
+函数的返回类型应该是应用于其他类型参数的单子。
+类似地，将<code>mapM</code>和未提供任何特定单子类型信息的函数一起使用，会导致&quot;instance problem stuck&quot;错误：</p>
 <pre><code class="language-lean">#eval mapM (fun x =&gt; x) [1, 2, 3, 4, 5]
 </code></pre>
 <pre><code class="language-output error">typeclass instance problem is stuck, it is often due to metavariables
   Monad ?m.9063
 </code></pre>
-<h2 id="the-monad-contract"><a class="header" href="#the-monad-contract">The Monad Contract</a></h2>
-<p>Just as every pair of instances of <code>BEq</code> and <code>Hashable</code> should ensure that any two equal values have the same hash, there is a contract that each instance of <code>Monad</code> should obey.
-First, <code>pure</code> should be a left identity of <code>bind</code>.
-That is, <code>bind (pure v) f</code> should be the same as <code>f v</code>.
-Secondly, <code>pure</code> should be a right identity of <code>bind</code>, so <code>bind v pure</code> is the same as <code>v</code>.
-Finally, <code>bind</code> should be associative, so <code>bind (bind v f) g</code> is the same as <code>bind v (fun x =&gt; bind (f x) g)</code>.</p>
-<p>This contract specifies the expected properties of programs with effects more generally.
-Because <code>pure</code> has no effects, sequencing its effects with <code>bind</code> shouldn't change the result.
-The associative property of <code>bind</code> basically says that the sequencing bookkeeping itself doesn't matter, so long as the order in which things are happening is preserved.</p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
-<h3 id="mapping-on-a-tree"><a class="header" href="#mapping-on-a-tree">Mapping on a Tree</a></h3>
-<p>Define a function <code>BinTree.mapM</code>.
-By analogy to <code>mapM</code> for lists, this function should apply a monadic function to each data entry in a tree, as a preorder traversal.
-The type signature should be:</p>
+<!--
+## The Monad Contract
+-->
+<h2 id="单子约定"><a class="header" href="#单子约定">单子约定</a></h2>
+<!--
+Just as every pair of instances of `BEq` and `Hashable` should ensure that any two equal values have the same hash, there is a contract that each instance of `Monad` should obey.
+First, `pure` should be a left identity of `bind`.
+That is, `bind (pure v) f` should be the same as `f v`.
+Secondly, `pure` should be a right identity of `bind`, so `bind v pure` is the same as `v`.
+Finally, `bind` should be associative, so `bind (bind v f) g` is the same as `bind v (fun x => bind (f x) g)`.
+-->
+<p>正如<code>BEq</code>和<code>Hashable</code>的每一对实例都应该确保任何两个相等的值具有相同的哈希值，有一些是固有的约定是每个<code>Monad</code>的实例都应遵守的。
+首先，<code>pure</code>应为<code>bind</code>的左单位元，即<code>bind (pure v) f</code>应与<code>f v</code>等价。
+其次，<code>pure</code>应为 <code>bind</code> 的右单位元，即<code>bind v pure</code>应与<code>v</code>等价。
+最后，<code>bind</code>应满足结合律，即<code>bind (bind v f) g</code>应与<code>bind v (fun x =&gt; bind (f x) g)</code>等价。</p>
+<!--
+This contract specifies the expected properties of programs with effects more generally.
+Because `pure` has no effects, sequencing its effects with `bind` shouldn't change the result.
+The associative property of `bind` basically says that the sequencing bookkeeping itself doesn't matter, so long as the order in which things are happening is preserved.
+-->
+<p>这些约定保证了具有效应的程序的预期属性。
+由于<code>pure</code>不导致效应，因此用<code>bind</code>将其与其他效应接连执行不应改变结果。
+<code>bind</code>满足的结合律则意味着先计算哪一部分无关紧要，只要保证效应的顺序不变即可。</p>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+### Mapping on a Tree
+-->
+<h3 id="映射一棵树"><a class="header" href="#映射一棵树">映射一棵树</a></h3>
+<!--
+Define a function `BinTree.mapM`.
+By analogy to `mapM` for lists, this function should apply a monadic function to each data entry in a tree, as a preorder traversal.
+The type signature should be:
+-->
+<p>定义函数<code>BinTree.mapM</code>。
+通过类比列表的<code>mapM</code>，此函数应将单子函数应用于树中的每个节点，作为前序遍历。
+类型签名应为：</p>
 <pre><code>def BinTree.mapM [Monad m] (f : α → m β) : BinTree α → m (BinTree β)
 </code></pre>
-<h3 id="the-option-monad-contract"><a class="header" href="#the-option-monad-contract">The Option Monad Contract</a></h3>
-<p>First, write a convincing argument that the <code>Monad</code> instance for <code>Option</code> satisfies the monad contract.
-Then, consider the following instance:</p>
+<!--
+### The Option Monad Contract
+-->
+<h3 id="option单子的约定"><a class="header" href="#option单子的约定">Option单子的约定</a></h3>
+<!--
+First, write a convincing argument that the `Monad` instance for `Option` satisfies the monad contract.
+Then, consider the following instance:
+-->
+<p>首先充分论证<code>Option</code>的<code>Monad</code>实例满足单子约定。
+然后，考虑以下实例：</p>
 <pre><code class="language-lean">instance : Monad Option where
   pure x := some x
   bind opt next := none
 </code></pre>
-<p>Both methods have the correct type.
-Why does this instance violate the monad contract?</p>
+<!--
+Both methods have the correct type.
+Why does this instance violate the monad contract?
+-->
+<p>这两个方法都有正确的类型。
+但这个实例却违反了单子约定，为什么？</p>
 
                     </main>
 

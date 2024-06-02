@@ -138,49 +138,88 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="additional-conveniences"><a class="header" href="#additional-conveniences">Additional Conveniences</a></h1>
-<h2 id="shared-argument-types"><a class="header" href="#shared-argument-types">Shared Argument Types</a></h2>
-<p>When defining a function that takes multiple arguments that have the same type, both can be written before the same colon.
-For example,</p>
+                        <!--
+# Additional Conveniences
+-->
+<h1 id="其他方便之处"><a class="header" href="#其他方便之处">其他方便之处</a></h1>
+<!--
+## Shared Argument Types
+-->
+<h2 id="共享参数类型"><a class="header" href="#共享参数类型">共享参数类型</a></h2>
+<!--
+When defining a function that takes multiple arguments that have the same type, both can be written before the same colon.
+For example,
+-->
+<p>定义具有相同类型的多个参数时，可以把它们写在同一个冒号之前。
+例如：</p>
 <pre><code class="language-lean">def equal? [BEq α] (x : α) (y : α) : Option α :=
   if x == y then
     some x
   else
     none
 </code></pre>
-<p>can be written</p>
+<!--
+can be written
+-->
+<p>可以写成</p>
 <pre><code class="language-lean">def equal? [BEq α] (x y : α) : Option α :=
   if x == y then
     some x
   else
     none
 </code></pre>
-<p>This is especially useful when the type signature is large.</p>
-<h2 id="leading-dot-notation"><a class="header" href="#leading-dot-notation">Leading Dot Notation</a></h2>
-<p>The constructors of an inductive type are in a namespace.
+<!--
+This is especially useful when the type signature is large.
+-->
+<p>这在类型签名很长的时候特别有用。</p>
+<!--
+## Leading Dot Notation
+-->
+<h2 id="开头的点号"><a class="header" href="#开头的点号">开头的点号</a></h2>
+<!--
+The constructors of an inductive type are in a namespace.
 This allows multiple related inductive types to use the same constructor names, but it can lead to programs becoming verbose.
 In contexts where the inductive type in question is known, the namespace can be omitted by preceding the constructor's name with a dot, and Lean uses the expected type to resolve the constructor names.
-For example, a function that mirrors a binary tree can be written:</p>
+For example, a function that mirrors a binary tree can be written:
+-->
+<p>一个归纳类型的所有构造子都存在于一个命名空间中。
+因此允许不同的归纳类型有同名构造子，但是这也会导致程序变得啰嗦。
+当问题中的归纳类型已知时，可以命名空间可以省略，只需要在构造子前保留点号，Lean可以根据该处期望的类型来决定如何选择构造子。
+例如将二叉树镜像的函数：</p>
 <pre><code class="language-lean">def BinTree.mirror : BinTree α → BinTree α
   | BinTree.leaf =&gt; BinTree.leaf
   | BinTree.branch l x r =&gt; BinTree.branch (mirror r) x (mirror l)
 </code></pre>
-<p>Omitting the namespaces makes it significantly shorter, at the cost of making the program harder to read in contexts like code review tools that don't include the Lean compiler:</p>
+<!--
+Omitting the namespaces makes it significantly shorter, at the cost of making the program harder to read in contexts like code review tools that don't include the Lean compiler:
+-->
+<p>省略命名空间使代码显著变短，但代价是在没有Lean编译器，例如code review时，代码会变得难以阅读：</p>
 <pre><code class="language-lean">def BinTree.mirror : BinTree α → BinTree α
   | .leaf =&gt; .leaf
   | .branch l x r =&gt; .branch (mirror r) x (mirror l)
 </code></pre>
-<p>Using the expected type of an expression to disambiguate a namespace is also applicable to names other than constructors.
-If <code>BinTree.empty</code> is defined as an alternative way of creating <code>BinTree</code>s, then it can also be used with dot notation:</p>
+<!--
+Using the expected type of an expression to disambiguate a namespace is also applicable to names other than constructors.
+If `BinTree.empty` is defined as an alternative way of creating `BinTree`s, then it can also be used with dot notation:
+-->
+<p>通过期望的类型来消除命名空间的歧义，同样可以应用于构造子之外的名称。
+例如<code>BinTree.empty</code>定义为一种创建<code>BinTree</code>的方式，那么它也可以和点号一起使用：</p>
 <pre><code class="language-lean">def BinTree.empty : BinTree α := .leaf
 
 #check (.empty : BinTree Nat)
 </code></pre>
 <pre><code class="language-output info">BinTree.empty : BinTree Nat
 </code></pre>
-<h2 id="or-patterns"><a class="header" href="#or-patterns">Or-Patterns</a></h2>
-<p>In contexts that allow multiple patterns, such as <code>match</code>-expressions, multiple patterns may share their result expressions.
-The datatype <code>Weekday</code> that represents days of the week:</p>
+<!--
+## Or-Patterns
+-->
+<h2 id="或-模式"><a class="header" href="#或-模式">或-模式</a></h2>
+<!--
+In contexts that allow multiple patterns, such as `match`-expressions, multiple patterns may share their result expressions.
+The datatype `Weekday` that represents days of the week:
+-->
+<p>当有多个模式匹配的分支时，例如<code>match</code>表达式，那么不同的模式可以共享同一个结果表达式。
+表示一周的每一天的类型<code>Weekday</code>：</p>
 <pre><code class="language-lean">inductive Weekday where
   | monday
   | tuesday
@@ -191,72 +230,113 @@ The datatype <code>Weekday</code> that represents days of the week:</p>
   | sunday
   deriving Repr
 </code></pre>
-<p>Pattern matching can be used to check whether a day is a weekend:</p>
+<!--
+Pattern matching can be used to check whether a day is a weekend:
+-->
+<p>可以用模式匹配检查某一天是否是周末：</p>
 <pre><code class="language-lean">def Weekday.isWeekend (day : Weekday) : Bool :=
   match day with
   | Weekday.saturday =&gt; true
   | Weekday.sunday =&gt; true
   | _ =&gt; false
 </code></pre>
-<p>This can already be simplified by using constructor dot notation:</p>
+<!--
+This can already be simplified by using constructor dot notation:
+-->
+<p>首先可以用点号来简化：</p>
 <pre><code class="language-lean">def Weekday.isWeekend (day : Weekday) : Bool :=
   match day with
   | .saturday =&gt; true
   | .sunday =&gt; true
   | _ =&gt; false
 </code></pre>
-<p>Because both weekend patterns have the same result expression (<code>true</code>), they can be condensed into one:</p>
+<!--
+Because both weekend patterns have the same result expression (`true`), they can be condensed into one:
+-->
+<p>因为周末的两天都有相同的结果<code>true</code>，所以可以精简成：</p>
 <pre><code class="language-lean">def Weekday.isWeekend (day : Weekday) : Bool :=
   match day with
   | .saturday | .sunday =&gt; true
   | _ =&gt; false
 </code></pre>
-<p>This can be further simplified into a version in which the argument is not named:</p>
+<!--
+This can be further simplified into a version in which the argument is not named:
+-->
+<p>进一步可以简化成没有参数名称的函数：</p>
 <pre><code class="language-lean">def Weekday.isWeekend : Weekday → Bool
   | .saturday | .sunday =&gt; true
   | _ =&gt; false
 </code></pre>
-<p>Behind the scenes, the result expression is simply duplicated across each pattern.
-This means that patterns can bind variables, as in this example that removes the <code>inl</code> and <code>inr</code> constructors from a sum type in which both contain the same type of value:</p>
+<!--
+Behind the scenes, the result expression is simply duplicated across each pattern.
+This means that patterns can bind variables, as in this example that removes the `inl` and `inr` constructors from a sum type in which both contain the same type of value:
+-->
+<p>实际上结果表达式只是简单地被复制。所以模式也可以绑定变量，这个例子在和类型(Sum Type)两边具有相同类型时，将<code>inl</code>和<code>inr</code>构造子去除：</p>
 <pre><code class="language-lean">def condense : α ⊕ α → α
   | .inl x | .inr x =&gt; x
 </code></pre>
-<p>Because the result expression is duplicated, the variables bound by the patterns are not required to have the same types.
-Overloaded functions that work for multiple types may be used to write a single result expression that works for patterns that bind variables of different types:</p>
+<!--
+Because the result expression is duplicated, the variables bound by the patterns are not required to have the same types.
+Overloaded functions that work for multiple types may be used to write a single result expression that works for patterns that bind variables of different types:
+-->
+<p>但是因为结果表达式只是被复制，所以模式绑定的变量也可以具有不同类型。
+重载的函数可以让同一个结果表达式用于多个绑定不同类型的变量的模式：</p>
 <pre><code class="language-lean">def stringy : Nat ⊕ Weekday → String
   | .inl x | .inr x =&gt; s!&quot;It is {repr x}&quot;
 </code></pre>
-<p>In practice, only variables shared in all patterns can be referred to in the result expression, because the result must make sense for each pattern.
-In <code>getTheNat</code>, only <code>n</code> can be accessed, and attempts to use either <code>x</code> or <code>y</code> lead to errors.</p>
+<!--
+In practice, only variables shared in all patterns can be referred to in the result expression, because the result must make sense for each pattern.
+In `getTheNat`, only `n` can be accessed, and attempts to use either `x` or `y` lead to errors.
+-->
+<p>实践中，只有在所有模式都存在的变量才可以在结果表达式中引用，因为这条表达式必须对所有分支都有意义。
+<code>getTheNat</code>中只有<code>n</code>可以被访问，使用<code>x</code>或<code>y</code>将会导致错误。</p>
 <pre><code class="language-lean">def getTheNat : (Nat × α) ⊕ (Nat × β) → Nat
   | .inl (n, x) | .inr (n, y) =&gt; n
 </code></pre>
-<p>Attempting to access <code>x</code> in a similar definition causes an error because there is no <code>x</code> available in the second pattern:</p>
+<!--
+Attempting to access `x` in a similar definition causes an error because there is no `x` available in the second pattern:
+-->
+<p>这种类似的情况中访问<code>x</code>同样会导致错误，因为<code>x</code>在第二个模式中不存在：</p>
 <pre><code class="language-lean">def getTheAlpha : (Nat × α) ⊕ (Nat × α) → α
   | .inl (n, x) | .inr (n, y) =&gt; x
 </code></pre>
 <pre><code class="language-output error">unknown identifier 'x'
 </code></pre>
-<p>The fact that the result expression is essentially copy-pasted to each branch of the pattern match can lead to some surprising behavior.
-For example, the following definitions are acceptable because the <code>inr</code> version of the result expression refers to the global definition of <code>str</code>:</p>
+<!--
+The fact that the result expression is essentially copy-pasted to each branch of the pattern match can lead to some surprising behavior.
+For example, the following definitions are acceptable because the `inr` version of the result expression refers to the global definition of `str`:
+-->
+<p>简单地对结果表达式进行复制，会导致某些令人惊讶的行为。
+例如，下列定义是合法的，因为<code>inr</code>分支实际上引用的是全局定义<code>str</code>：</p>
 <pre><code class="language-lean">def str := &quot;Some string&quot;
 
 def getTheString : (Nat × String) ⊕ (Nat × β) → String
   | .inl (n, str) | .inr (n, y) =&gt; str
 </code></pre>
-<p>Calling this function on both constructors reveals the confusing behavior.
-In the first case, a type annotation is needed to tell Lean which type <code>β</code> should be:</p>
+<!--
+Calling this function on both constructors reveals the confusing behavior.
+In the first case, a type annotation is needed to tell Lean which type `β` should be:
+-->
+<p>在不同分支上调用该函数会让人困惑。
+第一种情况中，需要提供类型标记告诉Lean类型<code>β</code>是什么：</p>
 <pre><code class="language-lean">#eval getTheString (.inl (20, &quot;twenty&quot;) : (Nat × String) ⊕ (Nat × String))
 </code></pre>
 <pre><code class="language-output info">&quot;twenty&quot;
 </code></pre>
-<p>In the second case, the global definition is used:</p>
+<!--
+In the second case, the global definition is used:
+-->
+<p>第二种情况被使用的是全局定义：</p>
 <pre><code class="language-lean">#eval getTheString (.inr (20, &quot;twenty&quot;))
 </code></pre>
 <pre><code class="language-output info">&quot;Some string&quot;
 </code></pre>
-<p>Using or-patterns can vastly simplify some definitions and increase their clarity, as in <code>Weekday.isWeekend</code>.
-Because there is a potential for confusing behavior, it's a good idea to be careful when using them, especially when variables of multiple types or disjoint sets of variables are involved.</p>
+<!--
+Using or-patterns can vastly simplify some definitions and increase their clarity, as in `Weekday.isWeekend`.
+Because there is a potential for confusing behavior, it's a good idea to be careful when using them, especially when variables of multiple types or disjoint sets of variables are involved.
+-->
+<p>使用或-模式可以极大简化某些定义，让它们更加清晰，例如<code>Weekday.isWeekend</code>.
+但因为存在可能导致困惑的行为，需要十分小心地使用，特别是涉及不同类型的变量，或不相交的变量集合时。</p>
 
                     </main>
 
