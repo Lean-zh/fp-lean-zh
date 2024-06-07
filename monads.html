@@ -304,8 +304,7 @@ Following the new infix operator is a double arrow `=>`, which specifies the nam
 Lean's standard library uses this feature to define `+` and `*` as infix operators that point at `HAdd.hAdd` and `HMul.hMul`, respectively, allowing type classes to be used to overload the infix operators.
 Here, however, `andThen` is just an ordinary function.
 -->
-<p>在新的中缀运算符后面是一个双箭头 <code>=&gt;</code>，指定中缀运算符使用的命名的函数。
-Lean的标准库使用此功能将<code>+</code>和<code>*</code>定义为指向<code>HAdd.hAdd</code>和<code>HMul.hMul</code>的中缀运算符，从而允许将类型类用于重载中缀运算符。不过这里的<code>andThen</code>只是一个普通函数。</p>
+<p>在新的中缀运算符后面是一个双箭头 <code>=&gt;</code>，指定中缀运算符使用的命名的函数。Lean的标准库使用此功能将<code>+</code>和<code>*</code>定义为指向<code>HAdd.hAdd</code>和<code>HMul.hMul</code>的中缀运算符，从而允许将类型类用于重载中缀运算符。不过这里的<code>andThen</code>只是一个普通函数。</p>
 <!--
 Having defined an infix operator for `andThen`, `firstThird` can be rewritten in a way that brings the "pipeline" feeling of `none`-checks front and center:
 -->

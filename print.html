@@ -283,8 +283,7 @@ Dependent type theory unites the worlds of programs and proofs; thus, Lean is al
 Lean takes its dual nature seriously, and it is designed to be suitable for use as a general-purpose programming language—Lean is even implemented in itself.
 This book is about writing programs in Lean.
 -->
-<p>Lean 是 Microsoft Research 开发的交互式定理证明器，基于依值类型论。依值类型论将程序和证明的世界统一起来；因此，Lean 也是一门编程语言。
-Lean 认真对待其双重性质，并且被设计为适合用作通用编程语言，Lean
+<p>Lean 是 Microsoft Research 开发的交互式定理证明器，基于依值类型论。依值类型论将程序和证明的世界统一起来；因此，Lean 也是一门编程语言。Lean 认真对待其双重性质，并且被设计为适合用作通用编程语言，Lean
 甚至是用它自己实现的。本书介绍了如何用 Lean 编程。</p>
 <!--
 When viewed as a programming language, Lean is a strict pure functional language with dependent types.
@@ -296,8 +295,7 @@ _Dependent types_, which are the most unusual feature of Lean, make types into a
 -->
 <p>作为一门编程语言，Lean 是一种具有依值类型的严格纯函数式语言。学习使用 Lean 编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，以及如何像函数式程序员一样思考。
 **严格性（Strictness）**意味着 Lean 中的函数调用与大多数语言中的工作方式类似：在函数体开始运行之前，参数被完全计算。
-**纯粹性（Purity）<strong>意味着 Lean 程序不能产生副作用，例如修改内存中的位置、发送电子邮件或删除文件，除非程序的类型声明如此。
-Lean 是一种</strong>函数式（Functional）**语言，这意味着函数就像任何其他值一样是一等值，并且执行模型受数学表达式的求值启发。
+**纯粹性（Purity）<strong>意味着 Lean 程序不能产生副作用，例如修改内存中的位置、发送电子邮件或删除文件，除非程序的类型声明如此。Lean 是一种</strong>函数式（Functional）**语言，这意味着函数就像任何其他值一样是一等值，并且执行模型受数学表达式的求值启发。
 **依值类型（Dependent type）**是 Lean 最不寻常的特性，它使类型成为语言的一等部分，允许类型包含程序，而程序计算类型。&quot;</p>
 <!--
 This book is intended for programmers who want to learn Lean, but who have not necessarily used a functional programming language before.
@@ -430,8 +428,7 @@ exception: it implements an extended version of the Language Server
 Protocol that allows it to communicate with a text editor and provide
 feedback as the user types.
 -->
-<p>然而，自 20 世纪 70 年代以来，编程发生了变化。如今，编译器通常集成到文本编辑器中，编程环境会在编写程序时提供反馈。
-Lean 也是如此：它实现了语言服务器协议（Language Server Protocol，LSP）的扩展版本，允许它与文本编辑器通信并在用户键入时提供反馈。</p>
+<p>然而，自 20 世纪 70 年代以来，编程发生了变化。如今，编译器通常集成到文本编辑器中，编程环境会在编写程序时提供反馈。Lean 也是如此：它实现了语言服务器协议（Language Server Protocol，LSP）的扩展版本，允许它与文本编辑器通信并在用户键入时提供反馈。</p>
 <!--
 Languages as varied as Python, Haskell, and JavaScript offer a read-eval-print-loop (REPL), also known as an interactive toplevel or a browser console, in which expressions or statements can be entered.
 The language then computes and displays the result of the user's input.
@@ -3718,9 +3715,9 @@ Because this action doesn't read any interesting information from the environmen
 If it did return something interesting, then that would be indicated by the `IO` action having a type other than `Unit`.
 -->
 <p><code>IO α</code> 是一个程序的类型，当执行时，它要么抛出一个异常，要么返回一个类型为 <code>α</code> 的值。
-在执行期间，此程序可能会产生副作用。这些程序被称为 <code>IO</code> <strong>活动（Action）</strong>。
-Lean 区分表达式的<strong>求值（Evaluation）</strong>（严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
-和 <code>IO</code> 活动的<strong>执行（Execution）</strong>（依赖于外部系统与世界交互）。
+在执行期间，此程序可能会产生副作用。这些程序被称为 <code>IO</code>   <strong>活动（Action）</strong>  。
+Lean 区分表达式的  <strong>求值（Evaluation）</strong>  （严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
+和 <code>IO</code> 活动的  <strong>执行（Execution）</strong>  （依赖于外部系统与世界交互）。
 <code>IO.println</code> 是一个从字符串到 <code>IO</code> 活动的函数，当执行时，它将给定的字符串写入标准输出。
 由于此活动在发出字符串的过程中不会从环境中读取任何有趣的信息，
 因此 <code>IO.println</code> 的类型为 <code>String → IO Unit</code>。如果它确实返回了一些有趣的东西，
@@ -3805,7 +3802,7 @@ Careful abstraction boundaries can make this style of programming safe.
 If every primitive `IO` action accepts one world and returns a new one, and they can only be combined with tools that preserve this invariant, then the problem cannot occur.
 -->
 <p>考虑 Lean 中副作用的另一种方式，就是将 <code>IO</code> 活动看做一个函数，它将整个世界作为参数输入，
-并返回一个值和一个新的世界。在这种情况下，从标准输入读取一行文本是一个<strong>纯</strong>函数，
+并返回一个值和一个新的世界。在这种情况下，从标准输入读取一行文本是一个 <strong>纯（Pure）</strong> 函数，
 因为每次都提供了一个不同的世界作为参数。向标准输出写入一行文本也是一个纯函数，
 因为函数返回的世界与它最初的世界不同。程序确实需要小心，不要重复使用世界，
 也不要未能返回一个新世界——毕竟，这将相当于时间旅行或世界末日。
@@ -3861,7 +3858,7 @@ This block contains a sequence of _statements_, which can be both local variable
 Just as SQL can be thought of as a special-purpose language for interacting with databases, the `do` syntax can be thought of as a special-purpose sub-language within Lean that is dedicated to modeling imperative programs.
 `IO` actions that are built with a `do` block are executed by executing the statements in order.
 -->
-<p>在此程序中，<code>main</code> 活动由一个 <code>do</code> 代码块组成。此块包含一系列的<strong>语句(Statement)</strong>，
+<p>在此程序中，<code>main</code> 活动由一个 <code>do</code> 代码块组成。此块包含一系列的 <strong>语句(Statement)</strong> ，
 它们既可以是局部变量（使用 <code>let</code> 引入），也可以是要执行的活动。
 正如 SQL 可以被认为是与数据库交互的专用语言一样，<code>do</code> 语法可以被认为是 Lean
 中的一个专用子语言，专门用于建模命令式程序。使用 <code>do</code> 块构建的 <code>IO</code> 活动通过按顺序执行语句来执行。</p>
@@ -4302,10 +4299,10 @@ While Lean contains rich facilities for creating EDSLs, they are beyond the scop
 标准的 Lean 构建工具称为 Lake（「Lean Make」的缩写），它在 Lean 中进行配置。
 正如 Lean 包含一门用于编写带副作用程序的特殊语言（<code>do</code> 语言）一样，
 Lake 也包含一门用于配置构建的特殊语言。
-这些语言被称为<strong>嵌入式领域专用语言（Embedded Domain-Specific Languages）</strong>
-（或有时称为<strong>领域专用嵌入式语言（Domain-Specific Embedded Languages）</strong>，缩写为 EDSL 或 DSEL）。
-它们是**领域专用（Domain-Specific）<strong>的，因为它们用于专用的目的，包含来自某个子领域的术语，
-并且通常不适用于通用编程。它们是</strong>嵌入式（Embedded）**的，因为它们出现在另一种语言的语法中。
+这些语言被称为 <strong>嵌入式领域专用语言（Embedded Domain-Specific Languages）</strong>
+（或有时称为 <strong>领域专用嵌入式语言（Domain-Specific Embedded Languages）</strong> ，缩写为 EDSL 或 DSEL）。
+它们是 <strong>领域专用（Domain-Specific）</strong> 的，因为它们用于专用的目的，包含来自某个子领域的术语，
+并且通常不适用于通用编程。它们是 <strong>嵌入式（Embedded）</strong> 的，因为它们出现在另一种语言的语法中。
 虽然 Lean 包含丰富的用于创建 EDSL 的工具，但它们超出了本书的范围。</p>
 <!--
 ## First steps
@@ -4395,7 +4392,7 @@ A package may contain any number of libraries or executables.
 While the [documentation for Lake](https://github.com/leanprover/lean4/blob/master/src/lake/README.md) describes the available options in a lakefile, it makes use of a number of Lean features that have not yet been described here.
 The generated `lakefile.lean` contains the following:
 -->
-<p><code>lakefile.lean</code> 描述了一个<strong>包（Package）</strong>，它是一个连贯的 Lean 代码集合，用于分发，
+<p><code>lakefile.lean</code> 描述了一个 <strong>包（Package）</strong> ，它是一个连贯的 Lean 代码集合，用于分发，
 类似于 <code>npm</code> 或 <code>nuget</code> 包或 Rust 的 crate。一个包可以包含任意数量的库或可执行文件。
 虽然 <a href="https://github.com/leanprover/lean4/blob/master/src/lake/README.md">Lake 文档</a>中描述了
 lakefile 中的可用选项，但它使用了此处尚未描述的许多 Lean 特性。生成的 <code>lakefile.lean</code> 包含以下内容：</p>
@@ -4425,9 +4422,9 @@ This initial Lakefile consists of three items:
 -->
 <p>此初始 Lakefile 由三项组成：</p>
 <ul>
-<li>一个<strong>包</strong>声明，名为 <code>greeting</code>，</li>
-<li>一个<strong>库</strong>声明，名为 <code>Greeting</code>，以及</li>
-<li>一个<strong>可执行文件</strong>，同样名为 <code>greeting</code>。</li>
+<li>一个 <strong>包</strong> 声明，名为 <code>greeting</code>，</li>
+<li>一个 <strong>库</strong> 声明，名为 <code>Greeting</code>，以及</li>
+<li>一个 <strong>可执行文件</strong> ，同样名为 <code>greeting</code>。</li>
 </ul>
 <!--
 Each of these names is enclosed in guillemets to allow users more freedom in picking package names.
@@ -4440,11 +4437,11 @@ The items in the Lakefile allow things like source file locations, module hierar
 Generally speaking, however, the defaults are reasonable.
 -->
 <p>每个 Lakefile 只会包含一个包，但可以包含任意数量的库或可执行文件。
-此外，Lakefile 可能包含<strong>外部库（External Library）</strong>
+此外，Lakefile 可能包含 <strong>外部库（External Library）</strong>
 （即并非用 Lean 编写的库，将与结果可执行文件静态链接）、
-<strong>自定义目标（Custom Target）</strong>（即特定于具体执行平台的库/可执行文件的构建目标）、
-<strong>依赖项（Dependency）</strong>（即其他 Lean 包的声明，可能来自本地或远程 Git 代码库）、
-以及<strong>脚本（Script）</strong>（本质上是类似于 <code>main</code> 的 <code>IO</code> 活动，但还可以访问有关包配置的元数据）。
+<strong>自定义目标（Custom Target）</strong> （即特定于具体执行平台的库/可执行文件的构建目标）、
+<strong>依赖项（Dependency）</strong> （即其他 Lean 包的声明，可能来自本地或远程 Git 代码库）、
+以及 <strong>脚本（Script）</strong> （本质上是类似于 <code>main</code> 的 <code>IO</code> 活动，但还可以访问有关包配置的元数据）。
 Lakefile 中的项允许配置源文件位置、模块层次结构和编译器参数。不过一般来说，默认值就够用了。</p>
 <!--
 Libraries, executables, and custom targets are all called _targets_.
@@ -4454,8 +4451,8 @@ Attributes are similar to Java annotations or C# and Rust attributes.
 They are used pervasively throughout Lean.
 To build a target that is not annotated with `@[default_target]`, specify the target's name as an argument after `lake build`.
 -->
-<p>库、可执行文件和自定义目标统称为<strong>目标（Target）</strong>。默认情况下，<code>lake build</code> 会构建那些标注了
-<code>@[default_target]</code> 的目标。此标注是一个<strong>属性（Attribute）</strong>，
+<p>库、可执行文件和自定义目标统称为 <strong>目标（Target）</strong> 。默认情况下，<code>lake build</code> 会构建那些标注了
+<code>@[default_target]</code> 的目标。此标注是一个 <strong>属性（Attribute）</strong> ，
 它是一种可以与 Lean 声明关联的元数据。属性类似于 Java 中的注解或 C# 和 Rust 的特性。
 它们在 Lean 中被广泛使用。要构建未标注 <code>@[default_target]</code> 的目标，
 请在 <code>lake build</code> 后指定目标名称作为参数。</p>
@@ -4469,7 +4466,7 @@ By default, a library has a single root file that matches its name.
 In this case, the root file for the library `Greeting` is `Greeting.lean`.
 The first line of `Main.lean`, which is `import Greeting`, makes the contents of `Greeting.lean` available in `Main.lean`.
 -->
-<p>一个 Lean 库由一个分层组织的源文件集合组成，可以从中导入名称，称为<strong>模块（Module）</strong>。
+<p>一个 Lean 库由一个分层组织的源文件集合组成，可以从中导入名称，称为 <strong>模块（Module）</strong> 。
 默认情况下，一个库有一个与它名称相同的单一根文件。在本例中，
 库 <code>Greeting</code> 的根文件是 <code>Greeting.lean</code>。<code>Main.lean</code> 的第一行是 <code>import Greeting</code>，
 它使 <code>Greeting.lean</code> 的内容在 <code>Main.lean</code> 中可用。</p>
@@ -4517,7 +4514,7 @@ This is done by writing the desired names in parentheses.
 For example, `Nat.toFloat` converts a natural number to a `Float`.
 It can be made available as `toFloat` using `open Nat (toFloat)`.
 -->
-<p>命名空间也可以<strong>选择性</strong>打开，只公开部分名称而无需显式前缀。
+<p>命名空间也可以 <strong>选择性</strong> 打开，只公开部分名称而无需显式前缀。
 这可以通过在括号中写出所需名称来完成。例如，<code>Nat.toFloat</code> 将自然数转换为 <code>Float</code>。
 可以使用 <code>open Nat (toFloat)</code> 将其公开为 <code>toFloat</code>。</p>
 <div style="break-before: page; page-break-before: always;"></div><!--
@@ -4688,7 +4685,7 @@ This kind of recursion is called _tail recursion_, and it is described in more d
 Because the compiled code does not need to retain any state, the Lean compiler can compile the recursive call to a jump.
 -->
 <p>在调用 <code>dump</code> 时，不会出现耗尽堆栈空间的危险，因为递归调用发生在函数的最后一步，
-并且其结果会被直接返回，而不会被活动或计算。这种递归称为<strong>尾递归（Tail Recursion）</strong>，
+并且其结果会被直接返回，而不会被活动或计算。这种递归称为  <strong>尾递归（Tail Recursion）</strong>  ，
 将在本书<a href="hello-world/../programs-proofs/tail-recursion.html">后面的章节</a>中详细描述。
 由于编译后的代码不需要保留任何状态，因此 Lean 编译器可以将递归调用编译为跳转。</p>
 <!--
@@ -4935,7 +4932,7 @@ This version of `dump` avoids introducing names that are used only once, which c
 `IO` actions that Lean lifts from a nested expression context are called _nested actions_.
 -->
 <p>此版本的 <code>dump</code> 避免了引入仅使用一次的名称，这可以极大地简化程序。
-Lean 从嵌套表达式上下文中提升的 <code>IO</code> 活动称为<strong>嵌套活动（Nested Action）</strong>。</p>
+Lean 从嵌套表达式上下文中提升的 <code>IO</code> 活动称为  <strong>嵌套活动（Nested Action）</strong>  。</p>
 <!--
 `fileStream` can be simplified using the same technique:
 -->
@@ -5098,8 +5095,8 @@ This is the output produced by running the `IO` action, rather than some opaque 
 In other words, for `IO` actions, `#eval` both _evaluates_ the provided expression and _executes_ the resulting action value.
 -->
 <p>这是运行 <code>IO</code> 活动产生的输出，而不是活动本身的不透明表示。
-换句话说，对于 <code>IO</code> 活动，<code>#eval</code> 既**求值（Evaluate）<strong>提供的表达式，
-又</strong>执行（Execute）**结果活动值。</p>
+换句话说，对于 <code>IO</code> 活动，<code>#eval</code> 既  <strong>求值（Evaluate）</strong>  提供的表达式，
+又  <strong>执行（Execute）</strong>  结果活动值。</p>
 <!--
 Quickly testing `IO` actions with `#eval` can be much more convenient that compiling and running whole programs.
 However, there are some limitations.
@@ -5129,8 +5126,8 @@ The simplest is `pure`, which returns its argument and has no actual side effect
 -->
 <p>副作用是程序执行中超出数学表达式求值范围的部分，例如读取文件、抛出异常或驱动工业机械。
 虽然大多数语言允许在求值期间发生副作用，但 Lean 不会。相反，Lean 有一个名为 <code>IO</code> 的类型，
-它表示使用副作用的程序的<strong>描述（Description）</strong>。然后由语言的运行时系统执行这些描述，
-该系统会调用 Lean 表达式求值器来执行特定计算。类型为 <code>IO α</code> 的值称为**<code>IO</code> 活动**。
+它表示使用副作用的程序的 <strong>描述（Description）</strong> 。然后由语言的运行时系统执行这些描述，
+该系统会调用 Lean 表达式求值器来执行特定计算。类型为 <code>IO α</code> 的值称为 <strong><code>IO</code> 活动</strong> 。
 最简单的是 <code>pure</code>，它返回其参数并且没有实际副作用。</p>
 <!--
 `IO` actions can also be understood as functions that take the whole world as an argument and return a new world in which the side effect has occurred.
@@ -5169,7 +5166,7 @@ A `do` expression contains a sequence of _statements_, which may be:
  * ordinary local definitions with `let` and `:=`, where the defined name refers to the value of the provided expression, or
  * local definitions with `let` and `←`, where the defined name refers to the result of executing the value of the provided expression.
 -->
-<p><code>do</code> 表达式包含一系列<strong>语句（Statement）</strong>，这些语句可以是：</p>
+<p><code>do</code> 表达式包含一系列 <strong>语句（Statement）</strong> ，这些语句可以是：</p>
 <ul>
 <li>表示 <code>IO</code> 活动的表达式，</li>
 <li>使用 <code>let</code> 和 <code>:=</code> 的普通局部定义，该定义的名称引用了所提供表达式的值，或者</li>
@@ -5186,7 +5183,7 @@ The Lean compiler implicitly lifts them to the nearest enclosing `do`, which may
 This unique name then replaces the origin site of the nested action.
 -->
 <p>此外，直接出现在 <code>do</code> 下面的 <code>if</code> 和 <code>match</code> 表达式隐式地被认为在每个分支中都有自己的 <code>do</code>。
-在 <code>do</code> 表达式内部，**嵌套活动（Nested Action）**是括号下紧跟左箭头的表达式。
+在 <code>do</code> 表达式内部， <strong>嵌套活动（Nested Action）</strong> 是括号下紧跟左箭头的表达式。
 Lean 编译器会隐式地将它们提升到最近的封闭 <code>do</code> 中，该 <code>do</code> 可能隐式地是 <code>match</code> 或 <code>if</code>
 表达式分支的一部分，并为它们提供一个唯一的名称。然后，此唯一名称将替换嵌套活动的原始位置。</p>
 <!--
@@ -5207,7 +5204,7 @@ Use `lake new` to create a Lake package in a new directory, or `lake init` to cr
 Lake package configuration is another domain-specific language.
 Use `lake build` to build a project.
 -->
-<p>Lean 项目被组织成<strong>包（Package）</strong>，它们是库和可执行文件的集合，以及相关的依赖项和构建配置的信息。
+<p>Lean 项目被组织成 <strong>包（Package）</strong> ，它们是库和可执行文件的集合，以及相关的依赖项和构建配置的信息。
 包使用 Lean 构建工具 Lake 来描述。使用 <code>lake new</code> 可在新目录中创建一个 Lake 包，
 或使用 <code>lake init</code> 在当前目录中创建一个包。Lake 包配置是另一种领域专用的语言。
 可使用 <code>lake build</code> 构建项目。</p>
@@ -5233,7 +5230,7 @@ Partial functions, however, are not evaluated during type checking, because an i
 Furthermore, mathematical proofs are unable to inspect the definitions of partial functions, which means that programs that use them are much less amenable to formal proof.
 -->
 <p>然而，一些现实的程序需要编写无限循环的能力，因为它们需要处理潜在的无限数据，例如 POSIX 流。
-Lean 提供了一个逃生舱：标记为 <code>partial</code> 的**偏函数（Partial Function）**定义不需要终止。
+Lean 提供了一个逃生舱：标记为 <code>partial</code> 的 <strong>偏函数（Partial Function）</strong> 定义不需要终止。
 然而这是有代价的，由于类型是 Lean 语言的一等部分，所以函数可以返回类型。
 然而，偏函数在类型检查期间不会被求值，因为函数中的无限循环可能会导致类型检查器进入死循环。
 此外，数学证明无法检查偏函数的定义，这意味着使用它们的程序更难进行形式化证明。</p>
@@ -7069,8 +7066,7 @@ Following the new infix operator is a double arrow `=>`, which specifies the nam
 Lean's standard library uses this feature to define `+` and `*` as infix operators that point at `HAdd.hAdd` and `HMul.hMul`, respectively, allowing type classes to be used to overload the infix operators.
 Here, however, `andThen` is just an ordinary function.
 -->
-<p>在新的中缀运算符后面是一个双箭头 <code>=&gt;</code>，指定中缀运算符使用的命名的函数。
-Lean的标准库使用此功能将<code>+</code>和<code>*</code>定义为指向<code>HAdd.hAdd</code>和<code>HMul.hMul</code>的中缀运算符，从而允许将类型类用于重载中缀运算符。不过这里的<code>andThen</code>只是一个普通函数。</p>
+<p>在新的中缀运算符后面是一个双箭头 <code>=&gt;</code>，指定中缀运算符使用的命名的函数。Lean的标准库使用此功能将<code>+</code>和<code>*</code>定义为指向<code>HAdd.hAdd</code>和<code>HMul.hMul</code>的中缀运算符，从而允许将类型类用于重载中缀运算符。不过这里的<code>andThen</code>只是一个普通函数。</p>
 <!--
 Having defined an infix operator for `andThen`, `firstThird` can be rewritten in a way that brings the "pipeline" feeling of `none`-checks front and center:
 -->
