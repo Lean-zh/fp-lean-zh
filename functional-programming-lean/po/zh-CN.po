@@ -6462,7 +6462,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "`getNumB` was executed because `test` is equivalent to this definition:"
-msgstr "`getNumB` 被执行是因为 `test` 等价于这个定义："
+msgstr "`getNumB` 被执行是因为 `test` "
 
 #: src/hello-world/conveniences.md:86
 #, fuzzy
