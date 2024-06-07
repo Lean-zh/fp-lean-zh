@@ -186,4 +186,4 @@ David Thrane Christiansen 已使用函数式语言二十年，并使用依值类
 
 ## 授权许可
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">知识共享-署名 4.0 国际许可协议</a>授权。
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.zh-hans"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.zh-hans">知识共享-署名 4.0 国际许可协议</a>授权。
