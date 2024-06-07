@@ -20,10 +20,10 @@ While Lean contains rich facilities for creating EDSLs, they are beyond the scop
 标准的 Lean 构建工具称为 Lake（「Lean Make」的缩写），它在 Lean 中进行配置。
 正如 Lean 包含一门用于编写带副作用程序的特殊语言（`do` 语言）一样，
 Lake 也包含一门用于配置构建的特殊语言。
-这些语言被称为**嵌入式领域专用语言（Embedded Domain-Specific Languages）**
-（或有时称为**领域专用嵌入式语言（Domain-Specific Embedded Languages）**，缩写为 EDSL 或 DSEL）。
-它们是**领域专用（Domain-Specific）**的，因为它们用于专用的目的，包含来自某个子领域的术语，
-并且通常不适用于通用编程。它们是**嵌入式（Embedded）**的，因为它们出现在另一种语言的语法中。
+这些语言被称为 **嵌入式领域专用语言（Embedded Domain-Specific Languages）**
+（或有时称为 **领域专用嵌入式语言（Domain-Specific Embedded Languages）** ，缩写为 EDSL 或 DSEL）。
+它们是 **领域专用（Domain-Specific）** 的，因为它们用于专用的目的，包含来自某个子领域的术语，
+并且通常不适用于通用编程。它们是 **嵌入式（Embedded）** 的，因为它们出现在另一种语言的语法中。
 虽然 Lean 包含丰富的用于创建 EDSL 的工具，但它们超出了本书的范围。
 
 <!--
@@ -136,7 +136,7 @@ While the [documentation for Lake](https://github.com/leanprover/lean4/blob/mast
 The generated `lakefile.lean` contains the following:
 -->
 
-`lakefile.lean` 描述了一个**包（Package）**，它是一个连贯的 Lean 代码集合，用于分发，
+`lakefile.lean` 描述了一个 **包（Package）** ，它是一个连贯的 Lean 代码集合，用于分发，
 类似于 `npm` 或 `nuget` 包或 Rust 的 crate。一个包可以包含任意数量的库或可执行文件。
 虽然 [Lake 文档](https://github.com/leanprover/lean4/blob/master/src/lake/README.md)中描述了
 lakefile 中的可用选项，但它使用了此处尚未描述的许多 Lean 特性。生成的 `lakefile.lean` 包含以下内容：
@@ -155,9 +155,9 @@ This initial Lakefile consists of three items:
 
 此初始 Lakefile 由三项组成：
 
- * 一个**包**声明，名为 `greeting`，
- * 一个**库**声明，名为 `Greeting`，以及
- * 一个**可执行文件**，同样名为 `greeting`。
+ * 一个 **包** 声明，名为 `greeting`，
+ * 一个 **库** 声明，名为 `Greeting`，以及
+ * 一个 **可执行文件** ，同样名为 `greeting`。
 
 <!--
 Each of these names is enclosed in guillemets to allow users more freedom in picking package names.
@@ -173,11 +173,11 @@ Generally speaking, however, the defaults are reasonable.
 -->
 
 每个 Lakefile 只会包含一个包，但可以包含任意数量的库或可执行文件。
-此外，Lakefile 可能包含**外部库（External Library）**
+此外，Lakefile 可能包含 **外部库（External Library）**
 （即并非用 Lean 编写的库，将与结果可执行文件静态链接）、
-**自定义目标（Custom Target）**（即特定于具体执行平台的库/可执行文件的构建目标）、
-**依赖项（Dependency）**（即其他 Lean 包的声明，可能来自本地或远程 Git 代码库）、
-以及**脚本（Script）**（本质上是类似于 `main` 的 `IO` 活动，但还可以访问有关包配置的元数据）。
+ **自定义目标（Custom Target）** （即特定于具体执行平台的库/可执行文件的构建目标）、
+ **依赖项（Dependency）** （即其他 Lean 包的声明，可能来自本地或远程 Git 代码库）、
+以及 **脚本（Script）** （本质上是类似于 `main` 的 `IO` 活动，但还可以访问有关包配置的元数据）。
 Lakefile 中的项允许配置源文件位置、模块层次结构和编译器参数。不过一般来说，默认值就够用了。
 
 <!--
@@ -189,8 +189,8 @@ They are used pervasively throughout Lean.
 To build a target that is not annotated with `@[default_target]`, specify the target's name as an argument after `lake build`.
 -->
 
-库、可执行文件和自定义目标统称为**目标（Target）**。默认情况下，`lake build` 会构建那些标注了
-`@[default_target]` 的目标。此标注是一个**属性（Attribute）**，
+库、可执行文件和自定义目标统称为 **目标（Target）** 。默认情况下，`lake build` 会构建那些标注了
+`@[default_target]` 的目标。此标注是一个 **属性（Attribute）** ，
 它是一种可以与 Lean 声明关联的元数据。属性类似于 Java 中的注解或 C# 和 Rust 的特性。
 它们在 Lean 中被广泛使用。要构建未标注 `@[default_target]` 的目标，
 请在 `lake build` 后指定目标名称作为参数。
@@ -208,7 +208,7 @@ In this case, the root file for the library `Greeting` is `Greeting.lean`.
 The first line of `Main.lean`, which is `import Greeting`, makes the contents of `Greeting.lean` available in `Main.lean`.
 -->
 
-一个 Lean 库由一个分层组织的源文件集合组成，可以从中导入名称，称为**模块（Module）**。
+一个 Lean 库由一个分层组织的源文件集合组成，可以从中导入名称，称为 **模块（Module）** 。
 默认情况下，一个库有一个与它名称相同的单一根文件。在本例中，
 库 `Greeting` 的根文件是 `Greeting.lean`。`Main.lean` 的第一行是 `import Greeting`，
 它使 `Greeting.lean` 的内容在 `Main.lean` 中可用。
@@ -264,6 +264,6 @@ For example, `Nat.toFloat` converts a natural number to a `Float`.
 It can be made available as `toFloat` using `open Nat (toFloat)`.
 -->
 
-命名空间也可以**选择性**打开，只公开部分名称而无需显式前缀。
+命名空间也可以 **选择性** 打开，只公开部分名称而无需显式前缀。
 这可以通过在括号中写出所需名称来完成。例如，`Nat.toFloat` 将自然数转换为 `Float`。
 可以使用 `open Nat (toFloat)` 将其公开为 `toFloat`。

@@ -73,7 +73,7 @@ Thus, subtraction on `Nat` returns `0` when the answer would have otherwise been
 For instance,
 -->
 
-在这里，`Nat` 是**自然数**的类型，它们是任意精度的无符号整数。在 Lean 中，`Nat`
+在这里，`Nat` 是  **自然数** 的类型，它们是任意精度的无符号整数。在 Lean 中，`Nat`
 是非负整数字面量的默认类型。此默认类型并不总是最佳选择。
 在 C 中，当减法运算结果小于零时，无符号整数会下溢到最大的可表示数字。然而，`Nat`
 可以表示任意大的无符号数字，因此没有最大的数字可以下溢到。

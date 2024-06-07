@@ -9,7 +9,7 @@ Rather than having to import an operator like `ok` or `andThen` for each type th
 Monads have two operations, which are the equivalent of `ok` and `andThen`:
 -->
 
-无需为每个单子都实现`ok`或`andThen`这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于**任何**单子。
+无需为每个单子都实现`ok`或`andThen`这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于 **任何** 单子。
 单子有两个操作，分别相当于`ok`和`andThen`：
 ```lean
 {{#example_decl Examples/Monads/Class.lean FakeMonad}}
@@ -39,7 +39,7 @@ The infix version of `bind` is `>>=`, which plays the same role as `~~>` in the 
 -->
 
 例如`firstThirdFifthSeventh`原本对`Option α`和`Except String α`类型分别定义。
-现在，它可以被定义为对**任何**单子都有效的多态函数。
+现在，它可以被定义为对 **任何** 单子都有效的多态函数。
 但是，它需要接受一个参数作为查找函数，因为不同的单子可能以不同的方式找不到结果。
 `bind`的中缀运算符是`>>=`, 它扮演与示例中`~~>`相同的角色。
 ```lean
@@ -103,7 +103,7 @@ Because many different types are monads, functions that are polymorphic over _an
 For example, the function `mapM` is a version of `map` that uses a `Monad` to sequence and combine the results of applying a function:
 -->
 
-由于许多不同类型都是单子，因此对**任何**单子多态的函数非常强大。
+由于许多不同类型都是单子，因此对 **任何** 单子多态的函数非常强大。
 例如，函数`mapM`是`map`的另一个版本，它使用`Monad`将函数调用的结果按顺序连接起来：
 ```lean
 {{#example_decl Examples/Monads/Class.lean mapM}}
@@ -207,7 +207,7 @@ The _identity monad_ is a monad that has no effects, and allows pure code to be 
 
 单子将具有效应(Effects)的程序（例如失败、异常或日志记录）编码为数据和函数的显式表示。
 有时API会使用单子来提高灵活性，但API的使用方可能不需要任何效应。
-**恒等单子**(Identity Monad)是一个没有任何效应的单子，允许将纯(pure)代码与monadic API一起使用：
+ **恒等单子** (Identity Monad)是一个没有任何效应的单子，允许将纯(pure)代码与monadic API一起使用：
 ```lean
 {{#example_decl Examples/Monads/Class.lean IdMonad}}
 ```
@@ -217,9 +217,9 @@ Similarly, the type of `bind` should be `α → (α → Id β) → Id β`.
 Because this reduces to `α → (α → β) → β`, the second argument can be applied to the first to find the result.
 -->
 
-`pure`的类型应为`α → Id α`，但`Id α`**简化**为 `α`。类似地，`bind`的类型应为`α → (α → Id β) → Id β`。
-由于这**简化**为 `α → (α → β) → β`，因此可以将第二个参数应用于第一个参数得到结果。
-*译者注：此处**简化**一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。*
+`pure`的类型应为`α → Id α`，但`Id α` **简化** 为 `α`。类似地，`bind`的类型应为`α → (α → Id β) → Id β`。
+由于这 **简化** 为 `α → (α → β) → β`，因此可以将第二个参数应用于第一个参数得到结果。
+*译者注：此处 **简化** 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。*
 
 <!--
 With the identity monad, `mapM` becomes equivalent to `map`.

@@ -13,7 +13,7 @@ In Lean, this is done using _structures_, which are analogous to `struct`s in C 
 
 编写程序的第一步通常是找出问题域中的概念，然后用合适的代码表示它们。
 有时，一个域概念是其他更简单概念的集合。此时，将这些更简单的组件分组到一个「包」中会很方便，
-然后可以给它取一个有意义的名称。在 Lean 中，这是使用**结构体（Structure）**完成的，
+然后可以给它取一个有意义的名称。在 Lean 中，这是使用 **结构体（Structure）** 完成的，
 它类似于 C 或 Rust 中的 `struct` 和 C# 中的 `record`。
 
 <!--
@@ -394,7 +394,7 @@ It is not possible to provide a custom constructor that pre-processes data or re
 This is really a case of the word "constructor" having different, but related, meanings in the two contexts.
 -->
 
-每个结构体都有一个**构造子（Constructor）**。「Constructor」一词在英文中可能会引起混淆。
+每个结构体都有一个  **构造子（Constructor）** 。「Constructor」一词在英文中可能会引起混淆。
 与 Java 或 Python 等语言中的构造函数不同，Lean 中的构造子不是在初始化数据类型时运行的任意代码。
 相反，构造子只会收集要存储在新分配的数据结构中的数据。
 不可能提供一个预处理数据或拒绝无效参数的自定义构造子。

@@ -21,12 +21,16 @@ command = "python -X utf8 scripts/projects.py"
 [preprocessor.leanversion]
 command = "python -X utf8 scripts/lean-version.py"
 
-[preprocessor.trimspace]
-command = "python -X utf8 scripts/trim-space.py"
+# [preprocessor.trimspace]
+# command = "python -X utf8 scripts/trim-space.py"
 
 [output.html]
 additional-css = ["custom.css", "pygments.css"]
+additional-js = ["custom.js"]
 mathjax-support = true
+site-url = "/fp-lean-zh/"
+git-repository-url = "https://github.com/Lean-zh/fp-lean-zh"
+edit-url-template = "https://github.com/Lean-zh/fp-lean-zh/edit/master/functional-programming-lean/{path}"
 
 #[output.pandoc]
 #command = "python -X utf8 ../../scripts/one-markdown.py"

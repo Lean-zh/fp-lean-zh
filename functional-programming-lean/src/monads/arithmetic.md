@@ -16,7 +16,7 @@ However, while using the `Monad` API does impose a syntactic cost on a program, 
 但很容易将此误解为：承认纯函数式编程缺少一些重要的东西，程序员要越过这些障碍才能编写一个普通的程序。
 虽然使用`Monad`确实给程序带来了语法上的成本，但它带来了两个重要的优点：
  1. 程序必须在类型中诚实地告知它们使用的效应(Effects)。因此看一眼类型签名就可以知道程序能做的所有事情，而不只是知道它接受什么和返回什么。
- 2. 并非每种语言都提供相同的效应。例如只有某些语言有异常。其他语言具有独特的新奇效应，例如 [Icon's searching over multiple values](https://www2.cs.arizona.edu/icon/)以及Scheme 或Ruby的continuations。由于单子可以编码**任何**效应，因此程序员可以选择最适合给定程序的效应，而不是局限于语言开发者提供的效应。
+ 2. 并非每种语言都提供相同的效应。例如只有某些语言有异常。其他语言具有独特的新奇效应，例如 [Icon's searching over multiple values](https://www2.cs.arizona.edu/icon/)以及Scheme 或Ruby的continuations。由于单子可以编码 **任何** 效应，因此程序员可以选择最适合给定程序的效应，而不是局限于语言开发者提供的效应。
 
 <!--
 One example of a program that can make sense in a variety of monads is an evaluator for arithmetic expressions.
@@ -191,7 +191,7 @@ The type `Empty` has no constructors, and thus no values, like the `Nothing` typ
 In Scala and Kotlin, `Nothing` can represent computations that never return a result, such as functions that crash the program, throw exceptions, or always fall into infinite loops.
 An argument to a function or method of type `Nothing` indicates dead code, as there will never be a suitable argument value.
 Lean doesn't support infinite loops and exceptions, but `Empty` is still useful as an indication to the type system that a function cannot be called.
-Using the syntax `nomatch E` when `E` is an expression whose type has no constructors indicates to Lean that the current expression need not return a result, because it could never have been called. 
+Using the syntax `nomatch E` when `E` is an expression whose type has no constructors indicates to Lean that the current expression need not return a result, because it could never have been called.
 -->
 
 `Empty`类型没有构造子，因此没有任何取值，就像Scala或Kotlin中的`Nothing`类型。
@@ -208,7 +208,7 @@ Thus, it can be used in _any_ monad:
 
 将`Empty`用作`Prim`的参数，表示除了`Prim.plus`、`Prim.minus`和`Prim.times`之外没有其他情况，因为不可能找到一个`Empty`类型的值来放在`Prim.other`构造子中。
 由于类型为`Empty`的运算符应用于两个整数的函数永远不会被调用，所以它不需要返回结果。
-因此，它可以在**任何**单子中使用：
+因此，它可以在 **任何** 单子中使用：
 ```lean
 {{#example_decl Examples/Monads/Class.lean applyEmpty}}
 ```
@@ -238,7 +238,7 @@ One way to do this is to add a function `choose` to the language of expressions 
 -->
 
 遇到除以零时，除了直接失败并结束之外，还可以回溯并尝试不同的输入。
-给定适当的单子，同一个`evaluateM`可以对不致失败的答案**集合**执行非确定性搜索。
+给定适当的单子，同一个`evaluateM`可以对不致失败的答案 **集合** 执行非确定性搜索。
 这要求除了除法之外，还需要指定选择结果的方式。
 一种方法是在表达式的语言中添加一个函数`choose`，告诉求值器在搜索非失败结果时选择其中一个参数。
 
@@ -427,7 +427,7 @@ The solutions that do not contain the head are found with a recursive call on th
 (译者注：这是一个动态规划算法)对列表进行递归搜索。
 当输入列表为空且目标为`0`时，返回空列表表示成功；否则返回 `Many.none` 表示失败，因为空输入不可能得到非0加和。
 当列表非空时，有两种可能性：若输入列表的第一个元素大于goal，此时它的任何加和都大于`0`因此不可能是候选者；若第一个元素不大于goal，可以参与后续的搜索。
-如果列表的头部x**不是**候选者，对列表的尾部xs递归搜索。
+如果列表的头部x **不是** 候选者，对列表的尾部xs递归搜索。
 如果头部是候选者，则有两种用`Many.union`合并起来的可能性：找到的解含有当前的x，或者不含有。
 不含x的解通过xs递归搜索找到；而含有x的解则通过从goal中减去x，然后将x附加到递归的解中得到。
 
@@ -479,7 +479,7 @@ The mapping from function names to function implementations is called an _enviro
 
 可以通过允许将字符串当作运算符，然后提供从字符串到它们的实现函数之间的映射，使求值器可由用户扩展。
 例如，用户可以用余数运算或最大值运算来扩展求值器。
-从函数名称到函数实现的映射称为**环境**。
+从函数名称到函数实现的映射称为 **环境** 。
 
 <!--
 The environments needs to be passed in each recursive call.
@@ -507,7 +507,7 @@ When evaluating expressions in the reader monad, the following rules are used:
    with \\( 0 \\) serving as a fallback in case an unknown operator is applied.
 -->
 
-将函数当作单子，这通常称为**reader**单子。
+将函数当作单子，这通常称为 **reader** 单子。
 在reader单子中对表达式求值使用以下规则：
  * 常量 \\( n \\) 映射为常量函数 \\( λ e . n \\)，
  * 算术运算符映射为将参数各自传递然后计算的函数，因此 \\( f + g \\) 映射为 \\( λ e . f(e) + g(e) \\)，并且
@@ -574,7 +574,7 @@ The `⊢` symbol, called a _turnstile_ due to its resemblance to subway entrance
 -->
 
 Lean提供的消息描述了哪些变量在作用域内可用，以及结果的预期类型。
-`⊢`符号，由于它类似于地铁入口而被称为**turnstile**，将局部变量与所需类型分开，在此消息中为`ρ → β`：
+`⊢`符号，由于它类似于地铁入口而被称为 **turnstile** ，将局部变量与所需类型分开，在此消息中为`ρ → β`：
 ```output error
 {{#example_out Examples/Monads/Class.lean readerbind0}}
 ```
@@ -839,7 +839,7 @@ Do the following:
 要做的是：
  1. 实现`Monad (WithLog logged)`实例
  2. 写一个`{{#example_in Examples/Monads/Class.lean applyTracedType}}`来将被追踪的运算符应用到参数，将运算符和参数记录到日志，类型为：`{{#example_out Examples/Monads/Class.lean applyTracedType}}`
- 
+
 <!--
 If the exercise has been completed correctly, then
 -->
@@ -856,7 +856,7 @@ should result in
 ```output info
 {{#example_out Examples/Monads/Class.lean evalTraced}}
 ```
- 
+
 <!--
  Hint: values of type `Prim Empty` will appear in the resulting log. In order to display them as a result of `#eval`, the following instances are required:
 -->

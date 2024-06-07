@@ -62,7 +62,7 @@ This version of `dump` avoids introducing names that are used only once, which c
 -->
 
 此版本的 `dump` 避免了引入仅使用一次的名称，这可以极大地简化程序。
-Lean 从嵌套表达式上下文中提升的 `IO` 活动称为**嵌套活动（Nested Action）**。
+Lean 从嵌套表达式上下文中提升的 `IO` 活动称为 **嵌套活动（Nested Action）** 。
 
 <!--
 `fileStream` can be simplified using the same technique:
@@ -233,8 +233,8 @@ In other words, for `IO` actions, `#eval` both _evaluates_ the provided expressi
 -->
 
 这是运行 `IO` 活动产生的输出，而不是活动本身的不透明表示。
-换句话说，对于 `IO` 活动，`#eval` 既**求值（Evaluate）**提供的表达式，
-又**执行（Execute）**结果活动值。
+换句话说，对于 `IO` 活动，`#eval` 既 **求值（Evaluate）** 提供的表达式，
+又 **执行（Execute）** 结果活动值。
 
 <!--
 Quickly testing `IO` actions with `#eval` can be much more convenient that compiling and running whole programs.

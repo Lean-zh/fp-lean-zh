@@ -75,9 +75,9 @@ If it did return something interesting, then that would be indicated by the `IO`
 -->
 
 `IO α` 是一个程序的类型，当执行时，它要么抛出一个异常，要么返回一个类型为 `α` 的值。
-在执行期间，此程序可能会产生副作用。这些程序被称为 `IO` **活动（Action）**。
-Lean 区分表达式的**求值（Evaluation）**（严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
-和 `IO` 活动的**执行（Execution）**（依赖于外部系统与世界交互）。
+在执行期间，此程序可能会产生副作用。这些程序被称为 `IO` **活动（Action）** 。
+Lean 区分表达式的 **求值（Evaluation）** （严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
+和 `IO` 活动的 **执行（Execution）** （依赖于外部系统与世界交互）。
 `IO.println` 是一个从字符串到 `IO` 活动的函数，当执行时，它将给定的字符串写入标准输出。
 由于此活动在发出字符串的过程中不会从环境中读取任何有趣的信息，
 因此 `IO.println` 的类型为 `String → IO Unit`。如果它确实返回了一些有趣的东西，
@@ -179,7 +179,7 @@ If every primitive `IO` action accepts one world and returns a new one, and they
 -->
 
 考虑 Lean 中副作用的另一种方式，就是将 `IO` 活动看做一个函数，它将整个世界作为参数输入，
-并返回一个值和一个新的世界。在这种情况下，从标准输入读取一行文本是一个**纯**函数，
+并返回一个值和一个新的世界。在这种情况下，从标准输入读取一行文本是一个 **纯（Pure）** 函数，
 因为每次都提供了一个不同的世界作为参数。向标准输出写入一行文本也是一个纯函数，
 因为函数返回的世界与它最初的世界不同。程序确实需要小心，不要重复使用世界，
 也不要未能返回一个新世界——毕竟，这将相当于时间旅行或世界末日。
@@ -239,7 +239,7 @@ Just as SQL can be thought of as a special-purpose language for interacting with
 `IO` actions that are built with a `do` block are executed by executing the statements in order.
 -->
 
-在此程序中，`main` 活动由一个 `do` 代码块组成。此块包含一系列的**语句(Statement)**，
+在此程序中，`main` 活动由一个 `do` 代码块组成。此块包含一系列的 **语句(Statement)** ，
 它们既可以是局部变量（使用 `let` 引入），也可以是要执行的活动。
 正如 SQL 可以被认为是与数据库交互的专用语言一样，`do` 语法可以被认为是 Lean
 中的一个专用子语言，专门用于建模命令式程序。使用 `do` 块构建的 `IO` 活动通过按顺序执行语句来执行。

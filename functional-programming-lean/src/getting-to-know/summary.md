@@ -45,7 +45,7 @@ To encode a function that takes no arguments, Lean uses the `Unit` type, which i
 
 Lean 中的函数是一等的值，这意味着它们可以作为参数传递给其他函数，
 保存在变量中，并像任何其他值一样使用。每个 Lean 函数只接受一个参数。
-为了对接受多个参数的函数进行编码，Lean 使用了一种称为**柯里化（Currying）**的技术，
+为了对接受多个参数的函数进行编码，Lean 使用了一种称为  **柯里化（Currying）** 的技术，
 其中提供第一个参数会返回一个期望剩余参数的函数。为了对不接受任何参数的函数进行编码，
 Lean 使用了 `Unit` 类型，这是最没有信息量的可用参数。
 
@@ -124,7 +124,7 @@ Because types are first class in Lean, polymorphism does not require any special
 Giving an argument a name in a function type allows later types to mention that argument, and the type of applying that function to an argument is found by replacing the argument's name with the argument's value.
 -->
 
-某些函数或数据类型将类型作为参数。它们被称为**多态（Polymorphic）**。
+某些函数或数据类型将类型作为参数。它们被称为  **多态（Polymorphic）** 。
 多态性能让像计算列表长度这类的程序不必关心列表中条目的类型。
 由于类型在 Lean 中是一等公民，因此多态性不需要任何特殊语法，类型就能像其他参数一样传递。
 在函数类型中为参数指定名称能让稍后的类型引用该参数，
@@ -145,7 +145,7 @@ Constructors in Lean are not the same as constructors in object-oriented languag
 
 可以使用 `structure` 或 `inductive` 特性向 Lean 引入全新的数据类型。
 即使它们的定义在其他方面相同，这些新类型也不被认为等同于任何其他类型。
-数据类型具有**构造子（Constructor）**，解释了可以构造其值的方式，
+数据类型具有  **构造子（Constructor）** ，解释了可以构造其值的方式，
 每个构造子都接受一些参数。Lean 中的构造子与面向对象语言中的构造函数不同：
 Lean 的构造子只是数据的单纯持有者，而非初始化已分配对象的活动代码。
 
@@ -185,5 +185,5 @@ Similarly, recursive inductive types are not allowed to have a constructor that 
 为确保递归定义的函数不会破坏 Lean 的逻辑方面，无论使用什么参数调它们，
 Lean 都必须能够证明所有函数都会停机。在实践中，这意味着递归调用都会在输入的结构中更小的部分上执行，
 这确保了函数始终朝着基本情况推进，或者用户必须提供一些其他证据来证明函数必定会停机。
-类似地，递归归纳类型不允许拥有**从类型中**接受一个函数作为参数的构造子，
+类似地，递归归纳类型不允许拥有  **从类型中** 接受一个函数作为参数的构造子，
 因为这会让 Lean 能够编码不停机的函数。

@@ -21,8 +21,8 @@ The simplest is `pure`, which returns its argument and has no actual side effect
 
 副作用是程序执行中超出数学表达式求值范围的部分，例如读取文件、抛出异常或驱动工业机械。
 虽然大多数语言允许在求值期间发生副作用，但 Lean 不会。相反，Lean 有一个名为 `IO` 的类型，
-它表示使用副作用的程序的**描述（Description）**。然后由语言的运行时系统执行这些描述，
-该系统会调用 Lean 表达式求值器来执行特定计算。类型为 `IO α` 的值称为**`IO` 活动**。
+它表示使用副作用的程序的 **描述（Description）** 。然后由语言的运行时系统执行这些描述，
+该系统会调用 Lean 表达式求值器来执行特定计算。类型为 `IO α` 的值称为 **`IO` 活动** 。
 最简单的是 `pure`，它返回其参数并且没有实际副作用。
 
 <!--
@@ -70,7 +70,7 @@ A `do` expression contains a sequence of _statements_, which may be:
  * local definitions with `let` and `←`, where the defined name refers to the result of executing the value of the provided expression.
 -->
 
-`do` 表达式包含一系列**语句（Statement）**，这些语句可以是：
+`do` 表达式包含一系列 **语句（Statement）** ，这些语句可以是：
 
 * 表示 `IO` 活动的表达式，
 * 使用 `let` 和 `:=` 的普通局部定义，该定义的名称引用了所提供表达式的值，或者
@@ -90,7 +90,7 @@ This unique name then replaces the origin site of the nested action.
 -->
 
 此外，直接出现在 `do` 下面的 `if` 和 `match` 表达式隐式地被认为在每个分支中都有自己的 `do`。
-在 `do` 表达式内部，**嵌套活动（Nested Action）**是括号下紧跟左箭头的表达式。
+在 `do` 表达式内部， **嵌套活动（Nested Action）** 是括号下紧跟左箭头的表达式。
 Lean 编译器会隐式地将它们提升到最近的封闭 `do` 中，该 `do` 可能隐式地是 `match` 或 `if`
 表达式分支的一部分，并为它们提供一个唯一的名称。然后，此唯一名称将替换嵌套活动的原始位置。
 
@@ -117,7 +117,7 @@ Lake package configuration is another domain-specific language.
 Use `lake build` to build a project.
 -->
 
-Lean 项目被组织成**包（Package）**，它们是库和可执行文件的集合，以及相关的依赖项和构建配置的信息。
+Lean 项目被组织成 **包（Package）** ，它们是库和可执行文件的集合，以及相关的依赖项和构建配置的信息。
 包使用 Lean 构建工具 Lake 来描述。使用 `lake new` 可在新目录中创建一个 Lake 包，
 或使用 `lake init` 在当前目录中创建一个包。Lake 包配置是另一种领域专用的语言。
 可使用 `lake build` 构建项目。
@@ -149,7 +149,7 @@ Furthermore, mathematical proofs are unable to inspect the definitions of partia
 -->
 
 然而，一些现实的程序需要编写无限循环的能力，因为它们需要处理潜在的无限数据，例如 POSIX 流。
-Lean 提供了一个逃生舱：标记为 `partial` 的**偏函数（Partial Function）**定义不需要终止。
+Lean 提供了一个逃生舱：标记为 `partial` 的 **偏函数（Partial Function）** 定义不需要终止。
 然而这是有代价的，由于类型是 Lean 语言的一等部分，所以函数可以返回类型。
 然而，偏函数在类型检查期间不会被求值，因为函数中的无限循环可能会导致类型检查器进入死循环。
 此外，数学证明无法检查偏函数的定义，这意味着使用它们的程序更难进行形式化证明。

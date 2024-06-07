@@ -192,7 +192,7 @@ Because the compiled code does not need to retain any state, the Lean compiler c
 -->
 
 在调用 `dump` 时，不会出现耗尽堆栈空间的危险，因为递归调用发生在函数的最后一步，
-并且其结果会被直接返回，而不会被活动或计算。这种递归称为**尾递归（Tail Recursion）**，
+并且其结果会被直接返回，而不会被活动或计算。这种递归称为 **尾递归（Tail Recursion）** ，
 将在本书[后面的章节](../programs-proofs/tail-recursion.md)中详细描述。
 由于编译后的代码不需要保留任何状态，因此 Lean 编译器可以将递归调用编译为跳转。
 

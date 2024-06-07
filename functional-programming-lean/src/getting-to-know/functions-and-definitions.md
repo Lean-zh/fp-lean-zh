@@ -76,7 +76,7 @@ Nonetheless, definitions such as `hello` introduce names that refer _directly_ t
 
 在很多语言中，函数定义的语法与其他值的不同。例如，Python 函数定义以 `def` 关键字开头，
 而其他定义则以等号定义。在 Lean 中，函数使用与其他值相同的 `def` 关键字定义。
-尽管如此，像 `hello` 这类的定义引入的名字会**直接**引用其值，而非每次调用一个零参函数返回等价的值。
+尽管如此，像 `hello` 这类的定义引入的名字会  **直接** 引用其值，而非每次调用一个零参函数返回等价的值。
 
 <!--
 ## Defining Functions
@@ -173,7 +173,7 @@ Function arrows associate to the right, which means that `Nat → Nat → Nat` s
 会产生 `{{#example_out Examples/Intro.lean maximum3Type}}`，
 而 `{{#example_in Examples/Intro.lean stringAppendHelloType}}`
 会产生 `{{#example_out Examples/Intro.lean stringAppendHelloType}}`。
-使用返回函数的函数来实现多参数函数被称为"**柯里化（Currying）**，
+使用返回函数的函数来实现多参数函数被称为"  **柯里化（Currying）** ，
 以数学家哈斯克尔·柯里（Haskell Curry）命名。
 函数箭头是右结合的，这意味着 `Nat → Nat → Nat` 等价于 `Nat → (Nat → Nat)`。
 
@@ -289,7 +289,7 @@ This is part of Lean's mission of making it convenient to represent mathematics,
 The specific feature that allows this overloading does not replace all defined names with their definitions before looking for overloading, which is what leads to the error message above.
 -->
 
-产生该错误的原因是 Lean 允许数字字面量被**重载（Overload）**。
+产生该错误的原因是 Lean 允许数字字面量被  **重载（Overload）** 。
 当有意义时，自然数字面量可用作新类型，就像这些类型内置在系统中一样。
 这能让 Lean 方便地表示数学，而数学的不同分支会将数字符号用作完全不同的目的。
 这种允许重载的特性，并不会在找到重载之前用其定义替换所有已定义的名称，
@@ -357,6 +357,6 @@ Definitions produced with `abbrev` are marked as reducible.
 -->
 
 在幕后，一些定义会在重载解析期间被内部标记为可展开的，而另一些则不会标记。
-可展开的定义称为**可约的（Reducible）**。控制可约性对 Lean 的灵活性而言至关重要：
+可展开的定义称为  **可约的（Reducible）** 。控制可约性对 Lean 的灵活性而言至关重要：
 完全展开所有的定义可能会产生非常大的类型，这对于机器处理和用户理解来说都很困难。
 使用 `abbrev` 生成的定义会被标记为可约定义。

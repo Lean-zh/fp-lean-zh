@@ -544,7 +544,7 @@ This style of anonymous function expression is often referred to as a _lambda ex
 Even though Lean does permit `λ` to be used instead of `fun`, it is most common to write `fun`.
 -->
 
-这种匿名函数表达式风格通常称为**λ-表达式（Lambda Expression）**，
+这种匿名函数表达式风格通常称为  **λ-表达式（Lambda Expression）** ，
 因为编程语言在数学描述中使用的典型符号，将 Lean 中使用关键字 `fun`
 的地方换成了希腊字母 λ（Lambda）。即使 Lean 允许使用 `λ` 代替 `fun`，
 但最常见的仍然是写作 `fun`。
@@ -603,7 +603,7 @@ For instance, `{{#example_eval Examples/Intro.lean funPair 0}}` is a function th
 If multiple dots are used, then they become arguments from left to right:
 -->
 
-间点号总是将**最靠近**的一对括号创建为函数。
+间点号总是将  **最靠近** 的一对括号创建为函数。
 例如，`{{#example_eval Examples/Intro.lean funPair 0}}` 是返回一对数字的函数，
 而 `{{#example_eval Examples/Intro.lean pairFun 0}}` 是一个函数和一个数字的偶对。
 如果使用多个点，则它们按从左到右的顺序成为参数：
@@ -648,7 +648,7 @@ This means that `List.map` and `Array.map` are different names.
 Namespaces may be nested, so `Project.Frontend.User.loginTime` is the name `loginTime` in the nested namespace `Project.Frontend.User`.
 -->
 
-Lean 中的每个名称都出现在一个**命名空间（Namespace）**中，这是一个名称集合。
+Lean 中的每个名称都出现在一个  **命名空间（Namespace）** 中，这是一个名称集合。
 名称使用 `.` 放在命名空间中，因此 `List.map` 是 `List` 命名空间中的名称 `map`。
 不同命名空间中的名称不会相互冲突，即使它们在其他方面是相同的。
 这意味着 `List.map` 和 `Array.map` 是不同的名称。
@@ -721,7 +721,7 @@ Writing `open MyNamespace in` before an expression causes the contents of `MyNam
 For example, `timesTwelve` uses both `quadruple` and `triple` after opening `NewNamespace`:
 -->
 
-命名空间可以**打开**，这允许在不显式限定的情况下使用其中的名称。
+命名空间可以  **打开** ，这允许在不显式限定的情况下使用其中的名称。
 在表达式之前编写 `open MyNamespace in` 会导致 `MyNamespace`
 的内容在表达式中可用。例如，`timesTwelve` 在打开 `NewNamespace` 后同时使用了
 `quadruple` 和 `triple`：
@@ -879,7 +879,7 @@ For instance,
 In Lean, prefixing a string with `s!` triggers _interpolation_, where expressions contained in curly braces inside the string are replaced with their values.
 This is similar to `f`-strings in Python and `$`-prefixed strings in C#.
 For instance,
-在 Lean 中，在字符串前加上 `s!` 会触发**内插（Interpolation）**，
+在 Lean 中，在字符串前加上 `s!` 会触发  **内插（Interpolation）** ，
 其中字符串中大括号内的表达式会被其值替换。这类似于 Python 中的 `f` 字符串和
 C# 中以 `$` 为前缀的字符串。例如，
 
