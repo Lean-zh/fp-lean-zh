@@ -38,8 +38,7 @@ This creates a directory called `greeting` that contains the following files:
 -->
 
 要创建一个使用 Lake 的项目，请在一个不包含名为 `greeting` 的文件或目录的目录下执行命令
-`{{#command {first-lake} {lake} {lake new greeting} }}`，
-这将创建一个名为 `greeting` 的目录，其中包含以下文件：
+`lake new greeting`，这将创建一个名为 `greeting` 的目录，其中包含以下文件：
 
 <!--
  * `Main.lean` is the file in which the Lean compiler will look for the `main` action.
