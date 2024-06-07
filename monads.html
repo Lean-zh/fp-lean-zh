@@ -146,7 +146,7 @@ Otherwise, the underlying non-`null` value receives the call.
 Uses of `?.` can be chained, in which case the first `null` result terminates the chain of lookups.
 Chaining null-checks like this is much more convenient than writing and maintaining deeply nested `if`s.
 -->
-<p>在C#和Kotlin中，<code>?.</code>运算符是一种在可能为null的值上查找属性或调用方法的方式。如果<code>?.</code>前的值为<code>null</code>，则整个表达式为null。否则，该非<code>null</code>值会被用于调用。多个<code>?.</code>可以链接起来，在这种情况下，第一个 <code>null</code> 
+<p>在C#和Kotlin中，<code>?.</code>运算符是一种在可能为null的值上查找属性或调用方法的方式。如果<code>?.</code>前的值为<code>null</code>，则整个表达式为null。否则，该非<code>null</code>值会被用于调用。多个<code>?.</code>可以链接起来，在这种情况下，第一个 <code>null</code>
 结果将终止查找链。像这样链接null检查比编写和维护深层嵌套的 <code>if</code> 方便得多。</p>
 <!--
 Similarly, exceptions are significantly more convenient than manually checking and propagating error codes.
@@ -160,7 +160,7 @@ Lean provides dedicated syntax that makes this API convenient to use, but can al
 This chapter begins with the nitty-gritty presentation of manually nesting null checks, and builds from there to the convenient, general API.
 Please suspend your disbelief in the meantime.
 -->
-<p>所有这些功能以及更多功能都可以作为通用 API —— <code>Monad</code> 的实例在库代码中实现。Lean 提供了专门的语法，使此 API 
+<p>所有这些功能以及更多功能都可以作为通用 API —— <code>Monad</code> 的实例在库代码中实现。Lean 提供了专门的语法，使此 API
 易于使用，但也会妨碍理解幕后发生的事情。本章从手动嵌套空检查的细节介绍开始，并由此构建到方便、通用的 API。在此期间，请暂时搁置你的怀疑。</p>
 <!--
 ## Checking for `none`: Don't Repeat Yourself
@@ -281,7 +281,7 @@ The exponentiation operator `^` is right associative, so `w ^ x ^ y ^ z` is equi
 Comparison operators such as `&lt;` are non-associative, so `x &lt; y &lt; z` is a syntax error and requires manual parentheses.
 --&gt;
 
-在 Lean 中，可以使用 `infix`、`infixl` 和 `infixr`命令声明中缀运算符，分别用于非结合、左结合和右结合的情况。当连续多次使用时，**左结合**运算符会将（开）括号堆叠在表达式的左侧。加法运算符`+` 是左结合的，因此 `w + x + y + z` 等价于 `(((w + x) + y) + z)`。指数运算符 `^` 是右结合的，因此 `w ^ x ^ y ^ z` 等价于 `(w ^ (x ^ (y ^ z)))`。比较运算符（如 `&lt;`）是非结合的，因此 `x &lt; y &lt; z`是一个语法错误，需要手动添加括号。
+在 Lean 中，可以使用 `infix`、`infixl` 和 `infixr`命令声明中缀运算符，分别用于非结合、左结合和右结合的情况。当连续多次使用时，  **左结合** 运算符会将（开）括号堆叠在表达式的左侧。加法运算符`+` 是左结合的，因此 `w + x + y + z` 等价于 `(((w + x) + y) + z)`。指数运算符 `^` 是右结合的，因此 `w ^ x ^ y ^ z` 等价于 `(w ^ (x ^ (y ^ z)))`。比较运算符（如 `&lt;`）是非结合的，因此 `x &lt; y &lt; z`是一个语法错误，需要手动添加括号。
 
 &lt;!--
 The following declaration makes `andThen` into an infix operator:
@@ -298,7 +298,7 @@ Higher-precedence operators are applied before lower-precedence operators.
 According to the declaration of `~~>`, both `+` and `*` have higher precedence, and thus apply first.
 Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.
 -->
-<p>冒号后面的数字声明了新中缀运算符的<strong>优先级</strong>。在一般的数学记号中，<code>x + y * z</code> 等价于 <code>x + (y * z)</code>，即使 <code>+</code> 和 <code>*</code> 都是左结合的。在 Lean 中，<code>+</code> 的优先级为 65，<code>*</code> 的优先级为 70。优先级更高的运算符应用于优先级较低的运算符之前。根据<code>~~&gt;</code>的声明，<code>+</code>和<code>*</code>都具有更高的优先级，因此会被首先计算。通常来说，找出最适合一组运算符的优先级需要一些实验和大量的示例。</p>
+<p>冒号后面的数字声明了新中缀运算符的  <strong>优先级</strong> 。在一般的数学记号中，<code>x + y * z</code> 等价于 <code>x + (y * z)</code>，即使 <code>+</code> 和 <code>*</code> 都是左结合的。在 Lean 中，<code>+</code> 的优先级为 65，<code>*</code> 的优先级为 70。优先级更高的运算符应用于优先级较低的运算符之前。根据<code>~~&gt;</code>的声明，<code>+</code>和<code>*</code>都具有更高的优先级，因此会被首先计算。通常来说，找出最适合一组运算符的优先级需要一些实验和大量的示例。</p>
 <!--
 Following the new infix operator is a double arrow `=>`, which specifies the named function to be used for the infix operator.
 Lean's standard library uses this feature to define `+` and `*` as infix operators that point at `HAdd.hAdd` and `HMul.hMul`, respectively, allowing type classes to be used to overload the infix operators.
@@ -632,7 +632,7 @@ An _inorder numbering_ of a tree associates each data point in the tree with the
 For example, consider `aTree`:
 --&gt;
 
-树的每个节点的**中序编号**指的是：在中序遍历中被访问的次序。例如，考虑如下`aTree`：```lean
+树的每个节点的  **中序编号** 指的是：在中序遍历中被访问的次序。例如，考虑如下`aTree`：```lean
 open BinTree in
 def aTree :=
   branch
@@ -812,7 +812,7 @@ The key idea of monads is that each monad encodes a particular kind of side effe
 For example, `Option` represents programs that can fail by returning `none`, `Except` represents programs that can throw exceptions, `WithLog` represents programs that accumulate a log while running, and `State` represents programs with a single mutable variable.
 --&gt;
 
-这种风格的API统称为**单子**(Monad)。虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。例如`Option`表示可能通过返回`none`而失败的程序，`Except`表示可能抛出异常的程序，`WithLog`表示在运行过程中累积日志的程序，`State`表示具有单个可变变量的程序。
+这种风格的API统称为  **单子** (Monad)。虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。例如`Option`表示可能通过返回`none`而失败的程序，`Except`表示可能抛出异常的程序，`WithLog`表示在运行过程中累积日志的程序，`State`表示具有单个可变变量的程序。
 
 </code></pre>
 

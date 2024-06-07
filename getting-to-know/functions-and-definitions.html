@@ -193,7 +193,7 @@ Nonetheless, definitions such as `hello` introduce names that refer _directly_ t
 -->
 <p>在很多语言中，函数定义的语法与其他值的不同。例如，Python 函数定义以 <code>def</code> 关键字开头，
 而其他定义则以等号定义。在 Lean 中，函数使用与其他值相同的 <code>def</code> 关键字定义。
-尽管如此，像 <code>hello</code> 这类的定义引入的名字会<strong>直接</strong>引用其值，而非每次调用一个零参函数返回等价的值。</p>
+尽管如此，像 <code>hello</code> 这类的定义引入的名字会  <strong>直接</strong> 引用其值，而非每次调用一个零参函数返回等价的值。</p>
 <!--
 ## Defining Functions
 -->
@@ -274,7 +274,7 @@ Function arrows associate to the right, which means that `Nat → Nat → Nat` s
 会产生 <code>maximum 3 : Nat → Nat</code>，
 而 <code>#check String.append &quot;Hello &quot;</code>
 会产生 <code>String.append &quot;Hello &quot; : String → String</code>。
-使用返回函数的函数来实现多参数函数被称为&quot;<strong>柯里化（Currying）</strong>，
+使用返回函数的函数来实现多参数函数被称为&quot;  <strong>柯里化（Currying）</strong> ，
 以数学家哈斯克尔·柯里（Haskell Curry）命名。
 函数箭头是右结合的，这意味着 <code>Nat → Nat → Nat</code> 等价于 <code>Nat → (Nat → Nat)</code>。</p>
 <!--
@@ -359,7 +359,7 @@ When it makes sense to do so, natural number literals can be used for new types,
 This is part of Lean's mission of making it convenient to represent mathematics, and different branches of mathematics use number notation for very different purposes.
 The specific feature that allows this overloading does not replace all defined names with their definitions before looking for overloading, which is what leads to the error message above.
 -->
-<p>产生该错误的原因是 Lean 允许数字字面量被<strong>重载（Overload）</strong>。
+<p>产生该错误的原因是 Lean 允许数字字面量被  <strong>重载（Overload）</strong> 。
 当有意义时，自然数字面量可用作新类型，就像这些类型内置在系统中一样。
 这能让 Lean 方便地表示数学，而数学的不同分支会将数字符号用作完全不同的目的。
 这种允许重载的特性，并不会在找到重载之前用其定义替换所有已定义的名称，
@@ -407,7 +407,7 @@ Control over reducibility is essential to allow Lean to scale: fully unfolding a
 Definitions produced with `abbrev` are marked as reducible.
 -->
 <p>在幕后，一些定义会在重载解析期间被内部标记为可展开的，而另一些则不会标记。
-可展开的定义称为<strong>可约的（Reducible）</strong>。控制可约性对 Lean 的灵活性而言至关重要：
+可展开的定义称为  <strong>可约的（Reducible）</strong> 。控制可约性对 Lean 的灵活性而言至关重要：
 完全展开所有的定义可能会产生非常大的类型，这对于机器处理和用户理解来说都很困难。
 使用 <code>abbrev</code> 生成的定义会被标记为可约定义。</p>
 

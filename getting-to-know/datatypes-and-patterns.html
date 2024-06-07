@@ -151,7 +151,7 @@ A calculator has a number of binary operators, such as addition, subtraction, an
 Structures do not provide an easy way to encode multiple choices.
 -->
 <p>结构体使多个独立的数据块可以组合成一个连贯的整体，该整体由一个全新的类型表示。
-将一组值组合在一起的类型（如结构体）称为 <strong>积类型（Product Type）</strong>。
+将一组值组合在一起的类型（如结构体）称为   <strong>积类型（Product Type）</strong> 。
 然而，许多领域概念不能自然地表示为结构体。例如，应用程序可能需要跟踪用户权限，
 其中一些用户是文档所有者，一些用户可以编辑文档，而另一些用户只能阅读文档。
 计算器具有许多二元运算符，例如加法、减法和乘法。结构体无法提供一种简单的方法来编码多项选择。</p>
@@ -170,8 +170,8 @@ Datatypes that allow choices are called _sum types_ and datatypes that can inclu
 Recursive sum types are called _inductive datatypes_, because mathematical induction may be used to prove statements about them.
 When programming, inductive datatypes are consumed through pattern matching and recursive functions.
 -->
-<p>允许选择的类型称为<strong>和类型（Sum Type）</strong>，而可以包含自身实例的类型称为
-<strong>递归类型（Recursive Datatype）</strong>。递归和类型称<strong>归纳类型（Inductive Datatype）</strong>，
+<p>允许选择的类型称为  <strong>和类型（Sum Type）</strong> ，而可以包含自身实例的类型称为
+<strong>递归类型（Recursive Datatype）</strong> 。递归和类型称  <strong>归纳类型（Inductive Datatype）</strong> ，
 因为可以用数学归纳法来证明有关它们的陈述。在编程时，归纳类型通过模式匹配和递归函数来消耗。</p>
 <!--
 Many of the built-in types are actually inductive datatypes in the standard library.
@@ -231,7 +231,7 @@ The only real difference is that `succ` is followed by `(n : Nat)`, which specif
 The names `zero` and `succ` are in a namespace named after their type, so they must be referred to as `Nat.zero` and `Nat.succ`, respectively.
 -->
 <p>在这里，<code>zero</code> 表示 0，而 <code>succ</code> 表示errt数字的后继。<code>succ</code> 声明中提到的 <code>Nat</code>
-正是我们正在定义的类型 <code>Nat</code>。**后继（Successor）**表示「比...大一」，因此 5 的后继是 6，
+正是我们正在定义的类型 <code>Nat</code>。  <strong>后继（Successor）</strong> 表示「比...大一」，因此 5 的后继是 6，
 32,185 的后继是 32,186。使用此定义，<code>4</code> 表示为 <code>Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero)))</code>。
 这个定义与 <code>Bool</code> 的定义非常类似，只是名称略有不同。唯一真正的区别是 <code>succ</code> 后面跟着
 <code>(n : Nat)</code>，它指定构造函数 <code>succ</code> 接受类型为 <code>Nat</code> 的参数，该参数恰好命名为 <code>n</code>。
@@ -300,7 +300,7 @@ In Lean, both of these purposes are simultaneously served by _pattern matching_.
 <p>在很多语言中，这类数据首先使用 instance-of 运算符来检查接收了哪个子类，
 然后读取给定子类中可用的字段值。instance-of 会检查确定要运行哪个代码，
 以确保此代码所需的数据可用，而数据由字段本身提供。
-在 Lean 中，这两个目的均由**模式匹配（Pattern Matching）**实现。</p>
+在 Lean 中，这两个目的均由  <strong>模式匹配（Pattern Matching）</strong> 实现。</p>
 <!--
 An example of a function that uses pattern matching is `isZero`, which is a function that returns `true` when its argument is `Nat.zero`, or false otherwise.
 -->
@@ -429,7 +429,7 @@ Inductive datatypes are allowed to be recursive; indeed, `Nat` is an example of 
 Recursive datatypes can represent arbitrarily large data, limited only by technical factors like available memory.
 Just as it would be impossible to write down one constructor for each natural number in the datatype definition, it is also impossible to write down a pattern match case for each possibility.
 -->
-<p>引用正在定义的名称的定义称为<strong>递归定义（Recursive Definition）</strong>。
+<p>引用正在定义的名称的定义称为  <strong>递归定义（Recursive Definition）</strong> 。
 归纳数据类型允许是递归的；事实上，<code>Nat</code> 就是这样的数据类型的一个例子，
 因为 <code>succ</code> 需要另一个 <code>Nat</code>。递归数据类型可以表示任意大的数据，仅受可用内存等技术因素限制。
 就像不可能在数据类型定义中为每个自然数编写一个构造器一样，也不可能为每个可能性编写一个模式匹配用例。</p>
@@ -442,7 +442,7 @@ The successor of an odd number is even, and the successor of an even number is o
 This means that a number built with `succ` is even if and only if its argument is not even.
 -->
 <p>递归数据类型与递归函数很好地互补。一个简单的 <code>Nat</code> 递归函数检查其参数是否是偶数。
-在这种情况下，<code>zero</code> 是偶数。像这样的代码的非递归分支称为<strong>基本情况（Base Case）</strong>。
+在这种情况下，<code>zero</code> 是偶数。像这样的代码的非递归分支称为  <strong>基本情况（Base Case）</strong> 。
 奇数的后继是偶数，偶数的后继是奇数。这意味着使用 <code>succ</code> 构建的数字当且仅当其参数不是偶数时才是偶数。</p>
 <pre><code class="language-lean">def even (n : Nat) : Bool :=
   match n with
@@ -457,7 +457,7 @@ This pattern is called _structural recursion_.
 -->
 <p>这种思维模式对于在 <code>Nat</code> 上编写递归函数是典型的。首先，确定对 <code>zero</code> 做什么。
 然后，确定如何将任意 <code>Nat</code> 的结果转换为其后继的结果，并将此转换应用于递归调用的结果。
-此模式称为<strong>结构化递归（Structural Recursion）</strong>。</p>
+此模式称为  <strong>结构化递归（Structural Recursion）</strong> 。</p>
 <!--
 Unlike many languages, Lean ensures by default that every recursive function will eventually reach a base case.
 From a programming perspective, this rules out accidental infinite loops.

@@ -294,9 +294,9 @@ Lean is a _functional_ language in the sense that functions are first-class valu
 _Dependent types_, which are the most unusual feature of Lean, make types into a first-class part of the language, allowing types to contain programs and programs to compute types.
 -->
 <p>作为一门编程语言，Lean 是一种具有依值类型的严格纯函数式语言。学习使用 Lean 编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，以及如何像函数式程序员一样思考。
-**严格性（Strictness）**意味着 Lean 中的函数调用与大多数语言中的工作方式类似：在函数体开始运行之前，参数被完全计算。
-**纯粹性（Purity）<strong>意味着 Lean 程序不能产生副作用，例如修改内存中的位置、发送电子邮件或删除文件，除非程序的类型声明如此。Lean 是一种</strong>函数式（Functional）**语言，这意味着函数就像任何其他值一样是一等值，并且执行模型受数学表达式的求值启发。
-**依值类型（Dependent type）**是 Lean 最不寻常的特性，它使类型成为语言的一等部分，允许类型包含程序，而程序计算类型。&quot;</p>
+<strong>严格性（Strictness）</strong> 意味着 Lean 中的函数调用与大多数语言中的工作方式类似：在函数体开始运行之前，参数被完全计算。
+<strong>纯粹性（Purity）</strong> 意味着 Lean 程序不能产生副作用，例如修改内存中的位置、发送电子邮件或删除文件，除非程序的类型声明如此。Lean 是一种  <strong>函数式（Functional）</strong> 语言，这意味着函数就像任何其他值一样是一等值，并且执行模型受数学表达式的求值启发。
+<strong>依值类型（Dependent type）</strong> 是 Lean 最不寻常的特性，它使类型成为语言的一等部分，允许类型包含程序，而程序计算类型。&quot;</p>
 <!--
 This book is intended for programmers who want to learn Lean, but who have not necessarily used a functional programming language before.
 Familiarity with functional languages such as Haskell, OCaml, or F# is not required.
@@ -354,7 +354,7 @@ Please refer to the [Lean manual](https://lean-lang.org/lean4/doc/quickstart.htm
 <!--
 Code examples that are provided to Lean as _input_ are formatted like this:
 -->
-<p>作为<strong>输入</strong>提供给 Lean 的代码示例格式如下：</p>
+<p>作为  <strong>输入</strong> 提供给 Lean 的代码示例格式如下：</p>
 <pre><code class="language-lean">def add1 (n : Nat) : Nat := n + 1
 
 #eval add1 7
@@ -470,7 +470,7 @@ database. "Side effects" is essentially a catch-all term for
 describing things that may happen in a program that don't follow the
 model of evaluating mathematical expressions.
 -->
-<p>大多数编程语言都是 <strong>命令式的</strong>，其中程序由一系列语句组成，
+<p>大多数编程语言都是   <strong>命令式的</strong> ，其中程序由一系列语句组成，
 这些语句应按顺序执行以找到程序的结果。程序可以访问可变内存，
 因此变量引用的值可以随时间而改变。除了可变状态之外，程序还可能产生其他副作用，
 例如删除文件、建立传出网络连接、抛出或捕获异常以及从数据库读取数据。
@@ -578,8 +578,8 @@ Because Lean is an expression-oriented functional language, there are no conditi
 They are written using `if`, `then`, and `else`. For
 instance,
 -->
-<p>命令式语言通常有两种条件：根据布尔值确定要执行哪些指令的条件<strong>语句（Statement）</strong>，
-以及根据布尔值确定要计算两个表达式中哪一个的条件<strong>表达式（Expression）</strong>。
+<p>命令式语言通常有两种条件：根据布尔值确定要执行哪些指令的条件  <strong>语句（Statement）</strong> ，
+以及根据布尔值确定要计算两个表达式中哪一个的条件  <strong>表达式（Expression）</strong> 。
 例如，在 C 和 C++ 中，条件语句使用 <code>if</code> 和 <code>else</code> 编写，而条件表达式使用三元运算符 <code>?</code> 和 <code>:</code> 编写。
 在 Python 中，条件语句以 <code>if</code> 开头，而条件表达式则将 <code>if</code> 放在中间。
 由于 Lean 是一种面向表达式的函数式语言，因此没有条件语句，只有条件表达式。
@@ -738,7 +738,7 @@ In C, unsigned integers underflow to the largest representable numbers when subt
 Thus, subtraction on `Nat` returns `0` when the answer would have otherwise been negative.
 For instance,
 -->
-<p>在这里，<code>Nat</code> 是<strong>自然数</strong>的类型，它们是任意精度的无符号整数。在 Lean 中，<code>Nat</code>
+<p>在这里，<code>Nat</code> 是  <strong>自然数</strong> 的类型，它们是任意精度的无符号整数。在 Lean 中，<code>Nat</code>
 是非负整数字面量的默认类型。此默认类型并不总是最佳选择。
 在 C 中，当减法运算结果小于零时，无符号整数会下溢到最大的可表示数字。然而，<code>Nat</code>
 可以表示任意大的无符号数字，因此没有最大的数字可以下溢到。
@@ -858,7 +858,7 @@ Nonetheless, definitions such as `hello` introduce names that refer _directly_ t
 -->
 <p>在很多语言中，函数定义的语法与其他值的不同。例如，Python 函数定义以 <code>def</code> 关键字开头，
 而其他定义则以等号定义。在 Lean 中，函数使用与其他值相同的 <code>def</code> 关键字定义。
-尽管如此，像 <code>hello</code> 这类的定义引入的名字会<strong>直接</strong>引用其值，而非每次调用一个零参函数返回等价的值。</p>
+尽管如此，像 <code>hello</code> 这类的定义引入的名字会  <strong>直接</strong> 引用其值，而非每次调用一个零参函数返回等价的值。</p>
 <!--
 ## Defining Functions
 -->
@@ -939,7 +939,7 @@ Function arrows associate to the right, which means that `Nat → Nat → Nat` s
 会产生 <code>maximum 3 : Nat → Nat</code>，
 而 <code>#check String.append &quot;Hello &quot;</code>
 会产生 <code>String.append &quot;Hello &quot; : String → String</code>。
-使用返回函数的函数来实现多参数函数被称为&quot;<strong>柯里化（Currying）</strong>，
+使用返回函数的函数来实现多参数函数被称为&quot;  <strong>柯里化（Currying）</strong> ，
 以数学家哈斯克尔·柯里（Haskell Curry）命名。
 函数箭头是右结合的，这意味着 <code>Nat → Nat → Nat</code> 等价于 <code>Nat → (Nat → Nat)</code>。</p>
 <!--
@@ -1024,7 +1024,7 @@ When it makes sense to do so, natural number literals can be used for new types,
 This is part of Lean's mission of making it convenient to represent mathematics, and different branches of mathematics use number notation for very different purposes.
 The specific feature that allows this overloading does not replace all defined names with their definitions before looking for overloading, which is what leads to the error message above.
 -->
-<p>产生该错误的原因是 Lean 允许数字字面量被<strong>重载（Overload）</strong>。
+<p>产生该错误的原因是 Lean 允许数字字面量被  <strong>重载（Overload）</strong> 。
 当有意义时，自然数字面量可用作新类型，就像这些类型内置在系统中一样。
 这能让 Lean 方便地表示数学，而数学的不同分支会将数字符号用作完全不同的目的。
 这种允许重载的特性，并不会在找到重载之前用其定义替换所有已定义的名称，
@@ -1072,7 +1072,7 @@ Control over reducibility is essential to allow Lean to scale: fully unfolding a
 Definitions produced with `abbrev` are marked as reducible.
 -->
 <p>在幕后，一些定义会在重载解析期间被内部标记为可展开的，而另一些则不会标记。
-可展开的定义称为<strong>可约的（Reducible）</strong>。控制可约性对 Lean 的灵活性而言至关重要：
+可展开的定义称为  <strong>可约的（Reducible）</strong> 。控制可约性对 Lean 的灵活性而言至关重要：
 完全展开所有的定义可能会产生非常大的类型，这对于机器处理和用户理解来说都很困难。
 使用 <code>abbrev</code> 生成的定义会被标记为可约定义。</p>
 <div style="break-before: page; page-break-before: always;"></div><!--
@@ -1087,7 +1087,7 @@ In Lean, this is done using _structures_, which are analogous to `struct`s in C 
 -->
 <p>编写程序的第一步通常是找出问题域中的概念，然后用合适的代码表示它们。
 有时，一个域概念是其他更简单概念的集合。此时，将这些更简单的组件分组到一个「包」中会很方便，
-然后可以给它取一个有意义的名称。在 Lean 中，这是使用**结构体（Structure）**完成的，
+然后可以给它取一个有意义的名称。在 Lean 中，这是使用  <strong>结构体（Structure）</strong> 完成的，
 它类似于 C 或 Rust 中的 <code>struct</code> 和 C# 中的 <code>record</code>。</p>
 <!--
 Defining a structure introduces a completely new type to Lean that can't be reduced to any other type.
@@ -1353,7 +1353,7 @@ Instead, constructors simply gather the data to be stored in the newly-allocated
 It is not possible to provide a custom constructor that pre-processes data or rejects invalid arguments.
 This is really a case of the word "constructor" having different, but related, meanings in the two contexts.
 -->
-<p>每个结构体都有一个<strong>构造子（Constructor）</strong>。「Constructor」一词在英文中可能会引起混淆。
+<p>每个结构体都有一个  <strong>构造子（Constructor）</strong> 。「Constructor」一词在英文中可能会引起混淆。
 与 Java 或 Python 等语言中的构造函数不同，Lean 中的构造子不是在初始化数据类型时运行的任意代码。
 相反，构造子只会收集要存储在新分配的数据结构中的数据。
 不可能提供一个预处理数据或拒绝无效参数的自定义构造子。
@@ -1507,7 +1507,7 @@ A calculator has a number of binary operators, such as addition, subtraction, an
 Structures do not provide an easy way to encode multiple choices.
 -->
 <p>结构体使多个独立的数据块可以组合成一个连贯的整体，该整体由一个全新的类型表示。
-将一组值组合在一起的类型（如结构体）称为 <strong>积类型（Product Type）</strong>。
+将一组值组合在一起的类型（如结构体）称为   <strong>积类型（Product Type）</strong> 。
 然而，许多领域概念不能自然地表示为结构体。例如，应用程序可能需要跟踪用户权限，
 其中一些用户是文档所有者，一些用户可以编辑文档，而另一些用户只能阅读文档。
 计算器具有许多二元运算符，例如加法、减法和乘法。结构体无法提供一种简单的方法来编码多项选择。</p>
@@ -1526,8 +1526,8 @@ Datatypes that allow choices are called _sum types_ and datatypes that can inclu
 Recursive sum types are called _inductive datatypes_, because mathematical induction may be used to prove statements about them.
 When programming, inductive datatypes are consumed through pattern matching and recursive functions.
 -->
-<p>允许选择的类型称为<strong>和类型（Sum Type）</strong>，而可以包含自身实例的类型称为
-<strong>递归类型（Recursive Datatype）</strong>。递归和类型称<strong>归纳类型（Inductive Datatype）</strong>，
+<p>允许选择的类型称为  <strong>和类型（Sum Type）</strong> ，而可以包含自身实例的类型称为
+<strong>递归类型（Recursive Datatype）</strong> 。递归和类型称  <strong>归纳类型（Inductive Datatype）</strong> ，
 因为可以用数学归纳法来证明有关它们的陈述。在编程时，归纳类型通过模式匹配和递归函数来消耗。</p>
 <!--
 Many of the built-in types are actually inductive datatypes in the standard library.
@@ -1587,7 +1587,7 @@ The only real difference is that `succ` is followed by `(n : Nat)`, which specif
 The names `zero` and `succ` are in a namespace named after their type, so they must be referred to as `Nat.zero` and `Nat.succ`, respectively.
 -->
 <p>在这里，<code>zero</code> 表示 0，而 <code>succ</code> 表示errt数字的后继。<code>succ</code> 声明中提到的 <code>Nat</code>
-正是我们正在定义的类型 <code>Nat</code>。**后继（Successor）**表示「比...大一」，因此 5 的后继是 6，
+正是我们正在定义的类型 <code>Nat</code>。  <strong>后继（Successor）</strong> 表示「比...大一」，因此 5 的后继是 6，
 32,185 的后继是 32,186。使用此定义，<code>4</code> 表示为 <code>Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero)))</code>。
 这个定义与 <code>Bool</code> 的定义非常类似，只是名称略有不同。唯一真正的区别是 <code>succ</code> 后面跟着
 <code>(n : Nat)</code>，它指定构造函数 <code>succ</code> 接受类型为 <code>Nat</code> 的参数，该参数恰好命名为 <code>n</code>。
@@ -1656,7 +1656,7 @@ In Lean, both of these purposes are simultaneously served by _pattern matching_.
 <p>在很多语言中，这类数据首先使用 instance-of 运算符来检查接收了哪个子类，
 然后读取给定子类中可用的字段值。instance-of 会检查确定要运行哪个代码，
 以确保此代码所需的数据可用，而数据由字段本身提供。
-在 Lean 中，这两个目的均由**模式匹配（Pattern Matching）**实现。</p>
+在 Lean 中，这两个目的均由  <strong>模式匹配（Pattern Matching）</strong> 实现。</p>
 <!--
 An example of a function that uses pattern matching is `isZero`, which is a function that returns `true` when its argument is `Nat.zero`, or false otherwise.
 -->
@@ -1785,7 +1785,7 @@ Inductive datatypes are allowed to be recursive; indeed, `Nat` is an example of 
 Recursive datatypes can represent arbitrarily large data, limited only by technical factors like available memory.
 Just as it would be impossible to write down one constructor for each natural number in the datatype definition, it is also impossible to write down a pattern match case for each possibility.
 -->
-<p>引用正在定义的名称的定义称为<strong>递归定义（Recursive Definition）</strong>。
+<p>引用正在定义的名称的定义称为  <strong>递归定义（Recursive Definition）</strong> 。
 归纳数据类型允许是递归的；事实上，<code>Nat</code> 就是这样的数据类型的一个例子，
 因为 <code>succ</code> 需要另一个 <code>Nat</code>。递归数据类型可以表示任意大的数据，仅受可用内存等技术因素限制。
 就像不可能在数据类型定义中为每个自然数编写一个构造器一样，也不可能为每个可能性编写一个模式匹配用例。</p>
@@ -1798,7 +1798,7 @@ The successor of an odd number is even, and the successor of an even number is o
 This means that a number built with `succ` is even if and only if its argument is not even.
 -->
 <p>递归数据类型与递归函数很好地互补。一个简单的 <code>Nat</code> 递归函数检查其参数是否是偶数。
-在这种情况下，<code>zero</code> 是偶数。像这样的代码的非递归分支称为<strong>基本情况（Base Case）</strong>。
+在这种情况下，<code>zero</code> 是偶数。像这样的代码的非递归分支称为  <strong>基本情况（Base Case）</strong> 。
 奇数的后继是偶数，偶数的后继是奇数。这意味着使用 <code>succ</code> 构建的数字当且仅当其参数不是偶数时才是偶数。</p>
 <pre><code class="language-lean">def even (n : Nat) : Bool :=
   match n with
@@ -1813,7 +1813,7 @@ This pattern is called _structural recursion_.
 -->
 <p>这种思维模式对于在 <code>Nat</code> 上编写递归函数是典型的。首先，确定对 <code>zero</code> 做什么。
 然后，确定如何将任意 <code>Nat</code> 的结果转换为其后继的结果，并将此转换应用于递归调用的结果。
-此模式称为<strong>结构化递归（Structural Recursion）</strong>。</p>
+此模式称为  <strong>结构化递归（Structural Recursion）</strong> 。</p>
 <!--
 Unlike many languages, Lean ensures by default that every recursive function will eventually reach a base case.
 From a programming perspective, this rules out accidental infinite loops.
@@ -1966,7 +1966,7 @@ This is different from the object-oriented programming community, where the term
 In this book, "polymorphism" always refers to the first sense of the word.
 These type arguments can be used in the datatype or definition, which allows the same datatype or definition to be used with any type that results from replacing the arguments' names with some other types.
 -->
-<p>在函数式编程中，术语<strong>多态（Polymorphism）</strong>&quot;通常指将类型作为参数的数据类型和定义。
+<p>在函数式编程中，术语  <strong>多态（Polymorphism）</strong> &quot;通常指将类型作为参数的数据类型和定义。
 这不同于面向对象编程社区，其中该术语通常指可以覆盖其超类某些行为的子类。
 在这本书中，「多态」总是指这个词的第一个含义。这些类型参数可以在数据类型或定义中使用，
 通过将数据类型和定义的类型参数替换为其他类型，可以产生新的不同类型。</p>
@@ -2011,7 +2011,7 @@ In order to allow `replaceX` to work with _any_ polymorphic point, it must be po
 This is achieved by having its first argument be the type of the point's fields, with later arguments referring back to the first argument's name.
 -->
 <p>定义也可以将类型作为参数，这使得它们具有多态性。函数 <code>replaceX</code> 用新值替换
-<code>PPoint</code> 的 <code>x</code> 字段。为了能够让 <code>replaceX</code> 与<strong>任何</strong>多态的点一起使用，它本身必须是多态的。
+<code>PPoint</code> 的 <code>x</code> 字段。为了能够让 <code>replaceX</code> 与  <strong>任何</strong> 多态的点一起使用，它本身必须是多态的。
 这是通过让其第一个参数成为点字段的类型，后面的参数引用第一个参数的名称来实现的。</p>
 <pre><code class="language-lean">def replaceX (α : Type) (point : PPoint α) (newX : α) : PPoint α :=
   { point with x := newX }
@@ -2021,7 +2021,7 @@ In other words, when the types of the arguments `point` and `newX` mention `α`,
 This is similar to the way that function argument names refer to the values that were provided when they occur in the function's body.
 -->
 <p>换句话说，当参数 <code>point</code> 和 <code>newX</code> 的类型提到 <code>α</code> 时，它们指的是
-<strong>作为第一个参数提供的任何类型</strong>。这类似于函数参数名称引用函数体中提供的值的方式。</p>
+<strong>作为第一个参数提供的任何类型</strong> 。这类似于函数参数名称引用函数体中提供的值的方式。</p>
 <!--
 This can be seen by asking Lean to check the type of `replaceX`, and then asking it to check the type of `replaceX Nat`.
 -->
@@ -2035,7 +2035,7 @@ This function type includes the _name_ of the first argument, and later argument
 Just as the value of a function application is found by replacing the argument name with the provided argument value in the function's body, the type of a function application is found by replacing the argument's name with the provided value in the function's return type.
 Providing the first argument, `Nat`, causes all occurrences of `α` in the remainder of the type to be replaced with `Nat`:
 -->
-<p>此函数类型包括第一个参数的<strong>名称</strong>，类型中的后续参数会引用此名称。
+<p>此函数类型包括第一个参数的  <strong>名称</strong> ，类型中的后续参数会引用此名称。
 就像函数应用的值，是通过在函数体中，用所提供的参数值替换参数名称来找到的那样，
 函数应用的类型，也是通过在函数的返回类型中，用所提供的参数值替换参数的名称来找到的。
 提供第一个参数 <code>Nat</code>，会导致类型其余部分中所有的 <code>α</code> 都替换为 <code>Nat</code>：</p>
@@ -2227,7 +2227,7 @@ For instance, a version of `replaceX` with an implicit type argument looks like 
 <p><code>replaceX</code> 和 <code>length</code> 这两个函数使用起来有些繁琐，因为类型参数通常由后面的值唯一确定。
 事实上，在大多数语言中，编译器完全有能力自行确定类型参数，并且只需要偶尔从用户那里获得帮助。
 在 Lean 中也是如此。在定义函数时，可以通过用大括号而不是括号将参数括起来来声明参数为
-**隐式（Implicit）**的。例如，一个具有隐式类型参数的 <code>replaceX</code> 版本如下所示：</p>
+<strong>隐式（Implicit）</strong> 的。例如，一个具有隐式类型参数的 <code>replaceX</code> 版本如下所示：</p>
 <pre><code class="language-lean">def replaceX {α : Type} (point : PPoint α) (newX : α) : PPoint α :=
   { point with x := newX }
 </code></pre>
@@ -2397,7 +2397,7 @@ Explicitly providing a type allows Lean to proceed:
 -->
 <p>这是因为 Lean 无法完全确定表达式的类型。特别是，它既找不到 <code>List.head?</code> 的隐式类型参数，
 也找不到 <code>List.nil</code> 的隐式类型参数。在 Lean 的输出中，<code>?m.XYZ</code> 表示程序中无法推断的部分。
-这些未知部分称为<strong>元变量（Metavariable）</strong>，它们出现在一些错误消息中。为了计算一个表达式，
+这些未知部分称为  <strong>元变量（Metavariable）</strong> ，它们出现在一些错误消息中。为了计算一个表达式，
 Lean 需要能够找到它的类型，而类型不可用，因为空列表没有任何条目可以从中找到类型。
 显式提供类型可以让 Lean 继续：</p>
 <pre><code class="language-lean">#eval [].head? (α := Int)
@@ -2416,7 +2416,7 @@ The type can also be provided with a type annotation:
 The error messages provide a useful clue.
 Both messages use the _same_ metavariable to describe the missing implicit argument, which means that Lean has determined that the two missing pieces will share a solution, even though it was unable to determine the actual value of the solution.
 -->
-<p>错误信息提供了一个有用的线索。两个信息都使用<strong>相同</strong>的元变量来描述缺少的隐式参数，
+<p>错误信息提供了一个有用的线索。两个信息都使用  <strong>相同</strong> 的元变量来描述缺少的隐式参数，
 这意味着 Lean 已经确定两个缺少的部分将共享一个解决方案，即使它无法确定解决方案的实际值。</p>
 <!--
 ### `Prod`
@@ -2430,7 +2430,7 @@ In other words, `PPoint Nat` could be replaced by `Prod Nat Nat`.
 Many applications are best served by defining their own structures, even for simple cases like `Point`, because using domain terminology can make it easier to read the code.
 Additionally, defining structure types helps catch more errors by assigning different types to different domain concepts, preventing them from being mixed up.
 -->
-<p><code>Prod</code> 结构体，即**积（Product）**2的缩写，是一种将两个值连接在一起的通用方法。
+<p><code>Prod</code> 结构体，即  <strong>积（Product）</strong> 2的缩写，是一种将两个值连接在一起的通用方法。
 例如，<code>Prod Nat String</code> 包含一个 <code>Nat</code> 和一个 <code>String</code>。换句话说，<code>PPoint Nat</code>
 可以替换为 <code>Prod Nat Nat</code>。<code>Prod</code> 非常类似于 C# 的元组、Kotlin 中的 <code>Pair</code> 和 <code>Triple</code>
 类型以及 C++ 中的 <code>tuple</code>。许多应用最适合定义自己的结构体，即使对于像 <code>Point</code>
@@ -2442,7 +2442,7 @@ Additionally, some libraries are sufficiently generic that there is no more spec
 Finally, the standard library contains a variety of convenience functions that make it easier to work with the built-in pair type.
 -->
 <p>另一方面，在某些情况下，定义新类型是不值得的开销。此外，一些库足够通用，
-以至于没有比**偶对（Pair）**更具体的概念。最后，标准库也包含了各种便利函数，
+以至于没有比  <strong>偶对（Pair）</strong> 更具体的概念。最后，标准库也包含了各种便利函数，
 让使用内置对类型变得更容易。</p>
 <!--
 The standard pair structure is called `Prod`.
@@ -2493,7 +2493,7 @@ For instance, a `Sum String Int` is either a `String` or an `Int`.
 Like `Prod`, `Sum` should be used either when writing very generic code, for a very small section of code where there is no sensible domain-specific type, or when the standard library contains useful functions.
 In most situations, it is more readable and maintainable to use a custom inductive type.
 -->
-<p>**和（<code>Sum</code>）**数据类型是一种允许在两种不同类型的值之间进行选择的一般方式。
+<p><strong>和（<code>Sum</code>）</strong> 数据类型是一种允许在两种不同类型的值之间进行选择的一般方式。
 例如，<code>Sum String Int</code> 要么是 <code>String</code>，要么是 <code>Int</code>。与 <code>Prod</code> 一样，
 <code>Sum</code> 应该在编写非常通用的代码时使用，对于没有合适的特定领域类型的一小段代码，
 或者当标准库包含有用的函数时使用。在大多数情况下，使用自定义归纳类型更具可读性和可维护性。</p>
@@ -2631,8 +2631,8 @@ For instance, `Bool` has two values: `true` and `false`, and `Unit` has one valu
 The product `Bool × Unit` has the two values `(true, Unit.unit)` and `(false, Unit.unit)`, and the sum `Bool ⊕ Unit` has the three values `Sum.inl true`, `Sum.inl false`, and `Sum.inr unit`.
 Similarly, \\( 2 \times 1 = 2 \\), and \\( 2 + 1 = 3 \\).
 -->
-<p>一般来说，提供多个构造子的类型称为<strong>和类型（Sum Type）</strong>，
-而其单个构造子接受多个参数的类型称为<strong>积类型（Product Type）</strong>。
+<p>一般来说，提供多个构造子的类型称为  <strong>和类型（Sum Type）</strong> ，
+而其单个构造子接受多个参数的类型称为  <strong>积类型（Product Type）</strong> 。
 这些术语与普通算术中使用的和与积有关。当涉及的类型包含有限数量的值时，这种关系最容易看出。
 如果 <code>α</code> 和 <code>β</code> 是分别包含 \( n \) 和 \( k \) 个不同值的数据类型，
 则 <code>α ⊕ β</code> 包含 \( n + k \) 个不同值，<code>α × β</code> 包含 \( n \times k \) 个不同值。
@@ -3192,7 +3192,7 @@ Similarly, implicit arguments may be written with curly braces:
 This style of anonymous function expression is often referred to as a _lambda expression_, because the typical notation used in mathematical descriptions of programming languages uses the Greek letter λ (lambda) where Lean has the keyword `fun`.
 Even though Lean does permit `λ` to be used instead of `fun`, it is most common to write `fun`.
 -->
-<p>这种匿名函数表达式风格通常称为<strong>λ-表达式（Lambda Expression）</strong>，
+<p>这种匿名函数表达式风格通常称为  <strong>λ-表达式（Lambda Expression）</strong> ，
 因为编程语言在数学描述中使用的典型符号，将 Lean 中使用关键字 <code>fun</code>
 的地方换成了希腊字母 λ（Lambda）。即使 Lean 允许使用 <code>λ</code> 代替 <code>fun</code>，
 但最常见的仍然是写作 <code>fun</code>。</p>
@@ -3242,7 +3242,7 @@ The centered dot always creates a function out of the _closest_ surrounding set 
 For instance, `(· + 5, 3)` is a function that returns a pair of numbers, while `((· + 5), 3)` is a pair of a function and a number.
 If multiple dots are used, then they become arguments from left to right:
 -->
-<p>间点号总是将<strong>最靠近</strong>的一对括号创建为函数。
+<p>间点号总是将  <strong>最靠近</strong> 的一对括号创建为函数。
 例如，<code>(· + 5, 3)</code> 是返回一对数字的函数，
 而 <code>((· + 5), 3)</code> 是一个函数和一个数字的偶对。
 如果使用多个点，则它们按从左到右的顺序成为参数：</p>
@@ -3277,7 +3277,7 @@ Names in different namespaces do not conflict with each other, even if they are 
 This means that `List.map` and `Array.map` are different names.
 Namespaces may be nested, so `Project.Frontend.User.loginTime` is the name `loginTime` in the nested namespace `Project.Frontend.User`.
 -->
-<p>Lean 中的每个名称都出现在一个**命名空间（Namespace）**中，这是一个名称集合。
+<p>Lean 中的每个名称都出现在一个  <strong>命名空间（Namespace）</strong> 中，这是一个名称集合。
 名称使用 <code>.</code> 放在命名空间中，因此 <code>List.map</code> 是 <code>List</code> 命名空间中的名称 <code>map</code>。
 不同命名空间中的名称不会相互冲突，即使它们在其他方面是相同的。
 这意味着 <code>List.map</code> 和 <code>Array.map</code> 是不同的名称。
@@ -3327,7 +3327,7 @@ Namespaces may be _opened_, which allows the names in them to be used without ex
 Writing `open MyNamespace in` before an expression causes the contents of `MyNamespace` to be available in the expression.
 For example, `timesTwelve` uses both `quadruple` and `triple` after opening `NewNamespace`:
 -->
-<p>命名空间可以<strong>打开</strong>，这允许在不显式限定的情况下使用其中的名称。
+<p>命名空间可以  <strong>打开</strong> ，这允许在不显式限定的情况下使用其中的名称。
 在表达式之前编写 <code>open MyNamespace in</code> 会导致 <code>MyNamespace</code>
 的内容在表达式中可用。例如，<code>timesTwelve</code> 在打开 <code>NewNamespace</code> 后同时使用了
 <code>quadruple</code> 和 <code>triple</code>：</p>
@@ -3456,7 +3456,7 @@ For instance,
 <p>In Lean, prefixing a string with <code>s!</code> triggers <em>interpolation</em>, where expressions contained in curly braces inside the string are replaced with their values.
 This is similar to <code>f</code>-strings in Python and <code>$</code>-prefixed strings in C#.
 For instance,
-在 Lean 中，在字符串前加上 <code>s!</code> 会触发<strong>内插（Interpolation）</strong>，
+在 Lean 中，在字符串前加上 <code>s!</code> 会触发  <strong>内插（Interpolation）</strong> ，
 其中字符串中大括号内的表达式会被其值替换。这类似于 Python 中的 <code>f</code> 字符串和
 C# 中以 <code>$</code> 为前缀的字符串。例如，</p>
 <pre><code class="language-lean">#eval s!&quot;three fives is {NewNamespace.triple 5}&quot;
@@ -3526,7 +3526,7 @@ To encode a function that takes no arguments, Lean uses the `Unit` type, which i
 -->
 <p>Lean 中的函数是一等的值，这意味着它们可以作为参数传递给其他函数，
 保存在变量中，并像任何其他值一样使用。每个 Lean 函数只接受一个参数。
-为了对接受多个参数的函数进行编码，Lean 使用了一种称为**柯里化（Currying）**的技术，
+为了对接受多个参数的函数进行编码，Lean 使用了一种称为  <strong>柯里化（Currying）</strong> 的技术，
 其中提供第一个参数会返回一个期望剩余参数的函数。为了对不接受任何参数的函数进行编码，
 Lean 使用了 <code>Unit</code> 类型，这是最没有信息量的可用参数。</p>
 <!--
@@ -3594,7 +3594,7 @@ Polymorphism allows programs such as one that calculates the length of a list wi
 Because types are first class in Lean, polymorphism does not require any special syntax, so types are passed just like other arguments.
 Giving an argument a name in a function type allows later types to mention that argument, and the type of applying that function to an argument is found by replacing the argument's name with the argument's value.
 -->
-<p>某些函数或数据类型将类型作为参数。它们被称为<strong>多态（Polymorphic）</strong>。
+<p>某些函数或数据类型将类型作为参数。它们被称为  <strong>多态（Polymorphic）</strong> 。
 多态性能让像计算列表长度这类的程序不必关心列表中条目的类型。
 由于类型在 Lean 中是一等公民，因此多态性不需要任何特殊语法，类型就能像其他参数一样传递。
 在函数类型中为参数指定名称能让稍后的类型引用该参数，
@@ -3611,7 +3611,7 @@ Constructors in Lean are not the same as constructors in object-oriented languag
 -->
 <p>可以使用 <code>structure</code> 或 <code>inductive</code> 特性向 Lean 引入全新的数据类型。
 即使它们的定义在其他方面相同，这些新类型也不被认为等同于任何其他类型。
-数据类型具有<strong>构造子（Constructor）</strong>，解释了可以构造其值的方式，
+数据类型具有  <strong>构造子（Constructor）</strong> ，解释了可以构造其值的方式，
 每个构造子都接受一些参数。Lean 中的构造子与面向对象语言中的构造函数不同：
 Lean 的构造子只是数据的单纯持有者，而非初始化已分配对象的活动代码。</p>
 <!--
@@ -3643,7 +3643,7 @@ Similarly, recursive inductive types are not allowed to have a constructor that 
 <p>为确保递归定义的函数不会破坏 Lean 的逻辑方面，无论使用什么参数调它们，
 Lean 都必须能够证明所有函数都会停机。在实践中，这意味着递归调用都会在输入的结构中更小的部分上执行，
 这确保了函数始终朝着基本情况推进，或者用户必须提供一些其他证据来证明函数必定会停机。
-类似地，递归归纳类型不允许拥有<strong>从类型中</strong>接受一个函数作为参数的构造子，
+类似地，递归归纳类型不允许拥有  <strong>从类型中</strong> 接受一个函数作为参数的构造子，
 因为这会让 Lean 能够编码不停机的函数。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello, World!</a></h1>
 <!--
@@ -4299,7 +4299,7 @@ While Lean contains rich facilities for creating EDSLs, they are beyond the scop
 标准的 Lean 构建工具称为 Lake（「Lean Make」的缩写），它在 Lean 中进行配置。
 正如 Lean 包含一门用于编写带副作用程序的特殊语言（<code>do</code> 语言）一样，
 Lake 也包含一门用于配置构建的特殊语言。
-这些语言被称为 <strong>嵌入式领域专用语言（Embedded Domain-Specific Languages）</strong>
+这些语言被称为   <strong>嵌入式领域专用语言（Embedded Domain-Specific Languages）</strong>
 （或有时称为 <strong>领域专用嵌入式语言（Domain-Specific Embedded Languages）</strong> ，缩写为 EDSL 或 DSEL）。
 它们是 <strong>领域专用（Domain-Specific）</strong> 的，因为它们用于专用的目的，包含来自某个子领域的术语，
 并且通常不适用于通用编程。它们是 <strong>嵌入式（Embedded）</strong> 的，因为它们出现在另一种语言的语法中。
@@ -4437,7 +4437,7 @@ The items in the Lakefile allow things like source file locations, module hierar
 Generally speaking, however, the defaults are reasonable.
 -->
 <p>每个 Lakefile 只会包含一个包，但可以包含任意数量的库或可执行文件。
-此外，Lakefile 可能包含 <strong>外部库（External Library）</strong>
+此外，Lakefile 可能包含   <strong>外部库（External Library）</strong>
 （即并非用 Lean 编写的库，将与结果可执行文件静态链接）、
 <strong>自定义目标（Custom Target）</strong> （即特定于具体执行平台的库/可执行文件的构建目标）、
 <strong>依赖项（Dependency）</strong> （即其他 Lean 包的声明，可能来自本地或远程 Git 代码库）、
@@ -6908,7 +6908,7 @@ Otherwise, the underlying non-`null` value receives the call.
 Uses of `?.` can be chained, in which case the first `null` result terminates the chain of lookups.
 Chaining null-checks like this is much more convenient than writing and maintaining deeply nested `if`s.
 -->
-<p>在C#和Kotlin中，<code>?.</code>运算符是一种在可能为null的值上查找属性或调用方法的方式。如果<code>?.</code>前的值为<code>null</code>，则整个表达式为null。否则，该非<code>null</code>值会被用于调用。多个<code>?.</code>可以链接起来，在这种情况下，第一个 <code>null</code> 
+<p>在C#和Kotlin中，<code>?.</code>运算符是一种在可能为null的值上查找属性或调用方法的方式。如果<code>?.</code>前的值为<code>null</code>，则整个表达式为null。否则，该非<code>null</code>值会被用于调用。多个<code>?.</code>可以链接起来，在这种情况下，第一个 <code>null</code>
 结果将终止查找链。像这样链接null检查比编写和维护深层嵌套的 <code>if</code> 方便得多。</p>
 <!--
 Similarly, exceptions are significantly more convenient than manually checking and propagating error codes.
@@ -6922,7 +6922,7 @@ Lean provides dedicated syntax that makes this API convenient to use, but can al
 This chapter begins with the nitty-gritty presentation of manually nesting null checks, and builds from there to the convenient, general API.
 Please suspend your disbelief in the meantime.
 -->
-<p>所有这些功能以及更多功能都可以作为通用 API —— <code>Monad</code> 的实例在库代码中实现。Lean 提供了专门的语法，使此 API 
+<p>所有这些功能以及更多功能都可以作为通用 API —— <code>Monad</code> 的实例在库代码中实现。Lean 提供了专门的语法，使此 API
 易于使用，但也会妨碍理解幕后发生的事情。本章从手动嵌套空检查的细节介绍开始，并由此构建到方便、通用的 API。在此期间，请暂时搁置你的怀疑。</p>
 <!--
 ## Checking for `none`: Don't Repeat Yourself
@@ -7043,7 +7043,7 @@ The exponentiation operator `^` is right associative, so `w ^ x ^ y ^ z` is equi
 Comparison operators such as `&lt;` are non-associative, so `x &lt; y &lt; z` is a syntax error and requires manual parentheses.
 --&gt;
 
-在 Lean 中，可以使用 `infix`、`infixl` 和 `infixr`命令声明中缀运算符，分别用于非结合、左结合和右结合的情况。当连续多次使用时，**左结合**运算符会将（开）括号堆叠在表达式的左侧。加法运算符`+` 是左结合的，因此 `w + x + y + z` 等价于 `(((w + x) + y) + z)`。指数运算符 `^` 是右结合的，因此 `w ^ x ^ y ^ z` 等价于 `(w ^ (x ^ (y ^ z)))`。比较运算符（如 `&lt;`）是非结合的，因此 `x &lt; y &lt; z`是一个语法错误，需要手动添加括号。
+在 Lean 中，可以使用 `infix`、`infixl` 和 `infixr`命令声明中缀运算符，分别用于非结合、左结合和右结合的情况。当连续多次使用时，  **左结合** 运算符会将（开）括号堆叠在表达式的左侧。加法运算符`+` 是左结合的，因此 `w + x + y + z` 等价于 `(((w + x) + y) + z)`。指数运算符 `^` 是右结合的，因此 `w ^ x ^ y ^ z` 等价于 `(w ^ (x ^ (y ^ z)))`。比较运算符（如 `&lt;`）是非结合的，因此 `x &lt; y &lt; z`是一个语法错误，需要手动添加括号。
 
 &lt;!--
 The following declaration makes `andThen` into an infix operator:
@@ -7060,7 +7060,7 @@ Higher-precedence operators are applied before lower-precedence operators.
 According to the declaration of `~~>`, both `+` and `*` have higher precedence, and thus apply first.
 Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.
 -->
-<p>冒号后面的数字声明了新中缀运算符的<strong>优先级</strong>。在一般的数学记号中，<code>x + y * z</code> 等价于 <code>x + (y * z)</code>，即使 <code>+</code> 和 <code>*</code> 都是左结合的。在 Lean 中，<code>+</code> 的优先级为 65，<code>*</code> 的优先级为 70。优先级更高的运算符应用于优先级较低的运算符之前。根据<code>~~&gt;</code>的声明，<code>+</code>和<code>*</code>都具有更高的优先级，因此会被首先计算。通常来说，找出最适合一组运算符的优先级需要一些实验和大量的示例。</p>
+<p>冒号后面的数字声明了新中缀运算符的  <strong>优先级</strong> 。在一般的数学记号中，<code>x + y * z</code> 等价于 <code>x + (y * z)</code>，即使 <code>+</code> 和 <code>*</code> 都是左结合的。在 Lean 中，<code>+</code> 的优先级为 65，<code>*</code> 的优先级为 70。优先级更高的运算符应用于优先级较低的运算符之前。根据<code>~~&gt;</code>的声明，<code>+</code>和<code>*</code>都具有更高的优先级，因此会被首先计算。通常来说，找出最适合一组运算符的优先级需要一些实验和大量的示例。</p>
 <!--
 Following the new infix operator is a double arrow `=>`, which specifies the named function to be used for the infix operator.
 Lean's standard library uses this feature to define `+` and `*` as infix operators that point at `HAdd.hAdd` and `HMul.hMul`, respectively, allowing type classes to be used to overload the infix operators.
@@ -7394,7 +7394,7 @@ An _inorder numbering_ of a tree associates each data point in the tree with the
 For example, consider `aTree`:
 --&gt;
 
-树的每个节点的**中序编号**指的是：在中序遍历中被访问的次序。例如，考虑如下`aTree`：```lean
+树的每个节点的  **中序编号** 指的是：在中序遍历中被访问的次序。例如，考虑如下`aTree`：```lean
 open BinTree in
 def aTree :=
   branch
@@ -7574,7 +7574,7 @@ The key idea of monads is that each monad encodes a particular kind of side effe
 For example, `Option` represents programs that can fail by returning `none`, `Except` represents programs that can throw exceptions, `WithLog` represents programs that accumulate a log while running, and `State` represents programs with a single mutable variable.
 --&gt;
 
-这种风格的API统称为**单子**(Monad)。虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。例如`Option`表示可能通过返回`none`而失败的程序，`Except`表示可能抛出异常的程序，`WithLog`表示在运行过程中累积日志的程序，`State`表示具有单个可变变量的程序。
+这种风格的API统称为  **单子** (Monad)。虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。例如`Option`表示可能通过返回`none`而失败的程序，`Except`表示可能抛出异常的程序，`WithLog`表示在运行过程中累积日志的程序，`State`表示具有单个可变变量的程序。
 
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><!--
@@ -7585,7 +7585,7 @@ For example, `Option` represents programs that can fail by returning `none`, `Ex
 Rather than having to import an operator like `ok` or `andThen` for each type that is a monad, the Lean standard library contains a type class that allow them to be overloaded, so that the same operators can be used for _any_ monad.
 Monads have two operations, which are the equivalent of `ok` and `andThen`:
 -->
-<p>无需为每个单子都实现<code>ok</code>或<code>andThen</code>这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于<strong>任何</strong>单子。
+<p>无需为每个单子都实现<code>ok</code>或<code>andThen</code>这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于  <strong>任何</strong> 单子。
 单子有两个操作，分别相当于<code>ok</code>和<code>andThen</code>：</p>
 <pre><code class="language-lean">class Monad (m : Type → Type) where
   pure : α → m α
@@ -7622,7 +7622,7 @@ It does, however, require a lookup function as an argument, because different mo
 The infix version of `bind` is `>>=`, which plays the same role as `~~>` in the examples.
 -->
 <p>例如<code>firstThirdFifthSeventh</code>原本对<code>Option α</code>和<code>Except String α</code>类型分别定义。
-现在，它可以被定义为对<strong>任何</strong>单子都有效的多态函数。
+现在，它可以被定义为对  <strong>任何</strong> 单子都有效的多态函数。
 但是，它需要接受一个参数作为查找函数，因为不同的单子可能以不同的方式找不到结果。
 <code>bind</code>的中缀运算符是<code>&gt;&gt;=</code>, 它扮演与示例中<code>~~&gt;</code>相同的角色。</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) :=
@@ -7686,7 +7686,7 @@ The fact that `m` must have a `Monad` instance means that the `>>=` and `pure` o
 Because many different types are monads, functions that are polymorphic over _any_ monad are very powerful.
 For example, the function `mapM` is a version of `map` that uses a `Monad` to sequence and combine the results of applying a function:
 -->
-<p>由于许多不同类型都是单子，因此对<strong>任何</strong>单子多态的函数非常强大。
+<p>由于许多不同类型都是单子，因此对  <strong>任何</strong> 单子多态的函数非常强大。
 例如，函数<code>mapM</code>是<code>map</code>的另一个版本，它使用<code>Monad</code>将函数调用的结果按顺序连接起来：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
@@ -7787,7 +7787,7 @@ The _identity monad_ is a monad that has no effects, and allows pure code to be 
 -->
 <p>单子将具有效应(Effects)的程序（例如失败、异常或日志记录）编码为数据和函数的显式表示。
 有时API会使用单子来提高灵活性，但API的使用方可能不需要任何效应。
-<strong>恒等单子</strong>(Identity Monad)是一个没有任何效应的单子，允许将纯(pure)代码与monadic API一起使用：</p>
+<strong>恒等单子</strong> (Identity Monad)是一个没有任何效应的单子，允许将纯(pure)代码与monadic API一起使用：</p>
 <pre><code class="language-lean">def Id (t : Type) : Type := t
 
 instance : Monad Id where
@@ -7799,9 +7799,9 @@ The type of `pure` should be `α → Id α`, but `Id α` reduces to just `α`.
 Similarly, the type of `bind` should be `α → (α → Id β) → Id β`.
 Because this reduces to `α → (α → β) → β`, the second argument can be applied to the first to find the result.
 -->
-<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code><strong>简化</strong>为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
-由于这<strong>简化</strong>为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
-<em>译者注：此处<strong>简化</strong>一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
+<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code>  <strong>简化</strong> 为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
+由于这  <strong>简化</strong> 为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
+<em>译者注：此处  <strong>简化</strong> 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
 <!--
 With the identity monad, `mapM` becomes equivalent to `map`.
 To call it this way, however, Lean requires a hint that the intended monad is `Id`:
@@ -7910,7 +7910,7 @@ However, while using the `Monad` API does impose a syntactic cost on a program, 
 虽然使用<code>Monad</code>确实给程序带来了语法上的成本，但它带来了两个重要的优点：</p>
 <ol>
 <li>程序必须在类型中诚实地告知它们使用的效应(Effects)。因此看一眼类型签名就可以知道程序能做的所有事情，而不只是知道它接受什么和返回什么。</li>
-<li>并非每种语言都提供相同的效应。例如只有某些语言有异常。其他语言具有独特的新奇效应，例如 <a href="https://www2.cs.arizona.edu/icon/">Icon's searching over multiple values</a>以及Scheme 或Ruby的continuations。由于单子可以编码<strong>任何</strong>效应，因此程序员可以选择最适合给定程序的效应，而不是局限于语言开发者提供的效应。</li>
+<li>并非每种语言都提供相同的效应。例如只有某些语言有异常。其他语言具有独特的新奇效应，例如 <a href="https://www2.cs.arizona.edu/icon/">Icon's searching over multiple values</a>以及Scheme 或Ruby的continuations。由于单子可以编码  <strong>任何</strong> 效应，因此程序员可以选择最适合给定程序的效应，而不是局限于语言开发者提供的效应。</li>
 </ol>
 <!--
 One example of a program that can make sense in a variety of monads is an evaluator for arithmetic expressions.
@@ -8159,7 +8159,7 @@ The type `Empty` has no constructors, and thus no values, like the `Nothing` typ
 In Scala and Kotlin, `Nothing` can represent computations that never return a result, such as functions that crash the program, throw exceptions, or always fall into infinite loops.
 An argument to a function or method of type `Nothing` indicates dead code, as there will never be a suitable argument value.
 Lean doesn't support infinite loops and exceptions, but `Empty` is still useful as an indication to the type system that a function cannot be called.
-Using the syntax `nomatch E` when `E` is an expression whose type has no constructors indicates to Lean that the current expression need not return a result, because it could never have been called. 
+Using the syntax `nomatch E` when `E` is an expression whose type has no constructors indicates to Lean that the current expression need not return a result, because it could never have been called.
 -->
 <p><code>Empty</code>类型没有构造子，因此没有任何取值，就像Scala或Kotlin中的<code>Nothing</code>类型。
 在Scala和Kotlin中，返回类型为<code>Nothing</code>表示永不返回结果的计算，例如导致程序崩溃、或引发异常、或陷入无限循环的函数。
@@ -8173,7 +8173,7 @@ Thus, it can be used in _any_ monad:
 -->
 <p>将<code>Empty</code>用作<code>Prim</code>的参数，表示除了<code>Prim.plus</code>、<code>Prim.minus</code>和<code>Prim.times</code>之外没有其他情况，因为不可能找到一个<code>Empty</code>类型的值来放在<code>Prim.other</code>构造子中。
 由于类型为<code>Empty</code>的运算符应用于两个整数的函数永远不会被调用，所以它不需要返回结果。
-因此，它可以在<strong>任何</strong>单子中使用：</p>
+因此，它可以在  <strong>任何</strong> 单子中使用：</p>
 <pre><code class="language-lean">def applyEmpty [Monad m] (op : Empty) (_ : Int) (_ : Int) : m Int :=
   nomatch op
 </code></pre>
@@ -8197,7 +8197,7 @@ This requires, in addition to division, some means of specifying a choice of res
 One way to do this is to add a function `choose` to the language of expressions that instructs the evaluator to pick either of its arguments while searching for non-failing results.
 -->
 <p>遇到除以零时，除了直接失败并结束之外，还可以回溯并尝试不同的输入。
-给定适当的单子，同一个<code>evaluateM</code>可以对不致失败的答案<strong>集合</strong>执行非确定性搜索。
+给定适当的单子，同一个<code>evaluateM</code>可以对不致失败的答案  <strong>集合</strong> 执行非确定性搜索。
 这要求除了除法之外，还需要指定选择结果的方式。
 一种方法是在表达式的语言中添加一个函数<code>choose</code>，告诉求值器在搜索非失败结果时选择其中一个参数。</p>
 <!--
@@ -8389,7 +8389,7 @@ The solutions that do not contain the head are found with a recursive call on th
 <p>(译者注：这是一个动态规划算法)对列表进行递归搜索。
 当输入列表为空且目标为<code>0</code>时，返回空列表表示成功；否则返回 <code>Many.none</code> 表示失败，因为空输入不可能得到非0加和。
 当列表非空时，有两种可能性：若输入列表的第一个元素大于goal，此时它的任何加和都大于<code>0</code>因此不可能是候选者；若第一个元素不大于goal，可以参与后续的搜索。
-如果列表的头部x<strong>不是</strong>候选者，对列表的尾部xs递归搜索。
+如果列表的头部x  <strong>不是</strong> 候选者，对列表的尾部xs递归搜索。
 如果头部是候选者，则有两种用<code>Many.union</code>合并起来的可能性：找到的解含有当前的x，或者不含有。
 不含x的解通过xs递归搜索找到；而含有x的解则通过从goal中减去x，然后将x附加到递归的解中得到。</p>
 <!--
@@ -8437,7 +8437,7 @@ The mapping from function names to function implementations is called an _enviro
 -->
 <p>可以通过允许将字符串当作运算符，然后提供从字符串到它们的实现函数之间的映射，使求值器可由用户扩展。
 例如，用户可以用余数运算或最大值运算来扩展求值器。
-从函数名称到函数实现的映射称为<strong>环境</strong>。</p>
+从函数名称到函数实现的映射称为  <strong>环境</strong> 。</p>
 <!--
 The environments needs to be passed in each recursive call.
 Initially, it might seem that `evaluateM` needs an extra argument to hold the environment, and that this argument should be passed to each recursive invocation.
@@ -8461,7 +8461,7 @@ When evaluating expressions in the reader monad, the following rules are used:
    \\]
    with \\( 0 \\) serving as a fallback in case an unknown operator is applied.
 -->
-<p>将函数当作单子，这通常称为<strong>reader</strong>单子。
+<p>将函数当作单子，这通常称为  <strong>reader</strong> 单子。
 在reader单子中对表达式求值使用以下规则：</p>
 <ul>
 <li>常量 \( n \) 映射为常量函数 \( λ e . n \)，</li>
@@ -8521,7 +8521,7 @@ Lean provides a message that describes which variables are available in scope, a
 The `⊢` symbol, called a _turnstile_ due to its resemblance to subway entrances, separates the local variables from the desired type, which is `ρ → β` in this message:
 -->
 <p>Lean提供的消息描述了哪些变量在作用域内可用，以及结果的预期类型。
-<code>⊢</code>符号，由于它类似于地铁入口而被称为<strong>turnstile</strong>，将局部变量与所需类型分开，在此消息中为<code>ρ → β</code>：</p>
+<code>⊢</code>符号，由于它类似于地铁入口而被称为  <strong>turnstile</strong> ，将局部变量与所需类型分开，在此消息中为<code>ρ → β</code>：</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 ρ α β : Type
