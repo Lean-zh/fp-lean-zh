@@ -112,7 +112,7 @@ This improves Lean's error messages and helps make programmer intent more clear.
 
 Lean 有时能够自动确定类型，但类型通常必须由用户提供。
 这是因为 Lean 的类型系统非常具有表现力。即使 Lean 可以找到一种类型，
-它也可能找不到所需的类型。例如 `3` 可能打算用作 `Int`，但如果没有任何进一步的约束，
+这也可能找不到所需的类型。例如 `3` 可能打算用作 `Int`，但如果没有任何进一步的约束，
 Lean 将赋予它 `Nat` 类型。一般来说，最好显式地写出大多数类型，
 只让 Lean 填写非常明显的类型。这样能改进 Lean 的错误信息，并有助于使程序员的意图更加清晰。
 

@@ -10,9 +10,9 @@
 *Copyright Microsoft Corporation 2023*
 -->
 
-*作者：David Thrane Christiansen*
+作者：*David Thrane Christiansen*
 
-*版权所有：Microsoft Corporation 2023*
+版权所有：*Microsoft Corporation 2023*
 
 **[Lean-zh 项目组](https://github.com/orgs/Lean-zh) 译**
 
