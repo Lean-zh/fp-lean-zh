@@ -115,6 +115,9 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -283,7 +286,9 @@ Dependent type theory unites the worlds of programs and proofs; thus, Lean is al
 Lean takes its dual nature seriously, and it is designed to be suitable for use as a general-purpose programming language—Lean is even implemented in itself.
 This book is about writing programs in Lean.
 -->
-<p>Lean 是 Microsoft Research 开发的交互式定理证明器，基于依值类型论。依值类型论将程序和证明的世界统一起来；因此，Lean 也是一门编程语言。Lean 认真对待其双重性质，并且被设计为适合用作通用编程语言，Lean
+<p>Lean 是 Microsoft Research 开发的交互式定理证明器，基于依值类型论。
+依值类型论将程序和证明的世界统一起来；因此，Lean 也是一门编程语言。
+Lean 认真对待其双重性质，并且被设计为适合用作通用编程语言，Lean
 甚至是用它自己实现的。本书介绍了如何用 Lean 编程。</p>
 <!--
 When viewed as a programming language, Lean is a strict pure functional language with dependent types.
@@ -293,17 +298,27 @@ _Purity_ means that Lean programs cannot have side effects such as modifying loc
 Lean is a _functional_ language in the sense that functions are first-class values like any other and that the execution model is inspired by the evaluation of mathematical expressions.
 _Dependent types_, which are the most unusual feature of Lean, make types into a first-class part of the language, allowing types to contain programs and programs to compute types.
 -->
-<p>作为一门编程语言，Lean 是一种具有依值类型的严格纯函数式语言。学习使用 Lean 编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，以及如何像函数式程序员一样思考。
-<strong>严格性（Strictness）</strong> 意味着 Lean 中的函数调用与大多数语言中的工作方式类似：在函数体开始运行之前，参数被完全计算。
-<strong>纯粹性（Purity）</strong> 意味着 Lean 程序不能产生副作用，例如修改内存中的位置、发送电子邮件或删除文件，除非程序的类型声明如此。Lean 是一种  <strong>函数式（Functional）</strong> 语言，这意味着函数就像任何其他值一样是一等值，并且执行模型受数学表达式的求值启发。
-<strong>依值类型（Dependent type）</strong> 是 Lean 最不寻常的特性，它使类型成为语言的一等部分，允许类型包含程序，而程序计算类型。&quot;</p>
+<p>作为一门编程语言，Lean 是一种具有依值类型的严格纯函数式语言。
+学习使用 Lean 编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，
+以及如何像函数式程序员一样思考。
+<strong>严格性（Strictness）</strong> 意味着 Lean 中的函数调用与大多数语言中的工作方式类似：
+在函数体开始运行之前，参数被完全计算。
+<strong>纯粹性（Purity）</strong> 意味着 Lean 程序不能产生副作用，例如修改内存中的位置、
+发送电子邮件或删除文件，除非程序的类型声明如此。
+Lean 是一种  <strong>函数式（Functional）</strong> 语言，这意味着函数就像任何其他值一样是一等值，
+并且执行模型受数学表达式的求值启发。
+<strong>依值类型（Dependent type）</strong> 是 Lean 最不寻常的特性，它使类型成为语言的一等部分，
+允许类型包含程序，而程序计算类型。&quot;</p>
 <!--
 This book is intended for programmers who want to learn Lean, but who have not necessarily used a functional programming language before.
 Familiarity with functional languages such as Haskell, OCaml, or F# is not required.
 On the other hand, this book does assume knowledge of concepts like loops, functions, and data structures that are common to most programming languages.
 While this book is intended to be a good first book on functional programming, it is not a good first book on programming in general.
 -->
-<p>本书面向希望学习 Lean 的程序员，但他们不一定以前使用过函数式编程语言。不需要熟悉 Haskell、OCaml 或 F# 等函数式语言。另一方面，本书确实假设读者了解循环、函数和数据结构等大多数编程语言中常见的概念。虽然本书旨在成为一本关于函数式编程的优秀入门书，但它并不是一本关于一般编程的优秀入门书。&quot;</p>
+<p>本书面向希望学习 Lean 的程序员，但他们不一定以前使用过函数式编程语言。
+不需要熟悉 Haskell、OCaml 或 F# 等函数式语言。另一方面，本书确实假设读者了解循环、
+函数和数据结构等大多数编程语言中常见的概念。虽然本书旨在成为一本关于函数式编程的优秀入门书，
+但它并不是一本关于一般编程的优秀入门书。&quot;</p>
 <!--
 Mathematicians who are using Lean as a proof assistant will likely need to write custom proof automation tools at some point.
 This book is also for them.
@@ -319,7 +334,10 @@ Some sections of the book contain exercises.
 These are worth doing, in order to cement your understanding of the section.
 It is also useful to explore Lean as you read the book, finding creative new ways to use what you have learned.
 -->
-<p>本书旨在从头到尾线性阅读。概念一次引入一个，后面的章节假定读者熟悉前面的章节。有时，后面的章节会深入探讨一个之前仅简要讨论过的主题。本书的某些章节包含练习。为了巩固你对该章节的理解，这些练习值得一做。在阅读本书时探索 Lean 也很有用，找到使用你所学知识的创造性新方法。</p>
+<p>本书旨在从头到尾线性阅读。概念一次引入一个，后面的章节假定读者熟悉前面的章节。
+有时，后面的章节会深入探讨一个之前仅简要讨论过的主题。本书的某些章节包含练习。
+为了巩固你对该章节的理解，这些练习值得一做。在阅读本书时探索 Lean 也很有用，
+找到使用你所学知识的创造性新方法。</p>
 <!--
 # Getting Lean
 -->
@@ -391,14 +409,18 @@ Idiomatic Lean code makes use of a variety of Unicode characters that are not pa
 For instance, Greek letters like `α` and `β` and the arrow `→` both occur in the first chapter of this book.
 This allows Lean code to more closely resemble ordinary mathematical notation.
 -->
-<p>惯用的 Lean 代码使用各种不属于 ASCII 的 Unicode 字符。例如，希腊字母（如 <code>α</code> 和 &quot;<code>β</code>）和箭头（<code>→</code>）都出现在本书的第一章中。这使得 Lean 代码更接近于普通的数学记法。</p>
+<p>惯用的 Lean 代码使用各种不属于 ASCII 的 Unicode 字符。例如，希腊字母（如 <code>α</code> 和 &quot;<code>β</code>）
+和箭头（<code>→</code>）都出现在本书的第一章中。
+这使得 Lean 代码更接近于普通的数学记法。</p>
 <!--
 With the default Lean settings, both Visual Studio Code and Emacs allow these characters to be typed with a backslash (`\`) followed by a name.
 For example, to enter `α`, type `\alpha`.
 To find out how to type a character in Visual Studio Code, point the mouse at it and look at the tooltip.
 In Emacs, use `C-c C-k` with point on the character in question.
 -->
-<p>在默认的 Lean 设置中，Visual Studio Code 和 Emacs 都允许使用反斜杠 (<code>\</code>) 后跟名称来输入这些字符。例如，要输入 <code>α</code>，请键入 <code>\alpha</code>。要了解如何在 Visual Studio Code 中键入字符，请将鼠标指向该字符并查看工具提示。在 Emacs 中，将光标置于相关字符上，然后使用 <code>C-c C-k</code>。</p>
+<p>在默认的 Lean 设置中，Visual Studio Code 和 Emacs 都允许使用反斜杠 (<code>\</code>) 后跟名称来输入这些字符。
+例如，要输入 <code>α</code>，请键入 <code>\alpha</code>。要了解如何在 Visual Studio Code 中键入字符，
+请将鼠标指向该字符并查看工具提示。在 Emacs 中，将光标置于相关字符上，然后使用 <code>C-c C-k</code>。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="acknowledgments"><a class="header" href="#acknowledgments">Acknowledgments</a></h1>
 <p>This free online book was made possible by the generous support of Microsoft Research, who paid for it to be written and given away.
 During the process of writing, they made the expertise of the Lean development team available to both answer my questions and make Lean easier to use.
@@ -428,14 +450,22 @@ exception: it implements an extended version of the Language Server
 Protocol that allows it to communicate with a text editor and provide
 feedback as the user types.
 -->
-<p>然而，自 20 世纪 70 年代以来，编程发生了变化。如今，编译器通常集成到文本编辑器中，编程环境会在编写程序时提供反馈。Lean 也是如此：它实现了语言服务器协议（Language Server Protocol，LSP）的扩展版本，允许它与文本编辑器通信并在用户键入时提供反馈。</p>
+<p>然而，自 20 世纪 70 年代以来，编程发生了变化。
+如今，编译器通常集成到文本编辑器中，编程环境会在编写程序时提供反馈。
+Lean 也是如此：它实现了语言服务器协议（Language Server Protocol，LSP）
+的扩展版本，允许它与文本编辑器通信并在用户键入时提供反馈。</p>
 <!--
 Languages as varied as Python, Haskell, and JavaScript offer a read-eval-print-loop (REPL), also known as an interactive toplevel or a browser console, in which expressions or statements can be entered.
 The language then computes and displays the result of the user's input.
 Lean, on the other hand, integrates these features into the interaction with the editor, providing commands that cause the text editor to display feedback integrated into the program text itself.
 This chapter provides a short introduction to interacting with Lean in an editor, while [Hello, World!]() describes how to use Lean traditionally from the command line in batch mode.
 -->
-<p>从 Python、Haskell 到 JavaScript 等各种语言都提供读取-求值-打印循环（REPL），也称为交互式顶层环境或浏览器控制台，可以在其中输入表达式或语句。然后，该语言计算并显示用户输入的结果。另一方面，Lean 将这些特性集成到与编辑器的交互中，它提供的命令能让文本编辑器将程序的反馈集成到程序文本中。本章简要介绍了在编辑器中与 Lean 的交互，而 <a href="./hello-world">Hello, World!</a>则描述了如何在批处理模式下以传统的命令行方式使用 Lean。</p>
+<p>从 Python、Haskell 到 JavaScript 等各种语言都提供读取-求值-打印循环（REPL），
+也称为交互式顶层环境或浏览器控制台，可以在其中输入表达式或语句。
+然后，该语言计算并显示用户输入的结果。另一方面，Lean 将这些特性集成到与编辑器的交互中，
+它提供的命令能让文本编辑器将程序的反馈集成到程序文本中。
+本章简要介绍了在编辑器中与 Lean 的交互，而 <a href="./hello-world">Hello, World!</a>
+则描述了如何在批处理模式下以传统的命令行方式使用 Lean。</p>
 <!--
 It is best if you read this book with Lean open in your editor,
 following along and typing in each example. Please play with the
@@ -1087,7 +1117,7 @@ In Lean, this is done using _structures_, which are analogous to `struct`s in C 
 -->
 <p>编写程序的第一步通常是找出问题域中的概念，然后用合适的代码表示它们。
 有时，一个域概念是其他更简单概念的集合。此时，将这些更简单的组件分组到一个「包」中会很方便，
-然后可以给它取一个有意义的名称。在 Lean 中，这是使用  <strong>结构体（Structure）</strong> 完成的，
+然后可以给它取一个有意义的名称。在 Lean 中，这是使用 <strong>结构体（Structure）</strong> 完成的，
 它类似于 C 或 Rust 中的 <code>struct</code> 和 C# 中的 <code>record</code>。</p>
 <!--
 Defining a structure introduces a completely new type to Lean that can't be reduced to any other type.
@@ -3650,13 +3680,19 @@ Lean 都必须能够证明所有函数都会停机。在实践中，这意味着
 While Lean has been designed to have a rich interactive environment in which programmers can get quite a lot of feedback from the language without leaving the confines of their favorite text editor, it is also a language in which real programs can be written.
 This means that it also has a batch-mode compiler, a build system, a package manager, and all the other tools that are necessary for writing programs.
 -->
-<p>虽然 Lean 被设计为一个丰富的交互式环境，程序员可以在不离开他们最喜欢的文本编辑器的情况下，从语言中获得相当多的反馈，但它也是一门可以编写现实程序的语言。这意味着它还具有批处理模式编译器、构建系统、包管理器以及编写程序所需的所有其他工具。</p>
+<p>虽然 Lean 被设计为一个丰富的交互式环境，程序员可以在不离开他们最喜欢的文本编辑器的情况下，
+从语言中获得相当多的反馈，但它也是一门可以编写现实程序的语言。
+这意味着它还具有批处理模式编译器、构建系统、包管理器以及编写程序所需的所有其他工具。</p>
 <!--
 While the [previous chapter](./getting-to-know.md) presented the basics of functional programming in Lean, this chapter explains how to start a programming project, compile it, and run the result.
 Programs that run and interact with their environment (e.g. by reading input from standard input or creating files) are difficult to reconcile with the understanding of computation as the evaluation of mathematical expressions.
 In addition to a description of the Lean build tools, this chapter also provides a way to think about functional programs that interact with the world.
 -->
-<p><a href="./getting-to-know.html">上一章</a>介绍了 Lean 中函数式编程的基础知识，本章将解释如何开始一个编程项目、编译它并运行结果。运行并与其环境交互的程序（例如通过读取标准输入或创建文件）很难与将计算理解为数学表达式的求值相协调。除了对 Lean 构建工具的描述之外，本章还提供了一种思考与世界交互的函数式程序的方法。</p>
+<p><a href="./getting-to-know.html">上一章</a>介绍了 Lean 中函数式编程的基础知识，
+本章将解释如何开始一个编程项目、编译它并运行结果。
+运行并与其环境交互的程序（例如通过读取标准输入或创建文件）
+很难与将计算理解为数学表达式的求值相协调。除了对 Lean 构建工具的描述之外，
+本章还提供了一种思考与世界交互的函数式程序的方法。</p>
 <div style="break-before: page; page-break-before: always;"></div><!--
 # Running a Program
 -->
@@ -3715,9 +3751,9 @@ Because this action doesn't read any interesting information from the environmen
 If it did return something interesting, then that would be indicated by the `IO` action having a type other than `Unit`.
 -->
 <p><code>IO α</code> 是一个程序的类型，当执行时，它要么抛出一个异常，要么返回一个类型为 <code>α</code> 的值。
-在执行期间，此程序可能会产生副作用。这些程序被称为 <code>IO</code>   <strong>活动（Action）</strong>  。
-Lean 区分表达式的  <strong>求值（Evaluation）</strong>  （严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
-和 <code>IO</code> 活动的  <strong>执行（Execution）</strong>  （依赖于外部系统与世界交互）。
+在执行期间，此程序可能会产生副作用。这些程序被称为 <code>IO</code> <strong>活动（Action）</strong> 。
+Lean 区分表达式的 <strong>求值（Evaluation）</strong> （严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
+和 <code>IO</code> 活动的 <strong>执行（Execution）</strong> （依赖于外部系统与世界交互）。
 <code>IO.println</code> 是一个从字符串到 <code>IO</code> 活动的函数，当执行时，它将给定的字符串写入标准输出。
 由于此活动在发出字符串的过程中不会从环境中读取任何有趣的信息，
 因此 <code>IO.println</code> 的类型为 <code>String → IO Unit</code>。如果它确实返回了一些有趣的东西，
@@ -4299,7 +4335,7 @@ While Lean contains rich facilities for creating EDSLs, they are beyond the scop
 标准的 Lean 构建工具称为 Lake（「Lean Make」的缩写），它在 Lean 中进行配置。
 正如 Lean 包含一门用于编写带副作用程序的特殊语言（<code>do</code> 语言）一样，
 Lake 也包含一门用于配置构建的特殊语言。
-这些语言被称为   <strong>嵌入式领域专用语言（Embedded Domain-Specific Languages）</strong>
+这些语言被称为 <strong>嵌入式领域专用语言（Embedded Domain-Specific Languages）</strong>
 （或有时称为 <strong>领域专用嵌入式语言（Domain-Specific Embedded Languages）</strong> ，缩写为 EDSL 或 DSEL）。
 它们是 <strong>领域专用（Domain-Specific）</strong> 的，因为它们用于专用的目的，包含来自某个子领域的术语，
 并且通常不适用于通用编程。它们是 <strong>嵌入式（Embedded）</strong> 的，因为它们出现在另一种语言的语法中。
@@ -4437,7 +4473,7 @@ The items in the Lakefile allow things like source file locations, module hierar
 Generally speaking, however, the defaults are reasonable.
 -->
 <p>每个 Lakefile 只会包含一个包，但可以包含任意数量的库或可执行文件。
-此外，Lakefile 可能包含   <strong>外部库（External Library）</strong>
+此外，Lakefile 可能包含 <strong>外部库（External Library）</strong>
 （即并非用 Lean 编写的库，将与结果可执行文件静态链接）、
 <strong>自定义目标（Custom Target）</strong> （即特定于具体执行平台的库/可执行文件的构建目标）、
 <strong>依赖项（Dependency）</strong> （即其他 Lean 包的声明，可能来自本地或远程 Git 代码库）、
@@ -4685,7 +4721,7 @@ This kind of recursion is called _tail recursion_, and it is described in more d
 Because the compiled code does not need to retain any state, the Lean compiler can compile the recursive call to a jump.
 -->
 <p>在调用 <code>dump</code> 时，不会出现耗尽堆栈空间的危险，因为递归调用发生在函数的最后一步，
-并且其结果会被直接返回，而不会被活动或计算。这种递归称为  <strong>尾递归（Tail Recursion）</strong>  ，
+并且其结果会被直接返回，而不会被活动或计算。这种递归称为 <strong>尾递归（Tail Recursion）</strong> ，
 将在本书<a href="hello-world/../programs-proofs/tail-recursion.html">后面的章节</a>中详细描述。
 由于编译后的代码不需要保留任何状态，因此 Lean 编译器可以将递归调用编译为跳转。</p>
 <!--
@@ -4932,7 +4968,7 @@ This version of `dump` avoids introducing names that are used only once, which c
 `IO` actions that Lean lifts from a nested expression context are called _nested actions_.
 -->
 <p>此版本的 <code>dump</code> 避免了引入仅使用一次的名称，这可以极大地简化程序。
-Lean 从嵌套表达式上下文中提升的 <code>IO</code> 活动称为  <strong>嵌套活动（Nested Action）</strong>  。</p>
+Lean 从嵌套表达式上下文中提升的 <code>IO</code> 活动称为 <strong>嵌套活动（Nested Action）</strong> 。</p>
 <!--
 `fileStream` can be simplified using the same technique:
 -->
@@ -5095,8 +5131,8 @@ This is the output produced by running the `IO` action, rather than some opaque 
 In other words, for `IO` actions, `#eval` both _evaluates_ the provided expression and _executes_ the resulting action value.
 -->
 <p>这是运行 <code>IO</code> 活动产生的输出，而不是活动本身的不透明表示。
-换句话说，对于 <code>IO</code> 活动，<code>#eval</code> 既  <strong>求值（Evaluate）</strong>  提供的表达式，
-又  <strong>执行（Execute）</strong>  结果活动值。</p>
+换句话说，对于 <code>IO</code> 活动，<code>#eval</code> 既 <strong>求值（Evaluate）</strong> 提供的表达式，
+又 <strong>执行（Execute）</strong> 结果活动值。</p>
 <!--
 Quickly testing `IO` actions with `#eval` can be much more convenient that compiling and running whole programs.
 However, there are some limitations.
@@ -6915,7 +6951,8 @@ Similarly, exceptions are significantly more convenient than manually checking a
 At the same time, logging is easiest to accomplish by having a dedicated logging framework, rather than having each function return both its log results and its return value.
 Chained null checks and exceptions typically require language designers to anticipate this use case, while logging frameworks typically make use of side effects to decouple code that logs from the accumulation of the logs.
 -->
-<p>类似地，异常机制比手动检查和传递错误码方便得多。同时，通过使用专用日志记录框架（而不是让每个函数同时返回其日志结果和返回值）可以轻松地完成日志记录。链接的空检查和异常通常要求语言设计者预料到这种用法，而日志记录框架通常利用副作用将记录日志的代码与日志的累积解耦。</p>
+<p>类似地，异常机制比手动检查和传递错误码方便得多。同时，通过使用专用日志记录框架（而不是让每个函数同时返回其日志结果和返回值）可以轻松地完成日志记录。
+链接的空检查和异常通常要求语言设计者预料到这种用法，而日志记录框架通常利用副作用将记录日志的代码与日志的累积解耦。</p>
 <!--
 All these features and more can be implemented in library code as instances of a common API called `Monad`.
 Lean provides dedicated syntax that makes this API convenient to use, but can also get in the way of understanding what is going on behind the scenes.
@@ -6923,7 +6960,9 @@ This chapter begins with the nitty-gritty presentation of manually nesting null 
 Please suspend your disbelief in the meantime.
 -->
 <p>所有这些功能以及更多功能都可以作为通用 API —— <code>Monad</code> 的实例在库代码中实现。Lean 提供了专门的语法，使此 API
-易于使用，但也会妨碍理解幕后发生的事情。本章从手动嵌套空检查的细节介绍开始，并由此构建到方便、通用的 API。在此期间，请暂时搁置你的怀疑。</p>
+易于使用，但也会妨碍理解幕后发生的事情。
+本章从手动嵌套空检查的细节介绍开始，并由此构建到方便、通用的 API。
+在此期间，请暂时搁置你的怀疑。</p>
 <!--
 ## Checking for `none`: Don't Repeat Yourself
 -->
@@ -6932,16 +6971,18 @@ Please suspend your disbelief in the meantime.
 In Lean, pattern matching can be used to chain checks for null.
 Getting the first entry from a list can just use the optional indexing notation:
 -->
-<p>在Lean中，模式匹配可用于链接空检查。从列表中获取第一个项可通过可选的索引记号：```lean
-def first (xs : List α) : Option α :=
-xs[0]?</p>
-<pre><code>&lt;!--
+<p>在Lean中，模式匹配可用于链接空检查。
+从列表中获取第一个项可通过可选的索引记号：</p>
+<pre><code class="language-lean">def first (xs : List α) : Option α :=
+  xs[0]?
+</code></pre>
+<!--
 The result must be an `Option` because empty lists have no first entry.
 Extracting the first and third entries requires a check that each is not `none`:
---&gt;
-
-&quot;结果必须是`Option`，因为空列表没有第一个项。提取第一个和第三个项需要检查每个项都不为 `none`：```lean
-def firstThird (xs : List α) : Option (α × α) :=
+-->
+<p>&quot;结果必须是<code>Option</code>，因为空列表没有第一个项。
+提取第一个和第三个项需要检查每个项都不为 <code>none</code>：</p>
+<pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
   match xs[0]? with
   | none =&gt; none
   | some first =&gt;
@@ -6953,24 +6994,24 @@ def firstThird (xs : List α) : Option (α × α) :=
 <!--
 Similarly, extracting the first, third, and fifth entries requires more checks that the values are not `none`:
 -->
-<p>类似地，提取第一个、第三个和第五个项需要更多检查，以确保这些值不是 <code>none</code>：```lean
-def firstThirdFifth (xs : List α) : Option (α × α × α) :=
-match xs[0]? with
-| none =&gt; none
-| some first =&gt;
-match xs[2]? with
-| none =&gt; none
-| some third =&gt;
-match xs[4]? with
-| none =&gt; none
-| some fifth =&gt;
-some (first, third, fifth)</p>
-<pre><code>&lt;!--
+<p>类似地，提取第一个、第三个和第五个项需要更多检查，以确保这些值不是 <code>none</code>：</p>
+<pre><code class="language-lean">def firstThirdFifth (xs : List α) : Option (α × α × α) :=
+  match xs[0]? with
+  | none =&gt; none
+  | some first =&gt;
+    match xs[2]? with
+    | none =&gt; none
+    | some third =&gt;
+      match xs[4]? with
+      | none =&gt; none
+      | some fifth =&gt;
+        some (first, third, fifth)
+</code></pre>
+<!--
 And adding the seventh entry to this sequence begins to become quite unmanageable:
---&gt;
-
-而将第七个项添加到此序列中则开始变得相当难以管理：```lean
-def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
+-->
+<p>而将第七个项添加到此序列中则开始变得相当难以管理：</p>
+<pre><code class="language-lean">def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
   match xs[0]? with
   | none =&gt; none
   | some first =&gt;
@@ -6989,26 +7030,28 @@ def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
 The fundamental problem with this code is that it addresses two concerns: extracting the numbers and checking that all of them are present, but the second concern is addressed by copying and pasting the code that handles the `none` case.
 It is often good style to lift a repetitive segment into a helper function:
 -->
-<p>这段代码有两个问题：提取数字和检查它们是否全部存在，但第二个问题是通过复制粘贴处理<code>none</code>情况的代码来解决的。通常鼓励将重复的片段提取到辅助函数中：```lean
-def andThen (opt : Option α) (next : α → Option β) : Option β :=
-match opt with
-| none =&gt; none
-| some x =&gt; next x</p>
-<pre><code>&lt;!--
+<p>这段代码有两个问题：提取数字和检查它们是否全部存在，但第二个问题是通过复制粘贴处理<code>none</code>情况的代码来解决的。
+通常鼓励将重复的片段提取到辅助函数中：</p>
+<pre><code class="language-lean">def andThen (opt : Option α) (next : α → Option β) : Option β :=
+  match opt with
+  | none =&gt; none
+  | some x =&gt; next x
+</code></pre>
+<!--
 This helper, which is used similarly to `?.` in C# and Kotlin, takes care of propagating `none` values.
 It takes two arguments: an optional value and a function to apply when the value is not `none`.
 If the first argument is `none`, then the helper returns `none`.
 If the first argument is not `none`, then the function is applied to the contents of the `some` constructor.
---&gt;
-
-该辅助函数类似于C#和Kotlin中的`?.`，用于处理`none`值。它接受两个参数：一个可选值和一个在该值非`none`时应用的函数。如果第一个参数是`none`，则辅助函数返回`none`。如果第一个参数不是`none`，则该函数将应用于`some` 构造器的内容。
-
-&lt;!--
+-->
+<p>该辅助函数类似于C#和Kotlin中的<code>?.</code>，用于处理<code>none</code>值。
+它接受两个参数：一个可选值和一个在该值非<code>none</code>时应用的函数。
+如果第一个参数是<code>none</code>，则辅助函数返回<code>none</code>。
+如果第一个参数不是<code>none</code>，则该函数将应用于<code>some</code> 构造器的内容。</p>
+<!--
 Now, `firstThird` can be rewritten to use `andThen` instead of pattern matching:
---&gt;
-
-现在，`firstThird` 可以使用`andThen`重写：```lean
-def firstThird (xs : List α) : Option (α × α) :=
+-->
+<p>现在，<code>firstThird</code> 可以使用<code>andThen</code>重写：</p>
+<pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
   andThen xs[0]? fun first =&gt;
   andThen xs[2]? fun third =&gt;
   some (first, third)
@@ -7017,40 +7060,40 @@ def firstThird (xs : List α) : Option (α × α) :=
 In Lean, functions don't need to be enclosed in parentheses when passed as arguments.
 The following equivalent definition uses more parentheses and indents the bodies of functions:
 -->
-<p>在Lean中，作为参数传递时，函数不需要用括号括起来。以下等价定义使用了更多括号并缩进了函数体：```lean
-def firstThird (xs : List α) : Option (α × α) :=
-andThen xs[0]? (fun first =&gt;
-andThen xs[2]? (fun third =&gt;
-some (first, third)))</p>
-<pre><code>&lt;!--
-The `andThen` helper provides a sort of &quot;pipeline&quot; through which values flow, and the version with the somewhat unusual indentation is more suggestive of this fact.
+<p>在Lean中，作为参数传递时，函数不需要用括号括起来。
+以下等价定义使用了更多括号并缩进了函数体：</p>
+<pre><code class="language-lean">def firstThird (xs : List α) : Option (α × α) :=
+  andThen xs[0]? (fun first =&gt;
+    andThen xs[2]? (fun third =&gt;
+      some (first, third)))
+</code></pre>
+<!--
+The `andThen` helper provides a sort of "pipeline" through which values flow, and the version with the somewhat unusual indentation is more suggestive of this fact.
 Improving the syntax used to write `andThen` can make these computations even easier to understand.
---&gt;
-
-`andThen`辅助函数提供了一种让值流过的“管道”，具有特殊缩进的版本更能说明这一事实。改进 `andThen`的语法可以使其更容易阅读和理解。
-
-&lt;!--
+-->
+<p><code>andThen</code>辅助函数提供了一种让值流过的“管道”，具有特殊缩进的版本更能说明这一事实。
+改进 <code>andThen</code>的语法可以使其更容易阅读和理解。</p>
+<!--
 ### Infix Operators
---&gt;
-
-### 中缀运算符
-
-&lt;!--
+-->
+<h3 id="中缀运算符"><a class="header" href="#中缀运算符">中缀运算符</a></h3>
+<!--
 In Lean, infix operators can be declared using the `infix`, `infixl`, and `infixr` commands, which create (respectively) non-associative, left-associative, and right-associative operators.
 When used multiple times in a row, a _left associative_ operator stacks up the opening parentheses on the left side of the expression.
 The addition operator `+` is left associative, so `w + x + y + z` is equivalent to `(((w + x) + y) + z)`.
 The exponentiation operator `^` is right associative, so `w ^ x ^ y ^ z` is equivalent to `(w ^ (x ^ (y ^ z)))`.
-Comparison operators such as `&lt;` are non-associative, so `x &lt; y &lt; z` is a syntax error and requires manual parentheses.
---&gt;
-
-在 Lean 中，可以使用 `infix`、`infixl` 和 `infixr`命令声明中缀运算符，分别用于非结合、左结合和右结合的情况。当连续多次使用时，  **左结合** 运算符会将（开）括号堆叠在表达式的左侧。加法运算符`+` 是左结合的，因此 `w + x + y + z` 等价于 `(((w + x) + y) + z)`。指数运算符 `^` 是右结合的，因此 `w ^ x ^ y ^ z` 等价于 `(w ^ (x ^ (y ^ z)))`。比较运算符（如 `&lt;`）是非结合的，因此 `x &lt; y &lt; z`是一个语法错误，需要手动添加括号。
-
-&lt;!--
+Comparison operators such as `<` are non-associative, so `x < y < z` is a syntax error and requires manual parentheses.
+-->
+<p>在 Lean 中，可以使用 <code>infix</code>、<code>infixl</code> 和 <code>infixr</code>命令声明中缀运算符，分别用于非结合、左结合和右结合的情况。
+当连续多次使用时，  <strong>左结合</strong> 运算符会将（开）括号堆叠在表达式的左侧。
+加法运算符<code>+</code> 是左结合的，因此 <code>w + x + y + z</code> 等价于 <code>(((w + x) + y) + z)</code>。
+指数运算符 <code>^</code> 是右结合的，因此 <code>w ^ x ^ y ^ z</code> 等价于 <code>(w ^ (x ^ (y ^ z)))</code>。
+比较运算符（如 <code>&lt;</code>）是非结合的，因此 <code>x &lt; y &lt; z</code>是一个语法错误，需要手动添加括号。</p>
+<!--
 The following declaration makes `andThen` into an infix operator:
---&gt;
-
-以下声明将`andThen`声明为中缀运算符：```lean
-infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
+-->
+<p>以下声明将<code>andThen</code>声明为中缀运算符：</p>
+<pre><code class="language-lean">infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 </code></pre>
 <!--
 The number following the colon declares the _precedence_ of the new infix operator.
@@ -7060,27 +7103,34 @@ Higher-precedence operators are applied before lower-precedence operators.
 According to the declaration of `~~>`, both `+` and `*` have higher precedence, and thus apply first.
 Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.
 -->
-<p>冒号后面的数字声明了新中缀运算符的  <strong>优先级</strong> 。在一般的数学记号中，<code>x + y * z</code> 等价于 <code>x + (y * z)</code>，即使 <code>+</code> 和 <code>*</code> 都是左结合的。在 Lean 中，<code>+</code> 的优先级为 65，<code>*</code> 的优先级为 70。优先级更高的运算符应用于优先级较低的运算符之前。根据<code>~~&gt;</code>的声明，<code>+</code>和<code>*</code>都具有更高的优先级，因此会被首先计算。通常来说，找出最适合一组运算符的优先级需要一些实验和大量的示例。</p>
+<p>冒号后面的数字声明了新中缀运算符的  <strong>优先级</strong> 。
+在一般的数学记号中，<code>x + y * z</code> 等价于 <code>x + (y * z)</code>，即使 <code>+</code> 和 <code>*</code> 都是左结合的。
+在 Lean 中，<code>+</code> 的优先级为 65，<code>*</code> 的优先级为 70。
+优先级更高的运算符应用于优先级较低的运算符之前。
+根据<code>~~&gt;</code>的声明，<code>+</code>和<code>*</code>都具有更高的优先级，因此会被首先计算。
+通常来说，找出最适合一组运算符的优先级需要一些实验和大量的示例。</p>
 <!--
 Following the new infix operator is a double arrow `=>`, which specifies the named function to be used for the infix operator.
 Lean's standard library uses this feature to define `+` and `*` as infix operators that point at `HAdd.hAdd` and `HMul.hMul`, respectively, allowing type classes to be used to overload the infix operators.
 Here, however, `andThen` is just an ordinary function.
 -->
-<p>在新的中缀运算符后面是一个双箭头 <code>=&gt;</code>，指定中缀运算符使用的命名的函数。Lean的标准库使用此功能将<code>+</code>和<code>*</code>定义为指向<code>HAdd.hAdd</code>和<code>HMul.hMul</code>的中缀运算符，从而允许将类型类用于重载中缀运算符。不过这里的<code>andThen</code>只是一个普通函数。</p>
+<p>在新的中缀运算符后面是一个双箭头 <code>=&gt;</code>，指定中缀运算符使用的命名的函数。
+Lean的标准库使用此功能将<code>+</code>和<code>*</code>定义为指向<code>HAdd.hAdd</code>和<code>HMul.hMul</code>的中缀运算符，从而允许将类型类用于重载中缀运算符。
+不过这里的<code>andThen</code>只是一个普通函数。</p>
 <!--
 Having defined an infix operator for `andThen`, `firstThird` can be rewritten in a way that brings the "pipeline" feeling of `none`-checks front and center:
 -->
-<p>通过为<code>andThen</code>定义一个中缀运算符，<code>firstThird</code>可以被改写成一种，显化<code>none</code>检查的“管道”风格的方式：```lean
-def firstThirdInfix (xs : List α) : Option (α × α) :=
-xs[0]? ~~&gt; fun first =&gt;
-xs[2]? ~~&gt; fun third =&gt;
-some (first, third)</p>
-<pre><code>&lt;!--
+<p>通过为<code>andThen</code>定义一个中缀运算符，<code>firstThird</code>可以被改写成一种，显化<code>none</code>检查的“管道”风格的方式：</p>
+<pre><code class="language-lean">def firstThirdInfix (xs : List α) : Option (α × α) :=
+  xs[0]? ~~&gt; fun first =&gt;
+  xs[2]? ~~&gt; fun third =&gt;
+  some (first, third)
+</code></pre>
+<!--
 This style is much more concise when writing larger functions:
---&gt;
-
-这种风格在编写较长的函数时更加精炼：```lean
-def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
+-->
+<p>这种风格在编写较长的函数时更加精炼：</p>
+<pre><code class="language-lean">def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
   xs[0]? ~~&gt; fun first =&gt;
   xs[2]? ~~&gt; fun third =&gt;
   xs[4]? ~~&gt; fun fifth =&gt;
@@ -7096,29 +7146,31 @@ Pure functional languages such as Lean have no built-in exception mechanism for 
 However, functional programs certainly need to handle errors.
 In the case of `firstThirdFifthSeventh`, it is likely relevant for a user to know just how long the list was and where the lookup failed.
 -->
-<p>像Lean这样的纯函数式语言并没有用于错误处理的内置异常机制，因为抛出或捕获异常超出了表达式逐步求值模型考虑的范围。然而函数式程序肯定需要处理错误。在<code>firstThirdFifthSeventh</code>的情况下，用户很可能需要知道列表有多长以及查找失败发生的位置。&quot;</p>
+<p>像Lean这样的纯函数式语言并没有用于错误处理的内置异常机制，因为抛出或捕获异常超出了表达式逐步求值模型考虑的范围。
+然而函数式程序肯定需要处理错误。
+在<code>firstThirdFifthSeventh</code>的情况下，用户很可能需要知道列表有多长以及查找失败发生的位置。&quot;</p>
 <!--
 This is typically accomplished by defining a datatype that can be either an error or a result, and translating functions with exceptions into functions that return this datatype:
 -->
-<p>这通常通过定义一个——错误或结果——的数据类型，并让带有异常的函数返回此类型来实现：```lean
-inductive Except (ε : Type) (α : Type) where
-| error : ε → Except ε α
-| ok : α → Except ε α
-deriving BEq, Hashable, Repr</p>
-<pre><code>&lt;!--
+<p>这通常通过定义一个——错误或结果——的数据类型，并让带有异常的函数返回此类型来实现：</p>
+<pre><code class="language-lean">inductive Except (ε : Type) (α : Type) where
+  | error : ε → Except ε α
+  | ok : α → Except ε α
+deriving BEq, Hashable, Repr
+</code></pre>
+<!--
 The type variable `ε` stands for the type of errors that can be produced by the function.
 Callers are expected to handle both errors and successes, which makes the type variable `ε` play a role that is a bit like that of a list of checked exceptions in Java.
---&gt;
-
-类型变量`ε`表示函数可能产生的错误类型。调用者需要处理错误和成功两种情况，因此类型变量`ε`有点类似Java中需要检查的异常列表。
-
-&lt;!--
+-->
+<p>类型变量<code>ε</code>表示函数可能产生的错误类型。
+调用者需要处理错误和成功两种情况，因此类型变量<code>ε</code>有点类似Java中需要检查的异常列表。</p>
+<!--
 Similarly to `Option`, `Except` can be used to indicate a failure to find an entry in a list.
 In this case, the error type is a `String`:
---&gt;
-
-类似于 `Option`，`Except`可用于指示在列表中找不到项的情况。此时，错误的类型为 `String`：```lean
-def get (xs : List α) (i : Nat) : Except String α :=
+-->
+<p>类似于 <code>Option</code>，<code>Except</code>可用于指示在列表中找不到项的情况。
+此时，错误的类型为 <code>String</code>：</p>
+<pre><code class="language-lean">def get (xs : List α) (i : Nat) : Except String α :=
   match xs[i]? with
   | none =&gt; Except.error s!&quot;Index {i} not found (maximum is {xs.length - 1})&quot;
   | some x =&gt; Except.ok x
@@ -7126,33 +7178,34 @@ def get (xs : List α) (i : Nat) : Except String α :=
 <!--
 Looking up an in-bounds value yields an `Except.ok`:
 -->
-<p>查找没有越界的值会得到<code>Except.ok</code>：```lean
-def ediblePlants : List String :=
-[&quot;ramsons&quot;, &quot;sea plantain&quot;, &quot;sea buckthorn&quot;, &quot;garden nasturtium&quot;]</p>
-<p>#eval get ediblePlants 2</p>
-<pre><code>```output info
-Except.ok &quot;sea buckthorn&quot;
+<p>查找没有越界的值会得到<code>Except.ok</code>：</p>
+<pre><code class="language-lean">def ediblePlants : List String :=
+  [&quot;ramsons&quot;, &quot;sea plantain&quot;, &quot;sea buckthorn&quot;, &quot;garden nasturtium&quot;]
+
+#eval get ediblePlants 2
+</code></pre>
+<pre><code class="language-output info">Except.ok &quot;sea buckthorn&quot;
 </code></pre>
 <!--
 Looking up an out-of-bounds value yields an `Except.error`:
 -->
-<p>查找越界的值将产生<code>Except.error</code>：```lean
-#eval get ediblePlants 4</p>
-<pre><code>```output info
-Except.error &quot;Index 4 not found (maximum is 3)&quot;
+<p>查找越界的值将产生<code>Except.error</code>：</p>
+<pre><code class="language-lean">#eval get ediblePlants 4
+</code></pre>
+<pre><code class="language-output info">Except.error &quot;Index 4 not found (maximum is 3)&quot;
 </code></pre>
 <!--
 A single list lookup can conveniently return a value or an error:
 -->
-<p>单个列表查找可以方便地返回一个值或错误：```lean
-def first (xs : List α) : Except String α :=
-get xs 0</p>
-<pre><code>&lt;!--
+<p>单个列表查找可以方便地返回一个值或错误：</p>
+<pre><code class="language-lean">def first (xs : List α) : Except String α :=
+  get xs 0
+</code></pre>
+<!--
 However, performing two list lookups requires handling potential failures:
---&gt;
-
-然而，连续的两个列表查找则需要处理可能发生的失败情况：```lean
-def firstThird (xs : List α) : Except String (α × α) :=
+-->
+<p>然而，连续的两个列表查找则需要处理可能发生的失败情况：</p>
+<pre><code class="language-lean">def firstThird (xs : List α) : Except String (α × α) :=
   match get xs 0 with
   | Except.error msg =&gt; Except.error msg
   | Except.ok first =&gt;
@@ -7164,24 +7217,24 @@ def firstThird (xs : List α) : Except String (α × α) :=
 <!--
 Adding another list lookup to the function requires still more error handling:
 -->
-<p>向函数中添加另一个列表查找需要额外的错误处理：```lean
-def firstThirdFifth (xs : List α) : Except String (α × α × α) :=
-match get xs 0 with
-| Except.error msg =&gt; Except.error msg
-| Except.ok first =&gt;
-match get xs 2 with
-| Except.error msg =&gt; Except.error msg
-| Except.ok third =&gt;
-match get xs 4 with
-| Except.error msg =&gt; Except.error msg
-| Except.ok fifth =&gt;
-Except.ok (first, third, fifth)</p>
-<pre><code>&lt;!--
+<p>向函数中添加另一个列表查找需要额外的错误处理：</p>
+<pre><code class="language-lean">def firstThirdFifth (xs : List α) : Except String (α × α × α) :=
+  match get xs 0 with
+  | Except.error msg =&gt; Except.error msg
+  | Except.ok first =&gt;
+    match get xs 2 with
+    | Except.error msg =&gt; Except.error msg
+    | Except.ok third =&gt;
+      match get xs 4 with
+      | Except.error msg =&gt; Except.error msg
+      | Except.ok fifth =&gt;
+        Except.ok (first, third, fifth)
+</code></pre>
+<!--
 And one more list lookup begins to become quite unmanageable:
---&gt;
-
-再继续添加一个列表查找则开始变得相当难以管理：```lean
-def firstThirdFifthSeventh (xs : List α) : Except String (α × α × α × α) :=
+-->
+<p>再继续添加一个列表查找则开始变得相当难以管理：</p>
+<pre><code class="language-lean">def firstThirdFifthSeventh (xs : List α) : Except String (α × α × α × α) :=
   match get xs 0 with
   | Except.error msg =&gt; Except.error msg
   | Except.ok first =&gt;
@@ -7201,17 +7254,19 @@ Once again, a common pattern can be factored out into a helper.
 Each step through the function checks for an error, and only proceeds with the rest of the computation if the result was a success.
 A new version of `andThen` can be defined for `Except`:
 -->
-<p>同样，一个通用的模式可以提取为一个辅助函数。函数中的每一步都会检查错误，并只有在成功的情况下才进行之后的计算。可以为<code>Except</code>定义<code>andThen</code>的新版本：```lean
-def andThen (attempt : Except e α) (next : α → Except e β) : Except e β :=
-match attempt with
-| Except.error msg =&gt; Except.error msg
-| Except.ok x =&gt; next x</p>
-<pre><code>&lt;!--
+<p>同样，一个通用的模式可以提取为一个辅助函数。
+函数中的每一步都会检查错误，并只有在成功的情况下才进行之后的计算。
+可以为<code>Except</code>定义<code>andThen</code>的新版本：</p>
+<pre><code class="language-lean">def andThen (attempt : Except e α) (next : α → Except e β) : Except e β :=
+  match attempt with
+  | Except.error msg =&gt; Except.error msg
+  | Except.ok x =&gt; next x
+</code></pre>
+<!--
 Just as with `Option`, this version of `andThen` allows a more concise definition of `firstThird`:
---&gt;
-
-与`Option`一样，该`andThen`允许更简洁地定义`firstThird`：```lean
-def firstThird' (xs : List α) : Except String (α × α) :=
+-->
+<p>与<code>Option</code>一样，该<code>andThen</code>允许更简洁地定义<code>firstThird</code>：</p>
+<pre><code class="language-lean">def firstThird' (xs : List α) : Except String (α × α) :=
   andThen (get xs 0) fun first  =&gt;
   andThen (get xs 2) fun third =&gt;
   Except.ok (first, third)
@@ -7220,31 +7275,30 @@ def firstThird' (xs : List α) : Except String (α × α) :=
 In both the `Option` and `Except` case, there are two repeating patterns: there is the checking of intermediate results at each step, which has been factored out into `andThen`, and there is the final successful result, which is `some` or `Except.ok`, respectively.
 For the sake of convenience, success can be factored out into a helper called `ok`:
 -->
-<p>在<code>Option</code>和<code>Except</code>情况下，都有两个重复的模式：每一步都有对中间结果的检查，并已提取为<code>andThen</code>；有最终的成功结果，分别是<code>some</code> 或<code>Except.ok</code>。为了方便起见，成功的情况可提取为辅助函数<code>ok</code>：```lean
-def ok (x : α) : Except ε α := Except.ok x</p>
-<pre><code>&lt;!--
+<p>在<code>Option</code>和<code>Except</code>情况下，都有两个重复的模式：每一步都有对中间结果的检查，并已提取为<code>andThen</code>；有最终的成功结果，分别是<code>some</code> 或<code>Except.ok</code>。
+为了方便起见，成功的情况可提取为辅助函数<code>ok</code>：</p>
+<pre><code class="language-lean">def ok (x : α) : Except ε α := Except.ok x
+</code></pre>
+<!--
 Similarly, failure can be factored out into a helper called `fail`:
---&gt;
-
-类似地，失败的情况可提取为辅助函数`fail` ：```lean
-def fail (err : ε) : Except ε α := Except.error err
+-->
+<p>类似地，失败的情况可提取为辅助函数<code>fail</code> ：</p>
+<pre><code class="language-lean">def fail (err : ε) : Except ε α := Except.error err
 </code></pre>
 <!--
 Using `ok` and `fail` makes `get` a little more readable:
 -->
-<p><code>ok</code>和<code>fail</code>使得<code>get</code>可读性更好：```lean
-def get (xs : List α) (i : Nat) : Except String α :=
-match xs[i]? with
-| none =&gt; fail s!&quot;Index {i} not found (maximum is {xs.length - 1})&quot;
-| some x =&gt; ok x</p>
-<pre><code>
-
-&lt;!--
+<p><code>ok</code>和<code>fail</code>使得<code>get</code>可读性更好：</p>
+<pre><code class="language-lean">def get (xs : List α) (i : Nat) : Except String α :=
+  match xs[i]? with
+  | none =&gt; fail s!&quot;Index {i} not found (maximum is {xs.length - 1})&quot;
+  | some x =&gt; ok x
+</code></pre>
+<!--
 After adding the infix declaration for `andThen`, `firstThird` can be just as concise as the version that returns an `Option`:
---&gt;
-
-在为`andThen`添加中缀运算符后，`firstThird`可以和返回`Option`的版本一样简洁：```lean
-infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
+-->
+<p>在为<code>andThen</code>添加中缀运算符后，<code>firstThird</code>可以和返回<code>Option</code>的版本一样简洁：</p>
+<pre><code class="language-lean">infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 
 def firstThird (xs : List α) : Except String (α × α) :=
   get xs 0 ~~&gt; fun first =&gt;
@@ -7254,42 +7308,43 @@ def firstThird (xs : List α) : Except String (α × α) :=
 <!--
 The technique scales similarly to larger functions:
 -->
-<p>该技术同样适用于更长的函数：```lean
-def firstThirdFifthSeventh (xs : List α) : Except String (α × α × α × α) :=
-get xs 0 ~~&gt; fun first =&gt;
-get xs 2 ~~&gt; fun third =&gt;
-get xs 4 ~~&gt; fun fifth =&gt;
-get xs 6 ~~&gt; fun seventh =&gt;
-ok (first, third, fifth, seventh)</p>
-<pre><code>
-## 日志记录
-
-&lt;!--
+<p>该技术同样适用于更长的函数：</p>
+<pre><code class="language-lean">def firstThirdFifthSeventh (xs : List α) : Except String (α × α × α × α) :=
+  get xs 0 ~~&gt; fun first =&gt;
+  get xs 2 ~~&gt; fun third =&gt;
+  get xs 4 ~~&gt; fun fifth =&gt;
+  get xs 6 ~~&gt; fun seventh =&gt;
+  ok (first, third, fifth, seventh)
+</code></pre>
+<h2 id="日志记录"><a class="header" href="#日志记录">日志记录</a></h2>
+<!--
 A number is even if dividing it by 2 leaves no remainder:
---&gt;
-
-当一个数字除以2时没有余数则称它为偶数：```lean
-def isEven (i : Int) : Bool :=
+-->
+<p>当一个数字除以2时没有余数则称它为偶数：</p>
+<pre><code class="language-lean">def isEven (i : Int) : Bool :=
   i % 2 == 0
 </code></pre>
 <!--
 The function `sumAndFindEvens` computes the sum of a list while remembering the even numbers encountered along the way:
 -->
-<p>函数<code>sumAndFindEvens</code>计算列表所有元素的加和，同时记录沿途遇到的偶数：```lean
-def sumAndFindEvens : List Int → List Int × Int
-| [] =&gt; ([], 0)
-| i :: is =&gt;
-let (moreEven, sum) := sumAndFindEvens is
-(if isEven i then i :: moreEven else moreEven, sum + i)</p>
-<pre><code>&lt;!--
+<p>函数<code>sumAndFindEvens</code>计算列表所有元素的加和，同时记录沿途遇到的偶数：</p>
+<pre><code class="language-lean">def sumAndFindEvens : List Int → List Int × Int
+  | [] =&gt; ([], 0)
+  | i :: is =&gt;
+    let (moreEven, sum) := sumAndFindEvens is
+    (if isEven i then i :: moreEven else moreEven, sum + i)
+</code></pre>
+<!--
 This function is a simplified example of a common pattern.
 Many programs need to traverse a data structure once, while both computing a main result and accumulating some kind of tertiary extra result.
 One example of this is logging: a program that is an `IO` action can always log to a file on disk, but because the disk is outside of the mathematical world of Lean functions, it becomes much more difficult to prove things about logs based on `IO`.
 Another example is a function that computes the sum of all the nodes in a tree with an inorder traversal, while simultaneously recording each nodes visited:
---&gt;
-
-此函数是一个常见模式的简化示例。许多程序需要遍历一次数据结构，计算一个主要结果的同时累积某种额外的结果。一个例子是日志记录：一个类型为`IO`的程序会将日志输出到磁盘上的文件中，但是由于磁盘在 Lean 函数的数学世界之外，因此对基于`IO`的日志相关的证明变得十分困难。另一个例子是同时计算树的中序遍历和所有节点的加和的函数，它必须记录每个访问的节点：```lean
-def inorderSum : BinTree Int → List Int × Int
+-->
+<p>此函数是一个常见模式的简化示例。
+许多程序需要遍历一次数据结构，计算一个主要结果的同时累积某种额外的结果。
+一个例子是日志记录：一个类型为<code>IO</code>的程序会将日志输出到磁盘上的文件中，但是由于磁盘在 Lean 函数的数学世界之外，因此对基于<code>IO</code>的日志相关的证明变得十分困难。
+另一个例子是同时计算树的中序遍历和所有节点的加和的函数，它必须记录每个访问的节点：</p>
+<pre><code class="language-lean">def inorderSum : BinTree Int → List Int × Int
   | BinTree.leaf =&gt; ([], 0)
   | BinTree.branch l x r =&gt;
     let (leftVisited, leftSum) := inorderSum l
@@ -7303,53 +7358,55 @@ Each step of computation returns a pair that consists of a list of data that hav
 The lists are then appended, and the primary result is computed and paired with the appended lists.
 The common structure becomes more apparent with a small rewrite of `sumAndFindEvens` that more cleanly separates the concerns of saving even numbers and computing the sum:
 -->
-<p><code>sumAndFindEvens</code>和<code>inorderSum</code>都具有共同的重复结构。计算的每一步都返回一个对(pair)，由由数据列表和主要结果组成。在下一步中列表会被附加新的元素，计算新的主要结果并与附加的列表再次配对。通过对<code>sumAndFindEvens</code>稍微改写，保存偶数和计算加和的关注点则更加清晰地分离，共同的结构变得更加明显：```lean
-def sumAndFindEvens : List Int → List Int × Int
-| [] =&gt; ([], 0)
-| i :: is =&gt;
-let (moreEven, sum) := sumAndFindEvens is
-let (evenHere, ()) := (if isEven i then [i] else [], ())
-(evenHere ++ moreEven, sum + i)</p>
-<pre><code>
-&lt;!--
+<p><code>sumAndFindEvens</code>和<code>inorderSum</code>都具有共同的重复结构。
+计算的每一步都返回一个对(pair)，由由数据列表和主要结果组成。
+在下一步中列表会被附加新的元素，计算新的主要结果并与附加的列表再次配对。
+通过对<code>sumAndFindEvens</code>稍微改写，保存偶数和计算加和的关注点则更加清晰地分离，共同的结构变得更加明显：</p>
+<pre><code class="language-lean">def sumAndFindEvens : List Int → List Int × Int
+  | [] =&gt; ([], 0)
+  | i :: is =&gt;
+    let (moreEven, sum) := sumAndFindEvens is
+    let (evenHere, ()) := (if isEven i then [i] else [], ())
+    (evenHere ++ moreEven, sum + i)
+</code></pre>
+<!--
 For the sake of clarity, a pair that consists of an accumulated result together with a value can be given its own name:
---&gt;
-
-为了清晰起见，可以给由累积结果和值组成的对(pair)起一个专有的名字：```lean
-structure WithLog (logged : Type) (α : Type) where
+-->
+<p>为了清晰起见，可以给由累积结果和值组成的对(pair)起一个专有的名字：</p>
+<pre><code class="language-lean">structure WithLog (logged : Type) (α : Type) where
   log : List logged
   val : α
 </code></pre>
 <!--
 Similarly, the process of saving a list of accumulated results while passing a value on to the next step of a computation can be factored out into a helper, once again named `andThen`:
 -->
-<p>同样，保存累积结果列表的同时传递一个值到下一步的过程，可以提取为一个辅助函数，再次命名为 <code>andThen</code>：```lean
-def andThen (result : WithLog α β) (next : β → WithLog α γ) : WithLog α γ :=
-let {log := thisOut, val := thisRes} := result
-let {log := nextOut, val := nextRes} := next thisRes
-{log := thisOut ++ nextOut, val := nextRes}</p>
-<pre><code>&lt;!--
+<p>同样，保存累积结果列表的同时传递一个值到下一步的过程，可以提取为一个辅助函数，再次命名为 <code>andThen</code>：</p>
+<pre><code class="language-lean">def andThen (result : WithLog α β) (next : β → WithLog α γ) : WithLog α γ :=
+  let {log := thisOut, val := thisRes} := result
+  let {log := nextOut, val := nextRes} := next thisRes
+  {log := thisOut ++ nextOut, val := nextRes}
+</code></pre>
+<!--
 In the case of errors, `ok` represents an operation that always succeeds.
 Here, however, it is an operation that simply returns a value without logging anything:
---&gt;
-
-在可能发生错误的语境下，`ok`表示一个总是成功的操作。然而在这里，它仅简单地返回一个值而不产生任何日志：```lean
-def ok (x : β) : WithLog α β := {log := [], val := x}
+-->
+<p>在可能发生错误的语境下，<code>ok</code>表示一个总是成功的操作。然而在这里，它仅简单地返回一个值而不产生任何日志：</p>
+<pre><code class="language-lean">def ok (x : β) : WithLog α β := {log := [], val := x}
 </code></pre>
 <!--
 Just as `Except` provides `fail` as a possibility, `WithLog` should allow items to be added to a log.
 This has no interesting return value associated with it, so it returns `Unit`:
 -->
-<p>正如<code>Except</code>提供<code>fail</code>作为一种可能性，<code>WithLog</code>应该允许将项添加到日志中。它不需要返回任何有意义的结果，所以返回类型为<code>Unit</code>：```lean
-def save (data : α) : WithLog α Unit :=
-{log := [data], val := ()}</p>
-<pre><code>
-&lt;!--
+<p>正如<code>Except</code>提供<code>fail</code>作为一种可能性，<code>WithLog</code>应该允许将项添加到日志中。
+它不需要返回任何有意义的结果，所以返回类型为<code>Unit</code>：</p>
+<pre><code class="language-lean">def save (data : α) : WithLog α Unit :=
+  {log := [data], val := ()}
+</code></pre>
+<!--
 `WithLog`, `andThen`, `ok`, and `save` can be used to separate the logging concern from the summing concern in both programs:
---&gt;
-
-`WithLog`、`andThen`、`ok`和`save`可以将两个程序中的，日志记录与求和问题分开：```lean
-def sumAndFindEvens : List Int → WithLog Int Int
+-->
+<p><code>WithLog</code>、<code>andThen</code>、<code>ok</code>和<code>save</code>可以将两个程序中的，日志记录与求和问题分开：</p>
+<pre><code class="language-lean">def sumAndFindEvens : List Int → WithLog Int Int
   | [] =&gt; ok 0
   | i :: is =&gt;
     andThen (if isEven i then save i else ok ()) fun () =&gt;
@@ -7367,35 +7424,34 @@ def inorderSum : BinTree Int → WithLog Int Int
 <!--
 And, once again, the infix operator helps put focus on the correct steps:
 -->
-<p>同样地，中缀运算符有助于专注于正确的过程：```lean
-infixl:55 &quot; ~~&gt; &quot; =&gt; andThen</p>
-<p>def sumAndFindEvens : List Int → WithLog Int Int
-| [] =&gt; ok 0
-| i :: is =&gt;
-(if isEven i then save i else ok ()) ~~&gt; fun () =&gt;
-sumAndFindEvens is ~~&gt; fun sum =&gt;
-ok (i + sum)</p>
-<p>def inorderSum : BinTree Int → WithLog Int Int
-| BinTree.leaf =&gt; ok 0
-| BinTree.branch l x r =&gt;
-inorderSum l ~~&gt; fun leftSum =&gt;
-save x ~~&gt; fun () =&gt;
-inorderSum r ~~&gt; fun rightSum =&gt;
-ok (leftSum + x + rightSum)</p>
-<pre><code>
-&lt;!--
+<p>同样地，中缀运算符有助于专注于正确的过程：</p>
+<pre><code class="language-lean">infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
+
+def sumAndFindEvens : List Int → WithLog Int Int
+  | [] =&gt; ok 0
+  | i :: is =&gt;
+    (if isEven i then save i else ok ()) ~~&gt; fun () =&gt;
+    sumAndFindEvens is ~~&gt; fun sum =&gt;
+    ok (i + sum)
+
+def inorderSum : BinTree Int → WithLog Int Int
+  | BinTree.leaf =&gt; ok 0
+  | BinTree.branch l x r =&gt;
+    inorderSum l ~~&gt; fun leftSum =&gt;
+    save x ~~&gt; fun () =&gt;
+    inorderSum r ~~&gt; fun rightSum =&gt;
+    ok (leftSum + x + rightSum)
+</code></pre>
+<!--
 ## Numbering Tree Nodes
---&gt;
-
-## 对树节点编号
-
-&lt;!--
+-->
+<h2 id="对树节点编号"><a class="header" href="#对树节点编号">对树节点编号</a></h2>
+<!--
 An _inorder numbering_ of a tree associates each data point in the tree with the step it would be visited at in an inorder traversal of the tree.
 For example, consider `aTree`:
---&gt;
-
-树的每个节点的  **中序编号** 指的是：在中序遍历中被访问的次序。例如，考虑如下`aTree`：```lean
-open BinTree in
+-->
+<p>树的每个节点的  <strong>中序编号</strong> 指的是：在中序遍历中被访问的次序。例如，考虑如下<code>aTree</code>：</p>
+<pre><code class="language-lean">open BinTree in
 def aTree :=
   branch
     (branch
@@ -7408,24 +7464,26 @@ def aTree :=
 <!--
 Its inorder numbering is:
 -->
-<p>它的中序编号为：```output info
-BinTree.branch
-(BinTree.branch
-(BinTree.branch (BinTree.leaf) (0, &quot;a&quot;) (BinTree.branch (BinTree.leaf) (1, &quot;b&quot;) (BinTree.leaf)))
-(2, &quot;c&quot;)
-(BinTree.leaf))
-(3, &quot;d&quot;)
-(BinTree.branch (BinTree.leaf) (4, &quot;e&quot;) (BinTree.leaf))</p>
-<pre><code>
-&lt;!--
+<p>它的中序编号为：</p>
+<pre><code class="language-output info">BinTree.branch
+  (BinTree.branch
+    (BinTree.branch (BinTree.leaf) (0, &quot;a&quot;) (BinTree.branch (BinTree.leaf) (1, &quot;b&quot;) (BinTree.leaf)))
+    (2, &quot;c&quot;)
+    (BinTree.leaf))
+  (3, &quot;d&quot;)
+  (BinTree.branch (BinTree.leaf) (4, &quot;e&quot;) (BinTree.leaf))
+</code></pre>
+<!--
 Trees are most naturally processed with recursive functions, but the usual pattern of recursion on trees makes it difficult to compute an inorder numbering.
 This is because the highest number assigned anywhere in the left subtree is used to determine the numbering of a node's data value, and then again to determine the starting point for numbering the right subtree.
 In an imperative language, this issue can be worked around by using a mutable variable that contains the next number to be assigned.
 The following Python program computes an inorder numbering using a mutable variable:
---&gt;
-
-树用递归函数来处理最为自然，但树的常见的递归模式并不适合计算中序编号。这是因为左子树中分配的最大编号将用于确定当前节点的编号，然后用于确定右子树编号的起点。在命令式语言中，可以使用持有下一个被分配编号的可变变量来解决此问题。以下Python程序使用可变变量计算中序编号：```python
-class Branch:
+-->
+<p>树用递归函数来处理最为自然，但树的常见的递归模式并不适合计算中序编号。
+这是因为左子树中分配的最大编号将用于确定当前节点的编号，然后用于确定右子树编号的起点。
+在命令式语言中，可以使用持有下一个被分配编号的可变变量来解决此问题。
+以下Python程序使用可变变量计算中序编号：</p>
+<pre><code class="language-python">class Branch:
     def __init__(self, value, left=None, right=None):
         self.left = left
         self.value = value
@@ -7446,23 +7504,23 @@ def number(tree):
             new_right = helper(t.right)
             return Branch(left=new_left, value=new_value, right=new_right)
 
-    return helper(tree)```
-&lt;!--
+    return helper(tree)
+</code></pre>
+<!--
 The numbering of the Python equivalent of `aTree` is:
---&gt;
-
-`aTree`在Python中等价定义是：```python
-a_tree = Branch(&quot;d&quot;,
+-->
+<p><code>aTree</code>在Python中等价定义是：</p>
+<pre><code class="language-python">a_tree = Branch(&quot;d&quot;,
                 left=Branch(&quot;c&quot;,
                             left=Branch(&quot;a&quot;, left=None, right=Branch(&quot;b&quot;)),
                             right=None),
-                right=Branch(&quot;e&quot;))```
-&lt;!--
+                right=Branch(&quot;e&quot;))
+</code></pre>
+<!--
 and its numbering is:
---&gt;
-
-并且它的编号是：```
-&gt;&gt;&gt; number(a_tree)
+-->
+<p>并且它的编号是：</p>
+<pre><code>&gt;&gt;&gt; number(a_tree)
 Branch((3, 'd'), left=Branch((2, 'c'), left=Branch((0, 'a'), left=None, right=Branch((1, 'b'), left=None, right=None)), right=None), right=Branch((4, 'e'), left=None, right=None))
 </code></pre>
 <!--
@@ -7471,56 +7529,62 @@ From the point of view of the rest of the world, the mutable variable can be tho
 In other words, a function that uses a mutable variable can be seen as a function that takes the mutable variable's starting value as an argument, returning a pair of the variable's final value and the function's result.
 This final value can then be passed as an argument to the next step.
 -->
-<p>尽管Lean没有可变变量，但有另外一种解决方法。可变变量可以认为具有两个相关方面：函数调用时的值和函数返回时的值。换句话说，使用可变变量的函数可以看作：将变量的起始值作为参数、返回变量的最终值和结果构成的元组的函数。然后可以将此最终值作为参数传递给下一步。</p>
+<p>尽管Lean没有可变变量，但有另外一种解决方法。
+可变变量可以认为具有两个相关方面：函数调用时的值和函数返回时的值。
+换句话说，使用可变变量的函数可以看作：将变量的起始值作为参数、返回变量的最终值和结果构成的元组的函数。
+然后可以将此最终值作为参数传递给下一步。</p>
 <!--
 Just as the Python example uses an outer function that establishes a mutable variable and an inner helper function that changes the variable, a Lean version of the function uses an outer function that provides the variable's starting value and explicitly returns the function's result along with an inner helper function that threads the variable's value while computing the numbered tree:
 -->
-<p>正如Python示例中定义可变变量的外部函数和更改变量的内部辅助函数一样，Lean版本使用：提供变量初值并明确返回结果的外部函数，以及计算编号树的同时传递变量值的内部辅助函数：```lean
-def number (t : BinTree α) : BinTree (Nat × α) :=
-let rec helper (n : Nat) : BinTree α → (Nat × BinTree (Nat × α))
-| BinTree.leaf =&gt; (n, BinTree.leaf)
-| BinTree.branch left x right =&gt;
-let (k, numberedLeft) := helper n left
-let (i, numberedRight) := helper (k + 1) right
-(i, BinTree.branch numberedLeft (k, x) numberedRight)
-(helper 0 t).snd</p>
-<pre><code>&lt;!--
+<p>正如Python示例中定义可变变量的外部函数和更改变量的内部辅助函数一样，Lean版本使用：提供变量初值并明确返回结果的外部函数，以及计算编号树的同时传递变量值的内部辅助函数：</p>
+<pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
+  let rec helper (n : Nat) : BinTree α → (Nat × BinTree (Nat × α))
+    | BinTree.leaf =&gt; (n, BinTree.leaf)
+    | BinTree.branch left x right =&gt;
+      let (k, numberedLeft) := helper n left
+      let (i, numberedRight) := helper (k + 1) right
+      (i, BinTree.branch numberedLeft (k, x) numberedRight)
+  (helper 0 t).snd
+</code></pre>
+<!--
 This code, like the `none`-propagating `Option` code, the `error`-propagating `Except` code, and the log-accumulating `WithLog` code, commingles two concerns: propagating the value of the counter, and actually traversing the tree to find the result.
 Just as in those cases, an `andThen` helper can be defined to propagate state from one step of a computation to another.
 The first step is to give a name to the pattern of taking an input state as an argument and returning an output state together with a value:
---&gt;
-
-此代码与传递`none`的`Option`代码、传递`error`的`Except`代码、以及累积日志的`WithLog`代码一样，混杂了两个问题：传递计数器的值，以及实际遍历树以查找结果。与那些情况一样，可以定义一个`andThen`辅助函数，将状态在计算的步骤之间传递。第一步是为以下模式命名：将输入状态作为参数并返回输出状态和值：```lean
-def State (σ : Type) (α : Type) : Type :=
+-->
+<p>此代码与传递<code>none</code>的<code>Option</code>代码、传递<code>error</code>的<code>Except</code>代码、以及累积日志的<code>WithLog</code>代码一样，混杂了两个问题：传递计数器的值，以及实际遍历树以查找结果。
+与那些情况一样，可以定义一个<code>andThen</code>辅助函数，将状态在计算的步骤之间传递。
+第一步是为以下模式命名：将输入状态作为参数并返回输出状态和值：</p>
+<pre><code class="language-lean">def State (σ : Type) (α : Type) : Type :=
   σ → (σ × α)
 </code></pre>
 <!--
 In the case of `State`, `ok` is a function that returns the input state unchanged, along with the provided value:
 -->
-<p>在<code>State</code>的情况下，<code>ok</code>函数原封不动地传递输入状态、以及输入的值：```lean
-def ok (x : α) : State σ α :=
-fun s =&gt; (s, x)</p>
-<pre><code>&lt;!--
+<p>在<code>State</code>的情况下，<code>ok</code>函数原封不动地传递输入状态、以及输入的值：</p>
+<pre><code class="language-lean">def ok (x : α) : State σ α :=
+  fun s =&gt; (s, x)
+</code></pre>
+<!--
 When working with a mutable variable, there are two fundamental operations: reading the value and replacing it with a new one.
 Reading the current value is accomplished with a function that places the input state unmodified into the output state, and also places it into the value field:
---&gt;
-
-在使用可变变量时，有两个基本操作：读取和新值替换旧值。读取当前值意味着——记录输入状态、将其放入输出状态，然后直接返回记录的输入状态：```lean
-def get : State σ σ :=
+-->
+<p>在使用可变变量时，有两个基本操作：读取和新值替换旧值。
+读取当前值意味着——记录输入状态、将其放入输出状态，然后直接返回记录的输入状态：</p>
+<pre><code class="language-lean">def get : State σ σ :=
   fun s =&gt; (s, s)
 </code></pre>
 <!--
 Writing a new value consists of ignoring the input state, and placing the provided new value into the output state:
 -->
-<p>写入新值意味着——忽略输入状态，并将提供的新值直接放入输出状态：```lean
-def set (s : σ) : State σ Unit :=
-fun _ =&gt; (s, ())</p>
-<pre><code>&lt;!--
+<p>写入新值意味着——忽略输入状态，并将提供的新值直接放入输出状态：</p>
+<pre><code class="language-lean">def set (s : σ) : State σ Unit :=
+  fun _ =&gt; (s, ())
+</code></pre>
+<!--
 Finally, two computations that use state can be sequenced by finding both the output state and return value of the first function, then passing them both into the next function:
---&gt;
-
-最后，可以将`first`函数的输出状态和返回值传递到`next`函数中，以此实现这两个函数的先后调用：```lean
-def andThen (first : State σ α) (next : α → State σ β) : State σ β :=
+-->
+<p>最后，可以将<code>first</code>函数的输出状态和返回值传递到<code>next</code>函数中，以此实现这两个函数的先后调用：</p>
+<pre><code class="language-lean">def andThen (first : State σ α) (next : α → State σ β) : State σ β :=
   fun s =&gt;
     let (s', x) := first s
     next x s'
@@ -7530,53 +7594,50 @@ infixl:55 &quot; ~~&gt; &quot; =&gt; andThen
 <!--
 Using `State` and its helpers, local mutable state can be simulated:
 -->
-<p>通过<code>State</code>和它的辅助函数，可以模拟局部可变状态：```lean
-def number (t : BinTree α) : BinTree (Nat × α) :=
-let rec helper : BinTree α → State Nat (BinTree (Nat × α))
-| BinTree.leaf =&gt; ok BinTree.leaf
-| BinTree.branch left x right =&gt;
-helper left ~~&gt; fun numberedLeft =&gt;
-get ~~&gt; fun n =&gt;
-set (n + 1) ~~&gt; fun () =&gt;
-helper right ~~&gt; fun numberedRight =&gt;
-ok (BinTree.branch numberedLeft (n, x) numberedRight)
-(helper t 0).snd</p>
-<pre><code>&lt;!--
+<p>通过<code>State</code>和它的辅助函数，可以模拟局部可变状态：</p>
+<pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
+  let rec helper : BinTree α → State Nat (BinTree (Nat × α))
+    | BinTree.leaf =&gt; ok BinTree.leaf
+    | BinTree.branch left x right =&gt;
+      helper left ~~&gt; fun numberedLeft =&gt;
+      get ~~&gt; fun n =&gt;
+      set (n + 1) ~~&gt; fun () =&gt;
+      helper right ~~&gt; fun numberedRight =&gt;
+      ok (BinTree.branch numberedLeft (n, x) numberedRight)
+  (helper t 0).snd
+</code></pre>
+<!--
 Because `State` simulates only a single local variable, `get` and `set` don't need to refer to any particular variable name.
---&gt;
-
-因为`State`只模拟一个局部变量，所以`get`和`set`不需要任何特定的变量名。
-
-&lt;!--
+-->
+<p>因为<code>State</code>只模拟一个局部变量，所以<code>get</code>和<code>set</code>不需要任何特定的变量名。</p>
+<!--
 ## Monads: A Functional Design Pattern
---&gt;
-
-## 单子：一种函数式设计模式
-
-&lt;!--
+-->
+<h2 id="单子一种函数式设计模式"><a class="header" href="#单子一种函数式设计模式">单子：一种函数式设计模式</a></h2>
+<!--
 Each of these examples has consisted of:
  * A polymorphic type, such as `Option`, `Except ε`, `WithLog logged`, or `State σ`
  * An operator `andThen` that takes care of some repetitive aspect of sequencing programs that have this type
  * An operator `ok` that is (in some sense) the most boring way to use the type
  * A collection of other operations, such as `none`, `fail`, `save`, and `get`, that name ways of using the type
---&gt;
-
-以上的每个示例都包含下述结构：
- * 一个多态类型，例如`Option`、`Except ε`、`WithLog logged`或`State σ`
- * 一个运算符`andThen`，用来处理连续、重复、具有此类型的程序序列
- * 一个运算符`ok`，它（在某种意义上）是使用该类型最无聊的方式
- * 一系列其他操作，例如`none`、`fail`、`save`和`get`，指出了使用对应类型的方式
-
-&lt;!--
+-->
+<p>以上的每个示例都包含下述结构：</p>
+<ul>
+<li>一个多态类型，例如<code>Option</code>、<code>Except ε</code>、<code>WithLog logged</code>或<code>State σ</code></li>
+<li>一个运算符<code>andThen</code>，用来处理连续、重复、具有此类型的程序序列</li>
+<li>一个运算符<code>ok</code>，它（在某种意义上）是使用该类型最无聊的方式</li>
+<li>一系列其他操作，例如<code>none</code>、<code>fail</code>、<code>save</code>和<code>get</code>，指出了使用对应类型的方式</li>
+</ul>
+<!--
 This style of API is called a _monad_.
 While the idea of monads is derived from a branch of mathematics called category theory, no understanding of category theory is needed in order to use them for programming.
 The key idea of monads is that each monad encodes a particular kind of side effect using the tools provided by the pure functional language Lean.
 For example, `Option` represents programs that can fail by returning `none`, `Except` represents programs that can throw exceptions, `WithLog` represents programs that accumulate a log while running, and `State` represents programs with a single mutable variable.
---&gt;
-
-这种风格的API统称为  **单子** (Monad)。虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。例如`Option`表示可能通过返回`none`而失败的程序，`Except`表示可能抛出异常的程序，`WithLog`表示在运行过程中累积日志的程序，`State`表示具有单个可变变量的程序。
-
-</code></pre>
+-->
+<p>这种风格的API统称为  <strong>单子</strong> (Monad)。
+虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。
+单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。
+例如<code>Option</code>表示可能通过返回<code>none</code>而失败的程序，<code>Except</code>表示可能抛出异常的程序，<code>WithLog</code>表示在运行过程中累积日志的程序，<code>State</code>表示具有单个可变变量的程序。</p>
 <div style="break-before: page; page-break-before: always;"></div><!--
 # The Monad Type Class
 -->
@@ -7585,7 +7646,7 @@ For example, `Option` represents programs that can fail by returning `none`, `Ex
 Rather than having to import an operator like `ok` or `andThen` for each type that is a monad, the Lean standard library contains a type class that allow them to be overloaded, so that the same operators can be used for _any_ monad.
 Monads have two operations, which are the equivalent of `ok` and `andThen`:
 -->
-<p>无需为每个单子都实现<code>ok</code>或<code>andThen</code>这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于  <strong>任何</strong> 单子。
+<p>无需为每个单子都实现<code>ok</code>或<code>andThen</code>这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于 <strong>任何</strong> 单子。
 单子有两个操作，分别相当于<code>ok</code>和<code>andThen</code>：</p>
 <pre><code class="language-lean">class Monad (m : Type → Type) where
   pure : α → m α
@@ -7622,7 +7683,7 @@ It does, however, require a lookup function as an argument, because different mo
 The infix version of `bind` is `>>=`, which plays the same role as `~~>` in the examples.
 -->
 <p>例如<code>firstThirdFifthSeventh</code>原本对<code>Option α</code>和<code>Except String α</code>类型分别定义。
-现在，它可以被定义为对  <strong>任何</strong> 单子都有效的多态函数。
+现在，它可以被定义为对 <strong>任何</strong> 单子都有效的多态函数。
 但是，它需要接受一个参数作为查找函数，因为不同的单子可能以不同的方式找不到结果。
 <code>bind</code>的中缀运算符是<code>&gt;&gt;=</code>, 它扮演与示例中<code>~~&gt;</code>相同的角色。</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) :=
@@ -7686,7 +7747,7 @@ The fact that `m` must have a `Monad` instance means that the `>>=` and `pure` o
 Because many different types are monads, functions that are polymorphic over _any_ monad are very powerful.
 For example, the function `mapM` is a version of `map` that uses a `Monad` to sequence and combine the results of applying a function:
 -->
-<p>由于许多不同类型都是单子，因此对  <strong>任何</strong> 单子多态的函数非常强大。
+<p>由于许多不同类型都是单子，因此对 <strong>任何</strong> 单子多态的函数非常强大。
 例如，函数<code>mapM</code>是<code>map</code>的另一个版本，它使用<code>Monad</code>将函数调用的结果按顺序连接起来：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
@@ -7799,9 +7860,9 @@ The type of `pure` should be `α → Id α`, but `Id α` reduces to just `α`.
 Similarly, the type of `bind` should be `α → (α → Id β) → Id β`.
 Because this reduces to `α → (α → β) → β`, the second argument can be applied to the first to find the result.
 -->
-<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code>  <strong>简化</strong> 为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
-由于这  <strong>简化</strong> 为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
-<em>译者注：此处  <strong>简化</strong> 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
+<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code> <strong>简化</strong> 为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
+由于这 <strong>简化</strong> 为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
+<em>译者注：此处 <strong>简化</strong> 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
 <!--
 With the identity monad, `mapM` becomes equivalent to `map`.
 To call it this way, however, Lean requires a hint that the intended monad is `Id`:
@@ -7910,7 +7971,7 @@ However, while using the `Monad` API does impose a syntactic cost on a program, 
 虽然使用<code>Monad</code>确实给程序带来了语法上的成本，但它带来了两个重要的优点：</p>
 <ol>
 <li>程序必须在类型中诚实地告知它们使用的效应(Effects)。因此看一眼类型签名就可以知道程序能做的所有事情，而不只是知道它接受什么和返回什么。</li>
-<li>并非每种语言都提供相同的效应。例如只有某些语言有异常。其他语言具有独特的新奇效应，例如 <a href="https://www2.cs.arizona.edu/icon/">Icon's searching over multiple values</a>以及Scheme 或Ruby的continuations。由于单子可以编码  <strong>任何</strong> 效应，因此程序员可以选择最适合给定程序的效应，而不是局限于语言开发者提供的效应。</li>
+<li>并非每种语言都提供相同的效应。例如只有某些语言有异常。其他语言具有独特的新奇效应，例如 <a href="https://www2.cs.arizona.edu/icon/">Icon's searching over multiple values</a>以及Scheme 或Ruby的continuations。由于单子可以编码 <strong>任何</strong> 效应，因此程序员可以选择最适合给定程序的效应，而不是局限于语言开发者提供的效应。</li>
 </ol>
 <!--
 One example of a program that can make sense in a variety of monads is an evaluator for arithmetic expressions.
@@ -8173,7 +8234,7 @@ Thus, it can be used in _any_ monad:
 -->
 <p>将<code>Empty</code>用作<code>Prim</code>的参数，表示除了<code>Prim.plus</code>、<code>Prim.minus</code>和<code>Prim.times</code>之外没有其他情况，因为不可能找到一个<code>Empty</code>类型的值来放在<code>Prim.other</code>构造子中。
 由于类型为<code>Empty</code>的运算符应用于两个整数的函数永远不会被调用，所以它不需要返回结果。
-因此，它可以在  <strong>任何</strong> 单子中使用：</p>
+因此，它可以在 <strong>任何</strong> 单子中使用：</p>
 <pre><code class="language-lean">def applyEmpty [Monad m] (op : Empty) (_ : Int) (_ : Int) : m Int :=
   nomatch op
 </code></pre>
@@ -8197,7 +8258,7 @@ This requires, in addition to division, some means of specifying a choice of res
 One way to do this is to add a function `choose` to the language of expressions that instructs the evaluator to pick either of its arguments while searching for non-failing results.
 -->
 <p>遇到除以零时，除了直接失败并结束之外，还可以回溯并尝试不同的输入。
-给定适当的单子，同一个<code>evaluateM</code>可以对不致失败的答案  <strong>集合</strong> 执行非确定性搜索。
+给定适当的单子，同一个<code>evaluateM</code>可以对不致失败的答案 <strong>集合</strong> 执行非确定性搜索。
 这要求除了除法之外，还需要指定选择结果的方式。
 一种方法是在表达式的语言中添加一个函数<code>choose</code>，告诉求值器在搜索非失败结果时选择其中一个参数。</p>
 <!--
@@ -8389,7 +8450,7 @@ The solutions that do not contain the head are found with a recursive call on th
 <p>(译者注：这是一个动态规划算法)对列表进行递归搜索。
 当输入列表为空且目标为<code>0</code>时，返回空列表表示成功；否则返回 <code>Many.none</code> 表示失败，因为空输入不可能得到非0加和。
 当列表非空时，有两种可能性：若输入列表的第一个元素大于goal，此时它的任何加和都大于<code>0</code>因此不可能是候选者；若第一个元素不大于goal，可以参与后续的搜索。
-如果列表的头部x  <strong>不是</strong> 候选者，对列表的尾部xs递归搜索。
+如果列表的头部x <strong>不是</strong> 候选者，对列表的尾部xs递归搜索。
 如果头部是候选者，则有两种用<code>Many.union</code>合并起来的可能性：找到的解含有当前的x，或者不含有。
 不含x的解通过xs递归搜索找到；而含有x的解则通过从goal中减去x，然后将x附加到递归的解中得到。</p>
 <!--
@@ -8437,7 +8498,7 @@ The mapping from function names to function implementations is called an _enviro
 -->
 <p>可以通过允许将字符串当作运算符，然后提供从字符串到它们的实现函数之间的映射，使求值器可由用户扩展。
 例如，用户可以用余数运算或最大值运算来扩展求值器。
-从函数名称到函数实现的映射称为  <strong>环境</strong> 。</p>
+从函数名称到函数实现的映射称为 <strong>环境</strong> 。</p>
 <!--
 The environments needs to be passed in each recursive call.
 Initially, it might seem that `evaluateM` needs an extra argument to hold the environment, and that this argument should be passed to each recursive invocation.
@@ -8461,7 +8522,7 @@ When evaluating expressions in the reader monad, the following rules are used:
    \\]
    with \\( 0 \\) serving as a fallback in case an unknown operator is applied.
 -->
-<p>将函数当作单子，这通常称为  <strong>reader</strong> 单子。
+<p>将函数当作单子，这通常称为 <strong>reader</strong> 单子。
 在reader单子中对表达式求值使用以下规则：</p>
 <ul>
 <li>常量 \( n \) 映射为常量函数 \( λ e . n \)，</li>
@@ -8521,7 +8582,7 @@ Lean provides a message that describes which variables are available in scope, a
 The `⊢` symbol, called a _turnstile_ due to its resemblance to subway entrances, separates the local variables from the desired type, which is `ρ → β` in this message:
 -->
 <p>Lean提供的消息描述了哪些变量在作用域内可用，以及结果的预期类型。
-<code>⊢</code>符号，由于它类似于地铁入口而被称为  <strong>turnstile</strong> ，将局部变量与所需类型分开，在此消息中为<code>ρ → β</code>：</p>
+<code>⊢</code>符号，由于它类似于地铁入口而被称为 <strong>turnstile</strong> ，将局部变量与所需类型分开，在此消息中为<code>ρ → β</code>：</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 ρ α β : Type
@@ -17025,6 +17086,7 @@ Disclaimer: the author of <em>Functional Programming in Lean</em> is also an aut
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="custom.js"></script>
         <script type="text/javascript">
         window.addEventListener('load', function() {
             MathJax.Hub.Register.StartupHook('End', function() {

@@ -114,6 +114,12 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh/edit/master/functional-programming-lean/src/hello-world/starting-a-project.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -157,7 +163,7 @@ While Lean contains rich facilities for creating EDSLs, they are beyond the scop
 标准的 Lean 构建工具称为 Lake（「Lean Make」的缩写），它在 Lean 中进行配置。
 正如 Lean 包含一门用于编写带副作用程序的特殊语言（<code>do</code> 语言）一样，
 Lake 也包含一门用于配置构建的特殊语言。
-这些语言被称为   <strong>嵌入式领域专用语言（Embedded Domain-Specific Languages）</strong>
+这些语言被称为 <strong>嵌入式领域专用语言（Embedded Domain-Specific Languages）</strong>
 （或有时称为 <strong>领域专用嵌入式语言（Domain-Specific Embedded Languages）</strong> ，缩写为 EDSL 或 DSEL）。
 它们是 <strong>领域专用（Domain-Specific）</strong> 的，因为它们用于专用的目的，包含来自某个子领域的术语，
 并且通常不适用于通用编程。它们是 <strong>嵌入式（Embedded）</strong> 的，因为它们出现在另一种语言的语法中。
@@ -295,7 +301,7 @@ The items in the Lakefile allow things like source file locations, module hierar
 Generally speaking, however, the defaults are reasonable.
 -->
 <p>每个 Lakefile 只会包含一个包，但可以包含任意数量的库或可执行文件。
-此外，Lakefile 可能包含   <strong>外部库（External Library）</strong>
+此外，Lakefile 可能包含 <strong>外部库（External Library）</strong>
 （即并非用 Lean 编写的库，将与结果可执行文件静态链接）、
 <strong>自定义目标（Custom Target）</strong> （即特定于具体执行平台的库/可执行文件的构建目标）、
 <strong>依赖项（Dependency）</strong> （即其他 Lean 包的声明，可能来自本地或远程 Git 代码库）、
@@ -413,5 +419,6 @@ It can be made available as `toFloat` using `open Nat (toFloat)`.
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../custom.js"></script>
     </body>
 </html>

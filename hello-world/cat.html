@@ -114,6 +114,12 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh/edit/master/functional-programming-lean/src/hello-world/cat.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -306,7 +312,7 @@ This kind of recursion is called _tail recursion_, and it is described in more d
 Because the compiled code does not need to retain any state, the Lean compiler can compile the recursive call to a jump.
 -->
 <p>在调用 <code>dump</code> 时，不会出现耗尽堆栈空间的危险，因为递归调用发生在函数的最后一步，
-并且其结果会被直接返回，而不会被活动或计算。这种递归称为  <strong>尾递归（Tail Recursion）</strong>  ，
+并且其结果会被直接返回，而不会被活动或计算。这种递归称为 <strong>尾递归（Tail Recursion）</strong> ，
 将在本书<a href="../programs-proofs/tail-recursion.html">后面的章节</a>中详细描述。
 由于编译后的代码不需要保留任何状态，因此 Lean 编译器可以将递归调用编译为跳转。</p>
 <!--
@@ -533,5 +539,6 @@ The extended version should accept a command-line argument `--help` that causes 
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../custom.js"></script>
     </body>
 </html>

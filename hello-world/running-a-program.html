@@ -114,6 +114,12 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh/edit/master/functional-programming-lean/src/hello-world/running-a-program.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -196,9 +202,9 @@ Because this action doesn't read any interesting information from the environmen
 If it did return something interesting, then that would be indicated by the `IO` action having a type other than `Unit`.
 -->
 <p><code>IO α</code> 是一个程序的类型，当执行时，它要么抛出一个异常，要么返回一个类型为 <code>α</code> 的值。
-在执行期间，此程序可能会产生副作用。这些程序被称为 <code>IO</code>   <strong>活动（Action）</strong>  。
-Lean 区分表达式的  <strong>求值（Evaluation）</strong>  （严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
-和 <code>IO</code> 活动的  <strong>执行（Execution）</strong>  （依赖于外部系统与世界交互）。
+在执行期间，此程序可能会产生副作用。这些程序被称为 <code>IO</code> <strong>活动（Action）</strong> 。
+Lean 区分表达式的 <strong>求值（Evaluation）</strong> （严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
+和 <code>IO</code> 活动的 <strong>执行（Execution）</strong> （依赖于外部系统与世界交互）。
 <code>IO.println</code> 是一个从字符串到 <code>IO</code> 活动的函数，当执行时，它将给定的字符串写入标准输出。
 由于此活动在发出字符串的过程中不会从环境中读取任何有趣的信息，
 因此 <code>IO.println</code> 的类型为 <code>String → IO Unit</code>。如果它确实返回了一些有趣的东西，
@@ -462,5 +468,6 @@ It uses [string interpolation](../getting-to-know/conveniences.md#string-interpo
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../custom.js"></script>
     </body>
 </html>

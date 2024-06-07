@@ -114,6 +114,12 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh/edit/master/functional-programming-lean/src/introduction.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -148,7 +154,9 @@ Dependent type theory unites the worlds of programs and proofs; thus, Lean is al
 Lean takes its dual nature seriously, and it is designed to be suitable for use as a general-purpose programming language—Lean is even implemented in itself.
 This book is about writing programs in Lean.
 -->
-<p>Lean 是 Microsoft Research 开发的交互式定理证明器，基于依值类型论。依值类型论将程序和证明的世界统一起来；因此，Lean 也是一门编程语言。Lean 认真对待其双重性质，并且被设计为适合用作通用编程语言，Lean
+<p>Lean 是 Microsoft Research 开发的交互式定理证明器，基于依值类型论。
+依值类型论将程序和证明的世界统一起来；因此，Lean 也是一门编程语言。
+Lean 认真对待其双重性质，并且被设计为适合用作通用编程语言，Lean
 甚至是用它自己实现的。本书介绍了如何用 Lean 编程。</p>
 <!--
 When viewed as a programming language, Lean is a strict pure functional language with dependent types.
@@ -158,17 +166,27 @@ _Purity_ means that Lean programs cannot have side effects such as modifying loc
 Lean is a _functional_ language in the sense that functions are first-class values like any other and that the execution model is inspired by the evaluation of mathematical expressions.
 _Dependent types_, which are the most unusual feature of Lean, make types into a first-class part of the language, allowing types to contain programs and programs to compute types.
 -->
-<p>作为一门编程语言，Lean 是一种具有依值类型的严格纯函数式语言。学习使用 Lean 编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，以及如何像函数式程序员一样思考。
-<strong>严格性（Strictness）</strong> 意味着 Lean 中的函数调用与大多数语言中的工作方式类似：在函数体开始运行之前，参数被完全计算。
-<strong>纯粹性（Purity）</strong> 意味着 Lean 程序不能产生副作用，例如修改内存中的位置、发送电子邮件或删除文件，除非程序的类型声明如此。Lean 是一种  <strong>函数式（Functional）</strong> 语言，这意味着函数就像任何其他值一样是一等值，并且执行模型受数学表达式的求值启发。
-<strong>依值类型（Dependent type）</strong> 是 Lean 最不寻常的特性，它使类型成为语言的一等部分，允许类型包含程序，而程序计算类型。&quot;</p>
+<p>作为一门编程语言，Lean 是一种具有依值类型的严格纯函数式语言。
+学习使用 Lean 编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，
+以及如何像函数式程序员一样思考。
+<strong>严格性（Strictness）</strong> 意味着 Lean 中的函数调用与大多数语言中的工作方式类似：
+在函数体开始运行之前，参数被完全计算。
+<strong>纯粹性（Purity）</strong> 意味着 Lean 程序不能产生副作用，例如修改内存中的位置、
+发送电子邮件或删除文件，除非程序的类型声明如此。
+Lean 是一种  <strong>函数式（Functional）</strong> 语言，这意味着函数就像任何其他值一样是一等值，
+并且执行模型受数学表达式的求值启发。
+<strong>依值类型（Dependent type）</strong> 是 Lean 最不寻常的特性，它使类型成为语言的一等部分，
+允许类型包含程序，而程序计算类型。&quot;</p>
 <!--
 This book is intended for programmers who want to learn Lean, but who have not necessarily used a functional programming language before.
 Familiarity with functional languages such as Haskell, OCaml, or F# is not required.
 On the other hand, this book does assume knowledge of concepts like loops, functions, and data structures that are common to most programming languages.
 While this book is intended to be a good first book on functional programming, it is not a good first book on programming in general.
 -->
-<p>本书面向希望学习 Lean 的程序员，但他们不一定以前使用过函数式编程语言。不需要熟悉 Haskell、OCaml 或 F# 等函数式语言。另一方面，本书确实假设读者了解循环、函数和数据结构等大多数编程语言中常见的概念。虽然本书旨在成为一本关于函数式编程的优秀入门书，但它并不是一本关于一般编程的优秀入门书。&quot;</p>
+<p>本书面向希望学习 Lean 的程序员，但他们不一定以前使用过函数式编程语言。
+不需要熟悉 Haskell、OCaml 或 F# 等函数式语言。另一方面，本书确实假设读者了解循环、
+函数和数据结构等大多数编程语言中常见的概念。虽然本书旨在成为一本关于函数式编程的优秀入门书，
+但它并不是一本关于一般编程的优秀入门书。&quot;</p>
 <!--
 Mathematicians who are using Lean as a proof assistant will likely need to write custom proof automation tools at some point.
 This book is also for them.
@@ -184,7 +202,10 @@ Some sections of the book contain exercises.
 These are worth doing, in order to cement your understanding of the section.
 It is also useful to explore Lean as you read the book, finding creative new ways to use what you have learned.
 -->
-<p>本书旨在从头到尾线性阅读。概念一次引入一个，后面的章节假定读者熟悉前面的章节。有时，后面的章节会深入探讨一个之前仅简要讨论过的主题。本书的某些章节包含练习。为了巩固你对该章节的理解，这些练习值得一做。在阅读本书时探索 Lean 也很有用，找到使用你所学知识的创造性新方法。</p>
+<p>本书旨在从头到尾线性阅读。概念一次引入一个，后面的章节假定读者熟悉前面的章节。
+有时，后面的章节会深入探讨一个之前仅简要讨论过的主题。本书的某些章节包含练习。
+为了巩固你对该章节的理解，这些练习值得一做。在阅读本书时探索 Lean 也很有用，
+找到使用你所学知识的创造性新方法。</p>
 <!--
 # Getting Lean
 -->
@@ -256,14 +277,18 @@ Idiomatic Lean code makes use of a variety of Unicode characters that are not pa
 For instance, Greek letters like `α` and `β` and the arrow `→` both occur in the first chapter of this book.
 This allows Lean code to more closely resemble ordinary mathematical notation.
 -->
-<p>惯用的 Lean 代码使用各种不属于 ASCII 的 Unicode 字符。例如，希腊字母（如 <code>α</code> 和 &quot;<code>β</code>）和箭头（<code>→</code>）都出现在本书的第一章中。这使得 Lean 代码更接近于普通的数学记法。</p>
+<p>惯用的 Lean 代码使用各种不属于 ASCII 的 Unicode 字符。例如，希腊字母（如 <code>α</code> 和 &quot;<code>β</code>）
+和箭头（<code>→</code>）都出现在本书的第一章中。
+这使得 Lean 代码更接近于普通的数学记法。</p>
 <!--
 With the default Lean settings, both Visual Studio Code and Emacs allow these characters to be typed with a backslash (`\`) followed by a name.
 For example, to enter `α`, type `\alpha`.
 To find out how to type a character in Visual Studio Code, point the mouse at it and look at the tooltip.
 In Emacs, use `C-c C-k` with point on the character in question.
 -->
-<p>在默认的 Lean 设置中，Visual Studio Code 和 Emacs 都允许使用反斜杠 (<code>\</code>) 后跟名称来输入这些字符。例如，要输入 <code>α</code>，请键入 <code>\alpha</code>。要了解如何在 Visual Studio Code 中键入字符，请将鼠标指向该字符并查看工具提示。在 Emacs 中，将光标置于相关字符上，然后使用 <code>C-c C-k</code>。</p>
+<p>在默认的 Lean 设置中，Visual Studio Code 和 Emacs 都允许使用反斜杠 (<code>\</code>) 后跟名称来输入这些字符。
+例如，要输入 <code>α</code>，请键入 <code>\alpha</code>。要了解如何在 Visual Studio Code 中键入字符，
+请将鼠标指向该字符并查看工具提示。在 Emacs 中，将光标置于相关字符上，然后使用 <code>C-c C-k</code>。</p>
 
                     </main>
 
@@ -302,5 +327,6 @@ In Emacs, use `C-c C-k` with point on the character in question.
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="custom.js"></script>
     </body>
 </html>

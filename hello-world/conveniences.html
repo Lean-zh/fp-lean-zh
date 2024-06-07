@@ -114,6 +114,12 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh/edit/master/functional-programming-lean/src/hello-world/conveniences.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -196,7 +202,7 @@ This version of `dump` avoids introducing names that are used only once, which c
 `IO` actions that Lean lifts from a nested expression context are called _nested actions_.
 -->
 <p>此版本的 <code>dump</code> 避免了引入仅使用一次的名称，这可以极大地简化程序。
-Lean 从嵌套表达式上下文中提升的 <code>IO</code> 活动称为  <strong>嵌套活动（Nested Action）</strong>  。</p>
+Lean 从嵌套表达式上下文中提升的 <code>IO</code> 活动称为 <strong>嵌套活动（Nested Action）</strong> 。</p>
 <!--
 `fileStream` can be simplified using the same technique:
 -->
@@ -359,8 +365,8 @@ This is the output produced by running the `IO` action, rather than some opaque 
 In other words, for `IO` actions, `#eval` both _evaluates_ the provided expression and _executes_ the resulting action value.
 -->
 <p>这是运行 <code>IO</code> 活动产生的输出，而不是活动本身的不透明表示。
-换句话说，对于 <code>IO</code> 活动，<code>#eval</code> 既  <strong>求值（Evaluate）</strong>  提供的表达式，
-又  <strong>执行（Execute）</strong>  结果活动值。</p>
+换句话说，对于 <code>IO</code> 活动，<code>#eval</code> 既 <strong>求值（Evaluate）</strong> 提供的表达式，
+又 <strong>执行（Execute）</strong> 结果活动值。</p>
 <!--
 Quickly testing `IO` actions with `#eval` can be much more convenient that compiling and running whole programs.
 However, there are some limitations.
@@ -410,5 +416,6 @@ An action that reads and writes files, for instance, may do so at inconvenient t
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../custom.js"></script>
     </body>
 </html>

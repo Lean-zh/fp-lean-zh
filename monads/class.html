@@ -114,6 +114,12 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh/edit/master/functional-programming-lean/src/monads/class.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -146,7 +152,7 @@
 Rather than having to import an operator like `ok` or `andThen` for each type that is a monad, the Lean standard library contains a type class that allow them to be overloaded, so that the same operators can be used for _any_ monad.
 Monads have two operations, which are the equivalent of `ok` and `andThen`:
 -->
-<p>无需为每个单子都实现<code>ok</code>或<code>andThen</code>这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于  <strong>任何</strong> 单子。
+<p>无需为每个单子都实现<code>ok</code>或<code>andThen</code>这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于 <strong>任何</strong> 单子。
 单子有两个操作，分别相当于<code>ok</code>和<code>andThen</code>：</p>
 <pre><code class="language-lean">class Monad (m : Type → Type) where
   pure : α → m α
@@ -183,7 +189,7 @@ It does, however, require a lookup function as an argument, because different mo
 The infix version of `bind` is `>>=`, which plays the same role as `~~>` in the examples.
 -->
 <p>例如<code>firstThirdFifthSeventh</code>原本对<code>Option α</code>和<code>Except String α</code>类型分别定义。
-现在，它可以被定义为对  <strong>任何</strong> 单子都有效的多态函数。
+现在，它可以被定义为对 <strong>任何</strong> 单子都有效的多态函数。
 但是，它需要接受一个参数作为查找函数，因为不同的单子可能以不同的方式找不到结果。
 <code>bind</code>的中缀运算符是<code>&gt;&gt;=</code>, 它扮演与示例中<code>~~&gt;</code>相同的角色。</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) :=
@@ -247,7 +253,7 @@ The fact that `m` must have a `Monad` instance means that the `>>=` and `pure` o
 Because many different types are monads, functions that are polymorphic over _any_ monad are very powerful.
 For example, the function `mapM` is a version of `map` that uses a `Monad` to sequence and combine the results of applying a function:
 -->
-<p>由于许多不同类型都是单子，因此对  <strong>任何</strong> 单子多态的函数非常强大。
+<p>由于许多不同类型都是单子，因此对 <strong>任何</strong> 单子多态的函数非常强大。
 例如，函数<code>mapM</code>是<code>map</code>的另一个版本，它使用<code>Monad</code>将函数调用的结果按顺序连接起来：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
@@ -360,9 +366,9 @@ The type of `pure` should be `α → Id α`, but `Id α` reduces to just `α`.
 Similarly, the type of `bind` should be `α → (α → Id β) → Id β`.
 Because this reduces to `α → (α → β) → β`, the second argument can be applied to the first to find the result.
 -->
-<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code>  <strong>简化</strong> 为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
-由于这  <strong>简化</strong> 为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
-<em>译者注：此处  <strong>简化</strong> 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
+<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code> <strong>简化</strong> 为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
+由于这 <strong>简化</strong> 为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
+<em>译者注：此处 <strong>简化</strong> 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
 <!--
 With the identity monad, `mapM` becomes equivalent to `map`.
 To call it this way, however, Lean requires a hint that the intended monad is `Id`:
@@ -493,5 +499,6 @@ Why does this instance violate the monad contract?
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../custom.js"></script>
     </body>
 </html>

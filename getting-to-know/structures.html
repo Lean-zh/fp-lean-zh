@@ -114,6 +114,12 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lean-zh/fp-lean-zh/edit/master/functional-programming-lean/src/getting-to-know/structures.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -150,7 +156,7 @@ In Lean, this is done using _structures_, which are analogous to `struct`s in C 
 -->
 <p>编写程序的第一步通常是找出问题域中的概念，然后用合适的代码表示它们。
 有时，一个域概念是其他更简单概念的集合。此时，将这些更简单的组件分组到一个「包」中会很方便，
-然后可以给它取一个有意义的名称。在 Lean 中，这是使用  <strong>结构体（Structure）</strong> 完成的，
+然后可以给它取一个有意义的名称。在 Lean 中，这是使用 <strong>结构体（Structure）</strong> 完成的，
 它类似于 C 或 Rust 中的 <code>struct</code> 和 C# 中的 <code>record</code>。</p>
 <!--
 Defining a structure introduces a completely new type to Lean that can't be reduced to any other type.
@@ -595,5 +601,6 @@ This is because the target of the accessor notation is used as the first argumen
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../custom.js"></script>
     </body>
 </html>
