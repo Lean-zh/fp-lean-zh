@@ -22,7 +22,7 @@ When Lean encounters an expression of one type in a context that expects a diffe
 Unlike Java, C, and Kotlin, the coercions are extensible by defining instances of type classes.
 -->
 
-在 Lean 中，这两个目的都是用一个叫做**强制转换（coercions）**的机制实现的。
+在 Lean 中，这两个目的都是用一个叫做 **强制转换（coercions）** 的机制实现的。
 当 Lean 遇到了在某语境中某表达式的类型与期望类型不一致时，Lean 在报错前会尝试进行强制转换。
 不像 Java，C，和 Kotlin，强制转换是通过定义类型类实例实现的，并且是可扩展的。
 
@@ -244,7 +244,7 @@ Just as the `OfNat` type class takes the particular `Nat` being overloaded as a 
 -->
 
 另一方面，我们不可能写出一个 `Coe (List α) (NonEmptyList α)` 的实例，因为没有任何一个非空列表可以表示一个空列表。
-这个限制可以通过其他方式的强制转换来解决，该强制转换被称为**依值强制转换（dependent coercions）**。
+这个限制可以通过其他方式的强制转换来解决，该强制转换被称为 **依值强制转换（dependent coercions）** 。
 当是否能将一种类型强制转换到另一种类型依赖于具体的值时，依值强制转换就派上用场了。
 就像 `OfNat` 类型类需要具体的 `Nat` 来作为参数，依值强制转换也接受要被强制转换的值作为参数：
 ```lean
@@ -265,7 +265,7 @@ For example, any `List` that is not actually empty can be coerced to a `NonEmpty
 ## Coercing to Types
 -->
 
-## 强制转换为类型
+## 强制转换为类型（*本节中 sort 的翻译待讨论*）
 
 <!--
 In mathematics, it is common to have a concept that consists of a set equipped with additional structure.

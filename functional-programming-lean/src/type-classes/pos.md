@@ -90,7 +90,7 @@ Objects are interacted with via their methods.
 In Lean, the term "method" refers to an operation that has been declared to be overloadable, with no special connection to objects or values or private fields.
 -->
 
-一个类型类是由名称，一些参数，和一族**方法（method）**构成的。参数定义了可重载运算符的类型，
+一个类型类是由名称，一些参数，和一族 **方法（method）** 构成的。参数定义了可重载运算符的类型，
 而方法则是可重载运算符的名称和类型签名。这里再次出现了与面向对象语言之间的术语冲突。在面向对象编程中，
 一个方法本质上是一个与内存中的一个特定对象有关联的函数，并且具有访问该对象的私有状态的特权。我们通过方法与对象进行交互。
 在 Lean 中，“方法”这个词项指一个被声明为可重载的运算符，与对象、值或是私有字段并无特殊关联。
@@ -224,7 +224,7 @@ When a programmer writes `{{#example_eval Examples/Classes.lean plusDesugar 0}}`
 -->
 
 Lean 的内置加法运算符是 `HAdd` 类型类的语法糖，这使加法运算符可以灵活的接受不同类型的参数。
-`HAdd` 是**异质加法（Heterogeneous Addition）**的缩写。
+`HAdd` 是 **异质加法（Heterogeneous Addition）** 的缩写。
 比如说，我们可以写一个 `HAdd` 实例来允许 `Nat` 和 `Float` 相加，其结果为一个新的 `Float`。
 当程序员写了 `{{#example_eval Examples/Classes.lean plusDesugar 0}}` 时，它会被解释为 `{{#example_eval Examples/Classes.lean plusDesugar 1}}`。
 
@@ -429,7 +429,7 @@ For example, a sum type that represents natural numbers less than four can be de
 While it would not make sense to allow _any_ literal number to be used for this type, numbers less than four clearly make sense:
 -->
 
-然而，并不是**每个**数字字面量对于这个类型都是合理的，只有小于4的数是合理的：
+然而，并不是 **每个** 数字字面量对于这个类型都是合理的，只有小于4的数是合理的：
 
 ```lean
 {{#example_decl Examples/Classes.lean LT4ofNat}}
@@ -474,7 +474,7 @@ Just as names like `α` automatically become implicit arguments to functions tha
 In this instance, the argument `n` stands for any `Nat`, and the instance is defined for a `Nat` that's one greater:
 -->
 
-对于 `Pos` 来说，`OfNat` 实例应该适用于除 `Nat.zero` 外的**任何**`Nat`。
+对于 `Pos` 来说，`OfNat` 实例应该适用于除 `Nat.zero` 外的 **任何** `Nat`。
 另一种表达方式是说，对于所有的自然数 `n`，该实例应该适用于 `n + 1`。
 就像 `α` 这样的名称会自动成为 Lean 自动填充的函数的隐式参数一样，实例也可以接受自动隐式参数。
 在这个实例中，参数 `n` 代表任何 `Nat`，并且该实例是为一个比给定 `Nat` 大一的 `Nat` 定义的：

@@ -89,11 +89,11 @@ Due to Lean's use as a theorem prover, there are really two kinds of equality op
 
 测试两个值之间的相等性通常会用 `BEq` 类，该类名是 Boolean equality（布尔等价）的缩写。
 由于 Lean 是一个定理证明器，所以在 Lean 中其实有两种类型的相等运算符：
- * **布尔等价（Boolean equality）**和你能在其他编程语言中看到的等价是一样的。
+ * **布尔等价（Boolean equality）** 和你能在其他编程语言中看到的等价是一样的。
  这是一个接受两个值并且返回一个 `Bool` 的函数。
  布尔等价使用两个等号表示，就像在 Python 和 C# 中那样。
  因为 Lean 是一个纯函数式语言，指针并不能被直接看到，所以引用和值等价并没有符号上的区别。
- * **命题等价（Propositional equality）**是一个**数学陈述（mathematical statement）**，指两个东西是等价的。
+ * **命题等价（Propositional equality）** 是一个 **数学陈述（mathematical statement）** ，指两个东西是等价的。
  命题等价并不是一个函数，而是一个可以证明的数学陈述。
  可以用一个单等号表示。
  一个命题等价的陈述就像一个能检查等价性证据的类型。
@@ -312,7 +312,7 @@ Lean includes a feature called _instance deriving_ that allows the compiler to a
 In fact, the `deriving Repr` phrase in the definition of `Point` in the [section on structures](../getting-to-know/structures.md) is an example of instance deriving.
 -->
 
-像 `BEq` 和 `Hashable` 这样的类的实例，手动实现起来通常相当繁琐。Lean 包含一个称为**实例派生（instance deriving）**的特性，它使得编译器可以自动构造许多类型类的良好实例。事实上，[结构那一节](../getting-to-know/structures.md)中 `Point` 定义中的 `deriving Repr` 短语就是实例派生的一个例子。
+像 `BEq` 和 `Hashable` 这样的类的实例，手动实现起来通常相当繁琐。Lean 包含一个称为 **实例派生（instance deriving）** 的特性，它使得编译器可以自动构造许多类型类的良好实例。事实上，[结构那一节](../getting-to-know/structures.md)中 `Point` 定义中的 `deriving Repr` 短语就是实例派生的一个例子。
 
 <!--
 Instances can be derived in two ways.
@@ -449,7 +449,7 @@ For example, mapping a function over a list constructs a new list in which each 
 Mapping a function `f` over an `Option` leaves `none` untouched, and replaces `some x` with `some (f x)`.
 -->
 
-如果一个多态类型重载了一个函数 `map`，这个函数将位于上下文中的每个元素都用一个函数来映射，那么这个类型就是一个**函子（functor）**。
+如果一个多态类型重载了一个函数 `map`，这个函数将位于上下文中的每个元素都用一个函数来映射，那么这个类型就是一个 **函子（functor）** 。
 虽然大多数语言都使用这个术语，但C#中等价于 `map` 的是 `System.Linq.Enumerable.Select`。
 例如，用一个函数对一个列表进行映射会产生一个新的列表，列表中的每个元素都是函数应用在原列表中元素的结果。
 用函数 `f` 对一个 `Option` 进行映射，如果 `Option` 的值为 `none`，那么结果仍为 `none`；
@@ -499,7 +499,7 @@ If `α` were a parameter to the class, then it would be possible to make version
 在这里，`map` 使用 `List` 上的 `Functor` 实例来将函数映射到列表尾。
 这个实例是在 `NonEmptyList` 下定义的，而不是 `NonEmptyList α`。
 因为类型参数 `α` 在当前类型类中用不上。
-**无论条目的类型是什么**，我们都可以用一个函数来映射 `NonEmptyList`。
+**无论条目的类型是什么** ，我们都可以用一个函数来映射 `NonEmptyList`。
 如果 `α` 是类型类的一个参数，那么我们就可以做出只工作在某个 `α` 类型上的 `Functor`，比如 `NonEmptyList Nat`。
 但成为一个函子类型的必要条件就是 `map` 对任意条目类型都是有效的。
 

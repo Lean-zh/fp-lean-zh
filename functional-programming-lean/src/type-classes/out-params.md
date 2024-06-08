@@ -11,7 +11,7 @@ For example, adding a `Nat` to a `Pos` or a `Pos` to a `Nat` will always yield a
 -->
 
 要方便地相加两个 `Pos` 类型，并产生另一个 `Pos`，一个 `Add` 类的的实例就足够了。
-但是，在许多情况下，参数可能有不同的类型，重载一个灵活的**异质**运算符是更为有用的。
+但是，在许多情况下，参数可能有不同的类型，重载一个灵活的 **异质** 运算符是更为有用的。
 例如，让 `Nat` 和 `Pos`，或 `Pos` 和 `Nat` 相加总会是一个 `Pos`：
 
 ```lean
@@ -137,7 +137,7 @@ However, in some cases, it can be convenient to start the search process even wh
 The parameters that aren't needed to start instance search are outputs of the process, which is declared with the `outParam` modifier:
 -->
 
-刚才的问题也可以通过声明 `γ` 是一个**输出参数**来解决。
+刚才的问题也可以通过声明 `γ` 是一个 **输出参数（output parameter）** 来解决。
 多数类型类参数是作为搜索算法的输入：它们被用于选取一个实例。
 例如，在 `OfNat` 实例中，类型和自然数都被用于选取一个数字字面量的特定解释。
 然而，在一些情况下，在尽管有些类型参数仍然处于未知状态时就开始进行搜索是更方便的。
@@ -189,7 +189,7 @@ This is a bit like default values for optional function arguments in Python or K
 确定一个参数是否是一个输入或输出参数控制了 Lean 会在何时启动类型类搜索。
 具体而言，直到所有输入都变为已知，类型类搜索才会开始。
 然而，在一些情况下，输出参数是不足的。此时，即使一些输入参数仍然处于未知状态，实例搜索也应该开始。
-这有点像是 Python 或 Kotlin 中可选函数参数的默认值，但在这里是默认**类型**。
+这有点像是 Python 或 Kotlin 中可选函数参数的默认值，但在这里是默认 **类型** 。
 
 <!--
 _Default instances_ are instances that are available for instance search _even when not all their inputs are known_.
@@ -200,7 +200,7 @@ In particular, if an undesired default instance is selected, then an expression 
 Be selective about where default instances are used!
 -->
 
-**默认实例**是**当并不是全部输入均为已知时**可用的实例。
+**默认实例** 是 **当并不是全部输入均为已知时** 可用的实例。
 当一个默认实例能被使用时，他就将会被使用。
 这能帮助程序成功通过类型检查，而不是因为关于未知类型和元变量的错误而失败。
 但另一方面，默认类型会让实例选取变得不那么可预测。
@@ -315,7 +315,7 @@ Default instances can also be assigned _priorities_ that affect which will be ch
 For more information on default instance priorities, please consult the Lean manual.
 -->
 
-默认实例也可以被赋予**优先级**，这会影响在可能的应用多于一种的情况下的选择。
+默认实例也可以被赋予 **优先级** ，这会影响在可能的应用多于一种的情况下的选择。
 更多关于默认实例优先级的信息，请查阅 Lean 手册。
 
 
