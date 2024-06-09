@@ -144,23 +144,48 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="coercions"><a class="header" href="#coercions">Coercions</a></h1>
-<p>In mathematics, it is common to use the same symbol to stand for different aspects of some object in different contexts.
+                        <!--
+# Coercions
+-->
+<h1 id="强制转换"><a class="header" href="#强制转换">强制转换</a></h1>
+<!--
+In mathematics, it is common to use the same symbol to stand for different aspects of some object in different contexts.
 For example, if a ring is referred to in a context where a set is expected, then it is understood that the ring's underlying set is what's intended.
 In programming languages, it is common to have rules to automatically translate values of one type into values of another type.
-For instance, Java allows a <code>byte</code> to be automatically promoted to an <code>int</code>, and Kotlin allows a non-nullable type to be used in a context that expects a nullable version of the type.</p>
-<p>In Lean, both purposes are served by a mechanism called <em>coercions</em>.
+For instance, Java allows a `byte` to be automatically promoted to an `int`, and Kotlin allows a non-nullable type to be used in a context that expects a nullable version of the type.
+-->
+<p>在数学中，用同一个符号来在不同的语境中代表数学对象的不同方面是很常见的。
+例如，如果在一个需要集合的语境中给出了一个环，那么理解为该环对应的集合也是很有道理的。
+在编程语言中，有一些规则自动地将一种类型转换为另一种类型也是很常见的。
+例如，Java 允许 <code>byte</code> 自动转换为一个 <code>int</code>，Kotlin 也允许非空类型在可为空的语境中使用。</p>
+<!--
+In Lean, both purposes are served by a mechanism called _coercions_.
 When Lean encounters an expression of one type in a context that expects a different type, it will attempt to coerce the expression before reporting a type error.
-Unlike Java, C, and Kotlin, the coercions are extensible by defining instances of type classes.</p>
-<h2 id="positive-numbers"><a class="header" href="#positive-numbers">Positive Numbers</a></h2>
-<p>For example, every positive number corresponds to a natural number.
-The function <code>Pos.toNat</code> that was defined earlier converts a <code>Pos</code> to the corresponding <code>Nat</code>:</p>
+Unlike Java, C, and Kotlin, the coercions are extensible by defining instances of type classes.
+-->
+<p>在 Lean 中，这两个目的都是用一个叫做 <strong>强制转换（coercions）</strong> 的机制实现的。
+当 Lean 遇到了在某语境中某表达式的类型与期望类型不一致时，Lean 在报错前会尝试进行强制转换。
+不像 Java，C，和 Kotlin，强制转换是通过定义类型类实例实现的，并且是可扩展的。</p>
+<!--
+## Positive Numbers
+-->
+<h2 id="正数"><a class="header" href="#正数">正数</a></h2>
+<!--
+For example, every positive number corresponds to a natural number.
+The function `Pos.toNat` that was defined earlier converts a `Pos` to the corresponding `Nat`:
+-->
+<p>例如，每个正数都对应一个自然数。
+之前定义的函数 <code>Pos.toNat</code> 可以将一个 <code>Pos</code> 转换成对应的 <code>Nat</code>：</p>
 <pre><code class="language-lean">def Pos.toNat : Pos → Nat
   | Pos.one =&gt; 1
   | Pos.succ n =&gt; n.toNat + 1
 </code></pre>
-<p>The function <code>List.drop</code>, with type <code>{α : Type} → Nat → List α → List α</code>, removes a prefix of a list.
-Applying <code>List.drop</code> to a <code>Pos</code>, however, leads to a type error:</p>
+<!--
+The function `List.drop`, with type `{α : Type} → Nat → List α → List α`, removes a prefix of a list.
+Applying `List.drop` to a `Pos`, however, leads to a type error:
+-->
+<p>函数 <code>List.drop</code>，的类型是 <code>{α : Type} → Nat → List α → List α</code>，它将列表的前缀移除。
+将 <code>List.drop</code> 应用到 <code>Pos</code> 会产生一个类型错误：</p>
 <pre><code class="language-lean">[1, 2, 3, 4].drop (2 : Pos)
 </code></pre>
 <pre><code class="language-output error">application type mismatch
@@ -172,12 +197,21 @@ has type
 but is expected to have type
   Nat : Type
 </code></pre>
-<p>Because the author of <code>List.drop</code> did not make it a method of a type class, it can't be overridden by defining a new instance.</p>
-<p>The type class <code>Coe</code> describes overloaded ways of coercing from one type to another:</p>
+<!--
+Because the author of `List.drop` did not make it a method of a type class, it can't be overridden by defining a new instance.
+-->
+<p>因为 <code>List.drop</code> 的作者没有让它成为一个类型类的方法，所以它没有办法通过定义新实例的方式来重写。</p>
+<!--
+The type class `Coe` describes overloaded ways of coercing from one type to another:
+-->
+<p><code>Coe</code> 类型类描述了类型间强制转换的重载方法。</p>
 <pre><code class="language-lean">class Coe (α : Type) (β : Type) where
   coe : α → β
 </code></pre>
-<p>An instance of <code>Coe Pos Nat</code> is enough to allow the prior code to work:</p>
+<!--
+An instance of `Coe Pos Nat` is enough to allow the prior code to work:
+-->
+<p>一个 <code>Coe Pos Nat</code> 的实例就足够让先前的代码正常工作了。</p>
 <pre><code class="language-lean">instance : Coe Pos Nat where
   coe x := x.toNat
 
@@ -185,20 +219,38 @@ but is expected to have type
 </code></pre>
 <pre><code class="language-output info">[3, 4]
 </code></pre>
-<p>Using <code>#check</code> shows the result of the instance search that was used behind the scenes:</p>
+<!--
+Using `#check` shows the result of the instance search that was used behind the scenes:
+-->
+<p>用 <code>#check</code> 来看隐藏在幕后的实例搜索。</p>
 <pre><code class="language-lean">#check [1, 2, 3, 4].drop (2 : Pos)
 </code></pre>
 <pre><code class="language-output info">List.drop (Pos.toNat 2) [1, 2, 3, 4] : List Nat
 </code></pre>
-<h2 id="chaining-coercions"><a class="header" href="#chaining-coercions">Chaining Coercions</a></h2>
-<p>When searching for coercions, Lean will attempt to assemble a coercion out of a chain of smaller coercions.
-For example, there is already a coercion from <code>Nat</code> to <code>Int</code>.
-Because of that instance, combined with the <code>Coe Pos Nat</code> instance, the following code is accepted:</p>
+<!--
+## Chaining Coercions
+-->
+<h2 id="链式强制转换"><a class="header" href="#链式强制转换">链式强制转换</a></h2>
+<!--
+When searching for coercions, Lean will attempt to assemble a coercion out of a chain of smaller coercions.
+For example, there is already a coercion from `Nat` to `Int`.
+Because of that instance, combined with the `Coe Pos Nat` instance, the following code is accepted:
+-->
+<p>在寻找强制转换时，Lean 会尝试通过一系列较小的强制转换来组成一个完整的强制转换。
+例如，已经存在一个从 <code>Nat</code> 到 <code>Int</code> 的强制转换实例。
+由于这个实例结合了 <code>Coe Pos Nat</code> 实例，我们就可以写出下面的代码：</p>
 <pre><code class="language-lean">def oneInt : Int := Pos.one
 </code></pre>
-<p>This definition uses two coercions: from <code>Pos</code> to <code>Nat</code>, and then from <code>Nat</code> to <code>Int</code>.</p>
-<p>The Lean compiler does not get stuck in the presence of circular coercions.
-For example, even if two types <code>A</code> and <code>B</code> can be coerced to one another, their mutual coercions can be used to find a path:</p>
+<!--
+This definition uses two coercions: from `Pos` to `Nat`, and then from `Nat` to `Int`.
+-->
+<p>这个定义用到了两个强制转换：从 <code>Pos</code> 到 <code>Nat</code>，再从 <code>Nat</code> 到 <code>Int</code>。</p>
+<!--
+The Lean compiler does not get stuck in the presence of circular coercions.
+For example, even if two types `A` and `B` can be coerced to one another, their mutual coercions can be used to find a path:
+-->
+<p>Lean 编译器在存在循环强制转换的情况下不会陷入无限循环。
+例如，即使两个类型 <code>A</code> 和 <code>B</code> 可以互相强制转换，在转换中 Lean 也可以找到一个路径。</p>
 <pre><code class="language-lean">inductive A where
   | a
 
@@ -216,74 +268,138 @@ instance : Coe Unit A where
 
 def coercedToB : B := ()
 </code></pre>
-<p>Remember: the double parentheses <code>()</code> is short for the constructor <code>Unit.unit</code>.
-After deriving a <code>Repr B</code> instance,</p>
+<!--
+Remember: the double parentheses `()` is short for the constructor `Unit.unit`.
+After deriving a `Repr B` instance,
+-->
+<p>提示：双括号 <code>()</code> 是构造子 <code>Unit.unit</code> 的简写。
+在派生 <code>Repr B</code> 实例后，</p>
 <pre><code class="language-lean">#eval coercedToB
 </code></pre>
-<p>results in:</p>
+<!--
+results in:
+-->
+<p>结果为：</p>
 <pre><code class="language-output info">B.b
 </code></pre>
-<p>The <code>Option</code> type can be used similarly to nullable types in C# and Kotlin: the <code>none</code> constructor represents the absence of a value.
-The Lean standard library defines a coercion from any type <code>α</code> to <code>Option α</code> that wraps the value in <code>some</code>.
-This allows option types to be used in a manner even more similar to nullable types, because <code>some</code> can be omitted.
-For instance, the function <code>List.getLast?</code> that finds the last entry in a list can be written without a <code>some</code> around the return value <code>x</code>:</p>
+<!--
+The `Option` type can be used similarly to nullable types in C# and Kotlin: the `none` constructor represents the absence of a value.
+The Lean standard library defines a coercion from any type `α` to `Option α` that wraps the value in `some`.
+This allows option types to be used in a manner even more similar to nullable types, because `some` can be omitted.
+For instance, the function `List.getLast?` that finds the last entry in a list can be written without a `some` around the return value `x`:
+-->
+<p><code>Option</code> 类型类似于 C# 和 Kotlin 中可为空的类型：<code>none</code> 构造子就代表了一个不存在的值。
+Lean 标准库定义了一个从任意类型 <code>α</code> 到 <code>Option α</code> 的强制转换，效果是会将值包裹在 <code>some</code> 中。
+这使得 option 类型用起来更像是其他语言中可为空的类型，因为 <code>some</code> 是可以忽略的。
+例如，可以找到列表中最后一个元素的函数 <code>List.getLast?</code>，就可以直接返回值 <code>x</code> 而无需加上 <code>some</code>：</p>
 <pre><code class="language-lean">def List.last? : List α → Option α
   | [] =&gt; none
   | [x] =&gt; x
   | _ :: x :: xs =&gt; last? (x :: xs)
 </code></pre>
-<p>Instance search finds the coercion, and inserts a call to <code>coe</code>, which wraps the argument in <code>some</code>.
-These coercions can be chained, so that nested uses of <code>Option</code> don't require nested <code>some</code> constructors:</p>
+<!--
+Instance search finds the coercion, and inserts a call to `coe`, which wraps the argument in `some`.
+These coercions can be chained, so that nested uses of `Option` don't require nested `some` constructors:
+-->
+<p>实例搜索找到强制转换，并插入对 <code>coe</code> 的调用，该调用会将参数包装在 <code>some</code> 中。这些强制转换可以是链式的，这样嵌套使用 <code>Option</code> 时就不需要嵌套的 <code>some</code> 构造子：</p>
 <pre><code class="language-lean">def perhapsPerhapsPerhaps : Option (Option (Option String)) :=
   &quot;Please don't tell me&quot;
 </code></pre>
-<p>Coercions are only activated automatically when Lean encounters a mismatch between an inferred type and a type that is imposed from the rest of the program.
+<!--
+Coercions are only activated automatically when Lean encounters a mismatch between an inferred type and a type that is imposed from the rest of the program.
 In cases with other errors, coercions are not activated.
-For example, if the error is that an instance is missing, coercions will not be used:</p>
+For example, if the error is that an instance is missing, coercions will not be used:
+-->
+<p>仅当 Lean 遇到推断出的类型和剩下的程序需要的类型不匹配时，才会自动使用强制转换。
+在遇到其它错误时，强制转换不会被使用。
+例如，如果遇到的错误是实例缺失，强制类型转换不会被使用：</p>
 <pre><code class="language-lean">def perhapsPerhapsPerhapsNat : Option (Option (Option Nat)) :=
   392
 </code></pre>
 <pre><code class="language-output error">failed to synthesize instance
   OfNat (Option (Option (Option Nat))) 392
 </code></pre>
-<p>This can be worked around by manually indicating the desired type to be used for <code>OfNat</code>:</p>
+<!--
+This can be worked around by manually indicating the desired type to be used for `OfNat`:
+-->
+<p>这可以通过手动指定 <code>OfNat</code> 所需的类型来解决：</p>
 <pre><code class="language-lean">def perhapsPerhapsPerhapsNat : Option (Option (Option Nat)) :=
   (392 : Nat)
 </code></pre>
-<p>Additionally, coercions can be manually inserted using an up arrow:</p>
+<!--
+Additionally, coercions can be manually inserted using an up arrow:
+-->
+<p>此外，强制转换用一个上箭头手动调用。</p>
 <pre><code class="language-lean">def perhapsPerhapsPerhapsNat : Option (Option (Option Nat)) :=
   ↑(392 : Nat)
 </code></pre>
-<p>In some cases, this can be used to ensure that Lean finds the right instances.
-It can also make the programmer's intentions more clear.</p>
-<h2 id="non-empty-lists-and-dependent-coercions"><a class="header" href="#non-empty-lists-and-dependent-coercions">Non-Empty Lists and Dependent Coercions</a></h2>
-<p>An instance of <code>Coe α β</code> makes sense when the type <code>β</code> has a value that can represent each value from the type <code>α</code>.
-Coercing from <code>Nat</code> to <code>Int</code> makes sense, because the type <code>Int</code> contains all the natural numbers.
-Similarly, a coercion from non-empty lists to ordinary lists makes sense because the <code>List</code> type can represent every non-empty list:</p>
+<!--
+In some cases, this can be used to ensure that Lean finds the right instances.
+It can also make the programmer's intentions more clear.
+-->
+<p>在一些情况下，这可以保证 Lean 找到了正确的实例。
+这也会让程序员的意图更加清晰。</p>
+<!--
+## Non-Empty Lists and Dependent Coercions
+-->
+<h2 id="非空列表与依值强制转换"><a class="header" href="#非空列表与依值强制转换">非空列表与依值强制转换</a></h2>
+<!--
+An instance of `Coe α β` makes sense when the type `β` has a value that can represent each value from the type `α`.
+Coercing from `Nat` to `Int` makes sense, because the type `Int` contains all the natural numbers.
+Similarly, a coercion from non-empty lists to ordinary lists makes sense because the `List` type can represent every non-empty list:
+-->
+<p>当 <code>β</code> 类型中的值可以对应每一个 <code>α</code> 类型中的值时，<code>Coe α β</code> 实例才是合理的。
+将 <code>Nat</code> 强制转换为 <code>Int</code> 是合理的，因为 <code>Int</code> 类型中包含了全部的自然数。
+类似地，一个从非空列表到常规列表的强制转换也是合理的，因为 <code>List</code> 类型可以表示每一个非空列表：</p>
 <pre><code class="language-lean">instance : Coe (NonEmptyList α) (List α) where
   coe
     | { head := x, tail := xs } =&gt; x :: xs
 </code></pre>
-<p>This allows non-empty lists to be used with the entire <code>List</code> API.</p>
-<p>On the other hand, it is impossible to write an instance of <code>Coe (List α) (NonEmptyList α)</code>, because there's no non-empty list that can represent the empty list.
-This limitation can be worked around by using another version of coercions, which are called <em>dependent coercions</em>.
+<!--
+This allows non-empty lists to be used with the entire `List` API.
+-->
+<p>这使得非空列表可以使用全部的 <code>List</code> API。</p>
+<!--
+On the other hand, it is impossible to write an instance of `Coe (List α) (NonEmptyList α)`, because there's no non-empty list that can represent the empty list.
+This limitation can be worked around by using another version of coercions, which are called _dependent coercions_.
 Dependent coercions can be used when the ability to coerce from one type to another depends on which particular value is being coerced.
-Just as the <code>OfNat</code> type class takes the particular <code>Nat</code> being overloaded as a parameter, dependent coercion takes the value being coerced as a parameter:</p>
+Just as the `OfNat` type class takes the particular `Nat` being overloaded as a parameter, dependent coercion takes the value being coerced as a parameter:
+-->
+<p>另一方面，我们不可能写出一个 <code>Coe (List α) (NonEmptyList α)</code> 的实例，因为没有任何一个非空列表可以表示一个空列表。
+这个限制可以通过其他方式的强制转换来解决，该强制转换被称为 <strong>依值强制转换（dependent coercions）</strong> 。
+当是否能将一种类型强制转换到另一种类型依赖于具体的值时，依值强制转换就派上用场了。
+就像 <code>OfNat</code> 类型类需要具体的 <code>Nat</code> 来作为参数，依值强制转换也接受要被强制转换的值作为参数：</p>
 <pre><code class="language-lean">class CoeDep (α : Type) (x : α) (β : Type) where
   coe : β
 </code></pre>
-<p>This is a chance to select only certain values, either by imposing further type class constraints on the value or by writing certain constructors directly.
-For example, any <code>List</code> that is not actually empty can be coerced to a <code>NonEmptyList</code>:</p>
+<!--
+This is a chance to select only certain values, either by imposing further type class constraints on the value or by writing certain constructors directly.
+For example, any `List` that is not actually empty can be coerced to a `NonEmptyList`:
+-->
+<p>这可以使得只选取特定的值，通过加上进一步的类型类约束或者直接写出特定的构造子。
+例如，任意非空的 <code>List</code> 都可以被强制转换为一个 <code>NonEmptyList</code>：</p>
 <pre><code class="language-lean">instance : CoeDep (List α) (x :: xs) (NonEmptyList α) where
   coe := { head := x, tail := xs }
 </code></pre>
-<h2 id="coercing-to-types"><a class="header" href="#coercing-to-types">Coercing to Types</a></h2>
-<p>In mathematics, it is common to have a concept that consists of a set equipped with additional structure.
-For example, a monoid is some set <em>S</em>, an element <em>s</em> of <em>S</em>, and an associative binary operator on <em>S</em>, such that <em>s</em> is neutral on the left and right of the operator.
-<em>S</em> is referred to as the &quot;carrier set&quot; of the monoid.
+<!--
+## Coercing to Types
+-->
+<h2 id="强制转换为类型本节中-sort-的翻译待讨论"><a class="header" href="#强制转换为类型本节中-sort-的翻译待讨论">强制转换为类型（<em>本节中 sort 的翻译待讨论</em>）</a></h2>
+<!--
+In mathematics, it is common to have a concept that consists of a set equipped with additional structure.
+For example, a monoid is some set _S_, an element _s_ of _S_, and an associative binary operator on _S_, such that _s_ is neutral on the left and right of the operator.
+_S_ is referred to as the "carrier set" of the monoid.
 The natural numbers with zero and addition form a monoid, because addition is associative and adding zero to any number is the identity.
 Similarly, the natural numbers with one and multiplication also form a monoid.
-Monoids are also widely used in functional programming: lists, the empty list, and the append operator form a monoid, as do strings, the empty string, and string append:</p>
+Monoids are also widely used in functional programming: lists, the empty list, and the append operator form a monoid, as do strings, the empty string, and string append:
+-->
+<p>在数学中，一个建立在集合上，但是比集合具有额外的结构的概念是很常见的。
+例如，一个幺半群就是一些集合 <em>S</em>，一个 <em>S</em> 中的元素 <em>s</em>，以及一个 <em>S</em> 上结合的二元运算，使得 <em>s</em> 在运算的左侧和右侧都是中性的。
+<em>S</em> 是这个幺半群的“载体集”。
+自然数集上的零和加法构成一个幺半群，因为加法是满足结合律的，并且为任何一个数字加零都是恒等的。
+类似地，自然数上的一和乘法也构成一个幺半群。
+幺半群在函数式编程中的应用也很广泛：列表，空列表，和连接运算符构成一个幺半群。
+字符串，空字符串，和连接运算符也构成一个幺半群：</p>
 <pre><code class="language-lean">structure Monoid where
   Carrier : Type
   neutral : Carrier
@@ -301,60 +417,117 @@ def stringMonoid : Monoid :=
 def listMonoid (α : Type) : Monoid :=
   { Carrier := List α, neutral := [], op := List.append }
 </code></pre>
-<p>Given a monoid, it is possible to write the <code>foldMap</code> function that, in a single pass, transforms the entries in a list into a monoid's carrier set and then combines them using the monoid's operator.
-Because monoids have a neutral element, there is a natural result to return when the list is empty, and because the operator is associative, clients of the function don't have to care whether the recursive function combines elements from left to right or from right to left.</p>
+<!--
+Given a monoid, it is possible to write the `foldMap` function that, in a single pass, transforms the entries in a list into a monoid's carrier set and then combines them using the monoid's operator.
+Because monoids have a neutral element, there is a natural result to return when the list is empty, and because the operator is associative, clients of the function don't have to care whether the recursive function combines elements from left to right or from right to left.
+-->
+<p>给定一个幺半群，我们就可以写出一个 <code>foldMap</code> 函数，该函数在一次遍历中将整个列表中的元素映射到载体集中，然后使用幺半群的运算符将它们组合起来。
+由于幺半群有单位元，所以当列表为空时我们就可以返回这个值。
+又因为运算符是满足结合律的，这个函数的用户不需要关心函数结合元素的顺序到底是从左到右的还是从右到左的。</p>
 <pre><code class="language-lean">def foldMap (M : Monoid) (f : α → M.Carrier) (xs : List α) : M.Carrier :=
   let rec go (soFar : M.Carrier) : List α → M.Carrier
     | [] =&gt; soFar
     | y :: ys =&gt; go (M.op soFar (f y)) ys
   go M.neutral xs
 </code></pre>
-<p>Even though a monoid consists of three separate pieces of information, it is common to just refer to the monoid's name in order to refer to its set.
-Instead of saying &quot;Let A be a monoid and let <em>x</em> and <em>y</em> be elements of its carrier set&quot;, it is common to say &quot;Let <em>A</em> be a monoid and let <em>x</em> and <em>y</em> be elements of <em>A</em>&quot;.
-This practice can be encoded in Lean by defining a new kind of coercion, from the monoid to its carrier set.</p>
-<p>The <code>CoeSort</code> class is just like the <code>Coe</code> class, with the exception that the target of the coercion must be a <em>sort</em>, namely <code>Type</code> or <code>Prop</code>.
-The term <em>sort</em> in Lean refers to these types that classify other types—<code>Type</code> classifies types that themselves classify data, and <code>Prop</code> classifies propositions that themselves classify evidence of their truth.
-Just as <code>Coe</code> is checked when a type mismatch occurs, <code>CoeSort</code> is used when something other than a sort is provided in a context where a sort would be expected.</p>
-<p>The coercion from a monoid into its carrier set extracts the carrier:</p>
+<!--
+Even though a monoid consists of three separate pieces of information, it is common to just refer to the monoid's name in order to refer to its set.
+Instead of saying "Let A be a monoid and let _x_ and _y_ be elements of its carrier set", it is common to say "Let _A_ be a monoid and let _x_ and _y_ be elements of _A_".
+This practice can be encoded in Lean by defining a new kind of coercion, from the monoid to its carrier set.
+-->
+<p>尽管一个幺半群是由三部分信息组成的，但在提及它的载体集时使用幺半群的名字也是很常见的。
+说“令 <em>A</em> 为一个幺半群，并令 <em>x</em> 和 <em>y</em> 为 <em>A</em> 中的元素”是很常见的，而不是说“令 <em>A</em> 为一个幺半群，并令 <em>x</em> 和 <em>y</em> 为载体集中的元素”。
+这种方式可以通过定义一种新的强制转换来在 Lean 中实现，该转换从幺半群到它的载体集。</p>
+<!--
+The `CoeSort` class is just like the `Coe` class, with the exception that the target of the coercion must be a _sort_, namely `Type` or `Prop`.
+The term _sort_ in Lean refers to these types that classify other types—`Type` classifies types that themselves classify data, and `Prop` classifies propositions that themselves classify evidence of their truth.
+Just as `Coe` is checked when a type mismatch occurs, `CoeSort` is used when something other than a sort is provided in a context where a sort would be expected.
+-->
+<p><code>CoeSort</code> 类型类和 <code>Coe</code> 大同小异，只是要求强制转换的目标一定要是一个 <em>sort</em>，即 <code>Type</code> 或 <code>Prop</code>。
+词语 <em>sort</em> 指的是这些分类其他类型的类型——<code>Type</code> 分类那些本身分类数据的类型，而 <code>Prop</code> 分类那些本身分类其真实性证据的命题。
+正如在类型不匹配时会检查 <code>Coe</code> 一样，当在预期为 sort 的上下文中提供了其他东西时，会使用 <code>CoeSort</code>。</p>
+<!--
+The coercion from a monoid into its carrier set extracts the carrier:
+-->
+<p>从一个幺半群到它的载体集的强制转换会返回该载体集：</p>
 <pre><code class="language-lean">instance : CoeSort Monoid Type where
   coe m := m.Carrier
 </code></pre>
-<p>With this coercion, the type signatures become less bureaucratic:</p>
+<!--
+With this coercion, the type signatures become less bureaucratic:
+-->
+<p>有了这个强制转换，类型签名变得不那么繁琐了：</p>
 <pre><code class="language-lean">def foldMap (M : Monoid) (f : α → M) (xs : List α) : M :=
   let rec go (soFar : M) : List α → M
     | [] =&gt; soFar
     | y :: ys =&gt; go (M.op soFar (f y)) ys
   go M.neutral xs
 </code></pre>
-<p>Another useful example of <code>CoeSort</code> is used to bridge the gap between <code>Bool</code> and <code>Prop</code>.
-As discussed in <a href="standard-classes.html#equality-and-ordering">the section on ordering and equality</a>, Lean's <code>if</code> expression expects the condition to be a decidable proposition rather than a <code>Bool</code>.
+<!--
+Another useful example of `CoeSort` is used to bridge the gap between `Bool` and `Prop`.
+As discussed in [the section on ordering and equality](standard-classes.md#equality-and-ordering), Lean's `if` expression expects the condition to be a decidable proposition rather than a `Bool`.
 Programs typically need to be able to branch based on Boolean values, however.
-Rather than have two kinds of <code>if</code> expression, the Lean standard library defines a coercion from <code>Bool</code> to the proposition that the <code>Bool</code> in question is equal to <code>true</code>:</p>
+Rather than have two kinds of `if` expression, the Lean standard library defines a coercion from `Bool` to the proposition that the `Bool` in question is equal to `true`:
+-->
+<p>另一个有用的 <code>CoeSort</code> 使用场景是它可以让 <code>Bool</code> 和 <code>Prop</code> 建立联系。
+就像在<a href="standard-classes.html#equality-and-ordering">有序性和等价性那一节</a>我们提到的，Lean 的 <code>if</code> 表达式需要条件为一个可判定的命题而不是一个 <code>Bool</code>。
+然而，程序通常需要能够根据布尔值进行分支。
+Lean 标准库并没有定义两种 <code>if</code> 表达式，而是定义了一种从 <code>Bool</code> 到命题的强制转换，即该 <code>Bool</code> 值等于 <code>true</code>：</p>
 <pre><code class="language-lean">instance : CoeSort Bool Prop where
   coe b := b = true
 </code></pre>
-<p>In this case, the sort in question is <code>Prop</code> rather than <code>Type</code>.</p>
-<h2 id="coercing-to-functions"><a class="header" href="#coercing-to-functions">Coercing to Functions</a></h2>
-<p>Many datatypes that occur regularly in programming consist of a function along with some extra information about it.
+<!--
+In this case, the sort in question is `Prop` rather than `Type`.
+-->
+<p>如此，这个 sort 将是一个 <code>Prop</code> 而不是 <code>Bool</code>。</p>
+<!--
+## Coercing to Functions
+-->
+<h2 id="强制转换为函数-本节翻译需要润色"><a class="header" href="#强制转换为函数-本节翻译需要润色">强制转换为函数 （<em>本节翻译需要润色</em>）</a></h2>
+<!--
+Many datatypes that occur regularly in programming consist of a function along with some extra information about it.
 For example, a function might be accompanied by a name to show in logs or by some configuration data.
-Additionally, putting a type in a field of a structure, similarly to the <code>Monoid</code> example, can make sense in contexts where there is more than one way to implement an operation and more manual control is needed than type classes would allow.
+Additionally, putting a type in a field of a structure, similarly to the `Monoid` example, can make sense in contexts where there is more than one way to implement an operation and more manual control is needed than type classes would allow.
 For example, the specific details of values emitted by a JSON serializer may be important because another application expects a particular format.
-Sometimes, the function itself may be derivable from just the configuration data.</p>
-<p>A type class called <code>CoeFun</code> can transform values from non-function types to function types.
-<code>CoeFun</code> has two parameters: the first is the type whose values should be transformed into functions, and the second is an output parameter that determines exactly which function type is being targeted.</p>
+Sometimes, the function itself may be derivable from just the configuration data.
+-->
+<p>许多在编程中常见的数据类型都会有一个函数和一些额外的信息组成。
+例如，一个函数可能附带一个名称以在日志中显示，或附带一些配置数据。
+此外，将一个类型放在结构体的字段中（类似于 <code>Monoid</code> 的例子）在某些上下文中是有意义的，这些上下文中存在多种实现操作的方法，并且需要比类型类允许的更手动的控制。
+例如，JSON 序列化器生成的值的具体细节可能很重要，因为另一个应用程序期望特定的格式。
+有时，仅从配置数据就可以推导出函数本身。</p>
+<!--
+A type class called `CoeFun` can transform values from non-function types to function types.
+`CoeFun` has two parameters: the first is the type whose values should be transformed into functions, and the second is an output parameter that determines exactly which function type is being targeted.
+-->
+<p><code>CoeFun</code> 类型类可以将非函数类型的值转换为函数类型的值。
+<code>CoeFun</code> 有两个参数：第一个是需要被转变为函数的值的类型，第二个是一个输出参数，决定了到底应该转换为哪个函数类型。</p>
 <pre><code class="language-lean">class CoeFun (α : Type) (makeFunctionType : outParam (α → Type)) where
   coe : (x : α) → makeFunctionType x
 </code></pre>
-<p>The second parameter is itself a function that computes a type.
-In Lean, types are first-class and can be passed to functions or returned from them, just like anything else.</p>
-<p>For example, a function that adds a constant amount to its argument can be represented as a wrapper around the amount to add, rather than by defining an actual function:</p>
+<!--
+The second parameter is itself a function that computes a type.
+In Lean, types are first-class and can be passed to functions or returned from them, just like anything else.
+-->
+<p>第二个参数本身是一个可以计算类型的函数。
+在 Lean 中，类型是一等公民，可以作为函数参数被传递，也可以作为返回值，就像其他东西一样。</p>
+<!--
+For example, a function that adds a constant amount to its argument can be represented as a wrapper around the amount to add, rather than by defining an actual function:
+-->
+<p>例如，一个将常量加到其参数的函数可以表示为围绕要添加的量的包装，而不是通过定义一个实际的函数：</p>
 <pre><code class="language-lean">structure Adder where
   howMuch : Nat
 </code></pre>
-<p>A function that adds five to its argument has a <code>5</code> in the <code>howMuch</code> field:</p>
+<!--
+A function that adds five to its argument has a `5` in the `howMuch` field:
+-->
+<p>一个为参数加上5的函数的 <code>howMuch</code> 字段为 <code>5</code>：</p>
 <pre><code class="language-lean">def add5 : Adder := ⟨5⟩
 </code></pre>
-<p>This <code>Adder</code> type is not a function, and applying it to an argument results in an error:</p>
+<!--
+This `Adder` type is not a function, and applying it to an argument results in an error:
+-->
+<p>这个 <code>Adder</code> 类型并不是一个函数，将它应用到一个参数会报错：</p>
 <pre><code class="language-lean">#eval add5 3
 </code></pre>
 <pre><code class="language-output error">function expected at
@@ -362,7 +535,10 @@ In Lean, types are first-class and can be passed to functions or returned from t
 term has type
   Adder
 </code></pre>
-<p>Defining a <code>CoeFun</code> instance causes Lean to transform the adder into a function with type <code>Nat → Nat</code>:</p>
+<!--
+Defining a `CoeFun` instance causes Lean to transform the adder into a function with type `Nat → Nat`:
+-->
+<p>定义一个 <code>CoeFun</code> 实例让 Lean 来将 adder 转换为一个 <code>Nat → Nat</code> 的函数：</p>
 <pre><code class="language-lean">instance : CoeFun Adder (fun _ =&gt; Nat → Nat) where
   coe a := (· + a.howMuch)
 
@@ -370,9 +546,16 @@ term has type
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>Because all <code>Adder</code>s should be transformed into <code>Nat → Nat</code> functions, the argument to <code>CoeFun</code>'s second parameter was ignored.</p>
-<p>When the value itself is needed to determine the right function type, then <code>CoeFun</code>'s second parameter is no longer ignored.
-For example, given the following representation of JSON values:</p>
+<!--
+Because all `Adder`s should be transformed into `Nat → Nat` functions, the argument to `CoeFun`'s second parameter was ignored.
+-->
+<p>因为所有的 <code>Adder</code> 都应该被转换为 <code>Nat → Nat</code> 的函数，<code>CoeFun</code> 的第二个参数就被省略了。</p>
+<!--
+When the value itself is needed to determine the right function type, then `CoeFun`'s second parameter is no longer ignored.
+For example, given the following representation of JSON values:
+-->
+<p>当我们需要这个值来决定正确的函数类型时，<code>CoeFun</code> 的第二个参数就派上用场了。
+例如，给定下面的 JSON 值表示：</p>
 <pre><code class="language-lean">inductive JSON where
   | true : JSON
   | false : JSON
@@ -383,22 +566,34 @@ For example, given the following representation of JSON values:</p>
   | array : List JSON → JSON
 deriving Repr
 </code></pre>
-<p>a JSON serializer is a structure that tracks the type it knows how to serialize along with the serialization code itself:</p>
+<!--
+a JSON serializer is a structure that tracks the type it knows how to serialize along with the serialization code itself:
+-->
+<p>一个 JSON 序列化器是一个结构体，它不仅包含它知道如何序列化的类型，还包含序列化代码本身：</p>
 <pre><code class="language-lean">structure Serializer where
   Contents : Type
   serialize : Contents → JSON
 </code></pre>
-<p>A serializer for strings need only wrap the provided string in the <code>JSON.string</code> constructor:</p>
+<!--
+A serializer for strings need only wrap the provided string in the `JSON.string` constructor:
+-->
+<p>对字符串的序列化器只需要将所给的字符串包装在 <code>JSON.string</code> 构造子中即可：</p>
 <pre><code class="language-lean">def Str : Serializer :=
   { Contents := String,
     serialize := JSON.string
   }
 </code></pre>
-<p>Viewing JSON serializers as functions that serialize their argument requires extracting the inner type of serializable data:</p>
+<!--
+Viewing JSON serializers as functions that serialize their argument requires extracting the inner type of serializable data:
+-->
+<p>将 JSON 序列化器视为序列化其参数的函数需要提取可序列化数据的内部类型：</p>
 <pre><code class="language-lean">instance : CoeFun Serializer (fun s =&gt; s.Contents → JSON) where
   coe s := s.serialize
 </code></pre>
-<p>Given this instance, a serializer can be applied directly to an argument:</p>
+<!--
+Given this instance, a serializer can be applied directly to an argument:
+-->
+<p>有了这个实例，一个序列化器就能直接应用在参数上。</p>
 <pre><code class="language-lean">def buildResponse (title : String) (R : Serializer) (record : R.Contents) : JSON :=
   JSON.object [
     (&quot;title&quot;, JSON.string title),
@@ -406,7 +601,10 @@ deriving Repr
     (&quot;record&quot;, R record)
   ]
 </code></pre>
-<p>The serializer can be passed directly to <code>buildResponse</code>:</p>
+<!--
+The serializer can be passed directly to `buildResponse`:
+-->
+<p>这个序列化器可以直接传入 <code>buildResponse</code>：</p>
 <pre><code class="language-lean">#eval buildResponse &quot;Functional Programming in Lean&quot; Str &quot;Programming is fun!&quot;
 </code></pre>
 <pre><code class="language-output info">JSON.object
@@ -414,38 +612,71 @@ deriving Repr
    (&quot;status&quot;, JSON.number 200.000000),
    (&quot;record&quot;, JSON.string &quot;Programming is fun!&quot;)]
 </code></pre>
-<h3 id="aside-json-as-a-string"><a class="header" href="#aside-json-as-a-string">Aside: JSON as a String</a></h3>
-<p>It can be a bit difficult to understand JSON when encoded as Lean objects.
-To help make sure that the serialized response was what was expected, it can be convenient to write a simple converter from <code>JSON</code> to <code>String</code>.
+<!--
+### Aside: JSON as a String
+-->
+<h3 id="附注将-json-表示为字符串"><a class="header" href="#附注将-json-表示为字符串">附注：将 JSON 表示为字符串</a></h3>
+<!--
+It can be a bit difficult to understand JSON when encoded as Lean objects.
+To help make sure that the serialized response was what was expected, it can be convenient to write a simple converter from `JSON` to `String`.
 The first step is to simplify the display of numbers.
-<code>JSON</code> doesn't distinguish between integers and floating point numbers, and the type <code>Float</code> is used to represent both.
-In Lean, <code>Float.toString</code> includes a number of trailing zeros:</p>
+`JSON` doesn't distinguish between integers and floating point numbers, and the type `Float` is used to represent both.
+In Lean, `Float.toString` includes a number of trailing zeros:
+-->
+<p>当 JSON 被编码为 Lean 对象时可能有点难以理解。
+为了帮助保证序列化的响应是我们所期望的，写一个简单的从 <code>JSON</code> 到 <code>String</code> 的转换器可能会很方便。
+第一步是简化数字的显示。
+<code>JSON</code> 不区分整数和浮点数，<code>Float</code> 类型即可用来代表二者。
+在 Lean 中，<code>Float.toString</code> 包括数字的后继零。</p>
 <pre><code class="language-lean">#eval (5 : Float).toString
 </code></pre>
 <pre><code class="language-output info">&quot;5.000000&quot;
 </code></pre>
-<p>The solution is to write a little function that cleans up the presentation by dropping all trailing zeros, followed by a trailing decimal point:</p>
+<!--
+The solution is to write a little function that cleans up the presentation by dropping all trailing zeros, followed by a trailing decimal point:
+-->
+<p>解决方案是写一个小函数，这个函数可以清理掉所有的后继零，和后继的小数点：</p>
 <pre><code class="language-lean">def dropDecimals (numString : String) : String :=
   if numString.contains '.' then
     let noTrailingZeros := numString.dropRightWhile (· == '0')
     noTrailingZeros.dropRightWhile (· == '.')
   else numString
 </code></pre>
-<p>With this definition, <code>#eval dropDecimals (5 : Float).toString</code> yields <code>&quot;5&quot;</code>, and <code>#eval dropDecimals (5.2 : Float).toString</code> yields <code>&quot;5.2&quot;</code>.</p>
-<p>The next step is to define a helper function to append a list of strings with a separator in between them:</p>
+<!--
+With this definition, `#eval dropDecimals (5 : Float).toString` yields `"5"`, and `#eval dropDecimals (5.2 : Float).toString` yields `"5.2"`.
+-->
+<p>有了这个定义，<code>#eval dropDecimals (5 : Float).toString</code> 结果为 <code>&quot;5&quot;</code>，<code>#eval dropDecimals (5.2 : Float).toString</code> 结果为 <code>&quot;5.2&quot;</code>。</p>
+<!--
+The next step is to define a helper function to append a list of strings with a separator in between them:
+-->
+<p>下一步是定义一个辅助函数来连接字符串列表，并在中间添加分隔符：</p>
 <pre><code class="language-lean">def String.separate (sep : String) (strings : List String) : String :=
   match strings with
   | [] =&gt; &quot;&quot;
   | x :: xs =&gt; String.join (x :: xs.map (sep ++ ·))
 </code></pre>
-<p>This function is useful to account for comma-separated elements in JSON arrays and objects.
-<code>#eval &quot;, &quot;.separate [&quot;1&quot;, &quot;2&quot;]</code> yields <code>&quot;1, 2&quot;</code>, <code>#eval &quot;, &quot;.separate [&quot;1&quot;]</code> yields <code>&quot;1&quot;</code>, and <code>#eval &quot;, &quot;.separate []</code> yields <code>&quot;&quot;</code>.</p>
-<p>Finally, a string escaping procedure is needed for JSON strings, so that the Lean string containing <code>&quot;Hello!&quot;</code> can be output as <code>&quot;\&quot;Hello!\&quot;&quot;</code>.
-Fortunately, the Lean compiler contains an internal function for escaping JSON strings already, called <code>Lean.Json.escape</code>.
-To access this function, add <code>import Lean</code> to the beginning of your file.</p>
-<p>The function that emits a string from a <code>JSON</code> value is declared <code>partial</code> because Lean cannot see that it terminates.
-This is because recursive calls to <code>asString</code> occur in functions that are being applied by <code>List.map</code>, and this pattern of recursion is complicated enough that Lean cannot see that the recursive calls are actually being performed on smaller values.
-In an application that just needs to produce JSON strings and doesn't need to mathematically reason about the process, having the function be <code>partial</code> is not likely to cause problems.</p>
+<!--
+This function is useful to account for comma-separated elements in JSON arrays and objects.
+`#eval ", ".separate ["1", "2"]` yields `"1, 2"`, `#eval ", ".separate ["1"]` yields `"1"`, and `#eval ", ".separate []` yields `""`.
+-->
+<p>这个函数用于处理 JSON 数组和对象中的逗号分隔元素。
+<code>#eval &quot;, &quot;.separate [&quot;1&quot;, &quot;2&quot;]</code> 结果为 <code>&quot;1, 2&quot;</code>，<code>#eval &quot;, &quot;.separate [&quot;1&quot;]</code> 结果为 <code>&quot;1&quot;</code>，<code>#eval &quot;, &quot;.separate []</code> 结果为 <code>&quot;&quot;</code>。</p>
+<!--
+Finally, a string escaping procedure is needed for JSON strings, so that the Lean string containing `"Hello!"` can be output as `"\"Hello!\""`.
+Fortunately, the Lean compiler contains an internal function for escaping JSON strings already, called `Lean.Json.escape`.
+To access this function, add `import Lean` to the beginning of your file.
+-->
+<p>最后，需要一个字符串转义程序来处理 JSON 字符串，以便包含 &quot;Hello!&quot; 的 Lean 字符串可以输出为 &quot;&quot;Hello!&quot;”。
+幸运的是，Lean 编译器已经包含了一个用于转义 JSON 字符串的内部函数，叫做 <code>Lean.Json.escape</code>。
+要使用这个函数，可以在文件开头添加 <code>import Lean</code>。</p>
+<!--
+The function that emits a string from a `JSON` value is declared `partial` because Lean cannot see that it terminates.
+This is because recursive calls to `asString` occur in functions that are being applied by `List.map`, and this pattern of recursion is complicated enough that Lean cannot see that the recursive calls are actually being performed on smaller values.
+In an application that just needs to produce JSON strings and doesn't need to mathematically reason about the process, having the function be `partial` is not likely to cause problems.
+-->
+<p>将 <code>JSON</code> 值转换为字符串的函数被声明了 <code>partial</code>，因为 Lean 并不知道它是否停机。
+这是因为出现在函数中的 <code>asString</code> 的递归调用被应用到了 <code>List.map</code>，这种模式的递归已经复杂到 Lean 无法知道递归过程中值的规模是否是减小的。
+在一个只需要产生 JSON 字符串而不需要让过程在数学上是合理的的应用中，让函数是 <code>partial</code> 的不太可能造成麻烦。</p>
 <pre><code class="language-lean">partial def JSON.asString (val : JSON) : String :=
   match val with
   | true =&gt; &quot;true&quot;
@@ -460,37 +691,73 @@ In an application that just needs to produce JSON strings and doesn't need to ma
   | array elements =&gt;
     &quot;[&quot; ++ &quot;, &quot;.separate (elements.map asString) ++ &quot;]&quot;
 </code></pre>
-<p>With this definition, the output of serialization is easier to read:</p>
+<!--
+With this definition, the output of serialization is easier to read:
+-->
+<p>有了这个定义，序列化的结果更加易读了：</p>
 <pre><code class="language-lean">#eval (buildResponse &quot;Functional Programming in Lean&quot; Str &quot;Programming is fun!&quot;).asString
 </code></pre>
 <pre><code class="language-output info">&quot;{\\&quot;title\\&quot;: \\&quot;Functional Programming in Lean\\&quot;, \\&quot;status\\&quot;: 200, \\&quot;record\\&quot;: \\&quot;Programming is fun!\\&quot;}&quot;
 </code></pre>
-<h2 id="messages-you-may-meet"><a class="header" href="#messages-you-may-meet">Messages You May Meet</a></h2>
-<p>Natural number literals are overloaded with the <code>OfNat</code> type class.
-Because coercions fire in cases where types don't match, rather than in cases of missing instances, a missing <code>OfNat</code> instance for a type does not cause a coercion from <code>Nat</code> to be applied:</p>
+<!--
+## Messages You May Meet
+-->
+<h2 id="可能会遇到的问题"><a class="header" href="#可能会遇到的问题">可能会遇到的问题</a></h2>
+<!--
+Natural number literals are overloaded with the `OfNat` type class.
+Because coercions fire in cases where types don't match, rather than in cases of missing instances, a missing `OfNat` instance for a type does not cause a coercion from `Nat` to be applied:
+-->
+<p>自然数字面量是通过 <code>OfNat</code> 类型类重载的。
+因为在类型不匹配时才会触发强制转换，而不是在找不到实例时，所以当对于某类型的 <code>OfNat</code> 实例缺失时，并不会触发强制转换：</p>
 <pre><code class="language-lean">def perhapsPerhapsPerhapsNat : Option (Option (Option Nat)) :=
   392
 </code></pre>
 <pre><code class="language-output error">failed to synthesize instance
   OfNat (Option (Option (Option Nat))) 392
 </code></pre>
-<h2 id="design-considerations"><a class="header" href="#design-considerations">Design Considerations</a></h2>
-<p>Coercions are a powerful tool that should be used responsibly.
+<!--
+## Design Considerations
+-->
+<h2 id="设计原则"><a class="header" href="#设计原则">设计原则</a></h2>
+<!--
+Coercions are a powerful tool that should be used responsibly.
 On the one hand, they can allow an API to naturally follow the everyday rules of the domain being modeled.
 This can be the difference between a bureaucratic mess of manual conversion functions and a clear program.
-As Abelson and Sussman wrote in the preface to <em>Structure and Interpretation of Computer Programs</em> (MIT Press, 1996),</p>
+As Abelson and Sussman wrote in the preface to _Structure and Interpretation of Computer Programs_ (MIT Press, 1996),
+-->
+<p>强制转换是一个强大的工具，请负责任地使用它。
+一方面，它可以使 API 设计得更贴近领域内使用习惯。
+这是繁琐的手动转换函数和一个清晰的程序间的差别。
+正如 Abelson 和 Sussman 在《计算机程序的构造和解释》（ <em>Structure and Interpretation of Computer Programs</em> ）（麻省理工学院出版社，1996年）前言中所写的那样：</p>
+<!--
+> Programs must be written for people to read, and only incidentally for machines to execute.
+-->
 <blockquote>
-<p>Programs must be written for people to read, and only incidentally for machines to execute.</p>
+<p>写程序须以让人读明白为主，让计算机执行为辅。</p>
 </blockquote>
-<p>Coercions, used wisely, are a valuable means of achieving readable code that can serve as the basis for communication with domain experts.
+<!--
+Coercions, used wisely, are a valuable means of achieving readable code that can serve as the basis for communication with domain experts.
 APIs that rely heavily on coercions have a number of important limitations, however.
-Think carefully about these limitations before using coercions in your own libraries.</p>
-<p>First off, coercions are only applied in contexts where enough type information is available for Lean to know all of the types involved, because there are no output parameters in the coercion type classes. This means that a return type annotation on a function can be the difference between a type error and a successfully applied coercion.
-For example, the coercion from non-empty lists to lists makes the following program work:</p>
+Think carefully about these limitations before using coercions in your own libraries.
+-->
+<p>明智地使用强制转换，可以使得代码更加易读——这是与领域内专家的交流的基础。
+然而，严重依赖强制转换的 API 会有许多限制。
+在你自己的代码中使用强制转换前，认真思考这些限制。</p>
+<!--
+First off, coercions are only applied in contexts where enough type information is available for Lean to know all of the types involved, because there are no output parameters in the coercion type classes. This means that a return type annotation on a function can be the difference between a type error and a successfully applied coercion.
+For example, the coercion from non-empty lists to lists makes the following program work:
+-->
+<p>首先，强制转换只应该出现在类型信息充足，Lean 能够知道所有参与的类型的语境中。
+因为强制转换类型类中并没有输出参数这么一说。
+这意味着在函数上添加返回类型注释可以决定是类型错误还是成功应用强制转换。
+例如，从非空列表到列表的强制转换使以下程序得以运行：</p>
 <pre><code class="language-lean">def lastSpider : Option String :=
   List.getLast? idahoSpiders
 </code></pre>
-<p>On the other hand, if the type annotation is omitted, then the result type is unknown, so Lean is unable to find the coercion:</p>
+<!--
+On the other hand, if the type annotation is omitted, then the result type is unknown, so Lean is unable to find the coercion:
+-->
+<p>另一方面，如果类型注释被省略了，那么结果的类型就是未知的，那么 Lean 就无法找到对应的强制转换。</p>
 <pre><code class="language-lean">def lastSpider :=
   List.getLast? idahoSpiders
 </code></pre>
@@ -503,9 +770,16 @@ has type
 but is expected to have type
   List ?m.34258 : Type
 </code></pre>
-<p>More generally, when a coercion is not applied for some reason, the user receives the original type error, which can make it difficult to debug chains of coercions.</p>
-<p>Finally, coercions are not applied in the context of field accessor notation.
-This means that there is still an important difference between expressions that need to be coerced and those that don't, and this difference is visible to users of your API.</p>
+<!--
+More generally, when a coercion is not applied for some reason, the user receives the original type error, which can make it difficult to debug chains of coercions.
+-->
+<p>通常来讲，如果一个强制转换因为一些原因失败了，用户会收到原始的类型错误，这会使在强制转换链上定位错误变得十分困难。</p>
+<!--
+Finally, coercions are not applied in the context of field accessor notation.
+This means that there is still an important difference between expressions that need to be coerced and those that don't, and this difference is visible to users of your API.
+-->
+<p>最后，强制转换不会在字段访问符号的上下文中应用。
+这意味着需要强制转换的表达式与不需要强制转换的表达式之间仍然存在重要区别，而这个区别对用户来说是肉眼可见的。</p>
 
                     </main>
 

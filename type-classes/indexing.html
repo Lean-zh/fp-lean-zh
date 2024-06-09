@@ -144,27 +144,59 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="arrays-and-indexing"><a class="header" href="#arrays-and-indexing">Arrays and Indexing</a></h1>
-<p>The <a href="../props-proofs-indexing.html">Interlude</a> describes how to use indexing notation in order to look up entries in a list by their position.
-This syntax is also governed by a type class, and it can be used for a variety of different types.</p>
-<h2 id="arrays"><a class="header" href="#arrays">Arrays</a></h2>
-<p>For instance, Lean arrays are much more efficient than linked lists for most purposes.
-In Lean, the type <code>Array α</code> is a dynamically-sized array holding values of type <code>α</code>, much like a Java <code>ArrayList</code>, a C++ <code>std::vector</code>, or a Rust <code>Vec</code>.
-Unlike <code>List</code>, which has a pointer indirection on each use of the <code>cons</code> constructor, arrays occupy a contiguous region of memory, which is much better for processor caches.
-Also, looking up a value in an array takes constant time, while lookup in a linked list takes time proportional to the index being accessed.</p>
-<p>In pure functional languages like Lean, it is not possible to mutate a given position in a data structure.
+                        <!--
+# Arrays and Indexing
+-->
+<h1 id="数组与索引"><a class="header" href="#数组与索引">数组与索引</a></h1>
+<!--
+The [Interlude](../props-proofs-indexing.md) describes how to use indexing notation in order to look up entries in a list by their position.
+This syntax is also governed by a type class, and it can be used for a variety of different types.
+-->
+<p>在<a href="../props-proofs-indexing.html">插入章节</a>中描述了如何使用索引符号来通过位置查找列表中的条目。
+此语法也由类型类管理，并且可以用于各种不同的类型。</p>
+<!--
+## Arrays
+-->
+<h2 id="数组"><a class="header" href="#数组">数组</a></h2>
+<!--
+For instance, Lean arrays are much more efficient than linked lists for most purposes.
+In Lean, the type `Array α` is a dynamically-sized array holding values of type `α`, much like a Java `ArrayList`, a C++ `std::vector`, or a Rust `Vec`.
+Unlike `List`, which has a pointer indirection on each use of the `cons` constructor, arrays occupy a contiguous region of memory, which is much better for processor caches.
+Also, looking up a value in an array takes constant time, while lookup in a linked list takes time proportional to the index being accessed.
+-->
+<p>比如说，Lean 中的数组在多数情况下就比链表更为高效。在 Lean 中，<code>Array α</code> 类型是一个动态大小的数组，可以用来装类型为 <code>α</code> 的值。
+这很像是 Java 中的 <code>ArrayList</code>，C++ 中的 <code>std::vector</code>，或者 Rust 中的 <code>Vec</code>。
+不像是 <code>List</code> 在每一次用到 <code>cons</code> 构造子的地方都会有一个指针指向每个节点，数组会占用内存中一段连续的空间。这会带来更好的处理器缓存效果。
+并且，在数组中查找值的时间复杂度为常数，但在链表中查找值所需要的时间则与遍历的节点数量成正比。</p>
+<!--
+In pure functional languages like Lean, it is not possible to mutate a given position in a data structure.
 Instead, a copy is made that has the desired modifications.
-When using an array, the Lean compiler and runtime contain an optimization that can allow modifications to be implemented as mutations behind the scenes when there is only a single unique reference to an array.</p>
-<p>Arrays are written similarly to lists, but with a leading <code>#</code>:</p>
+When using an array, the Lean compiler and runtime contain an optimization that can allow modifications to be implemented as mutations behind the scenes when there is only a single unique reference to an array.
+-->
+<p>在像 Lean 这样的纯函数式语言中，在数据结构中改变某位置上的数据的值是不可能的。
+相反，Lean 会制作一个副本，该副本具有所需的修改。
+当使用一个数组时，Lean 编译器和运行时包含了一个优化：当该数组只被引用了一次时，会在幕后将制作副本优化为原地操作。</p>
+<!--
+Arrays are written similarly to lists, but with a leading `#`:
+-->
+<p>数组写起来很像列表，只是在开头多了一个 <code>#</code>：</p>
 <pre><code class="language-lean">def northernTrees : Array String :=
   #[&quot;sloe&quot;, &quot;birch&quot;, &quot;elm&quot;, &quot;oak&quot;]
 </code></pre>
-<p>The number of values in an array can be found using <code>Array.size</code>.
-For instance, <code>northernTrees.size</code> evaluates to <code>4</code>.
+<!--
+The number of values in an array can be found using `Array.size`.
+For instance, `northernTrees.size` evaluates to `4`.
 For indices that are smaller than an array's size, indexing notation can be used to find the corresponding value, just as with lists.
-That is, <code>northernTrees[2]</code> evaluates to <code>&quot;elm&quot;</code>.
+That is, `northernTrees[2]` evaluates to `"elm"`.
 Similarly, the compiler requires a proof that an index is in bounds, and attempting to look up a value outside the bounds of the array results in a compile-time error, just as with lists.
-For instance, <code>northernTrees[8]</code> results in:</p>
+For instance, `northernTrees[8]` results in:
+-->
+<p>数组中值的数量可以通过 <code>Array.size</code> 找到。
+例如：<code>northernTrees.size</code> 结果是 <code>4</code>。
+对于小于数组大小的索引值，索引符号可以被用来找到对应的值，就像列表一样。
+就是说，<code>northernTrees[2]</code> 会被计算为 <code>&quot;elm&quot;</code>。
+类似地，编译器需要一个索引值未越界的证明。尝试去查找越界的值会导致编译时错误，就和列表一样。
+例如：<code>northernTrees[8]</code> 的结果为：</p>
 <pre><code class="language-output error">failed to prove index is valid, possible solutions:
   - Use `have`-expressions to prove the index is valid
   - Use `a[i]!` notation instead, runtime check is perfomed, and 'Panic' error message is produced if index is not valid
@@ -172,13 +204,22 @@ For instance, <code>northernTrees[8]</code> results in:</p>
   - Use `a[i]'h` notation instead, where `h` is a proof that index is valid
 ⊢ 8 &lt; Array.size northernTrees
 </code></pre>
-<h2 id="non-empty-lists"><a class="header" href="#non-empty-lists">Non-Empty Lists</a></h2>
-<p>A datatype that represents non-empty lists can be defined as a structure with a field for the head of the list and a field for the tail, which is an ordinary, potentially empty list:</p>
+<!--
+## Non-Empty Lists
+-->
+<h2 id="非空列表"><a class="header" href="#非空列表">非空列表</a></h2>
+<!--
+A datatype that represents non-empty lists can be defined as a structure with a field for the head of the list and a field for the tail, which is an ordinary, potentially empty list:
+-->
+<p>一个表示非空列表的数据类型可以被定义为一个结构，这个结构有一个列表头字段，和一个尾字段。尾字段是一个常规的，可能为空的列表。</p>
 <pre><code class="language-lean">structure NonEmptyList (α : Type) : Type where
   head : α
   tail : List α
 </code></pre>
-<p>For example, the non-empty list <code>idahoSpiders</code> (which contains some spider species native to the US state of Idaho) consists of <code>&quot;Banded Garden Spider&quot;</code> followed by four other spiders, for a total of five spiders:</p>
+<!--
+For example, the non-empty list `idahoSpiders` (which contains some spider species native to the US state of Idaho) consists of `"Banded Garden Spider"` followed by four other spiders, for a total of five spiders:
+-->
+<p>例如：非空列表 <code>idahoSpiders</code>（包含了一些美国爱达荷州的本土蜘蛛品种）由 <code>&quot;Banded Garden Spider&quot;</code> 和四种其它蜘蛛构成，一共有五种蜘蛛：</p>
 <pre><code class="language-lean">def idahoSpiders : NonEmptyList String := {
   head := &quot;Banded Garden Spider&quot;,
   tail := [
@@ -189,75 +230,148 @@ For instance, <code>northernTrees[8]</code> results in:</p>
   ]
 }
 </code></pre>
-<p>Looking up the value at a specific index in this list with a recursive function should consider three possibilities:</p>
+<!--
+Looking up the value at a specific index in this list with a recursive function should consider three possibilities:
+ 1. The index is `0`, in which case the head of the list should be returned.
+ 2. The index is `n + 1` and the tail is empty, in which case the index is out of bounds.
+ 3. The index is `n + 1` and the tail is non-empty, in which case the function can be called recursively on the tail and `n`.
+-->
+<p>通过递归函数在列表中查找特定索引的值需要考虑到三种情况：</p>
 <ol>
-<li>The index is <code>0</code>, in which case the head of the list should be returned.</li>
-<li>The index is <code>n + 1</code> and the tail is empty, in which case the index is out of bounds.</li>
-<li>The index is <code>n + 1</code> and the tail is non-empty, in which case the function can be called recursively on the tail and <code>n</code>.</li>
+<li>索引是 <code>0</code>，此时应返回列表头。</li>
+<li>索引是 <code>n + 1</code> 并且列表尾是空的，这意味着索引越界了。</li>
+<li>索引是 <code>n + 1</code> 并且列表尾非空，此时应该在列表尾上递归调用函数并传入 <code>n</code>。</li>
 </ol>
-<p>For example, a lookup function that returns an <code>Option</code> can be written as follows:</p>
+<!--
+For example, a lookup function that returns an `Option` can be written as follows:
+-->
+<p>例如，一个返回 <code>Option</code> 的查找函数可以写成如下形式：</p>
 <pre><code class="language-lean">def NonEmptyList.get? : NonEmptyList α → Nat → Option α
   | xs, 0 =&gt; some xs.head
   | {head := _, tail := []}, _ + 1 =&gt; none
   | {head := _, tail := h :: t}, n + 1 =&gt; get? {head := h, tail := t} n
 </code></pre>
-<p>Each case in the pattern match corresponds to one of the possibilities above.
-The recursive call to <code>get?</code> does not require a <code>NonEmptyList</code> namespace qualifier because the body of the definition is implicitly in the definition's namespace.
-Another way to write this function uses <code>get?</code> for lists when the index is greater than zero:</p>
+<!--
+Each case in the pattern match corresponds to one of the possibilities above.
+The recursive call to `get?` does not require a `NonEmptyList` namespace qualifier because the body of the definition is implicitly in the definition's namespace.
+Another way to write this function uses `get?` for lists when the index is greater than zero:
+-->
+<p>每种模式匹配的情况都对应于上面的一种可能性。
+<code>get?</code> 的递归调用不需要 <code>NonEmptyList</code> 命名空间标识符，因为定义内部隐式地在定义的命名空间中。
+另一种方式来编写这个函数是：当索引大于零时就将 <code>get?</code> 应用在列表上。</p>
 <pre><code class="language-lean">def NonEmptyList.get? : NonEmptyList α → Nat → Option α
   | xs, 0 =&gt; some xs.head
   | xs, n + 1 =&gt; xs.tail.get? n
 </code></pre>
-<p>If the list contains one entry, then only <code>0</code> is a valid index.
-If it contains two entries, then both <code>0</code> and <code>1</code> are valid indices.
-If it contains three entries, then <code>0</code>, <code>1</code>, and <code>2</code> are valid indices.
-In other words, the valid indices into a non-empty list are natural numbers that are strictly less than the length of the list, which are less than or equal to the length of the tail.</p>
-<p>The definition of what it means for an index to be in bounds should be written as an <code>abbrev</code> because the tactics used to find evidence that indices are acceptable are able to solve inequalities of numbers, but they don't know anything about the name <code>NonEmptyList.inBounds</code>:</p>
+<!--
+If the list contains one entry, then only `0` is a valid index.
+If it contains two entries, then both `0` and `1` are valid indices.
+If it contains three entries, then `0`, `1`, and `2` are valid indices.
+In other words, the valid indices into a non-empty list are natural numbers that are strictly less than the length of the list, which are less than or equal to the length of the tail.
+-->
+<p>如果列表包含一个条目，那么只有 <code>0</code> 是合法的索引。
+如果它包含两个条目，那么 <code>0</code> 和 <code>1</code> 是合法的索引。
+如果它包含三个条目，那么 <code>0</code>, <code>1</code>, 和 <code>2</code> 都是合法的索引。
+换句话说，非空列表的合法索引是严格小于列表长度的自然数。同时它也是小于等于列表尾的长度的。</p>
+<!--
+The definition of what it means for an index to be in bounds should be written as an `abbrev` because the tactics used to find evidence that indices are acceptable are able to solve inequalities of numbers, but they don't know anything about the name `NonEmptyList.inBounds`:
+-->
+<p>“索引值没有出界”意味着什么的这个定义，应该被写成一个 <code>abbrev</code>。
+因为这个可以用来证明索引值未越界的策略（tactics）要在不知道 <code>NonEmptyList.inBounds</code> 这个方法的情况下解决数字之间的不等关系。
+(此处原文表意不明，按原文字面意思译出。原文大致意思应为 <code>abbrev</code> 比 <code>def</code> 对tactic的适应性更好)</p>
 <pre><code class="language-lean">abbrev NonEmptyList.inBounds (xs : NonEmptyList α) (i : Nat) : Prop :=
   i ≤ xs.tail.length
 </code></pre>
-<p>This function returns a proposition that might be true or false.
-For instance, <code>2</code> is in bounds for <code>idahoSpiders</code>, while <code>5</code> is not:</p>
+<!--
+This function returns a proposition that might be true or false.
+For instance, `2` is in bounds for `idahoSpiders`, while `5` is not:
+-->
+<!--
+This function returns a proposition that might be true or false.
+For instance, `2` is in bounds for `idahoSpiders`, while `5` is not:
+-->
+<p>这个函数返回一个可能为真也可能为假的命题。
+例如，<code>2</code> 对于 <code>idahoSpiders</code>未越界，而 <code>5</code> 就越界了。</p>
 <pre><code class="language-leantac">theorem atLeastThreeSpiders : idahoSpiders.inBounds 2 := by simp
 
 theorem notSixSpiders : ¬idahoSpiders.inBounds 5 := by simp
 </code></pre>
-<p>The logical negation operator has a very low precedence, which means that <code>¬idahoSpiders.inBounds 5</code> is equivalent to <code>¬(idahoSpiders.inBounds 5)</code>.</p>
-<p>This fact can be used to write a lookup function that requires evidence that the index is valid, and thus need not return <code>Option</code>, by delegating to the version for lists that checks the evidence at compile time:</p>
+<!--
+The logical negation operator has a very low precedence, which means that `¬idahoSpiders.inBounds 5` is equivalent to `¬(idahoSpiders.inBounds 5)`.
+-->
+<p>逻辑非运算符有很低的结合度，这意味着 <code>¬idahoSpiders.inBounds 5</code> 等价于 <code>¬(idahoSpiders.inBounds 5)</code>。</p>
+<!--
+This fact can be used to write a lookup function that requires evidence that the index is valid, and thus need not return `Option`, by delegating to the version for lists that checks the evidence at compile time:
+-->
+<p>这个事实可被用于编写能证明索引值合法的查找函数，并且无需返回一个 <code>Option</code>。
+该证据会在编译时检查。下面给出代码：</p>
 <pre><code class="language-lean">def NonEmptyList.get (xs : NonEmptyList α) (i : Nat) (ok : xs.inBounds i) : α :=
   match i with
   | 0 =&gt; xs.head
   | n + 1 =&gt; xs.tail[n]
 </code></pre>
-<p>It is, of course, possible to write this function to use the evidence directly, rather than delegating to a standard library function that happens to be able to use the same evidence.
-This requires techniques for working with proofs and propositions that are described later in this book.</p>
-<h2 id="overloading-indexing"><a class="header" href="#overloading-indexing">Overloading Indexing</a></h2>
-<p>Indexing notation for a collection type can be overloaded by defining an instance of the <code>GetElem</code> type class.
-For the sake of flexiblity, <code>GetElem</code> has four parameters:</p>
+<!--
+It is, of course, possible to write this function to use the evidence directly, rather than delegating to a standard library function that happens to be able to use the same evidence.
+This requires techniques for working with proofs and propositions that are described later in this book.
+-->
+<p>当然，将这个函数写成直接用证据的形式也是可能的。
+但这需要会玩证明和命题的一些技术，这些内容会在本书后续内容中提到。</p>
+<!--
+## Overloading Indexing
+-->
+<h2 id="重载索引"><a class="header" href="#重载索引">重载索引</a></h2>
+<!--
+Indexing notation for a collection type can be overloaded by defining an instance of the `GetElem` type class.
+For the sake of flexiblity, `GetElem` has four parameters:
+ * The type of the collection
+ * The type of the index
+ * The type of elements that are extracted from the collection
+ * A function that determines what counts as evidence that the index is in bounds
+-->
+<p>对于集合类型的索引符号，可通过定义 <code>GetElem</code> 类型类的实例来重载。
+出于灵活性考虑，<code>GetElem</code> 有四个参数：</p>
 <ul>
-<li>The type of the collection</li>
-<li>The type of the index</li>
-<li>The type of elements that are extracted from the collection</li>
-<li>A function that determines what counts as evidence that the index is in bounds</li>
+<li>集合的类型</li>
+<li>索引的类型</li>
+<li>集合中元素的类型</li>
+<li>一个函数，用于确定什么是索引在边界内的证据</li>
 </ul>
-<p>The element type and the evidence function are both output parameters.
-<code>GetElem</code> has a single method, <code>getElem</code>, which takes a collection value, an index value, and evidence that the index is in bounds as arguments, and returns an element:</p>
+<!--
+The element type and the evidence function are both output parameters.
+`GetElem` has a single method, `getElem`, which takes a collection value, an index value, and evidence that the index is in bounds as arguments, and returns an element:
+-->
+<p>元素类型和证明函数都是输出参数。
+<code>GetElem</code> 有一个方法 —— <code>getElem</code> —— 接受一个集合值，一个索引值，和一个索引未越界的证明，并且返回一个元素：</p>
 <pre><code class="language-lean">class GetElem (coll : Type) (idx : Type) (item : outParam Type) (inBounds : outParam (coll → idx → Prop)) where
   getElem : (c : coll) → (i : idx) → inBounds c i → item
 </code></pre>
-<p>In the case of <code>NonEmptyList α</code>, these parameters are:</p>
+<!--
+In the case of `NonEmptyList α`, these parameters are:
+ * The collection is `NonEmptyList α`
+ * Indices have type `Nat`
+ * The type of elements is `α`
+ * An index is in bounds if it is less than or equal to the length of the tail
+-->
+<p>在 <code>NonEmptyList α</code> 中，这些参数是：</p>
 <ul>
-<li>The collection is <code>NonEmptyList α</code></li>
-<li>Indices have type <code>Nat</code></li>
-<li>The type of elements is <code>α</code></li>
-<li>An index is in bounds if it is less than or equal to the length of the tail</li>
+<li>集合是 <code>NonEmptyList α</code></li>
+<li>索引的类型是 <code>Nat</code></li>
+<li>元素的类型是 <code>α</code></li>
+<li>索引如果小于等于列表尾那么就没有越界</li>
 </ul>
-<p>In fact, the <code>GetElem</code> instance can delegate directly to <code>NonEmptyList.get</code>:</p>
+<!--
+In fact, the `GetElem` instance can delegate directly to `NonEmptyList.get`:
+-->
+<p>事实上，<code>GetElem</code> 实例可以直接使用 <code>NonEmptyList.get</code>：</p>
 <pre><code class="language-lean">instance : GetElem (NonEmptyList α) Nat α NonEmptyList.inBounds where
   getElem := NonEmptyList.get
 </code></pre>
-<p>With this instance, <code>NonEmptyList</code> becomes just as convenient to use as <code>List</code>.
-Evaluating <code>idahoSpiders[0]</code> yields <code>&quot;Banded Garden Spider&quot;</code>, while <code>idahoSpiders[9]</code> leads to the compile-time error:</p>
+<!--
+With this instance, `NonEmptyList` becomes just as convenient to use as `List`.
+Evaluating `idahoSpiders[0]` yields `"Banded Garden Spider"`, while `idahoSpiders[9]` leads to the compile-time error:
+-->
+<p>有了这个实例，<code>NonEmptyList</code> 就和 <code>List</code> 一样方便了。
+计算 <code>idahoSpiders[0]</code> 结果为 <code>&quot;Banded Garden Spider&quot;</code>，而 <code>idahoSpiders[9]</code> 会导致编译时错误：</p>
 <pre><code class="language-output error">failed to prove index is valid, possible solutions:
   - Use `have`-expressions to prove the index is valid
   - Use `a[i]!` notation instead, runtime check is perfomed, and 'Panic' error message is produced if index is not valid
@@ -265,20 +379,33 @@ Evaluating <code>idahoSpiders[0]</code> yields <code>&quot;Banded Garden Spider&
   - Use `a[i]'h` notation instead, where `h` is a proof that index is valid
 ⊢ NonEmptyList.inBounds idahoSpiders 9
 </code></pre>
-<p>Because both the collection type and the index type are input parameters to the <code>GetElem</code> type class, new types can be used to index into existing collections.
-The positive number type <code>Pos</code> is a perfectly reasonable index into a <code>List</code>, with the caveat that it cannot point at the first entry.
-The follow instance of <code>GetElem</code> allows <code>Pos</code> to be used just as conveniently as <code>Nat</code> to find a list entry:</p>
+<!--
+Because both the collection type and the index type are input parameters to the `GetElem` type class, new types can be used to index into existing collections.
+The positive number type `Pos` is a perfectly reasonable index into a `List`, with the caveat that it cannot point at the first entry.
+The follow instance of `GetElem` allows `Pos` to be used just as conveniently as `Nat` to find a list entry:
+-->
+<p>因为集合的类型和索引的类型都是 <code>GetElem</code> 类型类的参数，所以可以使用新类型来索引现有的集合。
+之前的 <code>Pos</code> 是一个完全合理的可以用来索引 <code>List</code> 的类型，但注意它不能指向第一个条目。
+下面 <code>GetElem</code> 的实例使 <code>Pos</code> 在查找列表条目方面和 <code>Nat</code> 一样方便。</p>
 <pre><code class="language-lean">instance : GetElem (List α) Pos α (fun list n =&gt; list.length &gt; n.toNat) where
   getElem (xs : List α) (i : Pos) ok := xs[i.toNat]
 </code></pre>
-<p>Indexing can also make sense for non-numeric indices.
-For example, <code>Bool</code> can be used to select between the fields in a point, with <code>false</code> corresponding to <code>x</code> and <code>true</code> corresponding to <code>y</code>:</p>
+<!--
+Indexing can also make sense for non-numeric indices.
+For example, `Bool` can be used to select between the fields in a point, with `false` corresponding to `x` and `true` corresponding to `y`:
+-->
+<p>使用非数字索引值来进行索引也可以是合理的。
+例如：<code>Bool</code> 也可以被用于选择点中的字段，比如我们可以让 <code>false</code> 对应于 <code>x</code>，<code>true</code> 对应于 <code>y</code>：</p>
 <pre><code class="language-lean">instance : GetElem (PPoint α) Bool α (fun _ _ =&gt; True) where
   getElem (p : PPoint α) (i : Bool) _ :=
     if not i then p.x else p.y
 </code></pre>
-<p>In this case, both Booleans are valid indices.
-Because every possible <code>Bool</code> is in bounds, the evidence is simply the true proposition <code>True</code>.</p>
+<!--
+In this case, both Booleans are valid indices.
+Because every possible `Bool` is in bounds, the evidence is simply the true proposition `True`.
+-->
+<p>在这个例子中，布尔值都是合法的索引。
+因为每个可能的 <code>Bool</code> 值都是未越界的，证据我们只需简单地给出 <code>True</code> 命题。</p>
 
                     </main>
 

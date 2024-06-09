@@ -144,27 +144,47 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="positive-numbers"><a class="header" href="#positive-numbers">Positive Numbers</a></h1>
-<p>In some applications, only positive numbers make sense.
+                        <!--
+# Positive Numbers
+-->
+<h1 id="正数"><a class="header" href="#正数">正数</a></h1>
+<!--
+In some applications, only positive numbers make sense.
 For example, compilers and interpreters typically use one-indexed line and column numbers for source positions, and a datatype that represents only non-empty lists will never report a length of zero.
-Rather than relying on natural numbers, and littering the code with assertions that the number is not zero, it can be useful to design a datatype that represents only positive numbers.</p>
-<p>One way to represent positive numbers is very similar to <code>Nat</code>, except with <code>one</code> as the base case instead of <code>zero</code>:</p>
+Rather than relying on natural numbers, and littering the code with assertions that the number is not zero, it can be useful to design a datatype that represents only positive numbers.
+-->
+<p>在一些应用场景下，我们只需要用到正数。
+对于编译器和解释器来说，它们通常使用起始于1的行和列数来表示源代码位置，
+并且一个用于表示非空列表的数据结构永远不会出现长度为零的情况。</p>
+<!--
+One way to represent positive numbers is very similar to `Nat`, except with `one` as the base case instead of `zero`:
+-->
+<p>一种表示正数的方法其实和 <code>Nat</code> 十分相似，只是用 <code>one</code> 作为基本情况而不是 <code>zero</code> 。</p>
 <pre><code class="language-lean">inductive Pos : Type where
   | one : Pos
   | succ : Pos → Pos
 </code></pre>
-<p>This datatype represents exactly the intended set of values, but it is not very convenient to use.
-For example, numeric literals are rejected:</p>
+<!--
+This datatype represents exactly the intended set of values, but it is not very convenient to use.
+For example, numeric literals are rejected:
+-->
+<p>这个数据类型很好的代表了我们期望的值的集合，但是它用起来并不是很方便。比如说，无法使用数字字面量。</p>
 <pre><code class="language-lean">def seven : Pos := 7
 </code></pre>
 <pre><code class="language-output error">failed to synthesize instance
   OfNat Pos 7
 </code></pre>
-<p>Instead, the constructors must be used directly:</p>
+<!--
+Instead, the constructors must be used directly:
+-->
+<p>而是必须要直接使用构造子。</p>
 <pre><code class="language-lean">def seven : Pos :=
   Pos.succ (Pos.succ (Pos.succ (Pos.succ (Pos.succ (Pos.succ Pos.one)))))
 </code></pre>
-<p>Similarly, addition and multiplication are not easy to use:</p>
+<!--
+Similarly, addition and multiplication are not easy to use:
+-->
+<p>类似地，加法和乘法用起来也很费劲。</p>
 <pre><code class="language-lean">def fourteen : Pos := seven + seven
 </code></pre>
 <pre><code class="language-output error">failed to synthesize instance
@@ -175,48 +195,96 @@ For example, numeric literals are rejected:</p>
 <pre><code class="language-output error">failed to synthesize instance
   HMul Pos Pos ?m.291
 </code></pre>
-<p>Each of these error messages begins with <code>failed to synthesize instance</code>.
-This indicates that the error is due to an overloaded operation that has not been implemented, and it describes the type class that must be implemented.</p>
-<h2 id="classes-and-instances"><a class="header" href="#classes-and-instances">Classes and Instances</a></h2>
-<p>A type class consists of a name, some parameters, and a collection of <em>methods</em>.
+<!--
+Each of these error messages begins with `failed to synthesize instance`.
+This indicates that the error is due to an overloaded operation that has not been implemented, and it describes the type class that must be implemented.
+-->
+<p>这类错误都会以 <code>failed to synthesize instance</code> 开头。这意味着这个错误是因为使用的操作符重载还没有被实现，
+并且指出了应该实现的类型类。</p>
+<!--
+## Classes and Instances
+-->
+<h2 id="类与实例"><a class="header" href="#类与实例">类与实例</a></h2>
+<!--
+A type class consists of a name, some parameters, and a collection of _methods_.
 The parameters describe the types for which overloadable operations are being defined, and the methods are the names and type signatures of the overloadable operations.
 Once again, there is a terminology clash with object-oriented languages.
 In object-oriented programming, a method is essentially a function that is connected to a particular object in memory, with special access to the object's private state.
 Objects are interacted with via their methods.
-In Lean, the term &quot;method&quot; refers to an operation that has been declared to be overloadable, with no special connection to objects or values or private fields.</p>
-<p>One way to overload addition is to define a type class named <code>Plus</code>, with an addition method named <code>plus</code>.
-Once an instance of <code>Plus</code> for <code>Nat</code> has been defined, it becomes possible to add two <code>Nat</code>s using <code>Plus.plus</code>:</p>
+In Lean, the term "method" refers to an operation that has been declared to be overloadable, with no special connection to objects or values or private fields.
+-->
+<p>一个类型类是由名称，一些参数，和一族 <strong>方法（method）</strong> 构成的。参数定义了可重载运算符的类型，
+而方法则是可重载运算符的名称和类型签名。这里再次出现了与面向对象语言之间的术语冲突。在面向对象编程中，
+一个方法本质上是一个与内存中的一个特定对象有关联的函数，并且具有访问该对象的私有状态的特权。我们通过方法与对象进行交互。
+在 Lean 中，“方法”这个词项指一个被声明为可重载的运算符，与对象、值或是私有字段并无特殊关联。</p>
+<!--
+One way to overload addition is to define a type class named `Plus`, with an addition method named `plus`.
+Once an instance of `Plus` for `Nat` has been defined, it becomes possible to add two `Nat`s using `Plus.plus`:
+-->
+<p>一种重载加法的方法是定义一个名为 <code>Plus</code> 的类型类，其加法方法名为 <code>plus</code>。
+一旦为 <code>Nat</code> 定义了 <code>Plus</code> 的实例，就使得用 <code>Plus.plus</code> 将两个 <code>Nat</code> 相加成为可能：</p>
 <pre><code class="language-lean">#eval Plus.plus 5 3
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>Adding more instances allows <code>Plus.plus</code> to take more types of arguments.</p>
-<p>In the following type class declaration, <code>Plus</code> is the name of the class, <code>α : Type</code> is the only argument, and <code>plus : α → α → α</code> is the only method:</p>
+<!--
+Adding more instances allows `Plus.plus` to take more types of arguments.
+-->
+<p>添加更多的实例可以使 <code>Plus.plus</code> 能够接受更多类型的参数</p>
+<!--
+In the following type class declaration, `Plus` is the name of the class, `α : Type` is the only argument, and `plus : α → α → α` is the only method:
+-->
+<p>在下面的类型类声明中，<code>Plus</code> 是类的名称，<code>α : Type</code> 是唯一的参数，并且 <code>plus : α → α → α</code> 是唯一的方法：</p>
 <pre><code class="language-lean">class Plus (α : Type) where
   plus : α → α → α
 </code></pre>
-<p>This declaration says that there is a type class <code>Plus</code> that overloads operations with respect to a type <code>α</code>.
-In particular, there is one overloaded operation called <code>plus</code> that takes two <code>α</code>s and returns an <code>α</code>.</p>
-<p>Type classes are first class, just as types are first class.
+<!--
+This declaration says that there is a type class `Plus` that overloads operations with respect to a type `α`.
+In particular, there is one overloaded operation called `plus` that takes two `α`s and returns an `α`.
+-->
+<p>此声明表示存在类型类 <code>Plus</code>，它对类型 <code>α</code> 的操作进行重载。
+具体到这段代码，存在一个称为 <code>plus</code> 的重载操作，它接受两个 <code>α</code> 并返回一个 <code>α</code>。</p>
+<!--
+Type classes are first class, just as types are first class.
 In particular, a type class is another kind of type.
-The type of <code>Plus</code> is <code>Type → Type</code>, because it takes a type as an argument (<code>α</code>) and results in a new type that describes the overloading of <code>Plus</code>'s operation for <code>α</code>.</p>
-<p>To overload <code>plus</code> for a particular type, write an instance:</p>
+The type of `Plus` is `Type → Type`, because it takes a type as an argument (`α`) and results in a new type that describes the overloading of `Plus`'s operation for `α`.
+-->
+<p>类型类是一等公民，就像类型是一等公民一样。
+我们更可以说，类型类是另一种类型。
+<code>Plus</code> 的类型是 <code>Type → Type</code>，因为它获取一个类型作为参数（<code>α</code>），并导致一个新类型，它描述了 <code>Plus</code> 的运算符对于 <code>α</code> 的重载。</p>
+<!--
+To overload `plus` for a particular type, write an instance:
+-->
+<p>写一个实例来为特定类型重载 <code>Plus</code>：</p>
 <pre><code class="language-lean">instance : Plus Nat where
   plus := Nat.add
 </code></pre>
-<p>The colon after <code>instance</code> indicates that <code>Plus Nat</code> is indeed a type.
-Each method of class <code>Plus</code> should be assigned a value using <code>:=</code>.
-In this case, there is only one method: <code>plus</code>.</p>
-<p>By default, type class methods are defined in a namespace with the same name as the type class.
-It can be convenient to <code>open</code> the namespace so that users don't need to type the name of the class first.
-Parentheses in an <code>open</code> command indicate that only the indicated names from the namespace are to be made accessible:</p>
+<!--
+The colon after `instance` indicates that `Plus Nat` is indeed a type.
+Each method of class `Plus` should be assigned a value using `:=`.
+In this case, there is only one method: `plus`.
+-->
+<p><code>instance</code> 后跟的冒号暗示了 <code>Plus Nat</code> 的确是一个类型。
+<code>Plus</code> 类中的每个方法都要用 <code>:=</code> 来赋值。
+在这个例子中，只有一个 <code>plus</code> 方法。</p>
+<!--
+By default, type class methods are defined in a namespace with the same name as the type class.
+It can be convenient to `open` the namespace so that users don't need to type the name of the class first.
+Parentheses in an `open` command indicate that only the indicated names from the namespace are to be made accessible:
+-->
+<p>默认情况下，类型类方法在与类型类同名的命名空间中定义。
+如果将该命名空间打开（使用 <code>open</code> 指令）会使该方法使用起来十分方便——这样用户就不用先输入类名了。
+<code>open</code> 指令后跟的括号表示只有括号内指定的名称才可以被访问。</p>
 <pre><code class="language-lean">open Plus (plus)
 
 #eval plus 5 3
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>Defining an addition function for <code>Pos</code> and an instance of <code>Plus Pos</code> allows <code>plus</code> to be used to add both <code>Pos</code> and <code>Nat</code> values:</p>
+<!--
+Defining an addition function for `Pos` and an instance of `Plus Pos` allows `plus` to be used to add both `Pos` and `Nat` values:
+-->
+<p>为 <code>Pos</code> 定义一个加法函数和一个 <code>Plus Pos</code> 的实例，这样就可以使用 <code>plus</code> 来相加 <code>Pos</code> 和 <code>Nat</code> 值。</p>
 <pre><code class="language-lean">def Pos.plus : Pos → Pos → Pos
   | Pos.one, k =&gt; Pos.succ k
   | Pos.succ n, k =&gt; Pos.succ (n.plus k)
@@ -226,49 +294,93 @@ instance : Plus Pos where
 
 def fourteen : Pos := plus seven seven
 </code></pre>
-<p>Because there is not yet an instance of <code>Plus Float</code>, attempting to add two floating-point numbers with <code>plus</code> fails with a familiar message:</p>
+<!--
+Because there is not yet an instance of `Plus Float`, attempting to add two floating-point numbers with `plus` fails with a familiar message:
+-->
+<p>因为我们还没有 <code>Plus Float</code> 的实例， 所以尝试使用 <code>plus</code> 将两个浮点数相加会得到类似的错误信息：</p>
 <pre><code class="language-lean">#eval plus 5.2 917.25861
 </code></pre>
 <pre><code class="language-output error">failed to synthesize instance
   Plus Float
 </code></pre>
-<p>These errors mean that Lean was unable to find an instance for a given type class.</p>
-<h2 id="overloaded-addition"><a class="header" href="#overloaded-addition">Overloaded Addition</a></h2>
-<p>Lean's built-in addition operator is syntactic sugar for a type class called <code>HAdd</code>, which flexibly allows the arguments to addition to have different types.
-<code>HAdd</code> is short for <em>heterogeneous addition</em>.
-For example, an <code>HAdd</code> instance can be written to allow a <code>Nat</code> to be added to a <code>Float</code>, resulting in a new <code>Float</code>.
-When a programmer writes <code>x + y</code>, it is interpreted as meaning <code>HAdd.hAdd x y</code>.</p>
-<p>While an understanding of the full generality of <code>HAdd</code> relies on features that are discussed in <a href="out-params.html">another section in this chapter</a>, there is a simpler type class called <code>Add</code> that does not allow the types of the arguments to be mixed.
-The Lean libraries are set up so that an instance of <code>Add</code> will be found when searching for an instance of <code>HAdd</code> in which both arguments have the same type.</p>
-<p>Defining an instance of <code>Add Pos</code> allows <code>Pos</code> values to use ordinary addition syntax:</p>
+<!--
+These errors mean that Lean was unable to find an instance for a given type class.
+-->
+<p>这个报错意味着对于所给的类型类，Lean 并不能找到一个实例。</p>
+<!--
+## Overloaded Addition
+-->
+<h2 id="重载加法运算符"><a class="header" href="#重载加法运算符">重载加法运算符</a></h2>
+<!--
+Lean's built-in addition operator is syntactic sugar for a type class called `HAdd`, which flexibly allows the arguments to addition to have different types.
+`HAdd` is short for _heterogeneous addition_.
+For example, an `HAdd` instance can be written to allow a `Nat` to be added to a `Float`, resulting in a new `Float`.
+When a programmer writes `x + y`, it is interpreted as meaning `HAdd.hAdd x y`.
+-->
+<p>Lean 的内置加法运算符是 <code>HAdd</code> 类型类的语法糖，这使加法运算符可以灵活的接受不同类型的参数。
+<code>HAdd</code> 是 <strong>异质加法（Heterogeneous Addition）</strong> 的缩写。
+比如说，我们可以写一个 <code>HAdd</code> 实例来允许 <code>Nat</code> 和 <code>Float</code> 相加，其结果为一个新的 <code>Float</code>。
+当程序员写了 <code>x + y</code> 时，它会被解释为 <code>HAdd.hAdd x y</code>。</p>
+<!--
+While an understanding of the full generality of `HAdd` relies on features that are discussed in [another section in this chapter](out-params.md), there is a simpler type class called `Add` that does not allow the types of the arguments to be mixed.
+The Lean libraries are set up so that an instance of `Add` will be found when searching for an instance of `HAdd` in which both arguments have the same type.
+-->
+<p>虽然对 <code>HAdd</code> 的全部通用性的理解依赖于<a href="out-params.html">另一章节</a>中讨论的特性，但还有一个更简单的类型类叫做 <code>Add</code>，它不允许出现不同类型的参数。
+Lean 库被设置成当搜索一个 <code>HAdd</code> 实例时，如果两个参数具有相同的类型，就会找到一个 Add 的实例。</p>
+<!--
+Defining an instance of `Add Pos` allows `Pos` values to use ordinary addition syntax:
+-->
+<p>定义一个 <code>Add Pos</code> 的实例来让 <code>Pos</code> 类型的值可以使用常规的加法语法。</p>
 <pre><code class="language-lean">instance : Add Pos where
   add := Pos.plus
 
 def fourteen : Pos := seven + seven
 </code></pre>
-<h2 id="conversion-to-strings"><a class="header" href="#conversion-to-strings">Conversion to Strings</a></h2>
-<p>Another useful built-in class is called <code>ToString</code>.
-Instances of <code>ToString</code> provide a standard way of converting values from a given type into strings.
-For example, a <code>ToString</code> instance is used when a value occurs in an interpolated string, and it determines how the <code>IO.println</code> function used at the <a href="../hello-world/running-a-program.html#running-a-program">beginning of the description of <code>IO</code></a> will display a value.</p>
-<p>For example, one way to convert a <code>Pos</code> into a <code>String</code> is to reveal its inner structure.
-The function <code>posToString</code> takes a <code>Bool</code> that determines whether to parenthesize uses of <code>Pos.succ</code>, which should be <code>true</code> in the initial call to the function and <code>false</code> in all recursive calls.</p>
+<!--
+## Conversion to Strings
+-->
+<h2 id="转换为字符串"><a class="header" href="#转换为字符串">转换为字符串</a></h2>
+<!--
+Another useful built-in class is called `ToString`.
+Instances of `ToString` provide a standard way of converting values from a given type into strings.
+For example, a `ToString` instance is used when a value occurs in an interpolated string, and it determines how the `IO.println` function used at the [beginning of the description of `IO`](../hello-world/running-a-program.html#running-a-program) will display a value.
+-->
+<p>另一个有用的内置类叫做 <code>ToString</code>。
+<code>ToString</code> 的实例提供了一种将给定类型转换为字符串的标准方式。
+例如，当值出现在插值字符串中时，会使用 ToString 实例。它决定了在<a href="../hello-world/running-a-program.html#running-a-program"><code>IO</code> 的描述开始处</a>使用的 <code>IO.println</code> 函数如何显示一个值。</p>
+<!--
+For example, one way to convert a `Pos` into a `String` is to reveal its inner structure.
+The function `posToString` takes a `Bool` that determines whether to parenthesize uses of `Pos.succ`, which should be `true` in the initial call to the function and `false` in all recursive calls.
+-->
+<p>例如，一种将 <code>Pos</code> 转换为 <code>String</code> 的方式就是解析它的内部结构。
+函数 <code>posToString</code> 接受一个决定是否给<code>Pos.succ</code>加上括号的 <code>Bool</code> 值，该值在第一次调用时应该为 <code>true</code>，在后续递归调用中应该为 <code>false</code>。</p>
 <pre><code class="language-lean">def posToString (atTop : Bool) (p : Pos) : String :=
   let paren s := if atTop then s else &quot;(&quot; ++ s ++ &quot;)&quot;
   match p with
   | Pos.one =&gt; &quot;Pos.one&quot;
   | Pos.succ n =&gt; paren s!&quot;Pos.succ {posToString false n}&quot;
 </code></pre>
-<p>Using this function for a <code>ToString</code> instance:</p>
+<!--
+Using this function for a `ToString` instance:
+-->
+<p>使用这个函数作为 <code>ToString</code> 的一个实例：</p>
 <pre><code class="language-lean">instance : ToString Pos where
   toString := posToString true
 </code></pre>
-<p>results in informative, yet overwhelming, output:</p>
+<!--
+results in informative, yet overwhelming, output:
+-->
+<p>会产生信息丰富但可能过于冗长的输出：</p>
 <pre><code class="language-lean">#eval s!&quot;There are {seven}&quot;
 </code></pre>
 <pre><code class="language-output info">&quot;There are Pos.succ (Pos.succ (Pos.succ (Pos.succ (Pos.succ (Pos.succ Pos.one)))))&quot;
 </code></pre>
-<p>On the other hand, every positive number has a corresponding <code>Nat</code>.
-Converting it to a <code>Nat</code> and then using the <code>ToString Nat</code> instance (that is, the overloading of <code>toString</code> for <code>Nat</code>) is a quick way to generate much shorter output:</p>
+<!--
+On the other hand, every positive number has a corresponding `Nat`.
+Converting it to a `Nat` and then using the `ToString Nat` instance (that is, the overloading of `toString` for `Nat`) is a quick way to generate much shorter output:
+-->
+<p>另一方面，每个正数都有一个对应的 <code>Nat</code>。
+将其转换为 Nat，然后使用 <code>ToString Nat</code> 实例（即对 <code>Nat</code> 的 <code>toString</code> 重载）是一种生成更简短输出的快捷方法：</p>
 <pre><code class="language-lean">def Pos.toNat : Pos → Nat
   | Pos.one =&gt; 1
   | Pos.succ n =&gt; n.toNat + 1
@@ -280,13 +392,28 @@ instance : ToString Pos where
 </code></pre>
 <pre><code class="language-output info">&quot;There are 7&quot;
 </code></pre>
-<p>When more than one instance is defined, the most recent takes precedence.
-Additionally, if a type has a <code>ToString</code> instance, then it can be used to display the result of <code>#eval</code> even if the type in question was not defined with <code>deriving Repr</code>, so <code>#eval seven</code> outputs <code>7</code>.</p>
-<h2 id="overloaded-multiplication"><a class="header" href="#overloaded-multiplication">Overloaded Multiplication</a></h2>
-<p>For multiplication, there is a type class called <code>HMul</code> that allows mixed argument types, just like <code>HAdd</code>.
-Just as <code>x + y</code> is interpreted as <code>HAdd.hAdd x y</code>, <code>x * y</code> is interpreted as <code>HMul.hMul x y</code>.
-For the common case of multiplication of two arguments with the same type, a <code>Mul</code> instance suffices.</p>
-<p>An instance of <code>Mul</code> allows ordinary multiplication syntax to be used with <code>Pos</code>:</p>
+<!--
+When more than one instance is defined, the most recent takes precedence.
+Additionally, if a type has a `ToString` instance, then it can be used to display the result of `#eval` even if the type in question was not defined with `deriving Repr`, so `#eval seven` outputs `7`.
+-->
+<p>当定义了多个实例时，最近的实例优先级最高。
+此外，如果一个类型有一个 <code>ToString</code> 实例，那么它可以用来显示 <code>#eval</code> 的结果，即使该类型并没有使用 <code>deriving Repr</code> 定义，所以 <code>#eval seven</code> 输出 <code>7</code>。</p>
+<!--
+## Overloaded Multiplication
+-->
+<h2 id="重载乘法运算符"><a class="header" href="#重载乘法运算符">重载乘法运算符</a></h2>
+<!--
+For multiplication, there is a type class called `HMul` that allows mixed argument types, just like `HAdd`.
+Just as `x + y` is interpreted as `HAdd.hAdd x y`, `x * y` is interpreted as `HMul.hMul x y`.
+For the common case of multiplication of two arguments with the same type, a `Mul` instance suffices.
+-->
+<p>对乘法来说，也有一个被称为 <code>HMul</code> 的类型类可以接受不同类型的参数相乘，就像 <code>HAdd</code> 一样。
+就像 <code>x + y</code> 会被解释为 <code>HAdd.hAdd x y</code>，<code>x * y</code> 也会被解释为 <code>HMul.hMul x y</code>。
+对于两个相同类型的参数的乘法的常见情况，一个 <code>Mul</code> 实例就足够了。</p>
+<!--
+An instance of `Mul` allows ordinary multiplication syntax to be used with `Pos`:
+-->
+<p>实现一个 <code>Mul</code> 的实例就可以使常规乘法语法被用于 <code>Pos</code> 类型：</p>
 <pre><code class="language-lean">def Pos.mul : Pos → Pos → Pos
   | Pos.one, k =&gt; k
   | Pos.succ n, k =&gt; n.mul k + k
@@ -294,32 +421,64 @@ For the common case of multiplication of two arguments with the same type, a <co
 instance : Mul Pos where
   mul := Pos.mul
 </code></pre>
-<p>With this instance, multiplication works as expected:</p>
+<!--
+With this instance, multiplication works as expected:
+-->
+<p>有了这个实例，乘法就会按我们预想的方式进行了：</p>
 <pre><code class="language-lean">#eval [seven * Pos.one,
        seven * seven,
        Pos.succ Pos.one * seven]
 </code></pre>
 <pre><code class="language-output info">[7, 49, 14]
 </code></pre>
-<h2 id="literal-numbers"><a class="header" href="#literal-numbers">Literal Numbers</a></h2>
-<p>It is quite inconvenient to write out a sequence of constructors for positive numbers.
-One way to work around the problem would be to provide a function to convert a <code>Nat</code> into a <code>Pos</code>.
+<!--
+## Literal Numbers
+-->
+<h2 id="数字字面量"><a class="header" href="#数字字面量">数字字面量</a></h2>
+<!--
+It is quite inconvenient to write out a sequence of constructors for positive numbers.
+One way to work around the problem would be to provide a function to convert a `Nat` into a `Pos`.
 However, this approach has downsides.
-First off, because <code>Pos</code> cannot represent <code>0</code>, the resulting function would either convert a <code>Nat</code> to a bigger number, or it would return <code>Option Pos</code>.
+First off, because `Pos` cannot represent `0`, the resulting function would either convert a `Nat` to a bigger number, or it would return `Option Pos`.
 Neither is particularly convenient for users.
-Secondly, the need to call the function explicitly would make programs that use positive numbers much less convenient to write than programs that use <code>Nat</code>.
-Having a trade-off between precise types and convenient APIs means that the precise types become less useful.</p>
-<p>In Lean, natural number literals are interpreted using a type class called <code>OfNat</code>:</p>
+Secondly, the need to call the function explicitly would make programs that use positive numbers much less convenient to write than programs that use `Nat`.
+Having a trade-off between precise types and convenient APIs means that the precise types become less useful.
+-->
+<p>写一串构造子来表示正数是非常不方便的。
+一种解决问题的方法是提供一个将 <code>Nat</code> 转换为 <code>Pos</code> 的函数。
+然而，这种方法也有不足。
+首先，因为 <code>Pos</code> 并不能表示 <code>0</code>，用来表示结果的函数要么将 <code>Nat</code> 转换为更大的数字，要么就需要返回 <code>Option Pos</code>。
+这两种方式对用户来说都非常不方便。
+其次，需要显式调用函数会让使用正数的程序不如使用 <code>Nat</code> 的程序那么方便。
+在精确的类型和方便的 API 之间权衡一下后，精确的类型还是没那么有用。</p>
+<!--
+In Lean, natural number literals are interpreted using a type class called `OfNat`:
+-->
+<p>Lean 是通过使用一个叫做 <code>OfNat</code> 的类型类来解释数字字面量的：</p>
 <pre><code class="language-lean">class OfNat (α : Type) (_ : Nat) where
   ofNat : α
 </code></pre>
-<p>This type class takes two arguments: <code>α</code> is the type for which a natural number is overloaded, and the unnamed <code>Nat</code> argument is the actual literal number that was encountered in the program.
-The method <code>ofNat</code> is then used as the value of the numeric literal.
-Because the class contains the <code>Nat</code> argument, it becomes possible to define only instances for those values where the number makes sense.</p>
-<p><code>OfNat</code> demonstrates that the arguments to type classes do not need to be types.
-Because types in Lean are first-class participants in the language that can be passed as arguments to functions and given definitions with <code>def</code> and <code>abbrev</code>, there is no barrier that prevents non-type arguments in positions where a less-flexible language could not permit them.
-This flexibility allows overloaded operations to be provided for particular values as well as particular types.</p>
-<p>For example, a sum type that represents natural numbers less than four can be defined as follows:</p>
+<!--
+This type class takes two arguments: `α` is the type for which a natural number is overloaded, and the unnamed `Nat` argument is the actual literal number that was encountered in the program.
+The method `ofNat` is then used as the value of the numeric literal.
+Because the class contains the `Nat` argument, it becomes possible to define only instances for those values where the number makes sense.
+-->
+<p>这个类型类接受两个参数：<code>α</code> 是需要重载自然数的类型，未命名的 <code>Nat</code> 类型参数是你希望在程序中实际使用的数字字面量。
+<code>ofNat</code> 方法被用作数字字面量的值。
+由于原类包含了 <code>Nat</code> 参数，因此可以仅为那些使数字有意义的值定义实例。</p>
+<!--
+`OfNat` demonstrates that the arguments to type classes do not need to be types.
+Because types in Lean are first-class participants in the language that can be passed as arguments to functions and given definitions with `def` and `abbrev`, there is no barrier that prevents non-type arguments in positions where a less-flexible language could not permit them.
+This flexibility allows overloaded operations to be provided for particular values as well as particular types.
+-->
+<p><code>OfNat</code>展示了类型类的参数不需要是类型。
+因为在 Lean 中，类型是语言中的一等公民，可以作为参数传递给函数，并且可以使用 <code>def</code> 和 <code>abbrev</code> 给出定义。
+Lean 并不阻止非类型参数出现在类型类的参数位置上，但一些不够灵活的语言则不允许这种操作。
+这种灵活性能为特定的值以及特定的类型提供运算符重载。</p>
+<!--
+For example, a sum type that represents natural numbers less than four can be defined as follows:
+-->
+<p>例如，一个表示小于4的自然数的和类型可被定义如下：</p>
 <pre><code class="language-lean">inductive LT4 where
   | zero
   | one
@@ -327,7 +486,10 @@ This flexibility allows overloaded operations to be provided for particular valu
   | three
 deriving Repr
 </code></pre>
-<p>While it would not make sense to allow <em>any</em> literal number to be used for this type, numbers less than four clearly make sense:</p>
+<!--
+While it would not make sense to allow _any_ literal number to be used for this type, numbers less than four clearly make sense:
+-->
+<p>然而，并不是 <strong>每个</strong> 数字字面量对于这个类型都是合理的，只有小于4的数是合理的：</p>
 <pre><code class="language-lean">instance : OfNat LT4 0 where
   ofNat := LT4.zero
 
@@ -340,7 +502,10 @@ instance : OfNat LT4 2 where
 instance : OfNat LT4 3 where
   ofNat := LT4.three
 </code></pre>
-<p>With these instances, the following examples work:</p>
+<!--
+With these instances, the following examples work:
+-->
+<p>有了上面的实例，我们就可以使用它们了：</p>
 <pre><code class="language-lean">#eval (3 : LT4)
 </code></pre>
 <pre><code class="language-output info">LT4.three
@@ -349,16 +514,25 @@ instance : OfNat LT4 3 where
 </code></pre>
 <pre><code class="language-output info">LT4.zero
 </code></pre>
-<p>On the other hand, out-of-bounds literals are still not allowed:</p>
+<!--
+On the other hand, out-of-bounds literals are still not allowed:
+-->
+<p>另一方面，越界的字面量也是不行的。</p>
 <pre><code class="language-lean">#eval (4 : LT4)
 </code></pre>
 <pre><code class="language-output error">failed to synthesize instance
 OfNat LT4 4
 </code></pre>
-<p>For <code>Pos</code>, the <code>OfNat</code> instance should work for <em>any</em> <code>Nat</code> other than <code>Nat.zero</code>.
-Another way to phrase this is to say that for all natural numbers <code>n</code>, the instance should work for <code>n + 1</code>.
-Just as names like <code>α</code> automatically become implicit arguments to functions that Lean fills out on its own, instances can take automatic implicit arguments.
-In this instance, the argument <code>n</code> stands for any <code>Nat</code>, and the instance is defined for a <code>Nat</code> that's one greater:</p>
+<!--
+For `Pos`, the `OfNat` instance should work for _any_ `Nat` other than `Nat.zero`.
+Another way to phrase this is to say that for all natural numbers `n`, the instance should work for `n + 1`.
+Just as names like `α` automatically become implicit arguments to functions that Lean fills out on its own, instances can take automatic implicit arguments.
+In this instance, the argument `n` stands for any `Nat`, and the instance is defined for a `Nat` that's one greater:
+-->
+<p>对于 <code>Pos</code> 来说，<code>OfNat</code> 实例应该适用于除 <code>Nat.zero</code> 外的 <strong>任何</strong> <code>Nat</code>。
+另一种表达方式是说，对于所有的自然数 <code>n</code>，该实例应该适用于 <code>n + 1</code>。
+就像 <code>α</code> 这样的名称会自动成为 Lean 自动填充的函数的隐式参数一样，实例也可以接受自动隐式参数。
+在这个实例中，参数 <code>n</code> 代表任何 <code>Nat</code>，并且该实例是为一个比给定 <code>Nat</code> 大一的 <code>Nat</code> 定义的：</p>
 <pre><code class="language-lean">instance : OfNat Pos (n + 1) where
   ofNat :=
     let rec natPlusOne : Nat → Pos
@@ -366,8 +540,11 @@ In this instance, the argument <code>n</code> stands for any <code>Nat</code>, a
       | k + 1 =&gt; Pos.succ (natPlusOne k)
     natPlusOne n
 </code></pre>
-<p>Because <code>n</code> stands for a <code>Nat</code> that's one less than what the user wrote, the helper function <code>natPlusOne</code> returns a <code>Pos</code> that's one greater than its argument.
-This makes it possible to use natural number literals for positive numbers, but not for zero:</p>
+<!--
+Because `n` stands for a `Nat` that's one less than what the user wrote, the helper function `natPlusOne` returns a `Pos` that's one greater than its argument.
+This makes it possible to use natural number literals for positive numbers, but not for zero:
+-->
+<p>因为 <code>n</code> 代表的数比用户实际写的要小一，所以辅助函数 <code>natPlusOne</code> 返回一个比它的参数大一的 <code>Pos</code>。这使得用自然数字面量表示正数成为可能，同时不会表示零：</p>
 <pre><code class="language-lean">def eight : Pos := 8
 
 def zero : Pos := 0
@@ -375,23 +552,53 @@ def zero : Pos := 0
 <pre><code class="language-output error">failed to synthesize instance
   OfNat Pos 0
 </code></pre>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
-<h3 id="another-representation"><a class="header" href="#another-representation">Another Representation</a></h3>
-<p>An alternative way to represent a positive number is as the successor of some <code>Nat</code>.
-Replace the definition of <code>Pos</code> with a structure whose constructor is named <code>succ</code> that contains a <code>Nat</code>:</p>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+### Another Representation
+-->
+<h3 id="另一种表示"><a class="header" href="#另一种表示">另一种表示</a></h3>
+<!--
+An alternative way to represent a positive number is as the successor of some `Nat`.
+Replace the definition of `Pos` with a structure whose constructor is named `succ` that contains a `Nat`:
+-->
+<p>另一种方式来表示正数是用某个 <code>Nat</code> 的后继。
+用一个名为 <code>succ</code> 的结构体替换 <code>Pos</code> 的定义，该结构体包含一个 <code>Nat</code>：</p>
 <pre><code class="language-lean">structure Pos where
   succ ::
   pred : Nat
 </code></pre>
-<p>Define instances of <code>Add</code>, <code>Mul</code>, <code>ToString</code>, and <code>OfNat</code> that allow this version of <code>Pos</code> to be used conveniently.</p>
-<h3 id="even-numbers"><a class="header" href="#even-numbers">Even Numbers</a></h3>
-<p>Define a datatype that represents only even numbers. Define instances of <code>Add</code>, <code>Mul</code>, and <code>ToString</code> that allow it to be used conveniently.
-<code>OfNat</code> requires a feature that is introduced in <a href="polymorphism.html">the next section</a>.</p>
-<h3 id="http-requests"><a class="header" href="#http-requests">HTTP Requests</a></h3>
-<p>An HTTP request begins with an identification of a HTTP method, such as <code>GET</code> or <code>POST</code>, along with a URI and an HTTP version.
+<!--
+Define instances of `Add`, `Mul`, `ToString`, and `OfNat` that allow this version of `Pos` to be used conveniently.
+-->
+<p>定义 <code>Add</code>，<code>Mul</code>，<code>ToString</code>，和 <code>OfNat</code>的实例来让这个版本的 <code>Pos</code> 用起来更方便。</p>
+<!--
+### Even Numbers
+-->
+<h3 id="偶数"><a class="header" href="#偶数">偶数</a></h3>
+<!--
+Define a datatype that represents only even numbers. Define instances of `Add`, `Mul`, and `ToString` that allow it to be used conveniently.
+`OfNat` requires a feature that is introduced in [the next section](polymorphism.md).
+-->
+<p>定义一个只表示偶数的数据类型。定义<code>Add</code>，<code>Mul</code>，和 <code>ToString</code>来让它用起来更方便。
+定义 <code>OfNat</code> 需要<a href="polymorphism.html">下一节</a>中介绍的特性。</p>
+<!--
+### HTTP Requests
+-->
+<h3 id="http-请求"><a class="header" href="#http-请求">HTTP 请求</a></h3>
+<!--
+An HTTP request begins with an identification of a HTTP method, such as `GET` or `POST`, along with a URI and an HTTP version.
 Define an inductive type that represents an interesting subset of the HTTP methods, and a structure that represents HTTP responses.
-Responses should have a <code>ToString</code> instance that makes it possible to debug them.
-Use a type class to associate different <code>IO</code> actions with each HTTP method, and write a test harness as an <code>IO</code> action that calls each method and prints the result.</p>
+Responses should have a `ToString` instance that makes it possible to debug them.
+Use a type class to associate different `IO` actions with each HTTP method, and write a test harness as an `IO` action that calls each method and prints the result.
+-->
+<p>一个 HTTP 请求以一个 HTTP 方法的标识开始，比如 <code>GET</code> 或 <code>POST</code>，还包括一个 URI 和一个 HTTP 版本。
+定义一个归纳类型，代表 HTTP 方法的一个有趣的子集，并且定义一个表示 HTTP 响应的结构体。
+响应应该有一个 <code>ToString</code> 实例，使得可以对其进行调试。
+使用一个类型类来将不同的 <code>IO</code> 操作与每个 HTTP 方法关联起来，
+并编写一个测试工具作为一个 <code>IO</code> 操作，调用每个方法并打印结果。</p>
 
                     </main>
 

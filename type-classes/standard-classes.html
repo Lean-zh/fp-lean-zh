@@ -144,14 +144,32 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="standard-classes"><a class="header" href="#standard-classes">Standard Classes</a></h1>
-<p>This section presents a variety of operators and functions that can be overloaded using type classes in Lean.
+                        <!--
+# Standard Classes
+-->
+<h1 id="标准类"><a class="header" href="#标准类">标准类</a></h1>
+<!--
+This section presents a variety of operators and functions that can be overloaded using type classes in Lean.
 Each operator or function corresponds to a method of a type class.
-Unlike C++, infix operators in Lean are defined as abbreviations for named functions; this means that overloading them for new types is not done using the operator itself, but rather using the underlying name (such as <code>HAdd.hAdd</code>).</p>
-<h2 id="arithmetic"><a class="header" href="#arithmetic">Arithmetic</a></h2>
-<p>Most arithmetic operators are available in a heterogeneous form, where the arguments may have different type and an output parameter decides the type of the resulting expression.
-For each heterogeneous operator, there is a corresponding homogeneous version that can found by removing the letter <code>h</code>, so that <code>HAdd.hAdd</code> becomes <code>Add.add</code>.
-The following arithmetic operators are overloaded:</p>
+Unlike C++, infix operators in Lean are defined as abbreviations for named functions; this means that overloading them for new types is not done using the operator itself, but rather using the underlying name (such as `HAdd.hAdd`).
+-->
+<p>本节中展示了各种可重载的运算符和函数。在 Lean 中，它们都通过类型类来重载。
+每个运算符或函数都对应于一个类型类中的方法。
+不像 C++，Lean 中的中缀操作符定义为命名函数的缩写；这意味着为新类型重载它们不是使用操作符本身，而是使用其底层名称（例如 <code>HAdd.hAdd</code>）。</p>
+<!--
+## Arithmetic
+-->
+<h2 id="算术符号"><a class="header" href="#算术符号">算术符号</a></h2>
+<!--
+Most arithmetic operators are available in a heterogeneous form, where the arguments may have different type and an output parameter decides the type of the resulting expression.
+For each heterogeneous operator, there is a corresponding homogeneous version that can found by removing the letter `h`, so that `HAdd.hAdd` becomes `Add.add`.
+The following arithmetic operators are overloaded:
+-->
+<p>多数算术运算符都是可以进行异质运算的。
+这意味着参数可能有不同的类型，并且输出参数决定了结果表达式的类型。
+对于每个异质运算符，都有一个同质运算符与其对应。
+只要把字母 <code>h</code> 去掉就能找到那个同质运算符了，<code>HAdd.hAdd</code> 对应 <code>Add.add</code>。
+下面的算术运算符都可以被重载：</p>
 <table><thead><tr><th>Expression</th><th>Desugaring</th><th>Class Name</th></tr></thead><tbody>
 <tr><td><code>x + y</code></td><td><code>HAdd.hAdd x y</code></td><td><code>HAdd</code></td></tr>
 <tr><td><code>x - y</code></td><td><code>HSub.hSub x y</code></td><td><code>HSub</code></td></tr>
@@ -161,11 +179,18 @@ The following arithmetic operators are overloaded:</p>
 <tr><td><code>x ^ y</code></td><td><code>HPow.hPow x y</code></td><td><code>HPow</code></td></tr>
 <tr><td><code>(- x)</code></td><td><code>Neg.neg x</code></td><td><code>Neg</code></td></tr>
 </tbody></table>
-<h2 id="bitwise-operators"><a class="header" href="#bitwise-operators">Bitwise Operators</a></h2>
-<p>Lean contains a number of standard bitwise operators that are overloaded using type classes.
-There are instances for fixed-width types such as <code>UInt8</code>, <code>UInt16</code>, <code>UInt32</code>, <code>UInt64</code>, and <code>USize</code>.
+<!--
+## Bitwise Operators
+-->
+<h2 id="位运算符"><a class="header" href="#位运算符">位运算符</a></h2>
+<!--
+Lean contains a number of standard bitwise operators that are overloaded using type classes.
+There are instances for fixed-width types such as `UInt8`, `UInt16`, `UInt32`, `UInt64`, and `USize`.
 The latter is the size of words on the current platform, typically 32 or 64 bits.
-The following bitwise operators are overloaded:</p>
+The following bitwise operators are overloaded:
+-->
+<p>Lean 包含了许多标准位运算符，他们也可以用类型类来重载。
+Lean 中有对于定长类型的实例，例如 <code>UInt8</code>，<code>UInt16</code>，<code>UInt32</code>，<code>UInt64</code>，和 <code>USize</code>。</p>
 <table><thead><tr><th>Expression</th><th>Desugaring</th><th>Class Name</th></tr></thead><tbody>
 <tr><td><code>x &amp;&amp;&amp; y</code></td><td><code>HAnd.hAnd x y</code></td><td><code>HAnd</code></td></tr>
 <tr><td><code class="hljs">x ||| y </code></td><td><code>HOr.hOr x y</code></td><td><code>HOr</code></td></tr>
@@ -174,71 +199,143 @@ The following bitwise operators are overloaded:</p>
 <tr><td><code>x &gt;&gt;&gt; y</code></td><td><code>HShiftRight.hShiftRight x y</code></td><td><code>HShiftRight</code></td></tr>
 <tr><td><code>x &lt;&lt;&lt; y</code></td><td><code>HShiftLeft.hShiftLeft x y</code></td><td><code>HShiftLeft</code></td></tr>
 </tbody></table>
-<p>Because the names <code>And</code> and <code>Or</code> are already taken as the names of logical connectives, the homogeneous versions of <code>HAnd</code> and <code>HOr</code> are called <code>AndOp</code> and <code>OrOp</code> rather than <code>And</code> and <code>Or</code>.</p>
-<h2 id="equality-and-ordering"><a class="header" href="#equality-and-ordering">Equality and Ordering</a></h2>
-<p>Testing equality of two values typically uses the <code>BEq</code> class, which is short for &quot;Boolean equality&quot;.
-Due to Lean's use as a theorem prover, there are really two kinds of equality operators in Lean:</p>
+<!--
+Because the names `And` and `Or` are already taken as the names of logical connectives, the homogeneous versions of `HAnd` and `HOr` are called `AndOp` and `OrOp` rather than `And` and `Or`.
+-->
+<p>由于 <code>And</code> 和 <code>Or</code> 已经是逻辑连接词了，所以 <code>HAnd</code> 和 <code>HOr</code> 的同质对应叫做 <code>AndOp</code> 和 <code>OrOp</code> 而不是 <code>And</code> 和 <code>Or</code>。</p>
+<!--
+## Equality and Ordering
+-->
+<h2 id="相等性与有序性"><a class="header" href="#相等性与有序性">相等性与有序性</a></h2>
+<!--
+Testing equality of two values typically uses the `BEq` class, which is short for "Boolean equality".
+Due to Lean's use as a theorem prover, there are really two kinds of equality operators in Lean:
+ * _Boolean equality_ is the same kind of equality that is found in other programming languages. It is a function that takes two values and returns a `Bool`. Boolean equality is written with two equals signs, just as in Python and C#. Because Lean is a pure functional language, there's no separate notions of reference vs value equality—pointers cannot be observed directly.
+ * _Propositional equality_ is the mathematical statement that two things are equal. Propositional equality is not a function; rather, it is a mathematical statement that admits proof. It is written with a single equals sign. A statement of propositional equality is like a type that classifies evidence of this equality.
+-->
+<p>测试两个值之间的相等性通常会用 <code>BEq</code> 类，该类名是 Boolean equality（布尔等价）的缩写。
+由于 Lean 是一个定理证明器，所以在 Lean 中其实有两种类型的相等运算符：</p>
 <ul>
-<li><em>Boolean equality</em> is the same kind of equality that is found in other programming languages. It is a function that takes two values and returns a <code>Bool</code>. Boolean equality is written with two equals signs, just as in Python and C#. Because Lean is a pure functional language, there's no separate notions of reference vs value equality—pointers cannot be observed directly.</li>
-<li><em>Propositional equality</em> is the mathematical statement that two things are equal. Propositional equality is not a function; rather, it is a mathematical statement that admits proof. It is written with a single equals sign. A statement of propositional equality is like a type that classifies evidence of this equality.</li>
+<li><strong>布尔等价（Boolean equality）</strong> 和你能在其他编程语言中看到的等价是一样的。
+这是一个接受两个值并且返回一个 <code>Bool</code> 的函数。
+布尔等价使用两个等号表示，就像在 Python 和 C# 中那样。
+因为 Lean 是一个纯函数式语言，指针并不能被直接看到，所以引用和值等价并没有符号上的区别。</li>
+<li><strong>命题等价（Propositional equality）</strong> 是一个 <strong>数学陈述（mathematical statement）</strong> ，指两个东西是等价的。
+命题等价并不是一个函数，而是一个可以证明的数学陈述。
+可以用一个单等号表示。
+一个命题等价的陈述就像一个能检查等价性证据的类型。</li>
 </ul>
-<p>Both notions of equality are important, and used for different purposes.
+<!--
+Both notions of equality are important, and used for different purposes.
 Boolean equality is useful in programs, when a decision needs to be made about whether two values are equal.
-For example, <code>&quot;Octopus&quot; ==  &quot;Cuttlefish&quot;</code> evaluates to <code>false</code>, and <code>&quot;Octopodes&quot; ==  &quot;Octo&quot;.append &quot;podes&quot;</code> evaluates to <code>true</code>.
+For example, `"Octopus" ==  "Cuttlefish"` evaluates to `false`, and `"Octopodes" ==  "Octo".append "podes"` evaluates to `true`.
 Some values, such as functions, cannot be checked for equality.
-For example, <code>(fun (x : Nat) =&gt; 1 + x) == (Nat.succ ·)</code> yields the error:</p>
+For example, `(fun (x : Nat) => 1 + x) == (Nat.succ ·)` yields the error:
+-->
+<p>这两种等价都很重要，它们有不同的用处。
+布尔等价在程序中很有用，有时我们需要考察两个值是否是相等的。
+例如：<code>&quot;Octopus&quot; ==  &quot;Cuttlefish&quot;</code> 结果为 <code>false</code>，以及 <code>&quot;Octopodes&quot; ==  &quot;Octo&quot;.append &quot;podes&quot;</code> 结果为 <code>true</code>。
+有一些值，比如函数，无法检查等价性。
+例如，<code>(fun (x : Nat) =&gt; 1 + x) == (Nat.succ ·)</code> 会报错：</p>
 <pre><code class="language-output error">failed to synthesize instance
   BEq (Nat → Nat)
 </code></pre>
-<p>As this message indicates, <code>==</code> is overloaded using a type class.
-The expression <code>x == y</code> is actually shorthand for <code>BEq.beq x y</code>.</p>
-<p>Propositional equality is a mathematical statement rather than an invocation of a program.
-Because propositions are like types that describe evidence for some statement, propositional equality has more in common with types like <code>String</code> and <code>Nat → List Int</code> than it does with Boolean equality.
+<!--
+As this message indicates, `==` is overloaded using a type class.
+The expression `x == y` is actually shorthand for `BEq.beq x y`.
+-->
+<p>就像这条信息说的，<code>==</code> 是使用了类型类重载的。
+表达式 <code>x == y</code> 事实上是 <code>BEq.beq x y</code> 的缩写。</p>
+<!--
+Propositional equality is a mathematical statement rather than an invocation of a program.
+Because propositions are like types that describe evidence for some statement, propositional equality has more in common with types like `String` and `Nat → List Int` than it does with Boolean equality.
 This means that it can't automatically be checked.
 However, the equality of any two expressions can be stated in Lean, so long as they have the same type.
-The statement <code>(fun (x : Nat) =&gt; 1 + x) = (Nat.succ ·)</code> is a perfectly reasonable statement.
-From the perspective of mathematics, two functions are equal if they map equal inputs to equal outputs, so this statement is even true, though it requires a two-line proof to convince Lean of this fact.</p>
-<p>Generally speaking, when using Lean as a programming language, it's easiest to stick to Boolean functions rather than propositions.
-However, as the names <code>true</code> and <code>false</code> for <code>Bool</code>'s constructors suggest, this difference is sometimes blurred.
-Some propositions are <em>decidable</em>, which means that they can be checked just like a Boolean function.
-The function that checks whether the proposition is true or false is called a <em>decision procedure</em>, and it returns <em>evidence</em> of the truth or falsity of the proposition.
-Some examples of decidable propositions include equality and inequality of natural numbers, equality of strings, and &quot;ands&quot; and &quot;ors&quot; of propositions that are themselves decidable.</p>
-<p>In Lean, <code>if</code> works with decidable propositions.
-For example, <code>2 &lt; 4</code> is a proposition:</p>
+The statement `(fun (x : Nat) => 1 + x) = (Nat.succ ·)` is a perfectly reasonable statement.
+From the perspective of mathematics, two functions are equal if they map equal inputs to equal outputs, so this statement is even true, though it requires a two-line proof to convince Lean of this fact.
+-->
+<p>命题等价是一个数学陈述，而不是程序调用。
+因为命题就像描述一些数学陈述的证据的类型，命题等价和像是 <code>String</code> 和 <code>Nat → List Int</code> 这样的类型有更多的相同之处，而不是布尔等价。
+这意味着它并不能被自动检查。
+然而，在 Lean 中，只要两个表达式具有相同的类型，就可以陈述它们的相等性。
+<code>(fun (x : Nat) =&gt; 1 + x) = (Nat.succ ·)</code> 是一个十分合理的陈述。
+从数学角度来讲，如果两个函数把相等的输入映射到相等的输出，那么这两个函数就是相等的。所以那个陈述是真的，尽管它需要一个两行的证明来让 Lean 相信这个事实。</p>
+<!--
+Generally speaking, when using Lean as a programming language, it's easiest to stick to Boolean functions rather than propositions.
+However, as the names `true` and `false` for `Bool`'s constructors suggest, this difference is sometimes blurred.
+Some propositions are _decidable_, which means that they can be checked just like a Boolean function.
+The function that checks whether the proposition is true or false is called a _decision procedure_, and it returns _evidence_ of the truth or falsity of the proposition.
+Some examples of decidable propositions include equality and inequality of natural numbers, equality of strings, and "ands" and "ors" of propositions that are themselves decidable.
+-->
+<p>通常来说，当把 Lean 作为一个编程语言来用时，用布尔值函数会比用命题要更简单。</p>
+<!--
+In Lean, `if` works with decidable propositions.
+For example, `2 < 4` is a proposition:
+-->
+<p>在 Lean 中，<code>if</code> 语句适用于可判定命题。
+例如：<code>2 &lt; 4</code> 是一个命题。</p>
 <pre><code class="language-lean">#check 2 &lt; 4
 </code></pre>
 <pre><code class="language-output info">2 &lt; 4 : Prop
 </code></pre>
-<p>Nonetheless, it is perfectly acceptable to write it as the condition in an <code>if</code>.
-For example, <code>if 2 &lt; 4 then 1 else 2</code> has type <code>Nat</code> and evaluates to <code>1</code>.</p>
-<p>Not all propositions are decidable.
+<!--
+Nonetheless, it is perfectly acceptable to write it as the condition in an `if`.
+For example, `if 2 < 4 then 1 else 2` has type `Nat` and evaluates to `1`.
+-->
+<p>尽管如此，将其写作 if 语句中的条件是完全可以接受的。
+例如，<code>if 2 &lt; 4 then 1 else 2</code> 的类型是 <code>Nat</code>，并且计算结果为 <code>1</code>。</p>
+<!--
+Not all propositions are decidable.
 If they were, then computers would be able to prove any true proposition just by running the decision procedure, and mathematicians would be out of a job.
-More specifically, decidable propositions have an instance of the <code>Decidable</code> type class which has a method that is the decision procedure.
-Trying to use a proposition that isn't decidable as if it were a <code>Bool</code> results in a failure to find the <code>Decidable</code> instance.
-For example, <code>if (fun (x : Nat) =&gt; 1 + x) = (Nat.succ ·) then &quot;yes&quot; else &quot;no&quot;</code> results in:</p>
+More specifically, decidable propositions have an instance of the `Decidable` type class which has a method that is the decision procedure.
+Trying to use a proposition that isn't decidable as if it were a `Bool` results in a failure to find the `Decidable` instance.
+For example, `if (fun (x : Nat) => 1 + x) = (Nat.succ ·) then "yes" else "no"` results in:
+-->
+<p>并不是所有的命题都是可判定的。
+如果所有的命题都是可判定的，那么计算机通过运行判定程序就可以证明任何的真命题，数学家们就此失业了。
+更具体来说，可判定的命题都会有一个 <code>Decidable</code> 类型的实例，实例中的方法是判定程序。
+因为认为会返回一个 <code>Bool</code> 而尝试去用一个不可判定的命题，最终会报错，因为 Lean 无法找到 <code>Decidable</code> 实例。
+例如，<code>if (fun (x : Nat) =&gt; 1 + x) = (Nat.succ ·) then &quot;yes&quot; else &quot;no&quot;</code> 会导致：</p>
 <pre><code class="language-output error">failed to synthesize instance
   Decidable ((fun x =&gt; 1 + x) = fun x =&gt; Nat.succ x)
 </code></pre>
-<p>The following propositions, that are usually decidable, are overloaded with type classes:</p>
+<!--
+The following propositions, that are usually decidable, are overloaded with type classes:
+-->
+<p>下面的命题，通常都是重载了可判定类型类的：</p>
 <table><thead><tr><th>Expression</th><th>Desugaring</th><th>Class Name</th></tr></thead><tbody>
 <tr><td><code>x &lt; y</code></td><td><code>LT.lt x y</code></td><td><code>LT</code></td></tr>
 <tr><td><code>x ≤ y</code></td><td><code>LE.le x y</code></td><td><code>LE</code></td></tr>
 <tr><td><code>x &gt; y</code></td><td><code>LT.lt y x</code></td><td><code>LT</code></td></tr>
 <tr><td><code>x ≥ y</code></td><td><code>LE.le y x</code></td><td><code>LE</code></td></tr>
 </tbody></table>
-<p>Because defining new propositions hasn't yet been demonstrated, it may be difficult to define new instances of <code>LT</code> and <code>LE</code>.</p>
-<p>Additionally, comparing values using <code>&lt;</code>, <code>==</code>, and <code>&gt;</code> can be inefficient.
+<!--
+Because defining new propositions hasn't yet been demonstrated, it may be difficult to define new instances of `LT` and `LE`.
+-->
+<p>因为还没有演示如何定义新命题，所以定义新的 <code>LT</code> 和 <code>LE</code> 实例可能会比较困难。</p>
+<!--
+Additionally, comparing values using `<`, `==`, and `>` can be inefficient.
 Checking first whether one value is less than another, and then whether they are equal, can require two traversals over large data structures.
-To solve this problem, Java and C# have standard <code>compareTo</code> and <code>CompareTo</code> methods (respectively) that can be overridden by a class in order to implement all three operations at the same time.
+To solve this problem, Java and C# have standard `compareTo` and `CompareTo` methods (respectively) that can be overridden by a class in order to implement all three operations at the same time.
 These methods return a negative integer if the receiver is less than the argument, zero if they are equal, and a positive integer if the receiver is greater than the argument.
-Rather than overload the meaning of integers, Lean has a built-in inductive type that describes these three possibilities:</p>
+Rather than overload the meaning of integers, Lean has a built-in inductive type that describes these three possibilities:
+-->
+<p>另外，使用 <code>&lt;</code>, <code>==</code>, 和 <code>&gt;</code> 来比较值可能效率不高。
+首先检查一个值是否小于另一个值，然后再检查它们是否相等，这可能需要对大型数据结构进行两次遍历。
+为了解决这个问题，Java 和 C# 分别有标准的 <code>compareTo</code> 和 <code>CompareTo</code> 方法，可以通过类来重写以同时实现这三种操作。
+这些方法在接收者小于参数时返回负整数，等于时返回零，大于时返回正整数。
+Lean 与其重载整数，不如有一个内置的归纳类型来描述这三种可能性：</p>
 <pre><code class="language-lean">inductive Ordering where
 | lt
 | eq
 | gt
 </code></pre>
-<p>The <code>Ord</code> type class can be overloaded to produce these comparisons.
-For <code>Pos</code>, an implementation can be:</p>
+<!--
+The `Ord` type class can be overloaded to produce these comparisons.
+For `Pos`, an implementation can be:
+-->
+<p><code>Ord</code> 类型类可以被重载，这样就可以用于比较。
+对于 <code>Pos</code> 一个实现可以是：</p>
 <pre><code class="language-lean">def Pos.comp : Pos → Pos → Ordering
   | Pos.one, Pos.one =&gt; Ordering.eq
   | Pos.one, Pos.succ _ =&gt; Ordering.lt
@@ -248,20 +345,43 @@ For <code>Pos</code>, an implementation can be:</p>
 instance : Ord Pos where
   compare := Pos.comp
 </code></pre>
-<p>In situations where <code>compareTo</code> would be the right approach in Java, use <code>Ord.compare</code> in Lean.</p>
-<h2 id="hashing"><a class="header" href="#hashing">Hashing</a></h2>
-<p>Java and C# have <code>hashCode</code> and <code>GetHashCode</code> methods, respectively, that compute a hash of a value for use in data structures such as hash tables.
-The Lean equivalent is a type class called <code>Hashable</code>:</p>
+<!--
+In situations where `compareTo` would be the right approach in Java, use `Ord.compare` in Lean.
+-->
+<p>对于 Java 中应该使用 <code>compareTo</code> 的情形，在 Lean 中用 <code>Ord.compare</code> 就对了。</p>
+<!--
+## Hashing
+-->
+<h2 id="哈希"><a class="header" href="#哈希">哈希</a></h2>
+<!--
+Java and C# have `hashCode` and `GetHashCode` methods, respectively, that compute a hash of a value for use in data structures such as hash tables.
+The Lean equivalent is a type class called `Hashable`:
+-->
+<p>Java 和 C# 有 <code>hashCode</code> 和 <code>GetHashCode</code> 方法，用于计算值的哈希值，以便在哈希表等数据结构中使用。
+Lean 中的等效类型类称为 <code>Hashable</code>：</p>
 <pre><code class="language-lean">class Hashable (α : Type) where
   hash : α → UInt64
 </code></pre>
-<p>If two values are considered equal according to a <code>BEq</code> instance for their type, then they should have the same hashes.
-In other words, if <code>x == y</code> then <code>hash x == hash y</code>.
-If <code>x ≠ y</code>, then <code>hash x</code> won't necessarily differ from <code>hash y</code> (after all, there are infinitely more <code>Nat</code> values than there are <code>UInt64</code> values), but data structures built on hashing will have better performance if unequal values are likely to have unequal hashes.
-This is the same expectation as in Java and C#.</p>
-<p>The standard library contains a function <code>mixHash</code> with type <code>UInt64 → UInt64 → UInt64</code> that can be used to combine hashes for different fields for a constructor.
+<!--
+If two values are considered equal according to a `BEq` instance for their type, then they should have the same hashes.
+In other words, if `x == y` then `hash x == hash y`.
+If `x ≠ y`, then `hash x` won't necessarily differ from `hash y` (after all, there are infinitely more `Nat` values than there are `UInt64` values), but data structures built on hashing will have better performance if unequal values are likely to have unequal hashes.
+This is the same expectation as in Java and C#.
+-->
+<p>对于两个值而言，如果它们根据各自类型的 <code>BEq</code> 实例是相等的，那么它们也应该有相同的哈希值。
+换句话说，如果 <code>x == y</code>，那么有 <code>hash x == hash y</code>。
+如果 <code>x ≠ y</code>，那么 <code>hash x</code> 不一定就和 <code>hash y</code> 不一样（毕竟 <code>Nat</code> 有无穷多个，而 <code>UInt64</code> 最多只能有有限种组合方式。），
+但是如果不一样的值有不一样的哈希值的话，那么建立在其上的数据结构会有更好的表现。
+这与 Java 和 C# 中对哈希的要求是一致的。</p>
+<!--
+The standard library contains a function `mixHash` with type `UInt64 → UInt64 → UInt64` that can be used to combine hashes for different fields for a constructor.
 A reasonable hash function for an inductive datatype can be written by assigning a unique number to each constructor, and then mixing that number with the hashes of each field.
-For example, a <code>Hashable</code> instance for <code>Pos</code> can be written:</p>
+For example, a `Hashable` instance for `Pos` can be written:
+-->
+<p>在标准库中包含了一个函数 <code>mixHash</code>，它的类型是 <code>UInt64 → UInt64 → UInt64</code>。
+它可以用来组合构造子不同字段的哈希值。
+一个合理的归纳数据类型的哈希函数可以通过给每个构造函数分配一个唯一的数字，然后将该数字与每个字段的哈希值混合来编写。
+例如，可以这样编写 <code>Pos</code> 的 <code>Hashable</code> 实例：</p>
 <pre><code class="language-lean">def hashPos : Pos → UInt64
   | Pos.one =&gt; 0
   | Pos.succ n =&gt; mixHash 1 (hashPos n)
@@ -269,12 +389,19 @@ For example, a <code>Hashable</code> instance for <code>Pos</code> can be writte
 instance : Hashable Pos where
   hash := hashPos
 </code></pre>
-<p><code>Hashable</code> instances for polymorphic types can use recursive instance search.
-Hashing a <code>NonEmptyList α</code> is only possible when <code>α</code> can be hashed:</p>
+<!--
+`Hashable` instances for polymorphic types can use recursive instance search.
+Hashing a `NonEmptyList α` is only possible when `α` can be hashed:
+-->
+<p><code>Hashable</code> 实例对于多态可以使用递归类型搜索。
+哈希化一个 <code>NonEmptyList α</code> 需要 <code>α</code> 是可以被哈希化的。</p>
 <pre><code class="language-lean">instance [Hashable α] : Hashable (NonEmptyList α) where
   hash xs := mixHash (hash xs.head) (hash xs.tail)
 </code></pre>
-<p>Binary trees use both recursion and recursive instance search in the implementations of <code>BEq</code> and <code>Hashable</code>:</p>
+<!--
+Binary trees use both recursion and recursive instance search in the implementations of `BEq` and `Hashable`:
+-->
+<p>在二叉树的 <code>BEq</code> 和 <code>Hashable</code> 的实现中，递归和递归实例搜索这二者都被用到了。</p>
 <pre><code class="language-lean">inductive BinTree (α : Type) where
   | leaf : BinTree α
   | branch : BinTree α → α → BinTree α → BinTree α
@@ -299,20 +426,44 @@ def hashBinTree [Hashable α] : BinTree α → UInt64
 instance [Hashable α] : Hashable (BinTree α) where
   hash := hashBinTree
 </code></pre>
-<h2 id="deriving-standard-classes"><a class="header" href="#deriving-standard-classes">Deriving Standard Classes</a></h2>
-<p>Instance of classes like <code>BEq</code> and <code>Hashable</code> are often quite tedious to implement by hand.
-Lean includes a feature called <em>instance deriving</em> that allows the compiler to automatically construct well-behaved instances of many type classes.
-In fact, the <code>deriving Repr</code> phrase in the definition of <code>Point</code> in the <a href="../getting-to-know/structures.html">section on structures</a> is an example of instance deriving.</p>
-<p>Instances can be derived in two ways.
+<!--
+## Deriving Standard Classes
+-->
+<h2 id="派生标准类"><a class="header" href="#派生标准类">派生标准类</a></h2>
+<!--
+Instance of classes like `BEq` and `Hashable` are often quite tedious to implement by hand.
+Lean includes a feature called _instance deriving_ that allows the compiler to automatically construct well-behaved instances of many type classes.
+In fact, the `deriving Repr` phrase in the definition of `Point` in the [section on structures](../getting-to-know/structures.md) is an example of instance deriving.
+-->
+<p>像 <code>BEq</code> 和 <code>Hashable</code> 这样的类的实例，手动实现起来通常相当繁琐。Lean 包含一个称为 <strong>实例派生（instance deriving）</strong> 的特性，它使得编译器可以自动构造许多类型类的良好实例。事实上，<a href="../getting-to-know/structures.html">结构那一节</a>中 <code>Point</code> 定义中的 <code>deriving Repr</code> 短语就是实例派生的一个例子。</p>
+<!--
+Instances can be derived in two ways.
 The first can be used when defining a structure or inductive type.
-In this case, add <code>deriving</code> to the end of the type declaration followed by the names of the classes for which instances should be derived.
-For a type that is already defined, a standalone <code>deriving</code> command can be used.
-Write <code>deriving instance C1, C2, ... for T</code> to derive instances of <code>C1, C2, ...</code> for the type <code>T</code> after the fact.</p>
-<p><code>BEq</code> and <code>Hashable</code> instances can be derived for <code>Pos</code> and <code>NonEmptyList</code> using a very small amount of code:</p>
+In this case, add `deriving` to the end of the type declaration followed by the names of the classes for which instances should be derived.
+For a type that is already defined, a standalone `deriving` command can be used.
+Write `deriving instance C1, C2, ... for T` to derive instances of `C1, C2, ...` for the type `T` after the fact.
+-->
+<p>派生实例的方法有两种。
+第一种在定义一个结构体或归纳类型时使用。
+在这种情况下，添加 <code>deriving</code> 到类型声明的末尾，后面再跟实例应该派生自的类。
+对于已经定义好的类型，单独的 <code>deriving</code> 也是可用的。
+写 <code>deriving instance C1, C2, ... for T</code> 来为类型 <code>T</code> 派生 <code>C1, C2, ...</code> 实例。</p>
+<!--
+`BEq` and `Hashable` instances can be derived for `Pos` and `NonEmptyList` using a very small amount of code:
+-->
+<p><code>Pos</code> 和 <code>NonEmptyList</code> 上的 <code>BEq</code> 和 <code>Hashable</code> 实例可以用很少量的代码派生出来：</p>
 <pre><code class="language-lean">deriving instance BEq, Hashable for Pos
 deriving instance BEq, Hashable, Repr for NonEmptyList
 </code></pre>
-<p>Instances can be derived for at least the following classes:</p>
+<!--
+Instances can be derived for at least the following classes:
+ * `Inhabited`
+ * `BEq`
+ * `Repr`
+ * `Hashable`
+ * `Ord`
+-->
+<p>至少以下几种类型类的实例都是可以派生的：</p>
 <ul>
 <li><code>Inhabited</code></li>
 <li><code>BEq</code></li>
@@ -320,27 +471,50 @@ deriving instance BEq, Hashable, Repr for NonEmptyList
 <li><code>Hashable</code></li>
 <li><code>Ord</code></li>
 </ul>
-<p>In some cases, however, the derived <code>Ord</code> instance may not produce precisely the ordering desired in an application.
-When this is the case, it's fine to write an <code>Ord</code> instance by hand.
-The collection of classes for which instances can be derived can be extended by advanced users of Lean.</p>
-<p>Aside from the clear advantages in programmer productivity and code readability, deriving instances also makes code easier to maintain, because the instances are updated as the definitions of types evolve.
-Changesets involving updates to datatypes are easier to read without line after line of formulaic modifications to equality tests and hash computation.</p>
+<!--
+In some cases, however, the derived `Ord` instance may not produce precisely the ordering desired in an application.
+When this is the case, it's fine to write an `Ord` instance by hand.
+The collection of classes for which instances can be derived can be extended by advanced users of Lean.
+-->
+<p>然而，有些时候 <code>Ord</code> 的派生实例可能不是你想要的。
+当发生这种事情的时候，就手写一个 <code>Ord</code> 实例把。
+你如果对自己的 Lean 水平足够有自信的话，你也可以自己添加可以派生实例的类型类。</p>
+<!--
+Aside from the clear advantages in programmer productivity and code readability, deriving instances also makes code easier to maintain, because the instances are updated as the definitions of types evolve.
+Changesets involving updates to datatypes are easier to read without line after line of formulaic modifications to equality tests and hash computation.
+-->
+<p>实例派生除了在开发效率和代码可读性上有很大的优势外，它也使得代码更易于维护，因为实例会随着类型定义的变化而更新。
+对数据类型的一系列更新更易于阅读，因为不需要一行又一行地对相等性测试和哈希计算进行公式化的修改。</p>
 <h2 id="appending"><a class="header" href="#appending">Appending</a></h2>
-<p>Many datatypes have some sort of append operator.
-In Lean, appending two values is overloaded with the type class <code>HAppend</code>, which is a heterogeneous operation like that used for arithmetic operations:</p>
+<!--
+Many datatypes have some sort of append operator.
+In Lean, appending two values is overloaded with the type class `HAppend`, which is a heterogeneous operation like that used for arithmetic operations:
+-->
+<p>许多数据类型都有某种形式的连接操作符。
+在 Lean 中，连接两个值的操作被重载为类型类 <code>HAppend</code>，这是一个异质操作，与用于算术运算的操作类似：</p>
 <pre><code class="language-lean">class HAppend (α : Type) (β : Type) (γ : outParam Type) where
   hAppend : α → β → γ
 </code></pre>
-<p>The syntax <code>xs ++ ys</code> desugars to <code>HAppend.hAppend xs ys</code>.
-For homogeneous cases, it's enough to implement an instance of <code>Append</code>, which follows the usual pattern:</p>
+<!--
+The syntax `xs ++ ys` desugars to `HAppend.hAppend xs ys`.
+For homogeneous cases, it's enough to implement an instance of `Append`, which follows the usual pattern:
+-->
+<p>语法 <code>xs ++ ys</code> 会被脱糖为 <code>HAppend.hAppend xs ys</code>.
+对于同质的情形，按照常规模式实现一个 <code>Append</code> 即可：</p>
 <pre><code class="language-lean">instance : Append (NonEmptyList α) where
   append xs ys :=
     { head := xs.head, tail := xs.tail ++ ys.head :: ys.tail }
 </code></pre>
-<p>After defining the above instance,</p>
+<!--
+After defining the above instance,
+-->
+<p>在定义了上面的实例后，</p>
 <pre><code class="language-lean">#eval idahoSpiders ++ idahoSpiders
 </code></pre>
-<p>has the following output:</p>
+<!--
+has the following output:
+-->
+<p>就有了下面的结果：</p>
 <pre><code class="language-output info">{ head := &quot;Banded Garden Spider&quot;,
 tail := [&quot;Long-legged Sac Spider&quot;,
          &quot;Wolf Spider&quot;,
@@ -352,101 +526,207 @@ tail := [&quot;Long-legged Sac Spider&quot;,
          &quot;Hobo Spider&quot;,
          &quot;Cat-faced Spider&quot;] }
 </code></pre>
-<p>Similarly, a definition of <code>HAppend</code> allows non-empty lists to be appended to ordinary lists:</p>
+<!--
+Similarly, a definition of `HAppend` allows non-empty lists to be appended to ordinary lists:
+-->
+<p>类似地：定义一个 <code>HAppend</code> 来使常规列表可以和一个非空列表连接。</p>
 <pre><code class="language-lean">instance : HAppend (NonEmptyList α) (List α) (NonEmptyList α) where
   hAppend xs ys :=
     { head := xs.head, tail := xs.tail ++ ys }
 </code></pre>
-<p>With this instance available,</p>
+<!--
+With this instance available,
+-->
+<p>有了这个实例后，</p>
 <pre><code class="language-lean">#eval idahoSpiders ++ [&quot;Trapdoor Spider&quot;]
 </code></pre>
-<p>results in</p>
+<!--
+results in
+-->
+<p>结果为</p>
 <pre><code class="language-output info">{ head := &quot;Banded Garden Spider&quot;,
   tail := [&quot;Long-legged Sac Spider&quot;, &quot;Wolf Spider&quot;, &quot;Hobo Spider&quot;, &quot;Cat-faced Spider&quot;, &quot;Trapdoor Spider&quot;] }
 </code></pre>
-<h2 id="functors"><a class="header" href="#functors">Functors</a></h2>
-<p>A polymorphic type is a <em>functor</em> if it has an overload for a function named <code>map</code> that transforms every element contained in it by a function.
-While most languages use this terminology, C#'s equivalent to <code>map</code> is called <code>System.Linq.Enumerable.Select</code>.
+<!--
+## Functors
+-->
+<h2 id="函子"><a class="header" href="#函子">函子</a></h2>
+<!--
+A polymorphic type is a _functor_ if it has an overload for a function named `map` that transforms every element contained in it by a function.
+While most languages use this terminology, C#'s equivalent to `map` is called `System.Linq.Enumerable.Select`.
 For example, mapping a function over a list constructs a new list in which each entry from the starting list has been replaced by the result of the function on that entry.
-Mapping a function <code>f</code> over an <code>Option</code> leaves <code>none</code> untouched, and replaces <code>some x</code> with <code>some (f x)</code>.</p>
-<p>Here are some examples of functors and how their <code>Functor</code> instances overload <code>map</code>:</p>
+Mapping a function `f` over an `Option` leaves `none` untouched, and replaces `some x` with `some (f x)`.
+-->
+<p>如果一个多态类型重载了一个函数 <code>map</code>，这个函数将位于上下文中的每个元素都用一个函数来映射，那么这个类型就是一个 <strong>函子（functor）</strong> 。
+虽然大多数语言都使用这个术语，但C#中等价于 <code>map</code> 的是 <code>System.Linq.Enumerable.Select</code>。
+例如，用一个函数对一个列表进行映射会产生一个新的列表，列表中的每个元素都是函数应用在原列表中元素的结果。
+用函数 <code>f</code> 对一个 <code>Option</code> 进行映射，如果 <code>Option</code> 的值为 <code>none</code>，那么结果仍为 <code>none</code>；
+如果为 <code>some x</code>，那么结果为 <code>some (f x)</code>。</p>
+<!--
+Here are some examples of functors and how their `Functor` instances overload `map`:
+ * `Functor.map (· + 5) [1, 2, 3]` evaluates to `[6, 7, 8]`
+ * `Functor.map toString (some (List.cons 5 List.nil))` evaluates to `some "[5]"`
+ * `Functor.map List.reverse [[1, 2, 3], [4, 5, 6]]` evaluates to `[[3, 2, 1], [6, 5, 4]]`
+-->
+<p>下面是一些函子，这些函子是如何重载 <code>map</code> 的例子：</p>
 <ul>
-<li><code>Functor.map (· + 5) [1, 2, 3]</code> evaluates to <code>[6, 7, 8]</code></li>
-<li><code>Functor.map toString (some (List.cons 5 List.nil))</code> evaluates to <code>some &quot;[5]&quot;</code></li>
-<li><code>Functor.map List.reverse [[1, 2, 3], [4, 5, 6]]</code> evaluates to <code>[[3, 2, 1], [6, 5, 4]]</code></li>
+<li><code>Functor.map (· + 5) [1, 2, 3]</code> 结果为 <code>[6, 7, 8]</code></li>
+<li><code>Functor.map toString (some (List.cons 5 List.nil))</code> 结果为 <code>some &quot;[5]&quot;</code></li>
+<li><code>Functor.map List.reverse [[1, 2, 3], [4, 5, 6]]</code> 结果为 <code>[[3, 2, 1], [6, 5, 4]]</code></li>
 </ul>
-<p>Because <code>Functor.map</code> is a bit of a long name for this common operation, Lean also provides an infix operator for mapping a function, namely <code>&lt;$&gt;</code>.
-The prior examples can be rewritten as follows:</p>
+<!--
+Because `Functor.map` is a bit of a long name for this common operation, Lean also provides an infix operator for mapping a function, namely `<$>`.
+The prior examples can be rewritten as follows:
+ * `(· + 5) <$> [1, 2, 3]` evaluates to `[6, 7, 8]`
+ * `toString <$> (some (List.cons 5 List.nil))` evaluates to `some "[5]"`
+ * `List.reverse <$> [[1, 2, 3], [4, 5, 6]]` evaluates to `[[3, 2, 1], [6, 5, 4]]`
+-->
+<p>因为 <code>Functor.map</code> 这个操作很常用，但它的名字又有些长了，所以 Lean 也提供了一个中缀运算符来映射函数，叫做 <code>&lt;$&gt;</code>。
+下面是一些简单的例子：</p>
 <ul>
-<li><code>(· + 5) &lt;$&gt; [1, 2, 3]</code> evaluates to <code>[6, 7, 8]</code></li>
-<li><code>toString &lt;$&gt; (some (List.cons 5 List.nil))</code> evaluates to <code>some &quot;[5]&quot;</code></li>
-<li><code>List.reverse &lt;$&gt; [[1, 2, 3], [4, 5, 6]]</code> evaluates to <code>[[3, 2, 1], [6, 5, 4]]</code></li>
+<li><code>(· + 5) &lt;$&gt; [1, 2, 3]</code> 结果为 <code>[6, 7, 8]</code></li>
+<li><code>toString &lt;$&gt; (some (List.cons 5 List.nil))</code> 结果为 <code>some &quot;[5]&quot;</code></li>
+<li><code>List.reverse &lt;$&gt; [[1, 2, 3], [4, 5, 6]]</code> 结果为 <code>[[3, 2, 1], [6, 5, 4]]</code></li>
 </ul>
-<p>An instance of <code>Functor</code> for <code>NonEmptyList</code> requires specifying the <code>map</code> function.</p>
+<!--
+An instance of `Functor` for `NonEmptyList` requires specifying the `map` function.
+-->
+<p><code>Functor</code> 对于 <code>NonEmptyList</code> 的实例需要我们提供 <code>map</code> 函数。</p>
 <pre><code class="language-lean">instance : Functor NonEmptyList where
   map f xs := { head := f xs.head, tail := f &lt;$&gt; xs.tail }
 </code></pre>
-<p>Here, <code>map</code> uses the <code>Functor</code> instance for <code>List</code> to map the function over the tail.
-This instance is defined for <code>NonEmptyList</code> rather than for <code>NonEmptyList α</code> because the argument type <code>α</code> plays no role in resolving the type class.
-A <code>NonEmptyList</code> can have a function mapped over it <em>no matter what the type of entries is</em>.
-If <code>α</code> were a parameter to the class, then it would be possible to make versions of <code>Functor</code> that only worked for <code>NonEmptyList Nat</code>, but part of being a functor is that <code>map</code> works for any entry type.</p>
-<p>Here is an instance of <code>Functor</code> for <code>PPoint</code>:</p>
+<!--
+Here, `map` uses the `Functor` instance for `List` to map the function over the tail.
+This instance is defined for `NonEmptyList` rather than for `NonEmptyList α` because the argument type `α` plays no role in resolving the type class.
+A `NonEmptyList` can have a function mapped over it _no matter what the type of entries is_.
+If `α` were a parameter to the class, then it would be possible to make versions of `Functor` that only worked for `NonEmptyList Nat`, but part of being a functor is that `map` works for any entry type.
+-->
+<p>在这里，<code>map</code> 使用 <code>List</code> 上的 <code>Functor</code> 实例来将函数映射到列表尾。
+这个实例是在 <code>NonEmptyList</code> 下定义的，而不是 <code>NonEmptyList α</code>。
+因为类型参数 <code>α</code> 在当前类型类中用不上。
+<strong>无论条目的类型是什么</strong> ，我们都可以用一个函数来映射 <code>NonEmptyList</code>。
+如果 <code>α</code> 是类型类的一个参数，那么我们就可以做出只工作在某个 <code>α</code> 类型上的 <code>Functor</code>，比如 <code>NonEmptyList Nat</code>。
+但成为一个函子类型的必要条件就是 <code>map</code> 对任意条目类型都是有效的。</p>
+<!--
+Here is an instance of `Functor` for `PPoint`:
+-->
+<p>这里有一个将 <code>PPoint</code> 实现为一个函子的实例：</p>
 <pre><code class="language-lean">instance : Functor PPoint where
   map f p := { x := f p.x, y := f p.y }
 </code></pre>
-<p>In this case, <code>f</code> has been applied to both <code>x</code> and <code>y</code>.</p>
-<p>Even when the type contained in a functor is itself a functor, mapping a function only goes down one layer.
-That is, when using <code>map</code> on a <code>NonEmptyList (PPoint Nat)</code>, the function being mapped should take <code>PPoint Nat</code> as its argument rather than <code>Nat</code>.</p>
-<p>The definition of the <code>Functor</code> class uses one more language feature that has not yet been discussed: default method definitions.
+<!--
+In this case, `f` has been applied to both `x` and `y`.
+-->
+<p>在这里，<code>f</code> 被应用到 <code>x</code> 和 <code>y</code> 上。</p>
+<!--
+Even when the type contained in a functor is itself a functor, mapping a function only goes down one layer.
+That is, when using `map` on a `NonEmptyList (PPoint Nat)`, the function being mapped should take `PPoint Nat` as its argument rather than `Nat`.
+-->
+<p>即使包含在一个函子类型中的类型本身也是一个函子，映射一个函数也只会向下一层。
+也就是说，当在 <code>NonEmptyList (PPoint Nat)</code> 上 <code>map</code> 时，被映射的函数会接受 <code>PPoint Nat</code> 作为参数，而不是 <code>Nat</code>。</p>
+<!--
+The definition of the `Functor` class uses one more language feature that has not yet been discussed: default method definitions.
 Normally, a class will specify some minimal set of overloadable operations that make sense together, and then use polymorphic functions with instance implicit arguments that build on the overloaded operations to provide a larger library of features.
-For example, the function <code>concat</code> can concatenate any non-empty list whose entries are appendable:</p>
+For example, the function `concat` can concatenate any non-empty list whose entries are appendable:
+-->
+<p><code>Functor</code> 类型类的定义中用到了一个还没介绍的语言特性：默认方法定义。
+正常来说，一个类型类会指定一些有意义的最小的可重载操作集合，然后使用具有隐式实例参数的多态函数，这些函数建立在重载操作的基础上，以提供更大的功能库。
+例如，函数 <code>concat</code> 可以连接任何非空列表的条目，只要条目是可连接的：</p>
 <pre><code class="language-lean">def concat [Append α] (xs : NonEmptyList α) : α :=
   let rec catList (start : α) : List α → α
     | [] =&gt; start
     | (z :: zs) =&gt; catList (start ++ z) zs
   catList xs.head xs.tail
 </code></pre>
-<p>However, for some classes, there are operations that can be more efficiently implemented with knowledge of the internals of a datatype.</p>
-<p>In these cases, a default method definition can be provided.
+<!--
+However, for some classes, there are operations that can be more efficiently implemented with knowledge of the internals of a datatype.
+-->
+<p>然而，对于一些类型类，如果你对数据类型的内部又更深的理解的话，那么就会有一些更高效的运算实现。</p>
+<!--
+In these cases, a default method definition can be provided.
 A default method definition provides a default implementation of a method in terms of the other methods.
 However, instance implementors may choose to override this default with something more efficient.
-Default method definitions contain <code>:=</code> in a <code>class</code> definition.</p>
-<p>In the case of <code>Functor</code>, some types have a more efficient way of implementing <code>map</code> when the function being mapped ignores its argument.
-Functions that ignore their arguments are called <em>constant functions</em> because they always return the same value.
-Here is the definition of <code>Functor</code>, in which <code>mapConst</code> has a default implementation:</p>
+Default method definitions contain `:=` in a `class` definition.
+-->
+<p>在这些情况下，可以提供一个默认方法定义。
+默认方法定义提供了一个基于其他方法的默认实现。
+然而，实例实现者可以选择用更高效的方法来重写这个默认实现。
+默认方法定义在 <code>class</code> 定义中，包含 <code>:=</code>。</p>
+<!--
+In the case of `Functor`, some types have a more efficient way of implementing `map` when the function being mapped ignores its argument.
+Functions that ignore their arguments are called _constant functions_ because they always return the same value.
+Here is the definition of `Functor`, in which `mapConst` has a default implementation:
+-->
+<p>对于 <code>Functor</code> 而言，当被映射的函数并不需要参数时，许多类型有更高效的 <code>map</code> 实现方式。</p>
 <pre><code class="language-lean">class Functor (f : Type → Type) where
   map : {α β : Type} → (α → β) → f α → f β
 
   mapConst {α β : Type} (x : α) (coll : f β) : f α :=
     map (fun _ =&gt; x) coll
 </code></pre>
-<p>Just as a <code>Hashable</code> instance that doesn't respect <code>BEq</code> is buggy, a <code>Functor</code> instance that moves around the data as it maps the function is also buggy.
-For example, a buggy <code>Functor</code> instance for <code>List</code> might throw away its argument and always return the empty list, or it might reverse the list.
-A bad instance for <code>PPoint</code> might place <code>f x</code> in both the <code>x</code> and the <code>y</code> fields.
-Specifically, <code>Functor</code> instances should follow two rules:</p>
+<!--
+Just as a `Hashable` instance that doesn't respect `BEq` is buggy, a `Functor` instance that moves around the data as it maps the function is also buggy.
+For example, a buggy `Functor` instance for `List` might throw away its argument and always return the empty list, or it might reverse the list.
+A bad instance for `PPoint` might place `f x` in both the `x` and the `y` fields.
+Specifically, `Functor` instances should follow two rules:
+ 1. Mapping the identity function should result in the original argument.
+ 2. Mapping two composed functions should have the same effect as composing their mapping.
+-->
+<p>就像不符合 <code>BEq</code> 的 <code>Hashable</code> 实例是有问题的一样，一个在映射函数时移动数据的 <code>Functor</code> 实例也是有问题的。
+例如，一个有问题的 <code>List</code> 的 <code>Functor</code> 实例可能会丢弃其参数并总是返回空列表，或者它可能会反转列表。
+一个有问题的 <code>PPoint</code> 实例可能会将 <code>f x</code> 放在 <code>x</code> 和 <code>y</code> 字段中。
+具体来说，<code>Functor</code> 实例应遵循两条规则：</p>
 <ol>
-<li>Mapping the identity function should result in the original argument.</li>
-<li>Mapping two composed functions should have the same effect as composing their mapping.</li>
+<li>映射恒等函数应返回原始参数。</li>
+<li>映射两个复合函数应具有与它们的映射组合相同的效果。</li>
 </ol>
-<p>More formally, the first rule says that <code>id &lt;$&gt; x</code> equals <code>x</code>.
-The second rule says that <code>map (fun y =&gt; f (g y)) x</code> equals <code>map f (map g x)</code>.
-The composition <code>fun y =&gt; f (g y)</code> can also be written <code>f ∘ g</code>.
-These rules prevent implementations of <code>map</code> that move the data around or delete some of it.</p>
-<h2 id="messages-you-may-meet"><a class="header" href="#messages-you-may-meet">Messages You May Meet</a></h2>
-<p>Lean is not able to derive instances for all classes.
-For example, the code</p>
+<!--
+More formally, the first rule says that `id <$> x` equals `x`.
+The second rule says that `map (fun y => f (g y)) x` equals `map f (map g x)`.
+The composition `fun y => f (g y)` can also be written `f ∘ g`.
+These rules prevent implementations of `map` that move the data around or delete some of it.
+-->
+<p>更形式化的讲，第一个规则说 <code>id &lt;$&gt; x</code> 等于 <code>x</code>。
+第二个规则说 <code>map (fun y =&gt; f (g y)) x</code> 等于 <code>map f (map g x)</code>。
+<code>fun y =&gt; f (g y)</code> 也可以写成 <code>f ∘ g</code>。
+这些规则能防止 <code>map</code> 的实现移动数据或删除一些数据。</p>
+<!--
+## Messages You May Meet
+-->
+<h2 id="你也许会遇到的问题"><a class="header" href="#你也许会遇到的问题">你也许会遇到的问题</a></h2>
+<!--
+Lean is not able to derive instances for all classes.
+For example, the code
+-->
+<p>Lean 不能为所有类派生实例。
+例如代码</p>
 <pre><code class="language-lean">deriving instance ToString for NonEmptyList
 </code></pre>
-<p>results in the following error:</p>
+<!--
+results in the following error:
+-->
+<p>会导致如下错误：</p>
 <pre><code class="language-output error">default handlers have not been implemented yet, class: 'ToString' types: [NonEmptyList]
 </code></pre>
-<p>Invoking <code>deriving instance</code> causes Lean to consult an internal table of code generators for type class instances.
+<!--
+Invoking `deriving instance` causes Lean to consult an internal table of code generators for type class instances.
 If the code generator is found, then it is invoked on the provided type to create the instance.
-This message, however, means that no code generator was found for <code>ToString</code>.</p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+This message, however, means that no code generator was found for `ToString`.
+-->
+<p>调用 <code>deriving instance</code> 会使 Lean 查找一个类型类实例的内部代码生成器的表。
+如果找到了代码生成器，那么就会调用它来创建实例。
+然而这个报错就意味着没有发现对 <code>ToString</code> 的代码生成器。</p>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+ * Write an instance of `HAppend (List α) (NonEmptyList α) (NonEmptyList α)` and test it.
+ * Implement a `Functor` instance for the binary tree datatype.
+-->
 <ul>
-<li>Write an instance of <code>HAppend (List α) (NonEmptyList α) (NonEmptyList α)</code> and test it.</li>
-<li>Implement a <code>Functor</code> instance for the binary tree datatype.</li>
+<li>写一个 <code>HAppend (List α) (NonEmptyList α) (NonEmptyList α)</code> 的实例并测试它</li>
+<li>为二叉树实现一个 <code>Functor</code> 的实例。</li>
 </ul>
 
                     </main>

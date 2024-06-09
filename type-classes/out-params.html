@@ -144,10 +144,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="controlling-instance-search"><a class="header" href="#controlling-instance-search">Controlling Instance Search</a></h1>
-<p>An instance of the <code>Add</code> class is sufficient to allow two expressions with type <code>Pos</code> to be conveniently added, producing another <code>Pos</code>.
-However, in many cases, it can be useful to be more flexible and allow <em>heterogeneous</em> operator overloading, where the arguments may have different types.
-For example, adding a <code>Nat</code> to a <code>Pos</code> or a <code>Pos</code> to a <code>Nat</code> will always yield a <code>Pos</code>:</p>
+                        <!--
+# Controlling Instance Search
+-->
+<h1 id="控制实例搜索"><a class="header" href="#控制实例搜索">控制实例搜索</a></h1>
+<!--
+An instance of the `Add` class is sufficient to allow two expressions with type `Pos` to be conveniently added, producing another `Pos`.
+However, in many cases, it can be useful to be more flexible and allow _heterogeneous_ operator overloading, where the arguments may have different types.
+For example, adding a `Nat` to a `Pos` or a `Pos` to a `Nat` will always yield a `Pos`:
+-->
+<p>要方便地相加两个 <code>Pos</code> 类型，并产生另一个 <code>Pos</code>，一个 <code>Add</code> 类的的实例就足够了。
+但是，在许多情况下，参数可能有不同的类型，重载一个灵活的 <strong>异质</strong> 运算符是更为有用的。
+例如，让 <code>Nat</code> 和 <code>Pos</code>，或 <code>Pos</code> 和 <code>Nat</code> 相加总会是一个 <code>Pos</code>：</p>
 <pre><code class="language-lean">def addNatPos : Nat → Pos → Pos
   | 0, p =&gt; p
   | n + 1, p =&gt; Pos.succ (addNatPos n p)
@@ -156,18 +164,32 @@ def addPosNat : Pos → Nat → Pos
   | p, 0 =&gt; p
   | p, n + 1 =&gt; Pos.succ (addPosNat p n)
 </code></pre>
-<p>These functions allow natural numbers to be added to positive numbers, but they cannot be used with the <code>Add</code> type class, which expects both arguments to <code>add</code> to have the same type.</p>
-<h2 id="heterogeneous-overloadings"><a class="header" href="#heterogeneous-overloadings">Heterogeneous Overloadings</a></h2>
-<p>As mentioned in the section on <a href="pos.html#overloaded-addition">overloaded addition</a>, Lean provides a type class called <code>HAdd</code> for overloading addition heterogeneously.
-The <code>HAdd</code> class takes three type parameters: the two argument types and the return type.
-Instances of <code>HAdd Nat Pos Pos</code> and <code>HAdd Pos Nat Pos</code> allow ordinary addition notation to be used to mix the types:</p>
+<!--
+These functions allow natural numbers to be added to positive numbers, but they cannot be used with the `Add` type class, which expects both arguments to `add` to have the same type.
+-->
+<p>这些函数允许自然数与正数相加，但他们不能在 <code>Add</code> 类型类中，因为它希望 <code>add</code> 的两个参数都有同样的类型。</p>
+<!--
+## Heterogeneous Overloadings
+-->
+<h2 id="异质重载"><a class="header" href="#异质重载">异质重载</a></h2>
+<!--
+As mentioned in the section on [overloaded addition](pos.md#overloaded-addition), Lean provides a type class called `HAdd` for overloading addition heterogeneously.
+The `HAdd` class takes three type parameters: the two argument types and the return type.
+Instances of `HAdd Nat Pos Pos` and `HAdd Pos Nat Pos` allow ordinary addition notation to be used to mix the types:
+-->
+<p>就像在<a href="pos.html#overloaded-addition">重载加法</a>那一节提到的，Lean 提供了名为 <code>HAdd</code> 的类型类来重载异质加法。
+<code>HAdd</code> 类接受三个类型参数：两个参数的类型和一个返回类型。
+<code>HAdd Nat Pos Pos</code> 和 <code>HAdd Pos Nat Pos</code> 的实例可以让常规加法符号可以接受不同类型。</p>
 <pre><code class="language-lean">instance : HAdd Nat Pos Pos where
   hAdd := addNatPos
 
 instance : HAdd Pos Nat Pos where
   hAdd := addPosNat
 </code></pre>
-<p>Given the above two instances, the following examples work:</p>
+<!--
+Given the above two instances, the following examples work:
+-->
+<p>有了上面两个实例，就有了下面的例子：</p>
 <pre><code class="language-lean">#eval (3 : Pos) + (5 : Nat)
 </code></pre>
 <pre><code class="language-output info">8
@@ -176,7 +198,10 @@ instance : HAdd Pos Nat Pos where
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>The definition of the <code>HAdd</code> type class is very much like the following definition of <code>HPlus</code> with the corresponding instances:</p>
+<!--
+The definition of the `HAdd` type class is very much like the following definition of `HPlus` with the corresponding instances:
+-->
+<p><code>HAdd</code> 的定义和下面 <code>HPlus</code> 的定义很像。下面是 <code>HPlus</code> 和它对应的实例：</p>
 <pre><code class="language-lean">class HPlus (α : Type) (β : Type) (γ : Type) where
   hPlus : α → β → γ
 
@@ -186,104 +211,216 @@ instance : HPlus Nat Pos Pos where
 instance : HPlus Pos Nat Pos where
   hPlus := addPosNat
 </code></pre>
-<p>However, instances of <code>HPlus</code> are significantly less useful than instances of <code>HAdd</code>.
-When attempting to use these instances with <code>#eval</code>, an error occurs:</p>
+<!--
+However, instances of `HPlus` are significantly less useful than instances of `HAdd`.
+When attempting to use these instances with `#eval`, an error occurs:
+-->
+<p>然而，<code>HPlus</code> 的实例明显没有 <code>HAdd</code> 的实例有用。
+当尝试用 <code>#eval</code> 使用这些实例时，一个错误就出现了：</p>
 <pre><code class="language-lean">#eval HPlus.hPlus (3 : Pos) (5 : Nat)
 </code></pre>
 <pre><code class="language-output error">typeclass instance problem is stuck, it is often due to metavariables
   HPlus Pos Nat ?m.7527
 </code></pre>
-<p>This happens because there is a metavariable in the type, and Lean has no way to solve it.</p>
-<p>As discussed in <a href="../getting-to-know/polymorphism.html">the initial description of polymorphism</a>, metavariables represent unknown parts of a program that could not be inferred.
-When an expression is written following <code>#eval</code>, Lean attempts to determine its type automatically.
+<!--
+This happens because there is a metavariable in the type, and Lean has no way to solve it.
+-->
+<p>发生错误是因为类型中有元变量，Lean 没办法解决它。</p>
+<!--
+As discussed in [the initial description of polymorphism](../getting-to-know/polymorphism.md), metavariables represent unknown parts of a program that could not be inferred.
+When an expression is written following `#eval`, Lean attempts to determine its type automatically.
 In this case, it could not.
-Because the third type parameter for <code>HPlus</code> was unknown, Lean couldn't carry out type class instance search, but instance search is the only way that Lean could determine the expression's type.
-That is, the <code>HPlus Pos Nat Pos</code> instance can only apply if the expression should have type <code>Pos</code>, but there's nothing in the program other than the instance itself to indicate that it should have this type.</p>
-<p>One solution to the problem is to ensure that all three types are available by adding a type annotation to the whole expression:</p>
+Because the third type parameter for `HPlus` was unknown, Lean couldn't carry out type class instance search, but instance search is the only way that Lean could determine the expression's type.
+That is, the `HPlus Pos Nat Pos` instance can only apply if the expression should have type `Pos`, but there's nothing in the program other than the instance itself to indicate that it should have this type.
+-->
+<p>就像我们在<a href="../getting-to-know/polymorphism.html">多态一开始的描述</a>里说的那样，元变量代表了程序无法被推断的未知部分。
+当一个表达式被写在 <code>#eval</code> 后时，Lean 会尝试去自动确定它的类型。
+在这种情况下，它无法做到自动确定类型。
+因为 <code>HPlus</code> 的第三个类型参数依然是未知的，Lean 没办法进行类型类实例搜索，但是实例搜索是 Lean 唯一可能确定表达式的类型的方式。
+也就是说，<code>HPlus Pos Nat Pos</code> 实例只能在表达式的类型为 <code>Pos</code> 时应用，但除了实例本身之外，程序中没有其他东西表明它应该具有这种类型。</p>
+<!--
+One solution to the problem is to ensure that all three types are available by adding a type annotation to the whole expression:
+-->
+<p>一种解决方法是保证全部三个类型都是已知的，通过给整个表达式添加一个类型标记来实现这一点：</p>
 <pre><code class="language-lean">#eval (HPlus.hPlus (3 : Pos) (5 : Nat) : Pos)
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>However, this solution is not very convenient for users of the positive number library.</p>
-<h2 id="output-parameters"><a class="header" href="#output-parameters">Output Parameters</a></h2>
-<p>This problem can also be solved by declaring <code>γ</code> to be an <em>output parameter</em>.
+<!--
+However, this solution is not very convenient for users of the positive number library.
+-->
+<p>然而，这种解决方式对使用我们的正数库的用户来说并不是很方便。</p>
+<!--
+## Output Parameters
+-->
+<h2 id="输出参数"><a class="header" href="#输出参数">输出参数</a></h2>
+<!--
+This problem can also be solved by declaring `γ` to be an _output parameter_.
 Most type class parameters are inputs to the search algorithm: they are used to select an instance.
-For example, in an <code>OfNat</code> instance, both the type and the natural number are used to select a particular interpretation of a natural number literal.
+For example, in an `OfNat` instance, both the type and the natural number are used to select a particular interpretation of a natural number literal.
 However, in some cases, it can be convenient to start the search process even when some of the type parameters are not yet known, and use the instances that are discovered in the search to determine values for metavariables.
-The parameters that aren't needed to start instance search are outputs of the process, which is declared with the <code>outParam</code> modifier:</p>
+The parameters that aren't needed to start instance search are outputs of the process, which is declared with the `outParam` modifier:
+-->
+<p>刚才的问题也可以通过声明 <code>γ</code> 是一个 <strong>输出参数（output parameter）</strong> 来解决。
+多数类型类参数是作为搜索算法的输入：它们被用于选取一个实例。
+例如，在 <code>OfNat</code> 实例中，类型和自然数都被用于选取一个数字字面量的特定解释。
+然而，在一些情况下，在尽管有些类型参数仍然处于未知状态时就开始进行搜索是更方便的。
+这样就能使用在搜索中发现的实例来决定元变量的值。
+在开始搜索实例时不需要用到的参数就是这个过程的结果，该参数使用 <code>outParam</code> 修饰符来声明。</p>
 <pre><code class="language-lean">class HPlus (α : Type) (β : Type) (γ : outParam Type) where
   hPlus : α → β → γ
 </code></pre>
-<p>With this output parameter, type class instance search is able to select an instance without knowing <code>γ</code> in advance.
-For instance:</p>
+<!--
+With this output parameter, type class instance search is able to select an instance without knowing `γ` in advance.
+For instance:
+-->
+<p>有了这个输出参数，类型类实例搜索就能够在不需要知道 <code>γ</code> 的情况下选取一个实例了。
+例如：</p>
 <pre><code class="language-lean">#eval HPlus.hPlus (3 : Pos) (5 : Nat)
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>It might be helpful to think of output parameters as defining a kind of function.
+<!--
+It might be helpful to think of output parameters as defining a kind of function.
 Any given instance of a type class that has one or more output parameters provides Lean with instructions for determining the outputs from the inputs.
 The process of searching for an instance, possibly recursively, ends up being more powerful than mere overloading.
-Output parameters can determine other types in the program, and instance search can assemble a collection of underlying instances into a program that has this type.</p>
-<h2 id="default-instances"><a class="header" href="#default-instances">Default Instances</a></h2>
-<p>Deciding whether a parameter is an input or an output controls the circumstances under which Lean will initiate type class search.
+Output parameters can determine other types in the program, and instance search can assemble a collection of underlying instances into a program that has this type.
+-->
+<p>认为输出参数相当于是定义某种函数在思考时可能会有帮助。
+任意给定的，类型类的实例都有一个或更多输出参数提供给 Lean。这能指导 Lean 通过输入（的类型参数）来确定输出（的类型）。
+一个可能是递归的实例搜索过程，最终会比简单的重载更为强大。
+输出参数能够决定程序中的其他类型，实例搜索能够将一族附属实例组合成具有这种类型的程序。</p>
+<!--
+## Default Instances
+-->
+<h2 id="默认实例"><a class="header" href="#默认实例">默认实例</a></h2>
+<!--
+Deciding whether a parameter is an input or an output controls the circumstances under which Lean will initiate type class search.
 In particular, type class search does not occur until all inputs are known.
 However, in some cases, output parameters are not enough, and instance search should also occur when some inputs are unknown.
-This is a bit like default values for optional function arguments in Python or Kotlin, except default <em>types</em> are being selected.</p>
-<p><em>Default instances</em> are instances that are available for instance search <em>even when not all their inputs are known</em>.
+This is a bit like default values for optional function arguments in Python or Kotlin, except default _types_ are being selected.
+-->
+<p>确定一个参数是否是一个输入或输出参数控制了 Lean 会在何时启动类型类搜索。
+具体而言，直到所有输入都变为已知，类型类搜索才会开始。
+然而，在一些情况下，输出参数是不足的。此时，即使一些输入参数仍然处于未知状态，实例搜索也应该开始。
+这有点像是 Python 或 Kotlin 中可选函数参数的默认值，但在这里是默认 <strong>类型</strong> 。</p>
+<!--
+_Default instances_ are instances that are available for instance search _even when not all their inputs are known_.
 When one of these instances can be used, it will be used.
 This can cause programs to successfully type check, rather than failing with errors related to unknown types and metavariables.
 On the other hand, default instances can make instance selection less predictable.
 In particular, if an undesired default instance is selected, then an expression may have a different type than expected, which can cause confusing type errors to occur elsewhere in the program.
-Be selective about where default instances are used!</p>
-<p>One example of where default instances can be useful is an instance of <code>HPlus</code> that can be derived from an <code>Add</code> instance.
+Be selective about where default instances are used!
+-->
+<p><strong>默认实例</strong> 是 <strong>当并不是全部输入均为已知时</strong> 可用的实例。
+当一个默认实例能被使用时，他就将会被使用。
+这能帮助程序成功通过类型检查，而不是因为关于未知类型和元变量的错误而失败。
+但另一方面，默认类型会让实例选取变得不那么可预测。
+具体而言，如果一个不合适的实例被选取了，那么表达式将可能具有和预期不同的类型。
+这会导致令人困惑的类型错误发生在程序中。
+明智地选择要使用默认实例的地方！</p>
+<!--
+One example of where default instances can be useful is an instance of `HPlus` that can be derived from an `Add` instance.
 In other words, ordinary addition is a special case of heterogeneous addition in which all three types happen to be the same.
-This can be implemented using the following instance:</p>
+This can be implemented using the following instance:
+-->
+<p>默认实例可以发挥作用的一个例子是可以从 <code>Add</code> 实例派生出的 <code>HPlus</code> 实例。
+换句话说，常规的加法是异质加法在三个参数类型都相同时的特殊情况。
+这可以用下面的实例来实现：</p>
 <pre><code class="language-lean">instance [Add α] : HPlus α α α where
   hPlus := Add.add
 </code></pre>
-<p>With this instance, <code>hPlus</code> can be used for any addable type, like <code>Nat</code>:</p>
+<!--
+With this instance, `hPlus` can be used for any addable type, like `Nat`:
+-->
+<p>有了这个实例，<code>hPlus</code> 就可以被用于任何可加的类型，就像 <code>Nat</code>：</p>
 <pre><code class="language-lean">#eval HPlus.hPlus (3 : Nat) (5 : Nat)
 </code></pre>
 <pre><code class="language-output info">8
 </code></pre>
-<p>However, this instance will only be used in situations where the types of both arguments are known.
-For example,</p>
+<!--
+However, this instance will only be used in situations where the types of both arguments are known.
+For example,
+-->
+<p>然而，这个实例只会用在两个参数类型都已知的情况下。
+例如：</p>
 <pre><code class="language-lean">#check HPlus.hPlus (5 : Nat) (3 : Nat)
 </code></pre>
-<p>yields the type</p>
+<!--
+yields the type
+-->
+<p>产生类型</p>
 <pre><code class="language-output info">HPlus.hPlus 5 3 : Nat
 </code></pre>
-<p>as expected, but</p>
+<!--
+as expected, but
+-->
+<p>就像我们预想的那样，但是</p>
 <pre><code class="language-lean">#check HPlus.hPlus (5 : Nat)
 </code></pre>
-<p>yields a type that contains two metavariables, one for the remaining argument and one for the return type:</p>
+<!--
+yields a type that contains two metavariables, one for the remaining argument and one for the return type:
+-->
+<p>产生了一个包含剩余参数和返回值类型的两个元变量的类型：</p>
 <pre><code class="language-output info">HPlus.hPlus 5 : ?m.7706 → ?m.7708
 </code></pre>
-<p>In the vast majority of cases, when someone supplies one argument to addition, the other argument will have the same type.
-To make this instance into a default instance, apply the <code>default_instance</code> attribute:</p>
+<!--
+In the vast majority of cases, when someone supplies one argument to addition, the other argument will have the same type.
+To make this instance into a default instance, apply the `default_instance` attribute:
+-->
+<p>在绝大多数情况下，当提供一个加法参数时，另一个参数也会是同一个类型。
+来让这个实例成为默认实例，应用 <code>default_instance</code> 属性：</p>
 <pre><code class="language-lean">@[default_instance]
 instance [Add α] : HPlus α α α where
   hPlus := Add.add
 </code></pre>
-<p>With this default instance, the example has a more useful type:</p>
+<!--
+With this default instance, the example has a more useful type:
+-->
+<p>有了默认实例，这个例子就有了更有用的类型：</p>
 <pre><code class="language-lean">#check HPlus.hPlus (5 : Nat)
 </code></pre>
-<p>yields</p>
+<!--
+yields
+-->
+<p>结果为：</p>
 <pre><code class="language-output info">HPlus.hPlus 5 : Nat → Nat
 </code></pre>
-<p>Each operator that exists in overloadable heterogeneous and homogeneous versions follows the pattern of a default instance that allows the homogeneous version to be used in contexts where the heterogeneous is expected.
-The infix operator is replaced with a call to the heterogeneous version, and the homogeneous default instance is selected when possible.</p>
-<p>Similarly, simply writing <code>5</code> gives a <code>Nat</code> rather than a type with a metavariable that is waiting for more information in order to select an <code>OfNat</code> instance.
-This is because the <code>OfNat</code> instance for <code>Nat</code> is a default instance.</p>
-<p>Default instances can also be assigned <em>priorities</em> that affect which will be chosen in situations where more than one might apply.
-For more information on default instance priorities, please consult the Lean manual.</p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
-<p>Define an instance of <code>HMul (PPoint α) α (PPoint α)</code> that multiplies both projections by the scalar.
-It should work for any type <code>α</code> for which there is a <code>Mul α</code> instance.
-For example,</p>
+<!--
+Each operator that exists in overloadable heterogeneous and homogeneous versions follows the pattern of a default instance that allows the homogeneous version to be used in contexts where the heterogeneous is expected.
+The infix operator is replaced with a call to the heterogeneous version, and the homogeneous default instance is selected when possible.
+-->
+<p>每个同时重载了异质和同质运算的运算符，都能在默认实例需要异质运算的语境中使用同质运算。
+中缀运算符会被替换为异质运算，并且在需要时尽可能选择同质的默认实例。</p>
+<!--
+Similarly, simply writing `5` gives a `Nat` rather than a type with a metavariable that is waiting for more information in order to select an `OfNat` instance.
+This is because the `OfNat` instance for `Nat` is a default instance.
+-->
+<p>简单来说，简单地写 <code>5</code> 会给出一个 <code>Nat</code> 而不是一个需要更多信息来选取 <code>OfNat</code> 实例的一个包含元变量的类型。
+这是因为 <code>OfNat</code> 以 <code>Nat</code> 作为默认实例。</p>
+<!--
+Default instances can also be assigned _priorities_ that affect which will be chosen in situations where more than one might apply.
+For more information on default instance priorities, please consult the Lean manual.
+-->
+<p>默认实例也可以被赋予 <strong>优先级</strong> ，这会影响在可能的应用多于一种的情况下的选择。
+更多关于默认实例优先级的信息，请查阅 Lean 手册。</p>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+Define an instance of `HMul (PPoint α) α (PPoint α)` that multiplies both projections by the scalar.
+It should work for any type `α` for which there is a `Mul α` instance.
+For example,
+-->
+<p>定义一个 <code>HMul (PPoint α) α (PPoint α)</code> 的实例，该实例将两个投影都乘以标量。
+它应适用于任何存在 <code>Mul α</code> 实例的类型 <code>α</code>。例如：</p>
 <pre><code class="language-lean">#eval {x := 2.5, y := 3.7 : PPoint Float} * 2.0
 </code></pre>
-<p>should yield</p>
+<!--
+should yield
+-->
+<p>结果应为</p>
 <pre><code class="language-output info">{ x := 5.000000, y := 7.400000 }
 </code></pre>
 
