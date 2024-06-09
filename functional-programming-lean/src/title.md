@@ -20,7 +20,7 @@
 This is a free book on using Lean 4 as a programming language. All code samples are tested with Lean 4 release `{{#lean_version}}`.
 -->
 
-这是一本免费的书，介绍如何使用 Lean 4 作为编程语言。所有代码示例均经过 Lean 4 版本 `{{#lean_version}}` 验证。
+这是一本自由书籍，介绍如何使用 Lean 4 作为编程语言。所有代码示例均经过 Lean 4 版本 `{{#lean_version}}` 验证。
 
 <!--
 ## Release history
