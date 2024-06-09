@@ -75,9 +75,9 @@ Finally, multi-step `do` blocks, `let`-expressions, and other syntactic forms th
 当用 Lean 代码做实验时，定义可能比 `#eval` 或 `#check` 指令更方便。
 首先，定义不会产生任何输出，这可以让读者的注意力集中在最有趣的输出上。
 第二，从一个类型签名开始一个 Lean 程序是最简单的方式，这也会使 Lean 能够提供更多的协助和更好的错误信息。
-另一方面，`#eval` 和 `#check` 是让 Lean 决定给出表达式的类型的最简单的方式。
+另一方面，`#eval` 和 `#check` 在 Lean 可以通过表达式给出类型时用起来最简单。
 第三，`#eval` 并不能用于没有 `ToString` 或 `Repr` 实例的类型，例如函数。
-最后，多步的 `do` 语法块，`let` 表达式，和其他多行语法形式在 `#eval` 或 `#check` 中加上类型注释是很困难的，因为所需的括号很难预测。
+最后，多步的 `do` 语法块，`let` 表达式，和其他多行语法形式在 `#eval` 或 `#check` 中有时候是一个需要多层括号区分优先级的长表达式，在这里面插入类型标注会很难读。
 
 <!--
 To work around these issues, Lean supports the explicit indication of examples in a source file.
