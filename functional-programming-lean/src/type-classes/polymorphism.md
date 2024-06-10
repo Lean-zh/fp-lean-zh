@@ -2,7 +2,7 @@
 # Type Classes and Polymorphism
 -->
 
-# 类型类和多态
+# 类型类与多态
 
 <!--
 It can be useful to write functions that work for _any_ overloading of a given function.
