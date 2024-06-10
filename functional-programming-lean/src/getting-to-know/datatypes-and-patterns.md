@@ -14,7 +14,7 @@ Structures do not provide an easy way to encode multiple choices.
 -->
 
 结构体使多个独立的数据块可以组合成一个连贯的整体，该整体由一个全新的类型表示。
-将一组值组合在一起的类型（如结构体）称为 **积类型（Product Type）**。
+将一组值组合在一起的类型（如结构体）称为   **积类型（Product Type）** 。
 然而，许多领域概念不能自然地表示为结构体。例如，应用程序可能需要跟踪用户权限，
 其中一些用户是文档所有者，一些用户可以编辑文档，而另一些用户只能阅读文档。
 计算器具有许多二元运算符，例如加法、减法和乘法。结构体无法提供一种简单的方法来编码多项选择。
@@ -37,8 +37,8 @@ Recursive sum types are called _inductive datatypes_, because mathematical induc
 When programming, inductive datatypes are consumed through pattern matching and recursive functions.
 -->
 
-允许选择的类型称为**和类型（Sum Type）**，而可以包含自身实例的类型称为
-**递归类型（Recursive Datatype）**。递归和类型称**归纳类型（Inductive Datatype）**，
+允许选择的类型称为  **和类型（Sum Type）** ，而可以包含自身实例的类型称为
+  **递归类型（Recursive Datatype）** 。递归和类型称  **归纳类型（Inductive Datatype）** ，
 因为可以用数学归纳法来证明有关它们的陈述。在编程时，归纳类型通过模式匹配和递归函数来消耗。
 
 <!--
@@ -112,7 +112,7 @@ The names `zero` and `succ` are in a namespace named after their type, so they m
 -->
 
 在这里，`zero` 表示 0，而 `succ` 表示errt数字的后继。`succ` 声明中提到的 `Nat`
-正是我们正在定义的类型 `Nat`。**后继（Successor）**表示「比...大一」，因此 5 的后继是 6，
+正是我们正在定义的类型 `Nat`。  **后继（Successor）** 表示「比...大一」，因此 5 的后继是 6，
 32,185 的后继是 32,186。使用此定义，`4` 表示为 `Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero)))`。
 这个定义与 `Bool` 的定义非常类似，只是名称略有不同。唯一真正的区别是 `succ` 后面跟着
 `(n : Nat)`，它指定构造函数 `succ` 接受类型为 `Nat` 的参数，该参数恰好命名为 `n`。
@@ -199,7 +199,7 @@ In Lean, both of these purposes are simultaneously served by _pattern matching_.
 在很多语言中，这类数据首先使用 instance-of 运算符来检查接收了哪个子类，
 然后读取给定子类中可用的字段值。instance-of 会检查确定要运行哪个代码，
 以确保此代码所需的数据可用，而数据由字段本身提供。
-在 Lean 中，这两个目的均由**模式匹配（Pattern Matching）**实现。
+在 Lean 中，这两个目的均由  **模式匹配（Pattern Matching）** 实现。
 
 <!--
 An example of a function that uses pattern matching is `isZero`, which is a function that returns `true` when its argument is `Nat.zero`, or false otherwise.
@@ -348,7 +348,7 @@ Recursive datatypes can represent arbitrarily large data, limited only by techni
 Just as it would be impossible to write down one constructor for each natural number in the datatype definition, it is also impossible to write down a pattern match case for each possibility.
 -->
 
-引用正在定义的名称的定义称为**递归定义（Recursive Definition）**。
+引用正在定义的名称的定义称为  **递归定义（Recursive Definition）** 。
 归纳数据类型允许是递归的；事实上，`Nat` 就是这样的数据类型的一个例子，
 因为 `succ` 需要另一个 `Nat`。递归数据类型可以表示任意大的数据，仅受可用内存等技术因素限制。
 就像不可能在数据类型定义中为每个自然数编写一个构造器一样，也不可能为每个可能性编写一个模式匹配用例。
@@ -363,7 +363,7 @@ This means that a number built with `succ` is even if and only if its argument i
 -->
 
 递归数据类型与递归函数很好地互补。一个简单的 `Nat` 递归函数检查其参数是否是偶数。
-在这种情况下，`zero` 是偶数。像这样的代码的非递归分支称为**基本情况（Base Case）**。
+在这种情况下，`zero` 是偶数。像这样的代码的非递归分支称为  **基本情况（Base Case）** 。
 奇数的后继是偶数，偶数的后继是奇数。这意味着使用 `succ` 构建的数字当且仅当其参数不是偶数时才是偶数。
 
 ```lean
@@ -379,7 +379,7 @@ This pattern is called _structural recursion_.
 
 这种思维模式对于在 `Nat` 上编写递归函数是典型的。首先，确定对 `zero` 做什么。
 然后，确定如何将任意 `Nat` 的结果转换为其后继的结果，并将此转换应用于递归调用的结果。
-此模式称为**结构化递归（Structural Recursion）**。
+此模式称为  **结构化递归（Structural Recursion）** 。
 
 <!--
 Unlike many languages, Lean ensures by default that every recursive function will eventually reach a base case.

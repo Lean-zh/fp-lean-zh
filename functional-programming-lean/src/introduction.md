@@ -28,13 +28,13 @@ _Dependent types_, which are the most unusual feature of Lean, make types into a
 作为一门编程语言，Lean 是一种具有依值类型的严格纯函数式语言。
 学习使用 Lean 编程很大一部分内容在于学习这些属性中的每一个如何影响程序的编写方式，
 以及如何像函数式程序员一样思考。
-**严格性（Strictness）**意味着 Lean 中的函数调用与大多数语言中的工作方式类似：
+  **严格性（Strictness）** 意味着 Lean 中的函数调用与大多数语言中的工作方式类似：
 在函数体开始运行之前，参数被完全计算。
-**纯粹性（Purity）**意味着 Lean 程序不能产生副作用，例如修改内存中的位置、
+  **纯粹性（Purity）** 意味着 Lean 程序不能产生副作用，例如修改内存中的位置、
 发送电子邮件或删除文件，除非程序的类型声明如此。
-Lean 是一种**函数式（Functional）**语言，这意味着函数就像任何其他值一样是一等值，
+Lean 是一种  **函数式（Functional）** 语言，这意味着函数就像任何其他值一样是一等值，
 并且执行模型受数学表达式的求值启发。
-**依值类型（Dependent type）**是 Lean 最不寻常的特性，它使类型成为语言的一等部分，
+  **依值类型（Dependent type）** 是 Lean 最不寻常的特性，它使类型成为语言的一等部分，
 允许类型包含程序，而程序计算类型。"
 
 <!--
@@ -115,7 +115,7 @@ Please refer to the [Lean manual](https://lean-lang.org/lean4/doc/quickstart.htm
 Code examples that are provided to Lean as _input_ are formatted like this:
 -->
 
-作为**输入**提供给 Lean 的代码示例格式如下：
+作为  **输入** 提供给 Lean 的代码示例格式如下：
 
 ```lean
 {{#example_decl Examples/Intro.lean add1}}

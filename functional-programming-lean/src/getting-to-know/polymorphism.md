@@ -23,7 +23,7 @@ In this book, "polymorphism" always refers to the first sense of the word.
 These type arguments can be used in the datatype or definition, which allows the same datatype or definition to be used with any type that results from replacing the arguments' names with some other types.
 -->
 
-在函数式编程中，术语**多态（Polymorphism）**"通常指将类型作为参数的数据类型和定义。
+在函数式编程中，术语  **多态（Polymorphism）** "通常指将类型作为参数的数据类型和定义。
 这不同于面向对象编程社区，其中该术语通常指可以覆盖其超类某些行为的子类。
 在这本书中，「多态」总是指这个词的第一个含义。这些类型参数可以在数据类型或定义中使用，
 通过将数据类型和定义的类型参数替换为其他类型，可以产生新的不同类型。
@@ -77,7 +77,7 @@ This is achieved by having its first argument be the type of the point's fields,
 -->
 
 定义也可以将类型作为参数，这使得它们具有多态性。函数 `replaceX` 用新值替换
-`PPoint` 的 `x` 字段。为了能够让 `replaceX` 与**任何**多态的点一起使用，它本身必须是多态的。
+`PPoint` 的 `x` 字段。为了能够让 `replaceX` 与  **任何** 多态的点一起使用，它本身必须是多态的。
 这是通过让其第一个参数成为点字段的类型，后面的参数引用第一个参数的名称来实现的。
 
 ```lean
@@ -90,7 +90,7 @@ This is similar to the way that function argument names refer to the values that
 -->
 
 换句话说，当参数 `point` 和 `newX` 的类型提到 `α` 时，它们指的是
-**作为第一个参数提供的任何类型**。这类似于函数参数名称引用函数体中提供的值的方式。
+  **作为第一个参数提供的任何类型** 。这类似于函数参数名称引用函数体中提供的值的方式。
 
 <!--
 This can be seen by asking Lean to check the type of `replaceX`, and then asking it to check the type of `replaceX Nat`.
@@ -112,7 +112,7 @@ Just as the value of a function application is found by replacing the argument n
 Providing the first argument, `Nat`, causes all occurrences of `α` in the remainder of the type to be replaced with `Nat`:
 -->
 
-此函数类型包括第一个参数的**名称**，类型中的后续参数会引用此名称。
+此函数类型包括第一个参数的  **名称** ，类型中的后续参数会引用此名称。
 就像函数应用的值，是通过在函数体中，用所提供的参数值替换参数名称来找到的那样，
 函数应用的类型，也是通过在函数的返回类型中，用所提供的参数值替换参数的名称来找到的。
 提供第一个参数 `Nat`，会导致类型其余部分中所有的 `α` 都替换为 `Nat`：
@@ -342,7 +342,7 @@ For instance, a version of `replaceX` with an implicit type argument looks like 
 `replaceX` 和 `length` 这两个函数使用起来有些繁琐，因为类型参数通常由后面的值唯一确定。
 事实上，在大多数语言中，编译器完全有能力自行确定类型参数，并且只需要偶尔从用户那里获得帮助。
 在 Lean 中也是如此。在定义函数时，可以通过用大括号而不是括号将参数括起来来声明参数为
-**隐式（Implicit）**的。例如，一个具有隐式类型参数的 `replaceX` 版本如下所示：
+  **隐式（Implicit）** 的。例如，一个具有隐式类型参数的 `replaceX` 版本如下所示：
 
 ```lean
 {{#example_decl Examples/Intro.lean replaceXImp}}
@@ -563,7 +563,7 @@ Explicitly providing a type allows Lean to proceed:
 
 这是因为 Lean 无法完全确定表达式的类型。特别是，它既找不到 `List.head?` 的隐式类型参数，
 也找不到 `List.nil` 的隐式类型参数。在 Lean 的输出中，`?m.XYZ` 表示程序中无法推断的部分。
-这些未知部分称为**元变量（Metavariable）**，它们出现在一些错误消息中。为了计算一个表达式，
+这些未知部分称为  **元变量（Metavariable）** ，它们出现在一些错误消息中。为了计算一个表达式，
 Lean 需要能够找到它的类型，而类型不可用，因为空列表没有任何条目可以从中找到类型。
 显式提供类型可以让 Lean 继续：
 
@@ -594,7 +594,7 @@ The error messages provide a useful clue.
 Both messages use the _same_ metavariable to describe the missing implicit argument, which means that Lean has determined that the two missing pieces will share a solution, even though it was unable to determine the actual value of the solution.
 -->
 
-错误信息提供了一个有用的线索。两个信息都使用**相同**的元变量来描述缺少的隐式参数，
+错误信息提供了一个有用的线索。两个信息都使用  **相同** 的元变量来描述缺少的隐式参数，
 这意味着 Lean 已经确定两个缺少的部分将共享一个解决方案，即使它无法确定解决方案的实际值。
 
 <!--
@@ -612,7 +612,7 @@ Many applications are best served by defining their own structures, even for sim
 Additionally, defining structure types helps catch more errors by assigning different types to different domain concepts, preventing them from being mixed up.
 -->
 
-`Prod` 结构体，即**积（Product）**2的缩写，是一种将两个值连接在一起的通用方法。
+`Prod` 结构体，即  **积（Product）** 2的缩写，是一种将两个值连接在一起的通用方法。
 例如，`Prod Nat String` 包含一个 `Nat` 和一个 `String`。换句话说，`PPoint Nat`
 可以替换为 `Prod Nat Nat`。`Prod` 非常类似于 C# 的元组、Kotlin 中的 `Pair` 和 `Triple`
 类型以及 C++ 中的 `tuple`。许多应用最适合定义自己的结构体，即使对于像 `Point`
@@ -626,7 +626,7 @@ Finally, the standard library contains a variety of convenience functions that m
 -->
 
 另一方面，在某些情况下，定义新类型是不值得的开销。此外，一些库足够通用，
-以至于没有比**偶对（Pair）**更具体的概念。最后，标准库也包含了各种便利函数，
+以至于没有比  **偶对（Pair）** 更具体的概念。最后，标准库也包含了各种便利函数，
 让使用内置对类型变得更容易。
 
 <!--
@@ -697,7 +697,7 @@ Like `Prod`, `Sum` should be used either when writing very generic code, for a v
 In most situations, it is more readable and maintainable to use a custom inductive type.
 -->
 
-**和（`Sum`）**数据类型是一种允许在两种不同类型的值之间进行选择的一般方式。
+  **和（`Sum`）** 数据类型是一种允许在两种不同类型的值之间进行选择的一般方式。
 例如，`Sum String Int` 要么是 `String`，要么是 `Int`。与 `Prod` 一样，
 `Sum` 应该在编写非常通用的代码时使用，对于没有合适的特定领域类型的一小段代码，
 或者当标准库包含有用的函数时使用。在大多数情况下，使用自定义归纳类型更具可读性和可维护性。
@@ -867,8 +867,8 @@ The product `Bool × Unit` has the two values `(true, Unit.unit)` and `(false, U
 Similarly, \\( 2 \times 1 = 2 \\), and \\( 2 + 1 = 3 \\).
 -->
 
-一般来说，提供多个构造子的类型称为**和类型（Sum Type）**，
-而其单个构造子接受多个参数的类型称为**积类型（Product Type）**。
+一般来说，提供多个构造子的类型称为  **和类型（Sum Type）** ，
+而其单个构造子接受多个参数的类型称为  **积类型（Product Type）** 。
 这些术语与普通算术中使用的和与积有关。当涉及的类型包含有限数量的值时，这种关系最容易看出。
 如果 `α` 和 `β` 是分别包含 \\( n \\) 和 \\( k \\) 个不同值的数据类型，
 则 `α ⊕ β` 包含 \\( n + k \\) 个不同值，`α × β` 包含 \\( n \times k \\) 个不同值。
