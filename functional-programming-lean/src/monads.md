@@ -209,7 +209,7 @@ In the case of `firstThirdFifthSeventh`, it is likely relevant for a user to kno
 
 像Lean这样的纯函数式语言并没有用于错误处理的内置异常机制，因为抛出或捕获异常超出了表达式逐步求值模型考虑的范围。
 然而函数式程序肯定需要处理错误。
-在`firstThirdFifthSeventh`的情况下，用户很可能需要知道列表有多长以及查找失败发生的位置。"
+在`firstThirdFifthSeventh`的情况下，用户很可能需要知道列表有多长以及查找失败发生的位置。
 
 <!--
 This is typically accomplished by defining a datatype that can be either an error or a result, and translating functions with exceptions into functions that return this datatype:
@@ -274,7 +274,7 @@ A single list lookup can conveniently return a value or an error:
 However, performing two list lookups requires handling potential failures:
 -->
 
-然而，连续的两个列表查找则需要处理可能发生的失败情况：
+然而，连续的两次列表查找则需要处理可能发生的失败情况：
 ```lean
 {{#example_decl Examples/Monads.lean firstThirdExcept}}
 ```
