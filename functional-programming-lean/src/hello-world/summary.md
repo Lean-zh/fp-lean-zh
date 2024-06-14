@@ -31,8 +31,9 @@ Behind the scenes, the `IO` library ensures that the world is never duplicated, 
 While this model of side effects cannot actually be implemented, as the whole universe is too big to fit in memory, the real world can be represented by a token that is passed around through the program.
 -->
 
-`IO` 操作还可以理解为将整个世界作为参数并返回一个副作用已经发生的全新世界的函数。在幕后，`IO` "
-"库确保世界永远不会被复制、创建或销毁。虽然这种副作用模型实际上无法实现，因为整个宇宙太大而无法放入内存，但现实世界可以用一个在程序中传递的令牌来表示。
+`IO` 操作还可以理解为将整个世界作为参数并返回一个副作用已经发生的全新世界的函数。在幕后，
+`IO` 库确保世界永远不会被复制、创建或销毁。虽然这种副作用模型实际上无法实现，
+因为整个宇宙太大而无法放入内存，但现实世界可以用一个在程序中传递的令牌来表示。
 
 <!--
 An `IO` action `main` is executed when the program starts.
