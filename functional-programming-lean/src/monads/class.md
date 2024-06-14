@@ -217,9 +217,9 @@ Similarly, the type of `bind` should be `α → (α → Id β) → Id β`.
 Because this reduces to `α → (α → β) → β`, the second argument can be applied to the first to find the result.
 -->
 
-`pure`的类型应为`α → Id α`，但`Id α` **简化** 为 `α`。类似地，`bind`的类型应为`α → (α → Id β) → Id β`。
-由于这 **简化** 为 `α → (α → β) → β`，因此可以将第二个参数应用于第一个参数得到结果。
-*译者注：此处 **简化** 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。*
+`pure`的类型应为`α → Id α`，但`Id α` **归约** 为 `α`。类似地，`bind`的类型应为`α → (α → Id β) → Id β`。
+由于这 **归约** 为 `α → (α → β) → β`，因此可以将第二个参数应用于第一个参数得到结果。
+*译者注：此处 **归约** 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。*
 
 <!--
 With the identity monad, `mapM` becomes equivalent to `map`.
