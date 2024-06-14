@@ -8754,7 +8754,7 @@ In the case of `firstThirdFifthSeventh`, it is likely relevant for a user to kno
 -->
 <p>像Lean这样的纯函数式语言并没有用于错误处理的内置异常机制，因为抛出或捕获异常超出了表达式逐步求值模型考虑的范围。
 然而函数式程序肯定需要处理错误。
-在<code>firstThirdFifthSeventh</code>的情况下，用户很可能需要知道列表有多长以及查找失败发生的位置。&quot;</p>
+在<code>firstThirdFifthSeventh</code>的情况下，用户很可能需要知道列表有多长以及查找失败发生的位置。</p>
 <!--
 This is typically accomplished by defining a datatype that can be either an error or a result, and translating functions with exceptions into functions that return this datatype:
 -->
@@ -8810,7 +8810,7 @@ A single list lookup can conveniently return a value or an error:
 <!--
 However, performing two list lookups requires handling potential failures:
 -->
-<p>然而，连续的两个列表查找则需要处理可能发生的失败情况：</p>
+<p>然而，连续的两次列表查找则需要处理可能发生的失败情况：</p>
 <pre><code class="language-lean">def firstThird (xs : List α) : Except String (α × α) :=
   match get xs 0 with
   | Except.error msg =&gt; Except.error msg
@@ -9466,9 +9466,9 @@ The type of `pure` should be `α → Id α`, but `Id α` reduces to just `α`.
 Similarly, the type of `bind` should be `α → (α → Id β) → Id β`.
 Because this reduces to `α → (α → β) → β`, the second argument can be applied to the first to find the result.
 -->
-<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code> <strong>简化</strong> 为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
-由于这 <strong>简化</strong> 为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
-<em>译者注：此处 <strong>简化</strong> 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
+<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code> <strong>归约</strong> 为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
+由于这 <strong>归约</strong> 为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
+<em>译者注：此处 <strong>归约</strong> 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
 <!--
 With the identity monad, `mapM` becomes equivalent to `map`.
 To call it this way, however, Lean requires a hint that the intended monad is `Id`:
