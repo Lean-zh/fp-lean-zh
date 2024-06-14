@@ -123,7 +123,7 @@ If the `deriving Repr` line in `Point`'s definition were omitted, then attemptin
 
 如果 `Point` 定义中的 `deriving Repr` 行被省略，则尝试
 `{{#example_in Examples/Intro.lean PointNoRepr}}`
-会产生类似于省略函数参数时产生的错误："
+会产生类似于省略函数参数时产生的错误：
 
 ```output error
 {{#example_out Examples/Intro.lean PointNoRepr}}
@@ -151,7 +151,7 @@ Because structures exist to "bundle up" a collection of data, naming it and trea
 This is done using dot notation, as in C, Python, or Rust.
 -->
 
-由于结构体是用来「打包」一组数据，并将其命名并后作为单个单元进行处理的，
+由于结构体是用来「打包」一组数据，并将其命名后作为单个单元进行处理的，
 因此能够提取结构体的各个字段也很重要。这可以使用点记法，就像在 C、Python 或 Rust 中一样。
 
 ```lean
@@ -176,7 +176,7 @@ For instance, addition of points is performed by adding the underlying coordinat
 It should be the case that `{{#example_in Examples/Intro.lean addPointsEx}}` yields
 -->
 
-可以定义以结构体作为参数的函数。例如，点的加法可通过底层坐标值相加来执行。
+可以定义以结构体为参数的函数。例如，点的加法可通过底层坐标值相加来执行。
 `{{#example_in Examples/Intro.lean addPointsEx}}` 会产生
 
 ```output info
@@ -189,7 +189,7 @@ The resulting point is based on the `x` and `y` fields of both `p1` and `p2`:
 -->
 
 该函数本身以两个 `Points` 作为参数，分别为 `p1` 和 `p2`。
-结果点基于 `p1` 和 `p2` 的 `x` 和 `y` 字段："
+结果点基于 `p1` 和 `p2` 的 `x` 和 `y` 字段：
 
 ```lean
 {{#example_decl Examples/Intro.lean addPoints}}
@@ -334,7 +334,7 @@ Remember that this structure update syntax does not modify existing values—it 
 For instance, given the point `fourAndThree`:
 -->
 
-请记住，此结构体更新语法不会修改现有值，它会创建一些与旧值共享某些字段的新值。
+请记住，此结构体更新语法不会修改现有值，它会创建一个与旧值共享某些字段的新值。
 例如，给定点 `fourAndThree`：
 
 ```lean
@@ -383,7 +383,7 @@ All references to the old structure continue to refer to the same field values i
 ## Behind the Scenes
 -->
 
-## Behind the Scenes
+## 幕后
 
 <!--
 Every structure has a _constructor_.
@@ -394,7 +394,7 @@ It is not possible to provide a custom constructor that pre-processes data or re
 This is really a case of the word "constructor" having different, but related, meanings in the two contexts.
 -->
 
-每个结构体都有一个  **构造子（Constructor）** 。「Constructor」一词在英文中可能会引起混淆。
+每个结构体都有一个 **构造子（Constructor）** 。「Constructor」一词在英文中可能会引起混淆。
 与 Java 或 Python 等语言中的构造函数不同，Lean 中的构造子不是在初始化数据类型时运行的任意代码。
 相反，构造子只会收集要存储在新分配的数据结构中的数据。
 不可能提供一个预处理数据或拒绝无效参数的自定义构造子。
@@ -418,7 +418,7 @@ Instead of using curly-brace initialization syntax, the constructor can also be 
 However, this is not generally considered to be good Lean style, and Lean even returns its feedback using the standard structure initializer syntax.
 -->
 
-然而，这通常不被认为是良好的 Lean 风格，Lean 甚至使用标准结构体初始化语法返回其结果。
+然而，这通常不被认为是良好的 Lean 风格，Lean 甚至会使用标准结构体初始化语法返回其结果。
 
 ```output info
 {{#example_out Examples/Intro.lean checkPointMk}}
@@ -506,7 +506,7 @@ For instance, `String.append` can be invoked from a string with accessor notatio
 `TARGET` 的类型为 `T`，则调用名为 `T.f` 的函数。
 `TARGET` 是其类型为 `T` 的最左边的参数，它通常但并非总是第一个参数，并且
 `ARG1 ARG2 ...` 按顺序作为其余参数提供。例如，即使 `String` 不是具有
-`append` 字段的结构，也可以使用访问器记法从字符串中调用 `String.append`。
+`append` 字段的结构体，也可以使用访问器记法从字符串中调用 `String.append`。
 
 ```lean
 {{#example_in Examples/Intro.lean stringAppendDot}}
@@ -559,7 +559,7 @@ This is because the target of the accessor notation is used as the first argumen
 ## Exercises
 -->
 
-## Exercises
+## 练习
 
 <!--
  * Define a structure named `RectangularPrism` that contains the height, width, and depth of a rectangular prism, each as a `Float`.
@@ -569,11 +569,11 @@ This is because the target of the accessor notation is used as the first argumen
  * Which names are introduced by the following declarations of `Hamster` and `Book`? What are their types?
 -->
 
-* 定义一个名为 `RectangularPrism` 的结构，其中包含一个矩形棱柱的高度、宽度和深度，每个都是 `Float`。
+* 定义一个名为 `RectangularPrism` 的结构体，其中包含一个矩形棱柱的高度、宽度和深度，每个都是 `Float`。
 * 定义一个名为 `volume : RectangularPrism → Float` 的函数，用于计算矩形棱柱的体积。
 * 定义一个名为 `Segment` 的结构，它通过其端点表示线段，并定义一个函数
   `length : Segment → Float`，用于计算线段的长度。`Segment` 最多应有两个字段。
-* RectangularPrism` 的声明引入了哪些名称？
+* `RectangularPrism` 的声明引入了哪些名称？
 * 以下 `Hamster` 和 `Book` 的声明引入了哪些名称？它们的类型是什么？
 
 ```lean

@@ -139,7 +139,7 @@ Comparison operators such as `<` are non-associative, so `x < y < z` is a syntax
 -->
 
 在 Lean 中，可以使用 `infix`、`infixl` 和 `infixr`命令声明中缀运算符，分别用于非结合、左结合和右结合的情况。
-当连续多次使用时，  **左结合** 运算符会将（开）括号堆叠在表达式的左侧。
+当连续多次使用时， **左结合** 运算符会将（开）括号堆叠在表达式的左侧。
 加法运算符`+` 是左结合的，因此 `w + x + y + z` 等价于 `(((w + x) + y) + z)`。
 指数运算符 `^` 是右结合的，因此 `w ^ x ^ y ^ z` 等价于 `(w ^ (x ^ (y ^ z)))`。
 比较运算符（如 `<`）是非结合的，因此 `x < y < z`是一个语法错误，需要手动添加括号。
@@ -161,7 +161,7 @@ According to the declaration of `~~>`, both `+` and `*` have higher precedence, 
 Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.
 -->
 
-冒号后面的数字声明了新中缀运算符的  **优先级** 。
+冒号后面的数字声明了新中缀运算符的 **优先级** 。
 在一般的数学记号中，`x + y * z` 等价于 `x + (y * z)`，即使 `+` 和 `*` 都是左结合的。
 在 Lean 中，`+` 的优先级为 65，`*` 的优先级为 70。
 优先级更高的运算符应用于优先级较低的运算符之前。
@@ -479,7 +479,7 @@ An _inorder numbering_ of a tree associates each data point in the tree with the
 For example, consider `aTree`:
 -->
 
-树的每个节点的  **中序编号** 指的是：在中序遍历中被访问的次序。例如，考虑如下`aTree`：
+树的每个节点的 **中序编号** 指的是：在中序遍历中被访问的次序。例如，考虑如下`aTree`：
 ```lean
 {{#example_decl Examples/Monads.lean aTree}}
 ```
@@ -634,7 +634,7 @@ The key idea of monads is that each monad encodes a particular kind of side effe
 For example, `Option` represents programs that can fail by returning `none`, `Except` represents programs that can throw exceptions, `WithLog` represents programs that accumulate a log while running, and `State` represents programs with a single mutable variable.
 -->
 
-这种风格的API统称为  **单子** (Monad)。
+这种风格的API统称为 **单子** (Monad)。
 虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。
 单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。
 例如`Option`表示可能通过返回`none`而失败的程序，`Except`表示可能抛出异常的程序，`WithLog`表示在运行过程中累积日志的程序，`State`表示具有单个可变变量的程序。

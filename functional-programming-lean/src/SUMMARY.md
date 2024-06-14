@@ -2,7 +2,7 @@
 
 [Lean 函数式编程](./title.md)
 [引言](./introduction.md)
-[致谢](./acknowledgments.md)
+[鸣谢](./acknowledgments.md)
 
 - [了解 Lean](./getting-to-know.md)
   - [求值表达式](./getting-to-know/evaluating.md)

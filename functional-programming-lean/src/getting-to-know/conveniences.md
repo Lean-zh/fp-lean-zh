@@ -14,7 +14,7 @@ Lean 包含许多便利功能，能够让程序更加简洁。
 ## Automatic Implicit Arguments
 -->
 
-## Automatic Implicit Arguments
+## 自动隐式参数
 
 <!--
 When writing polymorphic functions in Lean, it is typically not necessary to list all the implicit arguments.
@@ -44,7 +44,7 @@ can be written without `{α : Type}`:
 This can greatly simplify highly polymorphic definitions that take many implicit arguments.
 -->
 
-这能极大简化需要很多隐式参数的高级多态定义。
+这能极大简化地需要很多隐式参数的高级多态定义。
 
 <!--
 ## Pattern-Matching Definitions
@@ -146,9 +146,10 @@ When the list of pairs has a pair at its head, then the two fields of the pair a
 This definition of `unzip` follows that description exactly:
 -->
 
-例如，`unzip` 是一个将偶对列表转换为一对列表的函数。当偶对列表为空时，
+例如，`unzip` 是一个将偶对的列表转换为一对列表的函数。当偶对列表为空时，
 `unzip` 的结果是一对空列表。当偶对列表的头部有一个偶对时，
-则该偶对的两个字段将添加到列表的其余部分 `unzip` 后的结果中。`unzip` 的此定义完全遵循该描述：
+则该偶对的两个字段将添加到列表的其余部分 `unzip` 后的结果中。
+以下 `unzip` 的定义完全遵循该描述：
 
 ```lean
 {{#example_decl Examples/Intro.lean unzipBad}}
@@ -174,8 +175,9 @@ For instance, `let` can be used in `unzip` like this:
 在 Lean 中，可以使用 `let` 命名递归调用的结果，从而保存它。
 使用 `let` 的局部定义类似于使用 `def` 的顶层定义：它需要一个局部定义的名称，
 如果需要的话，还有参数、类型签名，然后是 `:=` 后面的主体。在局部定义之后，
-局部定义可用的表达式（称为 `let` 表达式的 _body_）必须在新行上，从文件中的列开始，该列小于或等于 `let` 关键字的列。例如，`let` 可以像这样用于 "
-"`unzip`：
+局部定义可用的表达式（称为 `let` 表达式的 **主体** ）必须在新行上，
+从文件中的列开始，该列小于或等于 `let` 关键字的列。
+例如，`let` 可以像这样用于 `unzip`：
 
 ```lean
 {{#example_decl Examples/Intro.lean unzip}}
@@ -316,13 +318,13 @@ Missing type annotations can give confusing error messages.
 Omitting all types from the definition of `unzip`:
 -->
 
-缺少类型标注可能会导致令人困惑的错误信息。从 `unzip` 的定义中省略所有类型：
+缺少类型标注可能会产生令人困惑的错误信息。从 `unzip` 的定义中省略所有类型：
 
 ```lean
 {{#example_in Examples/Intro.lean unzipNoTypesAtAll}}
 ```
 
-会导致有关 `match` 表达式的信息：
+会产生有关 `match` 表达式的信息：
 
 ```output error
 {{#example_out Examples/Intro.lean unzipNoTypesAtAll}}
@@ -544,7 +546,7 @@ This style of anonymous function expression is often referred to as a _lambda ex
 Even though Lean does permit `λ` to be used instead of `fun`, it is most common to write `fun`.
 -->
 
-这种匿名函数表达式风格通常称为  **λ-表达式（Lambda Expression）** ，
+这种匿名函数表达式风格通常称为 **λ-表达式（Lambda Expression）** ，
 因为编程语言在数学描述中使用的典型符号，将 Lean 中使用关键字 `fun`
 的地方换成了希腊字母 λ（Lambda）。即使 Lean 允许使用 `λ` 代替 `fun`，
 但最常见的仍然是写作 `fun`。
@@ -570,14 +572,14 @@ Many of Lean's convenient syntactic shorthands are expanded to simpler syntax be
 -->
 
 注意，Lean 函数的描述本身有一个命名参数和一个 `match` 表达式。
-Lean 的许多便捷语法缩写都会在幕后扩展为更简单的语法，但有时会泄漏抽象。
+Lean 的许多便捷语法缩写都会在幕后扩展为更简单的语法，但有时会泄漏抽象，暴露出具体细节。
 
 <!--
 Definitions using `def` that take arguments may be rewritten as function expressions.
 For instance, a function that doubles its argument can be written as follows:
 -->
 
-使用 `def` 定义带有参数的函数可以重写为函数表达式。 例如，一个将其参数加倍的函数可以写成以下形式：
+使用 `def` 定义带有参数的函数可以重写为函数表达式。例如，一个将其参数翻倍的函数可以写成以下形式：
 
 ```lean
 {{#example_decl Examples/Intro.lean doubleLambda}}
@@ -592,9 +594,9 @@ That particular function can also be written `{{#example_eval Examples/Intro.lea
 -->
 
 当匿名函数非常简单时，例如 `{{#example_eval Examples/Intro.lean incrSteps 0}}`，
-创建函数的语法可能相当冗长。在此例中，有六个非空白字符用于引入函数，
+创建函数的语法会相当冗长。在此例中，有六个非空白字符用于引入函数，
 其函数体仅包含三个非空白字符。对于这些简单的情况，Lean 提供了一个简写。
-在括号包围的表达式中，间点符号 `·` 可以表示一个参数，括号内的表达式为函数体，
+在括号包围的表达式中，间点号 `·` 可以表示一个参数，括号内的表达式为函数体，
 因此该函数也可以写成 `{{#example_eval Examples/Intro.lean incrSteps 1}}`。
 
 <!--
@@ -603,7 +605,7 @@ For instance, `{{#example_eval Examples/Intro.lean funPair 0}}` is a function th
 If multiple dots are used, then they become arguments from left to right:
 -->
 
-间点号总是将  **最靠近** 的一对括号创建为函数。
+间点号总是将 **最靠近** 的一对括号创建为函数。
 例如，`{{#example_eval Examples/Intro.lean funPair 0}}` 是返回一对数字的函数，
 而 `{{#example_eval Examples/Intro.lean pairFun 0}}` 是一个函数和一个数字的偶对。
 如果使用多个点，则它们按从左到右的顺序成为参数：
@@ -648,7 +650,7 @@ This means that `List.map` and `Array.map` are different names.
 Namespaces may be nested, so `Project.Frontend.User.loginTime` is the name `loginTime` in the nested namespace `Project.Frontend.User`.
 -->
 
-Lean 中的每个名称都出现在一个  **命名空间（Namespace）** 中，这是一个名称集合。
+Lean 中的每个名称都出现在一个 **命名空间（Namespace）** 中，它是一个名称的集合。
 名称使用 `.` 放在命名空间中，因此 `List.map` 是 `List` 命名空间中的名称 `map`。
 不同命名空间中的名称不会相互冲突，即使它们在其他方面是相同的。
 这意味着 `List.map` 和 `Array.map` 是不同的名称。
@@ -660,7 +662,7 @@ Names can be directly defined within a namespace.
 For instance, the name `double` can be defined in the `Nat` namespace:
 -->
 
-名空间中可以直接定义名称。例如，名称 `double` 可以定义在 `Nat` 命名空间中：
+命名空间中可以直接定义名称。例如，名称 `double` 可以定义在 `Nat` 命名空间中：
 
 ```lean
 {{#example_decl Examples/Intro.lean NatDouble}}
@@ -670,7 +672,7 @@ For instance, the name `double` can be defined in the `Nat` namespace:
 Because `Nat` is also the name of a type, dot notation is available to call `Nat.double` on expressions with type `Nat`:
 -->
 
-由于 `Nat` 也是一个类型的名称，因此可以使用点表示法对类型为 `Nat` 的表达式调用 `Nat.double`：
+由于 `Nat` 也是一个类型的名称，因此可以使用点记法对类型为 `Nat` 的表达式调用 `Nat.double`：
 
 ```lean
 {{#example_in Examples/Intro.lean NatDoubleFour}}
@@ -686,7 +688,7 @@ For instance, this defines `triple` and `quadruple` in the namespace `NewNamespa
 -->
 
 除了直接在命名空间中定义名称外，还可以使用 `namespace` 和 `end`
-命令将一系列声明放在命名空间中。例如，这在 `NewNamespace` 命名空间中定义了
+命令将一系列声明放在命名空间中。例如，以下代码在 `NewNamespace` 命名空间中定义了
 `triple` 和 `quadruple`：
 
 ```lean
@@ -721,9 +723,9 @@ Writing `open MyNamespace in` before an expression causes the contents of `MyNam
 For example, `timesTwelve` uses both `quadruple` and `triple` after opening `NewNamespace`:
 -->
 
-命名空间可以  **打开** ，这允许在不显式限定的情况下使用其中的名称。
-在表达式之前编写 `open MyNamespace in` 会导致 `MyNamespace`
-的内容在表达式中可用。例如，`timesTwelve` 在打开 `NewNamespace` 后同时使用了
+命名空间可以 **打开** ，这允许在不显式指定的情况下使用其中的名称。
+在表达式之前编写 `open MyNamespace in` 会使 `MyNamespace`
+中的内容在表达式中可用。例如，`timesTwelve` 在打开 `NewNamespace` 后同时使用了
 `quadruple` 和 `triple`：
 
 ```lean
@@ -737,7 +739,7 @@ To do this, place the `open ... in` prior to the command.
 -->
 
 命名空间也可以在命令之前打开。这能让命令中的所有部分引用命名空间的内容，
-而不仅仅是在一个表达式。为此，请在命令之前写上 `open ... in`。
+而不仅仅是一个表达式。为此，请在命令之前写上 `open ... in`。
 
 ```lean
 {{#example_in Examples/Intro.lean quadrupleNamespaceOpen}}
@@ -819,8 +821,8 @@ The [section on structures](structures.md) presents two ways of constructing str
 
 [结构体](structures.md)一节中介绍了构造结构体的两种方法：
 
- 1. 构造子可以直接调用，如  `{{#example_in Examples/Intro.lean pointCtor}}`.
- 2. 可以使用大括号表示法，如 `{{#example_in Examples/Intro.lean pointBraces}}`.
+ 1. 构造子可以直接调用，如 `{{#example_in Examples/Intro.lean pointCtor}}`.
+ 2. 可以使用大括号记法，如 `{{#example_in Examples/Intro.lean pointBraces}}`.
 
 <!--
 In some contexts, it can be convenient to pass arguments positionally, rather than by name, but without naming the constructor directly.
@@ -835,9 +837,9 @@ They can be input using `\<` and `\>`, respectively.
 在某些情况下，按位置传递参数要比按名称传递参数更方便，因为无需直接命名构造子。
 例如，定义各种相似的结构体类型有助于保持领域概念的隔离，
 但阅读代码的自然方式可能是将它们都视为本质上是一个元组。
-在这些情况下，参数可以用尖括号 `⟨` 和 `⟩` 括起来，如 `Point` 可以写成 `⟨1, 2⟩`。
+在这种情况下，参数可以用尖括号 `⟨` 和 `⟩` 括起来，如 `Point` 可以写成 `⟨1, 2⟩`。
 注意！即使它们看起来像小于号 `<` 和大于号 `>`，这些括号也不同。
-它们可以分别使用 `\\<` 和 `\\>` 来输入。
+它们可以分别使用 `\<` 和 `\>` 来输入。
 
 <!--
 Just as with the brace notation for named constructor arguments, this positional syntax can only be used in a context where Lean can determine the structure's type, either from a type annotation or from other type information in the program.
@@ -857,7 +859,7 @@ The metavariable in the error is because there is no type information available.
 Adding an annotation, such as in `{{#example_in Examples/Intro.lean pointPosWithType}}`, solves the problem:
 -->
 
-错误中出现元变量是因为没有可用的类型信息。添加注释，例如
+错误中出现元变量是因为没有可用的类型信息。添加标注，例如
 `{{#example_in Examples/Intro.lean pointPosWithType}}`，可以解决此问题：
 
 ```output info
@@ -876,10 +878,7 @@ This is similar to `f`-strings in Python and `$`-prefixed strings in C#.
 For instance,
 -->
 
-In Lean, prefixing a string with `s!` triggers _interpolation_, where expressions contained in curly braces inside the string are replaced with their values.
-This is similar to `f`-strings in Python and `$`-prefixed strings in C#.
-For instance,
-在 Lean 中，在字符串前加上 `s!` 会触发  **内插（Interpolation）** ，
+在 Lean 中，在字符串前加上 `s!` 会触发 **内插（Interpolation）** ，
 其中字符串中大括号内的表达式会被其值替换。这类似于 Python 中的 `f` 字符串和
 C# 中以 `$` 为前缀的字符串。例如，
 
@@ -902,7 +901,7 @@ Not all expressions can be interpolated into a string.
 For instance, attempting to interpolate a function results in an error.
 -->
 
-并非所有的表达式都可以内插到字符串中。例如，尝试内插一个函数会导致错误。
+并非所有的表达式都可以内插到字符串中。例如，尝试内插一个函数会产生错误。
 
 ```lean
 {{#example_in Examples/Intro.lean interpolationOops}}
