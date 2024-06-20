@@ -38,7 +38,7 @@
   - [其他便利功能](monads/conveniences.md)
   - [总结](monads/summary.md)
 - [函子、应用函子与单子](functor-applicative-monad.md)
-  - [结构和继承](functor-applicative-monad/inheritance.md)
+  - [结构体和继承](functor-applicative-monad/inheritance.md)
   - [应用函子](functor-applicative-monad/applicative.md)
   - [应用函子的法则](functor-applicative-monad/applicative-contract.md)
   - [选择子](functor-applicative-monad/alternative.md)
