@@ -144,39 +144,97 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
-<h2 id="encoding-side-effects"><a class="header" href="#encoding-side-effects">Encoding Side Effects</a></h2>
-<p>Lean is a pure functional language.
+                        <!--
+# Summary
+-->
+<h1 id="总结"><a class="header" href="#总结">总结</a></h1>
+<!--
+## Encoding Side Effects
+-->
+<h2 id="编码副作用"><a class="header" href="#编码副作用">编码副作用</a></h2>
+<!--
+Lean is a pure functional language.
 This means that it does not include side effects such as mutable variables, logging, or exceptions.
-However, most side effects can be <em>encoded</em> using a combination of functions and inductive types or structures.
-For example, mutable state can be encoded as a function from an initial state to a pair of a final state and a result, and exceptions can be encoded as an inductive type with constructors for successful termination and errors.</p>
-<p>Each set of encoded effects is a type.
+However, most side effects can be _encoded_ using a combination of functions and inductive types or structures.
+For example, mutable state can be encoded as a function from an initial state to a pair of a final state and a result, and exceptions can be encoded as an inductive type with constructors for successful termination and errors.
+-->
+<p>是一种纯函数式语言。这意味着它不包含副作用，例如可变变量、日志记录或异常。
+但是，大多数副作用都可以使用函数和归纳类型或结构体的组合进行<strong>编码</strong>。
+例如，可变状态可以编码为从初始状态到一对最终状态和结果的函数，
+异常可以编码为具有成功终止构造子和错误构造子的归纳类型。</p>
+<!--
+Each set of encoded effects is a type.
 As a result, if a program uses these encoded effects, then this is apparent in its type.
-Functional programming does not mean that programs can't use effects, it simply requires that they be <em>honest</em> about which effects they use.
-A Lean type signature describes not only the types of arguments that a function expects and the type of result that it returns, but also which effects it may use.</p>
-<h2 id="the-monad-type-class"><a class="header" href="#the-monad-type-class">The Monad Type Class</a></h2>
-<p>It's possible to write purely functional programs in languages that allow effects anywhere.
-For example, <code>2 + 3</code> is a valid Python program that has no effects at all.
+Functional programming does not mean that programs can't use effects, it simply requires that they be *honest* about which effects they use.
+A Lean type signature describes not only the types of arguments that a function expects and the type of result that it returns, but also which effects it may use.
+-->
+<p>每组编码的作用都是一种类型。因此，如果程序使用这些编码作用，那么这在它的类型中是显而易见的。
+函数式编程并不意味着程序不能使用作用，它只是要求它们 <strong>诚实地</strong> 说明它们使用的作用。
+Lean 类型签名不仅描述了函数期望的参数类型和它返回的结果类型，还描述了它可能使用的作用。</p>
+<!--
+## The Monad Type Class
+-->
+<h2 id="单子类型类"><a class="header" href="#单子类型类">单子类型类</a></h2>
+<!--
+It's possible to write purely functional programs in languages that allow effects anywhere.
+For example, `2 + 3` is a valid Python program that has no effects at all.
 Similarly, combining programs that have effects requires a way to state the order in which the effects must occur.
-It matters whether an exception is thrown before or after modifying a variable, after all.</p>
-<p>The type class <code>Monad</code> captures these two important properties.
-It has two methods: <code>pure</code> represents programs that have no effects, and <code>bind</code> sequences effectful programs.
-The contract for <code>Monad</code> instances ensures that <code>bind</code> and <code>pure</code> actually capture pure computation and sequencing.</p>
-<h2 id="do-notation-for-monads"><a class="header" href="#do-notation-for-monads"><code>do</code>-Notation for Monads</a></h2>
-<p>Rather than being limited to <code>IO</code>, <code>do</code>-notation works for any monad.
+It matters whether an exception is thrown before or after modifying a variable, after all.
+-->
+<p>在允许在任何地方使用作用的语言中编写纯函数式程序是可能的。
+例如，<code>2 + 3</code> 是一个有效的 Python 程序，它没有任何作用。
+类似地，组合具有作用的程序需要一种方法来说明作用必须发生的顺序。
+毕竟，异常是在修改变量之前还是之后抛出是有区别的。</p>
+<!--
+The type class `Monad` captures these two important properties.
+It has two methods: `pure` represents programs that have no effects, and `bind` sequences effectful programs.
+The contract for `Monad` instances ensures that `bind` and `pure` actually capture pure computation and sequencing.
+-->
+<p>类型类 <code>Monad</code> 刻画了这两个重要属性。它有两个方法：<code>pure</code> 表示没有副作用的程序，
+<code>bind</code> 顺序执行有副作用的程序。<code>Monad</code> 实例的约束确保了 <code>bind</code> 和 <code>pure</code> 实际上刻画了纯计算和顺序执行。</p>
+<!--
+## `do`-Notation for Monads
+-->
+<h2 id="单子的-do-记法"><a class="header" href="#单子的-do-记法">单子的 <code>do</code>-记法</a></h2>
+<!--
+Rather than being limited to `IO`, `do`-notation works for any monad.
 It allows programs that use monads to be written in a style that is reminiscent of statement-oriented languages, with statements sequenced after one another.
-Additionally, <code>do</code>-notation enables a number of additional convenient shorthands, such as nested actions.
-A program written with <code>do</code> is translated to applications of <code>&gt;&gt;=</code> behind the scenes.</p>
-<h2 id="custom-monads"><a class="header" href="#custom-monads">Custom Monads</a></h2>
-<p>Different languages provide different sets of side effects.
+Additionally, `do`-notation enables a number of additional convenient shorthands, such as nested actions.
+A program written with `do` is translated to applications of `>>=` behind the scenes.
+-->
+<p><code>do</code> 符号不仅限于 <code>IO</code>，它也适用于任何单子。
+它允许使用单子的程序以类似于面向语句的语言的风格编写，语句一个接一个地顺序执行。
+此外，<code>do</code>-记法还支持许多其他方便的简写，例如嵌套动作。
+使用 <code>do</code> 编写的程序在幕后会被翻译为 <code>&gt;&gt;=</code> 的应用。</p>
+<!--
+## Custom Monads
+-->
+<h2 id="定制单子"><a class="header" href="#定制单子">定制单子</a></h2>
+<!--
+Different languages provide different sets of side effects.
 While most languages feature mutable variables and file I/O, not all have features like exceptions.
 Other languages offer effects that are rare or unique, like Icon's search-based program execution, Scheme and Ruby's continuations, and Common Lisp's resumable exceptions.
 An advantage to encoding effects with monads is that programs are not limited to the set of effects that are provided by the language.
-Because Lean is designed to make programming with any monad convenient, programmers are free to choose exactly the set of side effects that make sense for any given application.</p>
-<h2 id="the-io-monad"><a class="header" href="#the-io-monad">The <code>IO</code> Monad</a></h2>
-<p>Programs that can affect the real world are written as <code>IO</code> actions in Lean.
-<code>IO</code> is one monad among many.
-The <code>IO</code> monad encodes state and exceptions, with the state being used to keep track of the state of the world and the exceptions modeling failure and recovery.</p>
+Because Lean is designed to make programming with any monad convenient, programmers are free to choose exactly the set of side effects that make sense for any given application.
+-->
+<p>不同的语言提供不同的副作用集。虽然大多数语言都具有可变变量和文件 I/O，
+但并非所有语言都具有异常等特性。其他语言提供罕见或独特的副作用，
+例如 Icon 基于搜索的程序执行、Scheme 和 Ruby 的续体以及 Common Lisp 的可恢复异常。
+用单子对副作用进行编码的一个优点是，程序不受语言提供的副作用集的限制。
+由于 Lean 被设计为能方便地使用任何单子进行编程，
+因此程序员可以自由选择最适合任何给定应用的副作用集。</p>
+<!--
+## The `IO` Monad
+-->
+<h2 id="io-单子"><a class="header" href="#io-单子"><code>IO</code> 单子</a></h2>
+<!--
+Programs that can affect the real world are written as `IO` actions in Lean.
+`IO` is one monad among many.
+The `IO` monad encodes state and exceptions, with the state being used to keep track of the state of the world and the exceptions modeling failure and recovery.
+-->
+<p>可以在现实世界中产生影响的程序在 Lean 中被写作 <code>IO</code> 活动。
+<code>IO</code> 是众多单子中的一个。<code>IO</code> 单子对状态和异常进行编码，其中状态用于跟踪世界的状态，
+异常则对失败和恢复进行建模。</p>
 
                     </main>
 

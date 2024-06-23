@@ -9252,8 +9252,9 @@ For example, `Option` represents programs that can fail by returning `none`, `Ex
 Rather than having to import an operator like `ok` or `andThen` for each type that is a monad, the Lean standard library contains a type class that allow them to be overloaded, so that the same operators can be used for _any_ monad.
 Monads have two operations, which are the equivalent of `ok` and `andThen`:
 -->
-<p>无需为每个单子都实现<code>ok</code>或<code>andThen</code>这样的运算符，Lean标准库包含一个类型类，允许它们被重载，以便相同的运算符可用于 <strong>任何</strong> 单子。
-单子有两个操作，分别相当于<code>ok</code>和<code>andThen</code>：</p>
+<p>无需为每个单子都实现 <code>ok</code> 或 <code>andThen</code> 这样的运算符，Lean标准库包含一个类型类，
+允许它们被重载，以便相同的运算符可用于 <strong>任何</strong> 单子。
+单子有两个操作，分别相当于 <code>ok</code> 和<code>andThen</code>：</p>
 <pre><code class="language-lean">class Monad (m : Type → Type) where
   pure : α → m α
   bind : m α → (α → m β) → m β
@@ -9263,11 +9264,11 @@ This definition is slightly simplified.
 The actual definition in the Lean library is somewhat more involved, and will be presented later.
 -->
 <p>这个定义略微简化了。
-Lean标准库中的实际定义更复杂一些，稍后会介绍。</p>
+Lean 标准库中的实际定义更复杂一些，稍后会介绍。</p>
 <!--
 The `Monad` instances for `Option` and `Except` can be created by adapting the definitions of their respective `andThen` operations:
 -->
-<p><code>Option</code>和<code>Except</code>的<code>Monad</code>实例，可以通过调整它们各自的<code>andThen</code>操作的定义来创建：</p>
+<p><code>Option</code>和 <code>Except</code> 的 <code>Monad</code> 实例，可以通过调整它们各自的 <code>andThen</code> 操作的定义来创建：</p>
 <pre><code class="language-lean">instance : Monad Option where
   pure x := some x
   bind opt next :=
@@ -9288,10 +9289,10 @@ Now, it can be defined polymorphically for _any_ monad.
 It does, however, require a lookup function as an argument, because different monads might fail to find a result in different ways.
 The infix version of `bind` is `>>=`, which plays the same role as `~~>` in the examples.
 -->
-<p>例如<code>firstThirdFifthSeventh</code>原本对<code>Option α</code>和<code>Except String α</code>类型分别定义。
+<p>例如 <code>firstThirdFifthSeventh</code> 原本对 <code>Option α</code> 和 <code>Except String α</code> 类型分别定义。
 现在，它可以被定义为对 <strong>任何</strong> 单子都有效的多态函数。
 但是，它需要接受一个参数作为查找函数，因为不同的单子可能以不同的方式找不到结果。
-<code>bind</code>的中缀运算符是<code>&gt;&gt;=</code>, 它扮演与示例中<code>~~&gt;</code>相同的角色。</p>
+<code>bind</code> 的中缀运算符是 <code>&gt;&gt;=</code>, 它扮演与示例中 <code>~~&gt;</code> 相同的角色。</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) :=
   lookup xs 0 &gt;&gt;= fun first =&gt;
   lookup xs 2 &gt;&gt;= fun third =&gt;
@@ -9302,7 +9303,7 @@ The infix version of `bind` is `>>=`, which plays the same role as `~~>` in the 
 <!--
 Given example lists of slow mammals and fast birds, this implementation of `firstThirdFifthSeventh` can be used with `Option`:
 -->
-<p>给定作为示例的slowMammals和fastBirds列表，该<code>firstThirdFifthSeventh</code>实现可与<code>Option</code>一起使用：</p>
+<p>给定作为示例的slowMammals和fastBirds列表，该 <code>firstThirdFifthSeventh</code> 实现可与 <code>Option</code> 一起使用：</p>
 <pre><code class="language-lean">def slowMammals : List String :=
   [&quot;Three-toed sloth&quot;, &quot;Slow loris&quot;]
 
@@ -9327,7 +9328,8 @@ def fastBirds : List String := [
 <!--
 After renaming `Except`'s lookup function `get` to something more specific, the very same  implementation of `firstThirdFifthSeventh` can be used with `Except` as well:
 -->
-<p>在将<code>Except</code>的查找函数<code>get</code>重命名为更具体的形式后，完全相同的<code>firstThirdFifthSeventh</code>实现也可以与<code>Except</code>一起使用：</p>
+<p>在将 <code>Except</code> 的查找函数 <code>get</code> 重命名为更具体的形式后，
+完全相同的 <code>firstThirdFifthSeventh</code> 实现也可以与 <code>Except</code> 一起使用：</p>
 <pre><code class="language-lean">def getOrExcept (xs : List α) (i : Nat) : Except String α :=
   match xs[i]? with
   | none =&gt; Except.error s!&quot;Index {i} not found (maximum is {xs.length - 1})&quot;
@@ -9344,7 +9346,7 @@ After renaming `Except`'s lookup function `get` to something more specific, the 
 <!--
 The fact that `m` must have a `Monad` instance means that the `>>=` and `pure` operations are available.
 -->
-<p><code>m</code>必须有<code>Monad</code>实例，这一事实这意味着可以使用<code>&gt;&gt;=</code>和<code>pure</code>运算符。</p>
+<p><code>m</code> 必须有 <code>Monad</code> 实例，这一事实这意味着可以使用 <code>&gt;&gt;=</code> 和 <code>pure</code> 运算符。</p>
 <!--
 ## General Monad Operations
 -->
@@ -9354,7 +9356,7 @@ Because many different types are monads, functions that are polymorphic over _an
 For example, the function `mapM` is a version of `map` that uses a `Monad` to sequence and combine the results of applying a function:
 -->
 <p>由于许多不同类型都是单子，因此对 <strong>任何</strong> 单子多态的函数非常强大。
-例如，函数<code>mapM</code>是<code>map</code>的另一个版本，它使用<code>Monad</code>将函数调用的结果按顺序连接起来：</p>
+例如，函数 <code>mapM</code> 是 <code>map</code> 的另一个版本，它使用 <code>Monad</code> 将函数调用的结果按顺序连接起来：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
   | x :: xs =&gt;
@@ -9367,20 +9369,22 @@ The return type of the function argument `f` determines which `Monad` instance w
 In other words, `mapM` can be used for functions that produce logs, for functions that can fail, or for functions that use mutable state.
 Because `f`'s type determines the available effects, they can be tightly controlled by API designers.
 -->
-<p>函数参数<code>f</code>的返回类型决定了将使用哪个<code>Monad</code>实例。
+<p>函数参数 <code>f</code> 的返回类型决定了将使用哪个 <code>Monad</code> 实例。
 换句话说，<code>mapM</code>可用于生成日志的函数、可能失败的函数、或使用可变状态的函数。
-由于<code>f</code>的类型直接决定了可用的效应(Effects)，因此API设计人员可以对其进行严格控制。
-<em>译者注：效应(Effects)是函数式编程中与Monad密切相关的主题，实际上对效应的控制比此处原文所述更复杂一些，但超出了本文的内容。另外副作用(Side Effects)也是一种效应。</em></p>
+由于 <code>f</code> 的类型直接决定了可用的效应(Effects)，因此API设计人员可以对其进行严格控制。
+<em>译者注：效应(Effects)是函数式编程中与 Monad 密切相关的主题，</em>
+<em>实际上对效应的控制比此处原文所述更复杂一些，但超出了本文的内容。</em>
+<em>另外副作用(Side Effects)也是一种效应。</em></p>
 <!--
 As described in [this chapter's introduction](../monads.md#numbering-tree-nodes), `State σ α` represents programs that make use of a mutable variable of type `σ` and return a value of type `α`.
 These programs are actually functions from a starting state to a pair of a value and a final state.
 The `Monad` class requires that its parameter expect a single type argument—that is, it should be a `Type → Type`.
 This means that the instance for `State` should mention the state type `σ`, which becomes a parameter to the instance:
 -->
-<p>如<a href="monads/../monads.html#%E5%AF%B9%E6%A0%91%E8%8A%82%E7%82%B9%E7%BC%96%E5%8F%B7">本章简介</a>所介绍的，<code>State σ α</code>表示使用类型为<code>σ</code>的可变变量，并返回类型为<code>α</code>的值的程序。
+<p>如<a href="monads/../monads.html#%E5%AF%B9%E6%A0%91%E8%8A%82%E7%82%B9%E7%BC%96%E5%8F%B7">本章简介</a>所介绍的，<code>State σ α</code>表示使用类型为 <code>σ</code> 的可变变量，并返回类型为 <code>α</code> 的值的程序。
 这些程序实际上是从起始状态到值和最终状态构成的对(pair)的函数。
 <code>Monad</code>类型类要求：类型参数期望另一个类型参数，即它应该是<code>Type → Type</code>。
-这意味着<code>State</code>的实例应提及状态类型<code>σ</code>，使它成为实例的参数：</p>
+这意味着 <code>State</code> 的实例应提及状态类型<code>σ</code>，使它成为实例的参数：</p>
 <pre><code class="language-lean">instance : Monad (State σ) where
   pure x := fun s =&gt; (s, x)
   bind first next :=
@@ -9392,7 +9396,7 @@ This means that the instance for `State` should mention the state type `σ`, whi
 This means that the type of the state cannot change between calls to `get` and `set` that are sequenced using `bind`, which is a reasonable rule for stateful computations.
 The operator `increment` increases a saved state by a given amount, returning the old value:
 -->
-<p>这意味着在使用<code>bind</code>对<code>get</code>和<code>set</code>排序时，状态的类型不能更改，这是具有状态的计算的合理规则。运算符<code>increment</code>将保存的状态加上一定量，并返回原值：</p>
+<p>这意味着在使用 <code>bind</code> 对 <code>get</code> 和 <code>set</code> 排序时，状态的类型不能更改，这是具有状态的计算的合理规则。运算符 <code>increment</code> 将保存的状态加上一定量，并返回原值：</p>
 <pre><code class="language-lean">def increment (howMuch : Int) : State Int Int :=
   get &gt;&gt;= fun i =&gt;
   set (i + howMuch) &gt;&gt;= fun () =&gt;
@@ -9404,7 +9408,7 @@ More specifically, the mutable variable contains the sum so far, while the resul
 In other words, `mapM increment` has type `List Int → State Int (List Int)`, and expanding the definition of `State` yields `List Int → Int → (Int × List Int)`.
 It takes an initial sum as an argument, which should be `0`:
 -->
-<p>将<code>mapM</code>和<code>increment</code>一起使用会得到一个：计算列表元素加和的程序。
+<p>将 <code>mapM</code> 和 <code>increment</code> 一起使用会得到一个：计算列表元素加和的程序。
 更具体地说，可变变量包含到目前为止的和，而作为结果的列表包含各个步骤前状态变量的值。
 换句话说，<code>mapM increment</code>的类型为<code>List Int → State Int (List Int)</code>，展开 <code>State</code> 的定义得到<code>List Int → Int → (Int× List Int)</code>。
 它将初始值作为参数，应为<code>0</code>：</p>
@@ -9416,8 +9420,8 @@ It takes an initial sum as an argument, which should be `0`:
 A [logging effect](../monads.md#logging) can be represented using `WithLog`.
 Just like `State`, its `Monad` instance is polymorphic with respect to the type of the logged data:
 -->
-<p>可以使用<code>WithLog</code>表示<a href="monads/../monads.html#%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95">日志记录效应</a>。
-就和<code>State</code>一样，它的<code>Monad</code>实例对于被记录数据的类型也是多态的：</p>
+<p>可以使用 <code>WithLog</code> 表示<a href="monads/../monads.html#%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95">日志记录效应</a>。
+就和 <code>State</code> 一样，它的 <code>Monad</code> 实例对于被记录数据的类型也是多态的：</p>
 <pre><code class="language-lean">instance : Monad (WithLog logged) where
   pure x := {log := [], val := x}
   bind result next :=
@@ -9438,7 +9442,7 @@ Just like `State`, its `Monad` instance is polymorphic with respect to the type 
 <!--
 Using this function with `mapM` results in a log containing even numbers paired with an unchanged input list:
 -->
-<p>将<code>mapM</code>和该函数一起使用，会生成一个记录偶数的日志、和未更改的输入列表：</p>
+<p>将 <code>mapM</code> 和该函数一起使用，会生成一个记录偶数的日志、和未更改的输入列表：</p>
 <pre><code class="language-lean">#eval mapM saveIfEven [1, 2, 3, 4, 5]
 </code></pre>
 <pre><code class="language-output info">{ log := [2, 4], val := [1, 2, 3, 4, 5] }
@@ -9466,7 +9470,7 @@ The type of `pure` should be `α → Id α`, but `Id α` reduces to just `α`.
 Similarly, the type of `bind` should be `α → (α → Id β) → Id β`.
 Because this reduces to `α → (α → β) → β`, the second argument can be applied to the first to find the result.
 -->
-<p><code>pure</code>的类型应为<code>α → Id α</code>，但<code>Id α</code> <strong>归约</strong> 为 <code>α</code>。类似地，<code>bind</code>的类型应为<code>α → (α → Id β) → Id β</code>。
+<p><code>pure</code>的类型应为 <code>α → Id α</code>，但<code>Id α</code> <strong>归约</strong> 为 <code>α</code>。类似地，<code>bind</code> 的类型应为<code>α → (α → Id β) → Id β</code>。
 由于这 <strong>归约</strong> 为 <code>α → (α → β) → β</code>，因此可以将第二个参数应用于第一个参数得到结果。
 <em>译者注：此处 <strong>归约</strong> 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。</em></p>
 <!--
@@ -9494,7 +9498,7 @@ Similarly, using `mapM` with a function whose type doesn't provide any specific 
 -->
 <p>导致错误的原因是：一个元变量应用于另一个元变量，使得Lean不会反向运行类型计算。
 函数的返回类型应该是应用于其他类型参数的单子。
-类似地，将<code>mapM</code>和未提供任何特定单子类型信息的函数一起使用，会导致&quot;instance problem stuck&quot;错误：</p>
+类似地，将 <code>mapM</code> 和未提供任何特定单子类型信息的函数一起使用，会导致&quot;instance problem stuck&quot;错误：</p>
 <pre><code class="language-lean">#eval mapM (fun x =&gt; x) [1, 2, 3, 4, 5]
 </code></pre>
 <pre><code class="language-output error">typeclass instance problem is stuck, it is often due to metavariables
@@ -9511,17 +9515,17 @@ That is, `bind (pure v) f` should be the same as `f v`.
 Secondly, `pure` should be a right identity of `bind`, so `bind v pure` is the same as `v`.
 Finally, `bind` should be associative, so `bind (bind v f) g` is the same as `bind v (fun x => bind (f x) g)`.
 -->
-<p>正如<code>BEq</code>和<code>Hashable</code>的每一对实例都应该确保任何两个相等的值具有相同的哈希值，有一些是固有的约定是每个<code>Monad</code>的实例都应遵守的。
-首先，<code>pure</code>应为<code>bind</code>的左单位元，即<code>bind (pure v) f</code>应与<code>f v</code>等价。
-其次，<code>pure</code>应为 <code>bind</code> 的右单位元，即<code>bind v pure</code>应与<code>v</code>等价。
-最后，<code>bind</code>应满足结合律，即<code>bind (bind v f) g</code>应与<code>bind v (fun x =&gt; bind (f x) g)</code>等价。</p>
+<p>正如 <code>BEq</code> 和 <code>Hashable</code> 的每一对实例都应该确保任何两个相等的值具有相同的哈希值，有一些是固有的约定是每个 <code>Monad</code> 的实例都应遵守的。
+首先，<code>pure</code>应为 <code>bind</code> 的左单位元，即 <code>bind (pure v) f</code> 应与 <code>f v</code> 等价。
+其次，<code>pure</code>应为 <code>bind</code> 的右单位元，即 <code>bind v pure</code> 应与 <code>v</code> 等价。
+最后，<code>bind</code>应满足结合律，即 <code>bind (bind v f) g</code> 应与 <code>bind v (fun x =&gt; bind (f x) g)</code> 等价。</p>
 <!--
 This contract specifies the expected properties of programs with effects more generally.
 Because `pure` has no effects, sequencing its effects with `bind` shouldn't change the result.
 The associative property of `bind` basically says that the sequencing bookkeeping itself doesn't matter, so long as the order in which things are happening is preserved.
 -->
 <p>这些约定保证了具有效应的程序的预期属性。
-由于<code>pure</code>不导致效应，因此用<code>bind</code>将其与其他效应接连执行不应改变结果。
+由于 <code>pure</code> 不导致效应，因此用 <code>bind</code> 将其与其他效应接连执行不应改变结果。
 <code>bind</code>满足的结合律则意味着先计算哪一部分无关紧要，只要保证效应的顺序不变即可。</p>
 <!--
 ## Exercises
@@ -9549,7 +9553,7 @@ The type signature should be:
 First, write a convincing argument that the `Monad` instance for `Option` satisfies the monad contract.
 Then, consider the following instance:
 -->
-<p>首先充分论证<code>Option</code>的<code>Monad</code>实例满足单子约定。
+<p>首先充分论证 <code>Option</code> 的 <code>Monad</code> 实例满足单子约定。
 然后，考虑以下实例：</p>
 <pre><code class="language-lean">instance : Monad Option where
   pure x := some x
@@ -9574,10 +9578,10 @@ However, while using the `Monad` API does impose a syntactic cost on a program, 
 -->
 <p>单子是一种将具有副作用的程序编入没有副作用的语言中的范式。
 但很容易将此误解为：承认纯函数式编程缺少一些重要的东西，程序员要越过这些障碍才能编写一个普通的程序。
-虽然使用<code>Monad</code>确实给程序带来了语法上的成本，但它带来了两个重要的优点：</p>
+虽然使用 <code>Monad</code> 确实给程序带来了语法上的成本，但它带来了两个重要的优点：</p>
 <ol>
-<li>程序必须在类型中诚实地告知它们使用的效应(Effects)。因此看一眼类型签名就可以知道程序能做的所有事情，而不只是知道它接受什么和返回什么。</li>
-<li>并非每种语言都提供相同的效应。例如只有某些语言有异常。其他语言具有独特的新奇效应，例如 <a href="https://www2.cs.arizona.edu/icon/">Icon's searching over multiple values</a>以及Scheme 或Ruby的continuations。由于单子可以编码 <strong>任何</strong> 效应，因此程序员可以选择最适合给定程序的效应，而不是局限于语言开发者提供的效应。</li>
+<li>程序必须在类型中诚实地告知它们使用的作用（Effects）。因此看一眼类型签名就可以知道程序能做的所有事情，而不只是知道它接受什么和返回什么。</li>
+<li>并非每种语言都提供相同的作用。例如只有某些语言有异常。其他语言具有独特的新奇作用，例如 <a href="https://www2.cs.arizona.edu/icon/">Icon's searching over multiple values</a>以及Scheme 或Ruby的continuations。由于单子可以编码 <strong>任何</strong> 作用，因此程序员可以选择最适合给定程序的作用，而不是局限于语言开发者提供的作用。</li>
 </ol>
 <!--
 One example of a program that can make sense in a variety of monads is an evaluator for arithmetic expressions.
@@ -9629,7 +9633,7 @@ Because expressions include division, and division by zero is undefined, evaluat
 One way to represent failure is to use `Option`:
 -->
 <p>由于表达式包含除法，而除以零是未定义的，因此求值可能会失败。
-表示失败的一种方法是使用<code>Option</code>：</p>
+表示失败的一种方法是使用 <code>Option</code>：</p>
 <pre><code class="language-lean">def evaluateOption : Expr Arith → Option Int
   | Expr.const i =&gt; pure i
   | Expr.prim p e1 e2 =&gt;
@@ -9646,7 +9650,7 @@ This definition uses the `Monad Option` instance to propagate failures from eval
 However, the function mixes two concerns: evaluating subexpressions and applying a binary operator to the results.
 It can be improved by splitting it into two functions:
 -->
-<p>此定义使用<code>Monad Option</code>实例，来传播从二元运算符的两个分支求值产生的失败。
+<p>此定义使用 <code>Monad Option</code> 实例，来传播从二元运算符的两个分支求值产生的失败。
 然而该函数混合了两个问题：对子表达式的求值和对运算符的计算。
 可以将其拆分为两个函数：</p>
 <pre><code class="language-lean">def applyPrim : Arith → Int → Int → Option Int
@@ -9667,7 +9671,7 @@ Running `#eval evaluateOption fourteenDivided` yields `none`, as expected, but t
 Because the code was written using `>>=` rather than by explicitly handling the `none` constructor, only a small modification is required for it to provide an error message on failure:
 -->
 <p>运行 <code>#eval evaluateOption fourteenDivided</code> 产生 <code>none</code>, 与预期一样, 但这个报错信息却并不十分有用.
-由于代码使用<code>&gt;&gt;=</code>而非显式处理<code>none</code>，所以只需少量修改即可在失败时提供错误消息：</p>
+由于代码使用 <code>&gt;&gt;=</code> 而非显式处理<code>none</code>，所以只需少量修改即可在失败时提供错误消息：</p>
 <pre><code class="language-lean">def applyPrim : Arith → Int → Int → Except String Int
   | Arith.plus, x, y =&gt; pure (x + y)
   | Arith.minus, x, y =&gt; pure (x - y)
@@ -9689,8 +9693,9 @@ def evaluateExcept : Expr Arith → Except String Int
 The only difference is that the type signature mentions `Except String` instead of `Option`, and the failing case uses `Except.error` instead of `none`.
 By making `evaluate` polymorphic over its monad and passing it `applyPrim` as an argument, a single evaluator becomes capable of both forms of error reporting:
 -->
-<p>唯一区别是：类型签名提到的是<code>Except String</code>而非<code>Option</code>，并且失败时使用<code>Except.error</code>而不是<code>none</code>。
-通过让<code>evaluate</code>对单子多态，并将对应的求值函数作为参数<code>applyPrim</code>传递，单个求值器就足够以两种形式报告错误：</p>
+<p>唯一区别是：类型签名提到的是 <code>Except String</code> 而非 <code>Option</code>，并且失败时使用
+<code>Except.error</code> 而不是 <code>none</code>。通过让 <code>evaluate</code> 对单子多态，并将对应的求值函数作为参数
+<code>applyPrim</code> 传递，单个求值器就足够以两种形式报告错误：</p>
 <pre><code class="language-lean">def applyPrimOption : Arith → Int → Int → Option Int
   | Arith.plus, x, y =&gt; pure (x + y)
   | Arith.minus, x, y =&gt; pure (x - y)
@@ -9719,7 +9724,7 @@ def evaluateM [Monad m] (applyPrim : Arith → Int → Int → m Int): Expr Arit
 <!--
 Using it with `applyPrimOption` works just like the first version of `evaluate`:
 -->
-<p>将其与<code>applyPrimOption</code>一起使用效应就和最初的<code>evaluate</code>一样：</p>
+<p>将其与 <code>applyPrimOption</code> 一起使用作用就和最初的 <code>evaluate</code> 一样：</p>
 <pre><code class="language-lean">#eval evaluateM applyPrimOption fourteenDivided
 </code></pre>
 <pre><code class="language-output info">none
@@ -9727,7 +9732,7 @@ Using it with `applyPrimOption` works just like the first version of `evaluate`:
 <!--
 Similarly, using it with `applyPrimExcept` works just like the version with error messages:
 -->
-<p>类似地，和<code>applyPrimExcept</code>函数一起使用时效应与带有错误消息的版本相同：</p>
+<p>类似地，和 <code>applyPrimExcept</code> 函数一起使用时作用与带有错误消息的版本相同：</p>
 <pre><code class="language-lean">#eval evaluateM applyPrimExcept fourteenDivided
 </code></pre>
 <pre><code class="language-output info">Except.error &quot;Tried to divide 14 by zero&quot;
@@ -9737,7 +9742,7 @@ The code can still be improved.
 The functions `applyPrimOption` and `applyPrimExcept` differ only in their treatment of division, which can be extracted into another parameter to the evaluator:
 -->
 <p>代码仍有改进空间。
-<code>applyPrimOption</code>和<code>applyPrimExcept</code>函数仅在除法处理上有所不同，因此可以将它提取到另一个参数中：</p>
+<code>applyPrimOption</code>和 <code>applyPrimExcept</code> 函数仅在除法处理上有所不同，因此可以将它提取到另一个参数中：</p>
 <pre><code class="language-lean">def applyDivOption (x : Int) (y : Int) : Option Int :=
     if y == 0 then
       none
@@ -9768,12 +9773,12 @@ In this refactored code, the fact that the two code paths differ only in their t
 <!--
 ### Further Effects
 -->
-<h3 id="额外的效应"><a class="header" href="#额外的效应">额外的效应</a></h3>
+<h3 id="额外的作用"><a class="header" href="#额外的作用">额外的作用</a></h3>
 <!--
 Failure and exceptions are not the only kinds of effects that can be interesting when working with an evaluator.
 While division's only side effect is failure, adding other primitive operators to the expressions make it possible to express other effects.
 -->
-<p>在考虑求值器时，失败和异常并不是唯一值得在意的效应。虽然除法的唯一副作用是失败，但若要增加其他运算符的支持，则可能需要表达对应的效应。</p>
+<p>在考虑求值器时，失败和异常并不是唯一值得在意的作用。虽然除法的唯一副作用是失败，但若要增加其他运算符的支持，则可能需要表达对应的作用。</p>
 <!--
 The first step is an additional refactoring, extracting division from the datatype of primitives:
 -->
@@ -9790,11 +9795,11 @@ inductive CanFail where
 <!--
 The name `CanFail` suggests that the effect introduced by division is potential failure.
 -->
-<p>名称<code>CanFail</code>表明被除法引入的效应是可能发生的失败。</p>
+<p>名称 <code>CanFail</code> 表明被除法引入的作用是可能发生的失败。</p>
 <!--
 The second step is to broaden the scope of the division handler argument to `evaluateM` so that it can process any special operator:
 -->
-<p>第二步是将<code>evaluateM</code>的作为除法计算的参数扩展，以便它可以处理任何特殊运算符：</p>
+<p>第二步是将 <code>evaluateM</code> 的作为除法计算的参数扩展，以便它可以处理任何特殊运算符：</p>
 <pre><code class="language-lean">def divOption : CanFail → Int → Int → Option Int
   | CanFail.div, x, y =&gt; if y == 0 then none else pure (x / y)
 
@@ -9820,7 +9825,7 @@ def evaluateM [Monad m] (applySpecial : special → Int → Int → m Int): Expr
 <!--
 #### No Effects
 -->
-<h4 id="无效应"><a class="header" href="#无效应">无效应</a></h4>
+<h4 id="无作用"><a class="header" href="#无作用">无作用</a></h4>
 <!--
 The type `Empty` has no constructors, and thus no values, like the `Nothing` type in Scala or Kotlin.
 In Scala and Kotlin, `Nothing` can represent computations that never return a result, such as functions that crash the program, throw exceptions, or always fall into infinite loops.
@@ -9828,18 +9833,18 @@ An argument to a function or method of type `Nothing` indicates dead code, as th
 Lean doesn't support infinite loops and exceptions, but `Empty` is still useful as an indication to the type system that a function cannot be called.
 Using the syntax `nomatch E` when `E` is an expression whose type has no constructors indicates to Lean that the current expression need not return a result, because it could never have been called.
 -->
-<p><code>Empty</code>类型没有构造子，因此没有任何取值，就像Scala或Kotlin中的<code>Nothing</code>类型。
-在Scala和Kotlin中，返回类型为<code>Nothing</code>表示永不返回结果的计算，例如导致程序崩溃、或引发异常、或陷入无限循环的函数。
-参数类型为<code>Nothing</code>表示函数是死代码，因为我们永远无法构造出合适的参数值来调用它。
-Lean 不支持无限循环和异常，但<code>Empty</code>仍然可作为向类型系统说明函数不可被调用的标志。
-当<code>E</code>是一条表达式，但它的类型没有任何取值时，使用<code>nomatch E</code>向Lean说明当前表达式不返回结果，因为它永远不会被调用。</p>
+<p><code>Empty</code>类型没有构造子，因此没有任何取值，就像Scala或Kotlin中的 <code>Nothing</code> 类型。
+在Scala和Kotlin中，返回类型为 <code>Nothing</code> 表示永不返回结果的计算，例如导致程序崩溃、或引发异常、或陷入无限循环的函数。
+参数类型为 <code>Nothing</code> 表示函数是死代码，因为我们永远无法构造出合适的参数值来调用它。
+Lean 不支持无限循环和异常，但 <code>Empty</code> 仍然可作为向类型系统说明函数不可被调用的标志。
+当 <code>E</code> 是一条表达式，但它的类型没有任何取值时，使用 <code>nomatch E</code> 向Lean说明当前表达式不返回结果，因为它永远不会被调用。</p>
 <!--
 Using `Empty` as the parameter to `Prim` indicates that there are no additional cases beyond `Prim.plus`, `Prim.minus`, and `Prim.times`, because it is impossible to come up with a value of type `Empty` to place in the `Prim.other` constructor.
 Because a function to apply an operator of type `Empty` to two integers can never be called, it doesn't need to return a result.
 Thus, it can be used in _any_ monad:
 -->
-<p>将<code>Empty</code>用作<code>Prim</code>的参数，表示除了<code>Prim.plus</code>、<code>Prim.minus</code>和<code>Prim.times</code>之外没有其他情况，因为不可能找到一个<code>Empty</code>类型的值来放在<code>Prim.other</code>构造子中。
-由于类型为<code>Empty</code>的运算符应用于两个整数的函数永远不会被调用，所以它不需要返回结果。
+<p>将 <code>Empty</code> 用作 <code>Prim</code> 的参数，表示除了 <code>Prim.plus</code>、<code>Prim.minus</code> 和 <code>Prim.times</code> 之外没有其他情况，因为不可能找到一个 <code>Empty</code> 类型的值来放在 <code>Prim.other</code> 构造子中。
+由于类型为 <code>Empty</code> 的运算符应用于两个整数的函数永远不会被调用，所以它不需要返回结果。
 因此，它可以在 <strong>任何</strong> 单子中使用：</p>
 <pre><code class="language-lean">def applyEmpty [Monad m] (op : Empty) (_ : Int) (_ : Int) : m Int :=
   nomatch op
@@ -9847,7 +9852,7 @@ Thus, it can be used in _any_ monad:
 <!--
 This can be used together with `Id`, the identity monad, to evaluate expressions that have no effects whatsoever:
 -->
-<p>这可以与恒等单子<code>Id</code>一起使用，用来计算没有任何副作用的表达式：</p>
+<p>这可以与恒等单子 <code>Id</code> 一起使用，用来计算没有任何副作用的表达式：</p>
 <pre><code class="language-lean">open Expr Prim in
 #eval evaluateM (m := Id) applyEmpty (prim plus (const 5) (const (-14)))
 </code></pre>
@@ -9864,7 +9869,7 @@ This requires, in addition to division, some means of specifying a choice of res
 One way to do this is to add a function `choose` to the language of expressions that instructs the evaluator to pick either of its arguments while searching for non-failing results.
 -->
 <p>遇到除以零时，除了直接失败并结束之外，还可以回溯并尝试不同的输入。
-给定适当的单子，同一个<code>evaluateM</code>可以对不致失败的答案 <strong>集合</strong> 执行非确定性搜索。
+给定适当的单子，同一个 <code>evaluateM</code> 可以对不致失败的答案 <strong>集合</strong> 执行非确定性搜索。
 这要求除了除法之外，还需要指定选择结果的方式。
 一种方法是在表达式的语言中添加一个函数<code>choose</code>，告诉求值器在搜索非失败结果时选择其中一个参数。</p>
 <!--
@@ -9892,7 +9897,7 @@ Using multisets instead of true sets simplifies the code by removing the need to
 <!--
 A monad that represents this non-deterministic effect must be able to represent a situation in which there are no answers, and a situation in which there is at least one answer together with any remaining answers:
 -->
-<p>表示这种非确定性效应的单子必须能够处理没有答案的情况，以及至少有一个答案和其他答案的情况：</p>
+<p>表示这种非确定性作用的单子必须能够处理没有答案的情况，以及至少有一个答案和其他答案的情况：</p>
 <pre><code class="language-lean">inductive Many (α : Type) where
   | none : Many α
   | more : α → (Unit → Many α) → Many α
@@ -9903,12 +9908,12 @@ The difference is that where `cons` stores the rest of the list, `more` stores a
 This means that a consumer of `Many` can stop the search when some number of results have been found.
 -->
 <p>该数据类型看起来非常像<code>List</code>。
-不同之处在于，<code>cons</code>存储列表的其余部分，而<code>more</code>存储一个函数，该函数仅在需要时才会被调用来计算下一个值。
-这意味着<code>Many</code>的使用者可以在找到一定数量的结果后停止搜索。</p>
+不同之处在于，<code>cons</code>存储列表的其余部分，而 <code>more</code> 存储一个函数，该函数仅在需要时才会被调用来计算下一个值。
+这意味着 <code>Many</code> 的使用者可以在找到一定数量的结果后停止搜索。</p>
 <!--
 A single result is represented by a `more` constructor that returns no further results:
 -->
-<p>单个结果由<code>more</code>构造子表示，该构造子不返回任何进一步的结果：</p>
+<p>单个结果由 <code>more</code> 构造子表示，该构造子不返回任何进一步的结果：</p>
 <pre><code class="language-lean">def Many.one (x : α) : Many α := Many.more x (fun () =&gt; Many.none)
 </code></pre>
 <!--
@@ -9928,7 +9933,7 @@ It can be convenient to start a search process with a list of values.
 `Many.fromList` converts a list into a multiset of results:
 -->
 <p>对值列表搜索会比手动构造多重集合更方便。
-函数<code>Many.fromList</code>将列表转换为结果的多重集合：</p>
+函数 <code>Many.fromList</code> 将列表转换为结果的多重集合：</p>
 <pre><code class="language-lean">def Many.fromList : List α → Many α
   | [] =&gt; Many.none
   | x :: xs =&gt; Many.more x (fun () =&gt; fromList xs)
@@ -9952,7 +9957,7 @@ In a nondeterministic search, sequencing two operations consists of taking all p
 In other words, if the first step returns three possible answers, the second step needs to be tried for all three.
 Because the second step can return any number of answers for each input, taking their union represents the entire search space.
 -->
-<p><code>Monad Many</code>实例需要一个<code>bind</code>运算符。
+<p><code>Monad Many</code>实例需要一个 <code>bind</code> 运算符。
 在非确定性搜索中，对两个操作进行排序包括：从第一步中获取所有可能性，并对每种可能性都运行程序的其余部分，取结果的并集。
 换句话说，如果第一步返回三个可能的答案，则需要对这三个答案分别尝试第二步。
 由于第二步为每个输入都可以返回任意数量的答案，因此取它们的并集表示整个搜索空间。</p>
@@ -9966,8 +9971,8 @@ Because the second step can return any number of answers for each input, taking 
 `Many.one` and `Many.bind` obey the monad contract.
 To check that `Many.bind (Many.one v) f` is the same as `f v`, start by evaluating the expression as far as possible:
 -->
-<p><code>Many.one</code>和<code>Many.bind</code>遵循单子约定。
-要检查<code>Many.bind (Many.one v) f</code>是否与<code>f v</code>相同，首先应最大限度地计算表达式：</p>
+<p><code>Many.one</code>和 <code>Many.bind</code> 遵循单子约定。
+要检查 <code>Many.bind (Many.one v) f</code> 是否与 <code>f v</code> 相同，首先应最大限度地计算表达式：</p>
 <pre><code class="language-lean">Many.bind (Many.one v) f
 ===&gt;
 Many.bind (Many.more v (fun () =&gt; Many.none)) f
@@ -9981,15 +9986,15 @@ The empty multiset is a right identity of `union`, so the answer is equivalent t
 To check that `Many.bind v Many.one` is the same as `v`, consider that `bind` takes the union of applying `Many.one` to each element of `v`.
 In other words, if `v` has the form `{v1, v2, v3, ..., vn}`, then `Many.bind v Many.one` is `{v1} ∪ {v2} ∪ {v3} ∪ ... ∪ {vn}`, which is `{v1, v2, v3, ..., vn}`.
 -->
-<p>空集是<code>union</code>的右单位元，因此答案等同于<code>f v</code>。
-要检查<code>Many.bind v Many.one</code>是否与<code>v</code>相同，需要考虑<code>Many.one</code>应用于<code>v</code>的各元素结果的并集。
-换句话说，如果<code>v</code>的形式为<code>{v1, v2, v3, ..., vn}</code>，则<code>Many.bind v Many.one</code>为<code>{v1} ∪ {v2} ∪ {v3} ∪ ... ∪ {vn}</code>，即<code>{v1, v2, v3, ..., vn}</code>。</p>
+<p>空集是 <code>union</code> 的右单位元，因此答案等同于<code>f v</code>。
+要检查 <code>Many.bind v Many.one</code> 是否与 <code>v</code> 相同，需要考虑 <code>Many.one</code> 应用于 <code>v</code> 的各元素结果的并集。
+换句话说，如果 <code>v</code> 的形式为 <code>{v1, v2, v3, ..., vn}</code>，则<code>Many.bind v Many.one</code> 为<code>{v1} ∪ {v2} ∪ {v3} ∪ ... ∪ {vn}</code>，即<code>{v1, v2, v3, ..., vn}</code>。</p>
 <!--
 Finally, to check that `Many.bind` is associative, check that `Many.bind (Many.bind bind v f) g` is the same as `Many.bind v (fun x => Many.bind (f x) g)`.
 If `v` has the form `{v1, v2, v3, ..., vn}`, then:
 -->
-<p>最后，要检查<code>Many.bind</code>是否满足结合律，需要检查<code>Many.bind (Many.bind bind v f) g</code>是否与<code>Many.bind v (fun x =&gt; Many.bind (f x) g)</code>相同。
-如果<code>v</code>的形式为<code>{v1, v2, v3, ..., vn}</code>，则：</p>
+<p>最后，要检查 <code>Many.bind</code> 是否满足结合律，需要检查 <code>Many.bind (Many.bind bind v f) g</code> 是否与 <code>Many.bind v (fun x =&gt; Many.bind (f x) g)</code> 相同。
+如果 <code>v</code> 的形式为<code>{v1, v2, v3, ..., vn}</code>，则：</p>
 <pre><code class="language-lean">Many.bind v f
 ===&gt;
 f v1 ∪ f v2 ∪ f v3 ∪ ... ∪ f vn
@@ -10003,7 +10008,10 @@ Many.bind (f v3) g ∪
 ... ∪
 Many.bind (f vn) g
 </code></pre>
-<p>Similarly,</p>
+<!--
+Similarly,
+-->
+<p>与此类似，</p>
 <pre><code class="language-lean">Many.bind v (fun x =&gt; Many.bind (f x) g)
 ===&gt;
 (fun x =&gt; Many.bind (f x) g) v1 ∪
@@ -10021,7 +10029,7 @@ Many.bind (f vn) g
 <!--
 Thus, both sides are equal, so `Many.bind` is associative.
 -->
-<p>因此两边相等，所以<code>Many.bind</code>满足结合律。</p>
+<p>因此两边相等，所以 <code>Many.bind</code> 满足结合律。</p>
 <p>由此得到的单子实例为：</p>
 <pre><code class="language-lean">instance : Monad Many where
   pure := Many.one
@@ -10054,15 +10062,15 @@ If the head is a candidate, then there are two possibilities to be combined with
 The solutions that do not contain the head are found with a recursive call on the tail, while the solutions that do contain it result from subtracting the head from the goal, and then attaching the head to the solutions that result from the recursive call.
 -->
 <p>(译者注：这是一个动态规划算法)对列表进行递归搜索。
-当输入列表为空且目标为<code>0</code>时，返回空列表表示成功；否则返回 <code>Many.none</code> 表示失败，因为空输入不可能得到非0加和。
-当列表非空时，有两种可能性：若输入列表的第一个元素大于goal，此时它的任何加和都大于<code>0</code>因此不可能是候选者；若第一个元素不大于goal，可以参与后续的搜索。
+当输入列表为空且目标为 <code>0</code> 时，返回空列表表示成功；否则返回 <code>Many.none</code> 表示失败，因为空输入不可能得到非0加和。
+当列表非空时，有两种可能性：若输入列表的第一个元素大于goal，此时它的任何加和都大于 <code>0</code> 因此不可能是候选者；若第一个元素不大于goal，可以参与后续的搜索。
 如果列表的头部x <strong>不是</strong> 候选者，对列表的尾部xs递归搜索。
-如果头部是候选者，则有两种用<code>Many.union</code>合并起来的可能性：找到的解含有当前的x，或者不含有。
+如果头部是候选者，则有两种用 <code>Many.union</code> 合并起来的可能性：找到的解含有当前的x，或者不含有。
 不含x的解通过xs递归搜索找到；而含有x的解则通过从goal中减去x，然后将x附加到递归的解中得到。</p>
 <!--
 Returning to the arithmetic evaluator that produces multisets of results, the `both` and `neither` operators can be written as follows:
 -->
-<p>让我们回到产生多重集合的算术求值器，<code>both</code>和<code>neither</code>运算符可以写成如下形式：</p>
+<p>让我们回到产生多重集合的算术求值器，<code>both</code>和 <code>neither</code> 运算符可以写成如下形式：</p>
 <pre><code class="language-lean">inductive NeedsSearch
   | div
   | choose
@@ -10111,8 +10119,8 @@ Initially, it might seem that `evaluateM` needs an extra argument to hold the en
 However, passing an argument like this is another form of monad, so an appropriate `Monad` instance allows the evaluator to be used unchanged.
 -->
 <p>环境需要在每层递归调用之间传递。
-因此一开始<code>evaluateM</code>看起来需要一个额外的参数来保存环境，并且该参数需要在每次递归调用时传递。
-然而，像这样传递参数是单子的另一种形式，因此一个适当的<code>Monad</code>实例允许求值器本身保持不变。</p>
+因此一开始 <code>evaluateM</code> 看起来需要一个额外的参数来保存环境，并且该参数需要在每次递归调用时传递。
+然而，像这样传递参数是单子的另一种形式，因此一个适当的 <code>Monad</code> 实例允许求值器本身保持不变。</p>
 <!--
 Using functions as a monad is typically called a _reader_ monad.
 When evaluating expressions in the reader monad, the following rules are used:
@@ -10146,7 +10154,7 @@ h(f(e), g(e)) &amp; \mathrm{if}\ e\ \mathrm{contains}\ (\mathrm{OP}, h) \\
 <!--
 To define the reader monad in Lean, the first step is to define the `Reader` type and the effect that allows users to get ahold of the environment:
 -->
-<p>要在Lean中定义reader单子，第一步是定义<code>Reader</code>类型，和用户获取环境的效应：</p>
+<p>要在Lean中定义reader单子，第一步是定义 <code>Reader</code> 类型，和用户获取环境的作用：</p>
 <pre><code class="language-lean">def Reader (ρ : Type) (α : Type) : Type := ρ → α
 
 def read : Reader ρ ρ := fun env =&gt; env
@@ -10158,7 +10166,7 @@ By convention, the Greek letter `ρ`, which is pronounced "rho", is used for env
 <!--
 The fact that constants in arithmetic expressions evaluate to constant functions suggests that the appropriate definition of `pure` for `Reader` is a a constant function:
 -->
-<p>算术表达式中的常量映射为常量函数这一事实表明，<code>Reader</code>的<code>pure</code>的适当定义是一个常量函数：</p>
+<p>算术表达式中的常量映射为常量函数这一事实表明，<code>Reader</code>的 <code>pure</code> 的适当定义是一个常量函数：</p>
 <pre><code class="language-lean">def Reader.pure (x : α) : Reader ρ α := fun _ =&gt; x
 </code></pre>
 <!--
@@ -10168,9 +10176,9 @@ This type can be easier to understand by expanding the definitions of `Reader`, 
 It should take an environment-accepting function as its first argument, while the second argument should transform the result of the environment-accepting function into yet another environment-accepting function.
 The result of combining these is itself a function, waiting for an environment.
 -->
-<p>另一方面<code>bind</code>则有点棘手。
+<p>另一方面 <code>bind</code> 则有点棘手。
 它的类型是<code>Reader ρ α → (α → Reader ρ β) → Reader ρ β</code>。
-通过展开<code>Reader</code>的定义，可以更容易地理解此类型，从而产生<code>(ρ → α) → (α → ρ → β) → ρ → β</code>。
+通过展开 <code>Reader</code> 的定义，可以更容易地理解此类型，从而产生<code>(ρ → α) → (α → ρ → β) → ρ → β</code>。
 它将读取环境的函数作为第一个参数，而第二个参数将第一个参数的结果转换为另一个读取环境的函数。
 组合这些结果本身就是一个读取环境的函数。</p>
 <!--
@@ -10269,7 +10277,7 @@ env : ρ
 <!--
 Happily, both underscores can be replaced by `env`, yielding:
 -->
-<p>值得高兴的是，两条下划线都可以被<code>env</code>替换，得到：</p>
+<p>值得高兴的是，两条下划线都可以被 <code>env</code> 替换，得到：</p>
 <pre><code class="language-lean">def Reader.bind {ρ : Type} {α : Type} {β : Type}
   (result : ρ → α) (next : α → ρ → β) : ρ → β :=
   fun env =&gt; next (result env) env
@@ -10277,7 +10285,7 @@ Happily, both underscores can be replaced by `env`, yielding:
 <!--
 The final version can be obtained by undoing the expansion of `Reader` and cleaning up the explicit details:
 -->
-<p>要得到最后的版本，只需要把我们前面对<code>Reader</code>的展开撤销，并且去掉过于明确的细节：</p>
+<p>要得到最后的版本，只需要把我们前面对 <code>Reader</code> 的展开撤销，并且去掉过于明确的细节：</p>
 <pre><code class="language-lean">def Reader.bind (result : Reader ρ α) (next : α → Reader ρ β) : Reader ρ β :=
   fun env =&gt; next (result env) env
 </code></pre>
@@ -10288,13 +10296,13 @@ In this case, `Reader.bind` works just like `bind` for `Id`, except it accepts a
 -->
 <p>仅仅跟着类型信息走并不总是能写出正确的函数，并且有未能完全理解产生的程序的风险。
 然而理解一个已经写出的程序比理解还没写出的要简单，而且逐步填充下划线的内容也可以提供思路。
-这张情况下，<code>Reader.bind</code>和<code>Id</code>的<code>bind</code>很像，唯一区别在于它接受一个额外的参数并传递到其他参数中。这个直觉可以帮助理解它的原理。</p>
+这张情况下，<code>Reader.bind</code>和 <code>Id</code> 的 <code>bind</code> 很像，唯一区别在于它接受一个额外的参数并传递到其他参数中。这个直觉可以帮助理解它的原理。</p>
 <!--
 `Reader.pure`, which generates constant functions, and `Reader.bind` obey the monad contract.
 To check that `Reader.bind (Reader.pure v) f` is the same as `f v`, it's enough to replace definitions until the last step:
 -->
-<p><code>Reader.pure</code>和<code>Reader.bind</code>遵循单子约定。
-要检查<code>Reader.bind (Reader.pure v) f</code>与<code>f v</code>等价, 只需要不断地展开定义即可：</p>
+<p><code>Reader.pure</code>和 <code>Reader.bind</code> 遵循单子约定。
+要检查 <code>Reader.bind (Reader.pure v) f</code> 与 <code>f v</code> 等价, 只需要不断地展开定义即可：</p>
 <pre><code class="language-lean">Reader.bind (Reader.pure v) f
 ===&gt;
 fun env =&gt; f ((Reader.pure v) env) env
@@ -10309,8 +10317,8 @@ f v
 For every function `f`, `fun x => f x` is the same as `f`, so the first part of the contract is satisfied.
 To check that `Reader.bind r Reader.pure` is the same as `r`, a similar technique works:
 -->
-<p>对任意函数<code>f</code>来说，<code>fun x =&gt; f x</code>和<code>f</code>是等价的，所以约定的第一部分已经满足。
-要检查<code>Reader.bind r Reader.pure</code>与<code>r</code>等价，只需要相似的技巧：</p>
+<p>对任意函数 <code>f</code> 来说，<code>fun x =&gt; f x</code>和 <code>f</code> 是等价的，所以约定的第一部分已经满足。
+要检查 <code>Reader.bind r Reader.pure</code> 与 <code>r</code> 等价，只需要相似的技巧：</p>
 <pre><code class="language-lean">Reader.bind r Reader.pure
 ===&gt;
 fun env =&gt; Reader.pure (r env) env
@@ -10323,7 +10331,7 @@ fun env =&gt; r env
 Because reader actions `r` are themselves functions, this is the same as `r`.
 To check associativity, the same thing can be done for both `Reader.bind (Reader.bind r f) g` and `Reader.bind r (fun x => Reader.bind (f x) g)`:
 -->
-<p>因为<code>r</code>本身是函数，所以这和<code>r</code>也是等价的。
+<p>因为 <code>r</code> 本身是函数，所以这和 <code>r</code> 也是等价的。
 要检查结合律，只需要对 <code>Reader.bind (Reader.bind r f) g</code> 和 <code>Reader.bind r (fun x =&gt; Reader.bind (f x) g)</code> 重复同样的步骤：</p>
 <pre><code class="language-lean">Reader.bind (Reader.bind r f) g
 ===&gt;
@@ -10366,7 +10374,7 @@ For instance, `exampleEnv` contains maximum and modulus functions:
 <!--
 Lean already has a function `List.lookup` that finds the value associated with a key in a list of pairs, so `applyPrimReader` needs only check whether the custom function is present in the environment. It returns `0` if the function is unknown:
 -->
-<p>Lean已提供函数<code>List.lookup</code>用来在键值对的列表中根据键寻找对应的值，所以<code>applyPrimReader</code>只需要确认自定义函数是否存在于环境中即可。如果不存在则返回<code>0</code>：</p>
+<p>Lean已提供函数 <code>List.lookup</code> 用来在键值对的列表中根据键寻找对应的值，所以 <code>applyPrimReader</code> 只需要确认自定义函数是否存在于环境中即可。如果不存在则返回<code>0</code>：</p>
 <pre><code class="language-lean">def applyPrimReader (op : String) (x : Int) (y : Int) : Reader Env Int :=
   read &gt;&gt;= fun env =&gt;
   match env.lookup op with
@@ -10390,10 +10398,10 @@ The dynamic or special variables found in Common Lisp, Clojure, and Emacs Lisp c
 Similarly, Scheme and Racket's parameter objects are an effect that exactly correspond to `Reader`.
 The Kotlin idiom of context objects can solve a similar problem, but they are fundamentally a means of passing function arguments automatically, so this idiom is more like the encoding as a reader monad than it is an effect in the language.
 -->
-<p>与<code>Many</code>一样，<code>Reader</code>是难以在大多数语言中编码的效应，但类型类和单子使其与任何其他效应一样方便。
+<p>与 <code>Many</code> 一样，<code>Reader</code>是难以在大多数语言中编码的作用，但类型类和单子使其与任何其他作用一样方便。
 Common Lisp、Clojure和Emacs Lisp中的动态或特殊变量可以用作<code>Reader</code>。
-类似地，Scheme和Racket的参数对象是一个与<code>Reader</code>完全对应的效应。
-Kotlin的上下文对象可以解决类似的问题，但根本上是一种自动传递函数参数的方式，因此更像是作为reader单子的编码，而不是语言中实现的效应。</p>
+类似地，Scheme和Racket的参数对象是一个与 <code>Reader</code> 完全对应的作用。
+Kotlin的上下文对象可以解决类似的问题，但根本上是一种自动传递函数参数的方式，因此更像是作为reader单子的编码，而不是语言中实现的作用。</p>
 <!--
 ## Exercises
 -->
@@ -10405,7 +10413,7 @@ Kotlin的上下文对象可以解决类似的问题，但根本上是一种自�
 <!--
 Check the monad contract for `State σ` and `Except ε`.
 -->
-<p>检查<code>State σ</code>和<code>Except ε</code>满足单子约定。</p>
+<p>检查 <code>State σ</code> 和 <code>Except ε</code> 满足单子约定。</p>
 <!--
 ### Readers with Failure
 -->
@@ -10429,10 +10437,10 @@ do the following:
 -->
 <p>要做的是：</p>
 <ol>
-<li>实现恰当的<code>pure</code>和<code>bind</code>函数</li>
-<li>验证这些函数满足<code>Monad</code>约定</li>
-<li>为<code>ReaderOption</code>和<code>ReaderExcept</code>实现<code>Monad</code>实例</li>
-<li>为它们定义恰当的<code>applyPrim</code>运算符，并且将它们和<code>evaluateM</code>一起测试一些例子</li>
+<li>实现恰当的 <code>pure</code> 和 <code>bind</code> 函数</li>
+<li>验证这些函数满足 <code>Monad</code> 约定</li>
+<li>为 <code>ReaderOption</code> 和 <code>ReaderExcept</code> 实现 <code>Monad</code> 实例</li>
+<li>为它们定义恰当的 <code>applyPrim</code> 运算符，并且将它们和 <code>evaluateM</code> 一起测试一些例子</li>
 </ol>
 <!--
 ### A Tracing Evaluator
@@ -10443,7 +10451,7 @@ The `WithLog` type can be used with the evaluator to add optional tracing of som
 In particular, the type `ToTrace` can serve as a signal to trace a given operator:
 -->
 <p><code>WithLog</code>类型可以和求值器一起使用，来实现对某些运算的跟踪。
-特别地，可以使用<code>ToTrace</code>类型来追踪某个给定的运算符：</p>
+特别地，可以使用 <code>ToTrace</code> 类型来追踪某个给定的运算符：</p>
 <pre><code class="language-lean">inductive ToTrace (α : Type) : Type where
   | trace : α → ToTrace α
 </code></pre>
@@ -10452,7 +10460,7 @@ For the tracing evaluator, expressions should have type `Expr (Prim (ToTrace (Pr
 This says that the operators in the expression consist of addition, subtraction, and multiplication, augmented with traced versions of each. The innermost argument is `Empty` to signal that there are no further special operators inside of `trace`, only the three basic ones.
 -->
 <p>对于带有跟踪信息的求值器，表达式应该具有类型<code>Expr (Prim (ToTrace (Prim Empty)))</code>.
-这说明表达式中的运算符由附加参数的加、减、乘运算组成。最内层的参数是<code>Empty</code>，说明在<code>trace</code>内部没有特殊运算符，只有三种基本运算。</p>
+这说明表达式中的运算符由附加参数的加、减、乘运算组成。最内层的参数是 <code>Empty</code>，说明在<code>trace</code> 内部没有特殊运算符，只有三种基本运算。</p>
 <!--
 Do the following:
  1. Implement a `Monad (WithLog logged)` instance
@@ -10460,8 +10468,8 @@ Do the following:
 -->
 <p>要做的是：</p>
 <ol>
-<li>实现<code>Monad (WithLog logged)</code>实例</li>
-<li>写一个<code>applyTraced</code>来将被追踪的运算符应用到参数，将运算符和参数记录到日志，类型为：<code>ToTrace (Prim Empty) → Int → Int → WithLog (Prim Empty × Int × Int) Int</code></li>
+<li>实现 <code>Monad (WithLog logged)</code> 实例</li>
+<li>写一个 <code>applyTraced</code> 来将被追踪的运算符应用到参数，将运算符和参数记录到日志，类型为：<code>ToTrace (Prim Empty) → Int → Int → WithLog (Prim Empty × Int × Int) Int</code></li>
 </ol>
 <!--
 If the exercise has been completed correctly, then
@@ -10479,62 +10487,103 @@ should result in
 <!--
  Hint: values of type `Prim Empty` will appear in the resulting log. In order to display them as a result of `#eval`, the following instances are required:
 -->
-<p>提示：<code>Prim Empty</code>会出现在日志中。为了让它们能被<code>#eval</code>输出，需要下面几个实例：</p>
-<pre><code class="language-lean">deriving instance Repr for WithLog
+<p>提示：<code>Prim Empty</code>会出现在日志中。为了让它们能被 <code>#eval</code> 输出，需要下面几个实例：</p>
+<pre><code class="language-lean"> deriving instance Repr for WithLog
 deriving instance Repr for Empty
 deriving instance Repr for Prim
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="do-notation-for-monads"><a class="header" href="#do-notation-for-monads"><code>do</code>-Notation for Monads</a></h1>
-<p>While APIs based on monads are very powerful, the explicit use of <code>&gt;&gt;=</code> with anonymous functions is still somewhat noisy.
-Just as infix operators are used instead of explicit calls to <code>HAdd.hAdd</code>, Lean provides a syntax for monads called <em><code>do</code>-notation</em> that can make programs that use monads easier to read and write.
-This is the very same <code>do</code>-notation that is used to write programs in <code>IO</code>, and <code>IO</code> is also a monad.</p>
-<p>In <a href="monads/../hello-world.html">Hello, World!</a>, the <code>do</code> syntax is used to combine <code>IO</code> actions, but the meaning of these programs is explained directly.
-Understanding how to program with monads means that <code>do</code> can now be explained in terms of how it translates into uses of the underlying monad operators.</p>
-<p>The first translation of <code>do</code> is used when the only statement in the <code>do</code> is a single expression <code>E</code>.
-In this case, the <code>do</code> is removed, so</p>
+<div style="break-before: page; page-break-before: always;"></div><!--
+# `do`-Notation for Monads
+-->
+<h1 id="单子的-do-记法"><a class="header" href="#单子的-do-记法">单子的 <code>do</code>-记法</a></h1>
+<!--
+While APIs based on monads are very powerful, the explicit use of `>>=` with anonymous functions is still somewhat noisy.
+Just as infix operators are used instead of explicit calls to `HAdd.hAdd`, Lean provides a syntax for monads called _`do`-notation_ that can make programs that use monads easier to read and write.
+This is the very same `do`-notation that is used to write programs in `IO`, and `IO` is also a monad.
+-->
+<p>基于单子的 API 非常强大，但显式使用 <code>&gt;&gt;=</code> 和匿名函数仍然有些繁琐。
+正如使用中缀运算符代替显式调用 <code>HAdd.hAdd</code> 一样，Lean 提供了一种称为
+<strong><code>do</code>-记法</strong> 的单子语法，它可以使使用单子的程序更易于阅读和编写。
+这与用于编写 <code>IO</code> 程序的 <code>do</code>-记法完全相同，而 <code>IO</code> 也是一个单子。</p>
+<!--
+In [Hello, World!](../hello-world.md), the `do` syntax is used to combine `IO` actions, but the meaning of these programs is explained directly.
+Understanding how to program with monads means that `do` can now be explained in terms of how it translates into uses of the underlying monad operators.
+-->
+<p>在 <a href="monads/../hello-world.html">Hello, World!</a> 中，<code>do</code> 语法用于组合 <code>IO</code> 活动，
+但这些程序的含义是直接解释的。理解如何运用单子进行编程意味着现在可以用
+<code>do</code> 来解释它如何转换为对底层单子运算符的使用。</p>
+<!--
+The first translation of `do` is used when the only statement in the `do` is a single expression `E`.
+In this case, the `do` is removed, so
+-->
+<p>当 <code>do</code> 中的唯一语句是单个表达式 <code>E</code> 时，会使用 <code>do</code> 的第一种翻译。
+在这种情况下，<code>do</code> 被删除，因此</p>
 <pre><code class="language-lean">do E
 </code></pre>
-<p>translates to</p>
+<p>会被翻译为</p>
 <pre><code class="language-lean">E
 </code></pre>
-<p>The second translation is used when the first statement of the <code>do</code> is a <code>let</code> with an arrow, binding a local variable.
-This translates to a use of <code>&gt;&gt;=</code> together with a function that binds that very same variable, so</p>
+<!--
+The second translation is used when the first statement of the `do` is a `let` with an arrow, binding a local variable.
+This translates to a use of `>>=` together with a function that binds that very same variable, so
+-->
+<p>当 <code>do</code> 的第一个语句是带有箭头的 <code>let</code> 绑定一个局部变量时，则使用第二种翻译。
+它会翻译为使用 <code>&gt;&gt;=</code> 以及绑定同一变量的函数，因此</p>
 <pre><code class="language-lean">do let x ← E1
    Stmt
    ...
    En
 </code></pre>
-<p>translates to</p>
+<!--
+translates to
+-->
+<p>会被翻译为</p>
 <pre><code class="language-lean">E1 &gt;&gt;= fun x =&gt;
 do Stmt
    ...
    En
 </code></pre>
-<p>When the first statement of the <code>do</code> block is an expression, then it is considered to be a monadic action that returns <code>Unit</code>, so the function matches the <code>Unit</code> constructor and</p>
+<!--
+When the first statement of the `do` block is an expression, then it is considered to be a monadic action that returns `Unit`, so the function matches the `Unit` constructor and
+-->
+<p>当 <code>do</code> 块的第一个语句是一个表达式时，它会被认为是一个返回 <code>Unit</code> 的单子操作，
+因此该函数匹配 <code>Unit</code> 构造子，而</p>
 <pre><code class="language-lean">do E1
    Stmt
    ...
    En
 </code></pre>
-<p>translates to</p>
+<!--
+translates to
+-->
+<p>会被翻译为</p>
 <pre><code class="language-lean">E1 &gt;&gt;= fun () =&gt;
 do Stmt
    ...
    En
 </code></pre>
-<p>Finally, when the first statement of the <code>do</code> block is a <code>let</code> that uses <code>:=</code>, the translated form is an ordinary let expression, so</p>
+<!--
+Finally, when the first statement of the `do` block is a `let` that uses `:=`, the translated form is an ordinary let expression, so
+-->
+<p>最后，当 <code>do</code> 块的第一个语句是使用 <code>:=</code> 的 <code>let</code> 时，翻译后的形式是一个普通的 let 表达式，因此</p>
 <pre><code class="language-lean">do let x := E1
    Stmt
    ...
    En
 </code></pre>
-<p>translates to</p>
+<!--
+translates to
+-->
+<p>会被翻译为</p>
 <pre><code class="language-lean">let x := E1
 do Stmt
    ...
    En
 </code></pre>
-<p>The definition of <code>firstThirdFifthSeventh</code> that uses the <code>Monad</code> class looks like this:</p>
+<!--
+The definition of `firstThirdFifthSeventh` that uses the `Monad` class looks like this:
+-->
+<p>使用 <code>Monad</code> 类的 <code>firstThirdFifthSeventh</code> 的定义如下：</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) :=
   lookup xs 0 &gt;&gt;= fun first =&gt;
   lookup xs 2 &gt;&gt;= fun third =&gt;
@@ -10542,7 +10591,10 @@ do Stmt
   lookup xs 6 &gt;&gt;= fun seventh =&gt;
   pure (first, third, fifth, seventh)
 </code></pre>
-<p>Using <code>do</code>-notation, it becomes significantly more readable:</p>
+<!--
+Using `do`-notation, it becomes significantly more readable:
+-->
+<p>使用 <code>do</code>-记法，它会变得更加易读：</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) := do
   let first ← lookup xs 0
   let third ← lookup xs 2
@@ -10550,7 +10602,10 @@ do Stmt
   let seventh ← lookup xs 6
   pure (first, third, fifth, seventh)
 </code></pre>
-<p>Without the <code>Monad</code> type class, the function <code>number</code> that numbers the nodes of a tree was written:</p>
+<!--
+Without the `Monad` type class, the function `number` that numbers the nodes of a tree was written:
+-->
+<p>若没有 <code>Monad</code> 类型，则对树的节点进行编号的函数 <code>number</code> 写作如下形式：</p>
 <pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
   let rec helper : BinTree α → State Nat (BinTree (Nat × α))
     | BinTree.leaf =&gt; ok BinTree.leaf
@@ -10562,7 +10617,7 @@ do Stmt
       ok (BinTree.branch numberedLeft (n, x) numberedRight)
   (helper t 0).snd
 </code></pre>
-<p>With <code>Monad</code> and <code>do</code>, its definition is much less noisy:</p>
+<p>有了 <code>Monad</code> 和 <code>do</code>，其定义就简洁多了：</p>
 <pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
   let rec helper : BinTree α → State Nat (BinTree (Nat × α))
     | BinTree.leaf =&gt; pure BinTree.leaf
@@ -10574,9 +10629,8 @@ do Stmt
       ok (BinTree.branch numberedLeft (n, x) numberedRight)
   (helper t 0).snd
 </code></pre>
-<p>All of the conveniences from <code>do</code> with <code>IO</code> are also available when using it with other monads.
-For example, nested actions also work in any monad.
-The original definition of <code>mapM</code> was:</p>
+<p>使用 <code>do</code> 与 <code>IO</code> 的所有便利性在使用其他单子时也可用。
+例如，嵌套操作也适用于任何单子。<code>mapM</code> 的原始定义为：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
   | x :: xs =&gt;
@@ -10584,7 +10638,10 @@ The original definition of <code>mapM</code> was:</p>
     mapM f xs &gt;&gt;= fun tl =&gt;
     pure (hd :: tl)
 </code></pre>
-<p>With <code>do</code>-notation, it can be written:</p>
+<!--
+With `do`-notation, it can be written:
+-->
+<p>使用 <code>do</code>-记法，可以写成：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
   | x :: xs =&gt; do
@@ -10592,13 +10649,19 @@ The original definition of <code>mapM</code> was:</p>
     let tl ← mapM f xs
     pure (hd :: tl)
 </code></pre>
-<p>Using nested actions makes it almost as short as the original non-monadic <code>map</code>:</p>
+<!--
+Using nested actions makes it almost as short as the original non-monadic `map`:
+-->
+<p>使用嵌套活动会让它与原始非单子 <code>map</code> 一样简洁：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
   | x :: xs =&gt; do
     pure ((← f x) :: (← mapM f xs))
 </code></pre>
-<p>Using nested actions, <code>number</code> can be made much more concise:</p>
+<!--
+Using nested actions, `number` can be made much more concise:
+-->
+<p>使用嵌套活动，<code>number</code> 可以变得更加简洁：</p>
 <pre><code class="language-lean">def increment : State Nat Nat := do
   let n ← get
   set (n + 1)
@@ -10611,61 +10674,117 @@ def number (t : BinTree α) : BinTree (Nat × α) :=
       pure (BinTree.branch (← helper left) ((← increment), x) (← helper right))
   (helper t 0).snd
 </code></pre>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<!--
+## Exercises
+-->
+<h2 id="练习-13"><a class="header" href="#练习-13">练习</a></h2>
+<!--
+ * Rewrite `evaluateM`, its helpers, and the different specific use cases using `do`-notation instead of explicit calls to `>>=`.
+ * Rewrite `firstThirdFifthSeventh` using nested actions.
+-->
 <ul>
-<li>Rewrite <code>evaluateM</code>, its helpers, and the different specific use cases using <code>do</code>-notation instead of explicit calls to <code>&gt;&gt;=</code>.</li>
-<li>Rewrite <code>firstThirdFifthSeventh</code> using nested actions.</li>
+<li>使用 <code>do</code>-记法而非显式调用 <code>&gt;&gt;=</code> 重写 <code>evaluateM</code>、辅助函数以及不同的特定用例。</li>
+<li>使用嵌套操作重写 <code>firstThirdFifthSeventh</code>。</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="the-io-monad"><a class="header" href="#the-io-monad">The IO Monad</a></h1>
-<p><code>IO</code> as a monad can be understood from two perspectives, which were described in the section on <a href="monads/../hello-world/running-a-program.html">running programs</a>.
-Each can help to understand the meanings of <code>pure</code> and <code>bind</code> for <code>IO</code>.</p>
-<p>From the first perspective, an <code>IO</code> action is an instruction to Lean's run-time system.
-For example, the instruction might be &quot;read a string from this file descriptor, then re-invoke the pure Lean code with the string&quot;.
-This perspective is an <em>exterior</em> one, viewing the program from the perspective of the operating system.
-In this case, <code>pure</code> is an <code>IO</code> action that does not request any effects from the RTS, and <code>bind</code> instructs the RTS to first carry out one potentially-effectful operation and then invoke the rest of the program with the resulting value.</p>
-<p>From the second perspective, an <code>IO</code> action transforms the whole world.
-<code>IO</code> actions are actually pure, because they receive a unique world as an argument and then return the changed world.
-This perspective is an <em>interior</em> one that matches how <code>IO</code> is represented inside of Lean.
-The world is represented in Lean as a token, and the <code>IO</code> monad is structured to make sure that each token is used exactly once.</p>
-<p>To see how this works, it can be helpful to peel back one definition at a time.
-The <code>#print</code> command reveals the internals of Lean datatypes and definitions.
-For example,</p>
+<div style="break-before: page; page-break-before: always;"></div><!--
+# The IO Monad
+-->
+<h1 id="io-单子"><a class="header" href="#io-单子">IO 单子</a></h1>
+<!--
+`IO` as a monad can be understood from two perspectives, which were described in the section on [running programs](../hello-world/running-a-program.md).
+Each can help to understand the meanings of `pure` and `bind` for `IO`.
+-->
+<p><code>IO</code> 作为单子可以从两个角度理解，这在 <a href="monads/../hello-world/running-a-program.html">运行程序</a>
+一节中进行了描述。每个角度都可以帮助理解 <code>IO</code> 的 <code>pure</code> 和 <code>bind</code> 的含义。</p>
+<!--
+From the first perspective, an `IO` action is an instruction to Lean's run-time system.
+For example, the instruction might be "read a string from this file descriptor, then re-invoke the pure Lean code with the string".
+This perspective is an _exterior_ one, viewing the program from the perspective of the operating system.
+In this case, `pure` is an `IO` action that does not request any effects from the RTS, and `bind` instructs the RTS to first carry out one potentially-effectful operation and then invoke the rest of the program with the resulting value.
+-->
+<p>从第一个视角看，<code>IO</code> 活动是 Lean 运行时系统的指令。
+例如，指令可能是「从该文件描述符读取字符串，然后使用该字符串重新调用纯 Lean 代码」。
+这是一种 <strong>外部</strong> 的视角，即从操作系统的视角看待程序。
+在这种情况下，<code>pure</code> 是一个不请求 RTS 产生任何作用的 <code>IO</code> 活动，
+而 <code>bind</code> 指示 RTS 首先执行一个产生潜在作用的操作，然后使用结果值调用程序的其余部分。</p>
+<!--
+From the second perspective, an `IO` action transforms the whole world.
+`IO` actions are actually pure, because they receive a unique world as an argument and then return the changed world.
+This perspective is an _interior_ one that matches how `IO` is represented inside of Lean.
+The world is represented in Lean as a token, and the `IO` monad is structured to make sure that each token is used exactly once.
+-->
+<p>从第二个视角看，<code>IO</code> 活动会变换整个世界。<code>IO</code> 活动实际上是纯（Pure）的，
+因为它接受一个唯一的世界作为参数，然后返回改变后的世界。
+这是一种 <strong>内部</strong> 的视角，它对应了 <code>IO</code> 在 Lean 中的表示方式。
+世界在 Lean 中表示为一个标记，而 <code>IO</code> 单子的结构化可以确保标记刚好使用一次。</p>
+<!--
+To see how this works, it can be helpful to peel back one definition at a time.
+The `#print` command reveals the internals of Lean datatypes and definitions.
+For example,
+-->
+<p>为了了解其工作原理，逐层解析它的定义会很有帮助。
+<code>#print</code> 命令揭示了 Lean 数据类型和定义的内部结构。例如，</p>
 <pre><code class="language-lean">#print Nat
 </code></pre>
-<p>results in</p>
+<!--
+results in
+-->
+<p>的结果为</p>
 <pre><code class="language-output info">inductive Nat : Type
 number of parameters: 0
 constructors:
 Nat.zero : Nat
 Nat.succ : Nat → Nat
 </code></pre>
-<p>and</p>
+<!--
+and
+-->
+<p>而</p>
 <pre><code class="language-lean">#print Char.isAlpha
 </code></pre>
-<p>results in</p>
+<!--
+results in
+-->
+<p>的结果为</p>
 <pre><code class="language-output info">def Char.isAlpha : Char → Bool :=
 fun c =&gt; Char.isUpper c || Char.isLower c
 </code></pre>
-<p>Sometimes, the output of <code>#print</code> includes Lean features that have not yet been presented in this book.
-For example,</p>
+<!--
+Sometimes, the output of `#print` includes Lean features that have not yet been presented in this book.
+For example,
+-->
+<p>有时，<code>#print</code> 的输出包含了本书中尚未展示的 Lean 特性。例如，</p>
 <pre><code class="language-lean">#print List.isEmpty
 </code></pre>
-<p>produces</p>
+<!--
+produces
+-->
+<p>会产生</p>
 <pre><code class="language-output info">def List.isEmpty.{u} : {α : Type u} → List α → Bool :=
 fun {α} x =&gt;
   match x with
   | [] =&gt; true
   | head :: tail =&gt; false
 </code></pre>
-<p>which includes a <code>.{u}</code> after the definition's name, and annotates types as <code>Type u</code> rather than just <code>Type</code>.
-This can be safely ignored for now.</p>
-<p>Printing the definition of <code>IO</code> shows that it's defined in terms of simpler structures:</p>
+<!--
+which includes a `.{u}` after the definition's name, and annotates types as `Type u` rather than just `Type`.
+This can be safely ignored for now.
+-->
+<p>它在定义名的后面包含了一个 <code>.{u}</code> ，并将类型标注为 <code>Type u</code> 而非只是 <code>Type</code>。
+目前可以安全地忽略它。</p>
+<!--
+Printing the definition of `IO` shows that it's defined in terms of simpler structures:
+-->
+<p>打印 <code>IO</code> 的定义表明它是根据更简单的结构定义的：</p>
 <pre><code class="language-lean">#print IO
 </code></pre>
 <pre><code class="language-output info">@[reducible] def IO : Type → Type :=
 EIO IO.Error
 </code></pre>
-<p><code>IO.Error</code> represents all the errors that could be thrown by an <code>IO</code> action:</p>
+<!--
+`IO.Error` represents all the errors that could be thrown by an `IO` action:
+-->
+<p><code>IO.Error</code> 表示 <code>IO</code> 活动可能抛出的所有错误：</p>
 <pre><code class="language-lean">#print IO.Error
 </code></pre>
 <pre><code class="language-output info">inductive IO.Error : Type
@@ -10691,23 +10810,45 @@ IO.Error.noSuchThing : Option String → UInt32 → String → IO.Error
 IO.Error.unexpectedEof : IO.Error
 IO.Error.userError : String → IO.Error
 </code></pre>
-<p><code>EIO ε α</code> represents <code>IO</code> actions that will either terminate with an error of type <code>ε</code> or succeed with a value of type <code>α</code>.
-This means that, like the <code>Except ε</code> monad, the <code>IO</code> monad includes the ability to define error handling and exceptions.</p>
-<p>Peeling back another layer, <code>EIO</code> is itself defined in terms of a simpler structure:</p>
+<!--
+`EIO ε α` represents `IO` actions that will either terminate with an error of type `ε` or succeed with a value of type `α`.
+This means that, like the `Except ε` monad, the `IO` monad includes the ability to define error handling and exceptions.
+-->
+<p><code>EIO ε α</code> 表示一个 <code>IO</code> 活动，它将以类型为 <code>ε</code> 的错误表示终止，或者以类型为 <code>α</code> 的值表示成功。
+这意味着，与 <code>Except ε</code> 单子一样，<code>IO</code> 单子也包括定义错误处理和异常的能力。</p>
+<!--
+Peeling back another layer, `EIO` is itself defined in terms of a simpler structure:
+-->
+<!--
+Peeling back another layer, `EIO` is itself defined in terms of a simpler structure:
+-->
+<p>剥离另一层，<code>EIO</code> 本身又是根据更简单的结构定义的：</p>
 <pre><code class="language-lean">#print EIO
 </code></pre>
 <pre><code class="language-output info">def EIO : Type → Type → Type :=
 fun ε =&gt; EStateM ε IO.RealWorld
 </code></pre>
-<p>The <code>EStateM</code> monad includes both errors and state—it's a combination of <code>Except</code> and <code>State</code>.
-It is defined using another type, <code>EStateM.Result</code>:</p>
+<!--
+The `EStateM` monad includes both errors and state—it's a combination of `Except` and `State`.
+It is defined using another type, `EStateM.Result`:
+-->
+<p><code>EStateM</code> 单子同时包括错误和状态——它是 <code>Except</code> 和 <code>State</code> 的组合。
+它使用另一个类型 <code>EStateM.Result</code> 定义：</p>
 <pre><code class="language-lean">#print EStateM
 </code></pre>
 <pre><code class="language-output info">def EStateM.{u} : Type u → Type u → Type u → Type u :=
 fun ε σ α =&gt; σ → EStateM.Result ε σ α
 </code></pre>
-<p>In other words, a program with type <code>EStateM ε σ α</code> is a function that accepts an initial state of type <code>σ</code> and returns an <code>EStateM.Result ε σ α</code>.</p>
-<p><code>EStateM.Result</code> is very much like the definition of <code>Except</code>, with one constructor that indicates a successful termination and one constructor that indicates an error:</p>
+<!--
+In other words, a program with type `EStateM ε σ α` is a function that accepts an initial state of type `σ` and returns an `EStateM.Result ε σ α`.
+-->
+<p>换句话说，类型为 <code>EStateM ε σ α</code> 的程序是一个函数，
+它接受类型为 <code>σ</code> 的初始状态并返回一个 <code>EStateM.Result ε σ α</code>。</p>
+<!--
+`EStateM.Result` is very much like the definition of `Except`, with one constructor that indicates a successful termination and one constructor that indicates an error:
+-->
+<p><code>EStateM.Result</code> 与 <code>Except</code> 的定义非常相似，一个构造子表示成功终止，
+令一个构造子表示错误：</p>
 <pre><code class="language-lean">#print EStateM.Result
 </code></pre>
 <pre><code class="language-output info">inductive EStateM.Result.{u} : Type u → Type u → Type u → Type u
@@ -10716,21 +10857,39 @@ constructors:
 EStateM.Result.ok : {ε σ α : Type u} → α → σ → EStateM.Result ε σ α
 EStateM.Result.error : {ε σ α : Type u} → ε → σ → EStateM.Result ε σ α
 </code></pre>
-<p>Just like <code>Except ε α</code>, the <code>ok</code> constructor includes a result of type <code>α</code>, and the <code>error</code> constructor includes an exception of type <code>ε</code>.
-Unlike <code>Except</code>, both constructors have an additional state field that includes the final state of the computation.</p>
-<p>The <code>Monad</code> instance for <code>EStateM ε σ</code> requires <code>pure</code> and <code>bind</code>.
-Just as with <code>State</code>, the implementation of <code>pure</code> for <code>EStateM</code> accepts an initial state and returns it unchanged, and just as with <code>Except</code>, it returns its argument in the <code>ok</code> constructor:</p>
+<!--
+Just like `Except ε α`, the `ok` constructor includes a result of type `α`, and the `error` constructor includes an exception of type `ε`.
+Unlike `Except`, both constructors have an additional state field that includes the final state of the computation.
+-->
+<p>就像 <code>Except ε α</code> 一样，<code>ok</code> 构造子包含类型为 <code>α</code> 的结果，
+<code>error</code> 构造子包含类型为 <code>ε</code> 的异常。与 <code>Except</code> 不同，
+这两个构造子都有一个附加的状态字段，其中包含计算的最终状态。</p>
+<!--
+The `Monad` instance for `EStateM ε σ` requires `pure` and `bind`.
+Just as with `State`, the implementation of `pure` for `EStateM` accepts an initial state and returns it unchanged, and just as with `Except`, it returns its argument in the `ok` constructor:
+-->
+<p><code>EStateM ε σ</code> 的 <code>Monad</code> 实例需要 <code>pure</code> 和 <code>bind</code>。
+与 <code>State</code> 一样，<code>EStateM</code> 的 <code>pure</code> 实现接受一个初始状态并将其返回而不改变，
+并且与 <code>Except</code> 一样，它在 <code>ok</code> 构造子中返回其参数：</p>
 <pre><code class="language-lean">#print EStateM.pure
 </code></pre>
 <pre><code class="language-output info">protected def EStateM.pure.{u} : {ε σ α : Type u} → α → EStateM ε σ α :=
 fun {ε σ α} a s =&gt; EStateM.Result.ok a s
 </code></pre>
-<p><code>protected</code> means that the full name <code>EStateM.pure</code> is needed even if the <code>EStateM</code> namespace has been opened.</p>
-<p>Similarly, <code>bind</code> for <code>EStateM</code> takes an initial state as an argument.
+<!--
+`protected` means that the full name `EStateM.pure` is needed even if the `EStateM` namespace has been opened.
+-->
+<p><code>protected</code> 意味着即使打开了 <code>EStateM</code> 命名空间，也需要完整的名称 <code>EStateM.pure</code>。</p>
+<!--
+Similarly, `bind` for `EStateM` takes an initial state as an argument.
 It passes this initial state to its first action.
-Like <code>bind</code> for <code>Except</code>, it then checks whether the result is an error.
-If so, the error is returned unchanged and the second argument to <code>bind</code> remains unused.
-If the result was a success, then the second argument is applied to both the returned value and to the resulting state.</p>
+Like `bind` for `Except`, it then checks whether the result is an error.
+If so, the error is returned unchanged and the second argument to `bind` remains unused.
+If the result was a success, then the second argument is applied to both the returned value and to the resulting state.
+-->
+<p>类似地，<code>EStateM</code> 的 <code>bind</code> 将初始状态作为参数。它将此初始状态传递给其第一个操作。
+与 <code>Except</code> 的 <code>bind</code> 一样，它然后检查结果是否为错误。如果是，则错误将保持不变，
+并且 <code>bind</code> 的第二个参数保持未使用。如果结果成功，则将第二个参数应用于返回值和结果状态。</p>
 <pre><code class="language-lean">#print EStateM.bind
 </code></pre>
 <pre><code class="language-output info">protected def EStateM.bind.{u} : {ε σ α β : Type u} → EStateM ε σ α → (α → EStateM ε σ β) → EStateM ε σ β :=
@@ -10739,14 +10898,29 @@ fun {ε σ α β} x f s =&gt;
   | EStateM.Result.ok a s =&gt; f a s
   | EStateM.Result.error e s =&gt; EStateM.Result.error e s
 </code></pre>
-<p>Putting all of this together, <code>IO</code> is a monad that tracks state and errors at the same time.
-The collection of available errors is that given by the datatype <code>IO.Error</code>, which has constructors that describe many things that can go wrong in a program.
-The state is a type that represents the real world, called <code>IO.RealWorld</code>.
-Each basic <code>IO</code> action receives this real world and returns another one, paired either with an error or a result.
-In <code>IO</code>, <code>pure</code> returns the world unchanged, while <code>bind</code> passes the modified world from one action into the next action.</p>
-<p>Because the entire universe doesn't fit in a computer's memory, the world being passed around is just a representation.
+<!--
+Putting all of this together, `IO` is a monad that tracks state and errors at the same time.
+The collection of available errors is that given by the datatype `IO.Error`, which has constructors that describe many things that can go wrong in a program.
+The state is a type that represents the real world, called `IO.RealWorld`.
+Each basic `IO` action receives this real world and returns another one, paired either with an error or a result.
+In `IO`, `pure` returns the world unchanged, while `bind` passes the modified world from one action into the next action.
+-->
+<p>综上所述，<code>IO</code> 是同时跟踪状态和错误的单子。可用错误的集合由数据类型 <code>IO.Error</code> 给出，
+该数据类型具有描述程序中可能出错的许多情况的构造子。状态是一种表示现实世界的类型，
+称为 <code>IO.RealWorld</code>。每个基本的 <code>IO</code> 活动都会接收这个现实世界并返回另一个，与错误或结果配对。
+在 <code>IO</code> 中，<code>pure</code> 返回未更改的世界，而 <code>bind</code> 将修改后的世界从一个活动传递到下一个活动。</p>
+<!--
+Because the entire universe doesn't fit in a computer's memory, the world being passed around is just a representation.
 So long as world tokens are not re-used, the representation is safe.
-This means that world tokens do not need to contain any data at all:</p>
+This means that world tokens do not need to contain any data at all:
+-->
+<!--
+Because the entire universe doesn't fit in a computer's memory, the world being passed around is just a representation.
+So long as world tokens are not re-used, the representation is safe.
+This means that world tokens do not need to contain any data at all:
+-->
+<p>由于计算机内存无法容纳整个宇宙，因此传递的世界仅仅是一种表示。
+只要不重复使用世界标记，该表示就是安全的。这意味着世界标记根本不需要包含任何数据：</p>
 <pre><code class="language-lean">#print IO.RealWorld
 </code></pre>
 <pre><code class="language-output info">def IO.RealWorld : Type :=
@@ -10755,7 +10929,7 @@ Unit
 <div style="break-before: page; page-break-before: always;"></div><!--
 # Additional Conveniences
 -->
-<h1 id="其他方便之处"><a class="header" href="#其他方便之处">其他方便之处</a></h1>
+<h1 id="其他便利功能-3"><a class="header" href="#其他便利功能-3">其他便利功能</a></h1>
 <!--
 ## Shared Argument Types
 -->
@@ -10951,39 +11125,97 @@ Because there is a potential for confusing behavior, it's a good idea to be care
 -->
 <p>使用或-模式可以极大简化某些定义，让它们更加清晰，例如<code>Weekday.isWeekend</code>.
 但因为存在可能导致困惑的行为，需要十分小心地使用，特别是涉及不同类型的变量，或不相交的变量集合时。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
-<h2 id="encoding-side-effects"><a class="header" href="#encoding-side-effects">Encoding Side Effects</a></h2>
-<p>Lean is a pure functional language.
+<div style="break-before: page; page-break-before: always;"></div><!--
+# Summary
+-->
+<h1 id="总结-3"><a class="header" href="#总结-3">总结</a></h1>
+<!--
+## Encoding Side Effects
+-->
+<h2 id="编码副作用"><a class="header" href="#编码副作用">编码副作用</a></h2>
+<!--
+Lean is a pure functional language.
 This means that it does not include side effects such as mutable variables, logging, or exceptions.
-However, most side effects can be <em>encoded</em> using a combination of functions and inductive types or structures.
-For example, mutable state can be encoded as a function from an initial state to a pair of a final state and a result, and exceptions can be encoded as an inductive type with constructors for successful termination and errors.</p>
-<p>Each set of encoded effects is a type.
+However, most side effects can be _encoded_ using a combination of functions and inductive types or structures.
+For example, mutable state can be encoded as a function from an initial state to a pair of a final state and a result, and exceptions can be encoded as an inductive type with constructors for successful termination and errors.
+-->
+<p>是一种纯函数式语言。这意味着它不包含副作用，例如可变变量、日志记录或异常。
+但是，大多数副作用都可以使用函数和归纳类型或结构体的组合进行<strong>编码</strong>。
+例如，可变状态可以编码为从初始状态到一对最终状态和结果的函数，
+异常可以编码为具有成功终止构造子和错误构造子的归纳类型。</p>
+<!--
+Each set of encoded effects is a type.
 As a result, if a program uses these encoded effects, then this is apparent in its type.
-Functional programming does not mean that programs can't use effects, it simply requires that they be <em>honest</em> about which effects they use.
-A Lean type signature describes not only the types of arguments that a function expects and the type of result that it returns, but also which effects it may use.</p>
-<h2 id="the-monad-type-class"><a class="header" href="#the-monad-type-class">The Monad Type Class</a></h2>
-<p>It's possible to write purely functional programs in languages that allow effects anywhere.
-For example, <code>2 + 3</code> is a valid Python program that has no effects at all.
+Functional programming does not mean that programs can't use effects, it simply requires that they be *honest* about which effects they use.
+A Lean type signature describes not only the types of arguments that a function expects and the type of result that it returns, but also which effects it may use.
+-->
+<p>每组编码的作用都是一种类型。因此，如果程序使用这些编码作用，那么这在它的类型中是显而易见的。
+函数式编程并不意味着程序不能使用作用，它只是要求它们 <strong>诚实地</strong> 说明它们使用的作用。
+Lean 类型签名不仅描述了函数期望的参数类型和它返回的结果类型，还描述了它可能使用的作用。</p>
+<!--
+## The Monad Type Class
+-->
+<h2 id="单子类型类"><a class="header" href="#单子类型类">单子类型类</a></h2>
+<!--
+It's possible to write purely functional programs in languages that allow effects anywhere.
+For example, `2 + 3` is a valid Python program that has no effects at all.
 Similarly, combining programs that have effects requires a way to state the order in which the effects must occur.
-It matters whether an exception is thrown before or after modifying a variable, after all.</p>
-<p>The type class <code>Monad</code> captures these two important properties.
-It has two methods: <code>pure</code> represents programs that have no effects, and <code>bind</code> sequences effectful programs.
-The contract for <code>Monad</code> instances ensures that <code>bind</code> and <code>pure</code> actually capture pure computation and sequencing.</p>
-<h2 id="do-notation-for-monads-1"><a class="header" href="#do-notation-for-monads-1"><code>do</code>-Notation for Monads</a></h2>
-<p>Rather than being limited to <code>IO</code>, <code>do</code>-notation works for any monad.
+It matters whether an exception is thrown before or after modifying a variable, after all.
+-->
+<p>在允许在任何地方使用作用的语言中编写纯函数式程序是可能的。
+例如，<code>2 + 3</code> 是一个有效的 Python 程序，它没有任何作用。
+类似地，组合具有作用的程序需要一种方法来说明作用必须发生的顺序。
+毕竟，异常是在修改变量之前还是之后抛出是有区别的。</p>
+<!--
+The type class `Monad` captures these two important properties.
+It has two methods: `pure` represents programs that have no effects, and `bind` sequences effectful programs.
+The contract for `Monad` instances ensures that `bind` and `pure` actually capture pure computation and sequencing.
+-->
+<p>类型类 <code>Monad</code> 刻画了这两个重要属性。它有两个方法：<code>pure</code> 表示没有副作用的程序，
+<code>bind</code> 顺序执行有副作用的程序。<code>Monad</code> 实例的约束确保了 <code>bind</code> 和 <code>pure</code> 实际上刻画了纯计算和顺序执行。</p>
+<!--
+## `do`-Notation for Monads
+-->
+<h2 id="单子的-do-记法-1"><a class="header" href="#单子的-do-记法-1">单子的 <code>do</code>-记法</a></h2>
+<!--
+Rather than being limited to `IO`, `do`-notation works for any monad.
 It allows programs that use monads to be written in a style that is reminiscent of statement-oriented languages, with statements sequenced after one another.
-Additionally, <code>do</code>-notation enables a number of additional convenient shorthands, such as nested actions.
-A program written with <code>do</code> is translated to applications of <code>&gt;&gt;=</code> behind the scenes.</p>
-<h2 id="custom-monads"><a class="header" href="#custom-monads">Custom Monads</a></h2>
-<p>Different languages provide different sets of side effects.
+Additionally, `do`-notation enables a number of additional convenient shorthands, such as nested actions.
+A program written with `do` is translated to applications of `>>=` behind the scenes.
+-->
+<p><code>do</code> 符号不仅限于 <code>IO</code>，它也适用于任何单子。
+它允许使用单子的程序以类似于面向语句的语言的风格编写，语句一个接一个地顺序执行。
+此外，<code>do</code>-记法还支持许多其他方便的简写，例如嵌套动作。
+使用 <code>do</code> 编写的程序在幕后会被翻译为 <code>&gt;&gt;=</code> 的应用。</p>
+<!--
+## Custom Monads
+-->
+<h2 id="定制单子"><a class="header" href="#定制单子">定制单子</a></h2>
+<!--
+Different languages provide different sets of side effects.
 While most languages feature mutable variables and file I/O, not all have features like exceptions.
 Other languages offer effects that are rare or unique, like Icon's search-based program execution, Scheme and Ruby's continuations, and Common Lisp's resumable exceptions.
 An advantage to encoding effects with monads is that programs are not limited to the set of effects that are provided by the language.
-Because Lean is designed to make programming with any monad convenient, programmers are free to choose exactly the set of side effects that make sense for any given application.</p>
-<h2 id="the-io-monad-1"><a class="header" href="#the-io-monad-1">The <code>IO</code> Monad</a></h2>
-<p>Programs that can affect the real world are written as <code>IO</code> actions in Lean.
-<code>IO</code> is one monad among many.
-The <code>IO</code> monad encodes state and exceptions, with the state being used to keep track of the state of the world and the exceptions modeling failure and recovery.</p>
+Because Lean is designed to make programming with any monad convenient, programmers are free to choose exactly the set of side effects that make sense for any given application.
+-->
+<p>不同的语言提供不同的副作用集。虽然大多数语言都具有可变变量和文件 I/O，
+但并非所有语言都具有异常等特性。其他语言提供罕见或独特的副作用，
+例如 Icon 基于搜索的程序执行、Scheme 和 Ruby 的续体以及 Common Lisp 的可恢复异常。
+用单子对副作用进行编码的一个优点是，程序不受语言提供的副作用集的限制。
+由于 Lean 被设计为能方便地使用任何单子进行编程，
+因此程序员可以自由选择最适合任何给定应用的副作用集。</p>
+<!--
+## The `IO` Monad
+-->
+<h2 id="io-单子-1"><a class="header" href="#io-单子-1"><code>IO</code> 单子</a></h2>
+<!--
+Programs that can affect the real world are written as `IO` actions in Lean.
+`IO` is one monad among many.
+The `IO` monad encodes state and exceptions, with the state being used to keep track of the state of the world and the exceptions modeling failure and recovery.
+-->
+<p>可以在现实世界中产生影响的程序在 Lean 中被写作 <code>IO</code> 活动。
+<code>IO</code> 是众多单子中的一个。<code>IO</code> 单子对状态和异常进行编码，其中状态用于跟踪世界的状态，
+异常则对失败和恢复进行建模。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functors-applicative-functors-and-monads"><a class="header" href="#functors-applicative-functors-and-monads">Functors, Applicative Functors, and Monads</a></h1>
 <p><code>Functor</code> and <code>Monad</code> both describe operations for types that are still waiting for a type argument.
 One way to understand them is that <code>Functor</code> describes containers in which the contained data can be transformed, and <code>Monad</code> describes an encoding of programs with side effects.
@@ -12029,7 +12261,7 @@ def evenDivisors (n : Nat) : Many Nat := do
 </code></pre>
 <pre><code class="language-output info">[20, 10, 4, 2]
 </code></pre>
-<h2 id="exercises-1"><a class="header" href="#exercises-1">Exercises</a></h2>
+<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
 <h3 id="improve-validation-friendliness"><a class="header" href="#improve-validation-friendliness">Improve Validation Friendliness</a></h3>
 <p>The errors returned from <code>Validate</code> programs that use <code>&lt;|&gt;</code> can be difficult to read, because inclusion in the list of errors simply means that the error can be reached through <em>some</em> code path.
 A more structured error report can be used to guide the user through the process more accurately:</p>
@@ -12373,12 +12605,12 @@ From the perspective of effects, the side effects of <code>a</code> occur, but t
 <p>Tracing the collection of inherited methods and default methods from the entire hierarchy shows that a <code>Monad</code> instance requires only implementations of <code>bind</code> and <code>pure</code>.
 In other words, <code>Monad</code> instances automatically yield implementations of <code>seq</code>, <code>seqLeft</code>, <code>seqRight</code>, <code>map</code>, and <code>mapConst</code>.
 From the perspective of API boundaries, any type with a <code>Monad</code> instance gets instances for <code>Bind</code>, <code>Pure</code>, <code>Seq</code>, <code>Functor</code>, <code>SeqLeft</code>, and <code>SeqRight</code>.</p>
-<h2 id="exercises-2"><a class="header" href="#exercises-2">Exercises</a></h2>
+<h2 id="exercises-1"><a class="header" href="#exercises-1">Exercises</a></h2>
 <ol>
 <li>Understand the default implementations of <code>map</code>, <code>seq</code>, <code>seqLeft</code>, and <code>seqRight</code> in <code>Monad</code> by working through examples such as <code>Option</code> and <code>Except</code>. In other words, substitute their definitions for <code>bind</code> and <code>pure</code> into the default definitions, and simplify them to recover the versions <code>map</code>, <code>seq</code>, <code>seqLeft</code>, and <code>seqRight</code> that would be written by hand.</li>
 <li>On paper or in a text file, prove to yourself that the default implementations of <code>map</code> and <code>seq</code> satisfy the contracts for <code>Functor</code> and <code>Applicative</code>. In this argument, you're allowed to use the rules from the <code>Monad</code> contract as well as ordinary expression evaluation.</li>
 </ol>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="summary-1"><a class="header" href="#summary-1">Summary</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="summary"><a class="header" href="#summary">Summary</a></h1>
 <h2 id="type-classes-and-structures"><a class="header" href="#type-classes-and-structures">Type Classes and Structures</a></h2>
 <p>Behind the scenes, type classes are represented by structures.
 Defining a class defines a structure, and additionally creates an empty table of instances.
@@ -12755,7 +12987,7 @@ Instead, they can be confident in their initial understanding.
 Next, adding further effects to the monad (such as a state effect to count the files in each directory and display a count at the end) requires far fewer changes to the code, because the monad transformers and <code>MonadLift</code> instances provided in the library work well together.
 Finally, using a set of type classes included in the standard library, polymorphic code can be written in such a way that it can work with a variety of monads without having to care about details like the order in which the monad transformers were applied.
 Just as some functions work in any monad, others can work in any monad that provides a certain type of state, or a certain type of exceptions, without having to specifically describe the <em>way</em> in which a particular concrete monad provides the state or exceptions.</p>
-<h2 id="exercises-3"><a class="header" href="#exercises-3">Exercises</a></h2>
+<h2 id="exercises-2"><a class="header" href="#exercises-2">Exercises</a></h2>
 <h3 id="controlling-the-display-of-dotfiles"><a class="header" href="#controlling-the-display-of-dotfiles">Controlling the Display of Dotfiles</a></h3>
 <p>Files whose names begin with a dot character (<code>'.'</code>) typically represent files that should usually be hidden, such as source-control metadata and configuration files.
 Modify <code>doug</code> with an option to show or hide filenames that begin with a dot.
@@ -13179,7 +13411,7 @@ It's generally a good idea to implement the <code>Of</code> version, and then st
 <p>The identity monad <code>Id</code> is the monad that has no effects whatsoever, to be used in contexts that expect a monad for some reason but where none is actually necessary.
 Another use of <code>Id</code> is to serve as the bottom of a stack of monad transformers.
 For instance, <code>StateT σ Id</code> works just like <code>State σ</code>.</p>
-<h2 id="exercises-4"><a class="header" href="#exercises-4">Exercises</a></h2>
+<h2 id="exercises-3"><a class="header" href="#exercises-3">Exercises</a></h2>
 <h3 id="monad-contract"><a class="header" href="#monad-contract">Monad Contract</a></h3>
 <p>Using pencil and paper, check that the rules of the monad transformer contract are satisfied for each monad transformer in this section.</p>
 <h3 id="logging-transformer"><a class="header" href="#logging-transformer">Logging Transformer</a></h3>
@@ -13293,7 +13525,7 @@ In those languages, state that <em>should</em> be rolled back when an exception 
 Monad transformers grant the freedom to choose an interpretation of effect ordering that works for the problem at hand, with both choices being equally easy to program with.
 However, they also require care to be taken in the choice of ordering of transformers.
 With great expressive power comes the responsibility to check that what's being expressed is what is intended, and the type signature of <code>countWithFallback</code> is probably more polymorphic than it should be.</p>
-<h2 id="exercises-5"><a class="header" href="#exercises-5">Exercises</a></h2>
+<h2 id="exercises-4"><a class="header" href="#exercises-4">Exercises</a></h2>
 <ul>
 <li>Check that <code>ReaderT</code> and <code>StateT</code> commute by expanding their definitions and reasoning about the resulting types.</li>
 <li>Do <code>ReaderT</code> and <code>ExceptT</code> commute? Check your answer by expanding their definitions and reasoning about the resulting types.</li>
@@ -13835,7 +14067,7 @@ example : Id Unit := do
 This resemblance is very convenient when translating an imperative algorithm into Lean, and some tasks are just most naturally thought of imperatively.
 The introduction of monads and monad transformers enables imperative programs to be written in purely functional languages, and <code>do</code>-notation as a specialized syntax for monads (potentially locally transformed) allows functional programmers to have the best of both worlds: the strong reasoning principles afforded by immutability and a tight control over available effects through the type system are combined with syntax and libraries that allow programs that use effects to look familiar and be easy to read.
 Monads and monad transformers allow functional versus imperative programming to be a matter of perspective.</p>
-<h2 id="exercises-6"><a class="header" href="#exercises-6">Exercises</a></h2>
+<h2 id="exercises-5"><a class="header" href="#exercises-5">Exercises</a></h2>
 <ul>
 <li>Rewrite <code>doug</code> to use <code>for</code> instead of the <code>doList</code> function. Are there other opportunities to use the features introduced in this section to improve the code? If so, use them!</li>
 </ul>
@@ -13918,7 +14150,7 @@ Partiality does not &quot;infect&quot; calling functions.</p>
     buf ← stream.read bufsize
 </code></pre>
 <p>Behind the scenes, <code>while</code> is just a simpler notation for <code>repeat</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="summary-2"><a class="header" href="#summary-2">Summary</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="summary-1"><a class="header" href="#summary-1">Summary</a></h1>
 <h2 id="combining-monads"><a class="header" href="#combining-monads">Combining Monads</a></h2>
 <p>When writing a monad from scratch, there are design patterns that tend to describe the ways that each effect is added to the monad.
 Reader effects are added by having the monad's type be a function from the reader's environment, state effects are added by including a function from the initial state to the value paired with the final state, failure or exceptions are added by including a sum type in the return type, and logging or other output is added by including a product type in the return type.
@@ -14193,7 +14425,7 @@ but is expected to have type
   | 0, .nil, .nil =&gt; .nil
   | k + 1, .cons x xs, .cons y ys =&gt; .cons (x, y) (zip k xs ys)
 </code></pre>
-<h2 id="exercises-7"><a class="header" href="#exercises-7">Exercises</a></h2>
+<h2 id="exercises-6"><a class="header" href="#exercises-6">Exercises</a></h2>
 <p>Getting a feel for programming with dependent types requires experience, and the exercises in this section are very important.
 For each exercise, try to see which mistakes the type checker can catch, and which ones it can't, by experimenting with the code as you go.
 This is also a good way to develop a feel for the error messages.</p>
@@ -14501,7 +14733,7 @@ which is
 \[ 2^{2^4} \]
 or 65536.
 Nested exponentials grow quickly, and there are many higher-order functions.</p>
-<h2 id="exercises-8"><a class="header" href="#exercises-8">Exercises</a></h2>
+<h2 id="exercises-7"><a class="header" href="#exercises-7">Exercises</a></h2>
 <ul>
 <li>Write a function that converts any value from a type coded for by <code>Finite</code> into a string. Functions should be represented as their tables.</li>
 <li>Add the empty type <code>Empty</code> to <code>Finite</code> and <code>Finite.beq</code>.</li>
@@ -15110,7 +15342,7 @@ waterfalls : Query waterfall := table waterfallDiary
 <p>Lean's macro system contains everything needed not only to provide a convenient syntax for queries, but also to arrange for the error messages to be helpful.
 Unfortunately, it is beyond the scope of this book to provide a description of implementing languages with Lean macros.
 An indexed family such as <code>Query</code> is probably best as the core of a typed database interaction library, rather than its user interface.</p>
-<h2 id="exercises-9"><a class="header" href="#exercises-9">Exercises</a></h2>
+<h2 id="exercises-8"><a class="header" href="#exercises-8">Exercises</a></h2>
 <h3 id="dates"><a class="header" href="#dates">Dates</a></h3>
 <p>Define a structure to represent dates. Add it to the <code>DBType</code> universe and update the rest of the code accordingly. Provide the extra <code>DBExpr</code> constructors that seem to be necessary.</p>
 <h3 id="nullable-types"><a class="header" href="#nullable-types">Nullable Types</a></h3>
@@ -15637,12 +15869,12 @@ More generally, new propositions in Lean are often defined as inductive types of
 The process of proving theorems is in fact constructing expressions with these types behind the scenes, in a process not unlike the proofs in this section.
 Also, indexed datatypes are sometimes exactly the right tool for the job.
 Fluency in their use is an important part of knowing when to use them.</p>
-<h2 id="exercises-10"><a class="header" href="#exercises-10">Exercises</a></h2>
+<h2 id="exercises-9"><a class="header" href="#exercises-9">Exercises</a></h2>
 <ul>
 <li>Using a recursive function in the style of <code>plusR_succ_left</code>, prove that for all <code>Nat</code>s <code>n</code> and <code>k</code>, <code>n.plusR k = n + k</code>.</li>
 <li>Write a function on <code>Vect</code> for which <code>plusR</code> is more natural than <code>plusL</code>, where <code>plusL</code> would require proofs to be used in the definition.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="summary-3"><a class="header" href="#summary-3">Summary</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="summary-2"><a class="header" href="#summary-2">Summary</a></h1>
 <h2 id="dependent-types"><a class="header" href="#dependent-types">Dependent Types</a></h2>
 <p>Dependent types, where types contain non-type code such as function calls and ordinary data constructors, lead to a massive increase in the expressive power of a type system.
 The ability to <em>compute</em> a type from the <em>value</em> of an argument means that the return type of a function can vary based on which argument is provided.
@@ -16136,7 +16368,7 @@ Because both branches are using the simplifier, the proof can be reduced to:
 <pre><code class="language-lean">theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
   induction t &lt;;&gt; simp_arith [BinTree.mirror, BinTree.count, *]
 </code></pre>
-<h3 id="练习-13"><a class="header" href="#练习-13">练习</a></h3>
+<h3 id="练习-14"><a class="header" href="#练习-14">练习</a></h3>
 <!--
 1. Prove plusR_succ_left using the induction ... with tactic.
 2. Rewrite the proof of plus_succ_left to use <;> in a single line.
@@ -16335,7 +16567,7 @@ This difficulty is similar to the difficulty of rewriting a recursive function t
 However, as in <code>BinTree.mirror</code>, multiple recursive calls often indicate a data structure that has a constructor with multiple recursive occurrences of itself.
 In these cases, the depth of the structure is often logarithmic with respect to its overall size, which makes the tradeoff between stack and heap less stark.
 There are systematic techniques for making these functions tail-recursive, such as using <em>continuation-passing style</em>, but they are outside the scope of this chapter.</p>
-<h2 id="exercises-11"><a class="header" href="#exercises-11">Exercises</a></h2>
+<h2 id="exercises-10"><a class="header" href="#exercises-10">Exercises</a></h2>
 <p>Translate each of the following non-tail-recursive functions into accumulator-passing tail-recursive functions:</p>
 <pre><code class="language-lean">def NonTail.length : List α → Nat
   | [] =&gt; 0
@@ -17043,7 +17275,7 @@ termination_by findHelper arr p i =&gt; arr.size - i
 <p>Not all termination arguments are as quite as simple as this one.
 However, the basic structure of identifying some expression based on the function's arguments that will decrease in each call occurs in all termination proofs.
 Sometimes, creativity can be required in order to figure out just why a function terminates, and sometimes Lean requires additional proofs in order to accept the termination argument.</p>
-<h2 id="exercises-12"><a class="header" href="#exercises-12">Exercises</a></h2>
+<h2 id="exercises-11"><a class="header" href="#exercises-11">Exercises</a></h2>
 <ul>
 <li>Implement a <code>ForM (Array α)</code> instance on arrays using a tail-recursive accumulator-passing function and a <code>termination_by</code> clause.</li>
 <li>Implement a function to reverse arrays using a tail-recursive accumulator-passing function that <em>doesn't</em> need a <code>termination_by</code> clause.</li>
@@ -17720,7 +17952,7 @@ This, <code>n = Nat.succ n'</code>, and <code>Nat.succ n'</code> is clearly grea
     1 + div (n - k) k ok
 termination_by div n k ok =&gt; n
 </code></pre>
-<h2 id="exercises-13"><a class="header" href="#exercises-13">Exercises</a></h2>
+<h2 id="exercises-12"><a class="header" href="#exercises-12">Exercises</a></h2>
 <p>Prove the following theorems:</p>
 <ul>
 <li>For all natural numbers \( n \), \( 0 &lt; n + 1 \).</li>
@@ -18586,7 +18818,7 @@ When running <code>sort --shared</code>, the array is copied as needed to preser
 Lean also attempts to &quot;recycle&quot; constructors whose reference counts are about to fall to zero, reusing them instead of allocating new data.
 This means, for instance, that <code>List.map</code> will mutate a linked list in place, at least in cases when nobody could possibly notice.
 One of the most important steps in optimizing hot loops in Lean code is making sure that the data being modified is not referred to from multiple locations.</p>
-<h2 id="exercises-14"><a class="header" href="#exercises-14">Exercises</a></h2>
+<h2 id="exercises-13"><a class="header" href="#exercises-13">Exercises</a></h2>
 <ul>
 <li>
 <p>Write a function that reverses arrays. Test that if the input array has a reference count of one, then your function does not allocate a new array.</p>
@@ -18643,7 +18875,7 @@ Alternatively, a subtype can be defined that allows Lean's fast <code>Nat</code>
 At run time, the proof will be erased.
 Because the resulting structure has only a single data field, it is represented as that field, which means that this new representation of <code>Pos</code> is identical to that of <code>Nat</code>.</p>
 <p>After proving the theorem <code>∀ {n k : Nat}, n ≠ 0 → k ≠ 0 → n + k ≠ 0</code>, define instances of <code>ToString</code>, and <code>Add</code> for this new representation of <code>Pos</code>. Then, define an instance of <code>Mul</code>, proving any necessary theorems along the way.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="summary-4"><a class="header" href="#summary-4">Summary</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="summary-3"><a class="header" href="#summary-3">Summary</a></h1>
 <h2 id="tail-recursion-1"><a class="header" href="#tail-recursion-1">Tail Recursion</a></h2>
 <p>Tail recursion is recursion in which the results of recursive calls are returned immediately, rather than being used in some other way.
 These recursive calls are called <em>tail calls</em>.

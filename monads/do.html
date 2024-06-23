@@ -144,57 +144,98 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="do-notation-for-monads"><a class="header" href="#do-notation-for-monads"><code>do</code>-Notation for Monads</a></h1>
-<p>While APIs based on monads are very powerful, the explicit use of <code>&gt;&gt;=</code> with anonymous functions is still somewhat noisy.
-Just as infix operators are used instead of explicit calls to <code>HAdd.hAdd</code>, Lean provides a syntax for monads called <em><code>do</code>-notation</em> that can make programs that use monads easier to read and write.
-This is the very same <code>do</code>-notation that is used to write programs in <code>IO</code>, and <code>IO</code> is also a monad.</p>
-<p>In <a href="../hello-world.html">Hello, World!</a>, the <code>do</code> syntax is used to combine <code>IO</code> actions, but the meaning of these programs is explained directly.
-Understanding how to program with monads means that <code>do</code> can now be explained in terms of how it translates into uses of the underlying monad operators.</p>
-<p>The first translation of <code>do</code> is used when the only statement in the <code>do</code> is a single expression <code>E</code>.
-In this case, the <code>do</code> is removed, so</p>
+                        <!--
+# `do`-Notation for Monads
+-->
+<h1 id="单子的-do-记法"><a class="header" href="#单子的-do-记法">单子的 <code>do</code>-记法</a></h1>
+<!--
+While APIs based on monads are very powerful, the explicit use of `>>=` with anonymous functions is still somewhat noisy.
+Just as infix operators are used instead of explicit calls to `HAdd.hAdd`, Lean provides a syntax for monads called _`do`-notation_ that can make programs that use monads easier to read and write.
+This is the very same `do`-notation that is used to write programs in `IO`, and `IO` is also a monad.
+-->
+<p>基于单子的 API 非常强大，但显式使用 <code>&gt;&gt;=</code> 和匿名函数仍然有些繁琐。
+正如使用中缀运算符代替显式调用 <code>HAdd.hAdd</code> 一样，Lean 提供了一种称为
+<strong><code>do</code>-记法</strong> 的单子语法，它可以使使用单子的程序更易于阅读和编写。
+这与用于编写 <code>IO</code> 程序的 <code>do</code>-记法完全相同，而 <code>IO</code> 也是一个单子。</p>
+<!--
+In [Hello, World!](../hello-world.md), the `do` syntax is used to combine `IO` actions, but the meaning of these programs is explained directly.
+Understanding how to program with monads means that `do` can now be explained in terms of how it translates into uses of the underlying monad operators.
+-->
+<p>在 <a href="../hello-world.html">Hello, World!</a> 中，<code>do</code> 语法用于组合 <code>IO</code> 活动，
+但这些程序的含义是直接解释的。理解如何运用单子进行编程意味着现在可以用
+<code>do</code> 来解释它如何转换为对底层单子运算符的使用。</p>
+<!--
+The first translation of `do` is used when the only statement in the `do` is a single expression `E`.
+In this case, the `do` is removed, so
+-->
+<p>当 <code>do</code> 中的唯一语句是单个表达式 <code>E</code> 时，会使用 <code>do</code> 的第一种翻译。
+在这种情况下，<code>do</code> 被删除，因此</p>
 <pre><code class="language-lean">do E
 </code></pre>
-<p>translates to</p>
+<p>会被翻译为</p>
 <pre><code class="language-lean">E
 </code></pre>
-<p>The second translation is used when the first statement of the <code>do</code> is a <code>let</code> with an arrow, binding a local variable.
-This translates to a use of <code>&gt;&gt;=</code> together with a function that binds that very same variable, so</p>
+<!--
+The second translation is used when the first statement of the `do` is a `let` with an arrow, binding a local variable.
+This translates to a use of `>>=` together with a function that binds that very same variable, so
+-->
+<p>当 <code>do</code> 的第一个语句是带有箭头的 <code>let</code> 绑定一个局部变量时，则使用第二种翻译。
+它会翻译为使用 <code>&gt;&gt;=</code> 以及绑定同一变量的函数，因此</p>
 <pre><code class="language-lean">do let x ← E1
    Stmt
    ...
    En
 </code></pre>
-<p>translates to</p>
+<!--
+translates to
+-->
+<p>会被翻译为</p>
 <pre><code class="language-lean">E1 &gt;&gt;= fun x =&gt;
 do Stmt
    ...
    En
 </code></pre>
-<p>When the first statement of the <code>do</code> block is an expression, then it is considered to be a monadic action that returns <code>Unit</code>, so the function matches the <code>Unit</code> constructor and</p>
+<!--
+When the first statement of the `do` block is an expression, then it is considered to be a monadic action that returns `Unit`, so the function matches the `Unit` constructor and
+-->
+<p>当 <code>do</code> 块的第一个语句是一个表达式时，它会被认为是一个返回 <code>Unit</code> 的单子操作，
+因此该函数匹配 <code>Unit</code> 构造子，而</p>
 <pre><code class="language-lean">do E1
    Stmt
    ...
    En
 </code></pre>
-<p>translates to</p>
+<!--
+translates to
+-->
+<p>会被翻译为</p>
 <pre><code class="language-lean">E1 &gt;&gt;= fun () =&gt;
 do Stmt
    ...
    En
 </code></pre>
-<p>Finally, when the first statement of the <code>do</code> block is a <code>let</code> that uses <code>:=</code>, the translated form is an ordinary let expression, so</p>
+<!--
+Finally, when the first statement of the `do` block is a `let` that uses `:=`, the translated form is an ordinary let expression, so
+-->
+<p>最后，当 <code>do</code> 块的第一个语句是使用 <code>:=</code> 的 <code>let</code> 时，翻译后的形式是一个普通的 let 表达式，因此</p>
 <pre><code class="language-lean">do let x := E1
    Stmt
    ...
    En
 </code></pre>
-<p>translates to</p>
+<!--
+translates to
+-->
+<p>会被翻译为</p>
 <pre><code class="language-lean">let x := E1
 do Stmt
    ...
    En
 </code></pre>
-<p>The definition of <code>firstThirdFifthSeventh</code> that uses the <code>Monad</code> class looks like this:</p>
+<!--
+The definition of `firstThirdFifthSeventh` that uses the `Monad` class looks like this:
+-->
+<p>使用 <code>Monad</code> 类的 <code>firstThirdFifthSeventh</code> 的定义如下：</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) :=
   lookup xs 0 &gt;&gt;= fun first =&gt;
   lookup xs 2 &gt;&gt;= fun third =&gt;
@@ -202,7 +243,10 @@ do Stmt
   lookup xs 6 &gt;&gt;= fun seventh =&gt;
   pure (first, third, fifth, seventh)
 </code></pre>
-<p>Using <code>do</code>-notation, it becomes significantly more readable:</p>
+<!--
+Using `do`-notation, it becomes significantly more readable:
+-->
+<p>使用 <code>do</code>-记法，它会变得更加易读：</p>
 <pre><code class="language-lean">def firstThirdFifthSeventh [Monad m] (lookup : List α → Nat → m α) (xs : List α) : m (α × α × α × α) := do
   let first ← lookup xs 0
   let third ← lookup xs 2
@@ -210,7 +254,10 @@ do Stmt
   let seventh ← lookup xs 6
   pure (first, third, fifth, seventh)
 </code></pre>
-<p>Without the <code>Monad</code> type class, the function <code>number</code> that numbers the nodes of a tree was written:</p>
+<!--
+Without the `Monad` type class, the function `number` that numbers the nodes of a tree was written:
+-->
+<p>若没有 <code>Monad</code> 类型，则对树的节点进行编号的函数 <code>number</code> 写作如下形式：</p>
 <pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
   let rec helper : BinTree α → State Nat (BinTree (Nat × α))
     | BinTree.leaf =&gt; ok BinTree.leaf
@@ -222,7 +269,7 @@ do Stmt
       ok (BinTree.branch numberedLeft (n, x) numberedRight)
   (helper t 0).snd
 </code></pre>
-<p>With <code>Monad</code> and <code>do</code>, its definition is much less noisy:</p>
+<p>有了 <code>Monad</code> 和 <code>do</code>，其定义就简洁多了：</p>
 <pre><code class="language-lean">def number (t : BinTree α) : BinTree (Nat × α) :=
   let rec helper : BinTree α → State Nat (BinTree (Nat × α))
     | BinTree.leaf =&gt; pure BinTree.leaf
@@ -234,9 +281,8 @@ do Stmt
       ok (BinTree.branch numberedLeft (n, x) numberedRight)
   (helper t 0).snd
 </code></pre>
-<p>All of the conveniences from <code>do</code> with <code>IO</code> are also available when using it with other monads.
-For example, nested actions also work in any monad.
-The original definition of <code>mapM</code> was:</p>
+<p>使用 <code>do</code> 与 <code>IO</code> 的所有便利性在使用其他单子时也可用。
+例如，嵌套操作也适用于任何单子。<code>mapM</code> 的原始定义为：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
   | x :: xs =&gt;
@@ -244,7 +290,10 @@ The original definition of <code>mapM</code> was:</p>
     mapM f xs &gt;&gt;= fun tl =&gt;
     pure (hd :: tl)
 </code></pre>
-<p>With <code>do</code>-notation, it can be written:</p>
+<!--
+With `do`-notation, it can be written:
+-->
+<p>使用 <code>do</code>-记法，可以写成：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
   | x :: xs =&gt; do
@@ -252,13 +301,19 @@ The original definition of <code>mapM</code> was:</p>
     let tl ← mapM f xs
     pure (hd :: tl)
 </code></pre>
-<p>Using nested actions makes it almost as short as the original non-monadic <code>map</code>:</p>
+<!--
+Using nested actions makes it almost as short as the original non-monadic `map`:
+-->
+<p>使用嵌套活动会让它与原始非单子 <code>map</code> 一样简洁：</p>
 <pre><code class="language-lean">def mapM [Monad m] (f : α → m β) : List α → m (List β)
   | [] =&gt; pure []
   | x :: xs =&gt; do
     pure ((← f x) :: (← mapM f xs))
 </code></pre>
-<p>Using nested actions, <code>number</code> can be made much more concise:</p>
+<!--
+Using nested actions, `number` can be made much more concise:
+-->
+<p>使用嵌套活动，<code>number</code> 可以变得更加简洁：</p>
 <pre><code class="language-lean">def increment : State Nat Nat := do
   let n ← get
   set (n + 1)
@@ -271,10 +326,17 @@ def number (t : BinTree α) : BinTree (Nat × α) :=
       pure (BinTree.branch (← helper left) ((← increment), x) (← helper right))
   (helper t 0).snd
 </code></pre>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+ * Rewrite `evaluateM`, its helpers, and the different specific use cases using `do`-notation instead of explicit calls to `>>=`.
+ * Rewrite `firstThirdFifthSeventh` using nested actions.
+-->
 <ul>
-<li>Rewrite <code>evaluateM</code>, its helpers, and the different specific use cases using <code>do</code>-notation instead of explicit calls to <code>&gt;&gt;=</code>.</li>
-<li>Rewrite <code>firstThirdFifthSeventh</code> using nested actions.</li>
+<li>使用 <code>do</code>-记法而非显式调用 <code>&gt;&gt;=</code> 重写 <code>evaluateM</code>、辅助函数以及不同的特定用例。</li>
+<li>使用嵌套操作重写 <code>firstThirdFifthSeventh</code>。</li>
 </ul>
 
                     </main>
