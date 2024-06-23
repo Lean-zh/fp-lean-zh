@@ -4657,7 +4657,7 @@ msgstr ""
 "语言。当收到订单时，厨师会忠实且始终如一地提供所要求的内容。柜台工作人员是与世界交互的周围运行时系统，它可以接受付款、分发食物并与顾客交谈。这两名员工共同承担了餐厅的所有职能，但他们的职责是分开的，每个人都执行自己最擅长的任务。就像让顾客远离可以让厨师专注于制作真正美味的咖啡和三明治一样，Lean"
 " "
 "缺乏副作用可以让程序用作形式化数学证明的一部分。它还有助于程序员独立理解程序的各个部分，因为没有隐藏的状态更改会在组件之间创建微妙的耦合。厨师的笔记表示通过求值"
-" Lean 表达式产生的 `IO` 操作，而柜台工作人员的回复是通过效果传递回来的值。"
+" Lean 表达式产生的 `IO` 活动，而柜台工作人员的回复是通过效果传递回来的值。"
 
 #: src/hello-world/running-a-program.md:63
 #, fuzzy
@@ -4888,7 +4888,7 @@ msgid ""
 "function on strings, rather than an `IO` action."
 msgstr ""
 "第一行将问题写入 `stdout`，第二行从 `stdin` 请求输入，第三行从输入行中删除尾随换行符（以及任何其他尾随空格）。`name` 的定义使用"
-" `:=` 而非 `←`，因为 `String.dropRightWhile` 是字符串上的普通函数，而非 `IO` 操作。"
+" `:=` 而非 `←`，因为 `String.dropRightWhile` 是字符串上的普通函数，而非 `IO` 活动。"
 
 #: src/hello-world/running-a-program.md:156
 #, fuzzy
@@ -4986,7 +4986,7 @@ msgid ""
 "block."
 msgstr ""
 "要执行使用 `←` 的 `let` 语句，首先求值箭头右侧的表达式（在本例中为 "
-"`IO.getStdIn`）。因为这个表达式只是一个变量，所以查找它的值。结果值是一个内置的原始 `IO` 操作。下一步是执行此 `IO` "
+"`IO.getStdIn`）。因为这个表达式只是一个变量，所以查找它的值。结果值是一个内置的原始 `IO` 活动。下一步是执行此 `IO` "
 "操作，结果是一个表示标准输入流的值，其类型为 `IO.FS.Stream`。然后将标准输入与箭头左侧的名称（此处为 `stdin`）关联，以用于 "
 "`do` 块的其余部分。"
 
@@ -5068,7 +5068,7 @@ msgid ""
 " denotes the newline character."
 msgstr ""
 "下一条语句是 `let input ← stdin.getLine`。`IO.FS.Stream.getLine` 的类型是 `IO.FS.Stream"
-" → IO String`，这意味着它是一个从流到 `IO` 操作的函数，该操作将返回一个字符串。同样，这也是访问器表示法的示例。此 `IO` "
+" → IO String`，这意味着它是一个从流到 `IO` 活动的函数，该操作将返回一个字符串。同样，这也是访问器表示法的示例。此 `IO` "
 "操作被执行，程序等待用户键入一行完整的输入。假设用户输入了「`David`」。结果行（「`David\\n`」）与 `input` 关联，其中转义序列 "
 "`\\n` 表示换行符。"
 
@@ -5269,7 +5269,7 @@ msgid ""
 "result of the recursive call. Executing `nTimes (IO.println \"Hello\") 3` "
 "causes the following output:"
 msgstr ""
-"在 `Nat.zero` 的基本情况下，结果是 `pure ()`。函数 `pure` 创建一个没有副作用的 `IO` 操作，但返回 `pure` "
+"在 `Nat.zero` 的基本情况下，结果是 `pure ()`。函数 `pure` 创建一个没有副作用的 `IO` 活动，但返回 `pure` "
 "的参数，在本例中是 `Unit` 的构造子。作为不执行任何操作且不返回任何有趣内容的操作，`pure ()` "
 "既非常无聊又非常有用。在递归步骤中，`do` 块用于创建一个操作，该操作首先执行 `action`，然后执行递归调用的结果。执行 `nTimes "
 "(IO.println \"Hello\") 3` 会导致以下输出："
@@ -5282,8 +5282,8 @@ msgid ""
 "structures for later execution. For instance, the function `countdown` takes"
 " a `Nat` and returns a list of unexecuted `IO` actions, one for each `Nat`:"
 msgstr ""
-"除了将函数用作控制结构体之外，`IO` 操作是一等值的事实意味着它们可以保存在数据结构体中以供以后执行。例如，函数 `countdown` 接受一个 "
-"`Nat` 并返回一个未执行的 `IO` 操作列表，每个 `Nat` 一个："
+"除了将函数用作控制结构体之外，`IO` 活动是一等值的事实意味着它们可以保存在数据结构体中以供以后执行。例如，函数 `countdown` 接受一个 "
+"`Nat` 并返回一个未执行的 `IO` 活动列表，每个 `Nat` 一个："
 
 #: src/hello-world/step-by-step.md:150
 #, fuzzy
@@ -5674,7 +5674,7 @@ msgid ""
 msgstr ""
 "每个 Lakefile 将只包含一个包，但可以包含任意数量的库或可执行文件。此外，Lakefile 可能包含 _外部库_（不是用 Lean "
 "编写的库，将与结果可执行文件静态链接）、_自定义目标_（不自然地适合于库/可执行文件分类的构建目标）、_依赖项_（其他 Lean "
-"包的声明（在本地或来自远程 Git 存储库））、以及 _脚本_（本质上是 `IO` 操作（类似于 "
+"包的声明（在本地或来自远程 Git 存储库））、以及 _脚本_（本质上是 `IO` 活动（类似于 "
 "`main`），但还可以访问有关包配置的元数据）。Lakefile 中的项允许配置源文件位置、模块层次结构体和编译器标志。然而，一般来说，默认值是合理的。"
 
 #: src/hello-world/starting-a-project.md:91
@@ -5966,8 +5966,8 @@ msgid ""
 "in a process, which makes it easier to do things like capturing the output "
 "from a program into a string by writing a custom `IO.FS.Stream`."
 msgstr ""
-"Lean 编译器包含 `IO` 操作（例如 `IO.getStdout`，它在 `dump` "
-"中被调用）以获取表示标准输入、标准输出和标准错误的流。这些是 `IO` 操作，而非普通定义，因为 Lean 允许在进程中替换这些标准 POSIX "
+"Lean 编译器包含 `IO` 活动（例如 `IO.getStdout`，它在 `dump` "
+"中被调用）以获取表示标准输入、标准输出和标准错误的流。这些是 `IO` 活动，而非普通定义，因为 Lean 允许在进程中替换这些标准 POSIX "
 "流，这使得通过编写自定义 `IO.FS.Stream` 将程序的输出捕获到字符串中变得更容易。"
 
 #: src/hello-world/cat.md:96
@@ -6068,7 +6068,7 @@ msgid ""
 msgstr ""
 "打开一个文件作为流需要两个步骤。首先，通过以读取模式打开文件来创建一个文件句柄。Lean "
 "文件句柄跟踪底层文件描述符。当没有对文件句柄值进行引用时，终结器会关闭文件描述符。其次，使用 `IO.FS.Stream.ofHandle` "
-"为文件句柄提供与 POSIX 流相同的接口，该接口使用在文件句柄上工作的相应 `IO` 操作填充 `Stream` 结构体的每个字段。"
+"为文件句柄提供与 POSIX 流相同的接口，该接口使用在文件句柄上工作的相应 `IO` 活动填充 `Stream` 结构体的每个字段。"
 
 #: src/hello-world/cat.md:130
 #, fuzzy
@@ -6316,7 +6316,7 @@ msgid ""
 "`IO` action's result is given a name, and then used immediately and only "
 "once. For instance, in `dump`:"
 msgstr ""
-"`feline` 中的许多函数都表现出一种重复模式，其中 `IO` 操作的结果被赋予一个名称，然后立即且仅使用一次。例如，在 `dump` 中："
+"`feline` 中的许多函数都表现出一种重复模式，其中 `IO` 活动的结果被赋予一个名称，然后立即且仅使用一次。例如，在 `dump` 中："
 
 #: src/hello-world/conveniences.md:18
 msgid "the pattern occurs for `stdout`:"
@@ -6343,7 +6343,7 @@ msgid ""
 "which can greatly simplify a program. `IO` actions that Lean lifts from a "
 "nested expression context are called _nested actions_."
 msgstr ""
-"此版本的 `dump` 避免了引入仅使用一次的名称，这可以极大地简化程序。Lean 从嵌套表达式上下文中提升的 `IO` 操作称为 _嵌套操作_。"
+"此版本的 `dump` 避免了引入仅使用一次的名称，这可以极大地简化程序。Lean 从嵌套表达式上下文中提升的 `IO` 活动称为 _嵌套操作_。"
 
 #: src/hello-world/conveniences.md:44
 msgid "`fileStream` can be simplified using the same technique:"
@@ -6666,7 +6666,7 @@ msgid ""
 msgstr ""
 "副作用是程序执行中超出数学表达式求值范围的部分，例如读取文件、抛出异常或触发工业机械。虽然大多数语言允许在求值期间发生副作用，但 Lean "
 "不会。相反，Lean 有一个名为 `IO` 的类型，它表示使用副作用的程序的 _描述_。然后由语言的运行时系统执行这些描述，该系统调用 Lean "
-"表达式求值器来执行特定计算。类型为 `IO α` 的值称为 _`IO` 操作_。最简单的是 `pure`，它返回其参数并且没有实际副作用。"
+"表达式求值器来执行特定计算。类型为 `IO α` 的值称为 _`IO` 活动_。最简单的是 `pure`，它返回其参数并且没有实际副作用。"
 
 #: src/hello-world/summary.md:12
 msgid ""
@@ -6678,14 +6678,14 @@ msgid ""
 "the real world can be represented by a token that is passed around through "
 "the program."
 msgstr ""
-"`IO` 操作还可以理解为将整个世界作为参数并返回一个副作用已经发生的全新世界的函数。在幕后，`IO` "
+"`IO` 活动还可以理解为将整个世界作为参数并返回一个副作用已经发生的全新世界的函数。在幕后，`IO` "
 "库确保世界永远不会被复制、创建或销毁。虽然这种副作用模型实际上无法实现，因为整个宇宙太大而无法放入内存，但现实世界可以用一个在程序中传递的令牌来表示。"
 
 #: src/hello-world/summary.md:16
 msgid ""
 "An `IO` action `main` is executed when the program starts. `main` can have "
 "one of three types:"
-msgstr "当程序启动时，将执行 `IO` 操作 `main`。`main` 可以有三种类型之一："
+msgstr "当程序启动时，将执行 `IO` 活动 `main`。`main` 可以有三种类型之一："
 
 #: src/hello-world/summary.md:18
 msgid ""
@@ -6721,13 +6721,13 @@ msgid ""
 "effects. A `do` expression contains a sequence of _statements_, which may "
 "be:"
 msgstr ""
-"Lean 标准库提供了许多基本 `IO` 操作，表示诸如读写文件以及与标准输入和标准输出交互之类的效果。这些基本 `IO` 操作使用 `do` "
-"语法组合成更大的 `IO` 操作，`do` 语法是用于编写具有副作用的程序描述的内置领域特定语言。`do` 表达式包含一系列 _语句_，这些语句可以是："
+"Lean 标准库提供了许多基本 `IO` 活动，表示诸如读写文件以及与标准输入和标准输出交互之类的效果。这些基本 `IO` 活动使用 `do` "
+"语法组合成更大的 `IO` 活动，`do` 语法是用于编写具有副作用的程序描述的内置领域特定语言。`do` 表达式包含一系列 _语句_，这些语句可以是："
 
 #: src/hello-world/summary.md:28
 #, fuzzy
 msgid "expressions that represent `IO` actions,"
-msgstr "表示 `IO` 操作的表达式，"
+msgstr "表示 `IO` 活动的表达式，"
 
 #: src/hello-world/summary.md:29
 #, fuzzy
@@ -6748,7 +6748,7 @@ msgstr "使用 `let` 和 `←` 的局部定义，其中定义的名称引用执�
 msgid ""
 "`IO` actions that are written with `do` are executed one statement at a "
 "time."
-msgstr "使用 `do` 编写的 `IO` 操作一次执行一个语句。"
+msgstr "使用 `do` 编写的 `IO` 活动一次执行一个语句。"
 
 #: src/hello-world/summary.md:34
 #, fuzzy
@@ -8182,7 +8182,7 @@ msgid ""
 msgstr ""
 "HTTP 请求以 HTTP 方法的标识符开头，例如 `GET` 或 `POST`，以及一个 URI 和一个 HTTP 版本。定义一个归纳类型来表示 "
 "HTTP 方法的一个有趣子集，以及一个表示 HTTP 响应的结构体。响应应该有一个 `ToString` 实例，以便调试它们。使用类型类将不同的 `IO`"
-" 操作与每个 HTTP 方法关联起来，并编写一个测试框架作为 `IO` 操作，调用每个方法并打印结果。"
+" 操作与每个 HTTP 方法关联起来，并编写一个测试框架作为 `IO` 活动，调用每个方法并打印结果。"
 
 #: src/type-classes/polymorphism.md:3
 #, fuzzy
@@ -8198,7 +8198,7 @@ msgstr ""
 "编写适用于给定函数的 _任何_ 重载的函数可能很有用。例如，`IO.println` 适用于具有 `ToString` "
 "实例的任何类型。这使用方括号表示所需的实例：`IO.println` 的类型是 `{α : Type} → [ToString α] → α → IO "
 "Unit`。此类型表示 `IO.println` 接受类型为 `α` 的参数，Lean 应自动确定该参数，并且必须为 `α` 提供 `ToString`"
-" 实例。它返回一个 `IO` 操作。"
+" 实例。它返回一个 `IO` 活动。"
 
 #: src/type-classes/polymorphism.md:10
 #, fuzzy
@@ -13681,8 +13681,8 @@ msgid ""
 "carry out one potentially-effectful operation and then invoke the rest of "
 "the program with the resulting value."
 msgstr ""
-"从第一个角度看，`IO` 操作是 Lean 运行时系统的指令。例如，指令可能是“从该文件描述符读取字符串，然后使用该字符串重新调用纯 Lean "
-"代码”。此角度是一个外部角度，从操作系统的角度查看程序。在这种情况下，`pure` 是一个不请求 RTS 产生任何效果的 `IO` 操作，而 "
+"从第一个角度看，`IO` 活动是 Lean 运行时系统的指令。例如，指令可能是“从该文件描述符读取字符串，然后使用该字符串重新调用纯 Lean "
+"代码”。此角度是一个外部角度，从操作系统的角度查看程序。在这种情况下，`pure` 是一个不请求 RTS 产生任何效果的 `IO` 活动，而 "
 "`bind` 指示 RTS 首先执行一个潜在产生效果的操作，然后使用结果值调用程序的其余部分。"
 
 #: src/monads/io.md:11
@@ -13695,7 +13695,7 @@ msgid ""
 "world is represented in Lean as a token, and the `IO` monad is structured to"
 " make sure that each token is used exactly once."
 msgstr ""
-"从第二个角度看，`IO` 操作会改变整个世界。`IO` "
+"从第二个角度看，`IO` 活动会改变整个世界。`IO` "
 "操作实际上是纯的，因为它们接收一个唯一的世界作为参数，然后返回改变后的世界。此角度是一个内部角度，与 `IO` 在 Lean "
 "内部表示的方式相匹配。世界在 Lean 中表示为令牌，`IO` 单子被构造为确保每个令牌只使用一次。"
 
@@ -13737,7 +13737,7 @@ msgstr "打印 `IO` 的定义表明它是根据更简单的结构体定义的：
 #, fuzzy
 msgid ""
 "`IO.Error` represents all the errors that could be thrown by an `IO` action:"
-msgstr "`IO.Error` 表示 `IO` 操作可能抛出的所有错误："
+msgstr "`IO.Error` 表示 `IO` 活动可能抛出的所有错误："
 
 #: src/monads/io.md:92
 #, fuzzy
@@ -13747,7 +13747,7 @@ msgid ""
 "`Except ε` monad, the `IO` monad includes the ability to define error "
 "handling and exceptions."
 msgstr ""
-"`EIO ε α` 表示 `IO` 操作，它将以类型为 `ε` 的错误终止或以类型为 `α` 的值成功。这意味着，与 `Except ε` "
+"`EIO ε α` 表示 `IO` 活动，它将以类型为 `ε` 的错误终止或以类型为 `α` 的值成功。这意味着，与 `Except ε` "
 "单子一样，`IO` 单子包括定义错误处理和异常的能力。"
 
 #: src/monads/io.md:95
@@ -17303,7 +17303,7 @@ msgstr ""
 msgid ""
 "Running a `ConfigIO` action involves transforming it into an `IO` action by "
 "providing it with a configuration:"
-msgstr "运行 `ConfigIO` 操作涉及通过提供配置将其转换为 `IO` 操作："
+msgstr "运行 `ConfigIO` 操作涉及通过提供配置将其转换为 `IO` 活动："
 
 #: src/monad-transformers/reader-io.md:184
 #, fuzzy
@@ -17340,8 +17340,8 @@ msgid ""
 "don't need a `Config`. Ordinary `IO` actions can be run using `runIO`, which"
 " ignores the configuration argument:"
 msgstr ""
-"`doug` 中使用的许多代码不需要配置，并且 `doug` 从标准库中调用普通的 Lean `IO` 操作，这些操作肯定不需要 "
-"`Config`。可以使用 `runIO` 运行普通的 `IO` 操作，它会忽略配置参数："
+"`doug` 中使用的许多代码不需要配置，并且 `doug` 从标准库中调用普通的 Lean `IO` 活动，这些操作肯定不需要 "
+"`Config`。可以使用 `runIO` 运行普通的 `IO` 活动，它会忽略配置参数："
 
 #: src/monad-transformers/reader-io.md:206
 #, fuzzy
@@ -17439,7 +17439,7 @@ msgstr "随着程序的演进和单子需要更多功能，每个基本运算符
 msgid ""
 "Wrapping ordinary `IO` actions in `runIO` is noisy and distracts from the "
 "flow of the program"
-msgstr "将普通的 `IO` 操作包装在 `runIO` 中很嘈杂，并且会分散程序的流程"
+msgstr "将普通的 `IO` 活动包装在 `runIO` 中很嘈杂，并且会分散程序的流程"
 
 #: src/monad-transformers/reader-io.md:254
 #, fuzzy
@@ -17791,7 +17791,7 @@ msgid ""
 msgstr ""
 "由 `Option` 单子表示的失败和由 `Except` 单子表示的异常都有相应的变换器。对于 `Option`，可以通过让它包含类型为 "
 "`Option α` 的值（在其他情况下它将包含类型为 `α` 的值）来将失败添加到单子中。例如，`IO (Option α)` 表示不总是返回类型为 "
-"`α` 的值的 `IO` 操作。这表明了单子变换器 `OptionT` 的定义："
+"`α` 的值的 `IO` 活动。这表明了单子变换器 `OptionT` 的定义："
 
 #: src/monad-transformers/transformers.md:30
 #, fuzzy
