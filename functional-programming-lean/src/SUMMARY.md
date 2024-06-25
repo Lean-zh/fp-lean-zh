@@ -70,4 +70,4 @@
   - [特殊类型](programs-proofs/special-types.md)
   - [总结](programs-proofs/summary.md)
 
-[接下来做什么](next-steps.md)
+[下一步](next-steps.md)
