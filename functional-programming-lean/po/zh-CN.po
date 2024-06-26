@@ -24534,7 +24534,7 @@ msgstr ""
 "`rfl` 策略无法在此处应用，因为 `NonTail.sum` 和 `Tail.sum` "
 "在定义上不相等。然而，函数可以以不止定义相等的方式相等。还可以通过证明两个函数对相同输入产生相等输出，来证明它们相等。换句话说，\\\\( f = g "
 "\\\\) 可以通过证明 \\\\( f(x) = g(x) \\\\) 对于所有可能的输入 \\\\( x \\\\) 来证明。此原理称为 "
-"_函数扩展性_。函数扩展性正是 `NonTail.sum` 等于 `Tail.sum` 的原因：它们都对数字列表求和。"
+"_函数外延性_。函数外延性正是 `NonTail.sum` 等于 `Tail.sum` 的原因：它们都对数字列表求和。"
 
 #: src/programs-proofs/tail-recursion-proofs.md:27
 #, fuzzy
@@ -24546,7 +24546,7 @@ msgid ""
 "equal:"
 msgstr ""
 "在 Lean 的策略语言中，使用 `funext` "
-"调用函数扩展性，后跟一个用于任意参数的名称。任意参数作为假设添加到上下文中，目标变为要求证明应用于此参数的函数相等："
+"调用函数外延性，后跟一个用于任意参数的名称。任意参数作为假设添加到上下文中，目标变为要求证明应用于此参数的函数相等："
 
 #: src/programs-proofs/tail-recursion-proofs.md:40
 #, fuzzy
@@ -24830,7 +24830,7 @@ msgid ""
 "The actual proof requires only a little additional work to get the goal to "
 "match the helper's type. The first step is still to invoke function "
 "extensionality:"
-msgstr "实际证明只需要一些额外的工作即可使目标与辅助类型的匹配。第一步仍然是调用函数扩展性："
+msgstr "实际证明只需要一些额外的工作即可使目标与辅助类型的匹配。第一步仍然是调用函数外延性："
 
 #: src/programs-proofs/tail-recursion-proofs.md:415
 #, fuzzy
@@ -27510,7 +27510,7 @@ msgid ""
 "statement that relates arbitrary initial accumulator values to the final "
 "result of the original function is needed."
 msgstr ""
-"通常，证明两个函数相等是使用函数扩展性（`funext` "
+"通常，证明两个函数相等是使用函数外延性（`funext` "
 "策略）完成的，即如果两个函数对每个输入返回相同的值，则它们相等。如果函数是递归的，那么归纳通常是证明其输出相同的好方法。通常，函数的递归定义将对一个特定参数进行递归调用；这个参数是归纳的一个好选择。在某些情况下，归纳假设不够充分。解决这个问题通常需要考虑如何构建定理陈述的更通用版本，以提供足够充分的归纳假设。特别是，为了证明一个函数等价于一个累加器传递版本，需要一个将任意初始累加器值与原始函数的最终结果联系起来的定理陈述。"
 
 #: src/programs-proofs/summary.md:46
