@@ -343,7 +343,7 @@ Rather than have two kinds of `if` expression, the Lean standard library defines
 -->
 
 另一个有用的 `CoeSort` 使用场景是它可以让 `Bool` 和 `Prop` 建立联系。
-就像在[有序性和等价性那一节](standard-classes.md#equality-and-ordering)我们提到的，Lean 的 `if` 表达式需要条件为一个可判定的命题而不是一个 `Bool`。
+就像在[有序性和等价性那一节](./standard-classes#相等性与有序性)我们提到的，Lean 的 `if` 表达式需要条件为一个可判定的命题而不是一个 `Bool`。
 然而，程序通常需要能够根据布尔值进行分支。
 Lean 标准库并没有定义两种 `if` 表达式，而是定义了一种从 `Bool` 到命题的强制转换，即该 `Bool` 值等于 `true`：
 ```lean

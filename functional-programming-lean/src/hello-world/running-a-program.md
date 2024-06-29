@@ -349,5 +349,5 @@ Finally, the last line in the program is:
 It uses [string interpolation](../getting-to-know/conveniences.md#string-interpolation) to insert the provided name into a greeting string, writing the result to `stdout`.
 -->
 
-它使用[字符串内插](../getting-to-know/conveniences.md#string-interpolation)
+它使用[字符串插值](../getting-to-know/conveniences.md#字符串插值)
 将提供的名称插入到问候字符串中，并将结果写入到 `stdout`。

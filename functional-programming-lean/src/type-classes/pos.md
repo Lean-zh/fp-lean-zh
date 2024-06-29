@@ -214,7 +214,7 @@ These errors mean that Lean was unable to find an instance for a given type clas
 ## Overloaded Addition
 -->
 
-## 重载加法运算符
+## 重载加法
 
 <!--
 Lean's built-in addition operator is syntactic sugar for a type class called `HAdd`, which flexibly allows the arguments to addition to have different types.
@@ -262,7 +262,7 @@ For example, a `ToString` instance is used when a value occurs in an interpolate
 
 另一个有用的内置类叫做 `ToString`。
 `ToString` 的实例提供了一种将给定类型转换为字符串的标准方式。
-例如，当值出现在插值字符串中时，会使用 ToString 实例。它决定了在[`IO` 的描述开始处](../hello-world/running-a-program.html#running-a-program)使用的 `IO.println` 函数如何显示一个值。
+例如，当值出现在插值字符串中时，会使用 ToString 实例。它决定了在[`IO` 的描述开始处](../hello-world/running-a-program#运行程序)使用的 `IO.println` 函数如何显示一个值。
 
 <!--
 For example, one way to convert a `Pos` into a `String` is to reveal its inner structure.

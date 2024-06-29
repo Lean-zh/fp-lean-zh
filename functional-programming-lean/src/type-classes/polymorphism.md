@@ -277,7 +277,7 @@ Write an instance of `OfNat` for the even number datatype from the [previous sec
 For the base instance, it is necessary to write `OfNat Even Nat.zero` instead of `OfNat Even 0`.
 -->
 
-为[上一节的练习题](pos.md#even-numbers)中的偶数数据类型写一个使用递归实例搜索的 `OfNat` 实例。
+为[上一节的练习题](pos#偶数)中的偶数数据类型写一个使用递归实例搜索的 `OfNat` 实例。
 对于基本实例，有必要编写 `OfNat Even Nat.zero` 而不是 `OfNat Even 0`。
 
 <!--

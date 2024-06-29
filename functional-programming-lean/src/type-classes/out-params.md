@@ -35,7 +35,7 @@ The `HAdd` class takes three type parameters: the two argument types and the ret
 Instances of `HAdd Nat Pos Pos` and `HAdd Pos Nat Pos` allow ordinary addition notation to be used to mix the types:
 -->
 
-就像在[重载加法](pos.md#overloaded-addition)那一节提到的，Lean 提供了名为 `HAdd` 的类型类来重载异质加法。
+就像在[重载加法](./pos#重载加法)一节提到的，Lean 提供了名为 `HAdd` 的类型类来重载异质加法。
 `HAdd` 类接受三个类型参数：两个参数的类型和一个返回类型。
 `HAdd Nat Pos Pos` 和 `HAdd Pos Nat Pos` 的实例可以让常规加法符号可以接受不同类型。
 

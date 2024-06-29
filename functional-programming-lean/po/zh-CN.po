@@ -20231,7 +20231,7 @@ msgid ""
 "When pattern matching refines the type of a program in addition to "
 "discovering the structure of a value, it is called _dependent pattern "
 "matching_."
-msgstr "当模式匹配除了发现值结构体之外还细化程序的类型时，它被称为 _依赖模式匹配_。"
+msgstr "当模式匹配除了发现值结构体之外还细化程序的类型时，它被称为 _依值模式匹配_。"
 
 #: src/dependent-types/indexed-families.md:113
 #, fuzzy
@@ -20554,7 +20554,7 @@ msgid ""
 "`NatOrBool.bool.asType`, and these compute to the actual types `Nat` and "
 "`Bool`."
 msgstr ""
-"对 `t` 进行依赖模式匹配可以分别将预期结果类型 `t.asType` 优化为 `NatOrBool.nat.asType` 和 "
+"对 `t` 进行依值模式匹配可以分别将预期结果类型 `t.asType` 优化为 `NatOrBool.nat.asType` 和 "
 "`NatOrBool.bool.asType`，它们计算为实际类型 `Nat` 和 `Bool`。"
 
 #: src/dependent-types/universe-pattern.md:40
@@ -21081,7 +21081,7 @@ msgid ""
 "the `Repr` instances for `Int`, `String`, and `Bool` to be used:"
 msgstr ""
 "可以使用相同技术编写 `Repr` 实例。`Repr` 类的函数被称为 "
-"`reprPrec`，因为它旨在在显示值时考虑运算符优先级等因素。通过依赖模式匹配细化类型，可以使用 `Int`、`String` 和 `Bool` 的"
+"`reprPrec`，因为它旨在在显示值时考虑运算符优先级等因素。通过依值模式匹配细化类型，可以使用 `Int`、`String` 和 `Bool` 的"
 " `Repr` 实例中的 `reprPrec` 函数："
 
 #: src/dependent-types/typed-queries.md:81
@@ -23656,7 +23656,7 @@ msgstr ""
 "在策略语言中，可以有多个目标。每个目标由一个类型和一些假设组成。这些类似于使用下划线作为占位符——目标中的类型表示要证明的内容，而假设表示范围内可以使用的内容。在目标"
 " `case zero` 的情况下，没有假设，类型为 `Nat.zero = Nat.plusR 0 Nat.zero`——这是定理陈述，其中 `0` "
 "代替了 `k`。在目标 `case succ` 中，有两个假设，分别命名为 `n✝` 和 `n_ih✝`。在幕后，`induction` "
-"策略创建了一个依赖模式匹配，它细化了整体类型，`n✝` 表示模式中 `Nat.succ` 的参数。假设 `n_ih✝` 表示在 `n✝` "
+"策略创建了一个依值模式匹配，它细化了整体类型，`n✝` 表示模式中 `Nat.succ` 的参数。假设 `n_ih✝` 表示在 `n✝` "
 "上递归调用生成函数的结果。它的类型是定理的整体类型，只是用 `n✝` 代替了 `k`。作为目标 `case succ` "
 "的一部分要实现的类型是整体定理陈述，其中 `Nat.succ n✝` 代替了 `k`。"
 
@@ -25159,8 +25159,8 @@ msgid ""
 "dependent pattern matching is `cases`, which has a syntax similar to that of"
 " `induction`:"
 msgstr ""
-"此错误发生是因为 `n + 2` 与 `5` 在定义上不相等。在普通的函数定义中，可以对假设 `three` 使用依赖模式匹配来将 `n` 细化为 "
-"`3`。`cases` 是依赖模式匹配的策略等价物，其语法类似于 `induction`："
+"此错误发生是因为 `n + 2` 与 `5` 在定义上不相等。在普通的函数定义中，可以对假设 `three` 使用依值模式匹配来将 `n` 细化为 "
+"`3`。`cases` 是依值模式匹配的策略等价物，其语法类似于 `induction`："
 
 #: src/programs-proofs/arrays-termination.md:136
 #, fuzzy
@@ -25926,7 +25926,7 @@ msgid ""
 "programs. Because `lst` has at least two entries, they can be exposed with "
 "`match`, which also refines the type through dependent pattern matching:"
 msgstr ""
-"模式匹配在策略脚本中与在程序中一样有效。因为`lst`至少有两个条目，所以它们可以用`match`暴露出来，它还通过依赖模式匹配来细化类型："
+"模式匹配在策略脚本中与在程序中一样有效。因为`lst`至少有两个条目，所以它们可以用`match`暴露出来，它还通过依值模式匹配来细化类型："
 
 #: src/programs-proofs/inequalities.md:509
 #, fuzzy

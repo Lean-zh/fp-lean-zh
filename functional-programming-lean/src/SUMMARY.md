@@ -63,7 +63,7 @@
 - [编程、证明与性能](programs-proofs.md)
   - [尾递归](programs-proofs/tail-recursion.md)
   - [证明等价](programs-proofs/tail-recursion-proofs.md)
-  - [数组与停机](programs-proofs/arrays-termination.md)
+  - [数组与停机性](programs-proofs/arrays-termination.md)
   - [更多不等式](programs-proofs/inequalities.md)
   - [安全数组索引](programs-proofs/fin.md)
   - [插入排序与数组可变性](programs-proofs/insertion-sort.md)
