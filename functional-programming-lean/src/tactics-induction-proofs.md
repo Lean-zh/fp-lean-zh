@@ -501,6 +501,7 @@ theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
 ```
 
 ### 练习
+
 <!--
 1. Prove plusR_succ_left using the induction ... with tactic.
 2. Rewrite the proof of plus_succ_left to use <;> in a single line.
@@ -509,3 +510,4 @@ theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
 1. 使用**induction...with** 策略证明 **plusR_succ_left**。
 2. 重写 **plus_succ_left** 的证明，使用 **<;>** 并写成一行。
 3. 使用列表归纳证明列表追加是结合的：**theorem List.append_assoc (xs ys zs : List α) : xs ++ (ys ++ zs) = (xs ++ ys) ++ zs**
+

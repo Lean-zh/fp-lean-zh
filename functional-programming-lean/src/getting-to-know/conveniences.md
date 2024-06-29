@@ -870,7 +870,7 @@ Adding an annotation, such as in `{{#example_in Examples/Intro.lean pointPosWith
 ## String Interpolation
 -->
 
-## 字符串内插
+## 字符串插值
 
 <!--
 In Lean, prefixing a string with `s!` triggers _interpolation_, where expressions contained in curly braces inside the string are replaced with their values.
@@ -878,7 +878,7 @@ This is similar to `f`-strings in Python and `$`-prefixed strings in C#.
 For instance,
 -->
 
-在 Lean 中，在字符串前加上 `s!` 会触发 **内插（Interpolation）** ，
+在 Lean 中，在字符串前加上 `s!` 会触发 **插值（Interpolation）** ，
 其中字符串中大括号内的表达式会被其值替换。这类似于 Python 中的 `f` 字符串和
 C# 中以 `$` 为前缀的字符串。例如，
 
@@ -901,7 +901,7 @@ Not all expressions can be interpolated into a string.
 For instance, attempting to interpolate a function results in an error.
 -->
 
-并非所有的表达式都可以内插到字符串中。例如，尝试内插一个函数会产生错误。
+并非所有的表达式都可以插值到字符串中。例如，尝试插值一个函数会产生错误。
 
 ```lean
 {{#example_in Examples/Intro.lean interpolationOops}}
