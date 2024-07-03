@@ -175,7 +175,7 @@ The parameter `m` is a monad with some desired effects, `γ` is the collection t
 Typically, `m` is allowed to be any monad, but it is possible to have a data structure that e.g. only supports looping in `IO`.
 The method `forM` takes a collection, a monadic action to be run for its effects on each element from the collection, and is then responsible for running the actions. -->
 该类型类非常通用。
-参数 `m` 是一个具有某些预期效果的单子， `γ` 是要循环的集合，`α` 是集合中元素的类型。
+参数 `m` 是一个具有某些预期作用的单子， `γ` 是要循环的集合，`α` 是集合中元素的类型。
 通常情况下，`m` 可以是任何单子，但也可以是只支持在 `IO` 中循环的数据结构。
 方法 `forM` 接收一个集合、一个要对集合中每个元素产生影响的单子操作，然后负责运行这些动作。
 
@@ -401,7 +401,7 @@ Once again, functional programming is used to simulate imperative programming. -
 <!-- A local mutable variable is introduced with `let mut` instead of plain `let`.
 The definition `two`, which uses the identity monad `Id` to enable `do`-syntax without introducing any effects, counts to `2`: -->
 使用 `let mut` 而不是普通的 `let` 来引入局部可变变量。
-定义 `two` 使用恒等单子 `Id` 来启用 `do` 语法，但不引入任何效果，计数到 `2`：
+定义 `two` 使用恒等单子 `Id` 来启用 `do` 语法，但不引入任何副作用，计数到 `2`：
 ```lean
 {{#example_decl Examples/MonadTransformers/Do.lean two}}
 ```
@@ -544,7 +544,7 @@ Monads and monad transformers allow functional versus imperative programming to 
 
 Lean 的 `do`-标记提供的命令式特性让许多程序与 Rust、Java 或 C# 等语言中的对应程序非常相似。
 在将命令式算法转化为 Lean 的算法时，这种相似性非常方便，而且有些任务可以很自然地以命令式的方式进行思考。
-单子和单子转换器的引入使得命令式程序可以用纯函数式语言编写，而作为单子（可能是局部转换的）专用语法的 `do`-标记则让函数式程序员获得了两全其美的结果：不变性提供了强大的推理原则，通过类型系统对可用作用进行了严格控制，同时还结合了语法和库，使得使用效果的程序看起来熟悉且易于阅读。
+单子和单子转换器的引入使得命令式程序可以用纯函数式语言编写，而作为单子（可能是局部转换的）专用语法的 `do`-标记则让函数式程序员获得了两全其美的结果：不变性提供了强大的推理原则，通过类型系统对可用作用进行了严格控制，同时还结合了语法和库，使得具有副作用的程序看起来熟悉且易于阅读。
 单子和单子转换器让函数式编程与命令式编程成为一个视角问题。
 
 <!-- ## Exercises -->

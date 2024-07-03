@@ -7,7 +7,7 @@ Many monads even provide useful effects that aren't available in most languages,
 
 单子是一种在纯语言中编码某些副作用的方式。
 不同的单子可以编码不同的副作用，例如状态和错误处理。
-很多单子甚至会提供在大多数语言中不可用的有用效果，例如非确定性搜索、读取器，甚至续体。
+很多单子甚至会提供在大多数语言中不可用的有用作用，例如非确定性搜索、读取器，甚至续体。
 
 <!-- A typical application has a core set of easily testable functions written without monads paired with an outer wrapper that uses a monad to encode the necessary application logic.
 These monads are constructed from well-known components. -->
@@ -31,6 +31,6 @@ Such a definition is called a _monad transformer_.
 A concrete monad can be build from a collection of monad transformers, which enables much more code re-use. -->
 
 然而，手动编写每个单子是繁琐的，需要定义各种类型类的样板代码。
-每个组件也都可以提取到一个定义中，该定义修改某个其他单子以添加额外的效果。
+每个组件也都可以提取到一个定义中，该定义修改某个其他单子以添加额外的作用。
 这种定义称为 _单子转换器_ （Monad Transformer）。
 一个具体的单子可以从一组单子转换器构建，从而实现更多代码的重用。

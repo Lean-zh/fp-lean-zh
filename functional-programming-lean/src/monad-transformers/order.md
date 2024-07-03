@@ -7,7 +7,7 @@ Different orderings of the same set of transformers result in different monads. 
 同一组转换器的不同排列顺序会产生不同的单子。
 
 <!-- This version of `countLetters` is just like the previous version, except it uses type classes to describe the set of available effects instead of providing a concrete monad: -->
-这个版本的 `countLetters` 和之前的版本一样，只是它使用类型类来描述可用的效果集，而不是提供一个具体的单子：
+这个版本的 `countLetters` 和之前的版本一样，只是它使用类型类来描述可用的作用集，而不是提供一个具体的单子：
 ```lean
 {{#example_decl Examples/MonadTransformers/Defs.lean countLettersClassy}}
 ```
@@ -153,7 +153,7 @@ However, they also require care to be taken in the choice of ordering of transfo
 With great expressive power comes the responsibility to check that what's being expressed is what is intended, and the type signature of `countWithFallback` is probably more polymorphic than it should be. -->
 大多数既有可变状态又有异常的编程语言的工作方式类似于 `M2`。
 在这些语言中，当异常抛出时应该回滚的状态是很难表达的，通常需要用像 `M1` 中那样传递显式状态值的方式来模拟。
-单子转换器允许自由选择适合当前问题的效果序的解释，两种选择都同样易于编程。
+单子转换器允许自由选择适合当前问题的作用序的解释，两种选择都同样易于编程。
 然而，在选择转换器的序时也需要小心谨慎。
 有强大的表达能力，我们也有责任检查所表达的是否是我们想要的，而 `countWithFallback` 的类型签名可能比它应有的多态性更强。
 

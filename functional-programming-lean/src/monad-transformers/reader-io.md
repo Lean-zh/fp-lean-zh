@@ -160,7 +160,7 @@ Any `IO` effects performed by `result` must occur before `next` is invoked, whic
 `ConfigIO` is not universe polymorphic because the underlying `IO` type is also not universe polymorphic. -->
 
 这个 `Monad` 实例与 `Reader` 实例的区别在于，它使用 `IO` 单子中的 `do` 标记 作为 `bind` 返回函数的主体，而不是直接将 `next` 应用于 `result` 返回的值。
-由 `result` 执行的任何 `IO` 效果都必须在调用 `next` 之前发生，这一点由 `IO` 单子的 `bind` 操作符来保证。
+由 `result` 执行的任何 `IO` 作用都必须在调用 `next` 之前发生，这一点由 `IO` 单子的 `bind` 操作符来保证。
 `ConfigIO` 不是宇宙多态的，因为底层的 `IO` 类型也不是宇宙多态的。
 
 <!-- Running a `ConfigIO` action involves transforming it into an `IO` action by providing it with a configuration: -->
@@ -375,7 +375,7 @@ Just as some functions work in any monad, others can work in any monad that prov
 不过，使用标准库中的组件重写代码确实有长远的好处。
 首先，了解 `ReaderT` 的读者不需要花时间去理解 `ConfigIO` 的 `Monad` 实例，也不需要逆向理解单子本身的含义。
 相反，他们可以沿用自己的初步理解。
-接下来，给单子添加更多的作用（例如计算每个目录中的文件并在最后显示计数的状态效果）所需的代码改动要少得多，因为库中提供的单子转换器和 `MonadLift` 实例配合得很好。
+接下来，给单子添加更多的作用（例如计算每个目录中的文件并在最后显示计数的状态作用）所需的代码改动要少得多，因为库中提供的单子转换器和 `MonadLift` 实例配合得很好。
 最后，使用标准库中包含的一组类型类，多态代码的编写方式可以使其适用于各种单子，而无需关心单子转换器的应用顺序等细节。
 正如某些函数可以在任何单子中工作一样，另一些函数也可以在任何提供特定类型状态或特定类型异常的单子中工作，而不必特别描述特定的具体单子提供状态或异常的 _方式_。
 

@@ -26,7 +26,7 @@ In addition, `monadLift (pure x)` should be equivalent to `pure x` in the transf
 This can provide more flexibility: it allows programs to be written that rely only on an interface, and don't constrain the underlying monad to be implemented by a given transformer.
 The type classes are a way for programs to express their requirements, and monad transformers are a convenient way to meet these requirements. -->
 
-许多单子转换器还定义了 `MonadReader` 风格的类型类，用于描述单子中可用的实际效果。
+许多单子转换器还定义了 `MonadReader` 风格的类型类，用于描述单子中可用的实际作用。
 这可以提供更大的灵活性：它允许编写只依赖接口的程序，而不限制底层单子必须由给定的转换器实现。
 类型类是程序表达其需求的一种方式，而单子转换器则是满足这些需求的一种便捷方式。
 
@@ -248,7 +248,7 @@ Lifting `Except` actions into `ExceptT` actions is done by wrapping them in `m`'
 与 `Option` 不同，`Except` 数据类型通常不作为数据结构使用。
 它总是作为控制结构与其 `Monad` 实例一起使用。
 这意味着将 `Except ε` 操作提升到 `ExceptT ε m` 以及对底层单子 `m` 的操作都是合理的。
-通过用 `m` 的 `pure` 对 `Except` 操作进行包装，可以将其提升为 `ExceptT` 操作，因为一个只有异常效果的动作不可能有来自单子 `m` 的任何效果：
+通过用 `m` 的 `pure` 对 `Except` 操作进行包装，可以将其提升为 `ExceptT` 操作，因为一个只有异常作用的动作不可能有来自单子 `m` 的任何作用：
 ```lean
 {{#example_decl Examples/MonadTransformers/Defs.lean ExceptTLiftExcept}}
 ```
@@ -269,7 +269,7 @@ However, this ties a program that uses exceptions to one specific encoding of th
 Using a type class to capture these operations allows a program that uses exceptions to be used in _any_ monad that supports throwing and catching. -->
 异常处理从根本上说包括两种操作：抛出异常的能力和恢复异常的能力。
 到目前为止，我们分别使用 `Except` 的构造函数和模式匹配来实现这一点。
-然而，这将使用异常的程序与异常处理效果的特定编码联系在一起。
+然而，这将使用异常的程序与异常处理作用的特定编码联系在一起。
 使用类型类来捕获这些操作，可以让使用异常的程序在 _任何_ 支持抛出和捕获的单子中使用。
 
 <!-- Throwing an exception should take an exception as an argument, and it should be allowed in any context where a monadic action is requested.
@@ -447,7 +447,7 @@ It's generally a good idea to implement the `Of` version, and then start writing
 <!-- The identity monad `Id` is the monad that has no effects whatsoever, to be used in contexts that expect a monad for some reason but where none is actually necessary.
 Another use of `Id` is to serve as the bottom of a stack of monad transformers.
 For instance, `StateT σ Id` works just like `State σ`. -->
-恒等单子 `Id` 是没有任何效果的单子，可用于上下文因某种原因需要单子，但实际上不需要的情况。
+恒等单子 `Id` 是没有任何作用的单子，可用于上下文因某种原因需要单子，但实际上不需要的情况。
 `Id` 的另一个用途是作为单子转换器栈的底层。
 例如，`StateT σ Id` 的作用与 `State σ` 相同。
 
