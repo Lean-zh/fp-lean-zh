@@ -144,11 +144,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="combining-io-and-reader"><a class="header" href="#combining-io-and-reader">Combining IO and Reader</a></h1>
-<p>One case where a reader monad can be useful is when there is some notion of the &quot;current configuration&quot; of the application that is passed through many recursive calls.
-An example of such a program is <code>tree</code>, which recursively prints the files in the current directory and its subdirectories, indicating their tree structure using characters.
-The version of <code>tree</code> in this chapter, called <code>doug</code> after the mighty Douglas Fir tree that adorns the west coast of North America, provides the option of Unicode box-drawing characters or their ASCII equivalents when indicating directory structure.</p>
-<p>For example, the following commands create a directory structure and some empty files in a directory called <code>doug-demo</code>:</p>
+                        <!--
+# Combining IO and Reader
+-->
+<h1 id="组合-io-与-reader"><a class="header" href="#组合-io-与-reader">组合 IO 与 Reader</a></h1>
+<!--
+One case where a reader monad can be useful is when there is some notion of the "current configuration" of the application that is passed through many recursive calls.
+An example of such a program is `tree`, which recursively prints the files in the current directory and its subdirectories, indicating their tree structure using characters.
+The version of `tree` in this chapter, called `doug` after the mighty Douglas Fir tree that adorns the west coast of North America, provides the option of Unicode box-drawing characters or their ASCII equivalents when indicating directory structure.
+-->
+<p>当应用程序存在类似“当前配置”的数据需要通过多次递归调用传递时，读取器单子（Reader Monad）就会派上用场。
+这种程序有一个例子是 <code>tree</code>，它递归地打印当前目录及其子目录中的文件，并用字符表示它们的树形结构。
+本章中的 <code>tree</code> 版本名为 <code>doug</code> ，取自北美西海岸的道格拉斯冷杉，在显示目录结构时，它提供了 Unicode 框画字符或其 ASCII 对应字符选项。</p>
+<!--
+For example, the following commands create a directory structure and some empty files in a directory called `doug-demo`:
+-->
+<p>例如，以下命令将在名为 <code>doug-demo</code> 的目录中创建一个目录结构和一些空文件：</p>
 <pre><code>$ cd doug-demo
 $ mkdir -p a/b/c
 $ mkdir -p a/d
@@ -157,7 +168,10 @@ $ touch a/b/hello
 $ touch a/d/another-file
 $ touch a/e/still-another-file-again
 </code></pre>
-<p>Running <code>doug</code> results in the following:</p>
+<!--
+Running `doug` results in the following:
+-->
+<p>运行 <code>doug</code> 的结果如下：</p>
 <pre><code>$ doug
 ├── doug-demo/
 │   ├── a/
@@ -170,33 +184,60 @@ $ touch a/e/still-another-file-again
 │   │   │   ├── c/
 │   │   │   ├── hello
 </code></pre>
-<h2 id="implementation"><a class="header" href="#implementation">Implementation</a></h2>
-<p>Internally, <code>doug</code> passes a configuration value downwards as it recursively traverses the directory structure.
-This configuration contains two fields: <code>useASCII</code> determines whether to use Unicode box-drawing characters or ASCII vertical line and dash characters to indicate structure, and <code>currentPrefix</code> contains a string to prepend to each line of output.
+<!--
+## Implementation
+-->
+<h2 id="实现"><a class="header" href="#实现">实现</a></h2>
+<!--
+Internally, `doug` passes a configuration value downwards as it recursively traverses the directory structure.
+This configuration contains two fields: `useASCII` determines whether to use Unicode box-drawing characters or ASCII vertical line and dash characters to indicate structure, and `currentPrefix` contains a string to prepend to each line of output.
+-->
+<p>在内部，<code>doug</code> 在递归遍历目录结构时会向下传递一个配置值。
+该配置包含两个字段： <code>useASCII</code> 决定是否使用 Unicode 框画字符或 ASCII 垂直线和破折号字符来表示结构，而 <code>currentPrefix</code> 字段包含了一个字符串，用于在每行输出前添加。</p>
+<!--
 As the current directory deepens, the prefix string accumulates indicators of being in a directory.
-The configuration is a structure:</p>
+The configuration is a structure:
+-->
+<p>随着当前目录的深入，前缀字符串会不断积累目录中的指标。
+配置是一个结构体：</p>
 <pre><code class="language-lean">structure Config where
   useASCII : Bool := false
   currentPrefix : String := &quot;&quot;
 </code></pre>
-<p>This structure has default definitions for both fields.
-The default <code>Config</code> uses Unicode display with no prefix.</p>
-<p>Users who invoke <code>doug</code> will need to be able to provide command-line arguments.
-The usage information is as follows:</p>
+<!--
+This structure has default definitions for both fields.
+The default `Config` uses Unicode display with no prefix.
+-->
+<p>该结构体的两个字段都有默认定义。
+默认的 <code>Config</code> 使用 Unicode 显示，不带前缀。</p>
+<!--
+Users who invoke `doug` will need to be able to provide command-line arguments.
+The usage information is as follows:
+-->
+<p>调用 <code>doug</code> 的用户需要提供命令行参数。
+用法如下：</p>
 <pre><code class="language-lean">def usage : String :=
   &quot;Usage: doug [--ascii]
 Options:
 \t--ascii\tUse ASCII characters to display the directory structure&quot;
 </code></pre>
-<p>Accordingly, a configuration can be constructed by examining a list of command-line arguments:</p>
+<!--
+Accordingly, a configuration can be constructed by examining a list of command-line arguments:
+-->
+<p>据此，可以通过查看命令行参数列表来构建配置：</p>
 <pre><code class="language-lean">def configFromArgs : List String → Option Config
   | [] =&gt; some {} -- both fields default
   | [&quot;--ascii&quot;] =&gt; some {useASCII := true}
   | _ =&gt; none
 </code></pre>
-<p>The <code>main</code> function is a wrapper around an inner worker, called <code>dirTree</code>, that shows the contents of a directory using a configuration.
-Before calling <code>dirTree</code>, <code>main</code> is responsible for processing command-line arguments.
-It must also return the appropriate exit code to the operating system:</p>
+<!--
+The `main` function is a wrapper around an inner worker, called `dirTree`, that shows the contents of a directory using a configuration.
+Before calling `dirTree`, `main` is responsible for processing command-line arguments.
+It must also return the appropriate exit code to the operating system:
+-->
+<p><code>main</code> 函数是一个名为 <code>dirTree</code> 的内部函数的包装，它根据一个配置来显示目录的内容。
+在调用 <code>dirTree</code> 之前，<code>main</code> 需要处理命令行参数。
+它还必须向操作系统返回适当的退出状态码：</p>
 <pre><code class="language-lean">def main (args : List String) : IO UInt32 := do
   match configFromArgs args with
   | some config =&gt;
@@ -207,14 +248,22 @@ It must also return the appropriate exit code to the operating system:</p>
     IO.eprintln usage
     pure 1
 </code></pre>
-<p>Not all paths should be shown in the directory tree.
-In particular, files named <code>.</code> or <code>..</code> should be skipped, as they are actually features used for navigation rather than files <em>per se</em>.
-Of those files that should be shown, there are two kinds: ordinary files and directories:</p>
+<!--
+Not all paths should be shown in the directory tree.
+In particular, files named `.` or `..` should be skipped, as they are actually features used for navigation rather than files _per se_.
+Of those files that should be shown, there are two kinds: ordinary files and directories:
+-->
+<p>并非所有路径都应显示在目录树中。
+特别是名为<code>.</code> 或 <code>..</code> 的文件，因为它们实际上是用于导航的特殊标记，而不是文件本身。
+应该显示的文件有两种：普通文件和目录：</p>
 <pre><code class="language-lean">inductive Entry where
   | file : String → Entry
   | dir : String → Entry
 </code></pre>
-<p>To determine whether a file should be shown, along with which kind of entry it is, <code>doug</code> uses <code>toEntry</code>:</p>
+<!--
+To determine whether a file should be shown, along with which kind of entry it is, `doug` uses `toEntry`:
+-->
+<p>为了确定是否要显示某个文件以及它是哪种条目，<code>doug</code> 依赖 <code>toEntry</code> 函数 ：</p>
 <pre><code class="language-lean">def toEntry (path : System.FilePath) : IO (Option Entry) := do
   match path.components.getLast? with
   | none =&gt; pure (some (.dir &quot;&quot;))
@@ -222,13 +271,24 @@ Of those files that should be shown, there are two kinds: ordinary files and dir
   | some name =&gt;
     pure (some (if (← path.isDir) then .dir name else .file name))
 </code></pre>
-<p><code>System.FilePath.components</code> converts a path into a list of path components, splitting the name at directory separators.
+<!--
+`System.FilePath.components` converts a path into a list of path components, splitting the name at directory separators.
 If there is no last component, then the path is the root directory.
-If the last component is a special navigation file (<code>.</code> or <code>..</code>), then the file should be excluded.
-Otherwise, directories and files are wrapped in the corresponding constructors.</p>
-<p>Lean's logic has no way to know that directory trees are finite.
+If the last component is a special navigation file (`.` or `..`), then the file should be excluded.
+Otherwise, directories and files are wrapped in the corresponding constructors.
+-->
+<p><code>System.FilePath.components</code> 在目录分隔符处分割路径名，并将路径转换为路径组件的列表。
+如果没有最后一个组件，那么该路径就是根目录。
+如果最后一个组件是一个特殊的导航文件（<code>.</code> 或 <code>..</code>），则应排除该文件。
+否则，目录和文件将被包装在相应的构造函数中。</p>
+<!--
+Lean's logic has no way to know that directory trees are finite.
 Indeed, some systems allow the construction of circular directory structures.
-Thus, <code>dirTree</code> is declared <code>partial</code>:</p>
+Thus, `dirTree` is declared `partial`:
+-->
+<p>Lean 的逻辑无法确定目录树是否有限。
+事实上，有些系统允许构建循环目录结构。
+因此，<code>dirTree</code> 函数必须被声明为 <code>partial</code>：</p>
 <pre><code class="language-lean">partial def dirTree (cfg : Config) (path : System.FilePath) : IO Unit := do
   match ← toEntry path with
   | none =&gt; pure ()
@@ -240,18 +300,30 @@ Thus, <code>dirTree</code> is declared <code>partial</code>:</p>
     doList contents.toList fun d =&gt;
       dirTree newConfig d.path
 </code></pre>
-<p>The call to <code>toEntry</code> is a <a href="../hello-world/conveniences.html#nested-actions">nested action</a>—the parentheses are optional in positions where the arrow couldn't have any other meaning, such as <code>match</code>.
-When the filename doesn't correspond to an entry in the tree (e.g. because it is <code>..</code>), <code>dirTree</code> does nothing.
-When the filename points to an ordinary file, <code>dirTree</code> calls a helper to show it with the current configuration.
-When the filename points to a directory, it is shown with a helper, and then its contents are recursively shown in a new configuration in which the prefix has been extended to account for being in a new directory.</p>
-<p>Showing the names of files and directories is achieved with <code>showFileName</code> and <code>showDirName</code>:</p>
+<!--
+The call to `toEntry` is a [nested action](../hello-world/conveniences.md#nested-actions)—the parentheses are optional in positions where the arrow couldn't have any other meaning, such as `match`.
+When the filename doesn't correspond to an entry in the tree (e.g. because it is `..`), `dirTree` does nothing.
+When the filename points to an ordinary file, `dirTree` calls a helper to show it with the current configuration.
+When the filename points to a directory, it is shown with a helper, and then its contents are recursively shown in a new configuration in which the prefix has been extended to account for being in a new directory.
+-->
+<p>对 <code>toEntry</code> 的调用是一个<a href="../hello-world/conveniences.html#nested-actions">嵌套操作</a> —— 在箭头没有其他含义的位置，如 <code>match</code>，括号是可以省略的。
+当文件名与树中的条目不对应时（例如，因为它是 <code>..</code>），<code>dirTree</code> 什么也不做。
+当文件名指向一个普通文件时，<code>dirTree</code> 会调用一个辅助函数，以当前配置来显示该文件。
+当文件名指向一个目录时，将通过一个辅助函数来显示该目录，然后其内容将递归地显示在一个新的配置中，其中的前缀已被扩写，以说明它位于一个新的目录中。</p>
+<!--
+Showing the names of files and directories is achieved with `showFileName` and `showDirName`:
+-->
+<p>文件和目录的名称通过 <code>showFileName</code> 和 <code>showDirName</code> 函数来显示：</p>
 <pre><code class="language-lean">def showFileName (cfg : Config) (file : String) : IO Unit := do
   IO.println (cfg.fileName file)
 
 def showDirName (cfg : Config) (dir : String) : IO Unit := do
   IO.println (cfg.dirName dir)
 </code></pre>
-<p>Both of these helpers delegate to functions on <code>Config</code> that take the ASCII vs Unicode setting into account:</p>
+<!--
+Both of these helpers delegate to functions on `Config` that take the ASCII vs Unicode setting into account:
+-->
+<p>这两个辅助函数都委托给了将 ASCII 与 Unicode 设置考虑在内的 <code>Config</code> 上的函数：</p>
 <pre><code class="language-lean">def Config.preFile (cfg : Config) :=
   if cfg.useASCII then &quot;|--&quot; else &quot;├──&quot;
 
@@ -264,23 +336,41 @@ def Config.fileName (cfg : Config) (file : String) : String :=
 def Config.dirName (cfg : Config) (dir : String) : String :=
   s!&quot;{cfg.currentPrefix}{cfg.preFile} {dir}/&quot;
 </code></pre>
-<p>Similarly, <code>Config.inDirectory</code> extends the prefix with a directory marker:</p>
+<!--
+Similarly, `Config.inDirectory` extends the prefix with a directory marker:
+-->
+<p>同样，<code>Config.inDirectory</code> 用目录标记扩写了前缀：</p>
 <pre><code class="language-lean">def Config.inDirectory (cfg : Config) : Config :=
   {cfg with currentPrefix := cfg.preDir ++ &quot; &quot; ++ cfg.currentPrefix}
 </code></pre>
-<p>Iterating an IO action over a list of directory contents is achieved using <code>doList</code>.
-Because <code>doList</code> carries out all the actions in a list and does not base control-flow decisions on the values returned by any of the actions, the full power of <code>Monad</code> is not necessary, and it will work for any <code>Applicative</code>:</p>
+<!--
+Iterating an IO action over a list of directory contents is achieved using `doList`.
+Because `doList` carries out all the actions in a list and does not base control-flow decisions on the values returned by any of the actions, the full power of `Monad` is not necessary, and it will work for any `Applicative`:
+-->
+<p><code>doList</code> 函数可以在目录内容的列表中迭代 IO 操作。
+由于 <code>doList</code> 只执行列表中的所有操作，并不根据任何操作返回的值来决定控制流，因此不需要使用 <code>Monad</code> 的全部功能，它适用于任何 <code>Applicative</code> 应用程序：</p>
 <pre><code class="language-lean">def doList [Applicative f] : List α → (α → f Unit) → f Unit
   | [], _ =&gt; pure ()
   | x :: xs, action =&gt;
     action x *&gt;
     doList xs action
 </code></pre>
-<h2 id="using-a-custom-monad"><a class="header" href="#using-a-custom-monad">Using a Custom Monad</a></h2>
-<p>While this implementation of <code>doug</code> works, manually passing the configuration around is verbose and error-prone.
+<!--
+## Using a Custom Monad
+-->
+<h2 id="使用自定义单子"><a class="header" href="#使用自定义单子">使用自定义单子</a></h2>
+<!--
+While this implementation of `doug` works, manually passing the configuration around is verbose and error-prone.
 The type system will not catch it if the wrong configuration is passed downwards, for instance.
-A reader effect ensures that the same configuration is passed to all recursive calls, unless it is manually overridden, and it helps make the code less verbose.</p>
-<p>To create a version of <code>IO</code> that is also a reader of <code>Config</code>, first define the type and its <code>Monad</code> instance, following the recipe from <a href="../monads/arithmetic.html#custom-environments">the evaluator example</a>:</p>
+A reader effect ensures that the same configuration is passed to all recursive calls, unless it is manually overridden, and it helps make the code less verbose.
+-->
+<p>虽然这种 <code>doug</code> 实现可以正常工作，但手动传递配置不仅费事还容易出错。
+例如，类型系统无法捕获向下传递的错误配置。
+读取器作用不仅可以确保在所有递归调用中都传递相同的配置，而且有助于优化冗长的代码。</p>
+<!--
+To create a version of `IO` that is also a reader of `Config`, first define the type and its `Monad` instance, following the recipe from [the evaluator example](../monads/arithmetic.md#custom-environments):
+-->
+<p>要创建一个同时也是 <code>Config</code> 读取器的 <code>IO</code> ，首先要按照<a href=".../monads/arithmetic.html#custom-environments">求值器示例</a>中的方法定义类型及其 <code>Monad</code> 实例：</p>
 <pre><code class="language-lean">def ConfigIO (α : Type) : Type :=
   Config → IO α
 
@@ -290,39 +380,70 @@ instance : Monad ConfigIO where
     let v ← result cfg
     next v cfg
 </code></pre>
-<p>The difference between this <code>Monad</code> instance and the one for <code>Reader</code> is that this one uses <code>do</code>-notation in the <code>IO</code> monad as the body of the function that <code>bind</code> returns, rather than applying <code>next</code> directly to the value returned from <code>result</code>.
-Any <code>IO</code> effects performed by <code>result</code> must occur before <code>next</code> is invoked, which is ensured by the <code>IO</code> monad's <code>bind</code> operator.
-<code>ConfigIO</code> is not universe polymorphic because the underlying <code>IO</code> type is also not universe polymorphic.</p>
-<p>Running a <code>ConfigIO</code> action involves transforming it into an <code>IO</code> action by providing it with a configuration:</p>
+<!--
+The difference between this `Monad` instance and the one for `Reader` is that this one uses `do`-notation in the `IO` monad as the body of the function that `bind` returns, rather than applying `next` directly to the value returned from `result`.
+Any `IO` effects performed by `result` must occur before `next` is invoked, which is ensured by the `IO` monad's `bind` operator.
+`ConfigIO` is not universe polymorphic because the underlying `IO` type is also not universe polymorphic.
+-->
+<p>这个 <code>Monad</code> 实例与 <code>Reader</code> 实例的区别在于，它使用 <code>IO</code> 单子中的 <code>do</code> 标记 作为 <code>bind</code> 返回函数的主体，而不是直接将 <code>next</code> 应用于 <code>result</code> 返回的值。
+由 <code>result</code> 执行的任何 <code>IO</code> 作用都必须在调用 <code>next</code> 之前发生，这一点由 <code>IO</code> 单子的 <code>bind</code> 操作符来保证。
+<code>ConfigIO</code> 不是宇宙多态的，因为底层的 <code>IO</code> 类型也不是宇宙多态的。</p>
+<!--
+Running a `ConfigIO` action involves transforming it into an `IO` action by providing it with a configuration:
+-->
+<p>运行 <code>ConfigIO</code> 操作需要向其提供一个配置，从而将其转换为 <code>IO</code> 操作：</p>
 <pre><code class="language-lean">def ConfigIO.run (action : ConfigIO α) (cfg : Config) : IO α :=
   action cfg
 </code></pre>
-<p>This function is not really necessary, as a caller could simply provide the configuration directly.
-However, naming the operation can make it easier to see which parts of the code are intended to run in which monad.</p>
-<p>The next step is to define a means of accessing the current configuration as part of <code>ConfigIO</code>:</p>
+<!--
+This function is not really necessary, as a caller could simply provide the configuration directly.
+However, naming the operation can make it easier to see which parts of the code are intended to run in which monad.
+-->
+<p>这个函数其实并无必要，因为调用者只需直接提供配置即可。
+不过，给操作命名可以让我们更容易看出代码的各部分会在哪个单子中运行。</p>
+<!--
+The next step is to define a means of accessing the current configuration as part of `ConfigIO`:
+-->
+<p>下一步是定义访问当前配置的方法，作为 <code>ConfigIO</code> 的一部分：</p>
 <pre><code class="language-lean">def currentConfig : ConfigIO Config :=
   fun cfg =&gt; pure cfg
 </code></pre>
-<p>This is just like <code>read</code> from <a href="../monads/arithmetic.html#custom-environments">the evaluator example</a>, except it uses <code>IO</code>'s <code>pure</code> to return its value rather than doing so directly.
-Because entering a directory modifies the current configuration for the scope of a recursive call, it will be necessary to have a way to override a configuration:</p>
+<!--
+This is just like `read` from [the evaluator example](../monads/arithmetic.md#custom-environments), except it uses `IO`'s `pure` to return its value rather than doing so directly.
+Because entering a directory modifies the current configuration for the scope of a recursive call, it will be necessary to have a way to override a configuration:
+-->
+<p>这与<a href="../monads/arithmetic.html#custom-environments">求值器示例</a>中的 <code>read</code> 相同，只是它使用了 <code>IO</code> 的 <code>pure</code> 来返回其值，而不是直接返回。
+因为进入一个目录会修改递归调用范围内的当前配置，因此有必要提供一种修改配置的方法：</p>
 <pre><code class="language-lean">def locally (change : Config → Config) (action : ConfigIO α) : ConfigIO α :=
   fun cfg =&gt; action (change cfg)
 </code></pre>
-<p>Much of the code used in <code>doug</code> has no need for configurations, and <code>doug</code> calls ordinary Lean <code>IO</code> actions from the standard library that certainly don't need a <code>Config</code>.
-Ordinary <code>IO</code> actions can be run using <code>runIO</code>, which ignores the configuration argument:</p>
+<!--
+Much of the code used in `doug` has no need for configurations, and `doug` calls ordinary Lean `IO` actions from the standard library that certainly don't need a `Config`.
+Ordinary `IO` actions can be run using `runIO`, which ignores the configuration argument:
+-->
+<p><code>doug</code> 中的大部分代码都不需要配置，因此 <code>doug</code> 会从标准库中调用普通的 Lean <code>IO</code> 操作，这些操作当然也不需要 <code>Config</code>。
+普通的 <code>IO</code> 操作可以使用 <code>runIO</code> 运行，它会忽略配置参数：</p>
 <pre><code class="language-lean">def runIO (action : IO α) : ConfigIO α :=
   fun _ =&gt; action
 </code></pre>
-<p>With these components, <code>showFileName</code> and <code>showDirName</code> can be updated to take their configuration arguments implicitly through the <code>ConfigIO</code> monad.
-They use <a href="../hello-world/conveniences.html#nested-actions">nested actions</a> to retrieve the configuration, and <code>runIO</code> to actually execute the call to <code>IO.println</code>:</p>
+<!--
+With these components, `showFileName` and `showDirName` can be updated to take their configuration arguments implicitly through the `ConfigIO` monad.
+They use [nested actions](../hello-world/conveniences.md#nested-actions) to retrieve the configuration, and `runIO` to actually execute the call to `IO.println`:
+-->
+<p>有了这些组件，<code>showFileName</code> 和 <code>showDirName</code> 可以修改为使用 <code>ConfigIO</code> 单子来隐式获取配置参数。
+它们使用 <a href="../hello-world/conveniences.html#nested-actions">嵌套动作</a> 来获取配置，并使用 <code>runIO</code> 来实际执行对 <code>IO.println</code> 的调用：</p>
 <pre><code class="language-lean">def showFileName (file : String) : ConfigIO Unit := do
   runIO (IO.println ((← currentConfig).fileName file))
 
 def showDirName (dir : String) : ConfigIO Unit := do
   runIO (IO.println ((← currentConfig).dirName dir))
 </code></pre>
-<p>In the new version of <code>dirTree</code>, the calls to <code>toEntry</code> and <code>System.FilePath.readDir</code> are wrapped in <code>runIO</code>.
-Additionally, instead of building a new configuration and then requiring the programmer to keep track of which one to pass to recursive calls, it uses <code>locally</code> to naturally delimit the modified configuration to only a small region of the program, in which it is the <em>only</em> valid configuration:</p>
+<!--
+In the new version of `dirTree`, the calls to `toEntry` and `System.FilePath.readDir` are wrapped in `runIO`.
+Additionally, instead of building a new configuration and then requiring the programmer to keep track of which one to pass to recursive calls, it uses `locally` to naturally delimit the modified configuration to only a small region of the program, in which it is the _only_ valid configuration:
+-->
+<p>在新版的 <code>dirTree</code> 中，对 <code>toEntry</code> 和 <code>System.FilePath.readDir</code> 的调用被封装在 <code>runIO</code> 中。
+此外，它不再构建一个新的配置，然后要求程序员跟踪将哪个配置传递给递归调用，而是使用 <code>locally</code> 自然地将修改后的配置限定在程序的一小块区域内，在该区域内，它是 <em>唯一</em> 有效的配置：</p>
 <pre><code class="language-lean">partial def dirTree (path : System.FilePath) : ConfigIO Unit := do
   match ← runIO (toEntry path) with
     | none =&gt; pure ()
@@ -334,7 +455,10 @@ Additionally, instead of building a new configuration and then requiring the pro
         (doList contents.toList fun d =&gt;
           dirTree d.path)
 </code></pre>
-<p>The new version of <code>main</code> uses <code>ConfigIO.run</code> to invoke <code>dirTree</code> with the initial configuration:</p>
+<!--
+The new version of `main` uses `ConfigIO.run` to invoke `dirTree` with the initial configuration:
+-->
+<p>新版本的 <code>main</code> 使用 <code>ConfigIO.run</code> 来调用带有初始配置的 <code>dirTree</code>：</p>
 <pre><code class="language-lean">def main (args : List String) : IO UInt32 := do
     match configFromArgs args with
     | some config =&gt;
@@ -345,51 +469,110 @@ Additionally, instead of building a new configuration and then requiring the pro
       IO.eprintln usage
       pure 1
 </code></pre>
-<p>This custom monad has a number of advantages over passing configurations manually:</p>
+<!--
+This custom monad has a number of advantages over passing configurations manually:
+-->
+<p>与手动传递配置相比，这种自定义单子有很多优点：</p>
+<!--
+ 1. It is easier to ensure that configurations are passed down unchanged, except when changes are desired
+ 2. The concern of passing the configuration onwards is more clearly separated from the concern of printing directory contents
+ 3. As the program grows, there will be more and more intermediate layers that do nothing with configurations except propagate them, and these layers don't need to be rewritten as the configuration logic changes
+-->
 <ol>
-<li>It is easier to ensure that configurations are passed down unchanged, except when changes are desired</li>
-<li>The concern of passing the configuration onwards is more clearly separated from the concern of printing directory contents</li>
-<li>As the program grows, there will be more and more intermediate layers that do nothing with configurations except propagate them, and these layers don't need to be rewritten as the configuration logic changes</li>
+<li>能更容易确保配置被原封不动地向下传递，除非需要更改</li>
+<li>传递配置与打印目录内容之间的关系更加清晰</li>
+<li>随着程序的增长，除了传播配置外，将有越来越多的中间层无需对配置进行处理，这些层并不需要随着配置逻辑的变化而重写。</li>
 </ol>
-<p>However, there are also some clear downsides:</p>
+<!--
+However, there are also some clear downsides:
+-->
+<p>不过，也有一些明显的缺点：</p>
+<!--
+ 1. As the program evolves and the monad requires more features, each of the basic operators such as `locally` and `currentConfig` will need to be updated
+ 2. Wrapping ordinary `IO` actions in `runIO` is noisy and distracts from the flow of the program
+ 3. Writing monads instances by hand is repetitive, and the technique for adding a reader effect to another monad is a design pattern that requires documentation and communication overhead
+-->
 <ol>
-<li>As the program evolves and the monad requires more features, each of the basic operators such as <code>locally</code> and <code>currentConfig</code> will need to be updated</li>
-<li>Wrapping ordinary <code>IO</code> actions in <code>runIO</code> is noisy and distracts from the flow of the program</li>
-<li>Writing monads instances by hand is repetitive, and the technique for adding a reader effect to another monad is a design pattern that requires documentation and communication overhead</li>
+<li>随着程序的发展和单子需要更多功能，比如 <code>locally</code> 和 <code>currentConfig</code> 等基本算子都需要更新。</li>
+<li>将普通的 <code>IO</code> 操作封装在 <code>runIO</code> 中会产生语法噪音，影响程序的流畅性</li>
+<li>手写单子实例是重复性的工作，而且向另一个单子添加读取器作用的技术是一种依赖文档和交流开销的设计模式</li>
 </ol>
-<p>Using a technique called <em>monad transformers</em>, all of these downsides can be addressed.
+<!--
+Using a technique called _monad transformers_, all of these downsides can be addressed.
 A monad transformer takes a monad as an argument and returns a new monad.
-Monad transformers consist of:</p>
+Monad transformers consist of:
+-->
+<p>使用一种名为 <em>单子转换器</em> 的技术，可以解决所有这些弊端。
+单子转换器以一个单子作为参数，并返回一个新的单子。
+单子转换器包括：</p>
+<!--
+ 1. A definition of the transformer itself, which is typically a function from types to types
+ 2. A `Monad` instance that assumes the inner type is already a monad
+ 3. An operator to "lift" an action from the inner monad to the transformed monad, akin to `runIO`
+-->
 <ol>
-<li>A definition of the transformer itself, which is typically a function from types to types</li>
-<li>A <code>Monad</code> instance that assumes the inner type is already a monad</li>
-<li>An operator to &quot;lift&quot; an action from the inner monad to the transformed monad, akin to <code>runIO</code></li>
+<li>转换器本身的定义，通常是一个从类型到类型的函数</li>
+<li>假定内部类型已经是一个单子的 <code>Monad</code> 实例</li>
+<li>从内部单子“提升”一个操作到转换后的单元的操作符，类似于 <code>runIO</code>.</li>
 </ol>
-<h2 id="adding-a-reader-to-any-monad"><a class="header" href="#adding-a-reader-to-any-monad">Adding a Reader to Any Monad</a></h2>
-<p>Adding a reader effect to <code>IO</code> was accomplished in <code>ConfigIO</code> by wrapping <code>IO α</code> in a function type.
-The Lean standard library contains a function that can do this to <em>any</em> polymorphic type, called <code>ReaderT</code>:</p>
+<!--
+## Adding a Reader to Any Monad
+-->
+<h2 id="将读取器添加到任意单子"><a class="header" href="#将读取器添加到任意单子">将读取器添加到任意单子</a></h2>
+<!--
+Adding a reader effect to `IO` was accomplished in `ConfigIO` by wrapping `IO α` in a function type.
+The Lean standard library contains a function that can do this to _any_ polymorphic type, called `ReaderT`:
+-->
+<p>在 <code>ConfigIO</code>中，通过将 <code>IO α</code> 包装成一个函数类型，为 <code>IO</code> 添加了读取器作用。
+Lean 的标准库有一个函数，可以对 <em>任意</em> 多态类型执行此操作，称为 <code>ReaderT</code>：</p>
 <pre><code class="language-lean">def ReaderT (ρ : Type u) (m : Type u → Type v) (α : Type u) : Type (max u v) :=
   ρ → m α
 </code></pre>
-<p>Its arguments are as follows:</p>
+<!--
+Its arguments are as follows:
+-->
+<p>它的参数如下:</p>
+<!--
+ * `ρ` is the environment that is accessible to the reader
+ * `m` is the monad that is being transformed, such as `IO`
+ * `α` is the type of values being returned by the monadic computation
+-->
 <ul>
-<li><code>ρ</code> is the environment that is accessible to the reader</li>
-<li><code>m</code> is the monad that is being transformed, such as <code>IO</code></li>
-<li><code>α</code> is the type of values being returned by the monadic computation
-Both <code>α</code> and <code>ρ</code> are in the same universe because the operator that retrieves the environment in the monad will have type <code>m ρ</code>.</li>
+<li><code>ρ</code> 是读取器可以访问的环境</li>
+<li><code>m</code> 是被转换的单子，例如 <code>IO</code></li>
+<li><code>α</code> 是单子计算返回值的类型</li>
 </ul>
-<p>With <code>ReaderT</code>, <code>ConfigIO</code> becomes:</p>
+<!--
+Both `α` and `ρ` are in the same universe because the operator that retrieves the environment in the monad will have type `m ρ`.
+-->
+<p><code>α</code> 和 <code>ρ</code> 都在同一个宇宙中，因为在单子中检索环境的算子将具有 <code>m ρ</code> 类型。</p>
+<!--
+With `ReaderT`, `ConfigIO` becomes:
+-->
+<p>有了 “ReaderT”，“ConfigIO” 就变成了:</p>
 <pre><code class="language-lean">abbrev ConfigIO (α : Type) : Type := ReaderT Config IO α
 </code></pre>
-<p>It is an <code>abbrev</code> because <code>ReaderT</code> has many useful features defined in the standard library that a non-reducible definition would hide.
-Rather than taking responsibility for making these work directly for <code>ConfigIO</code>, it's easier to simply have <code>ConfigIO</code> behave identically to <code>ReaderT Config IO</code>.</p>
-<p>The manually-written <code>currentConfig</code> obtained the environment out of the reader.
-This effect can be defined in a generic form for all uses of <code>ReaderT</code>, under the name <code>read</code>:</p>
+<!--
+It is an `abbrev` because `ReaderT` has many useful features defined in the standard library that a non-reducible definition would hide.
+Rather than taking responsibility for making these work directly for `ConfigIO`, it's easier to simply have `ConfigIO` behave identically to `ReaderT Config IO`.
+-->
+<p>它是一个 <code>abbrev </code>，因为在标准库中定义了许多关于 <code>ReaderT </code> 的有用功能，而不可归约的定义会隐藏这些功能。
+与其让 <code>ConfigIO</code> 直接使用这些功能，不如让 <code>ConfigIO</code> 的行为与 <code>ReaderT Config IO</code> 保持一致。</p>
+<!--
+The manually-written `currentConfig` obtained the environment out of the reader.
+This effect can be defined in a generic form for all uses of `ReaderT`, under the name `read`:
+-->
+<p>手动编写的 <code>currentConfig</code> 从读取器中获取了环境。
+这种作用可以以通用形式定义，适用于 <code>ReaderT</code> 的所有用途，名为 <code>read</code>：</p>
 <pre><code class="language-lean">def read [Monad m] : ReaderT ρ m ρ :=
    fun env =&gt; pure env
 </code></pre>
-<p>However, not every monad that provides a reader effect is built with <code>ReaderT</code>.
-The type class <code>MonadReader</code> allows any monad to provide a <code>read</code> operator:</p>
+<!--
+However, not every monad that provides a reader effect is built with `ReaderT`.
+The type class `MonadReader` allows any monad to provide a `read` operator:
+-->
+<p>然而，并不是每个提供读取器作用的单子都是用 <code>ReaderT</code> 构建的。
+类型类 <code>MonadReader</code> 允许任何单子提供 <code>read</code> 操作符：</p>
 <pre><code class="language-lean">class MonadReader (ρ : outParam (Type u)) (m : Type u → Type v) : Type (max (u + 1) v) where
   read : m ρ
 
@@ -398,51 +581,87 @@ instance [Monad m] : MonadReader ρ (ReaderT ρ m) where
 
 export MonadReader (read)
 </code></pre>
-<p>The type <code>ρ</code> is an output parameter because any given monad typically only provides a single type of environment through a reader, so automatically selecting it when the monad is known makes programs more convenient to write.</p>
-<p>The <code>Monad</code> instance for <code>ReaderT</code> is essentially the same as the <code>Monad</code> instance for <code>ConfigIO</code>, except <code>IO</code> has been replaced by some arbitrary monad argument <code>m</code>:</p>
+<!--
+The type `ρ` is an output parameter because any given monad typically only provides a single type of environment through a reader, so automatically selecting it when the monad is known makes programs more convenient to write.
+-->
+<p>类型 <code>ρ</code> 是一个输出参数，因为任何给定的单子通常只通过读取器提供单一类型的环境，所以在已知单子时自动选择它可以使程序编写更方便。</p>
+<!--
+The `Monad` instance for `ReaderT` is essentially the same as the `Monad` instance for `ConfigIO`, except `IO` has been replaced by some arbitrary monad argument `m`:
+-->
+<p><code>ReaderT</code> 的 <code>Monad</code> 实例与 <code>ConfigIO</code> 的 <code>Monad</code> 实例基本相同，只是 <code>IO </code> 被某个表示任意单子的参数 <code>m</code> 所取代:</p>
 <pre><code class="language-lean">instance [Monad m] : Monad (ReaderT ρ m) where
   pure x := fun _ =&gt; pure x
   bind result next := fun env =&gt; do
     let v ← result env
     next v env
 </code></pre>
-<p>The next step is to eliminate uses of <code>runIO</code>.
-When Lean encounters a mismatch in monad types, it automatically attempts to use a type class called <code>MonadLift</code> to transform the actual monad into the expected monad.
+<!--
+The next step is to eliminate uses of `runIO`.
+When Lean encounters a mismatch in monad types, it automatically attempts to use a type class called `MonadLift` to transform the actual monad into the expected monad.
 This process is similar to the use of coercions.
-<code>MonadLift</code> is defined as follows:</p>
+`MonadLift` is defined as follows:
+-->
+<p>下一步是消除对 <code>runIO</code> 的使用。
+当 Lean 遇到单子类型不匹配时，它会自动尝试使用名为 <code>MonadLift</code> 的类型类，将实际的单子转换为预期单子。
+这一过程与使用强制转换相似。
+<code>MonadLift</code> 的定义如下：</p>
 <pre><code class="language-lean">class MonadLift (m : Type u → Type v) (n : Type u → Type w) where
   monadLift : {α : Type u} → m α → n α
 </code></pre>
-<p>The method <code>monadLift</code> translates from the monad <code>m</code> to the monad <code>n</code>.
-The process is called &quot;lifting&quot; because it takes an action in the embedded monad and makes it into an action in the surrounding monad.
-In this case, it will be used to &quot;lift&quot; from <code>IO</code> to <code>ReaderT Config IO</code>, though the instance works for <em>any</em> inner monad <code>m</code>:</p>
+<!--
+The method `monadLift` translates from the monad `m` to the monad `n`.
+The process is called "lifting" because it takes an action in the embedded monad and makes it into an action in the surrounding monad.
+In this case, it will be used to "lift" from `IO` to `ReaderT Config IO`, though the instance works for _any_ inner monad `m`:
+-->
+<p>方法 <code>monadLift</code> 可以将单子 <code>m</code> 转换为单子 <code>n</code>。
+这个过程被称为“提升”，因为它将嵌入到单子中的动作转换成周围单子中的动作。
+在本例中，它将用于把 <code>IO</code> “提升”到 <code>ReaderT Config IO</code>，尽管该实例适用于 <em>任何</em> 内部单子 <code>m</code>：</p>
 <pre><code class="language-lean">instance : MonadLift m (ReaderT ρ m) where
   monadLift action := fun _ =&gt; action
 </code></pre>
-<p>The implementation of <code>monadLift</code> is very similar to that of <code>runIO</code>.
-Indeed, it is enough to define <code>showFileName</code> and <code>showDirName</code> without using <code>runIO</code>:</p>
+<!--
+The implementation of `monadLift` is very similar to that of `runIO`.
+Indeed, it is enough to define `showFileName` and `showDirName` without using `runIO`:
+-->
+<p><code>monadLift</code> 的实现与 <code>runIO</code> 非常相似。
+事实上，只需定义 <code>showFileName</code> 和 <code>showDirName</code> 即可，无需使用 <code>runIO</code>：</p>
 <pre><code class="language-lean">def showFileName (file : String) : ConfigIO Unit := do
   IO.println s!&quot;{(← read).currentPrefix} {file}&quot;
 
 def showDirName (dir : String) : ConfigIO Unit := do
   IO.println s!&quot;{(← read).currentPrefix} {dir}/&quot;
 </code></pre>
-<p>One final operation from the original <code>ConfigIO</code> remains to be translated to a use of <code>ReaderT</code>: <code>locally</code>.
-The definition can be translated directly to <code>ReaderT</code>, but the Lean standard library provides a more general version.
-The standard version is called <code>withReader</code>, and it is part of a type class called <code>MonadWithReader</code>:</p>
+<!--
+One final operation from the original `ConfigIO` remains to be translated to a use of `ReaderT`: `locally`.
+The definition can be translated directly to `ReaderT`, but the Lean standard library provides a more general version.
+The standard version is called `withReader`, and it is part of a type class called `MonadWithReader`:
+-->
+<p>原版 <code>ConfigIO</code> 中的最后一个操作还需要翻译成 <code>ReaderT</code> 的形式：<code>locally</code>。
+该定义可以直接翻译为 <code>ReaderT</code>，但 Lean 标准库提供了一个更通用的版本。
+标准版本被称为 <code>withReader</code>，它是名为 <code>MonadWithReader</code> 的类型类的一部分：</p>
 <pre><code class="language-lean">class MonadWithReader (ρ : outParam (Type u)) (m : Type u → Type v) where
   withReader {α : Type u} : (ρ → ρ) → m α → m α
 </code></pre>
-<p>Just as in <code>MonadReader</code>, the environment <code>ρ</code> is an <code>outParam</code>.
-The <code>withReader</code> operation is exported, so that it doesn't need to be written with the type class name before it:</p>
+<!--
+Just as in `MonadReader`, the environment `ρ` is an `outParam`.
+The `withReader` operation is exported, so that it doesn't need to be written with the type class name before it:
+-->
+<p>正如在 <code>MonadReader</code> 中一样，环境 <code>ρ</code> 是一个 <code>outParam</code>。
+<code>withReader</code> 操作是被导出的，所以在编写时不需要在前面加上类型类名：</p>
 <pre><code class="language-lean">export MonadWithReader (withReader)
 </code></pre>
-<p>The instance for <code>ReaderT</code> is essentially the same as the definition of <code>locally</code>:</p>
+<!--
+The instance for `ReaderT` is essentially the same as the definition of `locally`:
+-->
+<p><code>ReaderT</code> 的实例与 <code>locally</code> 的定义基本相同：</p>
 <pre><code class="language-lean">instance : MonadWithReader ρ (ReaderT ρ m) where
   withReader change action :=
     fun cfg =&gt; action (change cfg)
 </code></pre>
-<p>With these definitions in place, the new version of <code>dirTree</code> can be written:</p>
+<!--
+With these definitions in place, the new version of `dirTree` can be written:
+-->
+<p>有了这些定义,我们便可以定义新版本的 <code>dirTree</code>:</p>
 <pre><code class="language-lean">partial def dirTree (path : System.FilePath) : ConfigIO Unit := do
   match ← toEntry path with
     | none =&gt; pure ()
@@ -454,21 +673,50 @@ The <code>withReader</code> operation is exported, so that it doesn't need to be
         (doList contents.toList fun d =&gt;
           dirTree d.path)
 </code></pre>
-<p>Aside from replacing <code>locally</code> with <code>withReader</code>, it is the same as before.</p>
-<p>Replacing the custom <code>ConfigIO</code> type with <code>ReaderT</code> did not save a large number of lines of code in this section.
+<!--
+Aside from replacing `locally` with `withReader`, it is the same as before.
+-->
+<p>除了用 <code>withReader</code> 替换 <code>locally</code> 外，其他内容保持不变。</p>
+<!--
+Replacing the custom `ConfigIO` type with `ReaderT` did not save a large number of lines of code in this section.
 However, rewriting the code using components from the standard library does have long-term benefits.
-First, readers who know about <code>ReaderT</code> don't need to take time to understand the <code>Monad</code> instance for <code>ConfigIO</code>, working backwards to the meaning of monad itself.
+First, readers who know about `ReaderT` don't need to take time to understand the `Monad` instance for `ConfigIO`, working backwards to the meaning of monad itself.
 Instead, they can be confident in their initial understanding.
-Next, adding further effects to the monad (such as a state effect to count the files in each directory and display a count at the end) requires far fewer changes to the code, because the monad transformers and <code>MonadLift</code> instances provided in the library work well together.
+Next, adding further effects to the monad (such as a state effect to count the files in each directory and display a count at the end) requires far fewer changes to the code, because the monad transformers and `MonadLift` instances provided in the library work well together.
 Finally, using a set of type classes included in the standard library, polymorphic code can be written in such a way that it can work with a variety of monads without having to care about details like the order in which the monad transformers were applied.
-Just as some functions work in any monad, others can work in any monad that provides a certain type of state, or a certain type of exceptions, without having to specifically describe the <em>way</em> in which a particular concrete monad provides the state or exceptions.</p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
-<h3 id="controlling-the-display-of-dotfiles"><a class="header" href="#controlling-the-display-of-dotfiles">Controlling the Display of Dotfiles</a></h3>
-<p>Files whose names begin with a dot character (<code>'.'</code>) typically represent files that should usually be hidden, such as source-control metadata and configuration files.
-Modify <code>doug</code> with an option to show or hide filenames that begin with a dot.
-This option should be controlled with a <code>-a</code> command-line option.</p>
-<h3 id="starting-directory-as-argument"><a class="header" href="#starting-directory-as-argument">Starting Directory as Argument</a></h3>
-<p>Modify <code>doug</code> so that it takes a starting directory as an additional command-line argument.</p>
+Just as some functions work in any monad, others can work in any monad that provides a certain type of state, or a certain type of exceptions, without having to specifically describe the _way_ in which a particular concrete monad provides the state or exceptions.
+-->
+<p>在本节中，用 <code>ReaderT</code> 代替自定义的 <code>ConfigIO</code> 类型并没有节省大量代码行数。
+不过，使用标准库中的组件重写代码确实有长远的好处。
+首先，了解 <code>ReaderT</code> 的读者不需要花时间去理解 <code>ConfigIO</code> 的 <code>Monad</code> 实例，也不需要逆向理解单子本身的含义。
+相反，他们可以沿用自己的初步理解。
+接下来，给单子添加更多的作用（例如计算每个目录中的文件并在最后显示计数的状态作用）所需的代码改动要少得多，因为库中提供的单子转换器和 <code>MonadLift</code> 实例配合得很好。
+最后，使用标准库中包含的一组类型类，多态代码的编写方式可以使其适用于各种单子，而无需关心单子转换器的应用顺序等细节。
+正如某些函数可以在任何单子中工作一样，另一些函数也可以在任何提供特定类型状态或特定类型异常的单子中工作，而不必特别描述特定的具体单子提供状态或异常的 <em>方式</em>。</p>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+### Controlling the Display of Dotfiles
+-->
+<h3 id="控制点文件的显示"><a class="header" href="#控制点文件的显示">控制点文件的显示</a></h3>
+<!--
+Files whose names begin with a dot character (`'.'`) typically represent files that should usually be hidden, such as source-control metadata and configuration files.
+Modify `doug` with an option to show or hide filenames that begin with a dot.
+This option should be controlled with a `-a` command-line option.
+-->
+<p>文件名以点字符 (<code>'.'</code>) 开头的文件通常代表隐藏文件，如源代码管理的元数据和配置文件。
+修改 <code>doug</code> 并加入一个选项，以显示或隐藏以点开头的文件名。
+应使用命令行选项 <code>-a</code> 来控制该选项。</p>
+<!--
+### Starting Directory as Argument
+-->
+<h3 id="起始目录作为参数"><a class="header" href="#起始目录作为参数">起始目录作为参数</a></h3>
+<!--
+Modify `doug` so that it takes a starting directory as an additional command-line argument.
+-->
+<p>修改 <code>doug</code> ，使其可以将起始目录作为额外的命令行参数。</p>
 
                     </main>
 

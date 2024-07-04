@@ -144,32 +144,69 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="a-monad-construction-kit"><a class="header" href="#a-monad-construction-kit">A Monad Construction Kit</a></h1>
-<p><code>ReaderT</code> is far from the only useful monad transformer.
+                        <!--
+# A Monad Construction Kit
+-->
+<h1 id="单子构建工具包"><a class="header" href="#单子构建工具包">单子构建工具包</a></h1>
+<!--
+`ReaderT` is far from the only useful monad transformer.
 This section describes a number of additional transformers.
-Each monad transformer consists of the following:</p>
+Each monad transformer consists of the following:
+-->
+<p><code>ReaderT</code> 并不是唯一有用的单子转换器。
+本节将介绍一些额外的转换器。
+每个单子转换器都由以下部分组成：</p>
+<!--
+ 1. A definition or datatype `T` that takes a monad as an argument.
+    It should have a type like `(Type u → Type v) → Type u → Type v`, though it may accept additional arguments prior to the monad.
+ 2. A `Monad` instance for `T m` that relies on an instance of `Monad m`. This enables the transformed monad to be used as a monad.
+ 3. A `MonadLift` instance that translates actions of type `m α` into actions of type `T m α`, for arbitrary monads `m`. This enables actions from the underlying monad to be used in the transformed monad.
+-->
 <ol>
-<li>A definition or datatype <code>T</code> that takes a monad as an argument.
-It should have a type like <code>(Type u → Type v) → Type u → Type v</code>, though it may accept additional arguments prior to the monad.</li>
-<li>A <code>Monad</code> instance for <code>T m</code> that relies on an instance of <code>Monad m</code>. This enables the transformed monad to be used as a monad.</li>
-<li>A <code>MonadLift</code> instance that translates actions of type <code>m α</code> into actions of type <code>T m α</code>, for arbitrary monads <code>m</code>. This enables actions from the underlying monad to be used in the transformed monad.</li>
+<li>一个以单子为参数定义或数据类型 <code>T</code>。
+它的类型应类似于 <code>(Type u → Type v) → Type u → Type v</code>，尽管它可以接受单子之前的其他参数。</li>
+<li><code>T m</code> 的 <code>Monad</code> 实例依赖于 <code>Monad m</code> 实例。这使得转换后的单子也可以作为单子使用。</li>
+<li>一个 <code>MonadLift</code> 实例，可将任意单子 <code>m</code> 的 <code>m α</code> 类型的操作转换为 <code>T m α</code> 类型的操作。这使得底层单子中的操作可以在转换后的单子中使用。</li>
 </ol>
-<p>Furthermore, the <code>Monad</code> instance for the transformer should obey the contract for <code>Monad</code>, at least if the underlying <code>Monad</code> instance does.
-In addition, <code>monadLift (pure x)</code> should be equivalent to <code>pure x</code> in the transformed monad, and <code>monadLift</code> should distribute over <code>bind</code> so that <code>monadLift (x &gt;&gt;= f)</code> is the same as <code>monadLift x &gt;&gt;= fun y =&gt; monadLift (f y)</code>.</p>
-<p>Many monad transformers additionally define type classes in the style of <code>MonadReader</code> that describe the actual effects available in the monad.
+<!--
+Furthermore, the `Monad` instance for the transformer should obey the contract for `Monad`, at least if the underlying `Monad` instance does.
+In addition, `monadLift (pure x)` should be equivalent to `pure x` in the transformed monad, and `monadLift` should distribute over `bind` so that `monadLift (x >>= f)` is the same as `monadLift x >>= fun y => monadLift (f y)`.
+-->
+<p>此外，转换器的 <code>Monad</code> 实例也应该遵守 <code>Monad</code> 的约定，至少在底层的 <code>Monad</code> 实例遵守的情况下。
+另外，<code>monadLift (pure x)</code> 应该等价于转换后的单子中的 <code>pure x</code> ，而且 <code>monadLift</code> 应对于 <code>bind</code> 可分配，这样 <code>monadLift (x &gt;&gt;= f)</code> 就等同于 <code>monadLift x &gt;&gt;= fun y =&gt; monadLift (f y)</code> 。</p>
+<!--
+Many monad transformers additionally define type classes in the style of `MonadReader` that describe the actual effects available in the monad.
 This can provide more flexibility: it allows programs to be written that rely only on an interface, and don't constrain the underlying monad to be implemented by a given transformer.
-The type classes are a way for programs to express their requirements, and monad transformers are a convenient way to meet these requirements.</p>
-<h2 id="failure-with-optiont"><a class="header" href="#failure-with-optiont">Failure with <code>OptionT</code></a></h2>
-<p>Failure, represented by the <code>Option</code> monad, and exceptions, represented by the <code>Except</code> monad, both have corresponding transformers.
-In the case of <code>Option</code>, failure can be added to a monad by having it contain values of type <code>Option α</code> where it would otherwise contain values of type <code>α</code>.
-For example, <code>IO (Option α)</code> represents <code>IO</code> actions that don't always return a value of type <code>α</code>.
-This suggests the definition of the monad transformer <code>OptionT</code>:</p>
+The type classes are a way for programs to express their requirements, and monad transformers are a convenient way to meet these requirements.
+-->
+<p>许多单子转换器还定义了 <code>MonadReader</code> 风格的类型类，用于描述单子中可用的实际作用。
+这可以提供更大的灵活性：它允许编写只依赖接口的程序，而不限制底层单子必须由给定的转换器实现。
+类型类是程序表达其需求的一种方式，而单子转换器则是满足这些需求的一种便捷方式。</p>
+<!--
+## Failure with `OptionT`
+-->
+<h2 id="使用-optiont-失败"><a class="header" href="#使用-optiont-失败">使用 <code>OptionT</code> 失败</a></h2>
+<!--
+Failure, represented by the `Option` monad, and exceptions, represented by the `Except` monad, both have corresponding transformers.
+In the case of `Option`, failure can be added to a monad by having it contain values of type `Option α` where it would otherwise contain values of type `α`.
+For example, `IO (Option α)` represents `IO` actions that don't always return a value of type `α`.
+This suggests the definition of the monad transformer `OptionT`:
+-->
+<p>由 <code>Option</code> 单子表示的失败和由 <code>Except</code> 单子表示的异常都有相应的转换器。
+对于 <code>Option</code> 单子，可以通过让单子包含 <code>Option α</code> 类型的值来为单子添加失败，否则单子将包含 <code>α</code> 类型的值。
+例如，<code>IO (Option α)</code> 表示并不总是返回 <code>α</code> 类型值的 <code>IO</code> 操作。
+这就需要定义单子转换器 <code>OptionT</code>：</p>
 <pre><code class="language-lean">def OptionT (m : Type u → Type v) (α : Type u) : Type v :=
   m (Option α)
 </code></pre>
-<p>As an example of <code>OptionT</code> in action, consider a program that asks the user questions.
-The function <code>getSomeInput</code> asks for a line of input and removes whitespace from both ends.
-If the resulting trimmed input is non-empty, then it is returned, but the function fails if there are no non-whitespace characters:</p>
+<!--
+As an example of `OptionT` in action, consider a program that asks the user questions.
+The function `getSomeInput` asks for a line of input and removes whitespace from both ends.
+If the resulting trimmed input is non-empty, then it is returned, but the function fails if there are no non-whitespace characters:
+-->
+<p>我们以一个向用户提问的程序为例来说明 <code>OptionT</code> 的作用。
+函数 <code>getSomeInput</code> 要求输入一行内容，并删除两端的空白。
+如果修剪后的输入是非空的，就会返回，但如果没有非空格字符，函数就会失败：</p>
 <pre><code class="language-lean">def getSomeInput : OptionT IO String := do
   let input ← (← IO.getStdin).getLine
   let trimmed := input.trim
@@ -177,12 +214,18 @@ If the resulting trimmed input is non-empty, then it is returned, but the functi
     failure
   else pure trimmed
 </code></pre>
-<p>This particular application tracks users with their name and their favorite species of beetle:</p>
+<!--
+This particular application tracks users with their name and their favorite species of beetle:
+-->
+<p>这个应用软件可以追踪用户的姓名和他们最喜欢的甲虫种类：</p>
 <pre><code class="language-lean">structure UserInfo where
   name : String
   favoriteBeetle : String
 </code></pre>
-<p>Asking the user for input is no more verbose than a function that uses only <code>IO</code> would be:</p>
+<!--
+Asking the user for input is no more verbose than a function that uses only `IO` would be:
+-->
+<p>询问用户输入并不比只使用 <code>IO</code> 的函数更冗长：</p>
 <pre><code class="language-lean">def getUserInfo : OptionT IO UserInfo := do
   IO.println &quot;What is your name?&quot;
   let name ← getSomeInput
@@ -190,18 +233,31 @@ If the resulting trimmed input is non-empty, then it is returned, but the functi
   let beetle ← getSomeInput
   pure ⟨name, beetle⟩
 </code></pre>
-<p>However, because the function runs in an <code>OptionT IO</code> context rather than just in <code>IO</code>, failure in the first call to <code>getSomeInput</code> causes the whole <code>getUserInfo</code> to fail, with control never reaching the question about beetles.
-The main function, <code>interact</code>, invokes <code>getUserInfo</code> in a purely <code>IO</code> context, which allows it to check whether the call succeeded or failed by matching on the inner <code>Option</code>:</p>
+<!--
+However, because the function runs in an `OptionT IO` context rather than just in `IO`, failure in the first call to `getSomeInput` causes the whole `getUserInfo` to fail, with control never reaching the question about beetles.
+The main function, `interact`, invokes `getUserInfo` in a purely `IO` context, which allows it to check whether the call succeeded or failed by matching on the inner `Option`:
+-->
+<p>然而，由于函数是在 <code>OptionT IO</code> 上下文中运行的，而不仅仅是在 <code>IO</code> 中，因此第一次调用 <code>getSomeInput</code> 失败会导致整个 <code>getUserInfo</code> 失败，控制权永远不会到达关于甲虫的问题。
+主函数 <code>interact</code> 在纯的 <code>IO</code> 上下文中调用 <code>getUserInfo</code>，这样就可以通过匹配内部的 <code>Option</code> 来检查调用成功还是失败：</p>
 <pre><code class="language-lean">def interact : IO Unit := do
   match ← getUserInfo with
   | none =&gt; IO.eprintln &quot;Missing info&quot;
   | some ⟨name, beetle⟩ =&gt; IO.println s!&quot;Hello {name}, whose favorite beetle is {beetle}.&quot;
 </code></pre>
-<h3 id="the-monad-instance"><a class="header" href="#the-monad-instance">The Monad Instance</a></h3>
-<p>Writing the monad instance reveals a difficulty.
-Based on the types, <code>pure</code> should use <code>pure</code> from the underlying monad <code>m</code> together with <code>some</code>.
-Just as <code>bind</code> for <code>Option</code> branches on the first argument, propagating <code>none</code>, <code>bind</code> for <code>OptionT</code> should run the monadic action that makes up the first argument, branch on the result, and then propagate <code>none</code>.
-Following this sketch yields the following definition, which Lean does not accept:</p>
+<!--
+### The Monad Instance
+-->
+<h3 id="单子实例"><a class="header" href="#单子实例">单子实例</a></h3>
+<!--
+Writing the monad instance reveals a difficulty.
+Based on the types, `pure` should use `pure` from the underlying monad `m` together with `some`.
+Just as `bind` for `Option` branches on the first argument, propagating `none`, `bind` for `OptionT` should run the monadic action that makes up the first argument, branch on the result, and then propagate `none`.
+Following this sketch yields the following definition, which Lean does not accept:
+-->
+<p>在编写单子实例发现了一个难题。
+根据类型，<code>pure</code> 应该使用底层单子 <code>m</code> 中的 <code>pure</code> 和 <code>some</code>。
+正如 <code>Option</code> 的 <code>bind</code> 在第一个参数上分支，然后传播 <code>none</code>，<code>OptionT</code> 的 <code>bind</code> 应该运行构成第一个参数的单子操作，在结果上分支，然后传播 <code>none</code>。
+按照这个框架可以得到 Lean 不接受的如下定义：</p>
 <pre><code class="language-lean">instance [Monad m] : Monad (OptionT m) where
   pure x := pure (some x)
   bind action next := do
@@ -209,7 +265,10 @@ Following this sketch yields the following definition, which Lean does not accep
     | none =&gt; pure none
     | some v =&gt; next v
 </code></pre>
-<p>The error message shows a cryptic type mismatch:</p>
+<!--
+The error message shows a cryptic type mismatch:
+-->
+<p>错误信息显示了一个隐含的类型不匹配：</p>
 <pre><code class="language-output error">application type mismatch
   pure (some x)
 argument
@@ -219,9 +278,14 @@ has type
 but is expected to have type
   α✝ : Type ?u.25
 </code></pre>
-<p>The problem here is that Lean is selecting the wrong <code>Monad</code> instance for the surrounding use of <code>pure</code>.
-Similar errors occur for the definition of <code>bind</code>.
-One solution is to use type annotations to guide Lean to the correct <code>Monad</code> instance:</p>
+<!--
+The problem here is that Lean is selecting the wrong `Monad` instance for the surrounding use of `pure`.
+Similar errors occur for the definition of `bind`.
+One solution is to use type annotations to guide Lean to the correct `Monad` instance:
+-->
+<p>这里的问题是 Lean 为周围的 <code>pure</code> 使用选择了错误的 <code>Monad</code> 实例。
+类似的错误也发生在 <code>bind</code> 的定义中。
+一种解决方案是使用类型标注来引导 Lean 选择正确的 <code>Monad</code> 实例：</p>
 <pre><code class="language-lean">instance [Monad m] : Monad (OptionT m) where
   pure x := (pure (some x) : m (Option _))
   bind action next := (do
@@ -229,21 +293,37 @@ One solution is to use type annotations to guide Lean to the correct <code>Monad
     | none =&gt; pure none
     | some v =&gt; next v : m (Option _))
 </code></pre>
-<p>While this solution works, it is inelegant and the code becomes a bit noisy.</p>
-<p>An alternative solution is to define functions whose type signatures guide Lean to the correct instances.
-In fact, <code>OptionT</code> could have been defined as a structure:</p>
+<!--
+While this solution works, it is inelegant and the code becomes a bit noisy.
+-->
+<p>虽然这种解决方案可行，但它不够优雅，代码也变得有点啰嗦。</p>
+<!--
+An alternative solution is to define functions whose type signatures guide Lean to the correct instances.
+In fact, `OptionT` could have been defined as a structure:
+-->
+<p>另一种解决方案是定义函数，由函数的类型签名引导 Lean 找到正确的实例。
+事实上，<code>OptionT</code> 自身可以定义为一个结构：</p>
 <pre><code class="language-lean">structure OptionT (m : Type u → Type v) (α : Type u) : Type v where
   run : m (Option α)
 </code></pre>
-<p>This would solve the problem, because the constructor <code>OptionT.mk</code> and the field accessor <code>OptionT.run</code> would guide type class inference to the correct instances.
+<!--
+This would solve the problem, because the constructor `OptionT.mk` and the field accessor `OptionT.run` would guide type class inference to the correct instances.
 The downside to doing this is that structure values would need to be allocated and deallocated repeatedly when running code that uses it, while the direct definition is a compile-time-only feature.
-The best of both worlds can be achieved by defining functions that serve the same role as <code>OptionT.mk</code> and <code>OptionT.run</code>, but that work with the direct definition:</p>
+The best of both worlds can be achieved by defining functions that serve the same role as `OptionT.mk` and `OptionT.run`, but that work with the direct definition:
+-->
+<p>这可以解决这个问题，因为构造函数 <code>OptionT.mk</code> 和字段访问函数 <code>OptionT.run</code> 将引导类型类推理到正确的实例。
+但这样做的缺点是，在运行使用结构体的代码时，结构体值需要反复分配和释放，而直接定义是编译期专用的功能。
+我们可以通过定义与 <code>OptionT.mk</code> 和 <code>OptionT.run</code> 具有相同作用的函数来实现两全其美的效果，但这些函数要与直接定义一起使用：</p>
 <pre><code class="language-lean">def OptionT.mk (x : m (Option α)) : OptionT m α := x
 
 def OptionT.run (x : OptionT m α) : m (Option α) := x
 </code></pre>
-<p>Both functions return their inputs unchanged, but they indicate the boundary between code that is intended to present the interface of <code>OptionT</code> and code that is intended to present the interface of the underlying monad <code>m</code>.
-Using these helpers, the <code>Monad</code> instance becomes more readable:</p>
+<!--
+Both functions return their inputs unchanged, but they indicate the boundary between code that is intended to present the interface of `OptionT` and code that is intended to present the interface of the underlying monad `m`.
+Using these helpers, the `Monad` instance becomes more readable:
+-->
+<p>这两个函数直接返回的其原输入，但它们指明了旨在呈现 <code>OptionT</code> 接口的代码与旨在呈现底层单子 <code>m</code> 接口的代码之间的边界。
+使用这些辅助函数，<code>Monad</code> 实例变得更加可读：</p>
 <pre><code class="language-lean">instance [Monad m] : Monad (OptionT m) where
   pure x := OptionT.mk (pure (some x))
   bind action next := OptionT.mk do
@@ -251,10 +331,18 @@ Using these helpers, the <code>Monad</code> instance becomes more readable:</p>
     | none =&gt; pure none
     | some v =&gt; next v
 </code></pre>
-<p>Here, the use of <code>OptionT.mk</code> indicates that its arguments should be considered as code that uses the interface of <code>m</code>, which allows Lean to select the correct <code>Monad</code> instances.</p>
-<p>After defining the monad instance, it's a good idea to check that the monad contract is satisfied.
-The first step is to show that <code>bind (pure v) f</code> is the same as <code>f v</code>.
-Here's the steps:</p>
+<!--
+Here, the use of `OptionT.mk` indicates that its arguments should be considered as code that uses the interface of `m`, which allows Lean to select the correct `Monad` instances.
+-->
+<p>在这里，使用 <code>OptionT.mk</code> 表示其参数应被视为使用 <code>m</code> 接口的代码，它允许 Lean 选择正确的 <code>Monad</code> 实例。</p>
+<!--
+After defining the monad instance, it's a good idea to check that the monad contract is satisfied.
+The first step is to show that `bind (pure v) f` is the same as `f v`.
+Here's the steps:
+-->
+<p>定义完单子实例后，最好检查一下单子约定是否满足。
+第一步是证明 <code>bind (pure v) f</code> 与 <code>f v</code> 相同。
+步骤如下：</p>
 <div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">bind (pure v) f</code></pre>
@@ -310,20 +398,39 @@ Here's the steps:</p>
 <pre><code class="language-lean hljs">f v</code></pre>
 </div>
 </div>
-<p>The second rule states that <code>bind w pure</code> is the same as <code>w</code>.
-To demonstrate this, unfold the definitions of <code>bind</code> and <code>pure</code>, yielding:</p>
+<!--
+The second rule states that `bind w pure` is the same as `w`.
+To demonstrate this, unfold the definitions of `bind` and `pure`, yielding:
+-->
+<p>第二条规则指出，<code>bind w pure</code> 与 <code>w</code> 相同。
+为了证明这一点，展开 <code>bind</code> 和 <code>pure</code> 的定义，得出：</p>
 <pre><code class="language-lean">OptionT.mk do
     match ← w with
     | none =&gt; pure none
     | some v =&gt; pure (some v)
 </code></pre>
-<p>In this pattern match, the result of both cases is the same as the pattern being matched, just with <code>pure</code> around it.
-In other words, it is equivalent to <code>w &gt;&gt;= fun y =&gt; pure y</code>, which is an instance of <code>m</code>'s second monad rule.</p>
-<p>The final rule states that <code>bind (bind v f) g</code>  is the same as <code>bind v (fun x =&gt; bind (f x) g)</code>.
-It can be checked in the same way, by expanding the definitions of <code>bind</code> and <code>pure</code> and then delegating to the underlying monad <code>m</code>.</p>
-<h3 id="an-alternative-instance"><a class="header" href="#an-alternative-instance">An <code>Alternative</code> Instance</a></h3>
-<p>One convenient way to use <code>OptionT</code> is through the <code>Alternative</code> type class.
-Successful return is already indicated by <code>pure</code>, and the <code>failure</code> and <code>orElse</code> methods of <code>Alternative</code> provide a way to write a program that returns the first successful result from a number of subprograms:</p>
+<!--
+In this pattern match, the result of both cases is the same as the pattern being matched, just with `pure` around it.
+In other words, it is equivalent to `w >>= fun y => pure y`, which is an instance of `m`'s second monad rule.
+-->
+<p>在这个模式匹配中，两种情况的结果都与被匹配的模式相同，只是在其周围加上了 <code>pure</code>。
+换句话说，它等同于 <code>w &gt;&gt;= fun y =&gt; pure y</code>，这是 <code>m</code> 的第二个单子规则的一个实例。</p>
+<!--
+The final rule states that `bind (bind v f) g`  is the same as `bind v (fun x => bind (f x) g)`.
+It can be checked in the same way, by expanding the definitions of `bind` and `pure` and then delegating to the underlying monad `m`.
+-->
+<p>最后一条规则指出 <code>bind (bind v f) g</code> 与 <code>bind v (fun x =&gt; bind (f x) g)</code>相同。
+通过扩展 <code>bind</code> 和 <code>pure</code> 的定义，然后将其委托给底层单子 <code>m</code>，可以用同样的方法对其进行检查。</p>
+<!--
+### An `Alternative` Instance
+-->
+<h3 id="一个-alternative-实例"><a class="header" href="#一个-alternative-实例">一个 <code>Alternative</code> 实例</a></h3>
+<!--
+One convenient way to use `OptionT` is through the `Alternative` type class.
+Successful return is already indicated by `pure`, and the `failure` and `orElse` methods of `Alternative` provide a way to write a program that returns the first successful result from a number of subprograms:
+-->
+<p>一种使用 <code>OptionT</code> 的便捷方法是通过 <code>Alternative</code> 类型类。
+成功返回已经由 <code>pure</code> 表示，而 <code>Alternative</code> 的 <code>failure</code> 和 <code>orElse</code> 方法提供了一种编写程序的方式，可以从多个子程序中返回第一个成功的结果：</p>
 <pre><code class="language-lean">instance [Monad m] : Alternative (OptionT m) where
   failure := OptionT.mk (pure none)
   orElse x y := OptionT.mk do
@@ -331,26 +438,47 @@ Successful return is already indicated by <code>pure</code>, and the <code>failu
     | some result =&gt; pure (some result)
     | none =&gt; y ()
 </code></pre>
-<h3 id="lifting"><a class="header" href="#lifting">Lifting</a></h3>
-<p>Lifting an action from <code>m</code> to <code>OptionT m</code> only requires wrapping <code>some</code> around the result of the computation:</p>
+<!--
+### Lifting
+-->
+<h3 id="提升"><a class="header" href="#提升">提升</a></h3>
+<!--
+Lifting an action from `m` to `OptionT m` only requires wrapping `some` around the result of the computation:
+-->
+<p>将一个操作从 <code>m</code> 移植到 <code>OptionT m</code> 只需要用 <code>some</code> 包装计算结果：</p>
 <pre><code class="language-lean">instance [Monad m] : MonadLift m (OptionT m) where
   monadLift action := OptionT.mk do
     pure (some (← action))
 </code></pre>
-<h2 id="exceptions"><a class="header" href="#exceptions">Exceptions</a></h2>
-<p>The monad transformer version of <code>Except</code> is very similar to the monad transformer version of <code>Option</code>.
-Adding exceptions of type <code>ε</code> to some monadic action of type <code>m α</code> can be accomplished by adding exceptions to <code>α</code>, yielding type <code>m (Except ε α)</code>:</p>
+<!--
+## Exceptions
+-->
+<h2 id="异常"><a class="header" href="#异常">异常</a></h2>
+<!--
+The monad transformer version of `Except` is very similar to the monad transformer version of `Option`.
+Adding exceptions of type `ε` to some monadic action of type `m α` can be accomplished by adding exceptions to `α`, yielding type `m (Except ε α)`:
+-->
+<p>单子转换器版本的 <code>Except</code> 与单子转换器版本的 <code>Option</code> 非常相似。
+向 <code>m α</code> 类型的单子动作添加 <code>ε</code> 类型的异常，可以通过向 <code>α</code> 添加异常来实现，从而产生 <code>m (Except ε α)</code>：</p>
 <pre><code class="language-lean">def ExceptT (ε : Type u) (m : Type u → Type v) (α : Type u) : Type v :=
   m (Except ε α)
 </code></pre>
-<p><code>OptionT</code> provides <code>mk</code> and <code>run</code> functions to guide the type checker towards the correct <code>Monad</code> instances.
-This trick is also useful for <code>ExceptT</code>:</p>
+<!--
+`OptionT` provides `mk` and `run` functions to guide the type checker towards the correct `Monad` instances.
+This trick is also useful for `ExceptT`:
+-->
+<p><code>OptionT</code> 提供了 <code>mk</code> 和 <code>run</code> 函数来引导类型检查器找到正确的 <code>Monad</code> 实例。
+这个技巧对 <code>ExceptT</code> 也很有用：</p>
 <pre><code class="language-lean">def ExceptT.mk {ε α : Type u} (x : m (Except ε α)) : ExceptT ε m α := x
 
 def ExceptT.run {ε α : Type u} (x : ExceptT ε m α) : m (Except ε α) := x
 </code></pre>
-<p>The <code>Monad</code> instance for <code>ExceptT</code> is also very similar to the instance for <code>OptionT</code>.
-The only difference is that it propagates a specific error value, rather than <code>none</code>:</p>
+<!--
+The `Monad` instance for `ExceptT` is also very similar to the instance for `OptionT`.
+The only difference is that it propagates a specific error value, rather than `none`:
+-->
+<p>用于 <code>ExceptT</code> 的 <code>Monad</code> 实例与用于 <code>OptionT</code> 的 <code>Monad</code> 实例也非常相似。
+唯一不同的是，它传播的是一个特定的错误值，而不是 <code>none</code>：</p>
 <pre><code class="language-lean">instance {ε : Type u} {m : Type u → Type v} [Monad m] : Monad (ExceptT ε m) where
   pure x := ExceptT.mk (pure (Except.ok x))
   bind result next := ExceptT.mk do
@@ -358,10 +486,16 @@ The only difference is that it propagates a specific error value, rather than <c
     | .error e =&gt; pure (.error e)
     | .ok x =&gt; next x
 </code></pre>
-<p>The type signatures of <code>ExceptT.mk</code> and <code>ExceptT.run</code> contain a subtle detail: they annotate the universe levels of <code>α</code> and <code>ε</code> explicitly.
+<!--
+The type signatures of `ExceptT.mk` and `ExceptT.run` contain a subtle detail: they annotate the universe levels of `α` and `ε` explicitly.
 If they are not explicitly annotated, then Lean generates a more general type signature in which they have distinct polymorphic universe variables.
-However, the definition of <code>ExceptT</code> expects them to be in the same universe, because they can both be provided as arguments to <code>m</code>.
-This can lead to a problem in the <code>Monad</code> instance where the universe level solver fails to find a working solution:</p>
+However, the definition of `ExceptT` expects them to be in the same universe, because they can both be provided as arguments to `m`.
+This can lead to a problem in the `Monad` instance where the universe level solver fails to find a working solution:
+-->
+<p><code>ExceptT.mk</code> 和 <code>ExceptT.run</code> 的类型签名包含一个微妙的细节：它们明确地注释了 <code>α</code> 和 <code>ε</code> 的宇宙层级。
+如果它们没有被明确注释，那么 Lean 会生成一个更通用的类型签名，其中它们拥有不同的多态宇宙变量。
+然而， <code>ExceptT</code> 的定义希望它们在同一个宇宙中，因为它们都可以作为参数提供给 <code>m</code>。
+这会导致 <code>Monad</code> 实例出现问题，即宇宙层级求解器无法找到有效的解决方案：</p>
 <pre><code class="language-lean">def ExceptT.mk (x : m (Except ε α)) : ExceptT ε m α := x
 
 instance {ε : Type u} {m : Type u → Type v} [Monad m] : Monad (ExceptT ε m) where
@@ -378,53 +512,101 @@ while trying to unify
 with
   (ExceptT ε m α✝) ε m α✝
 </code></pre>
-<p>This kind of error message is typically caused by underconstrained universe variables.
-Diagnosing it can be tricky, but a good first step is to look for reused universe variables in some definitions that are not reused in others.</p>
-<p>Unlike <code>Option</code>, the <code>Except</code> datatype is typically not used as a data structure.
-It is always used as a control structure with its <code>Monad</code> instance.
-This means that it is reasonable to lift <code>Except ε</code> actions into <code>ExceptT ε m</code>, as well as actions from the underlying monad <code>m</code>.
-Lifting <code>Except</code> actions into <code>ExceptT</code> actions is done by wrapping them in <code>m</code>'s <code>pure</code>, because an action that only has exception effects cannot have any effects from the monad <code>m</code>:</p>
+<!--
+This kind of error message is typically caused by underconstrained universe variables.
+Diagnosing it can be tricky, but a good first step is to look for reused universe variables in some definitions that are not reused in others.
+-->
+<p>这种错误信息通常是由欠约束的宇宙变量引起的。
+诊断起来可能很棘手，但第一步可以查找某些定义中重复使用的宇宙变量，而其他定义中没有重复使用的宇宙变量。</p>
+<!--
+Unlike `Option`, the `Except` datatype is typically not used as a data structure.
+It is always used as a control structure with its `Monad` instance.
+This means that it is reasonable to lift `Except ε` actions into `ExceptT ε m`, as well as actions from the underlying monad `m`.
+Lifting `Except` actions into `ExceptT` actions is done by wrapping them in `m`'s `pure`, because an action that only has exception effects cannot have any effects from the monad `m`:
+-->
+<p>与 <code>Option</code> 不同，<code>Except</code> 数据类型通常不作为数据结构使用。
+它总是作为控制结构与其 <code>Monad</code> 实例一起使用。
+这意味着将 <code>Except ε</code> 操作提升到 <code>ExceptT ε m</code> 以及对底层单子 <code>m</code> 的操作都是合理的。
+通过用 <code>m</code> 的 <code>pure</code> 对 <code>Except</code> 操作进行包装，可以将其提升为 <code>ExceptT</code> 操作，因为一个只有异常作用的动作不可能有来自单子 <code>m</code> 的任何作用：</p>
 <pre><code class="language-lean">instance [Monad m] : MonadLift (Except ε) (ExceptT ε m) where
   monadLift action := ExceptT.mk (pure action)
 </code></pre>
-<p>Because actions from <code>m</code> do not have any exceptions in them, their value should be wrapped in <code>Except.ok</code>.
-This can be accomplished using the fact that <code>Functor</code> is a superclass of <code>Monad</code>, so applying a function to the result of any monadic computation can be accomplished using <code>Functor.map</code>:</p>
+<!--
+Because actions from `m` do not have any exceptions in them, their value should be wrapped in `Except.ok`.
+This can be accomplished using the fact that `Functor` is a superclass of `Monad`, so applying a function to the result of any monadic computation can be accomplished using `Functor.map`:
+-->
+<p>由于 <code>m</code> 中的操作不包含任何异常，因此它们的值应该用 <code>Except.ok</code> 封装。
+这可以利用 <code>Functor</code> 是 <code>Monad</code> 的超类这一事实来实现，因此可以使用 <code>Functor.map</code>，将函数应用于任何单子计算的结果：</p>
 <pre><code class="language-lean">instance [Monad m] : MonadLift m (ExceptT ε m) where
   monadLift action := ExceptT.mk (.ok &lt;$&gt; action)
 </code></pre>
-<h3 id="type-classes-for-exceptions"><a class="header" href="#type-classes-for-exceptions">Type Classes for Exceptions</a></h3>
-<p>Exception handling fundamentally consists of two operations: the ability to throw exceptions, and the ability to recover from them.
-Thus far, this has been accomplished using the constructors of <code>Except</code> and pattern matching, respectively.
+<!--
+### Type Classes for Exceptions
+-->
+<h3 id="异常的类型类"><a class="header" href="#异常的类型类">异常的类型类</a></h3>
+<!--
+Exception handling fundamentally consists of two operations: the ability to throw exceptions, and the ability to recover from them.
+Thus far, this has been accomplished using the constructors of `Except` and pattern matching, respectively.
 However, this ties a program that uses exceptions to one specific encoding of the exception handling effect.
-Using a type class to capture these operations allows a program that uses exceptions to be used in <em>any</em> monad that supports throwing and catching.</p>
-<p>Throwing an exception should take an exception as an argument, and it should be allowed in any context where a monadic action is requested.
-The &quot;any context&quot; part of the specification can be written as a type by writing <code>m α</code>—because there's no way to produce a value of any arbitrary type, the <code>throw</code> operation must be doing something that causes control to leave that part of the program.
-Catching an exception should accept any monadic action together with a handler, and the handler should explain how to get back to the action's type from an exception:</p>
+Using a type class to capture these operations allows a program that uses exceptions to be used in _any_ monad that supports throwing and catching.
+-->
+<p>异常处理从根本上说包括两种操作：抛出异常的能力和恢复异常的能力。
+到目前为止，我们分别使用 <code>Except</code> 的构造函数和模式匹配来实现这一点。
+然而，这将使用异常的程序与异常处理作用的特定编码联系在一起。
+使用类型类来捕获这些操作，可以让使用异常的程序在 <em>任何</em> 支持抛出和捕获的单子中使用。</p>
+<!--
+Throwing an exception should take an exception as an argument, and it should be allowed in any context where a monadic action is requested.
+The "any context" part of the specification can be written as a type by writing `m α`—because there's no way to produce a value of any arbitrary type, the `throw` operation must be doing something that causes control to leave that part of the program.
+Catching an exception should accept any monadic action together with a handler, and the handler should explain how to get back to the action's type from an exception:
+-->
+<p>抛出异常应该以异常作为参数，而且应该允许在任何要求执行单子动作的上下文中抛出异常。
+规范中 &quot;任何上下文&quot; 的部分可以写成一种类型，即 <code>m α</code> ——— 因为没有办法产生任意类型的值，所以 <code>throw</code> 操作必须能使控制权离开程序的这一部分。
+捕获异常应该接受任何单子操作和处理程序，处理程序应该解释如何从异常返回到操作的类型：</p>
 <pre><code class="language-lean">class MonadExcept (ε : outParam (Type u)) (m : Type v → Type w) where
   throw : ε → m α
   tryCatch : m α → (ε → m α) → m α
 </code></pre>
-<p>The universe levels on <code>MonadExcept</code> differ from those of <code>ExceptT</code>.
-In <code>ExceptT</code>, both <code>ε</code> and <code>α</code> have the same level, while <code>MonadExcept</code> imposes no such limitation.
-This is because <code>MonadExcept</code> never places an exception value inside of <code>m</code>.
-The most general universe signature recognizes the fact that <code>ε</code> and <code>α</code> are completely independent in this definition.
-Being more general means that the type class can be instantiated for a wider variety of types.</p>
-<p>An example program that uses <code>MonadExcept</code> is a simple division service.
+<!--
+The universe levels on `MonadExcept` differ from those of `ExceptT`.
+In `ExceptT`, both `ε` and `α` have the same level, while `MonadExcept` imposes no such limitation.
+This is because `MonadExcept` never places an exception value inside of `m`.
+The most general universe signature recognizes the fact that `ε` and `α` are completely independent in this definition.
+Being more general means that the type class can be instantiated for a wider variety of types.
+-->
+<p><code>MonadExcept</code> 的宇宙层级与 <code>ExceptT</code> 不同。
+在 <code>ExceptT</code> 中，<code>ε</code> 和 <code>α</code> 具有相同的层级，而 <code>MonadExcept</code> 则没有这种限制。
+这是因为 <code>MonadExcept</code>从不将异常值置于 <code>m</code> 内。
+在这个定义中，最通用的宇宙签名承认 <code>ε</code> 和 <code>α</code> 是完全独立的。
+更通用意味着类型类可以为更多类型实例化。</p>
+<!--
+An example program that uses `MonadExcept` is a simple division service.
 The program is divided into two parts: a frontend that supplies a user interface based on strings that handles errors, and a backend that actually does the division.
 Both the frontend and the backend can throw exceptions, the former for ill-formed input and the latter for division by zero errors.
-The exceptions are an inductive type:</p>
+The exceptions are an inductive type:
+-->
+<p>下面是一个简单的除法服务，作为使用 <code>MonadExcept</code> 的一个示例程序。
+程序分为两部分：前端提供基于字符串的用户界面，用于处理错误；后端实际执行除法操作。
+前后端都可以抛出异常，前者用于处理格式错误的输入，后者用于处理除数为零的错误。
+定义异常为一种归纳类型：</p>
 <pre><code class="language-lean">inductive Err where
   | divByZero
   | notANumber : String → Err
 </code></pre>
-<p>The backend checks for zero, and divides if it can:</p>
+<!--
+The backend checks for zero, and divides if it can:
+-->
+<p>后端检查是否为零，如果为零，则进行除法：</p>
 <pre><code class="language-lean">def divBackend [Monad m] [MonadExcept Err m] (n k : Int) : m Int :=
   if k == 0 then
     throw .divByZero
   else pure (n / k)
 </code></pre>
-<p>The frontend's helper <code>asNumber</code> throws an exception if the string it is passed is not a number.
-The overall frontend converts its inputs to <code>Int</code>s and calls the backend, handling exceptions by returning a friendly string error:</p>
+<!--
+The frontend's helper `asNumber` throws an exception if the string it is passed is not a number.
+The overall frontend converts its inputs to `Int`s and calls the backend, handling exceptions by returning a friendly string error:
+-->
+<p>如果传入的字符串不是数字，前端的辅助函数 <code>asNumber</code> 会抛出异常。
+整个前端会将输入转换为 <code>Int</code> 并调用后端，通过返回友好的错误字符串来处理异常：</p>
 <pre><code class="language-lean">def asNumber [Monad m] [MonadExcept Err m] (s : String) : m Int :=
   match s.toInt? with
   | none =&gt; throw (.notANumber s)
@@ -436,8 +618,12 @@ def divFrontend [Monad m] [MonadExcept Err m] (n k : String) : m String :=
       | .divByZero =&gt; pure &quot;Division by zero!&quot;
       | .notANumber s =&gt; pure s!&quot;Not a number: \&quot;{s}\&quot;&quot;
 </code></pre>
-<p>Throwing and catching exceptions is common enough that Lean provides a special syntax for using <code>MonadExcept</code>.
-Just as <code>+</code> is short for <code>HAdd.hAdd</code>, <code>try</code> and <code>catch</code> can be used as shorthand for the <code>tryCatch</code> method:</p>
+<!--
+Throwing and catching exceptions is common enough that Lean provides a special syntax for using `MonadExcept`.
+Just as `+` is short for `HAdd.hAdd`, `try` and `catch` can be used as shorthand for the `tryCatch` method:
+-->
+<p>抛出和捕获异常非常常见，因此 Lean 提供了使用 <code>MonadExcept</code> 的特殊语法。
+正如 <code>+</code> 是 <code>HAdd.hAdd</code> 的缩写，<code>try</code> 和 <code>catch</code> 可以作为 <code>tryCatch</code> 方法的缩写：</p>
 <pre><code class="language-lean">def divFrontend [Monad m] [MonadExcept Err m] (n k : String) : m String :=
   try
     pure (toString (← divBackend (← asNumber n) (← asNumber k)))
@@ -445,27 +631,49 @@ Just as <code>+</code> is short for <code>HAdd.hAdd</code>, <code>try</code> and
     | .divByZero =&gt; pure &quot;Division by zero!&quot;
     | .notANumber s =&gt; pure s!&quot;Not a number: \&quot;{s}\&quot;&quot;
 </code></pre>
-<p>In addition to <code>Except</code> and <code>ExceptT</code>, there are useful <code>MonadExcept</code> instances for other types that may not seem like exceptions at first glance.
-For example, failure due to <code>Option</code> can be seen as throwing an exception that contains no data whatsoever, so there is an instance of <code>MonadExcept Unit Option</code> that allows <code>try ... catch ...</code> syntax to be used with <code>Option</code>.</p>
-<h2 id="state"><a class="header" href="#state">State</a></h2>
-<p>A simulation of mutable state is added to a monad by having monadic actions accept a starting state as an argument and return a final state together with their result.
+<!--
+In addition to `Except` and `ExceptT`, there are useful `MonadExcept` instances for other types that may not seem like exceptions at first glance.
+For example, failure due to `Option` can be seen as throwing an exception that contains no data whatsoever, so there is an instance of `MonadExcept Unit Option` that allows `try ... catch ...` syntax to be used with `Option`.
+-->
+<p>除了 <code>Except</code> 和 <code>ExceptT</code> 之外，还有一些有用的 <code>MonadExcept</code> 实例，用于处理其他类型的异常，这些异常乍看起来可能不像是异常。
+例如，<code>Option</code> 导致的失败可以被看作是抛出了一个不包含任何数据的异常，因此有一个实例 <code>MonadExcept Unit Option</code> 允许将 <code>try ... catch ...</code> 语法与 <code>Option</code> 一起使用。</p>
+<!--
+## State
+-->
+<h2 id="状态"><a class="header" href="#状态">状态</a></h2>
+<!--
+A simulation of mutable state is added to a monad by having monadic actions accept a starting state as an argument and return a final state together with their result.
 The bind operator for a state monad provides the final state of one action as an argument to the next action, threading the state through the program.
-This pattern can also be expressed as a monad transformer:</p>
+This pattern can also be expressed as a monad transformer:
+-->
+<p>通过让单子动作接受一个起始状态作为参数，并返回一个最终状态及其结果，就可以在单子中加入对可变状态的模拟。
+状态单子的绑定操作符将一个动作的最终状态作为下一个动作的参数，从而将状态贯穿整个程序。
+这种模式也可以用单子转换器来表示：</p>
 <pre><code class="language-lean">def StateT (σ : Type u) (m : Type u → Type v) (α : Type u) : Type (max u v) :=
   σ → m (α × σ)
 </code></pre>
-<p>Once again, the monad instance is very similar to that for <code>State</code>.
-The only difference is that the input and output states are passed around and returned in the underlying monad, rather than with pure code:</p>
+<!--
+Once again, the monad instance is very similar to that for `State`.
+The only difference is that the input and output states are passed around and returned in the underlying monad, rather than with pure code:
+-->
+<p>同样，该单子实例与 <code>State</code> 非常相似。
+唯一不同的是，输入和输出状态是在底层单子中传递和返回的，而不是纯代码：</p>
 <pre><code class="language-lean">instance [Monad m] : Monad (StateT σ m) where
   pure x := fun s =&gt; pure (x, s)
   bind result next := fun s =&gt; do
     let (v, s') ← result s
     next v s'
 </code></pre>
-<p>The corresponding type class has <code>get</code> and <code>set</code> methods.
-One downside of <code>get</code> and <code>set</code> is that it becomes too easy to <code>set</code> the wrong state when updating it.
+<!--
+The corresponding type class has `get` and `set` methods.
+One downside of `get` and `set` is that it becomes too easy to `set` the wrong state when updating it.
 This is because retrieving the state, updating it, and saving the updated state is a natural way to write some programs.
-For example, the following program counts the number of diacritic-free English vowels and consonants in a string of letters:</p>
+For example, the following program counts the number of diacritic-free English vowels and consonants in a string of letters:
+-->
+<p>相应的类型类有 <code>get</code> 和 <code>set</code> 方法。
+<code>get</code> 和 <code>set</code> 的一个缺点是，在更新状态时很容易 <code>set</code> 错误的状态。
+这是因为检索状态、更新状态并保存更新后的状态是编写某些程序的一种很自然的方式。
+例如，下面的程序会计算一串字母中不含音素的英语元音和辅音的数量：</p>
 <pre><code class="language-lean">structure LetterCounts where
   vowels : Nat
   consonants : Nat
@@ -502,13 +710,24 @@ def countLetters (str : String) : StateT LetterCounts (Except Err) Unit :=
       loop cs
   loop str.toList
 </code></pre>
-<p>It would be very easy to write <code>set st</code> instead of <code>set st'</code>.
-In a large program, this kind of mistake can lead to difficult-to-diagnose bugs.</p>
-<p>While using a nested action for the call to <code>get</code> would solve this problem, it can't solve all such problems.
+<!--
+It would be very easy to write `set st` instead of `set st'`.
+In a large program, this kind of mistake can lead to difficult-to-diagnose bugs.
+-->
+<p>非常容易将 <code>set st</code> 误写成 <code>set st'</code> 。
+在大型程序中，这种错误会导致难以诊断的 bug。</p>
+<!--
+While using a nested action for the call to `get` would solve this problem, it can't solve all such problems.
 For example, a function might update a field on a structure based on the values of two other fields.
-This would require two separate nested-action calls to <code>get</code>.
+This would require two separate nested-action calls to `get`.
 Because the Lean compiler contains optimizations that are only effective when there is a single reference to a value, duplicating the references to the state might lead to code that is significantly slower.
-Both the potential performance problem and the potential bug can be worked around by using <code>modify</code>, which transforms the state using a function:</p>
+Both the potential performance problem and the potential bug can be worked around by using `modify`, which transforms the state using a function:
+-->
+<p>虽然使用嵌套操作来调用 <code>get</code> 可以解决这个问题，但它不能解决所有此类问题。
+例如，一个函数可能会根据另外两个字段的值来更新结构体上的一个字段。
+这就需要对 <code>get</code> 进行两次单独的嵌套操作调用。
+由于 Lean 编译器包含的优化功能只有在对值进行单个引用时才有效，因此重复引用状态可能会导致代码速度大大降低。
+使用 <code>modify</code>（即使用函数转换状态）可以解决潜在的性能问题和 bug：</p>
 <pre><code class="language-lean">def countLetters (str : String) : StateT LetterCounts (Except Err) Unit :=
   let rec loop (chars : List Char) := do
     match chars with
@@ -525,51 +744,122 @@ Both the potential performance problem and the potential bug can be worked aroun
       loop cs
   loop str.toList
 </code></pre>
-<p>The type class contains a function akin to <code>modify</code> called <code>modifyGet</code>, which allows the function to both compute a return value and transform an old state in a single step.
-The function returns a pair in which the first element is the return value, and the second element is the new state; <code>modify</code> just adds the constructor of <code>Unit</code> to the pair used in <code>modifyGet</code>:</p>
+<!--
+The type class contains a function akin to `modify` called `modifyGet`, which allows the function to both compute a return value and transform an old state in a single step.
+The function returns a pair in which the first element is the return value, and the second element is the new state; `modify` just adds the constructor of `Unit` to the pair used in `modifyGet`:
+-->
+<p>类型类包含一个类似于 <code>modify</code> 的函数，称为 <code>modifyGet</code>，它允许函数在一个步骤中同时计算返回值和转换旧状态。
+该函数返回一个二元组，其中第一个元素是返回值，第二个元素是新状态；<code>modify</code> 只是将 <code>Unit</code> 的构造函数添加到 <code>modifyGet</code> 中使用的二元组中：</p>
 <pre><code class="language-lean">def modify [MonadState σ m] (f : σ → σ) : m Unit :=
   modifyGet fun s =&gt; ((), f s)
 </code></pre>
-<p>The definition of <code>MonadState</code> is as follows:</p>
+<!--
+The definition of `MonadState` is as follows:
+-->
+<p><code>MonadState</code> 的定义如下：</p>
 <pre><code class="language-lean">class MonadState (σ : outParam (Type u)) (m : Type u → Type v) : Type (max (u+1) v) where
   get : m σ
   set : σ → m PUnit
   modifyGet : (σ → α × σ) → m α
 </code></pre>
-<p><code>PUnit</code> is a version of the <code>Unit</code> type that is universe-polymorphic to allow it to be in <code>Type u</code> instead of <code>Type</code>.
-While it would be possible to provide a default implementation of <code>modifyGet</code> in terms of <code>get</code> and <code>set</code>, it would not admit the optimizations that make <code>modifyGet</code> useful in the first place, rendering the method useless.</p>
-<h2 id="of-classes-and-the-functions"><a class="header" href="#of-classes-and-the-functions"><code>Of</code> Classes and <code>The</code> Functions</a></h2>
-<p>Thus far, each monad type class that takes extra information, like the type of exceptions for <code>MonadExcept</code> or the type of the state for <code>MonadState</code>, has this type of extra information as an output parameter.
-For simple programs, this is generally convenient, because a monad that combines one use each of <code>StateT</code>, <code>ReaderT</code>, and <code>ExceptT</code> has only a single state type, environment type, and exception type.
+<!--
+`PUnit` is a version of the `Unit` type that is universe-polymorphic to allow it to be in `Type u` instead of `Type`.
+While it would be possible to provide a default implementation of `modifyGet` in terms of `get` and `set`, it would not admit the optimizations that make `modifyGet` useful in the first place, rendering the method useless.
+-->
+<p><code>PUnit</code> 是 <code>Unit</code> 类型的一个版本，它具有宇宙多态性，允许以 <code>Type u</code> 代替 <code>Type</code>。
+虽然可以用 <code>get</code> 和 <code>set</code> 来提供 <code>modifyGet</code> 的默认实现，但这样就无法进行使 <code>modifyGet</code> 有用的优化，从而使该方法变得无用。</p>
+<!--
+## `Of` Classes and `The` Functions
+-->
+<h2 id="of-类和-the-函数"><a class="header" href="#of-类和-the-函数"><code>Of</code> 类和 <code>The</code> 函数</a></h2>
+<!--
+Thus far, each monad type class that takes extra information, like the type of exceptions for `MonadExcept` or the type of the state for `MonadState`, has this type of extra information as an output parameter.
+For simple programs, this is generally convenient, because a monad that combines one use each of `StateT`, `ReaderT`, and `ExceptT` has only a single state type, environment type, and exception type.
 As monads grow in complexity, however, they may involve multiple states or errors types.
-In this case, the use of an output parameter makes it impossible to target both states in the same <code>do</code>-block.</p>
-<p>For these cases, there are additional type classes in which the extra information is not an output parameter.
-These versions of the type classes use the word <code>Of</code> in the name.
-For example, <code>MonadStateOf</code> is like <code>MonadState</code>, but without an <code>outParam</code> modifier.</p>
-<p>Similarly, there are versions of the type class methods that accept the type of the extra information as an <em>explicit</em>, rather than implicit, argument.
-For <code>MonadStateOf</code>, there are <code>getThe</code> with type</p>
+In this case, the use of an output parameter makes it impossible to target both states in the same `do`-block.
+-->
+<p>到目前为止，每个需要额外信息的单子类型类，如 <code>MonadExcept</code> 的异常类型或 <code>MonadState</code> 的状态类型，都有这类额外信息作为输出参数。
+对于简单的程序来说，这通常很方便，因为结合使用了 <code>StateT</code>、<code>ReaderT</code> 和 <code>ExceptT</code> 的单子只有单一的状态类型、环境类型和异常类型。
+然而，随着单子的复杂性增加，它们可能会涉及多个状态或错误类型。
+在这种情况下，输出参数的使用使得无法在同一个 <code>do</code> 块中同时针对两种状态。</p>
+<!--
+For these cases, there are additional type classes in which the extra information is not an output parameter.
+These versions of the type classes use the word `Of` in the name.
+For example, `MonadStateOf` is like `MonadState`, but without an `outParam` modifier.
+-->
+<p>应对这些情况，还有一些额外的类型类，其中的额外信息不是输出参数。
+这些版本的类型类在名称中使用了 <code>Of</code> 字样。
+例如，<code>MonadStateOf</code> 与 <code>MonadState</code> 类似，但没有 <code>outParam</code> 修饰符。</p>
+<!--
+Similarly, there are versions of the type class methods that accept the type of the extra information as an _explicit_, rather than implicit, argument.
+For `MonadStateOf`, there are `getThe` with type
+-->
+<p>同样，也有一些版本的类型类方法接受额外信息的类型作为 <em>显式</em> 参数，而不是隐式参数。
+对于 <code>MonadStateOf</code>，有 <code>getThe</code>，类型为</p>
 <pre><code class="language-lean">(σ : Type u) → {m : Type u → Type v} → [MonadStateOf σ m] → m σ
 </code></pre>
-<p>and <code>modifyThe</code> with type</p>
+<!--
+and `modifyThe` with type
+-->
+<p>以及 <code>modifyThe</code>，类型为</p>
 <pre><code class="language-lean">(σ : Type u) → {m : Type u → Type v} → [MonadStateOf σ m] → (σ → σ) → m PUnit
 </code></pre>
-<p>There is no <code>setThe</code> because the type of the new state is enough to decide which surrounding state monad transformer to use.</p>
-<p>In the Lean standard library, there are instances of the non-<code>Of</code> versions of the classes defined in terms of the instances of the versions with <code>Of</code>.
-In other words, implementing the <code>Of</code> version yields implementations of both.
-It's generally a good idea to implement the <code>Of</code> version, and then start writing programs using the non-<code>Of</code> versions of the class, transitioning to the <code>Of</code> version if the output parameter becomes inconvenient.</p>
-<h2 id="transformers-and-id"><a class="header" href="#transformers-and-id">Transformers and <code>Id</code></a></h2>
-<p>The identity monad <code>Id</code> is the monad that has no effects whatsoever, to be used in contexts that expect a monad for some reason but where none is actually necessary.
-Another use of <code>Id</code> is to serve as the bottom of a stack of monad transformers.
-For instance, <code>StateT σ Id</code> works just like <code>State σ</code>.</p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
-<h3 id="monad-contract"><a class="header" href="#monad-contract">Monad Contract</a></h3>
-<p>Using pencil and paper, check that the rules of the monad transformer contract are satisfied for each monad transformer in this section.</p>
-<h3 id="logging-transformer"><a class="header" href="#logging-transformer">Logging Transformer</a></h3>
-<p>Define a monad transformer version of <code>WithLog</code>.
-Also define the corresponding type class <code>MonadWithLog</code>, and write a program that combines logging and exceptions.</p>
-<h3 id="counting-files"><a class="header" href="#counting-files">Counting Files</a></h3>
-<p>Modify <code>doug</code>'s monad with <code>StateT</code> such that it counts the number of directories and files seen.
-At the end of execution, it should display a report like:</p>
+<!--
+There is no `setThe` because the type of the new state is enough to decide which surrounding state monad transformer to use.
+-->
+<p>没有 <code>setThe</code> 函数，因为新状态的类型足以决定使用哪个状态单子转换器。</p>
+<!--
+In the Lean standard library, there are instances of the non-`Of` versions of the classes defined in terms of the instances of the versions with `Of`.
+In other words, implementing the `Of` version yields implementations of both.
+It's generally a good idea to implement the `Of` version, and then start writing programs using the non-`Of` versions of the class, transitioning to the `Of` version if the output parameter becomes inconvenient.
+-->
+<p>在 Lean 标准库中，有非 <code>Of</code> 版本的类型类实例是根据带 <code>Of</code> 版本的类型类实例定义的。
+换句话说，实现 <code>Of</code> 版本可以同时实现这两个版本。
+一般来说，实现 <code>Of</code> 版本是个好主意，然后开始使用类的非 <code>Of</code> 版本编写程序，如果输出参数变得不方便，就过渡到 <code>Of</code> 版本。</p>
+<!--
+## Transformers and `Id`
+-->
+<h2 id="转换器和-id"><a class="header" href="#转换器和-id">转换器和 <code>Id</code></a></h2>
+<!--
+The identity monad `Id` is the monad that has no effects whatsoever, to be used in contexts that expect a monad for some reason but where none is actually necessary.
+Another use of `Id` is to serve as the bottom of a stack of monad transformers.
+For instance, `StateT σ Id` works just like `State σ`.
+-->
+<p>恒等单子 <code>Id</code> 是没有任何作用的单子，可用于上下文因某种原因需要单子，但实际上不需要的情况。
+<code>Id</code> 的另一个用途是作为单子转换器栈的底层。
+例如，<code>StateT σ Id</code> 的作用与 <code>State σ</code> 相同。</p>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+### Monad Contract
+-->
+<h3 id="单子约定"><a class="header" href="#单子约定">单子约定</a></h3>
+<!--
+Using pencil and paper, check that the rules of the monad transformer contract are satisfied for each monad transformer in this section.
+-->
+<p>用纸笔检查本节中每个单子转换器是否符合单子转换器的规则。</p>
+<!--
+### Logging Transformer
+-->
+<h3 id="日志转换器"><a class="header" href="#日志转换器">日志转换器</a></h3>
+<!--
+Define a monad transformer version of `WithLog`.
+Also define the corresponding type class `MonadWithLog`, and write a program that combines logging and exceptions.
+-->
+<p>定义 <code>WithLog</code> 的单子转换器版本。
+同时定义相应的类型类 <code>MonadWithLog</code>，并编写一个结合日志和异常的程序。</p>
+<!--
+### Counting Files
+-->
+<h3 id="文件计数"><a class="header" href="#文件计数">文件计数</a></h3>
+<!--
+Modify `doug`'s monad with `StateT` such that it counts the number of directories and files seen.
+At the end of execution, it should display a report like:
+-->
+<p>用 <code>StateT</code> 来修改 <code>doug</code> 的单子，使它能统计所看到的目录和文件的数量。
+在执行结束时，它应该显示如下报告：</p>
 <pre><code>  Viewed 38 files in 5 directories.
 </code></pre>
 

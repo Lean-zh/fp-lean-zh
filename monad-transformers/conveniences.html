@@ -144,55 +144,121 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="additional-conveniences"><a class="header" href="#additional-conveniences">Additional Conveniences</a></h1>
-<h2 id="pipe-operators"><a class="header" href="#pipe-operators">Pipe Operators</a></h2>
-<p>Functions are normally written before their arguments.
-When reading a program from left to right, this promotes a view in which the function's <em>output</em> is paramount—the function has a goal to achieve (that is, a value to compute), and it receives arguments to support it in this process.
+                        <!--
+# Additional Conveniences
+-->
+<h1 id="其他便利功能"><a class="header" href="#其他便利功能">其他便利功能</a></h1>
+<!--
+## Pipe Operators
+-->
+<h2 id="管道操作符"><a class="header" href="#管道操作符">管道操作符</a></h2>
+<!--
+Functions are normally written before their arguments.
+When reading a program from left to right, this promotes a view in which the function's _output_ is paramount—the function has a goal to achieve (that is, a value to compute), and it receives arguments to support it in this process.
 But some programs are easier to understand in terms of an input that is successively refined to produce the output.
-For these situations, Lean provides a <em>pipeline</em> operator which is similar to the that provided by F#.
-Pipeline operators are useful in the same situations as Clojure's threading macros.</p>
-<p>The pipeline <code>E1 |&gt; E2</code> is short for <code>E2 E1</code>.
-For example, evaluating:</p>
+For these situations, Lean provides a _pipeline_ operator which is similar to the that provided by F#.
+Pipeline operators are useful in the same situations as Clojure's threading macros.
+-->
+<p>函数通常写在参数之前。
+当从左往右阅读程序时，这种做法会让人觉得函数的 <em>输出</em> 是最重要的 —— 函数有一个要实现的目标（也就是要计算的值），在这个过程中，函数会得到参数的支持。
+但有些程序更容易理解，通过想象不断完善输入来产生输出。
+针对这些情况，Lean 提供了与 F# 类似的 <em>管道</em> 操作符。
+管道操作符在与 Clojure 的线程宏相同的情况下非常有用。</p>
+<!--
+The pipeline `E1 |> E2` is short for `E2 E1`.
+For example, evaluating:
+-->
+<p>管道 <code>E1 |&gt; E2</code> 是 <code>E2 E1</code> 的缩写。
+举个例子，求值：</p>
 <pre><code class="language-lean">#eval some 5 |&gt; toString
 </code></pre>
-<p>results in:</p>
+<!--
+results in:
+-->
+<p>可得：</p>
 <pre><code class="language-output info">&quot;(some 5)&quot;
 </code></pre>
-<p>While this change of emphasis can make some programs more convenient to read, pipelines really come into their own when they contain many components.</p>
-<p>With the definition:</p>
+<!--
+While this change of emphasis can make some programs more convenient to read, pipelines really come into their own when they contain many components.
+-->
+<p>虽然这种侧重点的变化可以使某些程序的阅读更加方便，但当管道包含许多组件时，才是它真正派上用场的时刻。</p>
+<!--
+With the definition:
+-->
+<p>有如下定义</p>
 <pre><code class="language-lean">def times3 (n : Nat) : Nat := n * 3
 </code></pre>
-<p>the following pipeline:</p>
+<!--
+the following pipeline:
+-->
+<p>下面的管道：</p>
 <pre><code class="language-lean">#eval 5 |&gt; times3 |&gt; toString |&gt; (&quot;It is &quot; ++ ·)
 </code></pre>
-<p>yields:</p>
+<!--
+yields:
+-->
+<p>会产生：</p>
 <pre><code class="language-output info">&quot;It is 15&quot;
 </code></pre>
-<p>More generally, a series of pipelines <code>E1 |&gt; E2 |&gt; E3 |&gt; E4</code> is short for nested function applications <code>E4 (E3 (E2 E1))</code>.</p>
-<p>Pipelines may also be written in reverse.
+<!--
+More generally, a series of pipelines `E1 |> E2 |> E3 |> E4` is short for nested function applications `E4 (E3 (E2 E1))`.
+-->
+<p>更一般地说，一系列管道 <code>E1 |&gt; E2 |&gt; E3 |&gt; E4</code> 是嵌套函数应用 <code>E4 (E3 (E2 E1))</code> 的简称。</p>
+<!--
+Pipelines may also be written in reverse.
 In this case, they do not place the subject of data transformation first; however, in cases where many nested parentheses pose a challenge for readers, they can clarify the steps of application.
-The prior example could be equivalently written as:</p>
+The prior example could be equivalently written as:
+-->
+<p>管道也可以反过来写。
+在这种情况下，它们并不优先考虑数据转换这个主旨；而是在许多嵌套括号给读者带来困难的情况下，给出明确应用的步骤。
+前面的例子可以这样写成等价形式：</p>
 <pre><code class="language-lean">#eval (&quot;It is &quot; ++ ·) &lt;| toString &lt;| times3 &lt;| 5
 </code></pre>
-<p>which is short for:</p>
+<!--
+which is short for:
+-->
+<p>是下面代码的缩写：</p>
 <pre><code class="language-lean">#eval (&quot;It is &quot; ++ ·) (toString (times3 5))
 </code></pre>
-<p>Lean's method dot notation that uses the name of the type before the dot to resolve the namespace of the operator after the dot serves a similar purpose to pipelines.
-Even without the pipeline operator, it is possible to write <code>[1, 2, 3].reverse</code> instead of <code>List.reverse [1, 2, 3]</code>.
+<!--
+Lean's method dot notation that uses the name of the type before the dot to resolve the namespace of the operator after the dot serves a similar purpose to pipelines.
+Even without the pipeline operator, it is possible to write `[1, 2, 3].reverse` instead of `List.reverse [1, 2, 3]`.
 However, the pipeline operator is also useful for dotted functions when using many of them.
-<code>([1, 2, 3].reverse.drop 1).reverse</code> can also be written as <code>[1, 2, 3] |&gt; List.reverse |&gt; List.drop 1 |&gt; List.reverse</code>.
+`([1, 2, 3].reverse.drop 1).reverse` can also be written as `[1, 2, 3] |> List.reverse |> List.drop 1 |> List.reverse`.
 This version avoids having to parenthesize expressions simply because they accept arguments, and it recovers the convenience of a chain of method calls in languages like Kotlin or C#.
 However, it still requires the namespace to be provided by hand.
-As a final convenience, Lean provides the &quot;pipeline dot&quot; operator, which groups functions like the pipeline but uses the name of the type to resolve namespaces.
-With &quot;pipeline dot&quot;, the example can be rewritten to <code>[1, 2, 3] |&gt;.reverse |&gt;.drop 1 |&gt;.reverse</code>.</p>
-<h2 id="infinite-loops"><a class="header" href="#infinite-loops">Infinite Loops</a></h2>
-<p>Within a <code>do</code>-block, the <code>repeat</code> keyword introduces an infinite loop.
-For example, a program that spams the string <code>&quot;Spam!&quot;</code> can use it:</p>
+As a final convenience, Lean provides the "pipeline dot" operator, which groups functions like the pipeline but uses the name of the type to resolve namespaces.
+With "pipeline dot", the example can be rewritten to `[1, 2, 3] |>.reverse |>.drop 1 |>.reverse`.
+-->
+<p>Lean 的方法点符号（Dot notation）使用点前的类型名称来解析点后操作符的命名空间，其作用与管道类似。
+即使没有管道操作符，我们也可以写出 <code>[1, 2, 3].reverse</code> 而不是 <code>List.reverse [1, 2, 3]</code> 。
+不过，管道运算符也适用于使用多个带点函数的情况。
+<code>([1, 2, 3].reverse.drop 1).reverse</code> 也可以写成 <code>[1, 2, 3] |&gt; List.reverse |&gt; List.drop 1 |&gt; List.reverse</code> 。
+该版本避免了表达式因接受参数而必须使用括号的麻烦，和 Kotlin 或 C# 等语言中方法调用链一样简便。
+不过，它仍然需要手动提供命名空间。
+作为最后一种便利功能，Lean 提供了“管道点”（Pipeline dot）操作符，它像管道一样对函数进行分组，但使用类型名称来解析命名空间。
+使用“管道点”，可以将示例改写为 <code>[1, 2, 3] |&gt;.reverse |&gt;.drop 1 |&gt;.reverse</code> 。</p>
+<!--
+## Infinite Loops
+-->
+<h2 id="无限循环"><a class="header" href="#无限循环">无限循环</a></h2>
+<!--
+Within a `do`-block, the `repeat` keyword introduces an infinite loop.
+For example, a program that spams the string `"Spam!"` can use it:
+-->
+<p>在一个 <code>do</code> 块中，<code>repeat</code> 关键字会引入一个无限循环。
+例如，一个发送垃圾邮件字符串“Spam!”的程序可用它完成：</p>
 <pre><code class="language-lean">def spam : IO Unit := do
   repeat IO.println &quot;Spam!&quot;
 </code></pre>
-<p>A <code>repeat</code> loop supports <code>break</code> and <code>continue</code>, just like <code>for</code> loops.</p>
-<p>The <code>dump</code> function from the <a href="../hello-world/cat.html#streams">implementation of <code>feline</code></a> uses a recursive function to run forever:</p>
+<!--
+A `repeat` loop supports `break` and `continue`, just like `for` loops.
+-->
+<p><code>repeat</code> 循环还支持和 <code>break</code> 和 <code>continue</code>，和 <code>for</code> 循环一样。</p>
+<!--
+The `dump` function from the [implementation of `feline`](../hello-world/cat.md#streams) uses a recursive function to run forever:
+-->
+<p><a href="../hello-world/cat.html#streams"><code>feline</code>实现</a> 中的函数 <code>dump</code> 使用递归函数来永远运行：</p>
 <pre><code class="language-lean">partial def dump (stream : IO.FS.Stream) : IO Unit := do
   let buf ← stream.read bufsize
   if buf.isEmpty then
@@ -202,7 +268,10 @@ For example, a program that spams the string <code>&quot;Spam!&quot;</code> can 
     stdout.write buf
     dump stream
 </code></pre>
-<p>This function can be greatly shortened using <code>repeat</code>:</p>
+<!--
+This function can be greatly shortened using `repeat`:
+-->
+<p>利用 <code>repeat</code> 可将这个函数大大缩短：</p>
 <pre><code class="language-lean">def dump (stream : IO.FS.Stream) : IO Unit := do
   let stdout ← IO.getStdout
   repeat do
@@ -210,11 +279,22 @@ For example, a program that spams the string <code>&quot;Spam!&quot;</code> can 
     if buf.isEmpty then break
     stdout.write buf
 </code></pre>
-<p>Neither <code>spam</code> nor <code>dump</code> need to be declared as <code>partial</code> because they are not themselves infinitely recursive.
-Instead, <code>repeat</code> makes use of a type whose <code>ForM</code> instance is <code>partial</code>.
-Partiality does not &quot;infect&quot; calling functions.</p>
-<h2 id="while-loops"><a class="header" href="#while-loops">While Loops</a></h2>
-<p>When programming with local mutability, <code>while</code> loops can be a convenient alternative to <code>repeat</code> with an <code>if</code>-guarded <code>break</code>:</p>
+<!--
+Neither `spam` nor `dump` need to be declared as `partial` because they are not themselves infinitely recursive.
+Instead, `repeat` makes use of a type whose `ForM` instance is `partial`.
+Partiality does not "infect" calling functions.
+-->
+<p>无论是 <code>spam</code> 还是 <code>dump</code> 都不需要声明为 <code>partial</code> 类型，因为它们本身并不是无限递归的。
+相反，<code>repeat</code> 使用了一个类型，该类型的 <code>ForM</code> 实例是 <code>partial</code>。
+部分性不会“感染”函数调用者。</p>
+<!--
+## While Loops
+-->
+<h2 id="while-循环"><a class="header" href="#while-循环">While 循环</a></h2>
+<!--
+When programming with local mutability, `while` loops can be a convenient alternative to `repeat` with an `if`-guarded `break`:
+-->
+<p>在使用局部可变性编程时，<code>while</code> 循环可以方便地替代带有 <code>if</code> 修饰的 <code>break</code> 的 <code>repeat</code> 循环：</p>
 <pre><code class="language-lean">def dump (stream : IO.FS.Stream) : IO Unit := do
   let stdout ← IO.getStdout
   let mut buf ← stream.read bufsize
@@ -222,7 +302,10 @@ Partiality does not &quot;infect&quot; calling functions.</p>
     stdout.write buf
     buf ← stream.read bufsize
 </code></pre>
-<p>Behind the scenes, <code>while</code> is just a simpler notation for <code>repeat</code>.</p>
+<!--
+Behind the scenes, `while` is just a simpler notation for `repeat`.
+-->
+<p>在后端， <code>while</code> 只是 <code>repeat</code> 的一个更简单的标记。</p>
 
                     </main>
 
