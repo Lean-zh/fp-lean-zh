@@ -519,8 +519,8 @@ In Lean, programs are first and foremost expressions, and the primary way to thi
 -->
 <p>作为学习 Lean 的程序员，最重要的是理解求值的工作原理。求值是求得表达式的值的过程，就像算术那样。
 例如，15 - 6 的值为 9，2 × (3 + 1) 的值为 8。要得到后一个表达式的值，首先将 3 + 1 替换为 4，
-得到 2 × 4，它本身又可以简化为 8。有时，数学表达式包含变量：在知道 <em>x</em> 的值之前，
-无法计算 <em>x</em> + 1 的值。在 Lean 中，程序首先是表达式，思考计算的主要方式是对表达式求值以得到其值。</p>
+得到 2 × 4，它本身又可以归约为 8。有时，数学表达式包含变量：在知道 <em>x</em> 的值之前，
+无法计算 <em>x</em> + 1 的值。在 Lean 中，程序首先是表达式，思考计算的主要方式是对表达式求值。</p>
 <!--
 Most programming languages are _imperative_, where a program consists
 of a series of statements that should be carried out in order to find
@@ -532,7 +532,7 @@ database. "Side effects" is essentially a catch-all term for
 describing things that may happen in a program that don't follow the
 model of evaluating mathematical expressions.
 -->
-<p>大多数编程语言都是 <strong>命令式的（Imperative）</strong> ，其中程序由一系列语句组成，
+<p>大多数编程语言都是 <strong>命令式的（Imperative）</strong>，其中程序由一系列语句组成，
 这些语句会按顺序执行以得到程序的结果。程序可以访问可变内存，
 因此变量引用的值可以随时间而改变。除了可变状态外，程序还可能产生其他副作用，
 例如删除文件、建立传出的网络连接、抛出或捕获异常以及从数据库读取数据等等。
@@ -550,19 +550,19 @@ evaluate expressions interactively with Lean, while the next chapter
 describes how to write, compile, and run the `Hello, world!` program.
 -->
 <p>然而，在 Lean 中，程序的工作方式与数学表达式相同。变量一旦被赋予一个值，
-它不能再重新赋值。求值表达式不会产生副作用。如果两个表达式具有相同的值，
-那么用一个表达式替换另一个表达式不会导致程序计算出不同的结果。
-这并不意味着 Lean 不能用于向控制台写入 <code>Hello, world!</code>，而是执行 I/O
-并不是以求值表达式的方式使用 Lean 的核心部分。因此，本章重点介绍如何使用 Lean
-交互式地求值表达式，而下一章将介绍如何编写、编译并运行 <code>Hello, world!</code> 程序。</p>
+就不能再被重新赋值。求值表达式不会产生副作用。如果两个表达式的值相同，
+那么用一个表达式替换另一个表达式并不会导致程序计算出不同的结果。
+这并不意味着不能使用 Lean 向控制台写入 <code>Hello, world!</code>，而是执行 I/O
+并不是以求值表达式的方式使用 Lean 的核心部分。因此，本章重点介绍如何使用
+Lean 交互式地求值表达式，而下一章将介绍如何编写、编译并运行 <code>Hello, world!</code> 程序。</p>
 <!--
 To ask Lean to evaluate an expression, write `#eval` before it in your
 editor, which will then report the result back. Typically, the result
 is found by putting the cursor or mouse pointer over `#eval`. For
 instance,
 -->
-<p>要让 Lean 对一个表达式求值，请在编辑器中该表达式的前面加上 <code>#eval</code>，
-然后它会报告结果。通常可通过将光标或鼠标指针放在 <code>#eval</code> 上来查看结果。例如，</p>
+<p>要让 Lean 对一个表达式求值，请在编辑器中的表达式前面加上 <code>#eval</code>，
+然后它会返回结果。通常可以将光标或鼠标指针放在 <code>#eval</code> 上查看结果。例如，</p>
 <pre><code class="language-lean">#eval 1 + 2
 </code></pre>
 <!--
@@ -605,14 +605,14 @@ one would instead write
 where the function's two arguments are simply written next to
 it with spaces.
 -->
-<p>其中函数的两个参数只是用空格隔开然后写在后面。</p>
+<p>其中函数的两个参数只是写在后面用空格隔开。</p>
 <!--
 Just as the order-of-operations rules for arithmetic demand
 parentheses in the expression `(1 + 2) * 5`, parentheses are also
 necessary when a function's argument is to be computed via another
 function call. For instance, parentheses are required in
 -->
-<p>就像算术运算的顺序规则需要在表达式中使用括号（如 <code>(1 + 2) * 5</code>）表示一样，
+<p>就像算术运算的顺序需要在表达式中使用括号（如 <code>(1 + 2) * 5</code>）表示一样，
 当函数的参数需要通过另一个函数调用来计算时，括号也是必需的。例如，在</p>
 <pre><code class="language-Lean">#eval String.append &quot;great &quot; (String.append &quot;oak &quot; &quot;tree&quot;)
 </code></pre>
@@ -623,9 +623,9 @@ an argument to the first, rather than as a function being passed
 call must be found first, after which it can be appended to `"great "`,
 yielding the final value `"great oak tree"`.
 -->
-<p>中需要括号，否则第二个 <code>String.append</code> 将被解释为第一个函数的参数，而非作为接受 <code>&quot;oak &quot;</code>
+<p>中需要括号，否则第二个 <code>String.append</code> 将被解释为第一个函数的参数，而非一个接受 <code>&quot;oak &quot;</code>
 和 <code>&quot;tree&quot;</code> 作为参数的函数。必须先得到内部 <code>String.append</code> 调用的值，然后才能将其追加到
-<code>&quot;great &quot;</code>，从而产生最终的值 <code>&quot;great oak tree&quot;</code>。</p>
+<code>&quot;great &quot;</code> 后面，从而产生最终的值 <code>&quot;great oak tree&quot;</code>。</p>
 <!--
 Imperative languages often have two kinds of conditional: a
 conditional _statement_ that determines which instructions to carry
@@ -684,7 +684,7 @@ String.append &quot;it is &quot; &quot;no&quot;
 Asking Lean to evaluate a function application that is missing an argument will lead to an error message.
 In particular, the example
 -->
-<p>让 Lean 对缺少参数的函数应用进行求值会产生错误信息。具体来说，例如</p>
+<p>让 Lean 对缺少参数的函数应用进行求值会产生错误信息。举例来说，</p>
 <pre><code class="language-lean">#eval String.append &quot;it is &quot;
 </code></pre>
 <!--
@@ -3714,19 +3714,19 @@ Lean 都必须能够证明所有函数都会停机。在实践中，这意味着
 While Lean has been designed to have a rich interactive environment in which programmers can get quite a lot of feedback from the language without leaving the confines of their favorite text editor, it is also a language in which real programs can be written.
 This means that it also has a batch-mode compiler, a build system, a package manager, and all the other tools that are necessary for writing programs.
 -->
-<p>虽然 Lean 被设计为一个丰富的交互式环境，程序员可以在不离开他们最喜欢的文本编辑器的情况下，
-从语言中获得相当多的反馈，但它也是一门可以编写现实程序的语言。
-这意味着它还具有批处理模式编译器、构建系统、包管理器以及编写程序所需的所有其他工具。</p>
+<p>虽然 Lean 被设计为一个丰富的交互式环境，程序员无需离开他们最喜欢的文本编辑器，
+就能从语言中获得相当多的反馈，但它同时也是一门可以编写现实程序的语言。
+这意味着它还具有批量编译器、构建系统、包管理器以及编写程序所需的一切工具。</p>
 <!--
 While the [previous chapter](./getting-to-know.md) presented the basics of functional programming in Lean, this chapter explains how to start a programming project, compile it, and run the result.
 Programs that run and interact with their environment (e.g. by reading input from standard input or creating files) are difficult to reconcile with the understanding of computation as the evaluation of mathematical expressions.
 In addition to a description of the Lean build tools, this chapter also provides a way to think about functional programs that interact with the world.
 -->
-<p><a href="./getting-to-know.html">上一章</a>介绍了 Lean 中函数式编程的基础知识，
-本章将解释如何开始一个编程项目、编译它并运行结果。
-运行并与其环境交互的程序（例如通过读取标准输入或创建文件）
-很难与将计算理解为数学表达式的求值相协调。除了对 Lean 构建工具的描述之外，
-本章还提供了一种思考与世界交互的函数式程序的方法。</p>
+<p><a href="./getting-to-know.html">上一章</a>介绍了 Lean 函数式编程的基础知识，
+本章将解释如何开始一个编程项目、编译它并运行出结果。
+运行并与环境交互的程序（例如通过读取标准输入或创建文件）
+很难和将计算理解为数学表达式的求值相协调。除了介绍 Lean 构建工具之外，
+本章还提供了一种思考函数式程序与世界如何交互的方法。</p>
 <div style="break-before: page; page-break-before: always;"></div><!--
 # Running a Program
 -->
@@ -3752,7 +3752,7 @@ The program displays `Hello, world!` and exits.
 <!--
 ## Anatomy of a Greeting
 -->
-<h2 id="打招呼程序的剖析"><a class="header" href="#打招呼程序的剖析">打招呼程序的剖析</a></h2>
+<h2 id="问候程序的剖析"><a class="header" href="#问候程序的剖析">问候程序的剖析</a></h2>
 <!--
 When Lean is invoked with the `--run` option, it invokes the program's `main` definition.
 In programs that do not take command-line arguments, `main` should have type `IO Unit`.
@@ -3762,7 +3762,7 @@ Instead of being a function that has side effects, `main` consists of a descript
 <p>当使用 <code>--run</code> 选项调用 Lean 时，它会调用程序的 <code>main</code> 定义。
 对于不从命令行接受参数的程序，<code>main</code> 的类型应该是 <code>IO Unit</code>。
 这意味着 <code>main</code> 不是一个函数，因为它的类型中没有箭头（<code>→</code>）。
-<code>main</code> 不是一个具有副作用的函数，而是由要执行的副作用描述组成。</p>
+<code>main</code> 不是一个具有副作用的函数，而是由要执行的作用的描述组成。</p>
 <!--
 As discussed in [the preceding chapter](../getting-to-know/polymorphism.md), `Unit` is the simplest inductive type.
 It has a single constructor called `unit` that takes no arguments.
@@ -3771,7 +3771,7 @@ In Lean, all functions take an argument and return a value, and the lack of inte
 If `Bool` represents a single bit of information, `Unit` represents zero bits of information.
 -->
 <p>如<a href="hello-world/../getting-to-know/polymorphism.html">上一章</a>所述，<code>Unit</code> 是最简单的归纳类型。
-它有一个名为 <code>unit</code> 的构造子，不接受任何参数。C 传统的语言中有一个 <code>void</code> 函数的概念，
+它有一个名为 <code>unit</code> 的构造子，不接受任何参数。C 系的语言中有一个 <code>void</code> 函数的概念，
 它不返回任何值。在 Lean 中，所有函数都接受一个参数并返回一个值，
 而使用 <code>Unit</code> 类型可以表示没什么参数或返回值。如果 <code>Bool</code> 表示一个比特的信息，
 那么 <code>Unit</code> 就表示零比特的信息。</p>
@@ -3786,12 +3786,12 @@ If it did return something interesting, then that would be indicated by the `IO`
 -->
 <p><code>IO α</code> 是一个程序的类型，当执行时，它要么抛出一个异常，要么返回一个类型为 <code>α</code> 的值。
 在执行期间，此程序可能会产生副作用。这些程序被称为 <code>IO</code> <strong>活动（Action）</strong> 。
-Lean 区分表达式的 <strong>求值（Evaluation）</strong> （严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
-和 <code>IO</code> 活动的 <strong>执行（Execution）</strong> （依赖于外部系统与世界交互）。
+Lean 区分表达式的 <strong>求值（Evaluation）</strong>（严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）
+和 <code>IO</code> 活动的 <strong>执行（Execution）</strong>（依赖于外部系统与世界交互）。
 <code>IO.println</code> 是一个从字符串到 <code>IO</code> 活动的函数，当执行时，它将给定的字符串写入标准输出。
 由于此活动在发出字符串的过程中不会从环境中读取任何有趣的信息，
-因此 <code>IO.println</code> 的类型为 <code>String → IO Unit</code>。如果它确实返回了一些有趣的东西，
-那么这将通过 <code>Unit</code> 类型以外的 <code>IO</code> 活动来表示。</p>
+因此 <code>IO.println</code> 的类型为 <code>String → IO Unit</code>。如果它确实要返回一些有趣的东西，
+那么将通过 <code>Unit</code> 类型以外的 <code>IO</code> 活动来表示。</p>
 <!--
 ## Functional Programming vs Effects
 -->
@@ -3800,8 +3800,8 @@ Lean 区分表达式的 <strong>求值（Evaluation）</strong> （严格遵循�
 Lean's model of computation is based on the evaluation of mathematical expressions, in which variables are given exactly one value that does not change over time.
 The result of evaluating an expression does not change, and evaluating the same expression again will always yield the same result.
 -->
-<p>Lean 的计算模型基于数学表达式的求值，其中变量会被赋予一个不会随时间变化的精确值。
-求值表达式的结果不会改变，再次求值相同的表达式将始终产生相同的结果。</p>
+<p>Lean 的计算模型基于数学表达式的求值，其中变量会被赋予一个不会随时间改变的精确值。
+求值表达式的结果不会改变，再次求值相同的表达式会始终产生相同的结果。</p>
 <!--
 On the other hand, useful programs must interact with the world.
 A program that performs neither input nor output can't ask a user for data, create files on disk, or open network connections.
@@ -3811,7 +3811,8 @@ How can a language in which the same expression always yields the same result su
 <p>另一方面，有用的程序必须与世界交互。既不进行输入也不进行输出的程序无法向用户询问数据、
 创建磁盘文件或打开网络连接。Lean 是用它自己编写的，而 Lean 编译器当然会读取文件、
 创建文件并与文本编辑器交互。当这些文件的内容可能随时间而改变时，
-一种相同的表达式总是产生相同结果的语言，要如何支持从磁盘读取文件的程序？</p>
+在文件内容可能随时间改变的情况下，一种相同的表达式总是产生相同结果的语言，
+要如何编写可以从磁盘读取文件的程序呢？</p>
 <!--
 This apparent contradiction can be resolved by thinking a bit differently about side effects.
 Imagine a café that sells coffee and sandwiches.
@@ -3822,12 +3823,12 @@ The counter worker is friendly, but completely incompetent in the kitchen.
 Customers interact with the counter worker, who delegates all actual cooking to the cook.
 If the cook has a question for a customer, such as clarifying an allergy, they send a little note to the counter worker, who interacts with the customer and passes a note back to the cook with the result.
 -->
-<p>通过对副作用进行一些不同的思考，可以解决这种明显的矛盾。想象一家出售咖啡和三明治的咖啡馆。
-这家咖啡馆有两个员工：一名厨师负责完成订单，一名柜员负责与顾客互动并下订单。
-厨师是个脾气暴躁的人，他真的更喜欢不与外界有任何接触，
-但他非常擅长始终如一地提供咖啡馆著名的食物和饮料。然而，为了做到这一点，
-厨师需要安静，不能被打扰谈话。柜员很友好，但在厨房里完全没有能力。
-顾客与柜员互动，后者将所有实际烹饪委托给厨师。如果厨师对顾客有疑问，例如澄清过敏，
+<p>只要换个角度思考副作用，即可解决这种明显的矛盾。想象一家出售咖啡和三明治的咖啡厅。
+这家咖啡厅有两个员工：一名厨师负责完成订单，一名柜员负责与顾客互动并下订单。
+厨师是个暴脾气的人，他真的不喜欢与外界有任何接触，
+但他非常擅长始终如一地提供咖啡厅著名的食物和饮料。然而，为了做到这一点，
+厨师需要安静，不能被谈话打扰。柜员很友好，但在厨房里完全没有能力。
+顾客与柜员互动，后者将所有实际烹饪委托给厨师。如果厨师对顾客有疑问，例如澄清过敏源，
 他们会给柜台工作人员发一张小纸条，柜员与顾客互动，并将一张写有结果的纸条传回给厨师。</p>
 <!--
 In this analogy, the cook is the Lean language.
@@ -3843,7 +3844,7 @@ The cook's notes represent `IO` actions that are produced by evaluating Lean exp
 这两名员工共同承担了餐厅的所有职能，但他们的职责是分开的，每个人都执行自己最擅长的任务。
 就像让顾客远离可以让厨师专注于制作真正美味的咖啡和三明治一样，
 Lean 缺乏副作用可以让程序用作形式化数学证明的一部分。它还有助于程序员独立理解程序的各个部分，
-因为没有隐藏的状态更改会在组件之间创建微妙的耦合。
+因为没有隐藏的状态改变会在组件之间造成微妙的耦合。
 厨师的笔记表示通过求值 Lean 表达式产生的 <code>IO</code> 活动，而柜员的回复是通过副作用传递回来的值。</p>
 <!--
 This model of side effects is quite similar to how the overall aggregate of the Lean language, its compiler, and its run-time system (RTS) work.
@@ -3853,12 +3854,12 @@ The RTS executes these actions, delegating to the user's Lean code to carry out 
 From the internal perspective of Lean, programs are free of side effects, and `IO` actions are just descriptions of tasks to be carried out.
 From the external perspective of the program's user, there is a layer of side effects that create an interface to the program's core logic.
 -->
-<p>这种副作用模型与 Lean 语言、编译器和运行时系统 (Run-Time System，RTS) 的整体聚合工作方式非常相似。
-运行时系统中的原语（用 C 语言编写）实现了所有基本副作用。在运行程序时，
+<p>这种副作用模型与 Lean 语言、编译器和运行时系统（Run-Time System，RTS）整体配合的工作方式非常相似。
+运行时系统中的原语（Primitive，用 C 语言编写）实现了所有基本副作用。在运行程序时，
 RTS 调用 <code>main</code> 活动，该活动将新的 <code>IO</code> 活动返回给 RTS 以执行。
 RTS 执行这些活动，委托给用户的 Lean 代码来执行计算。从 Lean 的内部角度来看，
 程序没有副作用，而 <code>IO</code> 活动只是要执行的任务的描述。从程序用户的外部角度来看，
-有一层副作用，它创建了一个与程序核心逻辑的接口。</p>
+存在一层副作用，它创建了一个与程序核心逻辑交互的接口。</p>
 <!--
 ## Real-World Functional Programming
 -->
@@ -3875,9 +3876,9 @@ If every primitive `IO` action accepts one world and returns a new one, and they
 并返回一个值和一个新的世界。在这种情况下，从标准输入读取一行文本是一个 <strong>纯（Pure）</strong> 函数，
 因为每次都提供了一个不同的世界作为参数。向标准输出写入一行文本也是一个纯函数，
 因为函数返回的世界与它最初的世界不同。程序确实需要小心，不要重复使用世界，
-也不要未能返回一个新世界——毕竟，这将相当于时间旅行或世界末日。
-谨慎的抽象边界可以使这种编程风格变得安全。如果每个原语 <code>IO</code>
-活动接受一个世界并返回一个新世界，并且它们只能与保持这种不变性的工具结合使用，
+也不要没能返回一个新世界——毕竟，这将相当于时间旅行或者世界末日。
+谨小慎微的抽象边界可以使这种编程风格变得安全。如果每个原语 <code>IO</code>
+活动都接受一个世界并返回一个新世界，并且它们只能与保持这种不变性的工具结合使用，
 那么问题就不会发生。</p>
 <!--
 This model cannot be implemented.
@@ -3887,20 +3888,20 @@ When the program is started, it is provided with a world token.
 This token is then passed on to the IO primitives, and their returned tokens are similarly passed to the next step.
 At the end of the program, the token is returned to the operating system.
 -->
-<p>当然，这种模型无法实现，毕竟整个世界无法变成 Lean 的值放入内存中。
+<p>当然，这种模型无法真正实现，毕竟整个世界无法变成 Lean 的值放入内存中。
 然而，可以实现一个此模型的变体，它带有代表世界的抽象标识。
 当程序启动时，它会提供一个世界标识。然后将此标识传递给 IO 原语，
-并且它们的返回标识类似地传递到下一步。在程序结束时，标识将返回给活动系统。</p>
+之后它们的返回标识同样地传递到下一步。在程序结束时，标识将返回给操作系统。</p>
 <!--
 This model of side effects is a good description of how `IO` actions as descriptions of tasks to be carried out by the RTS are represented internally in Lean.
 The actual functions that transform the real world are behind an abstraction barrier.
 But real programs typically consist of a sequence of effects, rather than just one.
 To enable programs to use multiple effects, there is a sub-language of Lean called `do` notation that allows these primitive `IO` actions to be safely composed into a larger, useful program.
 -->
-<p>这种副作用模型很好地描述了 <code>IO</code> 活动作为 RTS 要执行的任务描述如何在 Lean 内部表示。
-用于转换现实世界的实际函数藏在抽象屏障之后。但实际程序通常由一系列作用组成，
-而不仅仅是一个作用。为了使程序能够使用多个作用，Lean 中有一个称为 <code>do</code>-记法的子语言，
-它能够将这些原始 <code>IO</code> 活动安全地组合成一个更大、更有用的程序。</p>
+<p>这种副作用模型很好地描述了 <code>IO</code> 活动作为 RTS 要执行的任务描述是如何在 Lean 内部表示的。
+用于转换现实世界的实际函数隐藏在抽象屏障之后。但实际的程序通常不只有一个作用，
+而是由一系列作用组成。为了使程序能够使用多个作用，Lean 中有一个称为 <code>do</code>-记法的子语言，
+它能够将这些原语 <code>IO</code> 活动安全地组合成一个更大、更有用的程序。</p>
 <!--
 ## Combining `IO` Actions
 -->
@@ -3910,7 +3911,7 @@ Most useful programs accept input in addition to producing output.
 Furthermore, they may take decisions based on input, using the input data as part of a computation.
 The following program, called `HelloName.lean`, asks the user for their name and then greets them:
 -->
-<p>大多数有用的程序除了产生输出外还接受输入。此外，它们可以根据输入做出决策，
+<p>大多数有用的程序除了产生输出外还要接受输入。此外，它们可以根据输入做出决策，
 将输入数据用作计算的一部分。以下程序名为 <code>HelloName.lean</code>，它向用户询问他们的姓名，然后向他们问好：</p>
 <pre><code class="language-lean">def main : IO Unit := do
   let stdin ← IO.getStdin
@@ -3928,20 +3929,20 @@ This block contains a sequence of _statements_, which can be both local variable
 Just as SQL can be thought of as a special-purpose language for interacting with databases, the `do` syntax can be thought of as a special-purpose sub-language within Lean that is dedicated to modeling imperative programs.
 `IO` actions that are built with a `do` block are executed by executing the statements in order.
 -->
-<p>在此程序中，<code>main</code> 活动由一个 <code>do</code> 代码块组成。此块包含一系列的 <strong>语句(Statement)</strong> ，
+<p>在此程序中，<code>main</code> 活动由一个 <code>do</code> 代码块组成。此块包含一系列的 <strong>语句（Statement）</strong>，
 它们既可以是局部变量（使用 <code>let</code> 引入），也可以是要执行的活动。
 正如 SQL 可以被认为是与数据库交互的专用语言一样，<code>do</code> 语法可以被认为是 Lean
 中的一个专用子语言，专门用于建模命令式程序。使用 <code>do</code> 块构建的 <code>IO</code> 活动通过按顺序执行语句来执行。</p>
 <!--
 This program can be run in the same manner as the prior program:
 -->
-<p>此程序可以与之前的程序以相同的方式运行：</p>
+<p>此程序可以与之前的程序一样的方式运行：</p>
 <pre><code>lean --run HelloName.lean
 </code></pre>
 <!--
 If the user responds with `David`, a session of interaction with the program reads:
 -->
-<p>如果用户回应 <code>David</code>，则与程序交互的会话读取：</p>
+<p>如果用户回应 <code>David</code>，则与程序交互的会话会读取回应：</p>
 <pre><code>How would you like to be addressed?
 David
 Hello, David!
@@ -3956,7 +3957,7 @@ The type signature line is just like the one for `Hello.lean`:
 The only difference is that it ends with the keyword `do`, which initiates a sequence of commands.
 Each indented line following the keyword `do` is part of the same sequence of commands.
 -->
-<p>唯一的区别是它以关键字 <code>do</code> 结尾，该关键字执行一系列命令。
+<p>唯一的区别是它以关键字 <code>do</code> 结尾，该关键字会执行一系列命令。
 关键字 <code>do</code> 后面的每一行缩进都是同一系列命令的一部分。</p>
 <!--
 The first two lines, which read:
@@ -3976,16 +3977,16 @@ In other words, if the expression to the right of the arrow has type `IO α`, th
 `IO.getStdin` and `IO.getStdout` are `IO` actions in order to allow `stdin` and `stdout` to be locally overridden in a program, which can be convenient.
 If they were global variables as in C, then there would be no meaningful way to override them, but `IO` actions can return different values each time they are executed.
 -->
-<p>分别通过执行库活动 <code>IO.getStdin</code> 和 <code>IO.getStdout</code> 检索 <code>stdin</code> 和 <code>stdout</code> 勾柄。
-在 <code>do</code> 块中，<code>let</code> 的含义与在普通表达式中略有不同。
+<p>它们分别通过执行库中的活动 <code>IO.getStdin</code> 和 <code>IO.getStdout</code> 来检索
+<code>stdin</code> 和 <code>stdout</code> 的勾柄（Handle）。在 <code>do</code> 块中，<code>let</code> 的含义与在普通表达式中略有不同。
 通常，<code>let</code> 中的局部定义只能在一个表达式中使用，该表达式紧跟在局部定义之后。
 在 <code>do</code> 块中，由 <code>let</code> 引入的局部绑定在 <code>do</code> 块其余部分的所有语句中都可用，
-而不仅仅是下一个语句。此外，<code>let</code> 通常使用 <code>:=</code> 将所定义的名称与其定义连接起来，
+而不仅仅是下一个语句。此外，<code>let</code> 通常使用 <code>:=</code> 将所定义的名称与其定义关联起来，
 而 <code>do</code> 中的一些 <code>let</code> 绑定则使用向左箭头（<code>←</code> 或 <code>&lt;-</code>）代替。
 使用箭头表示表达式的值是一个 <code>IO</code> 活动，该活动应该被执行，活动的结果保存在局部变量中。
 换句话说，如果箭头右侧的表达式的类型为 <code>IO α</code>，那么该变量在 <code>do</code> 块的其余部分中的类型为 <code>α</code>。
-<code>IO.getStdin</code> 和 <code>IO.getStdout</code> 是 <code>IO</code> 活动，以便允许在程序中局部覆盖 <code>stdin</code> 和 <code>stdout</code>，这很方便。
-如果它们是像 C 中那样的全局变量，那么将不存在有意义的方法来覆盖它们，
+<code>IO.getStdin</code> 和 <code>IO.getStdout</code> 是 <code>IO</code> 活动，以便允许在程序中局部覆盖 <code>stdin</code> 和 <code>stdout</code>，
+这很方便。如果它们是像 C 中那样的全局变量，那么将不存在有意义的方法来覆盖它们，
 但是 <code>IO</code> 活动每次执行时都可以返回不同的值。</p>
 <!--
 The next part of the `do` block is responsible for asking the user for their name:
@@ -3999,8 +4000,8 @@ The next part of the `do` block is responsible for asking the user for their nam
 The first line writes the question to `stdout`, the second line requests input from `stdin`, and the third line removes the trailing newline (plus any other trailing whitespace) from the input line.
 The definition of `name` uses `:=`, rather than `←`, because `String.dropRightWhile` is an ordinary function on strings, rather than an `IO` action.
 -->
-<p>第一行将问题写入 <code>stdout</code>，第二行从 <code>stdin</code> 请求输入，第三行从输入行中删除尾随换行符
-（以及任何其他尾随空格）。<code>name</code> 的定义使用 <code>:=</code> 而非 <code>←</code>，因为 <code>String.dropRightWhile</code>
+<p>第一行将问题写入 <code>stdout</code>，第二行从 <code>stdin</code> 请求输入，第三行从输入行中删除尾部的换行符
+（以及任何其他尾部空格）。<code>name</code> 的定义使用 <code>:=</code> 而非 <code>←</code>，因为 <code>String.dropRightWhile</code>
 是作用于字符串的普通函数，而非 <code>IO</code> 活动。</p>
 <!--
 Finally, the last line in the program is:
