@@ -1195,7 +1195,7 @@ msgstr "使用此类型，结果为 `-1`，符合预期。"
 msgid ""
 "To check the type of an expression without evaluating it, use `#check` "
 "instead of `#eval`. For instance:"
-msgstr "若要检查表达式的类型而不求值，请使用 `#check` 而不是 `#eval`。例如："
+msgstr "若要检查表达式的类型而不求值，请使用 `#check` 而非 `#eval`。例如："
 
 #: src/getting-to-know/types.md:63
 msgid "reports `1 - 2 : Int` without actually performing the subtraction."
@@ -1286,7 +1286,7 @@ msgid ""
 "existing expressions, and using two different operators helps prevent "
 "confusion."
 msgstr ""
-"在 Lean 中，使用冒号加等号运算符 `:=` 而不是 `=` 来定义新名称。这是因为 `=` "
+"在 Lean 中，使用冒号加等号运算符 `:=` 而非 `=` 来定义新名称。这是因为 `=` "
 "用于描述现有表达式之间的相等性，而使用两个不同的运算符有助于防止混淆。"
 
 #: src/getting-to-know/functions-and-definitions.md:14
@@ -1854,7 +1854,7 @@ msgstr ""
 msgid ""
 "To override a structure's constructor name, write it with two colons at the "
 "beginning. For instance, to use `Point.point` instead of `Point.mk`, write:"
-msgstr "要覆盖结构体的构造子名称，请在开头写出新的名称后跟两个冒号。例如，要使用 `Point.point` 而不是 `Point.mk`，请编写："
+msgstr "要覆盖结构体的构造子名称，请在开头写出新的名称后跟两个冒号。例如，要使用 `Point.point` 而非 `Point.mk`，请编写："
 
 #: src/getting-to-know/structures.md:266
 msgid ""
@@ -2042,9 +2042,9 @@ msgid ""
 "exported from this namespace so that they can be written alone, rather than "
 "as `Bool.true` and `Bool.false`, respectively."
 msgstr ""
-"此定义有两个主要部分。第一行提供了新类型（`Bool`）的名称，而其余各行分别描述了一个构造子。与结构体的构造子一样，归纳类型的构造子只是其他数据的惰性接收器和容器，而不是插入任意初始化和验证代码的地方。与结构体不同，归纳类型可以有多个构造子。这里有两个构造子，`true`"
+"此定义有两个主要部分。第一行提供了新类型（`Bool`）的名称，而其余各行分别描述了一个构造子。与结构体的构造子一样，归纳类型的构造子只是其他数据的惰性接收器和容器，而非插入任意初始化和验证代码的地方。与结构体不同，归纳类型可以有多个构造子。这里有两个构造子，`true`"
 " 和 `false`，并且都不接受任何参数。就像结构体声明将其名称放在以声明类型命名的命名空间中一样，归纳类型将构造子的名称放在命名空间中。在 "
-"Lean 标准库中，`true` 和 `false` 从此命名空间重新导出，以便可以单独编写它们，而不是分别作为 `Bool.true` 和 "
+"Lean 标准库中，`true` 和 `false` 从此命名空间重新导出，以便可以单独编写它们，而非分别作为 `Bool.true` 和 "
 "`Bool.false`。"
 
 #: src/getting-to-know/datatypes-and-patterns.md:34
@@ -2123,7 +2123,7 @@ msgid ""
 "are like constructors in C# or Java, as the constructor shown here contains "
 "initialization code to be executed."
 msgstr ""
-"与上面 `Bool` 的示例类似，这定义了比 Lean 等价项更多的类型。此外，此示例突出显示了 Lean 数据类型构造子更像是抽象类的子类，而不是像"
+"与上面 `Bool` 的示例类似，这定义了比 Lean 等价项更多的类型。此外，此示例突出显示了 Lean 数据类型构造子更像是抽象类的子类，而非像"
 " C# 或 Java 中的构造子，因为此处显示的构造子包含要执行的初始化代码。"
 
 #: src/getting-to-know/datatypes-and-patterns.md:75
@@ -2411,7 +2411,7 @@ msgid ""
 "constructor's argument. Thus, Lean rejects it with the following message:"
 msgstr ""
 "只要第二个参数不为 `0`，这个程序就会终止，因为它始终朝着基本情况前进。然而，它不是结构体递归，因为它不遵循为零找到结果并转换较小 `Nat` "
-"的结果为其后继结果的模式。特别是，函数的递归调用应用于另一个函数调用的结果，而不是输入构造子的参数。因此，Lean 拒绝它，并显示以下消息："
+"的结果为其后继结果的模式。特别是，函数的递归调用应用于另一个函数调用的结果，而非输入构造子的参数。因此，Lean 拒绝它，并显示以下消息："
 
 #: src/getting-to-know/datatypes-and-patterns.md:319
 #, fuzzy
@@ -2729,7 +2729,7 @@ msgid ""
 "unknown values. The `s` in the name indicates that they are plural, so they "
 "are pronounced \"exes\" and \"whys\" rather than \"x s\" and \"y s\"."
 msgstr ""
-"按照惯例，`xs` 和 `ys` 等名称用于表示未知值的列表。名称中的 `s` 表示它们是复数，因此它们的发音是「exes」和「whys」，而不是“x "
+"按照惯例，`xs` 和 `ys` 等名称用于表示未知值的列表。名称中的 `s` 表示它们是复数，因此它们的发音是「exes」和「whys」，而非“x "
 "s”和「y s」。"
 
 #: src/getting-to-know/polymorphism.md:179
@@ -2759,7 +2759,7 @@ msgid ""
 msgstr ""
 "`replaceX` 和 `length` "
 "这两个函数使用起来有些繁琐，因为类型参数通常由后面的值唯一确定。事实上，在大多数语言中，编译器完全有能力自行确定类型参数，并且只需要偶尔从用户那里获得帮助。在"
-" Lean 中也是如此。在定义函数时，可以通过用大括号而不是括号将参数括起来来声明参数为 _隐式_。例如，一个具有隐式类型参数的 `replaceX` "
+" Lean 中也是如此。在定义函数时，可以通过用大括号而非括号将参数括起来来声明参数为 _隐式_。例如，一个具有隐式类型参数的 `replaceX` "
 "版本如下所示："
 
 #: src/getting-to-know/polymorphism.md:198
@@ -2896,7 +2896,7 @@ msgid ""
 msgstr ""
 "要查找列表中的第一个条目（如果存在），请使用 `List.head?`。问号是名称的一部分，与在 C# 或 Kotlin 中使用问号表示可空类型无关。在"
 " `List.head?` "
-"的定义中，下划线用于表示列表的尾部。在模式中，下划线匹配任何内容，但不会引入变量来引用匹配的数据。使用下划线而不是名称是一种向读者清楚传达输入部分被忽略的方式。"
+"的定义中，下划线用于表示列表的尾部。在模式中，下划线匹配任何内容，但不会引入变量来引用匹配的数据。使用下划线而非名称是一种向读者清楚传达输入部分被忽略的方式。"
 
 #: src/getting-to-know/polymorphism.md:282
 #, fuzzy
@@ -2915,7 +2915,7 @@ msgstr ""
 "Lean 的命名约定是使用后缀 `?` 定义可能失败的操作，用于返回 `Option` 的版本，`！` 用于在提供无效输入时崩溃的版本，`D` "
 "用于在操作在其他情况下失败时返回默认值的版本。例如，`head` 要求调用者提供数学证据证明列表不为空，`head?` 返回 "
 "`Option`，`head!` 在传递空列表时使程序崩溃，`headD` "
-"采用一个默认值，以便在列表为空时返回。问号和感叹号是名称的一部分，而不是特殊语法，因为 Lean 的命名规则比许多语言更自由。"
+"采用一个默认值，以便在列表为空时返回。问号和感叹号是名称的一部分，而非特殊语法，因为 Lean 的命名规则比许多语言更自由。"
 
 #: src/getting-to-know/polymorphism.md:286
 #, fuzzy
@@ -3326,7 +3326,7 @@ msgid ""
 "A later chapter describes why this is the case, and how to modify "
 "definitions to make them work. For now, try making the type an argument to "
 "the inductive type as a whole, rather than to the constructor."
-msgstr "稍后的章节将描述为什么会这样，以及如何修改定义使其正常工作。现在，尝试将类型作为参数传递给整个归纳类型，而不是传递给构造子。"
+msgstr "稍后的章节将描述为什么会这样，以及如何修改定义使其正常工作。现在，尝试将类型作为参数传递给整个归纳类型，而非传递给构造子。"
 
 #: src/getting-to-know/polymorphism.md:488
 #, fuzzy
@@ -3861,7 +3861,7 @@ msgstr ""
 #, fuzzy
 msgid "can be replaced by numeric literals and `+`:"
 msgstr ""
-"幕后，这两个定义完全等价。记住：`halve n + 1` 等价于 `(halve n) + 1`，而不是 `halve (n + 1)`。"
+"幕后，这两个定义完全等价。记住：`halve n + 1` 等价于 `(halve n) + 1`，而非 `halve (n + 1)`。"
 
 #: src/getting-to-know/conveniences.md:272
 #, fuzzy
@@ -4149,7 +4149,7 @@ msgid ""
 "than sign `>`, these brackets are different. They can be input using `\\<` "
 "and `\\>`, respectively."
 msgstr ""
-"在某些情况下，按位置传递参数而不是按名称传递参数可能很方便，但无需直接命名构造子。例如，定义各种相似的结构体类型有助于保持域概念分离，但阅读代码的自然方式可能将它们中的每一个都视为本质上是一个元组。在这些情况下，参数可以用尖括号"
+"在某些情况下，按位置传递参数而非按名称传递参数可能很方便，但无需直接命名构造子。例如，定义各种相似的结构体类型有助于保持域概念分离，但阅读代码的自然方式可能将它们中的每一个都视为本质上是一个元组。在这些情况下，参数可以用尖括号"
 " `⟨` 和 `⟩` 括起来。`Point` 可以写成 `⟨1, 2⟩`。小心！即使它们看起来像小于号 `<` 和大于号 "
 "`>`，这些括号也不同。它们可以使用 `\\<` 和 `\\>` 分别输入。"
 
@@ -4272,7 +4272,7 @@ msgid ""
 "local definitions with `let`, as named arguments to functions, or from "
 "pattern matching."
 msgstr ""
-"一旦变量被赋予值，它们就不会改变。与数学类似，但与大多数编程语言不同，Lean 变量只是值的占位符，而不是可以写入新值的位置。变量的值可能来自带有 "
+"一旦变量被赋予值，它们就不会改变。与数学类似，但与大多数编程语言不同，Lean 变量只是值的占位符，而非可以写入新值的位置。变量的值可能来自带有 "
 "`def` 的全局定义、带有 `let` 的局部定义、作为函数的命名参数或模式匹配。"
 
 #: src/getting-to-know/summary.md:13
@@ -4321,7 +4321,7 @@ msgid ""
 "as `fun x => x - 1`."
 msgstr ""
 "非常简单的匿名函数通过在括号内放置一个或多个居中的点 `·` 来编写。每个居中的点都成为函数的一个参数，括号限定其主体。例如，一个从其参数中减去 1 "
-"的函数可以写成 `(· - 1)`，而不是 `fun x => x - 1`。"
+"的函数可以写成 `(· - 1)`，而非 `fun x => x - 1`。"
 
 #: src/getting-to-know/summary.md:26
 #, fuzzy
@@ -4362,7 +4362,7 @@ msgid ""
 "thing."
 msgstr ""
 "某些表达式可以赋予多种类型。例如，`3` 可以是 `Int` 或 `Nat`。在 Lean 中，这应理解为两个独立的表达式，一个类型为 "
-"`Nat`，另一个类型为 `Int`，碰巧以相同的方式编写，而不是同一事物的两种不同类型。"
+"`Nat`，另一个类型为 `Int`，碰巧以相同的方式编写，而非同一事物的两种不同类型。"
 
 #: src/getting-to-know/summary.md:40
 #, fuzzy
@@ -4415,7 +4415,7 @@ msgstr ""
 "可以使用 `structure` 或 `inductive` 特性向 Lean "
 "引入全新的数据类型。即使它们的定义在其他方面相同，这些新类型也不被认为等同于任何其他类型。数据类型具有 "
 "_构造子_，解释了可以构造其值的方式，每个构造子都采用一些参数。Lean 中的构造子与面向对象语言中的构造子不同：Lean "
-"的构造子是数据的惰性持有者，而不是初始化已分配对象的活动代码。"
+"的构造子是数据的惰性持有者，而非初始化已分配对象的活动代码。"
 
 #: src/getting-to-know/summary.md:59
 #, fuzzy
@@ -4657,7 +4657,7 @@ msgstr ""
 "语言。当收到订单时，厨师会忠实且始终如一地提供所要求的内容。柜台工作人员是与世界交互的周围运行时系统，它可以接受付款、分发食物并与顾客交谈。这两名员工共同承担了餐厅的所有职能，但他们的职责是分开的，每个人都执行自己最擅长的任务。就像让顾客远离可以让厨师专注于制作真正美味的咖啡和三明治一样，Lean"
 " "
 "缺乏副作用可以让程序用作形式化数学证明的一部分。它还有助于程序员独立理解程序的各个部分，因为没有隐藏的状态更改会在组件之间创建微妙的耦合。厨师的笔记表示通过求值"
-" Lean 表达式产生的 `IO` 操作，而柜台工作人员的回复是通过效果传递回来的值。"
+" Lean 表达式产生的 `IO` 活动，而柜台工作人员的回复是通过效果传递回来的值。"
 
 #: src/hello-world/running-a-program.md:63
 #, fuzzy
@@ -4888,7 +4888,7 @@ msgid ""
 "function on strings, rather than an `IO` action."
 msgstr ""
 "第一行将问题写入 `stdout`，第二行从 `stdin` 请求输入，第三行从输入行中删除尾随换行符（以及任何其他尾随空格）。`name` 的定义使用"
-" `:=` 而不是 `←`，因为 `String.dropRightWhile` 是字符串上的普通函数，而不是 `IO` 操作。"
+" `:=` 而非 `←`，因为 `String.dropRightWhile` 是字符串上的普通函数，而非 `IO` 活动。"
 
 #: src/hello-world/running-a-program.md:156
 #, fuzzy
@@ -4986,7 +4986,7 @@ msgid ""
 "block."
 msgstr ""
 "要执行使用 `←` 的 `let` 语句，首先求值箭头右侧的表达式（在本例中为 "
-"`IO.getStdIn`）。因为这个表达式只是一个变量，所以查找它的值。结果值是一个内置的原始 `IO` 操作。下一步是执行此 `IO` "
+"`IO.getStdIn`）。因为这个表达式只是一个变量，所以查找它的值。结果值是一个内置的原始 `IO` 活动。下一步是执行此 `IO` "
 "操作，结果是一个表示标准输入流的值，其类型为 `IO.FS.Stream`。然后将标准输入与箭头左侧的名称（此处为 `stdin`）关联，以用于 "
 "`do` 块的其余部分。"
 
@@ -5068,7 +5068,7 @@ msgid ""
 " denotes the newline character."
 msgstr ""
 "下一条语句是 `let input ← stdin.getLine`。`IO.FS.Stream.getLine` 的类型是 `IO.FS.Stream"
-" → IO String`，这意味着它是一个从流到 `IO` 操作的函数，该操作将返回一个字符串。同样，这也是访问器表示法的示例。此 `IO` "
+" → IO String`，这意味着它是一个从流到 `IO` 活动的函数，该操作将返回一个字符串。同样，这也是访问器表示法的示例。此 `IO` "
 "操作被执行，程序等待用户键入一行完整的输入。假设用户输入了「`David`」。结果行（「`David\\n`」）与 `input` 关联，其中转义序列 "
 "`\\n` 表示换行符。"
 
@@ -5097,7 +5097,7 @@ msgid ""
 " of the string that satisfy the predicate have been removed. For example,"
 msgstr ""
 "下一行 `let name := input.dropRightWhile Char.isWhitespace` 是一个 `let` "
-"语句。与本程序中的其他 `let` 语句不同，它使用 `:=` 而不是 `←`。这意味着将计算表达式，但结果值不必是 `IO` "
+"语句。与本程序中的其他 `let` 语句不同，它使用 `:=` 而非 `←`。这意味着将计算表达式，但结果值不必是 `IO` "
 "操作，并且不会执行。在这种情况下，`String.dropRightWhile` "
 "接受一个字符串和一个字符谓词，并返回一个新字符串，其中字符串末尾满足谓词的所有字符都被删除。例如，"
 
@@ -5269,7 +5269,7 @@ msgid ""
 "result of the recursive call. Executing `nTimes (IO.println \"Hello\") 3` "
 "causes the following output:"
 msgstr ""
-"在 `Nat.zero` 的基本情况下，结果是 `pure ()`。函数 `pure` 创建一个没有副作用的 `IO` 操作，但返回 `pure` "
+"在 `Nat.zero` 的基本情况下，结果是 `pure ()`。函数 `pure` 创建一个没有副作用的 `IO` 活动，但返回 `pure` "
 "的参数，在本例中是 `Unit` 的构造子。作为不执行任何操作且不返回任何有趣内容的操作，`pure ()` "
 "既非常无聊又非常有用。在递归步骤中，`do` 块用于创建一个操作，该操作首先执行 `action`，然后执行递归调用的结果。执行 `nTimes "
 "(IO.println \"Hello\") 3` 会导致以下输出："
@@ -5282,8 +5282,8 @@ msgid ""
 "structures for later execution. For instance, the function `countdown` takes"
 " a `Nat` and returns a list of unexecuted `IO` actions, one for each `Nat`:"
 msgstr ""
-"除了将函数用作控制结构体之外，`IO` 操作是一等值的事实意味着它们可以保存在数据结构体中以供以后执行。例如，函数 `countdown` 接受一个 "
-"`Nat` 并返回一个未执行的 `IO` 操作列表，每个 `Nat` 一个："
+"除了将函数用作控制结构体之外，`IO` 活动是一等值的事实意味着它们可以保存在数据结构体中以供以后执行。例如，函数 `countdown` 接受一个 "
+"`Nat` 并返回一个未执行的 `IO` 活动列表，每个 `Nat` 一个："
 
 #: src/hello-world/step-by-step.md:150
 #, fuzzy
@@ -5533,7 +5533,7 @@ msgid ""
 msgstr ""
 "此外，`lake new` 将项目初始化为 Git 存储库，并配置其 `.gitignore` "
 "文件以忽略中间构建产品。通常，应用程序逻辑的大部分将位于程序的库集合中，而 `Main.lean` "
-"将包含这些部分周围的一个小包装，它执行诸如解析命令行和执行中央应用程序逻辑之类的操作。要在已存在的目录中创建项目，请运行 `lake init` 而不是"
+"将包含这些部分周围的一个小包装，它执行诸如解析命令行和执行中央应用程序逻辑之类的操作。要在已存在的目录中创建项目，请运行 `lake init` 而非"
 " `lake new`。"
 
 #: src/hello-world/starting-a-project.md:26
@@ -5674,7 +5674,7 @@ msgid ""
 msgstr ""
 "每个 Lakefile 将只包含一个包，但可以包含任意数量的库或可执行文件。此外，Lakefile 可能包含 _外部库_（不是用 Lean "
 "编写的库，将与结果可执行文件静态链接）、_自定义目标_（不自然地适合于库/可执行文件分类的构建目标）、_依赖项_（其他 Lean "
-"包的声明（在本地或来自远程 Git 存储库））、以及 _脚本_（本质上是 `IO` 操作（类似于 "
+"包的声明（在本地或来自远程 Git 存储库））、以及 _脚本_（本质上是 `IO` 活动（类似于 "
 "`main`），但还可以访问有关包配置的元数据）。Lakefile 中的项允许配置源文件位置、模块层次结构体和编译器标志。然而，一般来说，默认值是合理的。"
 
 #: src/hello-world/starting-a-project.md:91
@@ -5809,7 +5809,7 @@ msgid ""
 "of the input files do not exist."
 msgstr ""
 "标准 Unix 实用程序 `cat` 接受多个命令行选项，后跟零个或多个输入文件。如果没有提供文件，或者其中一个文件是破折号 "
-"(`-`)，则它将标准输入作为相应的输入，而不是读取文件。输入的内容将按顺序写入标准输出。如果指定的输入文件不存在，则会在标准错误中注明，但 `cat`"
+"(`-`)，则它将标准输入作为相应的输入，而非读取文件。输入的内容将按顺序写入标准输出。如果指定的输入文件不存在，则会在标准错误中注明，但 `cat`"
 " 会继续连接剩余的输入。如果任何输入文件不存在，则返回非零退出代码。"
 
 #: src/hello-world/cat.md:9
@@ -5966,8 +5966,8 @@ msgid ""
 "in a process, which makes it easier to do things like capturing the output "
 "from a program into a string by writing a custom `IO.FS.Stream`."
 msgstr ""
-"Lean 编译器包含 `IO` 操作（例如 `IO.getStdout`，它在 `dump` "
-"中被调用）以获取表示标准输入、标准输出和标准错误的流。这些是 `IO` 操作，而不是普通定义，因为 Lean 允许在进程中替换这些标准 POSIX "
+"Lean 编译器包含 `IO` 活动（例如 `IO.getStdout`，它在 `dump` "
+"中被调用）以获取表示标准输入、标准输出和标准错误的流。这些是 `IO` 活动，而非普通定义，因为 Lean 允许在进程中替换这些标准 POSIX "
 "流，这使得通过编写自定义 `IO.FS.Stream` 将程序的输出捕获到字符串中变得更容易。"
 
 #: src/hello-world/cat.md:96
@@ -6010,7 +6010,7 @@ msgid ""
 "recursion.md). Because the compiled code does not need to retain any state, "
 "the Lean compiler can compile the recursive call to a jump."
 msgstr ""
-"在调用 `dump` 时，不会出现耗尽堆栈空间的危险，因为递归调用发生在函数的最后一步，并且其结果被直接返回，而不是被操作或计算。这种递归称为 "
+"在调用 `dump` 时，不会出现耗尽堆栈空间的危险，因为递归调用发生在函数的最后一步，并且其结果被直接返回，而非被操作或计算。这种递归称为 "
 "_尾递归_，将在 [本书后面](../programs-proofs/tail-recursion.md) "
 "详细描述。由于编译后的代码不需要保留任何状态，因此 Lean 编译器可以将递归调用编译为跳转。"
 
@@ -6068,7 +6068,7 @@ msgid ""
 msgstr ""
 "打开一个文件作为流需要两个步骤。首先，通过以读取模式打开文件来创建一个文件句柄。Lean "
 "文件句柄跟踪底层文件描述符。当没有对文件句柄值进行引用时，终结器会关闭文件描述符。其次，使用 `IO.FS.Stream.ofHandle` "
-"为文件句柄提供与 POSIX 流相同的接口，该接口使用在文件句柄上工作的相应 `IO` 操作填充 `Stream` 结构体的每个字段。"
+"为文件句柄提供与 POSIX 流相同的接口，该接口使用在文件句柄上工作的相应 `IO` 活动填充 `Stream` 结构体的每个字段。"
 
 #: src/hello-world/cat.md:130
 #, fuzzy
@@ -6316,7 +6316,7 @@ msgid ""
 "`IO` action's result is given a name, and then used immediately and only "
 "once. For instance, in `dump`:"
 msgstr ""
-"`feline` 中的许多函数都表现出一种重复模式，其中 `IO` 操作的结果被赋予一个名称，然后立即且仅使用一次。例如，在 `dump` 中："
+"`feline` 中的许多函数都表现出一种重复模式，其中 `IO` 活动的结果被赋予一个名称，然后立即且仅使用一次。例如，在 `dump` 中："
 
 #: src/hello-world/conveniences.md:18
 msgid "the pattern occurs for `stdout`:"
@@ -6343,7 +6343,7 @@ msgid ""
 "which can greatly simplify a program. `IO` actions that Lean lifts from a "
 "nested expression context are called _nested actions_."
 msgstr ""
-"此版本的 `dump` 避免了引入仅使用一次的名称，这可以极大地简化程序。Lean 从嵌套表达式上下文中提升的 `IO` 操作称为 _嵌套操作_。"
+"此版本的 `dump` 避免了引入仅使用一次的名称，这可以极大地简化程序。Lean 从嵌套表达式上下文中提升的 `IO` 活动称为 _嵌套操作_。"
 
 #: src/hello-world/conveniences.md:44
 msgid "`fileStream` can be simplified using the same technique:"
@@ -6462,7 +6462,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "`getNumB` was executed because `test` is equivalent to this definition:"
-msgstr "`getNumB` 被执行是因为 `test` 等价于这个定义："
+msgstr "`getNumB` 被执行是因为 `test` "
 
 #: src/hello-world/conveniences.md:86
 #, fuzzy
@@ -6494,7 +6494,7 @@ msgid ""
 "not `IO Nat`."
 msgstr ""
 "这是因为嵌套动作被提升到最接近的包含 `do` 块的规则。`if` 的分支没有被隐式地包装在 `do` 块中，因为 `if` 本身不是 `do` "
-"块中的语句——语句是定义 `a` 的 `let`。事实上，它们不能这样包装，因为条件表达式的类型是 `Nat`，而不是 `IO Nat`。"
+"块中的语句——语句是定义 `a` 的 `let`。事实上，它们不能这样包装，因为条件表达式的类型是 `Nat`，而非 `IO Nat`。"
 
 #: src/hello-world/conveniences.md:97
 #, fuzzy
@@ -6630,7 +6630,7 @@ msgid ""
 "actions, `#eval` both _evaluates_ the provided expression and _executes_ the"
 " resulting action value."
 msgstr ""
-"这是运行 `IO` 动作产生的输出，而不是动作本身的不透明表示。换句话说，对于 `IO` 动作，`#eval` "
+"这是运行 `IO` 动作产生的输出，而非动作本身的不透明表示。换句话说，对于 `IO` 动作，`#eval` "
 "既_评估_提供的表达式，又_执行_结果动作值。"
 
 #: src/hello-world/conveniences.md:158
@@ -6666,7 +6666,7 @@ msgid ""
 msgstr ""
 "副作用是程序执行中超出数学表达式求值范围的部分，例如读取文件、抛出异常或触发工业机械。虽然大多数语言允许在求值期间发生副作用，但 Lean "
 "不会。相反，Lean 有一个名为 `IO` 的类型，它表示使用副作用的程序的 _描述_。然后由语言的运行时系统执行这些描述，该系统调用 Lean "
-"表达式求值器来执行特定计算。类型为 `IO α` 的值称为 _`IO` 操作_。最简单的是 `pure`，它返回其参数并且没有实际副作用。"
+"表达式求值器来执行特定计算。类型为 `IO α` 的值称为 _`IO` 活动_。最简单的是 `pure`，它返回其参数并且没有实际副作用。"
 
 #: src/hello-world/summary.md:12
 msgid ""
@@ -6678,14 +6678,14 @@ msgid ""
 "the real world can be represented by a token that is passed around through "
 "the program."
 msgstr ""
-"`IO` 操作还可以理解为将整个世界作为参数并返回一个副作用已经发生的全新世界的函数。在幕后，`IO` "
+"`IO` 活动还可以理解为将整个世界作为参数并返回一个副作用已经发生的全新世界的函数。在幕后，`IO` "
 "库确保世界永远不会被复制、创建或销毁。虽然这种副作用模型实际上无法实现，因为整个宇宙太大而无法放入内存，但现实世界可以用一个在程序中传递的令牌来表示。"
 
 #: src/hello-world/summary.md:16
 msgid ""
 "An `IO` action `main` is executed when the program starts. `main` can have "
 "one of three types:"
-msgstr "当程序启动时，将执行 `IO` 操作 `main`。`main` 可以有三种类型之一："
+msgstr "当程序启动时，将执行 `IO` 活动 `main`。`main` 可以有三种类型之一："
 
 #: src/hello-world/summary.md:18
 msgid ""
@@ -6721,13 +6721,13 @@ msgid ""
 "effects. A `do` expression contains a sequence of _statements_, which may "
 "be:"
 msgstr ""
-"Lean 标准库提供了许多基本 `IO` 操作，表示诸如读写文件以及与标准输入和标准输出交互之类的效果。这些基本 `IO` 操作使用 `do` "
-"语法组合成更大的 `IO` 操作，`do` 语法是用于编写具有副作用的程序描述的内置领域特定语言。`do` 表达式包含一系列 _语句_，这些语句可以是："
+"Lean 标准库提供了许多基本 `IO` 活动，表示诸如读写文件以及与标准输入和标准输出交互之类的效果。这些基本 `IO` 活动使用 `do` "
+"语法组合成更大的 `IO` 活动，`do` 语法是用于编写具有副作用的程序描述的内置领域特定语言。`do` 表达式包含一系列 _语句_，这些语句可以是："
 
 #: src/hello-world/summary.md:28
 #, fuzzy
 msgid "expressions that represent `IO` actions,"
-msgstr "表示 `IO` 操作的表达式，"
+msgstr "表示 `IO` 活动的表达式，"
 
 #: src/hello-world/summary.md:29
 #, fuzzy
@@ -6748,7 +6748,7 @@ msgstr "使用 `let` 和 `←` 的局部定义，其中定义的名称引用执�
 msgid ""
 "`IO` actions that are written with `do` are executed one statement at a "
 "time."
-msgstr "使用 `do` 编写的 `IO` 操作一次执行一个语句。"
+msgstr "使用 `do` 编写的 `IO` 活动一次执行一个语句。"
 
 #: src/hello-world/summary.md:34
 #, fuzzy
@@ -6862,7 +6862,7 @@ msgstr "那么可以提取各个组件："
 msgid ""
 "However, attempting to extract the fourth element results in a compile-time "
 "error, rather than a run-time error:"
-msgstr "但是，尝试提取第四个元素会导致编译时错误，而不是运行时错误："
+msgstr "但是，尝试提取第四个元素会导致编译时错误，而非运行时错误："
 
 #: src/props-proofs-indexing.md:27
 #, fuzzy
@@ -7044,7 +7044,7 @@ msgid ""
 "is selected—after all, a definition of addition that always returns `0` is "
 "clearly wrong."
 msgstr ""
-"当一个命题被证明后，它被称为一个 _定理_。在 Lean 中，惯例是用 `theorem` 关键字而不是 `def` "
+"当一个命题被证明后，它被称为一个 _定理_。在 Lean 中，惯例是用 `theorem` 关键字而非 `def` "
 "来声明定理。这有助于读者看出哪些声明旨在被解读为数学证明，哪些是定义。一般来说，对于一个证明，重要的是有证据表明一个命题是正确的，但提供 _哪_ "
 "个证据并不特别重要。另一方面，对于定义，选择哪个特定值非常重要——毕竟，一个总是返回 `0` 的加法定义显然是错误的。"
 
@@ -7069,7 +7069,7 @@ msgid ""
 " state that contains new goals. The proof is complete when all goals have "
 "been proven."
 msgstr ""
-"证明通常使用 _策略_ 来编写，而不是直接提供证据。策略是为命题构建证据的小程序。这些程序在一个 _证明状态_ 中运行，该状态跟踪要证明的陈述（称为 "
+"证明通常使用 _策略_ 来编写，而非直接提供证据。策略是为命题构建证据的小程序。这些程序在一个 _证明状态_ 中运行，该状态跟踪要证明的陈述（称为 "
 "_目标_）以及可用于证明它的假设。在目标上运行策略会产生一个包含新目标的新证明状态。当所有目标都被证明后，证明就完成了。"
 
 #: src/props-proofs-indexing.md:112
@@ -7099,21 +7099,21 @@ msgstr ""
 #: src/props-proofs-indexing.md:125
 #, fuzzy
 msgid "Tactics are useful for a number of reasons:"
-msgstr "战术在许多方面很有用："
+msgstr "策略在许多方面很有用："
 
 #: src/props-proofs-indexing.md:126
 #, fuzzy
 msgid ""
 "Many proofs are complicated and tedious when written out down to the "
 "smallest detail, and tactics can automate these uninteresting parts."
-msgstr "许多证明在写到最小的细节时都很复杂且乏味，而战术可以自动完成这些无趣的部分。"
+msgstr "许多证明在写到最小的细节时都很复杂且乏味，而策略可以自动完成这些无趣的部分。"
 
 #: src/props-proofs-indexing.md:127
 #, fuzzy
 msgid ""
 "Proofs written with tactics are easier to maintain over time, because "
 "flexible automation can paper over small changes to definitions."
-msgstr "使用战术编写的证明更容易维护，因为灵活的自动化可以弥补定义的细微更改。"
+msgstr "使用策略编写的证明更容易维护，因为灵活的自动化可以弥补定义的细微更改。"
 
 #: src/props-proofs-indexing.md:128
 #, fuzzy
@@ -7124,8 +7124,8 @@ msgid ""
 "a tactic can typically construct that proof without the user needing to "
 "worry about it."
 msgstr ""
-"因为一个战术可以证明许多不同的定理，Lean "
-"可以使用幕后的战术来解放用户亲手写证明。例如，数组查找需要证明索引在范围内，而战术通常可以在用户无需担心它的情况下构造该证明。"
+"因为一个策略可以证明许多不同的定理，Lean "
+"可以使用幕后的策略来解放用户亲手写证明。例如，数组查找需要证明索引在范围内，而策略通常可以在用户无需担心它的情况下构造该证明。"
 
 #: src/props-proofs-indexing.md:130
 #, fuzzy
@@ -7133,7 +7133,7 @@ msgid ""
 "Behind the scenes, indexing notation uses a tactic to prove that the user's "
 "lookup operation is safe. This tactic is `simp`, configured to take certain "
 "arithmetic identities into account."
-msgstr "在幕后，索引符号使用战术来证明用户的查找操作是安全的。这个战术是 `simp`，配置为考虑某些算术恒等式。"
+msgstr "在幕后，索引符号使用策略来证明用户的查找操作是安全的。这个策略是 `simp`，配置为考虑某些算术恒等式。"
 
 #: src/props-proofs-indexing.md:134
 #, fuzzy
@@ -7194,7 +7194,7 @@ msgstr ""
 "_A_ 蕴涵 _B_ | `A → B` | 将 _A_ 的证据转换为 _B_ 的证据的函数\n"
 "非 _A_ | `¬A` | 将 _A_ 的证据转换为 `False` 的证据的函数\n"
 "\n"
-"`simp` 战术可以证明使用这些连接词的定理。例如：\n"
+"`simp` 策略可以证明使用这些连接词的定理。例如：\n"
 "\n"
 "证据作为参数\n"
 "\n"
@@ -7344,7 +7344,7 @@ msgstr "将 _A_ 的证据转换为 `False` 证据的函数"
 msgid ""
 "The `simp` tactic can prove theorems that use these connectives. For "
 "example:"
-msgstr "`simp` 战术可以证明使用这些连接词的定理。例如："
+msgstr "`simp` 策略可以证明使用这些连接词的定理。例如："
 
 #: src/props-proofs-indexing.md:187
 #, fuzzy
@@ -7455,7 +7455,7 @@ msgstr ""
 msgid ""
 "There is also a version that crashes the program when the index is out of "
 "bounds, rather than returning an `Option`:"
-msgstr "还有一个版本，当索引超出边界时会使程序崩溃，而不是返回一个 `Option`："
+msgstr "还有一个版本，当索引超出边界时会使程序崩溃，而非返回一个 `Option`："
 
 #: src/props-proofs-indexing.md:248
 #, fuzzy
@@ -7598,7 +7598,7 @@ msgid ""
 " If programmers are not very careful, this can lead to programs that crash "
 "at runtime or silently compute an incorrect result."
 msgstr ""
-"函数和运算符重载有一个关键限制：多态函数不能将其类型参数限制为存在给定重载的类型。例如，可以为字符串、字节数组和文件指针定义一个重载方法，但无法编写一个适用于其中任何一个的第二个方法。相反，这个第二个方法本身必须针对具有原始方法重载的每种类型进行重载，从而导致许多样板定义而不是一个多态定义。此限制的另一个后果是，一些运算符（例如"
+"函数和运算符重载有一个关键限制：多态函数不能将其类型参数限制为存在给定重载的类型。例如，可以为字符串、字节数组和文件指针定义一个重载方法，但无法编写一个适用于其中任何一个的第二个方法。相反，这个第二个方法本身必须针对具有原始方法重载的每种类型进行重载，从而导致许多样板定义而非一个多态定义。此限制的另一个后果是，一些运算符（例如"
 " Java 中的相等性）最终被定义为参数的 _每个_ 组合，即使这样做不一定明智。如果程序员不够小心，这会导致在运行时崩溃或静默计算不正确结果的程序。"
 
 #: src/type-classes.md:19
@@ -7648,7 +7648,7 @@ msgid ""
 msgstr ""
 "Lean 类型类更类似于 Java 或 C# "
 "「接口」。类型类和接口都描述了一组概念上相关的操作，这些操作针对类型或类型集合实现。类似地，类型类的实例类似于 Java 或 C# "
-"类中由已实现的接口规定的代码，而不是 Java 或 C# 类的实例。与 Java 或 C# "
+"类中由已实现的接口规定的代码，而非 Java 或 C# 类的实例。与 Java 或 C# "
 "的接口不同，可以为类型类提供作者无法访问的类型的实例。这样，它们与 Rust 特征非常相似。"
 
 #: src/type-classes/pos.md:3
@@ -7669,7 +7669,7 @@ msgstr ""
 msgid ""
 "One way to represent positive numbers is very similar to `Nat`, except with "
 "`one` as the base case instead of `zero`:"
-msgstr "表示正数的一种方法与 `Nat` 非常相似，只是以 `one` 作为基本情况，而不是 `zero`："
+msgstr "表示正数的一种方法与 `Nat` 非常相似，只是以 `one` 作为基本情况，而非 `zero`："
 
 #: src/type-classes/pos.md:13
 #, fuzzy
@@ -8182,7 +8182,7 @@ msgid ""
 msgstr ""
 "HTTP 请求以 HTTP 方法的标识符开头，例如 `GET` 或 `POST`，以及一个 URI 和一个 HTTP 版本。定义一个归纳类型来表示 "
 "HTTP 方法的一个有趣子集，以及一个表示 HTTP 响应的结构体。响应应该有一个 `ToString` 实例，以便调试它们。使用类型类将不同的 `IO`"
-" 操作与每个 HTTP 方法关联起来，并编写一个测试框架作为 `IO` 操作，调用每个方法并打印结果。"
+" 操作与每个 HTTP 方法关联起来，并编写一个测试框架作为 `IO` 活动，调用每个方法并打印结果。"
 
 #: src/type-classes/polymorphism.md:3
 #, fuzzy
@@ -8198,7 +8198,7 @@ msgstr ""
 "编写适用于给定函数的 _任何_ 重载的函数可能很有用。例如，`IO.println` 适用于具有 `ToString` "
 "实例的任何类型。这使用方括号表示所需的实例：`IO.println` 的类型是 `{α : Type} → [ToString α] → α → IO "
 "Unit`。此类型表示 `IO.println` 接受类型为 `α` 的参数，Lean 应自动确定该参数，并且必须为 `α` 提供 `ToString`"
-" 实例。它返回一个 `IO` 操作。"
+" 实例。它返回一个 `IO` 活动。"
 
 #: src/type-classes/polymorphism.md:10
 #, fuzzy
@@ -8430,7 +8430,7 @@ msgid ""
 "Nat.zero` instead of `OfNat Even 0`."
 msgstr ""
 "为 [上一节练习](pos.md#even-numbers) 中的偶数数据类型编写 `OfNat` "
-"实例，该实例使用递归实例搜索。对于基本实例，有必要编写 `OfNat Even Nat.zero` 而不是 `OfNat Even 0`。"
+"实例，该实例使用递归实例搜索。对于基本实例，有必要编写 `OfNat Even Nat.zero` 而非 `OfNat Even 0`。"
 
 #: src/type-classes/polymorphism.md:134
 #, fuzzy
@@ -8625,7 +8625,7 @@ msgid ""
 "selective about where default instances are used!"
 msgstr ""
 "_默认实例_ "
-"是可用于实例搜索的实例，_即使并非其所有输入都已知_。当可以使用其中一个实例时，将使用它。这会导致程序成功类型检查，而不是因与未知类型和元变量相关的错误而失败。另一方面，默认实例会使实例选择变得不那么可预测。特别是，如果选择了不需要的默认实例，那么表达式的类型可能与预期不同，这会导致程序中其他位置出现令人困惑的类型错误。要谨慎选择使用默认实例的位置！"
+"是可用于实例搜索的实例，_即使并非其所有输入都已知_。当可以使用其中一个实例时，将使用它。这会导致程序成功类型检查，而非因与未知类型和元变量相关的错误而失败。另一方面，默认实例会使实例选择变得不那么可预测。特别是，如果选择了不需要的默认实例，那么表达式的类型可能与预期不同，这会导致程序中其他位置出现令人困惑的类型错误。要谨慎选择使用默认实例的位置！"
 
 #: src/type-classes/out-params.md:121
 #, fuzzy
@@ -8702,7 +8702,7 @@ msgid ""
 "`OfNat` instance. This is because the `OfNat` instance for `Nat` is a "
 "default instance."
 msgstr ""
-"类似地，简单地写 `5` 会给出一个 `Nat`，而不是一个带有元变量的类型，等待更多信息以选择一个 `OfNat` 实例。这是因为 `Nat` 的 "
+"类似地，简单地写 `5` 会给出一个 `Nat`，而非一个带有元变量的类型，等待更多信息以选择一个 `OfNat` 实例。这是因为 `Nat` 的 "
 "`OfNat` 实例是一个默认实例。"
 
 #: src/type-classes/out-params.md:176
@@ -8954,7 +8954,7 @@ msgid ""
 "directly, rather than delegating to a standard library function that happens"
 " to be able to use the same evidence. This requires techniques for working "
 "with proofs and propositions that are described later in this book."
-msgstr "当然，也可以直接使用证据来编写此函数，而不是委托给碰巧能够使用相同证据的标准库函数。这需要使用本书后面描述的处理证明和命题的技术。"
+msgstr "当然，也可以直接使用证据来编写此函数，而非委托给碰巧能够使用相同证据的标准库函数。这需要使用本书后面描述的处理证明和命题的技术。"
 
 #: src/type-classes/indexing.md:109
 #, fuzzy
@@ -9344,7 +9344,7 @@ msgid ""
 "connectives, the homogeneous versions of `HAnd` and `HOr` are called `AndOp`"
 " and `OrOp` rather than `And` and `Or`."
 msgstr ""
-"由于 `And` 和 `Or` 已被用作逻辑连接符的名称，因此 `HAnd` 和 `HOr` 的同构版本被称为 `AndOp` 和 `OrOp`，而不是"
+"由于 `And` 和 `Or` 已被用作逻辑连接符的名称，因此 `HAnd` 和 `HOr` 的同构版本被称为 `AndOp` 和 `OrOp`，而非"
 " `And` 和 `Or`。"
 
 #: src/type-classes/standard-classes.md:42
@@ -9421,8 +9421,8 @@ msgid ""
 " equal if they map equal inputs to equal outputs, so this statement is even "
 "true, though it requires a two-line proof to convince Lean of this fact."
 msgstr ""
-"命题等价是一个数学陈述，而不是程序调用。由于命题类似于描述某个陈述证据的类型，因此命题等价与 `String` 和 `Nat → List Int` "
-"等类型有更多共同点，而不是与布尔等价。这意味着它无法自动检查。但是，只要两个表达式的类型相同，就可以在 Lean 中陈述它们的等价性。陈述 `(fun "
+"命题等价是一个数学陈述，而非程序调用。由于命题类似于描述某个陈述证据的类型，因此命题等价与 `String` 和 `Nat → List Int` "
+"等类型有更多共同点，而非与布尔等价。这意味着它无法自动检查。但是，只要两个表达式的类型相同，就可以在 Lean 中陈述它们的等价性。陈述 `(fun "
 "(x : Nat) => 1 + x) = (Nat.succ ·)` "
 "是一个完全合理的陈述。从数学角度来看，如果两个函数将相等的输入映射到相等的输出，则这两个函数相等，因此该陈述甚至为真，尽管需要两行证明才能使 Lean "
 "信服这一事实。"
@@ -9441,7 +9441,7 @@ msgid ""
 "natural numbers, equality of strings, and \"ands\" and \"ors\" of "
 "propositions that are themselves decidable."
 msgstr ""
-"一般来说，在将 Lean 用作编程语言时，最简单的方法是坚持使用布尔函数，而不是命题。但是，正如 `Bool` 构造子的名称 `true` 和 "
+"一般来说，在将 Lean 用作编程语言时，最简单的方法是坚持使用布尔函数，而非命题。但是，正如 `Bool` 构造子的名称 `true` 和 "
 "`false` 所示，这种差异有时会变得模糊。一些命题是 _可判定的_，这意味着它们可以像布尔函数一样被检查。检查命题真假的功能称为 "
 "_判定程序_，它返回命题真假性的 _证据_。可判定的命题的一些示例包括自然数的相等性和不等性、字符串的相等性以及本身可判定的命题的「与」和「或」。"
 
@@ -9938,7 +9938,7 @@ msgid ""
 " `NonEmptyList Nat`, but part of being a functor is that `map` works for any"
 " entry type."
 msgstr ""
-"此处，`map` 使用 `List` 的 `Functor` 实例将函数映射到尾部。此实例针对 `NonEmptyList` 定义，而不是针对 "
+"此处，`map` 使用 `List` 的 `Functor` 实例将函数映射到尾部。此实例针对 `NonEmptyList` 定义，而非针对 "
 "`NonEmptyList α` 定义，因为参数类型 `α` 在解析类型类时不起作用。`NonEmptyList` "
 "可以映射一个函数，_无论条目类型是什么_。如果 `α` 是类的参数，那么可以制作仅适用于 `NonEmptyList Nat` 的 `Functor` "
 "版本，但成为函子的部分原因是 `map` 适用于任何条目类型。"
@@ -9962,7 +9962,7 @@ msgid ""
 "Nat` as its argument rather than `Nat`."
 msgstr ""
 "即使函子中包含的类型本身也是函子，映射函数也只向下移动一层。也就是说，在 `NonEmptyList (PPoint Nat)` 上使用 `map` "
-"时，要映射的函数应以 `PPoint Nat` 作为其参数，而不是 `Nat`。"
+"时，要映射的函数应以 `PPoint Nat` 作为其参数，而非 `Nat`。"
 
 #: src/type-classes/standard-classes.md:310
 #, fuzzy
@@ -10442,14 +10442,14 @@ msgid ""
 " question is equal to `true`:"
 msgstr ""
 "`CoeSort` 的另一个有用的示例用于弥合 `Bool` 和 `Prop` 之间的差距。正如 [关于排序和相等性的章节](standard-"
-"classes.md#equality-and-ordering) 中所讨论的，Lean 的 `if` 表达式期望条件是可判定的命题，而不是 "
+"classes.md#equality-and-ordering) 中所讨论的，Lean 的 `if` 表达式期望条件是可判定的命题，而非 "
 "`Bool`。然而，程序通常需要能够根据布尔值进行分支。Lean 标准库没有定义两种 `if` 表达式，而是定义了从 `Bool` "
 "到命题的强制转换，即有问题的 `Bool` 等于 `true`："
 
 #: src/type-classes/coercion.md:237
 #, fuzzy
 msgid "In this case, the sort in question is `Prop` rather than `Type`."
-msgstr "在这种情况下，讨论的类型是 `Prop` 而不是 `Type`。"
+msgstr "在这种情况下，讨论的类型是 `Prop` 而非 `Type`。"
 
 #: src/type-classes/coercion.md:239
 #, fuzzy
@@ -10499,7 +10499,7 @@ msgid ""
 "For example, a function that adds a constant amount to its argument can be "
 "represented as a wrapper around the amount to add, rather than by defining "
 "an actual function:"
-msgstr "例如，一个将常量添加到其参数的函数可以表示为对要添加的量的包装，而不是通过定义实际函数："
+msgstr "例如，一个将常量添加到其参数的函数可以表示为对要添加的量的包装，而非通过定义实际函数："
 
 #: src/type-classes/coercion.md:261
 #, fuzzy
@@ -10798,7 +10798,7 @@ msgid ""
 "missing instances, a missing `OfNat` instance for a type does not cause a "
 "coercion from `Nat` to be applied:"
 msgstr ""
-"自然数文字重载了 `OfNat` 类型类。由于类型不匹配时会触发强制转换，而不是在缺少实例的情况下，因此类型缺少 `OfNat` 实例不会导致从 "
+"自然数文字重载了 `OfNat` 类型类。由于类型不匹配时会触发强制转换，而非在缺少实例的情况下，因此类型缺少 `OfNat` 实例不会导致从 "
 "`Nat` 应用强制转换："
 
 #: src/type-classes/coercion.md:415
@@ -11215,7 +11215,7 @@ msgid ""
 "oriented languages."
 msgstr ""
 "强制转换允许 Lean 通过插入一个将数据从一种类型转换为另一种类型的函数调用来从通常是编译时错误中恢复。例如，从任何类型 `α` 到类型 "
-"`Option α` 的强制转换允许直接写入值，而不是使用 `some` 构造子，从而使 `Option` 更像面向对象语言中的可空类型。"
+"`Option α` 的强制转换允许直接写入值，而非使用 `some` 构造子，从而使 `Option` 更像面向对象语言中的可空类型。"
 
 #: src/type-classes/summary.md:64
 #, fuzzy
@@ -11265,7 +11265,7 @@ msgid ""
 "this use case, while logging frameworks typically make use of side effects "
 "to decouple code that logs from the accumulation of the logs."
 msgstr ""
-"同样，异常比手动检查和传播错误代码方便得多。同时，通过使用专用日志记录框架（而不是让每个函数同时返回其日志结果和返回值）可以最轻松地完成日志记录。链接的空检查和异常通常要求语言设计者预见到此用例，而日志记录框架通常利用副作用将记录日志的代码与日志的累积解耦。"
+"同样，异常比手动检查和传播错误代码方便得多。同时，通过使用专用日志记录框架（而非让每个函数同时返回其日志结果和返回值）可以最轻松地完成日志记录。链接的空检查和异常通常要求语言设计者预见到此用例，而日志记录框架通常利用副作用将记录日志的代码与日志的累积解耦。"
 
 #: src/monads.md:13
 #, fuzzy
@@ -11345,7 +11345,7 @@ msgstr ""
 msgid ""
 "Now, `firstThird` can be rewritten to use `andThen` instead of pattern "
 "matching:"
-msgstr "现在，`firstThird` 可以重写为使用 `andThen` 而不是模式匹配："
+msgstr "现在，`firstThird` 可以重写为使用 `andThen` 而非模式匹配："
 
 #: src/monads.md:91
 #, fuzzy
@@ -12507,7 +12507,7 @@ msgid ""
 msgstr ""
 "并非每种语言都提供相同的效果。例如，只有某些语言有异常。其他语言具有独特的新奇效果，例如 [Icon "
 "对多个值进行搜索](https://www2.cs.arizona.edu/icon/) 以及 Scheme 或 Ruby 的延续。由于 monad "
-"可以编码任何效果，因此程序员可以选择最适合给定应用程序的效果，而不是局限于语言开发者提供的效果。"
+"可以编码任何效果，因此程序员可以选择最适合给定应用程序的效果，而非局限于语言开发者提供的效果。"
 
 #: src/monads/arithmetic.md:9
 #, fuzzy
@@ -12567,7 +12567,7 @@ msgid ""
 "failure:"
 msgstr ""
 "运行 `#eval evaluateOption fourteenDivided` 会产生 "
-"`none`，正如预期的那样，但这不是一个非常有用的错误消息。由于代码是使用 `>>=` 编写的，而不是显式处理 `none` "
+"`none`，正如预期的那样，但这不是一个非常有用的错误消息。由于代码是使用 `>>=` 编写的，而非显式处理 `none` "
 "构造子，因此只需进行少量修改即可在失败时提供错误消息："
 
 #: src/monads/arithmetic.md:77
@@ -12620,7 +12620,7 @@ msgid ""
 "`applyPrim` as an argument, a single evaluator becomes capable of both forms"
 " of error reporting:"
 msgstr ""
-"唯一的区别是类型签名提到 `Except String` 而不是 `Option`，并且失败的情况使用 `Except.error` 而不是 "
+"唯一的区别是类型签名提到 `Except String` 而非 `Option`，并且失败的情况使用 `Except.error` 而非 "
 "`none`。通过使 `evaluate` 在其单子上多态并将其作为参数传递给 `applyPrim`，单个求值器能够以两种形式进行错误报告："
 
 #: src/monads/arithmetic.md:97
@@ -12909,7 +12909,7 @@ msgstr ""
 msgid ""
 "The result of the evaluator is now a multiset of values, rather than a "
 "single value. The rules for evaluation into a multiset are:"
-msgstr "求值结果现在是一个多重集，而不是一个单一值。求值到多重集的规则如下："
+msgstr "求值结果现在是一个多重集，而非一个单一值。求值到多重集的规则如下："
 
 #: src/monads/arithmetic.md:243
 #, fuzzy
@@ -13413,7 +13413,7 @@ msgstr ""
 "Lisp、Clojure 和 Emacs Lisp 中的动态或特殊变量可以用作 `Reader`。类似地，Scheme 和 Racket "
 "的参数对象是一个与 `Reader` 完全对应的效应。Kotlin "
 "的上下文对象惯用法可以解决类似的问题，但它们从根本上是一种自动传递函数参数的方法，因此这种惯用法更像是作为 reader "
-"单子的编码，而不是语言中的效应。"
+"单子的编码，而非语言中的效应。"
 
 #: src/monads/arithmetic.md:648
 #, fuzzy
@@ -13646,7 +13646,7 @@ msgstr "使用嵌套操作，`number` 可以变得更加简洁："
 msgid ""
 "Rewrite `evaluateM`, its helpers, and the different specific use cases using"
 " `do`\\-notation instead of explicit calls to `>>=`."
-msgstr "使用 `do` 符号而不是显式调用 `>>=` 重写 `evaluateM`、其帮助器和不同的特定用例。"
+msgstr "使用 `do` 符号而非显式调用 `>>=` 重写 `evaluateM`、其帮助器和不同的特定用例。"
 
 #: src/monads/do.md:160
 #, fuzzy
@@ -13681,8 +13681,8 @@ msgid ""
 "carry out one potentially-effectful operation and then invoke the rest of "
 "the program with the resulting value."
 msgstr ""
-"从第一个角度看，`IO` 操作是 Lean 运行时系统的指令。例如，指令可能是“从该文件描述符读取字符串，然后使用该字符串重新调用纯 Lean "
-"代码”。此角度是一个外部角度，从操作系统的角度查看程序。在这种情况下，`pure` 是一个不请求 RTS 产生任何效果的 `IO` 操作，而 "
+"从第一个角度看，`IO` 活动是 Lean 运行时系统的指令。例如，指令可能是“从该文件描述符读取字符串，然后使用该字符串重新调用纯 Lean "
+"代码”。此角度是一个外部角度，从操作系统的角度查看程序。在这种情况下，`pure` 是一个不请求 RTS 产生任何效果的 `IO` 活动，而 "
 "`bind` 指示 RTS 首先执行一个潜在产生效果的操作，然后使用结果值调用程序的其余部分。"
 
 #: src/monads/io.md:11
@@ -13695,7 +13695,7 @@ msgid ""
 "world is represented in Lean as a token, and the `IO` monad is structured to"
 " make sure that each token is used exactly once."
 msgstr ""
-"从第二个角度看，`IO` 操作会改变整个世界。`IO` "
+"从第二个角度看，`IO` 活动会改变整个世界。`IO` "
 "操作实际上是纯的，因为它们接收一个唯一的世界作为参数，然后返回改变后的世界。此角度是一个内部角度，与 `IO` 在 Lean "
 "内部表示的方式相匹配。世界在 Lean 中表示为令牌，`IO` 单子被构造为确保每个令牌只使用一次。"
 
@@ -13724,7 +13724,7 @@ msgstr "生成"
 msgid ""
 "which includes a `.{u}` after the definition's name, and annotates types as "
 "`Type u` rather than just `Type`. This can be safely ignored for now."
-msgstr "其中在定义名称后包含一个 `.{u}`，并将类型标注为 `Type u` 而不是仅仅 `Type`。现在可以安全地忽略它。"
+msgstr "其中在定义名称后包含一个 `.{u}`，并将类型标注为 `Type u` 而非仅仅 `Type`。现在可以安全地忽略它。"
 
 #: src/monads/io.md:56
 #, fuzzy
@@ -13737,7 +13737,7 @@ msgstr "打印 `IO` 的定义表明它是根据更简单的结构体定义的：
 #, fuzzy
 msgid ""
 "`IO.Error` represents all the errors that could be thrown by an `IO` action:"
-msgstr "`IO.Error` 表示 `IO` 操作可能抛出的所有错误："
+msgstr "`IO.Error` 表示 `IO` 活动可能抛出的所有错误："
 
 #: src/monads/io.md:92
 #, fuzzy
@@ -13747,7 +13747,7 @@ msgid ""
 "`Except ε` monad, the `IO` monad includes the ability to define error "
 "handling and exceptions."
 msgstr ""
-"`EIO ε α` 表示 `IO` 操作，它将以类型为 `ε` 的错误终止或以类型为 `α` 的值成功。这意味着，与 `Except ε` "
+"`EIO ε α` 表示 `IO` 活动，它将以类型为 `ε` 的错误终止或以类型为 `α` 的值成功。这意味着，与 `Except ε` "
 "单子一样，`IO` 单子包括定义错误处理和异常的能力。"
 
 #: src/monads/io.md:95
@@ -14453,7 +14453,7 @@ msgid ""
 msgstr ""
 "这两个父结构体类型都扩展了 `MythicalCreature`。如果天真地实现多重继承，那么这可能会导致「菱形问题」，其中从给定的 "
 "`MonstrousAssistant` 到 `large` 的路径将不明确。它应该从包含的 `Monster` 还是从包含的 `Helper` 中获取"
-" `large`？在 Lean 中，答案是采用到祖先结构体的第一个指定路径，并且复制附加父结构体的字段，而不是让新结构体直接包含两个父结构体。"
+" `large`？在 Lean 中，答案是采用到祖先结构体的第一个指定路径，并且复制附加父结构体的字段，而非让新结构体直接包含两个父结构体。"
 
 #: src/functor-applicative-monad/inheritance.md:163
 #, fuzzy
@@ -14638,7 +14638,7 @@ msgstr ""
 msgid ""
 "This short-circuiting behavior depends only on the `Option` or `Except` "
 "structures that _surround_ the function, rather than on the function itself."
-msgstr "这种短路行为仅取决于包围函数的 `Option` 或 `Except` 结构体，而不是函数本身。"
+msgstr "这种短路行为仅取决于包围函数的 `Option` 或 `Except` 结构体，而非函数本身。"
 
 #: src/functor-applicative-monad/applicative.md:31
 #, fuzzy
@@ -14778,7 +14778,7 @@ msgid ""
 " the user to have an overview of what is needed to please the computer, "
 "rather than feeling badgered as they correct the errors field by field."
 msgstr ""
-"在验证表单的用户输入时，通常认为一次提供多个错误比一次提供一个错误更好。这使用户能够概览满足计算机需要的内容，而不是在逐个字段更正错误时感到烦恼。"
+"在验证表单的用户输入时，通常认为一次提供多个错误比一次提供一个错误更好。这使用户能够概览满足计算机需要的内容，而非在逐个字段更正错误时感到烦恼。"
 
 #: src/functor-applicative-monad/applicative.md:125
 #, fuzzy
@@ -15017,7 +15017,7 @@ msgstr ""
 #: src/functor-applicative-monad/applicative.md:211
 #, fuzzy
 msgid "The birth year is represented as a `Nat` rather than a `String`"
-msgstr "出生年份表示为 `Nat` 而不是 `String`"
+msgstr "出生年份表示为 `Nat` 而非 `String`"
 
 #: src/functor-applicative-monad/applicative.md:212
 #, fuzzy
@@ -15117,7 +15117,7 @@ msgid ""
 "meaningful after ensuring that the field in fact contains a number. This can"
 " be expressed using the function `andThen`:"
 msgstr ""
-"当然，某些验证错误会使其他检查变得不可能。例如，如果一个困惑的用户写了单词 `\"syzygy\"` 而不是数字，那么检查出生年份字段是否大于 1900"
+"当然，某些验证错误会使其他检查变得不可能。例如，如果一个困惑的用户写了单词 `\"syzygy\"` 而非数字，那么检查出生年份字段是否大于 1900"
 " 就没有意义了。只有在确保字段实际上包含数字后，检查数字的允许范围才有意义。这可以使用 `andThen` 函数来表示："
 
 #: src/functor-applicative-monad/applicative.md:282
@@ -15825,7 +15825,7 @@ msgid ""
 "instance is what allows the proposition `p v` to be checked using `if`."
 msgstr ""
 "在函数的参数列表中，类型类 `[Decidable (p v)]` 必须在参数 `v` 和 `p` "
-"的规范之后出现。否则，它将引用一组额外的自动隐式参数，而不是手动提供的值。`Decidable` 实例允许使用 `if` 检查命题 `p v`。"
+"的规范之后出现。否则，它将引用一组额外的自动隐式参数，而非手动提供的值。`Decidable` 实例允许使用 `if` 检查命题 `p v`。"
 
 #: src/functor-applicative-monad/alternative.md:119
 #, fuzzy
@@ -17137,7 +17137,7 @@ msgid ""
 "there are two kinds: ordinary files and directories:"
 msgstr ""
 "并非所有路径都应显示在目录树中。特别是，应跳过名为 `.` 或 `..` "
-"的文件，因为它们实际上是用于导航而不是文件本身的功能。在应该显示的文件中，有两种类型：普通文件和目录："
+"的文件，因为它们实际上是用于导航而非文件本身的功能。在应该显示的文件中，有两种类型：普通文件和目录："
 
 #: src/monad-transformers/reader-io.md:85
 #, fuzzy
@@ -17294,7 +17294,7 @@ msgid ""
 " type is also not universe polymorphic."
 msgstr ""
 "此 `Monad` 实例与 `Reader` 实例之间的区别在于，此实例在 `bind` 返回的函数中使用 `do` 符号作为 `IO` "
-"单子中的主体，而不是将 `next` 直接应用于 `result` 返回的值。`result` 执行的任何 `IO` 效果都必须在调用 `next` "
+"单子中的主体，而非将 `next` 直接应用于 `result` 返回的值。`result` 执行的任何 `IO` 效果都必须在调用 `next` "
 "之前发生，这由 `IO` 单子的 `bind` 运算符确保。`ConfigIO` 不是 universe 多态的，因为底层的 `IO` 类型也不是 "
 "universe 多态的。"
 
@@ -17303,7 +17303,7 @@ msgstr ""
 msgid ""
 "Running a `ConfigIO` action involves transforming it into an `IO` action by "
 "providing it with a configuration:"
-msgstr "运行 `ConfigIO` 操作涉及通过提供配置将其转换为 `IO` 操作："
+msgstr "运行 `ConfigIO` 操作涉及通过提供配置将其转换为 `IO` 活动："
 
 #: src/monad-transformers/reader-io.md:184
 #, fuzzy
@@ -17330,7 +17330,7 @@ msgid ""
 "call, it will be necessary to have a way to override a configuration:"
 msgstr ""
 "这就像 [求值器示例](../monads/arithmetic.md#custom-environments) 中的 `read`，除了它使用 "
-"`IO` 的 `pure` 来返回其值，而不是直接返回。因为进入目录会修改当前配置以进行递归调用，所以需要一种覆盖配置的方法："
+"`IO` 的 `pure` 来返回其值，而非直接返回。因为进入目录会修改当前配置以进行递归调用，所以需要一种覆盖配置的方法："
 
 #: src/monad-transformers/reader-io.md:199
 #, fuzzy
@@ -17340,8 +17340,8 @@ msgid ""
 "don't need a `Config`. Ordinary `IO` actions can be run using `runIO`, which"
 " ignores the configuration argument:"
 msgstr ""
-"`doug` 中使用的许多代码不需要配置，并且 `doug` 从标准库中调用普通的 Lean `IO` 操作，这些操作肯定不需要 "
-"`Config`。可以使用 `runIO` 运行普通的 `IO` 操作，它会忽略配置参数："
+"`doug` 中使用的许多代码不需要配置，并且 `doug` 从标准库中调用普通的 Lean `IO` 活动，这些操作肯定不需要 "
+"`Config`。可以使用 `runIO` 运行普通的 `IO` 活动，它会忽略配置参数："
 
 #: src/monad-transformers/reader-io.md:206
 #, fuzzy
@@ -17439,7 +17439,7 @@ msgstr "随着程序的演进和单子需要更多功能，每个基本运算符
 msgid ""
 "Wrapping ordinary `IO` actions in `runIO` is noisy and distracts from the "
 "flow of the program"
-msgstr "将普通的 `IO` 操作包装在 `runIO` 中很嘈杂，并且会分散程序的流程"
+msgstr "将普通的 `IO` 活动包装在 `runIO` 中很嘈杂，并且会分散程序的流程"
 
 #: src/monad-transformers/reader-io.md:254
 #, fuzzy
@@ -17791,7 +17791,7 @@ msgid ""
 msgstr ""
 "由 `Option` 单子表示的失败和由 `Except` 单子表示的异常都有相应的变换器。对于 `Option`，可以通过让它包含类型为 "
 "`Option α` 的值（在其他情况下它将包含类型为 `α` 的值）来将失败添加到单子中。例如，`IO (Option α)` 表示不总是返回类型为 "
-"`α` 的值的 `IO` 操作。这表明了单子变换器 `OptionT` 的定义："
+"`α` 的值的 `IO` 活动。这表明了单子变换器 `OptionT` 的定义："
 
 #: src/monad-transformers/transformers.md:30
 #, fuzzy
@@ -17853,7 +17853,7 @@ msgid ""
 "`IO` context, which allows it to check whether the call succeeded or failed "
 "by matching on the inner `Option`:"
 msgstr ""
-"但是，由于函数在 `OptionT IO` 上下文中而不是仅在 `IO` 中运行，因此在第一次调用 `getSomeInput` 时失败会导致整个 "
+"但是，由于函数在 `OptionT IO` 上下文中而非仅在 `IO` 中运行，因此在第一次调用 `getSomeInput` 时失败会导致整个 "
 "`getUserInfo` 失败，并且控制权永远不会到达有关甲虫的问题。主函数 `interact` 在纯 `IO` 上下文中调用 "
 "`getUserInfo`，这允许它通过匹配内部 `Option` 来检查调用是否成功或失败："
 
@@ -18046,7 +18046,7 @@ msgid ""
 "`OptionT`. The only difference is that it propagates a specific error value,"
 " rather than `none`:"
 msgstr ""
-"`ExceptT` 的 `Monad` 实例也与 `OptionT` 的实例非常相似。唯一的区别是它传播一个特定的错误值，而不是 `none`："
+"`ExceptT` 的 `Monad` 实例也与 `OptionT` 的实例非常相似。唯一的区别是它传播一个特定的错误值，而非 `none`："
 
 #: src/monad-transformers/transformers.md:253
 #, fuzzy
@@ -18257,7 +18257,7 @@ msgid ""
 "Once again, the monad instance is very similar to that for `State`. The only"
 " difference is that the input and output states are passed around and "
 "returned in the underlying monad, rather than with pure code:"
-msgstr "再次，单子实例与 `State` 非常相似。唯一的区别是输入和输出状态在底层单子中传递和返回，而不是使用纯代码："
+msgstr "再次，单子实例与 `State` 非常相似。唯一的区别是输入和输出状态在底层单子中传递和返回，而非使用纯代码："
 
 #: src/monad-transformers/transformers.md:380
 #, fuzzy
@@ -18318,7 +18318,7 @@ msgstr ""
 msgid ""
 "It would be very easy to write `set st` instead of `set st'`. In a large "
 "program, this kind of mistake can lead to difficult-to-diagnose bugs."
-msgstr "很容易写成 `set st` 而不是 `set st'`。在一个大型程序中，这种类型的错误可能导致难以诊断的错误。"
+msgstr "很容易写成 `set st` 而非 `set st'`。在一个大型程序中，这种类型的错误可能导致难以诊断的错误。"
 
 #: src/monad-transformers/transformers.md:424
 #, fuzzy
@@ -18366,7 +18366,7 @@ msgid ""
 " it would not admit the optimizations that make `modifyGet` useful in the "
 "first place, rendering the method useless."
 msgstr ""
-"`PUnit` 是 `Unit` 类型的版本，它是 universe-polymorphic，允许它在 `Type u` 中而不是 `Type` "
+"`PUnit` 是 `Unit` 类型的版本，它是 universe-polymorphic，允许它在 `Type u` 中而非 `Type` "
 "中。虽然可以根据 `get` 和 `set` 提供 `modifyGet` 的默认实现，但它不会承认使 `modifyGet` "
 "有用的优化，从而使该方法毫无用处。"
 
@@ -18410,7 +18410,7 @@ msgid ""
 "Similarly, there are versions of the type class methods that accept the type"
 " of the extra information as an _explicit_, rather than implicit, argument. "
 "For `MonadStateOf`, there are `getThe` with type"
-msgstr "类似地，有类型类方法的版本，它们接受额外信息的类型作为显式（而不是隐式）参数。对于 `MonadStateOf`，有类型为"
+msgstr "类似地，有类型类方法的版本，它们接受额外信息的类型作为显式（而非隐式）参数。对于 `MonadStateOf`，有类型为"
 
 #: src/monad-transformers/transformers.md:479
 #, fuzzy
@@ -18508,7 +18508,7 @@ msgid ""
 "This version of `countLetters` is just like the previous version, except it "
 "uses type classes to describe the set of available effects instead of "
 "providing a concrete monad:"
-msgstr "此版本的 `countLetters` 与前一个版本类似，不同之处在于它使用类型类来描述可用效果集，而不是提供一个具体的单子："
+msgstr "此版本的 `countLetters` 与前一个版本类似，不同之处在于它使用类型类来描述可用效果集，而非提供一个具体的单子："
 
 #: src/monad-transformers/order.md:24
 #, fuzzy
@@ -18809,7 +18809,7 @@ msgid ""
 "automatically. The following definition of `countLetters` is completely "
 "equivalent:"
 msgstr ""
-"当 `if` 是 `do` 块中的一个语句，而不是一个表达式时，`else pure ()` 可以简单地省略，Lean 会自动插入它。以下 "
+"当 `if` 是 `do` 块中的一个语句，而非一个表达式时，`else pure ()` 可以简单地省略，Lean 会自动插入它。以下 "
 "`countLetters` 的定义完全等效："
 
 #: src/monad-transformers/do.md:46
@@ -18957,7 +18957,7 @@ msgstr "在没有参数的情况下运行它并键入名称 `David` 会产生与
 msgid ""
 "Providing the name as a command-line argument instead of an answer causes an"
 " error:"
-msgstr "将名称作为命令行参数而不是答案提供会导致错误："
+msgstr "将名称作为命令行参数而非答案提供会导致错误："
 
 #: src/monad-transformers/do.md:159
 #, fuzzy
@@ -19022,7 +19022,7 @@ msgstr ""
 msgid ""
 "the expression `greet \"David\"` evaluates to `\"Hello, David\"`, not just "
 "`\"David\"`."
-msgstr "表达式 `greet \"David\"` 求值为 `\"Hello, David\"`, 而不是 `\"David\"`。"
+msgstr "表达式 `greet \"David\"` 求值为 `\"Hello, David\"`, 而非 `\"David\"`。"
 
 #: src/monad-transformers/do.md:200
 #, fuzzy
@@ -19090,7 +19090,7 @@ msgid ""
 "`Monad` rather than `Applicative`. `forM` can be used to make `countLetters`"
 " much shorter:"
 msgstr ""
-"`doList` 函数（来自 `doug`）是列表的 `forM`。因为 `forM` 旨在用于 `do` 块中，所以它使用 `Monad` 而不是 "
+"`doList` 函数（来自 `doug`）是列表的 `forM`。因为 `forM` 旨在用于 `do` 块中，所以它使用 `Monad` 而非 "
 "`Applicative`。`forM` 可用于使 `countLetters` 变得更短："
 
 #: src/monad-transformers/do.md:249
@@ -19258,7 +19258,7 @@ msgid ""
 "uses `StateT` and `ExceptT`, rather than the underlying monad."
 msgstr ""
 "但是，请注意，此适配器仅适用于保持单子不受约束的 `ForM` 实例，就像大多数实例一样。这是因为该适配器使用 `StateT` 和 "
-"`ExceptT`，而不是底层单子。"
+"`ExceptT`，而非底层单子。"
 
 #: src/monad-transformers/do.md:399
 #, fuzzy
@@ -19440,7 +19440,7 @@ msgid ""
 " used to simulate imperative programming."
 msgstr ""
 "除了早期 `return`、没有 `else` 的 `if` 和 `for` 循环之外，Lean 还支持 `do` "
-"块中的局部可变变量。在幕后，这些可变变量会转化为使用 `StateT`，而不是通过真正的可变变量实现。再一次，函数式编程被用来模拟命令式编程。"
+"块中的局部可变变量。在幕后，这些可变变量会转化为使用 `StateT`，而非通过真正的可变变量实现。再一次，函数式编程被用来模拟命令式编程。"
 
 #: src/monad-transformers/do.md:472
 #, fuzzy
@@ -19449,7 +19449,7 @@ msgid ""
 "`let`. The definition `two`, which uses the identity monad `Id` to enable "
 "`do`\\-syntax without introducing any effects, counts to `2`:"
 msgstr ""
-"局部可变变量使用 `let mut` 而不是 `let` 引入。使用恒等单子 `Id` 以启用 `do` 语法而不引入任何效果的定义 `two` 计数到"
+"局部可变变量使用 `let mut` 而非 `let` 引入。使用恒等单子 `Id` 以启用 `do` 语法而不引入任何效果的定义 `two` 计数到"
 " `2`："
 
 #: src/monad-transformers/do.md:481
@@ -19618,7 +19618,7 @@ msgid ""
 "Rewrite `doug` to use `for` instead of the `doList` function. Are there "
 "other opportunities to use the features introduced in this section to "
 "improve the code? If so, use them!"
-msgstr "使用 `for` 而不是 `doList` 函数重写 `doug`。是否有其他机会使用本节中引入的特性来改进代码？如果有，请使用它们！"
+msgstr "使用 `for` 而非 `doList` 函数重写 `doug`。是否有其他机会使用本节中引入的特性来改进代码？如果有，请使用它们！"
 
 #: src/monad-transformers/conveniences.md:3
 #, fuzzy
@@ -19746,7 +19746,7 @@ msgid ""
 "3] |>.reverse |>.drop 1 |>.reverse`."
 msgstr ""
 "Lean 的方法点表示法在点之前使用类型名称来解析点之后运算符的命名空间，它与管道有类似的目的。即使没有管道运算符，也可以编写 `[1, 2, "
-"3].reverse` 而不是 `List.reverse [1, 2, 3]`. 但是，当使用许多点函数时，管道运算符也很有用。`([1, 2, "
+"3].reverse` 而非 `List.reverse [1, 2, 3]`. 但是，当使用许多点函数时，管道运算符也很有用。`([1, 2, "
 "3].reverse.drop 1).reverse` 也可以写成 `[1, 2, 3] |> List.reverse |> List.drop 1 "
 "|> List.reverse`. 此版本避免了对表达式进行括号化，仅仅因为它们接受参数，并且它恢复了像 Kotlin 或 C# "
 "这样的语言中方法调用链的便利性。但是，它仍然需要手动提供命名空间。作为最后的便利，Lean "
@@ -20231,7 +20231,7 @@ msgid ""
 "When pattern matching refines the type of a program in addition to "
 "discovering the structure of a value, it is called _dependent pattern "
 "matching_."
-msgstr "当模式匹配除了发现值结构体之外还细化程序的类型时，它被称为 _依赖模式匹配_。"
+msgstr "当模式匹配除了发现值结构体之外还细化程序的类型时，它被称为 _依值模式匹配_。"
 
 #: src/dependent-types/indexed-families.md:113
 #, fuzzy
@@ -20554,7 +20554,7 @@ msgid ""
 "`NatOrBool.bool.asType`, and these compute to the actual types `Nat` and "
 "`Bool`."
 msgstr ""
-"对 `t` 进行依赖模式匹配可以分别将预期结果类型 `t.asType` 优化为 `NatOrBool.nat.asType` 和 "
+"对 `t` 进行依值模式匹配可以分别将预期结果类型 `t.asType` 优化为 `NatOrBool.nat.asType` 和 "
 "`NatOrBool.bool.asType`，它们计算为实际类型 `Nat` 和 `Bool`。"
 
 #: src/dependent-types/universe-pattern.md:40
@@ -20584,7 +20584,7 @@ msgid ""
 msgstr ""
 "尽管 `NestedPairs` 宇宙中的每种类型都已具有 `BEq` "
 "实例，但类型类搜索不会在实例声明中自动检查数据类型的每种可能情况，因为可能存在无限多个此类情况，如 `NestedPairs`。尝试直接调用 `BEq`"
-" 实例，而不是向 Lean 解释如何通过对代码进行递归来查找它们，会导致错误："
+" 实例，而非向 Lean 解释如何通过对代码进行递归来查找它们，会导致错误："
 
 #: src/dependent-types/universe-pattern.md:73
 #, fuzzy
@@ -20737,7 +20737,7 @@ msgstr "它甚至可以比较使用函数组合等工具构建的函数："
 msgid ""
 "This is because the `Finite` universe codes for Lean's _actual_ function "
 "type, not a special analogue created by the library."
-msgstr "这是因为 `Finite` 宇宙编码了 Lean 的_实际_函数类型，而不是库创建的特殊类似物。"
+msgstr "这是因为 `Finite` 宇宙编码了 Lean 的_实际_函数类型，而非库创建的特殊类似物。"
 
 #: src/dependent-types/universe-pattern.md:154
 #, fuzzy
@@ -21081,7 +21081,7 @@ msgid ""
 "the `Repr` instances for `Int`, `String`, and `Bool` to be used:"
 msgstr ""
 "可以使用相同技术编写 `Repr` 实例。`Repr` 类的函数被称为 "
-"`reprPrec`，因为它旨在在显示值时考虑运算符优先级等因素。通过依赖模式匹配细化类型，可以使用 `Int`、`String` 和 `Bool` 的"
+"`reprPrec`，因为它旨在在显示值时考虑运算符优先级等因素。通过依值模式匹配细化类型，可以使用 `Int`、`String` 和 `Bool` 的"
 " `Repr` 实例中的 `reprPrec` 函数："
 
 #: src/dependent-types/typed-queries.md:81
@@ -21763,7 +21763,7 @@ msgid ""
 " and Racket."
 msgstr ""
 "此声明将 `c!` 关键字添加到 Lean，并指示 Lean 用相应的 `DBExpr.col` 构造替换任何 `c!` "
-"后跟表达式的实例。此处，`term` 表示 Lean 表达式，而不是命令、策略或语言的其他部分。Lean 宏有点像 C "
+"后跟表达式的实例。此处，`term` 表示 Lean 表达式，而非命令、策略或语言的其他部分。Lean 宏有点像 C "
 "预处理器宏，但它们更好地集成到语言中，并且自动避免了 CPP 的一些缺陷。事实上，它们与 Scheme 和 Racket 中的宏非常相似。"
 
 #: src/dependent-types/typed-queries.md:429
@@ -22113,7 +22113,7 @@ msgid ""
 "Adding a prefix to column names is very similar to renaming a column. "
 "Instead of proceeding to a desired column and then returning, `prefixRow` "
 "must process all columns:"
-msgstr "为列名添加前缀与重命名列非常相似。`prefixRow` 必须处理所有列，而不是继续到所需列然后返回："
+msgstr "为列名添加前缀与重命名列非常相似。`prefixRow` 必须处理所有列，而非继续到所需列然后返回："
 
 #: src/dependent-types/typed-queries.md:612
 msgid ""
@@ -22339,7 +22339,7 @@ msgid ""
 " library, rather than its user interface."
 msgstr ""
 "Lean 的宏系统包含了不仅可以为查询提供便捷语法，还可以安排错误消息有用的所有内容。不幸的是，用 Lean 宏实现语言的描述超出了本书的范围。像 "
-"`Query` 这样的索引族可能最适合作为类型化数据库交互库的核心，而不是其用户界面。"
+"`Query` 这样的索引族可能最适合作为类型化数据库交互库的核心，而非其用户界面。"
 
 #: src/dependent-types/typed-queries.md:740
 #, fuzzy
@@ -22468,7 +22468,7 @@ msgid ""
 "arguments at the top of the datatype definition."
 msgstr ""
 "在这个定义中，`α` 是一个参数，`Nat` 是一个索引。参数可以在整个定义中被引用（例如，`Vect.cons` 使用 `α` "
-"作为其第一个参数的类型），但它们必须始终被一致地使用。由于索引预期会改变，因此它们在每个构造子中被分配单独的值，而不是在数据类型定义的顶部作为参数提供。"
+"作为其第一个参数的类型），但它们必须始终被一致地使用。由于索引预期会改变，因此它们在每个构造子中被分配单独的值，而非在数据类型定义的顶部作为参数提供。"
 
 #: src/dependent-types/indices-parameters-universes.md:22
 #, fuzzy
@@ -22970,8 +22970,8 @@ msgid ""
 "equivalent to `plusR`, not `plusL`, so attempting to use it in this "
 "definition results in precisely the same difficulties:"
 msgstr ""
-"它的模式匹配发生在 _第二个_ 参数上，而不是第一个参数，这意味着变量 `k` 在该位置的存在阻止了它的化简。Lean 标准库中的 `Nat.add` "
-"等效于 `plusR`，而不是 `plusL`，因此尝试在此定义中使用它会导致完全相同的问题："
+"它的模式匹配发生在 _第二个_ 参数上，而非第一个参数，这意味着变量 `k` 在该位置的存在阻止了它的化简。Lean 标准库中的 `Nat.add` "
+"等效于 `plusR`，而非 `plusL`，因此尝试在此定义中使用它会导致完全相同的问题："
 
 #: src/dependent-types/pitfalls.md:282
 #, fuzzy
@@ -23035,8 +23035,8 @@ msgid ""
 msgstr ""
 "在 [命题、证明和索引](../props-proofs-indexing.md) 中，一些等式语句使用 `simp` "
 "证明。所有这些等式语句都是命题等式实际上已经是定义等式的情况。通常，命题等式的陈述首先将它们转换为定义形式或接近于现有已证明等式，然后使用 `simp`"
-" 等工具来处理简化情况。`simp` 战术非常强大：在幕后，它使用许多快速、自动化的工具来构建证明。一个称为 `rfl` "
-"的更简单的战术专门使用定义等式来证明命题等式。`rfl` 名称是 _自反性_ 的缩写，这是等式的属性，它指出所有事物都等于自身。"
+" 等工具来处理简化情况。`simp` 策略非常强大：在幕后，它使用许多快速、自动化的工具来构建证明。一个称为 `rfl` "
+"的更简单的策略专门使用定义等式来证明命题等式。`rfl` 名称是 _自反性_ 的缩写，这是等式的属性，它指出所有事物都等于自身。"
 
 #: src/dependent-types/pitfalls.md:304
 #, fuzzy
@@ -23068,7 +23068,7 @@ msgid ""
 "Having refined `k` to `0` via pattern matching, the first placeholder stands"
 " for evidence of a statement that does hold definitionally. The `rfl` tactic"
 " takes care of it, leaving only the second placeholder:"
-msgstr "通过模式匹配将 `k` 细化为 `0`，第一个占位符代表对定义上成立的语句的证据。`rfl` 战术处理它，只留下第二个占位符："
+msgstr "通过模式匹配将 `k` 细化为 `0`，第一个占位符代表对定义上成立的语句的证据。`rfl` 策略处理它，只留下第二个占位符："
 
 #: src/dependent-types/pitfalls.md:335
 #, fuzzy
@@ -23656,7 +23656,7 @@ msgstr ""
 "在策略语言中，可以有多个目标。每个目标由一个类型和一些假设组成。这些类似于使用下划线作为占位符——目标中的类型表示要证明的内容，而假设表示范围内可以使用的内容。在目标"
 " `case zero` 的情况下，没有假设，类型为 `Nat.zero = Nat.plusR 0 Nat.zero`——这是定理陈述，其中 `0` "
 "代替了 `k`。在目标 `case succ` 中，有两个假设，分别命名为 `n✝` 和 `n_ih✝`。在幕后，`induction` "
-"策略创建了一个依赖模式匹配，它细化了整体类型，`n✝` 表示模式中 `Nat.succ` 的参数。假设 `n_ih✝` 表示在 `n✝` "
+"策略创建了一个依值模式匹配，它细化了整体类型，`n✝` 表示模式中 `Nat.succ` 的参数。假设 `n_ih✝` 表示在 `n✝` "
 "上递归调用生成函数的结果。它的类型是定理的整体类型，只是用 `n✝` 代替了 `k`。作为目标 `case succ` "
 "的一部分要实现的类型是整体定理陈述，其中 `Nat.succ n✝` 代替了 `k`。"
 
@@ -23740,7 +23740,7 @@ msgstr ""
 msgid ""
 "Now, the right-hand side of the equality in the goal has become `Nat.plusR 0"
 " n + 1` instead of `Nat.plusR 0 (Nat.succ n)`:"
-msgstr "现在，目标中等式的右侧已变为 `Nat.plusR 0 n + 1`，而不是 `Nat.plusR 0 (Nat.succ n)`："
+msgstr "现在，目标中等式的右侧已变为 `Nat.plusR 0 n + 1`，而非 `Nat.plusR 0 (Nat.succ n)`："
 
 #: src/tactics-induction-proofs.md:136
 #, fuzzy
@@ -23759,7 +23759,7 @@ msgstr ""
 msgid ""
 "However, the direction of the rewrite was incorrect. Replacing `n` with "
 "`Nat.plusR 0 n` made the goal more complicated rather than less complicated:"
-msgstr "然而，重写的方向不正确。将 `n` 替换为 `Nat.plusR 0 n` 使得目标变得更加复杂，而不是更简单："
+msgstr "然而，重写的方向不正确。将 `n` 替换为 `Nat.plusR 0 n` 使得目标变得更加复杂，而非更简单："
 
 #: src/tactics-induction-proofs.md:156
 #, fuzzy
@@ -23791,7 +23791,7 @@ msgid ""
 "better in the game of golf, a shorter proof is better in the game of tactic "
 "golf."
 msgstr ""
-"到目前为止，策略语言还没有显示其真正的价值。上述证明并不比递归函数短；它只是用特定于领域的语言而不是完整的 Lean "
+"到目前为止，策略语言还没有显示其真正的价值。上述证明并不比递归函数短；它只是用特定于领域的语言而非完整的 Lean "
 "语言编写的。但是，使用策略的证明可以更短、更容易和更易于维护。就像在高尔夫球比赛中较低的分数更好一样，在策略高尔夫球比赛中较短的证明更好。"
 
 #: src/tactics-induction-proofs.md:175
@@ -24176,7 +24176,7 @@ msgid ""
 " pushing a new one, and tail-call elimination is the process of implementing"
 " this transformation."
 msgstr ""
-"函数式编程中，情况通常相反。以可变循环自然表达的程序可能会消耗堆栈空间，而将它们重写为递归函数可以使它们快速运行。这是函数式编程语言的一个关键方面：_尾调用消除_。尾调用是从一个函数到另一个函数的调用，可以编译成一个普通的跳转，替换当前的堆栈帧而不是压入一个新的堆栈帧，而尾调用消除就是实现此转换的过程。"
+"函数式编程中，情况通常相反。以可变循环自然表达的程序可能会消耗堆栈空间，而将它们重写为递归函数可以使它们快速运行。这是函数式编程语言的一个关键方面：_尾调用消除_。尾调用是从一个函数到另一个函数的调用，可以编译成一个普通的跳转，替换当前的堆栈帧而非压入一个新的堆栈帧，而尾调用消除就是实现此转换的过程。"
 
 #: src/programs-proofs/tail-recursion.md:12
 #, fuzzy
@@ -24277,7 +24277,7 @@ msgid ""
 " called _accumulators_."
 msgstr ""
 "`Tail.sumHelper` "
-"的第一个参数包含所有其他需要在调用栈中跟踪的信息，即到目前为止遇到的数字的总和。在每个递归调用中，此参数都会使用新信息进行更新，而不是将新信息添加到调用栈中。替换调用栈中信息的"
+"的第一个参数包含所有其他需要在调用栈中跟踪的信息，即到目前为止遇到的数字的总和。在每个递归调用中，此参数都会使用新信息进行更新，而非将新信息添加到调用栈中。替换调用栈中信息的"
 " `soFar` 等参数称为 _累加器_。"
 
 #: src/programs-proofs/tail-recursion.md:95
@@ -24389,7 +24389,7 @@ msgstr "使用它来反转 `[1, 2, 3]` 会产生以下步骤序列："
 msgid ""
 "The tail-recursive version uses `x :: ·` instead of `· ++ [x]` on the "
 "accumulator at each step:"
-msgstr "尾递归版本在每一步的累加器上使用 `x :: ·` 而不是 `· ++ [x]`："
+msgstr "尾递归版本在每一步的累加器上使用 `x :: ·` 而非 `· ++ [x]`："
 
 #: src/programs-proofs/tail-recursion.md:161
 #, fuzzy
@@ -24402,7 +24402,7 @@ msgid ""
 " be seen in the series of reduction steps:"
 msgstr ""
 "这是因为在使用 `NonTail.reverse` "
-"计算时保存在每个堆栈帧中的上下文从基本情况开始应用。每个「记住的」上下文片段都按照后进先出的顺序执行。另一方面，累加器传递版本从列表中的第一个条目而不是原始基本情况开始修改累加器，如一系列归约步骤所示："
+"计算时保存在每个堆栈帧中的上下文从基本情况开始应用。每个「记住的」上下文片段都按照后进先出的顺序执行。另一方面，累加器传递版本从列表中的第一个条目而非原始基本情况开始修改累加器，如一系列归约步骤所示："
 
 #: src/programs-proofs/tail-recursion.md:177
 #, fuzzy
@@ -24531,10 +24531,10 @@ msgid ""
 "exactly the reason why `NonTail.sum` equals `Tail.sum`: they both sum lists "
 "of numbers."
 msgstr ""
-"`rfl` 战术无法在此处应用，因为 `NonTail.sum` 和 `Tail.sum` "
+"`rfl` 策略无法在此处应用，因为 `NonTail.sum` 和 `Tail.sum` "
 "在定义上不相等。然而，函数可以以不止定义相等的方式相等。还可以通过证明两个函数对相同输入产生相等输出，来证明它们相等。换句话说，\\\\( f = g "
 "\\\\) 可以通过证明 \\\\( f(x) = g(x) \\\\) 对于所有可能的输入 \\\\( x \\\\) 来证明。此原理称为 "
-"_函数扩展性_。函数扩展性正是 `NonTail.sum` 等于 `Tail.sum` 的原因：它们都对数字列表求和。"
+"_函数外延性_。函数外延性正是 `NonTail.sum` 等于 `Tail.sum` 的原因：它们都对数字列表求和。"
 
 #: src/programs-proofs/tail-recursion-proofs.md:27
 #, fuzzy
@@ -24546,7 +24546,7 @@ msgid ""
 "equal:"
 msgstr ""
 "在 Lean 的策略语言中，使用 `funext` "
-"调用函数扩展性，后跟一个用于任意参数的名称。任意参数作为假设添加到上下文中，目标变为要求证明应用于此参数的函数相等："
+"调用函数外延性，后跟一个用于任意参数的名称。任意参数作为假设添加到上下文中，目标变为要求证明应用于此参数的函数相等："
 
 #: src/programs-proofs/tail-recursion-proofs.md:40
 #, fuzzy
@@ -24631,7 +24631,7 @@ msgid ""
 " proof is stuck."
 msgstr ""
 "理想情况下，归纳假设可以用来替换 `Tail.sumHelper (y + n) ys`，但它们不匹配。归纳假设可用于 `Tail.sumHelper "
-"n ys`，而不是 `Tail.sumHelper (y + n) ys`。换句话说，这个证明被卡住了。"
+"n ys`，而非 `Tail.sumHelper (y + n) ys`。换句话说，这个证明被卡住了。"
 
 #: src/programs-proofs/tail-recursion-proofs.md:178
 #, fuzzy
@@ -24774,7 +24774,7 @@ msgid ""
 " in order to match. This rewrite is valid because addition is also "
 "commutative."
 msgstr ""
-"当左侧重写为 `(y + n) + NonTail.sum ys` 时，右侧的累加器参数应为 `n + y` 而不是 `y + n` "
+"当左侧重写为 `(y + n) + NonTail.sum ys` 时，右侧的累加器参数应为 `n + y` 而非 `y + n` "
 "以进行匹配。此重写是有效的，因为加法也是可交换的。"
 
 #: src/programs-proofs/tail-recursion-proofs.md:313
@@ -24830,7 +24830,7 @@ msgid ""
 "The actual proof requires only a little additional work to get the goal to "
 "match the helper's type. The first step is still to invoke function "
 "extensionality:"
-msgstr "实际证明只需要一些额外的工作即可使目标与辅助类型的匹配。第一步仍然是调用函数扩展性："
+msgstr "实际证明只需要一些额外的工作即可使目标与辅助类型的匹配。第一步仍然是调用函数外延性："
 
 #: src/programs-proofs/tail-recursion-proofs.md:415
 #, fuzzy
@@ -24972,7 +24972,7 @@ msgid ""
 "Arrays are accessed through indexing, rather than by pattern matching, which"
 " imposes [proof obligations](../props-proofs-indexing.md) in order to "
 "maintain safety."
-msgstr "数组是通过索引访问的，而不是通过模式匹配，这为了保持安全性而施加了[证明义务](../props-proofs-indexing.md)。"
+msgstr "数组是通过索引访问的，而非通过模式匹配，这为了保持安全性而施加了[证明义务](../props-proofs-indexing.md)。"
 
 #: src/programs-proofs/arrays-termination.md:9
 #, fuzzy
@@ -24991,7 +24991,7 @@ msgid ""
 "propositional equality."
 msgstr ""
 "有效使用数组需要知道如何向 Lean "
-"证明数组索引在范围内，以及如何证明接近数组大小的数组索引也会导致程序终止。这两个都使用不等式命题表示，而不是命题等式。"
+"证明数组索引在范围内，以及如何证明接近数组大小的数组索引也会导致程序终止。这两个都使用不等式命题表示，而非命题等式。"
 
 #: src/programs-proofs/arrays-termination.md:14
 #, fuzzy
@@ -25018,7 +25018,7 @@ msgid ""
 "`Bool`s:"
 msgstr ""
 "换句话说，一个类型可以定制 `<` 和 `≤` 运算符的含义，而 `>` 和 `≥` 从 `<` 和 `≤` 中派生它们的含义。`LT` 和 `LE` "
-"类具有返回命题而不是 `Bool` 的方法："
+"类具有返回命题而非 `Bool` 的方法："
 
 #: src/programs-proofs/arrays-termination.md:36
 #, fuzzy
@@ -25105,7 +25105,7 @@ msgid ""
 " be used."
 msgstr ""
 "这里使用的机制就像 [索引族，如 `HasCol`](../dependent-types/typed-queries.md#column-"
-"pointers)，除了结果类型是一个可以被证明的命题，而不是可以被使用的数据。"
+"pointers)，除了结果类型是一个可以被证明的命题，而非可以被使用的数据。"
 
 #: src/programs-proofs/arrays-termination.md:80
 #, fuzzy
@@ -25159,8 +25159,8 @@ msgid ""
 "dependent pattern matching is `cases`, which has a syntax similar to that of"
 " `induction`:"
 msgstr ""
-"此错误发生是因为 `n + 2` 与 `5` 在定义上不相等。在普通的函数定义中，可以对假设 `three` 使用依赖模式匹配来将 `n` 细化为 "
-"`3`。`cases` 是依赖模式匹配的策略等价物，其语法类似于 `induction`："
+"此错误发生是因为 `n + 2` 与 `5` 在定义上不相等。在普通的函数定义中，可以对假设 `three` 使用依值模式匹配来将 `n` 细化为 "
+"`3`。`cases` 是依值模式匹配的策略等价物，其语法类似于 `induction`："
 
 #: src/programs-proofs/arrays-termination.md:136
 #, fuzzy
@@ -25217,7 +25217,7 @@ msgstr ""
 #: src/programs-proofs/arrays-termination.md:185
 #, fuzzy
 msgid "In this proof, the `cases` tactic solves the goal immediately:"
-msgstr "在这个证明中，`cases` 战术立即解决了目标："
+msgstr "在这个证明中，`cases` 策略立即解决了目标："
 
 #: src/programs-proofs/arrays-termination.md:191
 #, fuzzy
@@ -25336,7 +25336,7 @@ msgid ""
 "Lean does not, however, accept the modified program, because the recursive "
 "call is not made on an argument to one of the input constructors. In fact, "
 "both the accumulator and the index grow, rather than shrinking:"
-msgstr "但是，Lean 不接受修改后的程序，因为递归调用不是针对输入构造子之一的参数进行的。事实上，累加器和索引都在增长，而不是缩小："
+msgstr "但是，Lean 不接受修改后的程序，因为递归调用不是针对输入构造子之一的参数进行的。事实上，累加器和索引都在增长，而非缩小："
 
 #: src/programs-proofs/arrays-termination.md:287
 #, fuzzy
@@ -25610,7 +25610,7 @@ msgid ""
 "`induction` tactic gives two goals:"
 msgstr ""
 "由于 `splitList` 在列表上是结构体递归的，因此证明应使用归纳法。`splitList` "
-"中的结构体递归非常适合归纳证明：归纳法的基本情况与递归的基本情况匹配，归纳步骤与递归调用匹配。`induction` 战术给出了两个目标："
+"中的结构体递归非常适合归纳证明：归纳法的基本情况与递归的基本情况匹配，归纳步骤与递归调用匹配。`induction` 策略给出了两个目标："
 
 #: src/programs-proofs/inequalities.md:167
 #, fuzzy
@@ -25663,7 +25663,7 @@ msgid ""
 "constructor, using `cases` on a structure does not result in additional "
 "goals."
 msgstr ""
-"`cases` 战术允许证明依次考虑数据类型的每个构造子或命题的每个潜在证明。它对应于没有递归的 `match` 表达式。对结构体使用 `cases` "
+"`cases` 策略允许证明依次考虑数据类型的每个构造子或命题的每个潜在证明。它对应于没有递归的 `match` 表达式。对结构体使用 `cases` "
 "会导致结构体被分解，并为结构体的每个字段添加一个假设，就像模式匹配表达式提取结构体的字段以用于程序中一样。由于结构体只有一个构造子，因此对结构体使用 "
 "`cases` 不会产生额外的目标。"
 
@@ -25926,7 +25926,7 @@ msgid ""
 "programs. Because `lst` has at least two entries, they can be exposed with "
 "`match`, which also refines the type through dependent pattern matching:"
 msgstr ""
-"模式匹配在策略脚本中与在程序中一样有效。因为`lst`至少有两个条目，所以它们可以用`match`暴露出来，它还通过依赖模式匹配来细化类型："
+"模式匹配在策略脚本中与在程序中一样有效。因为`lst`至少有两个条目，所以它们可以用`match`暴露出来，它还通过依值模式匹配来细化类型："
 
 #: src/programs-proofs/inequalities.md:509
 #, fuzzy
@@ -25987,7 +25987,7 @@ msgid ""
 "\"sketch out\" a proof or program ahead of time. Any definitions or theorems"
 " that use `sorry` are annotated with a warning."
 msgstr ""
-"`sorry` 战术可以证明任何目标，即使是错误的目标。它不适用于生产代码或最终证明，但它是一种方便的方法，可以提前「勾勒出」证明或程序。任何使用 "
+"`sorry` 策略可以证明任何目标，即使是错误的目标。它不适用于生产代码或最终证明，但它是一种方便的方法，可以提前「勾勒出」证明或程序。任何使用 "
 "`sorry` 的定义或定理都会附有警告。"
 
 #: src/programs-proofs/inequalities.md:579
@@ -26196,7 +26196,7 @@ msgid ""
 msgstr ""
 "`Array` 和 `Nat` 的 `GetElem` 实例需要证明提供的 `Nat` "
 "小于数组。在实践中，这些证明通常最终会连同索引一起传递给函数。与其分别传递索引和证明，可以使用名为 `Fin` "
-"的类型将索引和证明捆绑到单个值中。这可以使代码更易于阅读。此外，许多对数组的内置操作将其索引参数作为 `Fin` 而不是 "
+"的类型将索引和证明捆绑到单个值中。这可以使代码更易于阅读。此外，许多对数组的内置操作将其索引参数作为 `Fin` 而非 "
 "`Nat`，因此使用这些内置操作需要了解如何使用 `Fin`。"
 
 #: src/programs-proofs/fin.md:9
@@ -26218,7 +26218,7 @@ msgid ""
 "Fin 8)` is `5`, rather than something like `{val := 5, isLt := _}`."
 msgstr ""
 "Lean 包含 `ToString` 和 `OfNat` 的实例，允许将 `Fin` 值方便地用作数字。换句话说，`#eval (5 : Fin 8)`"
-" 的输出是 `5`，而不是类似 `{val := 5, isLt := _}` 的东西。"
+" 的输出是 `5`，而非类似 `{val := 5, isLt := _}` 的东西。"
 
 #: src/programs-proofs/fin.md:21
 #, fuzzy
@@ -26228,7 +26228,7 @@ msgid ""
 " `#eval (45 : Fin 10)` results in `5` rather than a compile-time error."
 msgstr ""
 "`OfNat` 实例对于 `Fin`，当提供的数字大于边界时，不会失败，而是返回一个模边界的值。这意味着 `#eval (45 : Fin 10)` "
-"的结果是 `5`，而不是编译时错误。"
+"的结果是 `5`，而非编译时错误。"
 
 #: src/programs-proofs/fin.md:24
 #, fuzzy
@@ -26348,7 +26348,7 @@ msgid ""
 " arrays."
 msgstr ""
 "引用计数意味着 Lean "
-"运行时系统用于分配和释放数据结构体的原语可以检查引用计数是否即将降至零，并重新使用现有对象而不是分配一个新对象。当使用大型数组时，这一点尤其重要。"
+"运行时系统用于分配和释放数据结构体的原语可以检查引用计数是否即将降至零，并重新使用现有对象而非分配一个新对象。当使用大型数组时，这一点尤其重要。"
 
 #: src/programs-proofs/insertion-sort.md:32
 #, fuzzy
@@ -26367,7 +26367,7 @@ msgstr "Lean 应接受没有 `partial` 注释的函数"
 msgid ""
 "If passed an array to which there are no other references, it should modify "
 "the array in-place rather than allocating a new one"
-msgstr "如果传递了一个没有其他引用的数组，它应就地修改数组，而不是分配一个新数组"
+msgstr "如果传递了一个没有其他引用的数组，它应就地修改数组，而非分配一个新数组"
 
 #: src/programs-proofs/insertion-sort.md:36
 #, fuzzy
@@ -26390,7 +26390,7 @@ msgid ""
 "function is in fact able to re-use memory rather than allocating and "
 "copying."
 msgstr ""
-"它以一个字符串和一个值作为参数，如果该值有多个引用，则使用该字符串打印一条消息到标准错误，并返回该值。严格来说，这不是一个纯函数。但是，它仅在开发期间用于检查函数实际上能够重用内存而不是分配和复制。"
+"它以一个字符串和一个值作为参数，如果该值有多个引用，则使用该字符串打印一条消息到标准错误，并返回该值。严格来说，这不是一个纯函数。但是，它仅在开发期间用于检查函数实际上能够重用内存而非分配和复制。"
 
 #: src/programs-proofs/insertion-sort.md:49
 #, fuzzy
@@ -26401,7 +26401,7 @@ msgid ""
 "than experimenting in an editor."
 msgstr ""
 "在学习使用 `dbgTraceIfShared` 时，重要的是要知道 `#eval` 会报告比已编译代码中共享的更多值。这可能会令人困惑。重要的是使用 "
-"`lake` 构建可执行文件，而不是在编辑器中进行实验。"
+"`lake` 构建可执行文件，而非在编辑器中进行实验。"
 
 #: src/programs-proofs/insertion-sort.md:53
 #, fuzzy
@@ -26497,7 +26497,7 @@ msgstr ""
 "可用于查找要插入元素左侧的元素后，查找并比较这两个元素。如果左侧元素小于或等于要插入的元素，则循环结束并且不变量已恢复。如果左侧元素大于要插入的元素，则交换元素并重新开始内部循环。`Array.swap`"
 " 将其两个索引都作为 `Fin`，并且建立 `i' < arr.size` 的 `by assumption` 利用了 "
 "`have`。在内部循环的下一轮中要检查的索引也是 `i'`，但在这种情况下 `by assumption` 并不足够。这是因为该证明是针对原始数组 "
-"`arr` 编写的，而不是交换两个元素的结果。`simp` 战术的数据库包含这样一个事实：交换数组的两个元素不会改变其大小，并且 `[*]` "
+"`arr` 编写的，而非交换两个元素的结果。`simp` 策略的数据库包含这样一个事实：交换数组的两个元素不会改变其大小，并且 `[*]` "
 "参数指示它另外使用 `have` 引入的假设。"
 
 #: src/programs-proofs/insertion-sort.md:109
@@ -26891,7 +26891,7 @@ msgid ""
 "provided message to be printed to `stderr` when the value in question has "
 "more than one reference."
 msgstr ""
-"Lean 的证明逻辑在纯函数式程序的级别上工作，而不是底层实现。这意味着发现程序是否不必要地复制数据最好的方法是测试它。在需要变异的每个点添加对 "
+"Lean 的证明逻辑在纯函数式程序的级别上工作，而非底层实现。这意味着发现程序是否不必要地复制数据最好的方法是测试它。在需要变异的每个点添加对 "
 "`dbgTraceIfShared` 的调用，当所讨论的值有多个引用时，会导致将提供的消息打印到 `stderr`。"
 
 #: src/programs-proofs/insertion-sort.md:741
@@ -26906,7 +26906,7 @@ msgid ""
 "additional function. Because `dbgTraceIfShared` returns its second argument "
 "directly, adding it to the calls to `simp` is enough to fix the proofs."
 msgstr ""
-"插入排序有一个地方有复制而不是变异的风险：调用 `Array.swap`。将 `arr.swap ⟨i', by assumption⟩ i` 替换为 "
+"插入排序有一个地方有复制而非变异的风险：调用 `Array.swap`。将 `arr.swap ⟨i', by assumption⟩ i` 替换为 "
 "`((dbgTraceIfShared \"array to swap\" arr).swap ⟨i', by assumption⟩ i)` "
 "会导致程序在无法变异数组时发出 `shared RC array to swap`。但是，对程序的这一更改也会更改证明，因为现在调用了一个附加函数。由于"
 " `dbgTraceIfShared` 直接返回其第二个参数，因此将其添加到对 `simp` 的调用中足以修复证明。"
@@ -27119,8 +27119,8 @@ msgid ""
 "Lean code is making sure that the data being modified is not referred to "
 "from multiple locations."
 msgstr ""
-"当引用是唯一的时，使用突变而不是复制并不局限于数组更新运算符。Lean "
-"还尝试「回收」引用计数即将降至零的构造子，重新使用它们而不是分配新数据。这意味着，例如，`List.map` "
+"当引用是唯一的时，使用突变而非复制并不局限于数组更新运算符。Lean "
+"还尝试「回收」引用计数即将降至零的构造子，重新使用它们而非分配新数据。这意味着，例如，`List.map` "
 "将就地突变一个链表，至少在没有人可能注意到的情况下。优化 Lean 代码中的热点循环的最重要步骤之一是确保正在修改的数据不会被多个位置引用。"
 
 #: src/programs-proofs/insertion-sort.md:918
@@ -27197,9 +27197,9 @@ msgid ""
 msgstr ""
 "由于某些类型具有特殊表示，因此在使用它们时需要小心。这些类型中的大多数由编译器特殊处理的 `structure` "
 "组成。对于这些结构体，直接使用构造子或字段访问器可能会触发从高效表示到方便证明的低效表示的昂贵转换。例如，`String` "
-"被定义为包含字符列表的结构体，但字符串的运行时表示使用 UTF-8，而不是指向字符的指针链表。将构造子应用于字符列表会创建一个以 UTF-8 "
+"被定义为包含字符列表的结构体，但字符串的运行时表示使用 UTF-8，而非指向字符的指针链表。将构造子应用于字符列表会创建一个以 UTF-8 "
 "编码它们的字节数组，而访问结构体的字段需要线性时间来解码 UTF-8 "
-"表示并分配一个链表。数组的表示方式类似。从逻辑角度来看，数组是包含数组元素列表的结构体，但运行时表示是一个动态大小的数组。在运行时，构造子将列表转换为数组，而字段访问器从数组中分配一个链表。编译器用高效版本替换了各种数组操作，这些版本在可能的情况下会改变数组，而不是分配一个新数组。"
+"表示并分配一个链表。数组的表示方式类似。从逻辑角度来看，数组是包含数组元素列表的结构体，但运行时表示是一个动态大小的数组。在运行时，构造子将列表转换为数组，而字段访问器从数组中分配一个链表。编译器用高效版本替换了各种数组操作，这些版本在可能的情况下会改变数组，而非分配一个新数组。"
 
 #: src/programs-proofs/special-types.md:26
 #, fuzzy
@@ -27230,10 +27230,10 @@ msgid ""
 "and `none` are constant values, rather than pointers to heap-allocated "
 "objects."
 msgstr ""
-"如果一个结构体类型只有一个非类型非证明字段，那么构造子本身在运行时会消失，并被其单个参数替换。换句话说，一个子类型与其底层类型完全相同，而不是带有额外的间接层。类似地，`Fin`"
+"如果一个结构体类型只有一个非类型非证明字段，那么构造子本身在运行时会消失，并被其单个参数替换。换句话说，一个子类型与其底层类型完全相同，而非带有额外的间接层。类似地，`Fin`"
 " 在内存中只是 `Nat`，并且可以创建单字段结构体来跟踪 `Nat` 或 `String` "
 "的不同用法，而无需支付性能损失。如果一个构造子没有非类型非证明参数，那么该构造子也会消失，并被一个常量值替换，否则指针将用于该常量值。这意味着 "
-"`true`、`false` 和 `none` 是常量值，而不是指向堆分配对象的指针。"
+"`true`、`false` 和 `none` 是常量值，而非指向堆分配对象的指针。"
 
 #: src/programs-proofs/special-types.md:38
 #, fuzzy
@@ -27405,7 +27405,7 @@ msgid ""
 "and the current stack frame can be re-used instead of pushing a new frame. "
 "In other words, tail-recursive functions are actually loops."
 msgstr ""
-"尾递归是一种递归，其中递归调用的结果会立即返回，而不是以其他方式使用。这些递归调用称为「尾调用」。尾调用很有趣，因为它们可以编译成跳转指令而不是调用指令，并且可以重新使用当前堆栈帧，而不是推送新帧。换句话说，尾递归函数实际上是循环。"
+"尾递归是一种递归，其中递归调用的结果会立即返回，而非以其他方式使用。这些递归调用称为「尾调用」。尾调用很有趣，因为它们可以编译成跳转指令而非调用指令，并且可以重新使用当前堆栈帧，而非推送新帧。换句话说，尾递归函数实际上是循环。"
 
 #: src/programs-proofs/summary.md:10
 #, fuzzy
@@ -27456,7 +27456,7 @@ msgid ""
 " other part of the program can tell that it was mutated rather than copied."
 msgstr ""
 "当要求分配一个新对象时，Lean 的运行时系统能够回收引用计数降为零的现有对象。此外，如果数组的引用计数为一，则数组操作（如 `Array.set` 和"
-" `Array.swap`）将改变数组，而不是分配一个修改后的副本。如果 `Array.swap` "
+" `Array.swap`）将改变数组，而非分配一个修改后的副本。如果 `Array.swap` "
 "持有对数组的唯一引用，那么程序的其他部分无法分辨它是被改变了还是被复制了。"
 
 #: src/programs-proofs/summary.md:27
@@ -27510,7 +27510,7 @@ msgid ""
 "statement that relates arbitrary initial accumulator values to the final "
 "result of the original function is needed."
 msgstr ""
-"通常，证明两个函数相等是使用函数扩展性（`funext` "
+"通常，证明两个函数相等是使用函数外延性（`funext` "
 "策略）完成的，即如果两个函数对每个输入返回相同的值，则它们相等。如果函数是递归的，那么归纳通常是证明其输出相同的好方法。通常，函数的递归定义将对一个特定参数进行递归调用；这个参数是归纳的一个好选择。在某些情况下，归纳假设不够充分。解决这个问题通常需要考虑如何构建定理陈述的更通用版本，以提供足够充分的归纳假设。特别是，为了证明一个函数等价于一个累加器传递版本，需要一个将任意初始累加器值与原始函数的最终结果联系起来的定理陈述。"
 
 #: src/programs-proofs/summary.md:46
@@ -27533,7 +27533,7 @@ msgid ""
 "objects."
 msgstr ""
 "如果 `arr` 是一个 `Array α`，那么 `Fin arr.size` 总是包含一个适合作为 `arr` 索引的数字。许多内置数组运算符（例如"
-" `Array.swap`）将 `Fin` 值作为参数，而不是分离的证明对象。"
+" `Array.swap`）将 `Fin` 值作为参数，而非分离的证明对象。"
 
 #: src/programs-proofs/summary.md:54
 #, fuzzy
@@ -27543,7 +27543,7 @@ msgid ""
 "than failing at compile time if the number provided is larger than the `Fin`"
 " can accept."
 msgstr ""
-"Lean 为 `Fin` 提供了大多数有用的数字类型类的实例。`Fin` 的 `OfNat` 实例执行模运算，而不是在提供的数字大于 `Fin` "
+"Lean 为 `Fin` 提供了大多数有用的数字类型类的实例。`Fin` 的 `OfNat` 实例执行模运算，而非在提供的数字大于 `Fin` "
 "可接受的数字时在编译时失败。"
 
 #: src/programs-proofs/summary.md:57
@@ -27633,7 +27633,7 @@ msgid ""
 "of `let` that's intended for locally providing proofs rather than values."
 msgstr ""
 "Lean 包含证明自动化，可以自动确定某些表达式在每次调用时都会缩小，但许多有趣的程序需要手动证明。这些证明可以使用 `have` 提供，`have` "
-"是 `let` 的一个版本，旨在局部提供证明而不是值。"
+"是 `let` 的一个版本，旨在局部提供证明而非值。"
 
 #: src/programs-proofs/summary.md:89
 #, fuzzy

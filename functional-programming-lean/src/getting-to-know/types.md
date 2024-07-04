@@ -24,10 +24,9 @@ compute. Types serve a number of roles in a program:
 
 类型根据程序可以计算的值对程序进行分类。类型在程序中扮演着多种角色：
 
- 1. 可以让编译器对值在内存中的表示做出决策。
+ 1. 让编译器对值在内存中的表示做出决策。
 
- 2. 帮助程序员向他人传达他们的意图，作为函数输入和输出的轻量级规范，
-    编译器可以确保程序遵守该规范。
+ 2. 帮助程序员向他人传达他们的意图，作为函数输入和输出的轻量级规范，编译器可以确保程序遵守该规范。
 
  3. 防止各种潜在错误，例如将数字加到字符串上，从而减少程序所需的测试数量。
 
@@ -41,11 +40,11 @@ This cutting-edge expressive power doesn't obviate the need for simpler types, h
 -->
 
 Lean 的类型系统具有非同寻常的表现力。类型可以编码强规范，
-如「此排序函数返回其输入的排列」，以及灵活的规范，
+如「此排序函数返回其输入的顺序排列」，以及灵活的规范，
 如「此函数具有不同的返回类型，具体取决于其参数的值」。
 类型系统甚至可以用作证明数学定理的完整逻辑系统。
-然而，这种尖端的表现力并不能消除对更简单类型的需求，
-理解这些更简单的类型是使用更高级功能的先决条件。
+然而，这种顶尖的表现力并不能消除对更简单类型的需求，
+理解这些更简单的类型是使用更高级的功能的先决条件。
 
 <!--
 Every program in Lean must have a type. In particular, every
@@ -56,7 +55,7 @@ operator:
 -->
 
 Lean 中的每个程序都必须有一个类型。特别是，每个表达式在求值之前都必须具有类型。
-在迄今为止的示例中，Lean 已经能够自行发现类型，但有时也需要提供一个类型。
+在迄今为止的示例中，Lean 已经能够自行推导出类型，但有时也需要提供一个类型。
 这是使用冒号运算符完成的：
 
 ```lean
@@ -73,11 +72,11 @@ Thus, subtraction on `Nat` returns `0` when the answer would have otherwise been
 For instance,
 -->
 
-在这里，`Nat` 是**自然数**的类型，它们是任意精度的无符号整数。在 Lean 中，`Nat`
+在这里，`Nat` 是 **自然数** 的类型，它们是任意精度的无符号整数。在 Lean 中，`Nat`
 是非负整数字面量的默认类型。此默认类型并不总是最佳选择。
 在 C 中，当减法运算结果小于零时，无符号整数会下溢到最大的可表示数字。然而，`Nat`
-可以表示任意大的无符号数字，因此没有最大的数字可以下溢到。
-因此，当答案原本为负数时，`Nat` 上的减法运算返回 `0`。例如，
+可以表示任意大的无符号数字，因此没有最大的数字可以下溢。
+因此，当答案原本为负数时，`Nat` 上的减法运算会返回 `0`。例如，
 
 ```lean
 #eval {{#example_in Examples/Intro.lean oneMinusTwo}}
@@ -89,7 +88,7 @@ than `-1`. To use a type that can represent the negative integers,
 provide it directly:
 -->
 
-求值为 `{{#example_out Examples/Intro.lean oneMinusTwo}}` 而非 `-1`。
+会求值为 `{{#example_out Examples/Intro.lean oneMinusTwo}}` 而非 `-1`。
 若要使用可以表示负整数的类型，请直接提供它：
 
 ```lean
@@ -100,14 +99,14 @@ provide it directly:
 With this type, the result is `{{#example_out Examples/Intro.lean oneMinusTwoInt}}`, as expected.
 -->
 
-使用此类型，结果为 `{{#example_out Examples/Intro.lean oneMinusTwoInt}}`，符合预期。
+使用此类型后，结果为 `{{#example_out Examples/Intro.lean oneMinusTwoInt}}`，符合预期。
 
 <!--
 To check the type of an expression without evaluating it, use `#check`
 instead of `#eval`. For instance:
 -->
 
-若要检查表达式的类型而不求值，请使用 `#check` 而不是 `#eval`。例如：
+若要检查表达式的类型而不求值，请使用 `#check` 而非 `#eval`。例如：
 
 ```lean
 {{#example_in Examples/Intro.lean oneMinusTwoIntType}}
@@ -156,4 +155,4 @@ because the second argument to ``String.append`` is expected to be a
 string, but a list of strings was provided instead.
 -->
 
-因为 ``String.append`` 的第二个参数应为字符串，但提供的是字符串列表。
+因为 ``String.append`` 的第二个参数需要是字符串，但提供的是字符串列表。

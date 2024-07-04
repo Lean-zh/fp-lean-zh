@@ -12,7 +12,7 @@ Just as Lean uses a space to pass an argument to a function, it uses a space to 
 -->
 
 和大多数语言一样，Lean 中的类型可以接受参数。例如，类型 `List Nat` 描述自然数列表，
-`List String` 描述字符串列表，`List (List Point)` 描述点列表列表。这与 C# 或 Java 中的
+`List String` 描述字符串列表，`List (List Point)` 描述点列表的列表。这与 C# 或 Java 中的
 `List<Nat>`、`List<String>` 或 `List<List<Point>>` 非常相似。就像 Lean
 使用空格将参数传递给函数一样，它也使用空格将参数传递给类型。
 
@@ -23,7 +23,7 @@ In this book, "polymorphism" always refers to the first sense of the word.
 These type arguments can be used in the datatype or definition, which allows the same datatype or definition to be used with any type that results from replacing the arguments' names with some other types.
 -->
 
-在函数式编程中，术语**多态（Polymorphism）**"通常指将类型作为参数的数据类型和定义。
+在函数式编程中，术语 **多态（Polymorphism）** 通常指将类型作为参数的数据类型和定义。
 这不同于面向对象编程社区，其中该术语通常指可以覆盖其超类某些行为的子类。
 在这本书中，「多态」总是指这个词的第一个含义。这些类型参数可以在数据类型或定义中使用，
 通过将数据类型和定义的类型参数替换为其他类型，可以产生新的不同类型。
@@ -67,7 +67,7 @@ Types are ordinary expressions in Lean, so passing arguments to polymorphic type
 在此示例中，期望的两个字段都是 `Nat`。就和通过用其参数值替换其参数变量来调用函数一样，
 向 `PPoint` 传入类型参数 `Nat` 会产生一个结构体，其中字段 `x` 和 `y` 具有类型 `Nat`，
 因为参数名称 `α` 已被参数类型 `Nat` 替换。类型是 Lean 中的普通表达式，
-因此向多态类型（如 `PPoint`）传递参数不需要任何特殊语法。"
+因此向多态类型（如 `PPoint`）传递参数不需要任何特殊语法。
 
 <!--
 Definitions may also take types as arguments, which makes them polymorphic.
@@ -77,7 +77,7 @@ This is achieved by having its first argument be the type of the point's fields,
 -->
 
 定义也可以将类型作为参数，这使得它们具有多态性。函数 `replaceX` 用新值替换
-`PPoint` 的 `x` 字段。为了能够让 `replaceX` 与**任何**多态的点一起使用，它本身必须是多态的。
+`PPoint` 的 `x` 字段。为了能够让 `replaceX` 与 **任何** 多态的点一起使用，它本身必须是多态的。
 这是通过让其第一个参数成为点字段的类型，后面的参数引用第一个参数的名称来实现的。
 
 ```lean
@@ -90,7 +90,7 @@ This is similar to the way that function argument names refer to the values that
 -->
 
 换句话说，当参数 `point` 和 `newX` 的类型提到 `α` 时，它们指的是
-**作为第一个参数提供的任何类型**。这类似于函数参数名称引用函数体中提供的值的方式。
+**作为第一个参数提供的任何类型** 。这类似于函数参数名称引用函数体中提供的值的方式。
 
 <!--
 This can be seen by asking Lean to check the type of `replaceX`, and then asking it to check the type of `replaceX Nat`.
@@ -112,9 +112,9 @@ Just as the value of a function application is found by replacing the argument n
 Providing the first argument, `Nat`, causes all occurrences of `α` in the remainder of the type to be replaced with `Nat`:
 -->
 
-此函数类型包括第一个参数的**名称**，类型中的后续参数会引用此名称。
-就像函数应用的值，是通过在函数体中，用所提供的参数值替换参数名称来找到的那样，
-函数应用的类型，也是通过在函数的返回类型中，用所提供的参数值替换参数的名称来找到的。
+此函数类型包括第一个参数的 **名称** ，类型中的后续参数会引用此名称。
+就像函数应用的值，是通过在函数体中，用所提供的参数值替换参数名称来得到的那样，
+函数应用的类型，也是通过在函数的返回类型中，用所提供的参数值替换参数的名称来得到的。
 提供第一个参数 `Nat`，会导致类型其余部分中所有的 `α` 都替换为 `Nat`：
 
 ```lean
@@ -252,10 +252,10 @@ A list that contains \\( n \\) entries contains \\( n \\) `cons` constructors, t
 
 标准库中的实际定义略有不同，因为它使用了尚未介绍的特性，但它们大体上是相似的。
 此定义表示 `List` 将单个类型作为其参数，就像 `PPoint` 那样。
-此类型是存储在列表中的项的类型。根据构造子，`List α` 可以使用 `nil` 或 `cons` 构建。
+此类型是存储在列表中的项的类型。根据构造子，`List α` 可以使用 `nil` 或 `cons` 构造。
 构造子 `nil` 表示空列表，构造子 `cons` 用于非空列表。
-`cons` 的第一个参数是列表的头部，第二个参数是其尾部。包含 \\( n \\)
-个项的列表包含 \\( n \\) 个 `cons` 构造子，最后一个以 `nil` 为尾部。
+`cons` 的第一个参数是列表的头部，第二个参数是其尾部。包含
+\\( n \\) 个项的列表包含 \\( n \\) 个 `cons` 构造子，最后一个以 `nil` 为尾部。
 
 <!--
 The `primesUnder10` example can be written more explicitly by using `List`'s constructors directly:
@@ -286,9 +286,9 @@ It should compute like this:
 事实上，一种考虑链表的方式是将其视为一个 `Nat`，每个 `succ`
 构造函数都悬挂着一个额外的数据字段。从这个角度来看，计算列表的长度的过程是将每个
 `cons` 替换为 `succ`，将最终的 `nil` 替换为 `zero`。就像 `replaceX`
-将点的字段类型作为参数一样，`length` 采用列表项的类型。例如，如果列表包含字符串，
+将点的字段类型作为参数一样，`length` 接受列表项的类型。例如，如果列表包含字符串，
 则第一个参数是 `String`：`{{#example_eval Examples/Intro.lean length1EvalSummary 0}}`。
- 它应该这样计算：
+它会这样计算：
 
 ```lean
 {{#example_eval Examples/Intro.lean length1EvalSummary}}
@@ -299,8 +299,8 @@ The definition of `length` is both polymorphic (because it takes the list entry 
 Generally, functions follow the shape of the data: recursive datatypes lead to recursive functions, and polymorphic datatypes lead to polymorphic functions.
 -->
 
-`length` 的定义既是多态的（因为它将列表项类型作为参数），又是递归的（因为它引用自身）。
-通常，函数遵循数据的形状：递归数据类型导致递归函数，多态数据类型导致多态函数。"
+`length` 的定义既是多态的（因为它将列表项类型作为参数），又是递归的（因为它引用了自身）。
+通常，函数遵循数据的形状：递归数据类型对应递归函数，多态数据类型对应多态函数。"
 
 ```lean
 {{#example_decl Examples/Intro.lean length1}}
@@ -311,7 +311,7 @@ Names such as `xs` and `ys` are conventionally used to stand for lists of unknow
 The `s` in the name indicates that they are plural, so they are pronounced "exes" and "whys" rather than "x s" and "y s".
 -->
 
-按照惯例，`xs` 和 `ys` 等名称用于表示未知值的列表。名称中的 `s` 表示它们是复数，
+按照惯例，`xs` 和 `ys` 等名称用于表示未知项的列表。名称中的 `s` 表示它们是复数，
 因此它们的发音是「exes」和「whys」，而不是「x s」和「y s」。
 
 <!--
@@ -341,8 +341,8 @@ For instance, a version of `replaceX` with an implicit type argument looks like 
 
 `replaceX` 和 `length` 这两个函数使用起来有些繁琐，因为类型参数通常由后面的值唯一确定。
 事实上，在大多数语言中，编译器完全有能力自行确定类型参数，并且只需要偶尔从用户那里获得帮助。
-在 Lean 中也是如此。在定义函数时，可以通过用大括号而不是括号将参数括起来来声明参数为
-**隐式（Implicit）**的。例如，一个具有隐式类型参数的 `replaceX` 版本如下所示：
+在 Lean 中也是如此。在定义函数时，可以通过用大括号而非小括号将参数括起来，以将参数声明为
+**隐式（Implicit）** 的。例如，一个具有隐式类型参数的 `replaceX` 如下所示：
 
 ```lean
 {{#example_decl Examples/Intro.lean replaceXImp}}
@@ -391,7 +391,7 @@ In the standard library, Lean calls this function `List.length`, which means tha
 -->
 
 在标准库中，Lean 将此函数称为 `List.length`，
-这意味着用于结构体字段访问的点语法也可以用于查找列表的长度：
+这意味着用于结构体字段访问的点语法也可以用于获得列表的长度：
 
 ```lean
 {{#example_in Examples/Intro.lean lengthDotPrimes}}
@@ -407,9 +407,9 @@ In these cases, they can be provided using their names.
 For instance, a version of `List.length` that only works for lists of integers can be specified by setting `α` to `Int`:
 -->
 
-正如 C# 和 Java 要求不时显式提供类型参数一样，Lean 并不总是能够找出隐式参数。
+正如 C# 和 Java 要求偶尔显式提供类型参数一样，Lean 并不总是能够得出隐式参数。
 在这些情况下，可以使用它们的名称来提供它们。例如，可以通过将 `α` 设置为 `Int`
-来指定仅适用于整数列表的 `List.length` 版本：
+来特化出适用于整数列表的 `List.length`：
 
 ```lean
 {{#example_in Examples/Intro.lean lengthExpNat}}
@@ -444,8 +444,8 @@ For instance, a function that finds the first entry in a list may not find any s
 It must therefore have a way to signal that there was no first entry.
 -->
 
-并非每个列表都有第一个条目，有些列表是空的。许多集合操作可能无法找到它们正在寻找的内容。
-例如，查找列表中第一个条目的函数可能找不到任何此类条目。因此，它必须有一种方法来表示没有第一个条目。
+并非每个列表都有第一个条目，有些列表是空的。许多集合操作可能无法得出它们正在查找的内容。
+例如，查找列表中第一个条目的函数可能找不到任何此类条目。因此，必须有一种方法来表示没有第一个条目。
 
 <!--
 Many languages have a `null` value that represents the absence of a value.
@@ -484,9 +484,9 @@ This subtle difference is rarely relevant in practice, but it can matter from ti
 
 `Option` 类型与 C# 和 Kotlin 等语言中的可空类型非常相似，但并非完全相同。
 在这些语言中，如果一个类型（比如 `Boolean`）总是引用该类型的实际值（`true` 和 `false`），
-那么类型 `Boolean?` 或 `Nullable<Boolean>` 额外允许 `null` 值。
+那么类型 `Boolean?` 或 `Nullable<Boolean>` 则额外允许 `null` 值。
 在类型系统中跟踪这一点非常有用：类型检查器和其他工具可以帮助程序员记住检查 null，
-并且通过类型签名明确描述可空性的 API 比不描述可空性的 API 更具信息性量。
+并且通过类型签名明确描述可空性的 API 比不描述可空性的 API 更具有信息性量。
 然而，这些可空类型与 Lean 的 `Option` 在一个非常重要的方面有所不同，那就是它们不允许多层可选项性。
 `{{#example_out Examples/Intro.lean nullThree}}` 可以用 `{{#example_in Examples/Intro.lean nullOne}}`、
 `{{#example_in Examples/Intro.lean nullTwo}}` 或 `{{#example_in Examples/Intro.lean nullThree}}`
@@ -540,7 +540,7 @@ Because `head?` is defined in the `List` namespace, it can be used with accessor
 However, attempting to test it on the empty list leads to two errors:
 -->
 
-然而，尝试在空列表上测试它会导致两个错误：
+然而，尝试在空列表上测试它会产生两个错误：
 
 ```lean
 {{#example_in Examples/Intro.lean headNoneBad}}
@@ -563,9 +563,9 @@ Explicitly providing a type allows Lean to proceed:
 
 这是因为 Lean 无法完全确定表达式的类型。特别是，它既找不到 `List.head?` 的隐式类型参数，
 也找不到 `List.nil` 的隐式类型参数。在 Lean 的输出中，`?m.XYZ` 表示程序中无法推断的部分。
-这些未知部分称为**元变量（Metavariable）**，它们出现在一些错误消息中。为了计算一个表达式，
-Lean 需要能够找到它的类型，而类型不可用，因为空列表没有任何条目可以从中找到类型。
-显式提供类型可以让 Lean 继续：
+这些未知部分称为 **元变量（Metavariable）** ，它们出现在一些错误消息中。为了计算一个表达式，
+Lean 需要得到它的类型，而类型不可用，因为空列表没有任何条目可以从中得出类型。
+显式提供类型可以让 Lean 继续执行：
 
 ```lean
 {{#example_in Examples/Intro.lean headNone}}
@@ -594,7 +594,7 @@ The error messages provide a useful clue.
 Both messages use the _same_ metavariable to describe the missing implicit argument, which means that Lean has determined that the two missing pieces will share a solution, even though it was unable to determine the actual value of the solution.
 -->
 
-错误信息提供了一个有用的线索。两个信息都使用**相同**的元变量来描述缺少的隐式参数，
+错误信息提供了一个有用的线索。两个信息都使用 **相同** 的元变量来描述缺少的隐式参数，
 这意味着 Lean 已经确定两个缺少的部分将共享一个解决方案，即使它无法确定解决方案的实际值。
 
 <!--
@@ -612,7 +612,7 @@ Many applications are best served by defining their own structures, even for sim
 Additionally, defining structure types helps catch more errors by assigning different types to different domain concepts, preventing them from being mixed up.
 -->
 
-`Prod` 结构体，即**积（Product）**2的缩写，是一种将两个值连接在一起的通用方法。
+`Prod` 结构体，即 **积（Product）** 的简写，是一种将两个值连接在一起的通用方法。
 例如，`Prod Nat String` 包含一个 `Nat` 和一个 `String`。换句话说，`PPoint Nat`
 可以替换为 `Prod Nat Nat`。`Prod` 非常类似于 C# 的元组、Kotlin 中的 `Pair` 和 `Triple`
 类型以及 C++ 中的 `tuple`。许多应用最适合定义自己的结构体，即使对于像 `Point`
@@ -625,9 +625,9 @@ Additionally, some libraries are sufficiently generic that there is no more spec
 Finally, the standard library contains a variety of convenience functions that make it easier to work with the built-in pair type.
 -->
 
-另一方面，在某些情况下，定义新类型是不值得的开销。此外，一些库足够通用，
-以至于没有比**偶对（Pair）**更具体的概念。最后，标准库也包含了各种便利函数，
-让使用内置对类型变得更容易。
+另一方面，在某些情况下，并不值得定义新类型。此外，一些库足够通用，
+以至于没有比 **偶对（Pair）** 更具体的概念。最后，标准库也包含了各种便利函数，
+让使用内置偶对类型变得更容易。
 
 <!--
 The standard pair structure is called `Prod`.
@@ -649,7 +649,7 @@ In other words, instead of writing:
 
 列表的使用如此频繁，以至于有特殊的语法使它们更具可读性。
 出于同样的原因，积类型及其构造子都有特殊的语法。类型 `Prod α β` 通常写为 `α × β`，
-反映了集合的笛卡尔积的常用记法。与此类似，偶对的常用数学记法可用于 `Prod`。换句话说，不要写：
+反映了集合的笛卡尔积的常用记法。与此类似，偶对的常用数学记法可用于 `Prod`。换句话说，不必写：
 
 ```lean
 {{#example_decl Examples/Intro.lean fivesStruct}}
@@ -659,7 +659,7 @@ In other words, instead of writing:
 it suffices to write:
 -->
 
-只需编写：
+只需写
 
 ```lean
 {{#example_decl Examples/Intro.lean fives}}
@@ -682,7 +682,7 @@ This means that the following definitions are equivalent:
 In other words, all products of more than two types, and their corresponding constructors, are actually nested products and nested pairs behind the scenes.
 -->
 
-换句话说，所有超过两种类型的积及其对应的构造子实际上都是嵌套积和嵌套的偶对。
+换句话说，所有超过两种类型的积及其对应的构造子，实际上都是嵌套的积和嵌套的偶对。
 
 <!--
 ### `Sum`
@@ -697,7 +697,7 @@ Like `Prod`, `Sum` should be used either when writing very generic code, for a v
 In most situations, it is more readable and maintainable to use a custom inductive type.
 -->
 
-**和（`Sum`）**数据类型是一种允许在两种不同类型的值之间进行选择的一般方式。
+**和（`Sum`）** 数据类型是一种允许在两种不同类型的值之间进行选择的一般方式。
 例如，`Sum String Int` 要么是 `String`，要么是 `Int`。与 `Prod` 一样，
 `Sum` 应该在编写非常通用的代码时使用，对于没有合适的特定领域类型的一小段代码，
 或者当标准库包含有用的函数时使用。在大多数情况下，使用自定义归纳类型更具可读性和可维护性。
@@ -817,7 +817,7 @@ Unit's constructor can be written as empty parentheses: `{{#example_in Examples/
 -->
 
 此外，由于所有 Lean 函数都有参数，因此其他语言中的零参数函数可以表示为接受 `Unit` 参数的函数。
-在返回位置，`Unit` 类型类似于 C 的语言中的 `void`。在 C 系列中，
+在返回位置，`Unit` 类型类似于 C 的语言中的 `void`。在 C 系语言中，
 返回 `void` 的函数会将控制权返回给调用者，但不会返回任何有意义的值。
 `Unit` 作为一个特意表示无意义的值，可以在类型系统无需具有特殊用途的 `void`
 特性的情况下表达这一点。Unit 的构造子可以写成空括号：
@@ -867,8 +867,8 @@ The product `Bool × Unit` has the two values `(true, Unit.unit)` and `(false, U
 Similarly, \\( 2 \times 1 = 2 \\), and \\( 2 + 1 = 3 \\).
 -->
 
-一般来说，提供多个构造子的类型称为**和类型（Sum Type）**，
-而其单个构造子接受多个参数的类型称为**积类型（Product Type）**。
+一般来说，提供多个构造子的类型称为 **和类型（Sum Type）** ，
+而其单个构造子接受多个参数的类型称为 **积类型（Product Type）** 。
 这些术语与普通算术中使用的和与积有关。当涉及的类型包含有限数量的值时，这种关系最容易看出。
 如果 `α` 和 `β` 是分别包含 \\( n \\) 和 \\( k \\) 个不同值的数据类型，
 则 `α ⊕ β` 包含 \\( n + k \\) 个不同值，`α × β` 包含 \\( n \times k \\) 个不同值。

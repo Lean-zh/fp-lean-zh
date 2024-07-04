@@ -10,9 +10,9 @@
 *Copyright Microsoft Corporation 2023*
 -->
 
-*作者：David Thrane Christiansen*
+作者：*David Thrane Christiansen*
 
-*版权所有：Microsoft Corporation 2023*
+版权所有：*Microsoft Corporation 2023*
 
 **[Lean-zh 项目组](https://github.com/orgs/Lean-zh) 译**
 
@@ -20,7 +20,7 @@
 This is a free book on using Lean 4 as a programming language. All code samples are tested with Lean 4 release `{{#lean_version}}`.
 -->
 
-这是一本免费的书，介绍如何使用 Lean 4 作为编程语言。所有代码示例均经过 Lean 4 版本 `{{#lean_version}}` 验证。
+这是一本免费的书，介绍了如何将 Lean 4 作为编程语言使用。本书中所有代码示例均经过了 Lean 4 版本 `{{#lean_version}}` 验证。
 
 <!--
 ## Release history
@@ -186,4 +186,4 @@ David Thrane Christiansen 已使用函数式语言二十年，并使用依值类
 
 ## 授权许可
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">知识共享-署名 4.0 国际许可协议</a>授权。
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.zh-hans"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.zh-hans">知识共享-署名 4.0 国际许可协议</a>授权。

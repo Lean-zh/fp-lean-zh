@@ -1,4 +1,8 @@
+<!--
 # Evaluating Expressions
+-->
+
+# 求值表达式
 
 <!--
 The most important thing to understand as a programmer learning Lean
@@ -10,9 +14,9 @@ Sometimes, mathematical expressions contain variables: the value of _x_ + 1 cann
 In Lean, programs are first and foremost expressions, and the primary way to think about computation is as evaluating expressions to find their values.
 -->
 
-作为学习 Lean 的程序员，最重要的是理解求值的工作原理。求值是得到表达式的值的过程，就像算术那样。
+作为学习 Lean 的程序员，最重要的是理解求值的工作原理。求值是求得表达式的值的过程，就像算术那样。
 例如，15 - 6 的值为 9，2 × (3 + 1) 的值为 8。要得到后一个表达式的值，首先将 3 + 1 替换为 4，
-得到 2 × 4，它本身可以简化为 8。有时，数学表达式包含变量：在知道 *x* 的值之前，
+得到 2 × 4，它本身又可以简化为 8。有时，数学表达式包含变量：在知道 *x* 的值之前，
 无法计算 *x* + 1 的值。在 Lean 中，程序首先是表达式，思考计算的主要方式是对表达式求值以得到其值。
 
 <!--
@@ -27,12 +31,12 @@ describing things that may happen in a program that don't follow the
 model of evaluating mathematical expressions.
 -->
 
-大多数编程语言都是 **命令式的**，其中程序由一系列语句组成，
-这些语句应按顺序执行以找到程序的结果。程序可以访问可变内存，
-因此变量引用的值可以随时间而改变。除了可变状态之外，程序还可能产生其他副作用，
-例如删除文件、建立传出网络连接、抛出或捕获异常以及从数据库读取数据。
-「副作用（Side Effect）」本质上是一个统称，用于描述程序中可能发生的事情，
-这些事情不遵循求值数学表达式的模型。
+大多数编程语言都是 **命令式的（Imperative）** ，其中程序由一系列语句组成，
+这些语句会按顺序执行以得到程序的结果。程序可以访问可变内存，
+因此变量引用的值可以随时间而改变。除了可变状态外，程序还可能产生其他副作用，
+例如删除文件、建立传出的网络连接、抛出或捕获异常以及从数据库读取数据等等。
+「**副作用（Side Effect）**」本质上是一个统称，用于描述程序运行过程中可能发生的事情，
+这些事情不遵循数学表达式求值的模型。
 
 <!--
 In Lean, however, programs work the same way as mathematical
@@ -46,11 +50,11 @@ evaluate expressions interactively with Lean, while the next chapter
 describes how to write, compile, and run the `Hello, world!` program.
 -->
 
-然而，在 Lean 中，程序的工作方式与数学表达式相同。一旦赋予一个值，变量就不能重新赋值。
-求值表达式不会产生副作用。如果两个表达式具有相同的值，
+然而，在 Lean 中，程序的工作方式与数学表达式相同。变量一旦被赋予一个值，
+它不能再重新赋值。求值表达式不会产生副作用。如果两个表达式具有相同的值，
 那么用一个表达式替换另一个表达式不会导致程序计算出不同的结果。
 这并不意味着 Lean 不能用于向控制台写入 `Hello, world!`，而是执行 I/O
-并不是以同样的方式使用 Lean 的核心部分。因此，本章重点介绍如何使用 Lean
+并不是以求值表达式的方式使用 Lean 的核心部分。因此，本章重点介绍如何使用 Lean
 交互式地求值表达式，而下一章将介绍如何编写、编译并运行 `Hello, world!` 程序。
 
 <!--
@@ -60,8 +64,8 @@ is found by putting the cursor or mouse pointer over `#eval`. For
 instance,
 -->
 
-要让 Lean 对一个表达式求值，请在编辑器中该表达式的前面加上 `#eval`，然后它将报告结果。
-通常可通过将光标或鼠标指针放在 `#eval` 上来查看结果。例如，
+要让 Lean 对一个表达式求值，请在编辑器中该表达式的前面加上 `#eval`，
+然后它会报告结果。通常可通过将光标或鼠标指针放在 `#eval` 上来查看结果。例如，
 
 ```lean
 #eval {{#example_in Examples/Intro.lean three}}
@@ -100,8 +104,8 @@ arguments (e.g. `f x`). Function application is one of the most common operation
 so it pays to keep it concise. Rather than writing
 -->
 
-"虽然普通的数学符号和大多数编程语言都使用括号（例如 `f(x)`）将函数应用于其参数，
-但 Lean 只是将函数写在其参数后边（例如 `f x`）。
+虽然普通的数学符号和大多数编程语言都使用括号（例如 `f(x)`）将函数应用到其参数上，
+但 Lean 只是将参数写在函数后边（例如 `f x`）。
 函数应用是最常见的操作之一，因此保持简洁很重要。与其编写
 
 ```lean
@@ -124,7 +128,7 @@ where the function's two arguments are simply written next to
 it with spaces.
 -->
 
-其中函数的两个参数只是用空格隔开写在后面。
+其中函数的两个参数只是用空格隔开然后写在后面。
 
 <!--
 Just as the order-of-operations rules for arithmetic demand
@@ -148,8 +152,8 @@ call must be found first, after which it can be appended to `"great "`,
 yielding the final value `{{#example_out Examples/Intro.lean stringAppendNested}}`.
 -->
 
-中需要括号，否则第二个 `String.append` 将被解释为第一个参数，而非作为接受 `"oak "`
-和 `"tree"` 作为参数的函数。必须先得到内部 `String.append` 调用的值，然后才能将其传入到
+中需要括号，否则第二个 `String.append` 将被解释为第一个函数的参数，而非作为接受 `"oak "`
+和 `"tree"` 作为参数的函数。必须先得到内部 `String.append` 调用的值，然后才能将其追加到
 `"great "`，从而产生最终的值 `{{#example_out Examples/Intro.lean stringAppendNested}}`。
 
 <!--
@@ -167,8 +171,8 @@ They are written using `if`, `then`, and `else`. For
 instance,
 -->
 
-命令式语言通常有两种条件：根据布尔值确定要执行哪些指令的条件**语句（Statement）**，
-以及根据布尔值确定要计算两个表达式中哪一个的条件**表达式（Expression）**。
+命令式语言通常有两种条件：根据布尔值确定要执行哪些指令的条件 **语句（Statement）** ，
+以及根据布尔值确定要计算两个表达式中哪一个的条件 **表达式（Expression）** 。
 例如，在 C 和 C++ 中，条件语句使用 `if` 和 `else` 编写，而条件表达式使用三元运算符 `?` 和 `:` 编写。
 在 Python 中，条件语句以 `if` 开头，而条件表达式则将 `if` 放在中间。
 由于 Lean 是一种面向表达式的函数式语言，因此没有条件语句，只有条件表达式。

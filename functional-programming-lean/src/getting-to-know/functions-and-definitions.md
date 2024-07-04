@@ -8,7 +8,7 @@
 In Lean, definitions are introduced using the `def` keyword. For instance, to define the name `{{#example_in Examples/Intro.lean helloNameVal}}` to refer to the string `{{#example_out Examples/Intro.lean helloNameVal}}`, write:
 -->
 
-在 Lean 中，使用 `def` 关键字引入定义。例如，若要定义名称
+在 Lean 中，需使用 `def` 关键字引入定义。例如，若要定义名称
 `{{#example_in Examples/Intro.lean helloNameVal}}` 来引用字符串
 `{{#example_out Examples/Intro.lean helloNameVal}}`，请编写：
 
@@ -23,8 +23,8 @@ between existing expressions, and using two different operators helps
 prevent confusion.
 -->
 
-在 Lean 中，使用冒号加等号运算符 `:=` 而不是 `=` 来定义新名称。这是因为 `=`
-用于描述现有表达式之间的相等性，而使用两个不同的运算符有助于防止混淆。
+在 Lean 中，使用冒号加等号运算符 `:=` 而非 `=` 来定义新名称。这是因为 `=`
+用于描述现有表达式之间的相等性，而使用两个不同的运算符有助于避免混淆。
 
 <!--
 In the definition of `{{#example_in Examples/Intro.lean helloNameVal}}`, the expression `{{#example_out Examples/Intro.lean helloNameVal}}` is simple enough that Lean is able to determine the definition's type automatically.
@@ -34,7 +34,7 @@ This is done using a colon after the name being defined.
 
 在 `{{#example_in Examples/Intro.lean helloNameVal}}` 的定义中，表达式
 `{{#example_out Examples/Intro.lean helloNameVal}}` 足够简单，Lean
-能够自动确定定义的类型。但是，大多数定义并不那么简单，因此通常需要添加类型。
+能够自动确定定义的类型。然而，大多数定义并不那么简单，因此通常需要添加类型。
 这可以通过在要定义的名称后使用冒号来完成。
 
 ```lean
@@ -45,7 +45,7 @@ This is done using a colon after the name being defined.
 Now that the names have been defined, they can be used, so
 -->
 
-现在定义了名称，就可以使用它们了，因此
+定义了名称后，就可以使用它们了，因此
 
 ``` Lean
 {{#example_in Examples/Intro.lean helloLean}}
@@ -76,7 +76,7 @@ Nonetheless, definitions such as `hello` introduce names that refer _directly_ t
 
 在很多语言中，函数定义的语法与其他值的不同。例如，Python 函数定义以 `def` 关键字开头，
 而其他定义则以等号定义。在 Lean 中，函数使用与其他值相同的 `def` 关键字定义。
-尽管如此，像 `hello` 这类的定义引入的名字会**直接**引用其值，而非每次调用一个零参函数返回等价的值。
+尽管如此，像 `hello` 这类的定义引入的名字会 **直接** 引用其值，而非每次调用一个零参函数返回等价的值。
 
 <!--
 ## Defining Functions
@@ -88,7 +88,7 @@ Nonetheless, definitions such as `hello` introduce names that refer _directly_ t
 There are a variety of ways to define functions in Lean. The simplest is to place the function's arguments before the definition's type, separated by spaces. For instance, a function that adds one to its argument can be written:
 -->
 
-在 Lean 中有各种方法可以定义函数。最简单的方法是在定义的类型之前放置函数的参数，并用空格分隔。
+在 Lean 中有多种方法可以定义函数，最简单的就是在定义的类型之前写上函数的参数，并用空格分隔。
 例如，可以编写一个将其参数加 1 的函数：
 
 ```lean
@@ -109,9 +109,8 @@ Testing this function with `#eval` gives `{{#example_out Examples/Intro.lean add
 Just as functions are applied to multiple arguments by writing spaces between each argument, functions that accept multiple arguments are defined with spaces between the arguments' names and types. The function `maximum`, whose result is equal to the greatest of its two arguments, takes two `Nat` arguments `n` and `k` and returns a `Nat`.
 -->
 
-就像将函数应用于多个参数会用空格分隔一样，接受多个参数的函数定义也是在参数名与类型之间添加空格。
+就像将函数应用于多个参数会用空格分隔一样，接受多个参数的函数定义也是在参数名与类型之间加上空格。
 函数 `maximum` 的结果等于其两个参数中最大的一个，它接受两个 `Nat` 参数 `n` 和 `k`，并返回一个 `Nat`。
-
 
 ```lean
 {{#example_decl Examples/Intro.lean maximum}}
@@ -121,7 +120,7 @@ Just as functions are applied to multiple arguments by writing spaces between ea
 When a defined function like `maximum` has been provided with its arguments, the result is determined by first replacing the argument names with the provided values in the body, and then evaluating the resulting body. For example:
 -->
 
-当向 `maximum` 这样的已定义函数被提供参数时，其结果会首先用提供的值替换函数体中对应的参数名称，
+当向 `maximum` 这样的已定义函数提供参数时，其结果会首先用提供的值替换函数体中对应的参数名称，
 然后对产生的函数体求值。例如：
 
 ```lean
@@ -167,13 +166,13 @@ Function arrows associate to the right, which means that `Nat → Nat → Nat` s
 -->
 
 在幕后，所有函数实际上都刚好接受一个参数。像 `maximum` 这样的函数看起来需要多个参数，
-但实际上它们时接受一个参数并返回一个新的函数。这个新函数接受下一个参数，
-一直持续到不再需要更多参数。可以通过向一个多参数函数提供一个参数来看到这一点：
+但实际上它们会接受一个参数并返回一个新的函数，新函数接受下一个参数，
+直到不再需要更多参数为止。可以通过向一个多参数函数提供一个参数来看到这一点：
 `{{#example_in Examples/Intro.lean maximum3Type}}`
 会产生 `{{#example_out Examples/Intro.lean maximum3Type}}`，
 而 `{{#example_in Examples/Intro.lean stringAppendHelloType}}`
 会产生 `{{#example_out Examples/Intro.lean stringAppendHelloType}}`。
-使用返回函数的函数来实现多参数函数被称为"**柯里化（Currying）**，
+使用返回函数的函数来实现多参数函数被称为" **柯里化（Currying）** ，
 以数学家哈斯克尔·柯里（Haskell Curry）命名。
 函数箭头是右结合的，这意味着 `Nat → Nat → Nat` 等价于 `Nat → (Nat → Nat)`。
 
@@ -210,14 +209,14 @@ This means that definitions can refer to types just as well as they can refer to
 -->
 
 大多数类型化编程语言都有一些方法来定义类型的别名，例如 C 语言的 `typedef`。
-然而，在 Lean 中，类型是语言的一等部分——它们与其他任何表达式一样都是表达式，
+然而，在 Lean 中，类型是语言的一等部分——它们与其他表达式一样都是表达式，
 这意味着定义可以引用类型，就像它们可以引用其他值一样。
 
 <!--
 For instance, if ``String`` is too much to type, a shorter abbreviation ``Str`` can be defined:
 -->
 
-例如，如果 `String` 输入起来太长，可以定义一个较短的缩写 `Str`：
+例如，如果 `String` 输入起来太长，可以定义一个简写 `Str`：
 
 ```lean
 {{#example_decl Examples/Intro.lean StringTypeDef}}
@@ -227,7 +226,7 @@ For instance, if ``String`` is too much to type, a shorter abbreviation ``Str`` 
 It is then possible to use ``Str`` as a definition's type instead of ``String``:
 -->
 
-然后就可以使用 `Str` 作为定义的类型，而非 `String`：
+然后就可以使用 `Str` 而非 `String` 作为定义的类型：
 
 ```lean
 {{#example_decl Examples/Intro.lean aStr}}
@@ -239,7 +238,7 @@ Types are expressions, and in an expression, a defined name can be replaced with
 Because ``Str`` has been defined to mean ``String``, the definition of ``aStr`` makes sense.
 -->
 
-这之所以可行，是因为类型遵循与 Lean 其他部分相同的规则。
+之所以能这样做，是因为类型遵循与 Lean 其他部分相同的规则。
 类型是表达式，而在表达式中，已定义的名称可以用其定义替换。由于 `Str` 已被定义为
 `String`，因此 `aStr` 的定义是有意义的。
 
@@ -266,7 +265,7 @@ However, using ``NaturalNumber`` as a definition's type instead of ``Nat`` does 
 In particular, the definition:
 -->
 
-然而，使用 `NaturalNumber` 作为定义的类型而非 `Nat` 并没有预期的效果。特别是，定义：
+然而，使用 `NaturalNumber` 作为定义的类型而非 `Nat` 并没有达到预期的效果。特别是，定义：
 
 ```lean
 {{#example_in Examples/Intro.lean thirtyEight}}
@@ -289,7 +288,7 @@ This is part of Lean's mission of making it convenient to represent mathematics,
 The specific feature that allows this overloading does not replace all defined names with their definitions before looking for overloading, which is what leads to the error message above.
 -->
 
-产生该错误的原因是 Lean 允许数字字面量被**重载（Overload）**。
+产生该错误的原因是 Lean 允许数字字面量被 **重载（Overload）** 。
 当有意义时，自然数字面量可用作新类型，就像这些类型内置在系统中一样。
 这能让 Lean 方便地表示数学，而数学的不同分支会将数字符号用作完全不同的目的。
 这种允许重载的特性，并不会在找到重载之前用其定义替换所有已定义的名称，
@@ -347,7 +346,7 @@ and
 are accepted without issue.
 -->
 
-会被接受而不会出现问题。
+都会被接受而不会出现问题。
 
 <!--
 Behind the scenes, some definitions are internally marked as being unfoldable during overload resolution, while others are not.
@@ -357,6 +356,6 @@ Definitions produced with `abbrev` are marked as reducible.
 -->
 
 在幕后，一些定义会在重载解析期间被内部标记为可展开的，而另一些则不会标记。
-可展开的定义称为**可约的（Reducible）**。控制可约性对 Lean 的灵活性而言至关重要：
+可展开的定义称为 **可约的（Reducible）** 。控制可约性对 Lean 的灵活性而言至关重要：
 完全展开所有的定义可能会产生非常大的类型，这对于机器处理和用户理解来说都很困难。
 使用 `abbrev` 生成的定义会被标记为可约定义。
