@@ -11,8 +11,8 @@ Each monad transformer consists of the following:
 `ReaderT` 并不是唯一有用的单子转换器。
 本节将介绍一些额外的转换器。
 每个单子转换器都由以下部分组成：
- <!--
-1. A definition or datatype `T` that takes a monad as an argument.
+<!--
+ 1. A definition or datatype `T` that takes a monad as an argument.
     It should have a type like `(Type u → Type v) → Type u → Type v`, though it may accept additional arguments prior to the monad.
  2. A `Monad` instance for `T m` that relies on an instance of `Monad m`. This enables the transformed monad to be used as a monad.
  3. A `MonadLift` instance that translates actions of type `m α` into actions of type `T m α`, for arbitrary monads `m`. This enables actions from the underlying monad to be used in the transformed monad.
@@ -367,6 +367,7 @@ This is because `MonadExcept` never places an exception value inside of `m`.
 The most general universe signature recognizes the fact that `ε` and `α` are completely independent in this definition.
 Being more general means that the type class can be instantiated for a wider variety of types.
 -->
+
 `MonadExcept` 的宇宙层级与 `ExceptT` 不同。
 在 `ExceptT` 中，`ε` 和 `α` 具有相同的层级，而 `MonadExcept` 则没有这种限制。
 这是因为 `MonadExcept`从不将异常值置于 `m` 内。

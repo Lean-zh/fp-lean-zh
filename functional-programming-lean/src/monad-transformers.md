@@ -23,15 +23,15 @@ These monads are constructed from well-known components.
 
 <!--
 For example:
-- Mutable state is encoded with a function parameter and a return value that have the same type
-- Error handling is encoded by having a return type that is similar to `Except`, with constructors for success and failure
-- Logging is encoded by pairing the return value with the log
+ * Mutable state is encoded with a function parameter and a return value that have the same type
+ * Error handling is encoded by having a return type that is similar to `Except`, with constructors for success and failure
+ * Logging is encoded by pairing the return value with the log
 -->
 
 比如：
-- 可变状态通过具有相同类型的函数参数和返回值来编码
-- 错误处理通过具有类似于 `Except` 的返回类型来编码，该类型具有用于表示成功和失败的构造函数
-- 通过将返回值与日志配对，对日志进行编码
+ * 可变状态通过具有相同类型的函数参数和返回值来编码
+ * 错误处理通过具有类似于 `Except` 的返回类型来编码，该类型具有用于表示成功和失败的构造函数
+ * 通过将返回值与日志配对，对日志进行编码
 
 <!--
 Writing each monad by hand is tedious, however, involving boilerplate definitions of the various type classes.

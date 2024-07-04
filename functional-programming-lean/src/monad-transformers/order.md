@@ -197,7 +197,7 @@ With great expressive power comes the responsibility to check that what's being 
 ## 练习
 
 <!--
-* Check that `ReaderT` and `StateT` commute by expanding their definitions and reasoning about the resulting types.
+ * Check that `ReaderT` and `StateT` commute by expanding their definitions and reasoning about the resulting types.
  * Do `ReaderT` and `ExceptT` commute? Check your answer by expanding their definitions and reasoning about the resulting types.
  * Construct a monad transformer `ManyT` based on the definition of `Many`, with a suitable `Alternative` instance. Check that it satisfies the `Monad` contract.
  * Does `ManyT` commute with `StateT`? If so, check your answer by expanding definitions and reasoning about the resulting types. If not, write a program in `ManyT (StateT σ Id)` and a program in `StateT σ (ManyT Id)`. Each program should be one that makes more sense for the given ordering of monad transformers.

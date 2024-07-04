@@ -286,23 +286,23 @@ This custom monad has a number of advantages over passing configurations manuall
 -->
 与手动传递配置相比，这种自定义单子有很多优点：
 
- <!--
-1. It is easier to ensure that configurations are passed down unchanged, except when changes are desired
- 1. The concern of passing the configuration onwards is more clearly separated from the concern of printing directory contents
- 2. As the program grows, there will be more and more intermediate layers that do nothing with configurations except propagate them, and these layers don't need to be rewritten as the configuration logic changes
+<!--
+ 1. It is easier to ensure that configurations are passed down unchanged, except when changes are desired
+ 2. The concern of passing the configuration onwards is more clearly separated from the concern of printing directory contents
+ 3. As the program grows, there will be more and more intermediate layers that do nothing with configurations except propagate them, and these layers don't need to be rewritten as the configuration logic changes
 -->
 
- 3. 能更容易确保配置被原封不动地向下传递，除非需要更改
- 4. 传递配置与打印目录内容之间的关系更加清晰
- 5. 随着程序的增长，除了传播配置外，将有越来越多的中间层无需对配置进行处理，这些层并不需要随着配置逻辑的变化而重写。
+ 1. 能更容易确保配置被原封不动地向下传递，除非需要更改
+ 2. 传递配置与打印目录内容之间的关系更加清晰
+ 3. 随着程序的增长，除了传播配置外，将有越来越多的中间层无需对配置进行处理，这些层并不需要随着配置逻辑的变化而重写。
 
 <!--
 However, there are also some clear downsides:
 -->
 不过，也有一些明显的缺点：
 
- <!--
-1. As the program evolves and the monad requires more features, each of the basic operators such as `locally` and `currentConfig` will need to be updated
+<!--
+ 1. As the program evolves and the monad requires more features, each of the basic operators such as `locally` and `currentConfig` will need to be updated
  2. Wrapping ordinary `IO` actions in `runIO` is noisy and distracts from the flow of the program
  3. Writing monads instances by hand is repetitive, and the technique for adding a reader effect to another monad is a design pattern that requires documentation and communication overhead
 -->
@@ -318,8 +318,8 @@ Monad transformers consist of:
 使用一种名为 _单子转换器_ 的技术，可以解决所有这些弊端。
 单子转换器以一个单子作为参数，并返回一个新的单子。
 单子转换器包括：
- <!--
-1. A definition of the transformer itself, which is typically a function from types to types
+<!--
+ 1. A definition of the transformer itself, which is typically a function from types to types
  2. A `Monad` instance that assumes the inner type is already a monad
  3. An operator to "lift" an action from the inner monad to the transformed monad, akin to `runIO`
 -->
@@ -345,8 +345,8 @@ Lean 的标准库有一个函数，可以对 _任意_ 多态类型执行此操�
 Its arguments are as follows:
 -->
 它的参数如下:
- <!--
-* `ρ` is the environment that is accessible to the reader
+<!--
+ * `ρ` is the environment that is accessible to the reader
  * `m` is the monad that is being transformed, such as `IO`
  * `α` is the type of values being returned by the monadic computation
 -->
