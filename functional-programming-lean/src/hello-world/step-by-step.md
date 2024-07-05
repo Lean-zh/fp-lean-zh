@@ -86,7 +86,7 @@ Statements that consist only of expressions do not introduce any new variables.
 该代码块中的第一个语句 `{{#include ../../../examples/hello-name/HelloName.lean:line3}}`
 由一个表达式组成。要执行一个表达式，首先要对其进行求值。在这种情况下，`IO.FS.Stream.putStrLn`
 的类型为 `IO.FS.Stream → String → IO Unit`。这意味着它是一个接受流和字符串并返回 `IO` 活动的函数。
-该表达式使用[访问器记法](../getting-to-know/structures.md#behind-the-scenes)进行函数调用。
+该表达式使用[访问器记法](../getting-to-know/structures.md#幕后)进行函数调用。
 此函数应用于两个参数：标准输出流和字符串。表达式的值为一个 `IO` 活动，
 该活动将字符串和换行符写入输出流。得到此值后，下一步是执行它，这会导致字符串和换行符写入到
 `stdout`。仅由表达式组成的语句不会引入任何新变量。

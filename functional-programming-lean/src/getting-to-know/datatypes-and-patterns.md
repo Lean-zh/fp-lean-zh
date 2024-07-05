@@ -486,5 +486,5 @@ This topic is explored in [the final chapter](../programs-proofs/inequalities.md
 -->
 
 此消息表示 `div` 需要手动证明停机。这个主题在
-[最后一章](../programs-proofs/inequalities.md#division-as-iterated-subtraction)
+[最后一章](../programs-proofs/inequalities.md#用减法迭代表示除法)
 中进行了探讨。
