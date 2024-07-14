@@ -5,7 +5,7 @@
 They can be used to write a library of HTML constructors that don't permit generating invalid HTML, to encode the specific rules of a configuration file format, or to model complicated business constraints.
 This section describes an encoding of a subset of relational algebra in Lean using indexed families, as a simpler demonstration of techniques that can be used to build a more powerful database query language. -->
 类型族在构建一个模仿其他语言的 API 时非常有用。
-它们可以用来编写一个保证生成合法页面的 HTML 生成器，或者编码某种文件格式的配置，或是或者用来建模复杂的业务约束。
+它们可以用来编写一个保证生成合法页面的 HTML 生成器，或者编码某种文件格式的配置，或是用来建模复杂的业务约束。
 本节描述了如何在 Lean 中使用索引族对关系代数的一个子集进行编码，然而本节的展示的技术完全可以被用来构建一个更加强大的数据库查询语言。
 
 <!-- This subset uses the type system to enforce requirements such as disjointness of field names, and it uses type-level computation to reflect the schema into the types of values that are returned from a query.
@@ -221,8 +221,8 @@ No case is needed for the empty schema because there is a `HasCol` available, an
 If the schema has just a single column, then the pointer must point to it, so only the `here` constructor of `HasCol` need be matched.
 If the schema has two or more columns, then there must be a case for `here`, in which case the value is the first one in the row, and one for `there`, in which case a recursive call is used.
 Because the `HasCol` type guarantees that the column exists in the row, `Row.get` does not need to return an `Option`. -->
-第一幅是对数据库模式进行模式匹配，因为这决定了行是元组还是单个值。
-空模式的情形不需要考虑，因为 `HasCol`的的两个构造函数都对应着非空的数据库模式。
+第一步是对数据库模式进行模式匹配，因为这决定了行是元组还是单个值。
+空模式的情形不需要考虑，因为 `HasCol`的两个构造函数都对应着非空的数据库模式。
 如果数据库模式只有一个列，那么指针必须指向它，因此只需要匹配 `HasCol` 的 `here` 构造函数。
 如果数据库模式有两个或更多列，那么必须有一个 `here` 情况，此时值是行中的第一个值，以及一个 `there` 情况，此时需要进行递归调用。
 `HasCol` 类型保证了列存在于行中，所以 `Row.get` 不需要返回一个 `Option`。
@@ -253,7 +253,7 @@ Programming with indexed families often requires the ability to switch fluently 
 Every column not present in the smaller schema is forgotten.
 In order for projection to make sense, the smaller schema must be a subschema of the larger schema, which means that every column in the smaller schema must be present in the larger schema.
 Just as `HasCol` makes it possible to write a single-column lookup in a row that cannot fail, a representation of the subschema relationship as an indexed family makes it possible to write a projection function that cannot fail. -->
-关系代数中的一个重要操作是将表或行*投影*到一个较小的数据库模式中。
+关系代数中的一个重要操作是将表或行**投影**到一个较小的数据库模式中。
 不在这一数据库模式中的每一列都会被舍弃。
 为了使投影有意义，小数据库模式必须是大数据库模式的子数据库模式：小数据库模式中的每一列都必须存在于大数据库模式中。
 正如 `HasCol` 允许我们编写一个从行中提取某个列函数且这个函数一定不会失败一样，
@@ -401,7 +401,7 @@ In the `cons` case, which describes how to place one column from `smaller` into 
 
 <!-- Another way to think about `Subschema` is that it defines a _relation_ between two schemas—the existence of an expression  with type `Subschema bigger smaller` means that `(bigger, smaller)` is in the relation.
 This relation is reflexive, meaning that every schema is a subschema of itself: -->
-另一个思考 `Subschema` 的方式是它定义了两个数据库模式之间的 **关系** —— 类型 `Subschema bigger smaller` 的存在一个表达式意味着 `(bigger, smaller)` 在这个关系中。
+另一个思考 `Subschema` 的方式是它定义了两个数据库模式之间的 **关系** —— 存在一个类型为 `Subschema bigger smaller` 的表达式意味着 `(bigger, smaller)` 在这个关系中。
 这个关系是自反的，意味着每个数据库模式都是自己的子数据库模式：
 
 ```lean
@@ -437,7 +437,7 @@ This operation is called _selection_.
 Selection relies on having a means of expressing which rows are desired. -->
 投影从表中删除不需要的列，但查询也必须能够删除不需要的行。
 这个操作称为 **选择（selection）**。
-选择的前提是有一种表达”那些行是需要的“的方式。
+选择的前提是有一种表达“哪些行是需要的”的方式。
 
 <!-- The example query language contains expressions, which are analogous to what can be written in a `WHERE` clause in SQL.
 Expressions are represented by the indexed family `DBExpr`.
@@ -467,7 +467,7 @@ The `eq` constructor compares two expressions for equality, `lt` checks whether 
 In particular, references to columns contain boilerplate calls to `by repeat constructor`.
 A Lean feature called _macros_ can help make expressions easier to read by eliminating this boilerplate: -->
 这有点复杂。
-特别是，对列的引用包含了重复的的 `by repeat constructor` 调用。
+特别是，对列的引用包含了重复的对 `by repeat constructor` 的调用。
 Lean 的一个特性叫做 **宏（macro）**，可以消除这些重复代码，使表达式更易于阅读：
 
 ```leantac
@@ -479,7 +479,7 @@ Lean macros are a bit like C preprocessor macros, except they are better integra
 In fact, they are very closely related to macros in Scheme and Racket. -->
 这个声明为 Lean 添加了 `c!` 关键字，并指示 Lean 用相应的 `DBExpr.col` 构造替换后面跟着的任何 `c!` 实例。
 这里，`term` 代表 Lean 表达式，而不是命令、策术或语言的其他部分。
-Lean 宏有点像 C 预处理器宏，只是它们更好地集成到语言中，并且它们自动避免了 CPP 的一些陷阩。
+Lean 宏有点像 C 预处理器宏，只是它们更好地集成到语言中，并且它们自动避免了 CPP 的一些陷阱。
 事实上，它们与 Scheme 和 Racket 中的宏非常密切相关。
 
 <!-- With this macro, the expression can be much easier to read: -->
@@ -539,7 +539,7 @@ In addition to tables, it includes the following operators:
 查询语言基于关系代数。
 除了表之外，它还包括以下运算符：
  1. 并，将两个具有相同数据库模式的表达式的查询的结果行合并
- 2. 差，定义在两个具有相同数据库模式的表达式，从第一个表达式的查询结果中删除同时存在于第二个表达式的查询结果的行。
+ 2. 差，定义在两个具有相同数据库模式的表达式，从第一个表达式的查询结果中删除同时存在于第二个表达式的查询结果的行
  3. 选择，按照某些标准，根据表达式过滤查询的结果
  4. 投影，从查询结果中删除列
  5. 笛卡尔积，将一个查询的每一行与另一个查询的每一行组合
@@ -700,7 +700,7 @@ It takes a very careful, often brittle, design to eliminate these kinds of "re-i
 <!-- Adding a prefix to column names is very similar to renaming a column.
 Instead of proceeding to a desired column and then returning, `prefixRow` must process all columns: -->
 添加前缀与重命名列非常相似。
-然而`prefixRow` 而是必须处理所有列，而非找到一个特定的列然后直接返回：
+然而`prefixRow` 必须处理所有列，而非找到一个特定的列然后直接返回：
 
 ```lean
 {{#example_decl Examples/DependentTypes/DB.lean prefixRow}}

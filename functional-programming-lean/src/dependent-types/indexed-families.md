@@ -5,7 +5,7 @@
 For instance, `List` takes an argument that determines the type of the entries in the list, and `Except` takes arguments that determine the types of the exceptions or values.
 These type arguments, which are the same in every constructor of the datatype, are referred to as _parameters_. -->
 多态归纳类型接受类型实参。
-例如，`List` 接受一个类型实参以决定列表中条目的类型。`Except` 接受一个类型实参以决定异常或值的类型。
+例如，`List` 接受一个类型实参以决定列表中条目的类型，而 `Except` 接受一个类型实参以决定异常或值的类型。
 这些在数据类型的每个构造子中都一致的类型实参，被称为 **形参（parameters)**。
 
 <!-- Arguments to inductive types need not be the same in every constructor, however.
@@ -212,7 +212,7 @@ The Lean equivalent, which would use the `Option` or `Except` monads, would intr
 {{#example_decl Examples/DependentTypes.lean VectZip}}
 ```
 <!-- This definition only has patterns for the cases where either both arguments are `Vect.nil` or both arguments are `Vect.cons`, and Lean accepts the definition without a "missing cases" error like the one that results from a similar definition for `List`: -->
-这个定义只需要考虑两个实参都是 `Vect.nil` 或都是 `Vect.cons` 的情况。Lean 接受这个定义，而不会像 `List` 的类似定义那样产生一个 "缺少情况" 错误：
+这个定义只需要考虑两个实参都是 `Vect.nil` 或都是 `Vect.cons` 的情况。Lean 接受这个定义，而不会像 `List` 的类似定义那样产生一个“缺少情况”错误：
 ```lean
 {{#example_in Examples/DependentTypes.lean zipMissing}}
 ```

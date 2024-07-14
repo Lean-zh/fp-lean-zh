@@ -11,7 +11,7 @@ When the query changes, so does the type that results from running it, enabling 
 依值类型允许类型包含非类型代码，如函数调用和数据构造子，使类型系统的表达能力大大增强。
 从实参的**值**中**计算**类型的能力意味着函数的返回类型可以根据提供的实参而变化。
 例如，可以使数据库查询的结果的类型依赖于数据库模式和具体的查询，而无需对查询结果进行任何可能失败的强制类型转换操作。
-当查询发生变化时，运行它得到的结果的事类型也会发生变化，从而获得即时的编译时反馈。
+当查询发生变化时，运行它得到的结果的类型也会发生变化，从而获得即时的编译时反馈。
 
 <!-- When a function's return type depends on a value, analyzing the value with pattern matching can result in the type being _refined_, as a variable that stands for a value is replaced by the constructors in the pattern.
 The type signature of a function documents the way that the return type depends on the argument value, and pattern matching then explains how the return type can be fulfilled for each potential argument. -->
@@ -40,9 +40,9 @@ Type-level computation can be seen as a kind of partial evaluation, where only t
 For example, a database query library might be able to return varying-length strings, fixed-length strings, or numbers in certain ranges, but it will never return a function, a user-defined datatype, or an `IO` action.
 A domain-specific subset of the type system can be defined by first defining a datatype with constructors that match the structure of the desired types, and then defining a function that interprets values from this datatype into honest-to-goodness types.
 The constructors are referred to as _codes_ for the types in question, and the entire pattern is sometimes referred to as a _universe à la Tarski_, or just as a _universe_ when context makes it clear that universes such as `Type 3` or `Prop` are not what's meant. -->
-一个在使用依值类型时常见的设计模式是将类型系统的某个子集显示的区分出来。
+一个在使用依值类型时常见的设计模式是将类型系统的某个子集显式地区分出来。
 例如，数据库查询库可能能够返回可变长度的字符串、固定长度的字符串或某些范围内的数字，但它永远不会返回函数、用户定义的数据类型或`IO`操作。
-一个领域特定的类型子集的定义方式如下：首先定义一个具有与所需类型结构匹配的构造子的数据类型，然后定义将这个数据类型的值解释为真实的类型一个函数。
+一个领域特定的类型子集的定义方式如下：首先定义一个具有与所需类型结构匹配的构造子的数据类型，然后定义一个将这个数据类型的值解释为真实类型的函数。
 这些构造子被称为所讨论类型的**编码（codes)**，整个设计模式有时被称为 **Tarski风格的宇宙**设计模式。当上下文清楚地表明此时宇宙不指代`Type 3`或`Prop`等时，可以简称为**宇宙**设计模式。
 
 
@@ -77,9 +77,9 @@ The datatype's invariants can be encoded directly, and there is no way to violat
 Informing the compiler about the datatype's invariants brings a major benefit: the compiler can now inform the programmer about what must be done to satisfy them.
 The strategic use of compile-time errors, especially those resulting from underscores, can make it possible to offload some of the programming thought process to Lean, freeing up the programmer's mind to worry about other things. -->
 索引族允许表达数据之间的复杂关系，所有这些关系都由编译器检查。
-数据类型的不变性可以直接通过索引族编码，从而保证这些不变性不会被（哪怕是暂时的）违反。
+数据类型的不变性可以直接通过索引族编码，从而保证这些不变性不会被（哪怕是暂时地）违反。
 向编译器提供关于数据类型不变性的信息带来了一个重大好处：编译器现在可以告诉程序员必须做什么才能满足这些不变性。
-通过刻意的触发编译期错误（特别是通过下划线占位符触发），可以将 “此时需要注意什么不变性” 的任务交给 Lean 思考 ，从而使程序员可以花更多心思担心其他事情。
+通过刻意地触发编译期错误（特别是通过下划线占位符触发），可以将 “此时需要注意什么不变性” 的任务交给 Lean 思考 ，从而使程序员可以花更多心思担心其他事情。
 
 <!-- Encoding invariants using indexed families can lead to difficulties.
 First off, each invariant requires its own datatype, which then requires its own support libraries.
@@ -96,7 +96,7 @@ Avoiding these slowdowns for complicated programs can require specialized techni
 其次，方便使用索引族需要类型中使用的函数的递归结构与被类型检查的程序的递归结构相匹配。
 使用索引族编程正是“正确安排这些匹配发生”的艺术。
 虽然可以通过手动引入相等性证明解决不匹配的巧合，但这件事并不容易，而且会导致程序中充斥着难懂的代码。
-第三，类型检查期间运行过于复杂代码可能导致很长的编译时间。避免这些复杂程序的带来的编译减速可能需要专门的技术。
+第三，类型检查期间运行过于复杂的代码可能导致很长的编译时间。避免这些复杂程序带来的编译减速可能需要专门的技术。
 
 
 <!-- ## Definitional and Propositional Equality -->
@@ -109,7 +109,7 @@ To work around this, Lean contains two notions of equality: -->
 
 Lean的类型检查器必须不时检查两个类型是否应该被视为可互换的。
 因为类型可以包含任意程序，所以它必须能够检查任意程序的相等性。
-然而，没有有效的算法可以检查任意两个程序的在数学意义上的相等性。
+然而，没有有效的算法可以检查任意两个程序在数学意义上的相等性。
 为了解决这个问题，Lean 引入了两种相等性的概念：
 
  <!-- * _Definitional equality_ is an underapproximation of equality that essentially checks for equality of syntactic representation modulo computation and renaming of bound variables. Lean automatically checks for definitional equality in situations where it is required. -->
@@ -129,7 +129,7 @@ Propositional equality can be used to unstick otherwise-stuck programs in types.
 <!-- However, the frequent use of propositional equality to unstick type-level computation is typically a code smell.
 It typically means that coincidences were not well-engineered, and it's usually a better idea to either redesign the types and indices or to use a different technique to enforce the needed invariants.
 When propositional equality is instead used to prove that a program meets a specification, or as part of a subtype, there is less reason to be suspicious. -->
-然而过于频繁的的使用命题相等性来解套类型层面的卡住的计算
+然而过于频繁地使用命题相等性来解套类型层面的卡住的计算
 通常意味着代码是一段臭代码：这意味着没有很好地设计匹配。<!-- TODO: coincidence -->
 这时较好的方案是重新设计类型和索引，
 或者使用其他的技术来保证程序不变性。<!-- TODO: enforce -->

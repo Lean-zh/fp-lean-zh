@@ -15,7 +15,7 @@ When the function is used in a type, however, the internals of the function's im
 返回类型的函数（如 `Row` ）的实现与它的类型之间的紧密耦合是下列问题的一个具体案例：
 当类型中包含函数时，接口和实现之间的区别开始瓦解。
 通常，只要重构不改变函数的类型签名或输入输出行为，它就不会导致问题。
-所以一个函数可以方便的进行下列重构而不会破坏客户端代码：使用更高效的算法和数据结构重写，修复错误，提高代码的清晰度。
+所以一个函数可以方便地进行下列重构而不会破坏客户端代码：使用更高效的算法和数据结构重写，修复错误，提高代码的清晰度。
 然而，当函数出现在类型中时，函数的内部实现成为类型的一部分，因此成为另一个程序的**接口**的一部分。
 
 <!-- As an example, take the following two implementations of addition on `Nat`.
@@ -79,7 +79,7 @@ This means that the type of the second underscore can be equivalently written `V
 因此第二个下划线的类型可以等价地写为`Vect α (plusL n✝ k + 1)`。
 
 <!-- To expose what is going on behind the scenes, the first step is to write the `Nat` arguments explicitly, which also results in daggerless error messages because the names are now written explicitly in the program: -->
-为了清楚到底发生了什么，第一步是显式地写出 `Nat` 参数。这一变化同时导致错误信息中的剑标小时了，因为此时程序已经显示给出了这个参数的名字：
+为了清楚到底发生了什么，第一步是显式地写出 `Nat` 参数。这一变化同时导致错误信息中的剑标消失了，因为此时程序已经显式给出了这个参数的名字：
 
 ```lean
 {{#example_in Examples/DependentTypes/Pitfalls.lean appendL3}}
@@ -107,7 +107,7 @@ This means that the type of the second underscore can be equivalently written `V
 This is parallel to the way that appending the empty list to any other list returns that other list.
 Refining the definition with `ys` instead of the first underscore yields a program with only one remaining underscore to be filled out: -->
 第一个情况要求一个`Vect α k`，而 `ys` 有这种类型。
-这个情形跟讲一个列表附加到一个空列表时直接返回这个列表的情况相似。
+这个情形跟将一个列表附加到一个空列表时直接返回这个列表的情况相似。
 用 `ys` 替代第一个下划线后，只剩下一个下划线需要填充：
 
 ```lean
@@ -157,7 +157,7 @@ This is not typically very helpful, so definitional equality of functions is mos
 然而，类型不仅包含函数类型、数据类型和构造子。
 它们还包含**变量**和**函数**。
 变量的定义相等性相对简单：每个变量只等于自己，因此`(n k : Nat) → Vect Int n`不等于`(n k : Nat) → Vect Int k`。
-函数则复杂的多。数学上对函数相等的定义为两个函数具有相同的输入输出行为。但这种相等性无法被算法检查。
+函数则复杂得多。数学上对函数相等的定义为两个函数具有相同的输入输出行为。但这种相等性无法被算法检查。
 这违背了而定义相等性的目的：通过算法自动检查两个类型是否相等。
 因此，Lean 认为函数只有在它们的函数体定义相等时才是定义相等的。
 换句话说，两个函数必须使用**相同的算法**，调用**相同的辅助函数**，才能被认为是定义相等的。
@@ -236,7 +236,7 @@ Exposing the internals of a function in a type means that refactoring the expose
 In particular, the fact that `plusL` is used in the type of `appendL` means that the definition of `plusL` cannot be replaced by the otherwise-equivalent `plusR`. -->
 比较类型使用定义相等意味着定义相等中涉及的所有内容，包括函数的内部定义，都成为使用依值类型和索引族的程序的**接口**的一部分。
 在类型中暴露函数的内部实现意味着重构暴露的函数可能导致使用它的程序无法通过类型检查。
-特别是，`plusL`在 `appendL` 的类型中使用的事实上意味着 `plusL` 的使用不能被等价的 `plusR` 替换。
+特别是，`plusL`在 `appendL` 的类型中使用的事实意味着 `plusL` 的使用不能被等价的 `plusR` 替换。
 
 <!-- ## Getting Stuck on Addition -->
 ## 在加法上卡住
@@ -303,7 +303,7 @@ Lean 在需要时会自动检查定义相等性，但命题相等性需要显式
 Propositional equality is much richer, but the computer cannot in general check whether two expressions are propositionally equal, though it can verify that a purported proof is in fact a proof.
 The split between definitional and propositional equality represents a division of labor between humans and machines: the most boring equalities are checked automatically as part of definitional equality, freeing the human mind to work on the interesting problems available in propositional equality.
 Similarly, definitional equality is invoked automatically by the type checker, while propositional equality must be specifically appealed to. -->
-定义相等性只规定了很有限的相等性，所以它可以被算法自动的检查。
+定义相等性只规定了很有限的相等性，所以它可以被算法自动地检查。
 命题相等要丰富得多，但计算机通常无法检查两个表达式是否命题相等，尽管它可以验证所谓的证明是否实际上是一个证明。
 定义相等和命题相等之间的分裂代表了人类和机器之间的分工：最无聊的相等性作为定义相等的一部分被自动检查，从而使人类思维可以处理命题相等中可用的有趣问题。
 同样，定义相等由类型检查器自动调用，而命题相等必须明确地被呼吁。

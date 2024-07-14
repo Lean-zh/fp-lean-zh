@@ -15,7 +15,7 @@ In other words, the interaction consists of types being inserted into the world 
 <!-- Lean does not impose this strict separation.
 In Lean, programs may compute types and types may contain programs.
 Placing programs in types allows their full computation power to be used at compile time, and the ability to return types from functions makes types into first-class participants in the programming process. -->
-Lean 并不严格的区分类型和程序。
+Lean 并不严格地区分类型和程序。
 在 Lean 中，程序可以计算类型，类型可以包含程序。
 允许程序出现在类型中使得编译阶段可以使用编程语言全部的计算能力。
 允许函数返回类型则使得类型成为编程过程中的一等参与者。

@@ -4,7 +4,7 @@
 <!-- In Lean, types such as `Type`, `Type 3`, and `Prop` that classify other types are known as universes.
 However, the term _universe_ is also used for a design pattern in which a datatype is used to represent a subset of Lean's types, and a function converts the datatype's constructors into actual types.
 The values of this datatype are called _codes_ for their types. -->
-在 Lean 中，用于分类其他类型的的类型被称为宇宙，如 `Type`、`Type 3` 和 `Prop` 等。
+在 Lean 中，用于分类其他类型的类型被称为宇宙，如 `Type`、`Type 3` 和 `Prop` 等。
 然而， **宇宙（universe）** 也用于表示一种设计模式：使用数据类型来表示 Lean 类型的子集，并通过一个解释函数将数据类型的构造子映射为实际类型。
 这种数据类型的值被称为其映射到的类型的 **编码（codes）**。
 
@@ -14,7 +14,7 @@ This arrangement is referred to as _universes à la Russell_.
 The user-defined universes described in this section represent all of their types as _data_, and include an explicit function to interpret these codes into actual honest-to-goodness types.
 This arrangement is referred to as _universes à la Tarski_.
 While languages such as Lean that are based on dependent type theory almost always use Russell-style universes, Tarski-style universes are a useful pattern for defining APIs in these languages. -->
-尽管实现方式不同。使用这种设计模式实现的宇宙是一组类型的的类型，与 Lean 内置的宇宙具有相同的含义。
+尽管实现方式不同。使用这种设计模式实现的宇宙是一组类型的类型，与 Lean 内置的宇宙具有相同的含义。
 在 Lean 中，`Type`、`Type 3` 和 `Prop` 等类型直接描述其他类型的类型。
 这种方式被称为 **Russell 风格的宇宙（universes à la Russell）**。
 本节中描述的用户定义的宇宙将所有其包含的类型表示为 **数据**，并用一个显式的函数将这些编码映射到实际的类型。
@@ -74,7 +74,7 @@ Attempting to appeal directly to the `BEq` instances rather than explaining to L
 错误消息中的 `t` 代表类型 `NestedPairs` 的未知值。
 
 <!-- ## Type Classes vs Universes -->
-## 类型类 v.s. 宇宙
+## 类型类 vs 宇宙
 
 <!-- Type classes allow an open-ended collection of types to be used with an API as long as they have implementations of the necessary interfaces.
 In most cases, this is preferable.
@@ -202,7 +202,7 @@ Because each row of the table could select any of \\( n \\) possible outputs, th
 
 
 <!-- Once again, generating the functions from a finite type to some list of values is recursive on the code that describes the finite type: -->
-与之前类似，生成从有限类型到一些值列表的函数是是通过对描述有限类型的编码进行递归完成的：
+与之前类似，生成从有限类型到一些值列表的函数是通过对描述有限类型的编码进行递归完成的：
 
 ```lean
 {{#include ../../../examples/Examples/DependentTypes/Finite.lean:FiniteFunctionSigStart}}
@@ -333,7 +333,7 @@ Nested exponentials grow quickly, and there are many higher-order functions. -->
 
 65536
 
-指数的嵌套会很快的增长。这样的高阶函数还有很多。
+指数的嵌套会很快地增长。这样的高阶函数还有很多。
 
 
 
