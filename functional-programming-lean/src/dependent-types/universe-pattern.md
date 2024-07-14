@@ -95,6 +95,7 @@ Tarski 风格的宇宙 使得 API 仅能用在实现决定好的一组类型上�
 
 <!-- Type classes are useful in many of the same situations as interfaces in Java or C#, while a universe à la Tarski can be useful in cases where a sealed class might be used, but where an ordinary inductive datatype is not usable. -->
 类型类在 在类似 Java 或 C# 中适合使用接口的场景下更加有用，而 Tarski 风格的宇宙则在类似适合使用封闭类（sealed class）的场景下，且一般的归纳定义数据类型无法使用的情况下更加有用。
+<!-- TODO -->
 
 <!-- ## A Universe of Finite Types -->
 ## 一个有限类型的宇宙
@@ -210,7 +211,8 @@ Because each row of the table could select any of \\( n \\) possible outputs, th
 <!-- The table for functions from `Unit` contains one row, because the function can't pick different results based on which input it is provided.
 This means that one function is generated for each potential input. -->
 `Unit` 的函数表格包含一行，因为函数不能根据提供的输入选择不同的结果。
-这意味着为每个潜在的输入有一个函数。
+这意味着为每个潜在的输入生成一个函数。 
+<!-- TODO -->
 
 ```lean
 {{#include ../../../examples/Examples/DependentTypes/Finite.lean:FiniteFunctionUnit}}
@@ -244,15 +246,16 @@ This suggests a means of constructing the higher-order functions:
  * The base case of the recursion is a higher-order function that observes nothing for each result value—it ignores the argument function and simply returns the result value. -->
 
 生成高阶函数有点烧脑。
-每个高阶函数都将一个函数作为其实参。
-这个实参函数可以根据其输入/输出行为与其他函数区分开来。
-一般来说，高阶函数可以将函数实参应用于所有可能的输入值，然后根据函数应用的结果的不同产生不同的行为。
+一个函数可以根据其输入/输出行为与其他函数区分开来。
+高阶函数的输入行为则又依赖于其函数参数的输入/输出行为：
+因此高阶函数的所有行为可以表示为将函数实参应用于所有它所有可能的输入值，然后根据该函数应用的结果的不同产生不同的行为。
 这提供了一种构造高阶函数的方法：
  * 构造实参函数 `t1 → t2` 的实参 `t1` 的所有可能值。
  * 对于每个可能的值，构造可以由应用实参函数到可能的实参的观察结果产生的所有可能行为。
     这可以使用 `Finite.functions` 和对其余实参的递归来完成，因为递归的结果表示基于其余可能实参的观察的函数。`Finite.functions` 根据当前对实参的观察构造所有实现这些方式的方法。
  * 对基于每个观察结果的潜在行为，构造一个将函数实参应用于当前可能实参的高阶函数。然后将此结果传递给观察行为。
  * 递归的基本情况是对每个结果值观察无事可做的高阶函数——它忽略函数实参，只是返回结果值。
+<!-- TODO -->
 
 <!-- Defining this recursive function directly causes Lean to be unable to prove that the whole function terminates.
 However, using a simpler form of recursion called a _right fold_ can be used to make it clear to the termination checker that the function terminates.
