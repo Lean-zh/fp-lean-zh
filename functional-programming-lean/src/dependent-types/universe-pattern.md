@@ -52,7 +52,7 @@ The type `NestedPairs` codes for any possible nesting of the pair and natural nu
 ```
 <!-- In this case, the interpretation function `NestedPairs.asType` is recursive.
 This means that recursion over codes is required in order to implement `BEq` for the universe: -->
-在这种情况下，解释函数 `NestedPairs.asType` 是递归的。
+解释函数 `NestedPairs.asType` 是递归定义的。
 这意味着需要对编码进行递归才能实现该宇宙的 `BEq`：
 
 ```lean
@@ -61,7 +61,7 @@ This means that recursion over codes is required in order to implement `BEq` for
 
 <!-- Even though every type in the `NestedPairs` universe already has a `BEq` instance, type class search does not automatically check every possible case of a datatype in an instance declaration, because there might be infinitely many such cases, as with `NestedPairs`.
 Attempting to appeal directly to the `BEq` instances rather than explaining to Lean how to find them by recursion on the codes results in an error: -->
-尽管 `NestedPairs` 宇宙中的每种类型已经有一个 `BEq` 实例，但类型类的搜索不会在实例声明中自动检查数据类型的所有情况，因为这样的情况可能有无限多种，就像 `NestedPairs` 一样。
+尽管 `NestedPairs` 宇宙中的每种类型已经有一个 `BEq` 实例，但类型类的搜索不会在实例声明中自动检查数据类型的所有情形，因为这样的情形可能有无限多种，就像 `NestedPairs` 一样。
 试图让 Lean 直接给出该类型的 `BEq` 实例会导致错误。需要通过对编码进行递归来向 Lean 解释如何找到这样的实例。
 
 ```lean
@@ -71,7 +71,7 @@ Attempting to appeal directly to the `BEq` instances rather than explaining to L
 {{#example_out Examples/DependentTypes/Finite.lean beqNoCases}}
 ```
 <!-- The `t` in the error message stands for an unknown value of type `NestedPairs`. -->
-错误消息中的 `t` 代表类型 `NestedPairs` 的未知值。
+错误信息中的 `t` 代表类型 `NestedPairs` 的未知值。
 
 <!-- ## Type Classes vs Universes -->
 ## 类型类 vs 宇宙
@@ -116,9 +116,9 @@ Two functions whose argument type is finite can be checked for equality by enume
 Checking higher-order functions for equality requires generating all possible functions of a given type, which additionally requires that the return type is finite so that each element of the argument type can be mapped to each element of the return type.
 This is not a _fast_ method, but it does complete in finite time. -->
 换句话说，实参类型为无限类型的函数本身也是无限类型。
-函数可以被视为表格，实参类型为无限类型的函数需要无限多行来描述每种情况。
+函数可以被视为表格，实参类型为无限类型的函数需要无限多行来描述每种情形。
 但来实参类型为限类型的函数只需要有限行，意味着该函数类型也是有限类型。
-如果两个函数的实参类型均为有限类型，则可以通过枚举实参所有的可能性，然后比较它们在这些情况下的输出结果来检查它们是否相等。
+如果两个函数的实参类型均为有限类型，则可以通过枚举实参所有的可能性，然后比较它们在所有这些输入下的输出结果来检查它们是否相等。
 检查高阶函数是否相等需要生成给定类型的所有可能函数，此外还需要返回类型是有限的，以便将实参类型的每个元素映射到返回类型的每个元素。
 这不是一种 **快速** 的方法，但它确实在有限时间内完成。
 
@@ -130,12 +130,12 @@ This is not a _fast_ method, but it does complete in finite time. -->
 {{#example_decl Examples/DependentTypes/Finite.lean Finite}}
 ```
 <!-- In this universe, the constructor `arr` stands for the function type, which is written with an `arr`ow. -->
-在这个宇宙中，构造函数 `arr` 表示函数类型，用一个 `arr`ow 表示。
+在这个宇宙中，构造子 `arr` 表示函数类型，用一个 `arr`ow 表示。
 
 <!-- Comparing two values from this universe for equality is almost the same as in the `NestedPairs` universe.
 The only important difference is the addition of the case for `arr`, which uses a helper called `Finite.enumerate` to generate every value from the type coded for by `t1`, checking that the two functions return equal results for every possible input: -->
 比较这个宇宙中的两个值是否相等与 `NestedPairs` 宇宙中几乎相同。
-唯一重要的区别是增加了 `arr` 的情况，它使用一个名为 `Finite.enumerate` 的辅助函数来生成由 `t1` 编码的类型的每个值，然后检查两个函数对每个可能的输入返回相同的结果：
+唯一重要的区别是增加了 `arr` 的情形，它使用一个名为 `Finite.enumerate` 的辅助函数来生成由 `t1` 编码的类型的每个值，然后检查两个函数对每个可能的输入返回相同的结果：
 
 ```lean
 {{#example_decl Examples/DependentTypes/Finite.lean FiniteBeq}}
@@ -229,7 +229,7 @@ This means that one function is generated for each potential input. -->
 A function from a pair can be transformed into a function that takes the first element of the pair and returns a function that's waiting for the second element of the pair.
 Doing this allows `Finite.functions` to be used recursively in this case: -->
 从有序对中生成函数可以通过利用柯里化来实现：把这个函数转化为一个接受有序对的第一个元素并返回一个等待有序对的第二个元素的函数。
-这样做允许在这种情况下递归使用 `Finite.functions`：
+这样做允许在这种情形下递归使用 `Finite.functions`：
 
 ```lean
 {{#include ../../../examples/Examples/DependentTypes/Finite.lean:FiniteFunctionPair}}
@@ -254,7 +254,7 @@ This suggests a means of constructing the higher-order functions:
  * 对于每个可能的值，构造可以由应用实参函数到可能的实参的观察结果产生的所有可能行为。
     这可以使用 `Finite.functions` 和对其余实参的递归来完成，因为递归的结果表示基于其余可能实参的观察的函数。`Finite.functions` 根据当前对实参的观察构造所有实现这些方式的方法。
  * 对基于每个观察结果的潜在行为，构造一个将函数实参应用于当前可能实参的高阶函数。然后将此结果传递给观察行为。
- * 递归的基本情况是对每个结果值观察无事可做的高阶函数——它忽略函数实参，只是返回结果值。
+ * 递归的基情形是对每个结果值观察无事可做的高阶函数——它忽略函数实参，只是返回结果值。
 <!-- TODO -->
 
 <!-- Defining this recursive function directly causes Lean to be unable to prove that the whole function terminates.
@@ -317,7 +317,7 @@ or 65536.
 Nested exponentials grow quickly, and there are many higher-order functions. -->
 
 这种比较函数的算法并不特别实用。
-要检查的情况数量呈指数增长；即使是一个简单的类型，如 `((Bool × Bool) → Bool) → Bool`，也描述了 {{#example_out Examples/DependentTypes/Finite.lean nestedFunLength}} 个不同的函数。
+要检查的情形数量呈指数增长；即使是一个简单的类型，如 `((Bool × Bool) → Bool) → Bool`，也描述了 {{#example_out Examples/DependentTypes/Finite.lean nestedFunLength}} 个不同的函数。
 为什么会有这么多？
 根据上面的推理，并使用 \\( \\left| T \\right| \\) 表示类型 \\( T \\) 描述的值的数量，那么上述函数的值的数量应该为
 

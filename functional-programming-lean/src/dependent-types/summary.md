@@ -40,9 +40,9 @@ Type-level computation can be seen as a kind of partial evaluation, where only t
 For example, a database query library might be able to return varying-length strings, fixed-length strings, or numbers in certain ranges, but it will never return a function, a user-defined datatype, or an `IO` action.
 A domain-specific subset of the type system can be defined by first defining a datatype with constructors that match the structure of the desired types, and then defining a function that interprets values from this datatype into honest-to-goodness types.
 The constructors are referred to as _codes_ for the types in question, and the entire pattern is sometimes referred to as a _universe à la Tarski_, or just as a _universe_ when context makes it clear that universes such as `Type 3` or `Prop` are not what's meant. -->
-一个在使用依值类型时常见的设计模式是将类型系统的某个子集显式地区分出来。
+一个在使用依值类型时常见的设计模式是将类型系统的某个子集显示地划分出来。
 例如，数据库查询库可能能够返回可变长度的字符串、固定长度的字符串或某些范围内的数字，但它永远不会返回函数、用户定义的数据类型或`IO`操作。
-一个领域特定的类型子集的定义方式如下：首先定义一个具有与所需类型结构匹配的构造子的数据类型，然后定义一个将这个数据类型的值解释为真实类型的函数。
+一个领域特定的类型子集的定义方式如下：首先定义一个具有与所需类型结构匹配的构造子的数据类型，然后定义将这个数据类型的值解释为真实的类型一个函数。
 这些构造子被称为所讨论类型的**编码（codes)**，整个设计模式有时被称为 **Tarski风格的宇宙**设计模式。当上下文清楚地表明此时宇宙不指代`Type 3`或`Prop`等时，可以简称为**宇宙**设计模式。
 
 

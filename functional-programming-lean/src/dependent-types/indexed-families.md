@@ -24,9 +24,9 @@ The "hello world" of indexed families is a type of lists that contains the lengt
 <!-- Function declarations may take some arguments before the colon, indicating that they are available in the entire definition, and some arguments after, indicating a desire to pattern-match on them and define the function case by case.
 Inductive datatypes have a similar principle: the argument `α` is named at the top of the datatype declaration, prior to the colon, which indicates that it is a parameter that must be provided as the first argument in all occurrences of `Vect` in the definition, while the `Nat` argument occurs after the colon, indicating that it is an index that may vary.
 Indeed, the three occurrences of `Vect` in the `nil` and `cons` constructor declarations consistently provide `α` as the first argument, while the second argument is different in each case. -->
-函数声明可以在冒号之前接受一些实参，表示这些实参在整个定义中都是可用的，也可以在冒号之后接受一些实参，函数会对它们进行模式匹配，并根据不同情况定义不同的函数体。
+函数声明可以在冒号之前接受一些实参，表示这些实参在整个定义中都是可用的，也可以在冒号之后接受一些实参，函数会对它们进行模式匹配，并根据不同情形定义不同的函数体。
 归纳数据类型也有类似的原则：以 `Vect` 为例，在其顶部的数据类型声明中，实参 `α` 出现在冒号之前，表示它是一个必须提供的形参，而在冒号之后出现的 `Nat` 实参表示它是一个索引，（在不同的构造子中）可以变化。
-事实上，在 `nil` 和 `cons` 构造子的声明中，三个出现 `Vect` 的地方都将 `α` 作为第一个实参提供，而第二个实参在每种情况下都不同。
+事实上，在 `nil` 和 `cons` 构造子的声明中，三个出现 `Vect` 的地方都将 `α` 作为第一个实参提供，而第二个实参在每种情形下都不同。
 
 <!-- The declaration of `nil` states that it is a constructor of type `Vect α 0`.
 This means that using `Vect.nil` in a context expecting a `Vect String 3` is a type error, just as `[1, 2, 3]` is a type error in a context that expects a `List String`: -->
@@ -93,7 +93,7 @@ The solution is to use pattern matching to consider both of the possible cases: 
 当编写使用索引族的程序时时，只有当 Lean 能够确定构造子的索引与期望类型中的索引匹配时，才能使用该构造子。
 然而，两个构造子的索引与 `n` 均不匹配——`nil` 匹配 `Nat.zero`，而 `cons` 匹配 `Nat.succ`。
 就像在上面的类型错误示例中的情况一样，变量 `n` 可能代表其中一个，取决于具体调用函数时 `Nat` 实参的值。
-解决这一问题的方案是利用模式匹配来同时考虑两种情况：
+解决这一问题的方案是利用模式匹配来同时考虑两种情形：
 
 ```lean
 {{#example_in Examples/DependentTypes.lean replicateMatchOne}}
@@ -101,7 +101,7 @@ The solution is to use pattern matching to consider both of the possible cases: 
 
 <!-- Because `n` occurs in the expected type, pattern matching on `n` _refines_ the expected type in the two cases of the match.
 In the first underscore, the expected type has become `Vect α 0`: -->
-因为 `n` 出现在期望的类型中，对 `n` 进行模式匹配会在匹配的两种情况下 **细化（refine)** 期望的类型。
+因为 `n` 出现在期望的类型中，对 `n` 进行模式匹配会在匹配的两种情形下 **细化（refine)** 期望的类型。
 在第一个下划线中，期望的类型变成了 `Vect α 0`：
 ```output error
 {{#example_out Examples/DependentTypes.lean replicateMatchOne}}
@@ -141,7 +141,7 @@ There is an `α` available, namely `x`: -->
 
 <!-- In addition to providing assistance while writing the function, the informative type of `Vect.replicate` also allows client code to rule out a number of unexpected functions without having to read the source code.
 A version of `replicate` for lists could produce a list of the wrong length: -->
-除了在编写函数时提供帮助之外，`Vect.replicate` 的类型信息还允许调用方在不必阅读源代码的情况下明白它一定不是某些错误的实现。
+除了在编写函数时提供帮助之外，`Vect.replicate` 的类型信息还允许调用方不必阅读源代码就明白它一定不是某些错误的实现。
 一个可能会产生错误长度的列表的 `replicate` 实现如下：
 ```lean
 {{#example_decl Examples/DependentTypes.lean listReplicate}}
@@ -212,7 +212,7 @@ The Lean equivalent, which would use the `Option` or `Except` monads, would intr
 {{#example_decl Examples/DependentTypes.lean VectZip}}
 ```
 <!-- This definition only has patterns for the cases where either both arguments are `Vect.nil` or both arguments are `Vect.cons`, and Lean accepts the definition without a "missing cases" error like the one that results from a similar definition for `List`: -->
-这个定义只需要考虑两个实参都是 `Vect.nil` 或都是 `Vect.cons` 的情况。Lean 接受这个定义，而不会像 `List` 的类似定义那样产生一个“缺少情况”错误：
+这个定义只需要考虑两个实参都是 `Vect.nil` 或都是 `Vect.cons` 的情形。Lean 接受这个定义，而不会像 `List` 的类似定义那样产生一个“存在缺失情形”的错误：
 ```lean
 {{#example_in Examples/DependentTypes.lean zipMissing}}
 ```
@@ -226,7 +226,7 @@ Indeed, adding a case that uses `nil` and `cons` together is a type error, becau
 这是因为第一个模式匹配中得到的两个构造子，`nil` 和 `cons`，**细化** 了类型检查器对长度 `n` 的知识。
 当它是 `nil` 时，类型检查器还可以确定长度是 `0`，因此第二个模式的唯一可能选择是 `nil`。
 当它是 `cons` 时，类型检查器可以确定长度是 `k+1`，因此第二个模式的唯一可能选择是 `cons`。
-事实上，添加一个同时使用 `nil` 和 `cons` 的情况会导致类型错误，因为长度不匹配：
+事实上，添加一个同时使用 `nil` 和 `cons` 的情形会导致类型错误，因为长度不匹配：
 ```lean
 {{#example_in Examples/DependentTypes.lean zipExtraCons}}
 ```

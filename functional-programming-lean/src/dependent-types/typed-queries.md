@@ -59,7 +59,7 @@ The solution is to use pattern matching to refine the types of `x` and `y`: -->
 ```
 <!-- In this version of the function, `x` and `y` have types `Int`, `String`, and `Bool` in the three respective cases, and these types all have `BEq` instances.
 The definition of `dbEq` can be used to define a `BEq` instance for the types that are coded for by `DBType`: -->
-在这个版本的函数中，`x` 和 `y` 在三种情况下的类型分别为 `Int`、`String` 和 `Bool`，这些类型都有 `BEq` 实例。
+在这个版本的函数中，`x` 和 `y` 在三种情形下的类型分别为 `Int`、`String` 和 `Bool`，这些类型都有 `BEq` 实例。
 `dbEq` 的定义可以用来为 `DBType` 编码的类型定义一个 `BEq` 实例：
 
 ```lean
@@ -199,7 +199,7 @@ The constructor `there` transforms a pointer into a smaller schema into a pointe
 这个族的三个实参是数据库模式、列名和它的类型。
 所有三个参数都是索引，但重新排列实参，将数据库模式放在列名和类型之后，可以使列名和类型成为形参。
 当数据库模式以列 `⟨name, t⟩` 开头时，可以使用构造子 `here`：它是一个指向当前数据库模式的第一列的指针，只有当第一列具有所需的名称和类型时才能使用。
-构造函数 `there` 将一个指向较小数据库模式的指针转换为一个指向在头部包含在一个额外列的数据库模式的指针。
+构造子 `there` 将一个指向较小数据库模式的指针转换为一个指向在头部包含在一个额外列的数据库模式的指针。
 
 <!-- Because `"elevation"` is the third column in `peak`, it can be found by looking past the first two columns with `there`, after which it is the first column.
 In other words, to satisfy the type `{{#example_out Examples/DependentTypes/DB.lean peakElevationInt}}`, use the expression `{{#example_in Examples/DependentTypes/DB.lean peakElevationInt}}`.
@@ -222,9 +222,9 @@ If the schema has just a single column, then the pointer must point to it, so on
 If the schema has two or more columns, then there must be a case for `here`, in which case the value is the first one in the row, and one for `there`, in which case a recursive call is used.
 Because the `HasCol` type guarantees that the column exists in the row, `Row.get` does not need to return an `Option`. -->
 第一步是对数据库模式进行模式匹配，因为这决定了行是元组还是单个值。
-空模式的情形不需要考虑，因为 `HasCol`的两个构造函数都对应着非空的数据库模式。
-如果数据库模式只有一个列，那么指针必须指向它，因此只需要匹配 `HasCol` 的 `here` 构造函数。
-如果数据库模式有两个或更多列，那么必须有一个 `here` 情况，此时值是行中的第一个值，以及一个 `there` 情况，此时需要进行递归调用。
+空模式的情形不需要考虑，因为 `HasCol`的两个构造子都对应着非空的数据库模式。
+如果数据库模式只有一个列，那么指针必须指向它，因此只需要匹配 `HasCol` 的 `here` 构造子。
+如果数据库模式有两个或更多列，那么必须有一个 `here` 的情形，此时值是行中的第一个值，以及一个 `there` 的情形，此时需要进行递归调用。
 `HasCol` 类型保证了列存在于行中，所以 `Row.get` 不需要返回一个 `Option`。
 
 <!-- `HasCol` plays two roles: -->
@@ -268,7 +268,7 @@ This is represented by the constructor `cons`. -->
 基本思想是，如果小数据库模式中的每一列都出现在大数据库模式中，那么小数据库模式就是大数据库模式的子数据库模式。
 如果小数据库模式为空，则它肯定是大数据库模式的子数据库模式，由构造子 `nil` 表示。
 如果小数据库模式有一列，那么该列必须在大数据库模式中且子数据库模式中的其余列也必须是大数据库模式的子数据库模式。
-这由构造函数 `cons` 表示。
+这由子 `cons` 表示。
 
 ```lean
 {{#example_decl Examples/DependentTypes/DB.lean Subschema}}
@@ -300,7 +300,7 @@ That interlude uses `by simp` to provide evidence of various propositions. -->
 <!-- In this context, two tactics are useful:
  * The `constructor` tactic instructs Lean to solve the problem using the constructor of a datatype.
  * The `repeat` tactic instructs Lean to repeat a tactic over and over until it either fails or the proof is finished. -->
-在这种情况下，两种策术是有用的：
+此时，两种策术是有用的：
  * `constructor` 策术指示 Lean 使用数据类型的构造子解决问题。
  * `repeat` 策术指示 Lean 重复一个策术，直到它失败或证明完成。
  
@@ -325,7 +325,7 @@ In this case, `constructor` caused `Subschema.cons` to be applied, and the two g
 Adding another instance of `constructor` causes the first goal (`HasCol peak \"location\" DBType.string`) to be addressed with `HasCol.there`, because `peak`'s first column is not `"location"`: -->
 以 `unsolved goals` 开头的错误描述了策术未能完全构建它们应该构建的表达式。
 在 Lean 的策略语言中，**证明目标（goal）** 是策术需要通过构造适当的表达式来实现的类型。
-在这种情况下，`constructor` 导致应用 `Subschema.cons`，两个目标表示 `cons` 期望的两个参数。
+在这种情形下，`constructor` 导致应用 `Subschema.cons`，两个目标表示 `cons` 期望的两个参数。
 添加另一个 `constructor` 实例导致第一个目标（`HasCol peak \"location\" DBType.string`）被 `HasCol.there` 处理，因为 `peak` 的第一列不是 `"location"`：
 
 ```leantac
@@ -350,7 +350,7 @@ Adding another instance of `constructor` causes the first goal (`HasCol peak \"l
 {{#example_decl Examples/DependentTypes/DB.lean notDone4}}
 ```
 <!-- Indeed, a version written without the use of tactics has four constructors: -->
-事实上，一个没有使用策术的版本有四个构造函数：
+事实上，一个没有使用策术的版本有四个构造子：
 
 ```lean
 {{#example_decl Examples/DependentTypes/DB.lean notDone5}}
@@ -395,8 +395,8 @@ In the `nil` case, the smaller schema is `[]`, and `nil` is also evidence that `
 In the `cons` case, which describes how to place one column from `smaller` into `larger`, the placement of the column needs to be adjusted with `there` to account for the new column `c`, and a recursive call adjusts the rest of the columns. -->
 子数据库模式描述了在大数据库模式中找到小数据库模式的每一列的位置。
 `Subschema.addColumn` 必须将这些描述从指向原始的大数据库模式转换为指向扩展后的更大数据库模式。
-在 `nil` 情况下，小数据库模式是 `[]`，`nil` 也是 `[]` 是 `c :: bigger` 的子数据库模式的证据。
-在 `cons` 情况下，它描述了如何将 `smaller` 中的一列放入 `larger`，需要使用 `there` 调整列的放置位置以考虑新列 `c`，递归调用调整其余列。
+在 `nil` 的情形下，小数据库模式是 `[]`，`nil` 也是 `[]` 是 `c :: bigger` 的子数据库模式的证据。
+在 `cons` 的情形下，它描述了如何将 `smaller` 中的一列放入 `larger`，需要使用 `there` 调整列的放置位置以考虑新列 `c`，递归调用调整其余列。
 
 
 <!-- Another way to think about `Subschema` is that it defines a _relation_ between two schemas—the existence of an expression  with type `Subschema bigger smaller` means that `(bigger, smaller)` is in the relation.
@@ -557,8 +557,8 @@ In addition to tables, it includes the following operators:
 ```
 <!-- The `select` constructor requires that the expression used for selection return a Boolean.
 The `product` constructor's type contains a call to `disjoint`, which ensures that the two schemas don't share any names: -->
-`select` 构造函数要求用于选择的表达式返回一个布尔值。
-`product` 构造函数的类型包含对 `disjoint` 的调用，它确保两个数据库模式没有相同的列名：
+`select` 构造子要求用于选择的表达式返回一个布尔值。
+`product` 构造子的类型包含对 `disjoint` 的调用，它确保两个数据库模式没有相同的列名：
 
 ```lean
 {{#example_decl Examples/DependentTypes/DB.lean disjoint}}
@@ -742,7 +742,7 @@ Because the type of the `select` constructor requires that the expression have t
 `select`的实现也非常简洁。
 在执行查询 `q` 后，使用 `List.filter` 删除不满足表达式的行。
 `filter` 需要一个从 `Row s` 到 `Bool` 的函数作为参数，但 `DBExpr.evaluate` 的类型是 `Row s → DBExpr s t → t.asType`。
-但这并不会产生类型错误，因为 `select` 构造器的类型要求表达式的类型为 `DBExpr s .bool`，在这种情况下，`t.asType` 实际上就是 `Bool`。
+但这并不会产生类型错误，因为 `select` 构造器的类型要求表达式的类型为 `DBExpr s .bool`，所以 `t.asType` 实际上就是 `Bool`。
 
 <!-- A query that finds the heights of all mountain peaks with an elevation greater than 500 meters can be written: -->
 一个找到所有海拔高于 500 米的山峰的高度的查询可以写成：
@@ -846,7 +846,7 @@ abbrev NDBType.asType (t : NDBType) : Type :=
 ```
 
 <!-- Use this type in place of `DBType` in `Column` and `DBExpr`, and look up SQL's rules for `NULL` and comparison operators to determine the types of `DBExpr`'s constructors. -->
-在 `Column` 和 `DBExpr` 中使用这种类型代替 `DBType`，并查找 SQL 的 `NULL` 和比较运算符的规则，以确定 `DBExpr` 构造函数的类型。
+在 `Column` 和 `DBExpr` 中使用这种类型代替 `DBType`，并查找 SQL 的 `NULL` 和比较运算符的规则，以确定 `DBExpr` 构造子的类型。
 
 <!-- ### Experimenting with Tactics -->
 ### 尝试策术

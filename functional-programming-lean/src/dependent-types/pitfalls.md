@@ -49,12 +49,12 @@ Starting with a type signature and initial pattern match pointing at placeholder
 {{#example_in Examples/DependentTypes/Pitfalls.lean appendL1}}
 ```
 <!-- The first message, in the `nil` case, states that the placeholder should be replaced by a `Vect` with length `plusL 0 k`: -->
-第一个信息：在 `nil` 情况下，占位符应该被替换为一个长度为 `plusL 0 k` 的 `Vect`：
+第一个信息：在 `nil` 的情形下，占位符应该被替换为一个长度为 `plusL 0 k` 的 `Vect`：
 ```output error
 {{#example_out Examples/DependentTypes/Pitfalls.lean appendL1}}
 ```
 <!-- The second message, in the `cons` case, states that the placeholder should be replaced by a `Vect` with length `plusL (n✝ + 1) k`: -->
-第二个信息：在`cons`情况下，占位符应该被替换为一个长度为`plusL (n✝ + 1) k` 的 `Vect`：
+第二个信息：在`cons`的情形下，占位符应该被替换为一个长度为`plusL (n✝ + 1) k` 的 `Vect`：
 ```output error
 {{#example_out Examples/DependentTypes/Pitfalls.lean appendL2}}
 ```
@@ -62,7 +62,7 @@ Starting with a type signature and initial pattern match pointing at placeholder
 Behind the scenes, pattern matching on the first `Vect` implicitly caused the value of the first `Nat` to be refined as well, because the index on the constructor `cons` is `n + 1`, with the tail of the `Vect` having length `n`.
 Here, `n✝` represents the `Nat` that is one less than the argument `n`. -->
 `n` 后面的符号，称为**剑标（dagger）**，用于表示 Lean 内部生成的名称。
-对第一个 `Vect` 的模式匹配隐式导致第一个 `Nat` 的值也被细化，因为构造函数`cons`的索引是`n + 1`，`Vect`的尾部长度为`n`。
+对第一个 `Vect` 的模式匹配隐式导致第一个 `Nat` 的值也被细化，因为构造子`cons`的索引是`n + 1`，`Vect`的尾部长度为`n`。
 在这里，`n✝`表示比参数 `n` 小1的 `Nat`。
 
 
@@ -106,8 +106,8 @@ This means that the type of the second underscore can be equivalently written `V
 <!-- The first case demands a `Vect α k`, and `ys` has that type.
 This is parallel to the way that appending the empty list to any other list returns that other list.
 Refining the definition with `ys` instead of the first underscore yields a program with only one remaining underscore to be filled out: -->
-第一个情况要求一个`Vect α k`，而 `ys` 有这种类型。
-这个情形跟将一个列表附加到一个空列表时直接返回这个列表的情况相似。
+第一个情形要求一个`Vect α k`，而 `ys` 有这种类型。
+这跟将一个列表附加到一个空列表时直接返回这个列表的情况相似。
 用 `ys` 替代第一个下划线后，只剩下一个下划线需要填充：
 
 ```lean
@@ -195,7 +195,7 @@ Until the actual value of `n` becomes known, there is no way to know which case 
 `n` 和 `Nat.plusL 0 n` 是定义相等的原因是 `plusL` 对的**第一个**参数进行模式匹配。
 这会导致别的问题：`(n : Nat) → Vect String n` 与`(n : Nat) → Vect String (Nat.plusL n 0)` 并**不**定义相等，尽管0应该同时是加法的左和右单位元。
 这是因为模式匹配在遇到变量时会卡住。
-在`n`的实际值变得已知之前，没有办法知道应该选择 `Nat.plusL n 0` 的哪种情况。
+在`n`的实际值变得已知之前，没有办法知道应该选择 `Nat.plusL n 0` 的哪种情形。
 
 
 <!-- The same issue appears with the `Row` function in the query example.
@@ -205,7 +205,7 @@ This is why almost every function that takes apart or constructs a `Row` needs t
 同样的问题出现在查询示例中的 `Row` 函数中。
 类型`Row (c :: cs)`不会规约到任何数据类型，因为 `Row` 的定义对单例列表和至少有两个条目的列表的处理方式不同。
 换句话说，当尝试将变量`cs`与具体的`List`构造子匹配时会卡住。
-这就是为什么几乎每个拆分或构造 `Row` 的函数都需要与 `Row` 本身对应的三种情况：为了获得模式匹配或构造子可以使用的具体类型。
+这就是为什么几乎每个拆分或构造 `Row` 的函数都需要与 `Row` 本身对应的三种情形：为了获得模式匹配或构造子可以使用的具体类型。
 
 <!-- The missing case in `appendL` requires a `Vect α (Nat.plusL n k + 1)`.
 The `+ 1` in the index suggests that the next step is to use `Vect.cons`: -->
@@ -316,7 +316,7 @@ A simpler tactic called `rfl` specifically uses definitional equality to prove p
 The name `rfl` is short for _reflexivity_, which is the property of equality that states that everything equals itself. -->
 在[命题、证明和索引](../props-proofs-indexing.md)中，一些相等性命题使用`simp`证明。
 所有这些相等性命题实际上已经定义相等。
-通常，命题相等性的证明是通过首先将它们变成定义相等或接近现有证明的相等性的形式，然后使用像`simp`这样的工具来处理简化的情况。
+通常，命题相等性的证明是通过首先将它们变成定义相等或接近现有证明的相等性的形式，然后使用像`simp`这样的工具来处理简化后的情形。
 `simp`策略非常强大：它使用许多快速的自动化工具来构造证明。
 一个更简单的策略叫做`rfl`，它专门使用定义相等来证明命题相等。
 `rfl`的名称缩写为**反射性（reflexivity）**，它是相等性的一个属性：一切都等于自己。
@@ -379,7 +379,7 @@ In this case, the function is `(· + 1)`: -->
 如果相等性不适用于函数实参，那么它就不是相等性。
 换句话说，如果 `x = y` ，那么 `f x = f y` 。
 标准库包含一个函数`congrArg`，它接受一个函数和一个相等性证明，并返回一个新的证明，其中函数已经应用于等式的两侧。
-在这种情况下，函数是`(· + 1)`：
+在这种情形下，函数是`(· + 1)`：
 
 ```lean
 {{#example_decl Examples/DependentTypes/Pitfalls.lean plusR_zero_left_done}}
@@ -465,7 +465,7 @@ For example, in the `nil` case in a `match` expression on a `Vect`, the length s
 Definitional equality can be very convenient, because it is always active and does not need to be invoked explicitly. -->
 
 索引族有一个重要的特性：对它们进行模式匹配会影响定义相等性。
-例如，在`Vect`上的`match`表达式中的`nil`情况中，长度会直接**变成**`0`。
+例如，在`Vect`上的`match`表达式中的`nil`情形中，长度会直接**变成**`0`。
 定义相等非常好用，因为它从不需要显式调用。
 
 <!-- However, the use of definitional equality with dependent types and pattern matching has serious software engineering drawbacks.
@@ -510,7 +510,7 @@ Also, indexed datatypes are sometimes exactly the right tool for the job.
 Fluency in their use is an important part of knowing when to use them. -->
 然而，理解索引族是重要的。
 诸如`plusR_zero_left`和`plusR_succ_left`的递归函数实际上是**使用了数学归纳法的证明**。
-递归的基情形对应于归纳的基情况，递归调用则表示对归纳假设的使用。
+递归的基情形对应于归纳的基情形，递归调用则表示对归纳假设的使用。
 更一般地说，Lean 中的新命题通常被定义为证据的归纳类型，这些归纳类型通常具有索引。
 证明定理的过程实际上是在构造具有这些类型的表达式，这个过程与本节中的证明非常相似。
 此外，索引数据类型有时确实是最佳选择。熟练掌握它们的使用是知道何时使用它们的一个重要部分。
