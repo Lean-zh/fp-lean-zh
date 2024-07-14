@@ -174,7 +174,7 @@ For instance, combining the heights of the five highest peaks in Oregon with tho
 In particular, -->
 当列表的长度不同时，结果应该如何呢？
 与许多其他语言一样，Lean 选择忽略长的列表中的额外条目。
-例如，将一个具有俄勒冈州前五座最高峰的高度的列表与一个具有丹麦前三座最高峰的高度的列表合并会产生一个含有三对的列表。
+例如，将一个具有俄勒冈州前五座最高峰的高度的列表与一个具有丹麦前三座最高峰的高度的列表合并会产生一个含有三个有序对的列表。
 ```lean
 {{#example_in Examples/DependentTypes.lean zip2}}
 ```
@@ -263,7 +263,7 @@ This is also a good way to develop a feel for the error messages. -->
    它的类型应该是 `(α → β → γ) → Vect α n → Vect β n → Vect γ n`。
 
  <!-- * Define a function `Vect.unzip` that splits a `Vect` of pairs into a pair of `Vect`s. It should have the type `Vect (α × β) n → Vect α n × Vect β n`. -->
- * 定义一个函数 `Vect.unzip`，它将一个包含对的 `Vect` 分割成两个 `Vect`。它的类型应该是 `Vect (α × β) n → Vect α n × Vect β n`。
+ * 定义一个函数 `Vect.unzip`，它将一个包含有序对的 `Vect` 分割成两个 `Vect`。它的类型应该是 `Vect (α × β) n → Vect α n × Vect β n`。
 
  <!-- * Define a function `Vect.snoc` that adds an entry to the _end_ of a `Vect`. Its type should be `Vect α n → α → Vect α (n + 1)` and `{{#example_in Examples/DependentTypes.lean snocSnowy}}` should yield `{{#example_out Examples/DependentTypes.lean snocSnowy}}`. The name `snoc` is a traditional functional programming pun: it is `cons` backwards. -->
  * 定义一个函数 `Vect.snoc`，它将一个条目添加到 `Vect` 的 **末尾**。它的类型应该是 `Vect α n → α → Vect α (n + 1)`，`{{#example_in Examples/DependentTypes.lean snocSnowy}}` 应该输出 `{{#example_out Examples/   DependentTypes.lean snocSnowy}}`。`snoc` 这个名字是函数式编程常见的习语：将 `cons` 倒过来写。

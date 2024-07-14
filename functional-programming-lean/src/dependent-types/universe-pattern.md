@@ -45,7 +45,7 @@ For instance, a program that deserializes the types in this universe from a stri
 <!-- Like any other data, codes may be recursive.
 The type `NestedPairs` codes for any possible nesting of the pair and natural number types: -->
 与任何其他数据一样，编码可能是递归的。
-类型 `NestedPairs` 编码了任意嵌套的自然数对：
+类型 `NestedPairs` 编码了任意嵌套的自然数有序对：
 
 ```lean
 {{#example_decl Examples/DependentTypes/Finite.lean NestedPairs}}
@@ -89,7 +89,7 @@ This is useful in a few situations:
  * When an external system inherently limits the types of data that may be provided, and extra flexibility is not desired
  * When additional properties of a type are required over and above the implementation of some operations -->
 Tarski 风格的宇宙 使得 API 仅能用在实现决定好的一组类型上。在一些情况下，这是有用的：
- * 当一个函数应该根据传递的类型不同而有非常不同的表现时—对类型本身无法进行模式匹配，但可以对类型的编码进行模式匹配；
+ * 当一个函数应该根据传递的类型不同而有非常不同的表现时—无法对类型本身进行模式匹配，但可以对类型的编码进行模式匹配；
  * 当外部系统本身就限制了可能提供的数据类型，并且不需要额外的灵活性；
  * 当实现某些操作需要类型的一些额外属性时。
 
@@ -184,7 +184,7 @@ In the case for pairs, the result should be the Cartesian product of the values 
 In other words, every value from `t1` should be paired with every value from `t2`.
 The helper function `List.product` can certainly be written with an ordinary recursive function, but here it is defined using `for` in the identity monad: -->
 `Unit` 只有一个值。`Bool` 有两个值（`true` 和 `false`）。
-对（Pair）则有 `t1` 编码的类型的值和 `t2` 编码的类型的值的笛卡尔积。换句话说，`t1` 的每个值都应该与 `t2` 的每个值配对。 辅助函数 `List.product` 可以用普通的递归函数编写，但这里恒等单子中定义`for`实现：
+有序对的值则是 `t1` 编码的类型的值和 `t2` 编码的类型的值的笛卡尔积。换句话说，`t1` 的每个值都应该与 `t2` 的每个值配对。 辅助函数 `List.product` 可以用普通的递归函数编写，但这里恒等单子中定义`for`实现：
 
 ```lean
 {{#example_decl Examples/DependentTypes/Finite.lean ListProduct}}
@@ -228,7 +228,7 @@ This means that one function is generated for each potential input. -->
 <!-- Generating the functions from pairs can be achieved by taking advantage of currying.
 A function from a pair can be transformed into a function that takes the first element of the pair and returns a function that's waiting for the second element of the pair.
 Doing this allows `Finite.functions` to be used recursively in this case: -->
-从 对 中生成函数可以通过利用柯里化来实现：把这个函数转化为一个接受对的第一个元素并返回一个等待对的第二个元素的函数。
+从有序对中生成函数可以通过利用柯里化来实现：把这个函数转化为一个接受有序对的第一个元素并返回一个等待有序对的第二个元素的函数。
 这样做允许在这种情况下递归使用 `Finite.functions`：
 
 ```lean
