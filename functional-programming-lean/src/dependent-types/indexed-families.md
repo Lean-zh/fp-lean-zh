@@ -245,7 +245,7 @@ Indeed, adding a case that uses `nil` and `cons` together is a type error, becau
 <!-- Getting a feel for programming with dependent types requires experience, and the exercises in this section are very important.
 For each exercise, try to see which mistakes the type checker can catch, and which ones it can't, by experimenting with the code as you go.
 This is also a good way to develop a feel for the error messages. -->
-熟悉使用依赖类型编程需要经验，本节的练习非常重要。
+熟悉使用依值类型编程需要经验，本节的练习非常重要。
 对于每个练习，尝试看看类型检查器可以捕捉到哪些错误，哪些错误它无法捕捉。
 请通过实验代码来进行尝试。 这也是培养理解错误信息能力的好方法。
 

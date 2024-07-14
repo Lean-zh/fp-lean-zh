@@ -122,7 +122,7 @@ Lean的类型检查器必须不时检查两个类型是否应该被视为可互�
 Definitional equality is simple, but automatic, while propositional equality is manual, but expressive.
 Propositional equality can be used to unstick otherwise-stuck programs in types. -->
 这两种相等性概念代表了程序员和 Lean 之间的分工。
-定义相等性简单但自动，命题相等性手动的但表达力强。
+定义相等性简单但自动，命题相等性手动但表达力强。
 命题相等性可以用于解套类型中的一些卡住的程序
 （比如因为无法对变量求值）。
 
