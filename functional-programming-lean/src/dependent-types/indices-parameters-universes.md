@@ -10,7 +10,7 @@ Experimenting with error messages is a good way to illustrate these rules, as we
 归纳类型的形参和索引的区别不仅仅是这些实参在构造子之间相同还是不同。
 当确定宇宙层级之间的关系时，归纳类型实参是形参还是索引也很重要：
 归纳类型的宇宙层级可能与形参相同，但必须比其索引更大。
-这种限制是为了确保 Lean 除了作为编程语言还可以作为定理证明其——否则，Lean 的逻辑将是不一致的。
+这种限制是为了确保 Lean 除了作为编程语言还可以作为定理证明器——否则，Lean 的逻辑将是不一致的。
 我们将通过展示不同例子输出的错误信息来阐释决定以下两者的具体规则：宇宙层级和某个实参应该被视为形参还是索引。
 
 <!-- Generally speaking, the definition of an inductive type takes its parameters before a colon and its indices after the colon.
