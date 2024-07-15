@@ -9,7 +9,7 @@ Experimenting with error messages is a good way to illustrate these rules, as we
 
 归纳类型的参量和索引的区别不仅仅是这些参数在构造子之间相同还是不同。
 当确定宇宙层级之间的关系时，归纳类型参数是参量还是索引也很重要：
-归纳类型的宇宙层级可能与参量相同，但必须比其索引更大。
+归纳类型的宇宙层级可以与参量相同，但必须比其索引更大。
 这种限制是为了确保 Lean 除了作为编程语言还可以作为定理证明器——否则，Lean 的逻辑将是不一致的。
 我们将通过展示不同例子输出的错误信息来阐释决定以下两者的具体规则：宇宙层级和某个参数应该被视为参量还是索引。
 
@@ -17,7 +17,7 @@ Experimenting with error messages is a good way to illustrate these rules, as we
 Parameters are given names like function arguments, whereas indices only have their types described.
 This can be seen in the definition of `Vect`: -->
 通常来说，在归纳类型定义中出现在冒号之前的被当作参量，出现在冒号之后的被当作索引。
-参量像函数参数一样不仅有类型还有命名，而索引只有类型。
+参量像函数参数可以给出类型和名字，而索引只能给出类型。
 如 `Vect` 的定义所示：
 
 ```lean

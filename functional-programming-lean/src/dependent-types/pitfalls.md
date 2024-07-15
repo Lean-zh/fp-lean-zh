@@ -306,7 +306,7 @@ Similarly, definitional equality is invoked automatically by the type checker, w
 定义相等性只规定了很有限的相等性，所以它可以被算法自动地检查。
 命题相等性要丰富得多，但计算机通常无法检查两个表达式是否命题相等，尽管它可以验证所谓的证明是否实际上是一个证明。
 定义相等和命题相等之间的分裂代表了人类和机器之间的分工：最无聊的相等性作为定义相等的一部分被自动检查，从而使人类思维可以处理命题相等中可用的有趣问题。
-同样，定义相等由类型检查器自动调用，而命题相等必须明确地被呼吁。
+同样，定义相等性由类型检查器自动调用，而命题相等必须明确地被调用。
 
 <!-- In [Propositions, Proofs, and Indexing](../props-proofs-indexing.md), some equality statements are proved using `simp`.
 All of these equality statements are ones in which the propositional equality is in fact already a definitional equality.

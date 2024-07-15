@@ -79,7 +79,7 @@ Attempting to appeal directly to the `BEq` instances rather than explaining to L
 <!-- Type classes allow an open-ended collection of types to be used with an API as long as they have implementations of the necessary interfaces.
 In most cases, this is preferable.
 It is hard to predict all use cases for an API ahead of time, and type classes are a convenient way to allow library code to be used with more types than the original author expected. -->
-类型类 使得 API 可以被用在任何类型上，只要这些类型实现了必要的接口。
+类型类使得 API 可以被用在任何类型上，只要这些类型实现了必要的接口。
 在大多数情况下，这是更合适的做法，因为很难提前预测 API 的所有用例。
 类型类允许库代码被原始作者预期之外的更多类型使用。
 
@@ -88,7 +88,7 @@ This is useful in a few situations:
  * When a function should act very differently depending on which type it is passed—it is impossible to pattern match on types themselves, but pattern matching on codes for types is allowed
  * When an external system inherently limits the types of data that may be provided, and extra flexibility is not desired
  * When additional properties of a type are required over and above the implementation of some operations -->
-Tarski 风格的宇宙 使得 API 仅能用在实现决定好的一组类型上。在一些情况下，这是有用的：
+Tarski 风格的宇宙使得 API 仅能用在实现决定好的一组类型上。在一些情况下，这是有用的：
  * 当一个函数应该根据传递的类型不同而有非常不同的表现时—无法对类型本身进行模式匹配，但可以对类型的编码进行模式匹配；
  * 当外部系统本身就限制了可能提供的数据类型，并且不需要额外的灵活性；
  * 当实现某些操作需要类型的一些额外属性时。
@@ -130,7 +130,7 @@ This is not a _fast_ method, but it does complete in finite time. -->
 {{#example_decl Examples/DependentTypes/Finite.lean Finite}}
 ```
 <!-- In this universe, the constructor `arr` stands for the function type, which is written with an `arr`ow. -->
-在这个宇宙中，构造子 `arr` 表示函数类型，用一个 `arr`ow 表示。
+在这个宇宙中，构造子 `arr` 表示函数类型，用一个 `arr`ow 表示。 <!-- TODO -->
 
 <!-- Comparing two values from this universe for equality is almost the same as in the `NestedPairs` universe.
 The only important difference is the addition of the case for `arr`, which uses a helper called `Finite.enumerate` to generate every value from the type coded for by `t1`, checking that the two functions return equal results for every possible input: -->
@@ -170,7 +170,7 @@ This function can be used to compare functions on the Booleans for equality: -->
 {{#example_out Examples/DependentTypes/Finite.lean arrBoolBoolEq3}}
 ```
 <!-- This is because the `Finite` universe codes for Lean's _actual_ function type, not a special analogue created by the library. -->
-这是因为 `Finite` 宇宙编码了 Lean 的 **实际** 函数类型，而非某些特殊的近似。
+这是因为 `Finite` 宇宙编码了 Lean 的**实际**函数类型，而非某些特殊的近似。
 
 <!-- The implementation of `enumerate` is also by recursion on the codes from `Finite`. -->
 `enumerate` 的实现也是通过对 `Finite` 的编码进行递归。

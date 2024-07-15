@@ -15,7 +15,7 @@ When the query changes, so does the type that results from running it, enabling 
 
 <!-- When a function's return type depends on a value, analyzing the value with pattern matching can result in the type being _refined_, as a variable that stands for a value is replaced by the constructors in the pattern.
 The type signature of a function documents the way that the return type depends on the argument value, and pattern matching then explains how the return type can be fulfilled for each potential argument. -->
-当函数的返回类型取决于一个值时，使用模式匹配分析值可能导致类型被_细化_，因为代表值的变量被模式中的构造子替换。
+当函数的返回类型取决于一个值时，使用模式匹配分析值可能导致类型被**细化**，因为代表值的变量被模式中的构造子替换。
 函数的类型签名记录了返回类型如何取依赖于参数的值，
 所以模式匹配解释了返回类型如何根据不同的潜在参数变成一个更具体的类型。
 <!-- TODO -->
@@ -67,7 +67,7 @@ Defining a custom universe has a number of advantages over using the types direc
 For a given choice of index, only some constructors of the datatype are available.
 As an example, `Vect.nil` is available only when the length index is `0`, and `Vect.cons` is available only when the length index is `n+1` for some `n`.
 While parameters are typically written as named arguments before the colon in a datatype declaration, and indices as arguments in a function type after the colon, Lean can infer when an argument after the colon is used as a parameter. -->
-数据类型可以接受两种不同类型的参数：**参量（parameter）** 在每个构造子都是相同的，而 **索引（index）** 则允许在不同构造子间不同。
+数据类型可以接受两种不同类型的参数：**参量（parameter）** 在每个构造子都是相同的，而 **索引（index）** 则可以在不同构造子间不同。
 特定的索引意味着只有特定的构造子可用。
 例如，`Vect.nil` 仅在长度索引为 `0` 时可用，而 `Vect.cons` 仅在长度索引为 `n+1` 时可用。
 虽然参量通常以命名参数写在数据类型声明中的冒号前，索引写在冒号后（作为某个函数类型的参数），但 Lean 可以推断冒号后的参数何时被用作参量。
