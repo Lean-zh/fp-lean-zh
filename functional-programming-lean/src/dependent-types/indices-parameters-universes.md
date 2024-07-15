@@ -62,7 +62,7 @@ Lean 会尝试识别像索引一样出现在冒号之后，但像形参一样使
 
 <!-- When a parameter is not named in the initial datatype declaration, different names may be used for it in each constructor, so long as they are used consistently.
 The following declaration is accepted: -->
-当一个形参在数据类型的声明中没有命名时，可以在每个构造函数中使用不同的名称，只要它们的使用是一致的。
+当一个形参在数据类型的声明中没有命名时，可以在每个构造子中使用不同的名称，只要它们的使用是一致的。
 以下声明被接受：
 
 ```lean

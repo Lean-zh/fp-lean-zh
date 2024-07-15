@@ -5,7 +5,7 @@
 For instance, `List` takes an argument that determines the type of the entries in the list, and `Except` takes arguments that determine the types of the exceptions or values.
 These type arguments, which are the same in every constructor of the datatype, are referred to as _parameters_. -->
 多态归纳类型接受类型实参。
-例如，`List` 接受一个类型实参以决定列表中条目的类型，而 `Except` 接受一个类型实参以决定异常或值的类型。
+例如，`List` 接受一个类型实参以决定列表中条目的类型，而 `Except` 接受两个类型实参以决定异常或值的类型。
 这些在数据类型的每个构造子中都一致的类型实参，被称为 **形参（parameters)**。
 
 <!-- Arguments to inductive types need not be the same in every constructor, however.
