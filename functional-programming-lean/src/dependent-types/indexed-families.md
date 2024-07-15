@@ -4,9 +4,9 @@
 <!-- Polymorphic inductive types take type arguments.
 For instance, `List` takes an argument that determines the type of the entries in the list, and `Except` takes arguments that determine the types of the exceptions or values.
 These type arguments, which are the same in every constructor of the datatype, are referred to as _parameters_. -->
-多态归纳类型接受类型实参。
-例如，`List` 接受一个类型实参以决定列表中条目的类型，而 `Except` 接受两个类型实参以决定异常或值的类型。
-这些在数据类型的每个构造子中都一致的类型实参，被称为 **形参（parameters)**。
+多态归纳类型接受类型参数。
+例如，`List` 接受一个类型参数以决定列表中条目的类型，而 `Except` 接受两个类型参数以决定异常或值的类型。
+这些在数据类型的每个构造子中都一致的类型参数，被称为 **参量（parameters)**。
 
 <!-- Arguments to inductive types need not be the same in every constructor, however.
 Inductive types in which the arguments to the type vary based on the choice of constructor are called _indexed families_, and the arguments that vary are referred to as _indices_.
@@ -14,7 +14,7 @@ The "hello world" of indexed families is a type of lists that contains the lengt
 ```lean
 {{#example_decl Examples/DependentTypes.lean Vect}}
 ``` -->
-然而，归纳类型中每个构造子的接受的类型实参并不一定要相同。这种不同构造子可以接受不同类型作为实参的归纳类型被称为 **索引族（indexed families)**，而这些不同的实参被称为 **索引（indices)**。
+然而，归纳类型中每个构造子的接受的类型参数并不一定要相同。这种不同构造子可以接受不同类型作为参数的归纳类型被称为 **索引族（indexed families)**，而这些不同的参数被称为 **索引（indices)**。
 索引族最为人熟知的例子是**向量（vectors)**类型：这个类型类似列表类型，但它除了包含列表中元素的类型，还包含列表的长度。这种类型在 Lean 中的定义如下：
 
 ```lean
@@ -24,9 +24,9 @@ The "hello world" of indexed families is a type of lists that contains the lengt
 <!-- Function declarations may take some arguments before the colon, indicating that they are available in the entire definition, and some arguments after, indicating a desire to pattern-match on them and define the function case by case.
 Inductive datatypes have a similar principle: the argument `α` is named at the top of the datatype declaration, prior to the colon, which indicates that it is a parameter that must be provided as the first argument in all occurrences of `Vect` in the definition, while the `Nat` argument occurs after the colon, indicating that it is an index that may vary.
 Indeed, the three occurrences of `Vect` in the `nil` and `cons` constructor declarations consistently provide `α` as the first argument, while the second argument is different in each case. -->
-函数声明可以在冒号之前接受一些实参，表示这些实参在整个定义中都是可用的，也可以在冒号之后接受一些实参，函数会对它们进行模式匹配，并根据不同情形定义不同的函数体。
-归纳数据类型也有类似的原则：以 `Vect` 为例，在其顶部的数据类型声明中，实参 `α` 出现在冒号之前，表示它是一个必须提供的形参，而在冒号之后出现的 `Nat` 实参表示它是一个索引，（在不同的构造子中）可以变化。
-事实上，在 `nil` 和 `cons` 构造子的声明中，三个出现 `Vect` 的地方都将 `α` 作为第一个实参提供，而第二个实参在每种情形下都不同。
+函数声明可以在冒号之前接受一些参数，表示这些参数在整个定义中都是可用的，也可以在冒号之后接受一些参数，函数会对它们进行模式匹配，并根据不同情形定义不同的函数体。
+归纳数据类型也有类似的原则：以 `Vect` 为例，在其顶部的数据类型声明中，参数 `α` 出现在冒号之前，表示它是一个必须提供的参量，而在冒号之后出现的 `Nat` 参数表示它是一个索引，（在不同的构造子中）可以变化。
+事实上，在 `nil` 和 `cons` 构造子的声明中，三个出现 `Vect` 的地方都将 `α` 作为第一个参数提供，而第二个参数在每种情形下都不同。
 
 <!-- The declaration of `nil` states that it is a constructor of type `Vect α 0`.
 This means that using `Vect.nil` in a context expecting a `Vect String 3` is a type error, just as `[1, 2, 3]` is a type error in a context that expects a `List String`: -->
@@ -80,7 +80,7 @@ The type that says this precisely is: -->
 
 <!-- The argument `n` appears as the length of the result.
 The message associated with the underscore placeholder describes the task at hand: -->
-实参 `n` 出现在结果的类型的长度中。
+参数 `n` 出现在结果的类型的长度中。
 以下消息描述了下划线占位符对应的任务：
 ```output error
 {{#example_out Examples/DependentTypes.lean replicateStart}}
@@ -92,7 +92,7 @@ Just as in the example type errors, the variable `n` could stand for either, dep
 The solution is to use pattern matching to consider both of the possible cases: -->
 当编写使用索引族的程序时时，只有当 Lean 能够确定构造子的索引与期望类型中的索引匹配时，才能使用该构造子。
 然而，两个构造子的索引与 `n` 均不匹配——`nil` 匹配 `Nat.zero`，而 `cons` 匹配 `Nat.succ`。
-就像在上面的类型错误示例中的情况一样，变量 `n` 可能代表其中一个，取决于具体调用函数时 `Nat` 实参的值。
+就像在上面的类型错误示例中的情况一样，变量 `n` 可能代表其中一个，取决于具体调用函数时 `Nat` 参数的值。
 解决这一问题的方案是利用模式匹配来同时考虑两种情形：
 
 ```lean
@@ -212,7 +212,7 @@ The Lean equivalent, which would use the `Option` or `Except` monads, would intr
 {{#example_decl Examples/DependentTypes.lean VectZip}}
 ```
 <!-- This definition only has patterns for the cases where either both arguments are `Vect.nil` or both arguments are `Vect.cons`, and Lean accepts the definition without a "missing cases" error like the one that results from a similar definition for `List`: -->
-这个定义只需要考虑两个实参都是 `Vect.nil` 或都是 `Vect.cons` 的情形。Lean 接受这个定义，而不会像 `List` 的类似定义那样产生一个“存在缺失情形”的错误：
+这个定义只需要考虑两个参数都是 `Vect.nil` 或都是 `Vect.cons` 的情形。Lean 接受这个定义，而不会像 `List` 的类似定义那样产生一个“存在缺失情形”的错误：
 ```lean
 {{#example_in Examples/DependentTypes.lean zipMissing}}
 ```
@@ -234,7 +234,7 @@ Indeed, adding a case that uses `nil` and `cons` together is a type error, becau
 {{#example_out Examples/DependentTypes.lean zipExtraCons}}
 ```
 <!-- The refinement of the length can be observed by making `n` into an explicit argument: -->
-长度的细化可以通过将 `n` 变成一个显式实参来观察：
+长度的细化可以通过将 `n` 变成一个显式参数来观察：
 ```lean
 {{#example_decl Examples/DependentTypes.lean VectZipLen}}
 ```
@@ -259,7 +259,7 @@ This is also a good way to develop a feel for the error messages. -->
 
  <!-- * Define a function `Vect.zipWith` that combines the entries in a `Vect` one at a time with a function.
    It should have the type `(α → β → γ) → Vect α n → Vect β n → Vect γ n`. -->
- * 定义一个函数 `Vect.zipWith`，它将一个接受两个实参的函数依次作用在两个 `Vect` 中的每一项上。
+ * 定义一个函数 `Vect.zipWith`，它将一个接受两个参数的函数依次作用在两个 `Vect` 中的每一项上。
    它的类型应该是 `(α → β → γ) → Vect α n → Vect β n → Vect γ n`。
 
  <!-- * Define a function `Vect.unzip` that splits a `Vect` of pairs into a pair of `Vect`s. It should have the type `Vect (α × β) n → Vect α n × Vect β n`. -->

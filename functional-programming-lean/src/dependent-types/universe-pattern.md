@@ -115,11 +115,11 @@ But functions from finite types require only finitely many rows in their tables,
 Two functions whose argument type is finite can be checked for equality by enumerating all possible arguments, calling the functions on each of them, and then comparing the results.
 Checking higher-order functions for equality requires generating all possible functions of a given type, which additionally requires that the return type is finite so that each element of the argument type can be mapped to each element of the return type.
 This is not a _fast_ method, but it does complete in finite time. -->
-换句话说，实参类型为无限类型的函数本身也是无限类型。
-函数可以被视为表格，实参类型为无限类型的函数需要无限多行来描述每种情形。
-但来实参类型为限类型的函数只需要有限行，意味着该函数类型也是有限类型。
-如果两个函数的实参类型均为有限类型，则可以通过枚举实参所有的可能性，然后比较它们在所有这些输入下的输出结果来检查它们是否相等。
-检查高阶函数是否相等需要生成给定类型的所有可能函数，此外还需要返回类型是有限的，以便将实参类型的每个元素映射到返回类型的每个元素。
+换句话说，参数类型为无限类型的函数本身也是无限类型。
+函数可以被视为表格，参数类型为无限类型的函数需要无限多行来描述每种情形。
+但来参数类型为限类型的函数只需要有限行，意味着该函数类型也是有限类型。
+如果两个函数的参数类型均为有限类型，则可以通过枚举参数所有的可能性，然后比较它们在所有这些输入下的输出结果来检查它们是否相等。
+检查高阶函数是否相等需要生成给定类型的所有可能函数，此外还需要返回类型是有限的，以便将参数类型的每个元素映射到返回类型的每个元素。
 这不是一种 **快速** 的方法，但它确实在有限时间内完成。
 
 
@@ -190,14 +190,14 @@ The helper function `List.product` can certainly be written with an ordinary rec
 {{#example_decl Examples/DependentTypes/Finite.lean ListProduct}}
 ```
 <!-- Finally, the case of `Finite.enumerate` for functions delegates to a helper called `Finite.functions` that takes a list of all of the return values to target as an argument. -->
-最后，`Finite.enumerate` 将对函数的情形的处理委托给一个名为 `Finite.functions` 的辅助函数，该函数将返回类型的所有值的列表作为实参。
+最后，`Finite.enumerate` 将对函数的情形的处理委托给一个名为 `Finite.functions` 的辅助函数，该函数将返回类型的所有值的列表作为参数。
 
 
 <!-- Generally speaking, generating all of the functions from some finite type to a collection of result values can be thought of as generating the functions' tables.
 Each function assigns an output to each input, which means that a given function has \\( k \\) rows in its table when there are \\( k \\) possible arguments.
 Because each row of the table could select any of \\( n \\) possible outputs, there are \\( n ^ k \\) potential functions to generate. -->
 简单来说，生成从某个有限类型到结果的值的所有函数可以被认为是生成函数的表格。
-每个函数将一个输出分配给每个输入，这意味着当有 \\( k \\) 个可能的实参时，给定函数的表格有 \\( k \\) 行。
+每个函数将一个输出分配给每个输入，这意味着当有 \\( k \\) 个可能的参数时，给定函数的表格有 \\( k \\) 行。
 因为表格的每一行都可以选择 \\( n \\) 个可能的输出中的任何一个，所以有 \\( n ^ k \\) 个潜在的函数要生成。
 
 
@@ -248,13 +248,13 @@ This suggests a means of constructing the higher-order functions:
 生成高阶函数有点烧脑。
 一个函数可以根据其输入/输出行为与其他函数区分开来。
 高阶函数的输入行为则又依赖于其函数参数的输入/输出行为：
-因此高阶函数的所有行为可以表示为将函数实参应用于所有它所有可能的输入值，然后根据该函数应用的结果的不同产生不同的行为。
+因此高阶函数的所有行为可以表示为将函数参数应用于所有它所有可能的输入值，然后根据该函数应用的结果的不同产生不同的行为。
 这提供了一种构造高阶函数的方法：
- * 构造实参函数 `t1 → t2` 的实参 `t1` 的所有可能值。
- * 对于每个可能的值，构造可以由应用实参函数到可能的实参的观察结果产生的所有可能行为。
-    这可以使用 `Finite.functions` 和对其余实参的递归来完成，因为递归的结果表示基于其余可能实参的观察的函数。`Finite.functions` 根据当前对实参的观察构造所有实现这些方式的方法。
- * 对基于每个观察结果的潜在行为，构造一个将函数实参应用于当前可能实参的高阶函数。然后将此结果传递给观察行为。
- * 递归的基情形是对每个结果值观察无事可做的高阶函数——它忽略函数实参，只是返回结果值。
+ * 构造参数函数 `t1 → t2` 的参数 `t1` 的所有可能值。
+ * 对于每个可能的值，构造可以由应用参数函数到可能的参数的观察结果产生的所有可能行为。
+    这可以使用 `Finite.functions` 和对其余参数的递归来完成，因为递归的结果表示基于其余可能参数的观察的函数。`Finite.functions` 根据当前对参数的观察构造所有实现这些方式的方法。
+ * 对基于每个观察结果的潜在行为，构造一个将函数参数应用于当前可能参数的高阶函数。然后将此结果传递给观察行为。
+ * 递归的基情形是对每个结果值观察无事可做的高阶函数——它忽略函数参数，只是返回结果值。
 <!-- TODO -->
 
 <!-- Defining this recursive function directly causes Lean to be unable to prove that the whole function terminates.
@@ -263,7 +263,7 @@ A right fold takes three arguments: a step function that combines the head of th
 It then analyzes the list, essentially replacing each `::` in the list with a call to the step function and replacing `[]` with the default value: -->
 直接定义这个递归函数导致 Lean 无法证明整个函数终止。
 然而，一种更简单的递归形式，**右折叠（right fold）**，可以让终止检查器明确地知道函数终止。
-右折叠接受三个实参：（1）步骤函数，它将列表的头与对尾部的递归得到的结果组合在一起；（2）列表为空时的默认值；（3）需要处理的列表。
+右折叠接受三个参数：（1）步骤函数，它将列表的头与对尾部的递归得到的结果组合在一起；（2）列表为空时的默认值；（3）需要处理的列表。
 这个函数会分析列表，将列表中的每个 `::` 替换为对步骤函数的调用，并将 `[]` 替换为默认值：
 
 ```lean

@@ -196,8 +196,8 @@ Eventually, if a column is later in a schema, then it will be the beginning of s
 All three are indices, but re-ordering the arguments to place the schema after the column name and type would allow the name and type to be parameters.
 The constructor `here` can be used when the schema begins with the column `⟨name, t⟩`; it is thus a pointer to the first column in the schema that can only be used when the first column has the desired name and type.
 The constructor `there` transforms a pointer into a smaller schema into a pointer into a schema with one more column on it. -->
-这个族的三个实参是数据库模式、列名和它的类型。
-所有三个参数都是索引，但重新排列实参，将数据库模式放在列名和类型之后，可以使列名和类型成为形参。
+这个族的三个参数是数据库模式、列名和它的类型。
+所有三个参数都是索引，但重新排列参数，将数据库模式放在列名和类型之后，可以使列名和类型成为参量。
 当数据库模式以列 `⟨name, t⟩` 开头时，可以使用构造子 `here`：它是一个指向当前数据库模式的第一列的指针，只有当第一列具有所需的名称和类型时才能使用。
 构造子 `there` 将一个指向较小数据库模式的指针转换为一个指向在头部包含在一个额外列的数据库模式的指针。
 
@@ -445,7 +445,7 @@ Because expressions can refer to columns from the database, but different sub-ex
 Additionally, each expression has a type, and these vary, making it an index: -->
 示例查询语言包含表达式，类似于 SQL 中可以写在 `WHERE` 子句中的内容。
 表达式由索引族 `DBExpr` 表示。
-表达式可以引用数据库中的列，但不同的子表达式都有相同的数据库模式。`DBExpr` 以数据库模式作为形参。
+表达式可以引用数据库中的列，但不同的子表达式都有相同的数据库模式。`DBExpr` 以数据库模式作为参量。
 此外，每个表达式都有一个类型，这些类型不同，所以这是一个索引：
 
 ```lean
@@ -615,7 +615,7 @@ When the first row contains multiple columns, the first column's value is added 
 ```
 
 <!-- `List.flatMap` applies a function that itself returns a list to every entry in an input list, returning the result of appending the resulting lists in order: -->
-`List.flatMap` 接受两个一个函数实参和一个列表，函数对列表中的每一项均会返回一个列表，然后`List.flatMap`按将列表的列表含顺序依次附加：
+`List.flatMap` 接受两个一个函数参数和一个列表，函数对列表中的每一项均会返回一个列表，然后`List.flatMap`按将列表的列表含顺序依次附加：
 
 ```lean
 {{#example_decl Examples/DependentTypes/DB.lean ListFlatMap}}
@@ -688,7 +688,7 @@ Removing the entries of a table can be done using the helper `List.without`: -->
 From a run-time perspective, `renameRow` is nothing but a slow identity function.
 One difficulty in programming with indexed families is that when performance matters, this kind of operation can get in the way.
 It takes a very careful, often brittle, design to eliminate these kinds of "re-indexing" functions. -->
-这个函数改变了其实参的 **类型**，但实际返回的数据完全相同。
+这个函数改变了其参数的 **类型**，但实际返回的数据完全相同。
 从运行时的角度看，`renameRow` 只是一个拖慢运行的恒等函数。
 这暗示了使用索引族进行编程时的一个常见问题，当性能很重要时，这种操作可能会造成不必要的性能损失。
 需要非常小心，但通常很脆弱的设计来消除这种 **重新索引** 函数。
@@ -723,10 +723,10 @@ Once again, this function only exists to change the type of a value. -->
 In particular, both the constructor `project` and the function `Row.project` take the smaller schema as explicit arguments, but the type of the _evidence_ that this schema is a subschema of the larger schema contains enough information for Lean to fill out the argument automatically.
 Similarly, the fact that the two tables have disjoint column names that is required by the `product` constructor is not needed by `Table.cartesianProduct`.
 Generally speaking, dependent types provide many opportunities to have Lean fill out arguments on behalf of the programmer. -->
-构造子的一些实参在执行过程中没有被用到。
+构造子的一些参数在执行过程中没有被用到。
 特别是，构造器 `project` 和函数 `Row.project` 都将较小的数据库模式作为显式参数，但表明这个数据库模式是较大数据库模式的子数据库模式的 **证据** 的类型包含足够的信息，以便 Lean 自动填充参数。
 类似地，`product` 构造子要求两个表具有不同的列名，但 `Table.cartesianProduct` 不需要。
-一般来说，依值类型编程中让 Lean 可以代替程序员自己填写很多实参。
+一般来说，依值类型编程中让 Lean 可以代替程序员自己填写很多参数。
 
 <!-- Dot notation is used with the results of queries to call functions defined both in the `Table` and `List` namespaces, such `List.map`, `List.filter`, and `Table.cartesianProduct`.
 This works because `Table` is defined using `abbrev`.

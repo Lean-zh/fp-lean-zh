@@ -21,17 +21,17 @@ When the function is used in a type, however, the internals of the function's im
 <!-- As an example, take the following two implementations of addition on `Nat`.
 `Nat.plusL` is recursive on its first argument: -->
 以 `Nat` 上的加法的两个实现为例。
-`Nat.plusL` 对第一个实参进行递归：
+`Nat.plusL` 对第一个参数进行递归：
 ```lean
 {{#example_decl Examples/DependentTypes/Pitfalls.lean plusL}}
 ```
 <!-- `Nat.plusR`, on the other hand, is recursive on its second argument: -->
-`Nat.plusR` 则对第二个实参进行递归：
+`Nat.plusR` 则对第二个参数进行递归：
 ```lean
 {{#example_decl Examples/DependentTypes/Pitfalls.lean plusR}}
 ```
 <!-- Both implementations of addition are faithful to the underlying mathematical concept, and they thus return the same result when given the same arguments. -->
-两种加法的实现都与数学概念一致，因此在给定相同实参时返回相同的结果。
+两种加法的实现都与数学概念一致，因此在给定相同参数时返回相同的结果。
 
 <!-- However, these two implementations present quite different interfaces when they are used in types.
 As an example, take a function that appends two `Vect`s.
@@ -40,7 +40,7 @@ Because `Vect` is essentially a `List` with a more informative type, it makes se
 Starting with a type signature and initial pattern match pointing at placeholders yields two messages: -->
 然而，当这两种实现用于类型时，它们呈现出非常不同的接口。
 以一个将两个 `Vect` 连接起来的函数为例。
-这个函数应该返回一个长度为两个实参的长度之和的 `Vect`。
+这个函数应该返回一个长度为两个参数的长度之和的 `Vect`。
 因为 `Vect` 本质上是一个带有更多信息的`List`，所以写这个函数类似 `List.append`，对第一个参数进行模式匹配和递归。
 
 让我们给定一个初始的类型签名然后进行模式匹配。占位符给出两条信息：
@@ -170,8 +170,8 @@ To check their equality, both are reduced to `5`, and then the constructor rule 
 Definitional equality of functions applied to data can be checked first by seeing if they're already the same—there's no need to reduce `["a", "b"] ++ ["c"]` to check that it's equal to `["a", "b"] ++ ["c"]`, after all.
 If not, the function is called and replaced with its value, and the value can then be checked. -->
 当函数在类型中被**调用**时，检查定义相等可能涉及规约这些调用。
-类型`Vect String (1 + 4)`与类型`Vect String (3 + 2)`是定义相等的，因为`1 + 4`与`3 + 2`是定义相等的。
-为了检查它们的相等性，两者都被规约为`5`，然后使用五次“构造子”规则。
+类型 `Vect String (1 + 4)` 与类型 `Vect String (3 + 2)` 是定义相等的，因为 `1 + 4` 与 `3 + 2` 是定义相等的。
+为了检查它们的相等性，两者都被规约为`5`，然后使用五次“构造子”规则。 <!-- TODO: ? -->
 检查函数应用于数据的定义相等性可以首先检查它们是否已经相同——例如，检查`["a", "b"] ++ ["c"]`是否等于`["a", "b"] ++ ["c"]`时没有必要进行规约。
 如果不同，调用函数并继续检查结果的定义相等性。
 
@@ -181,8 +181,8 @@ In the type `(n : Nat) → Vect String n`, the variable `n` is a `Nat`, but it i
 Indeed, the function may be called first with `0`, and then later with `17`, and then again with `33`.
 As seen in the definition of `appendL`, variables with type `Nat` may also be passed to functions such as `plusL`.
 Indeed, the type `(n : Nat) → Vect String n` is definitionally equal to the type `(n : Nat) → Vect String (Nat.plusL 0 n)`. -->
-并非所有函数实参都是具体数据。
-例如，类型可能包含不是由`zero`和`succ`构造子构建的`Nat`。
+并非所有函数参数都是具体数据。
+例如，类型可能包含不是由 `zero` 和 `succ` 构造子构建的`Nat`。
 在类型`(n : Nat) → Vect String n`中，变量`n`是一个`Nat`，但在调用函数之前不可能知道它**哪个**`Nat`。
 实际上，函数可能首先用`0`调用，然后用`17`调用，然后再用`33`调用。
 如`appendL`的定义中所见，类型为`Nat`的变量也可以传递给`plusL`等函数。
@@ -193,9 +193,9 @@ This is problematic: `(n : Nat) → Vect String n` is _not_ definitionally equal
 This happens because pattern matching gets stuck when it encounters variables.
 Until the actual value of `n` becomes known, there is no way to know which case of `Nat.plusL n 0` should be selected. -->
 `n` 和 `Nat.plusL 0 n` 是定义相等的原因是 `plusL` 对的**第一个**参数进行模式匹配。
-这会导致别的问题：`(n : Nat) → Vect String n` 与`(n : Nat) → Vect String (Nat.plusL n 0)` 并**不**定义相等，尽管0应该同时是加法的左和右单位元。
+这在别的情况下会导致问题：`(n : Nat) → Vect String n` 与`(n : Nat) → Vect String (Nat.plusL n 0)` 并**不**定义相等，尽管0应该同时是加法的左和右单位元。
 这是因为模式匹配在遇到变量时会卡住。
-在`n`的实际值变得已知之前，没有办法知道应该选择 `Nat.plusL n 0` 的哪种情形。
+在 `n` 的实际值变得已知之前，没有办法知道应该选择 `Nat.plusL n 0` 的哪种情形。
 
 
 <!-- The same issue appears with the `Row` function in the query example.
@@ -265,7 +265,7 @@ Beginning in the same way, with explicit lengths and placeholder underscores in 
 {{#example_out Examples/DependentTypes/Pitfalls.lean appendR3}}
 ```
 <!-- This error is pointing out that `plusR 0 k` and `k` are _not_ definitionally equal. -->
-这个错误指出`plusR 0 k`和`k`**不**定义相等。
+这个错误指出 `plusR 0 k` 和 `k` **不**定义相等。
 
 <!-- This is because `plusR` has the following definition: -->
 这是因为 `plusR` 有以下定义：
@@ -274,7 +274,7 @@ Beginning in the same way, with explicit lengths and placeholder underscores in 
 ```
 <!-- Its pattern matching occurs on the _second_ argument, not the first argument, which means that the presence of the variable `k` in that position prevents it from reducing.
 `Nat.add` in Lean's standard library is equivalent to `plusR`, not `plusL`, so attempting to use it in this definition results in precisely the same difficulties: -->
-它的模式匹配发生在**第二**个实参上，而非第一个，这意味着该位置上的变量`k`阻止了它的规约。
+它的模式匹配发生在**第二**个参数上，而非第一个，这意味着该位置上的变量 `k` 阻止了它的规约。
 Lean 标准库中的 `Nat.add` 等价于 `plusR` ，而不是 `plusL` ，因此尝试在这个定义中使用它会导致完全相同的问题：
 
 ```lean
@@ -304,7 +304,7 @@ Propositional equality is much richer, but the computer cannot in general check 
 The split between definitional and propositional equality represents a division of labor between humans and machines: the most boring equalities are checked automatically as part of definitional equality, freeing the human mind to work on the interesting problems available in propositional equality.
 Similarly, definitional equality is invoked automatically by the type checker, while propositional equality must be specifically appealed to. -->
 定义相等性只规定了很有限的相等性，所以它可以被算法自动地检查。
-命题相等要丰富得多，但计算机通常无法检查两个表达式是否命题相等，尽管它可以验证所谓的证明是否实际上是一个证明。
+命题相等性要丰富得多，但计算机通常无法检查两个表达式是否命题相等，尽管它可以验证所谓的证明是否实际上是一个证明。
 定义相等和命题相等之间的分裂代表了人类和机器之间的分工：最无聊的相等性作为定义相等的一部分被自动检查，从而使人类思维可以处理命题相等中可用的有趣问题。
 同样，定义相等由类型检查器自动调用，而命题相等必须明确地被呼吁。
 
@@ -314,18 +314,18 @@ Typically, statements of propositional equality are proved by first getting them
 The `simp` tactic is quite powerful: behind the scenes, it uses a number of fast, automated tools to construct a proof.
 A simpler tactic called `rfl` specifically uses definitional equality to prove propositional equality.
 The name `rfl` is short for _reflexivity_, which is the property of equality that states that everything equals itself. -->
-在[命题、证明和索引](../props-proofs-indexing.md)中，一些相等性命题使用`simp`证明。
-所有这些相等性命题实际上已经定义相等。
-通常，命题相等性的证明是通过首先将它们变成定义相等或接近现有证明的相等性的形式，然后使用像`simp`这样的工具来处理简化后的情形。
-`simp`策略非常强大：它使用许多快速的自动化工具来构造证明。
-一个更简单的策略叫做`rfl`，它专门使用定义相等来证明命题相等。
-`rfl`的名称缩写为**反射性（reflexivity）**，它是相等性的一个属性：一切都等于自己。
+在[命题、证明和索引](../props-proofs-indexing.md)中，一些相等性命题使用 `simp` 证明。
+那里面的相等性命题实际上已经定义相等。
+通常，命题相等性的证明是通过首先将它们变成定义相等或接近现有证明的相等性的形式，然后使用像 `simp` 这样的策术来处理简化后的情形。
+`simp` 策术非常强大：它使用许多快速的自动化工具来构造证明。
+一个更简单的策术叫做 `rfl` ，它专门使用定义相等来证明命题相等。
+`rfl` 的名称来自**反射性（reflexivity）**的缩写，它是相等性的一个属性：一切都等于自己。
 
 
 <!-- Unsticking `appendR` requires a proof that `k = Nat.plusR 0 k`, which is not a definitional equality because `plusR` is stuck on the variable in its second argument.
 To get it to compute, the `k` must become a concrete constructor.
 This is a job for pattern matching. -->
-解决`appendR`需要一个证明，即`k = Nat.plusR 0 k`。它们并不定义相等，因为`plusR`在第二个实参的变量上卡住了。
+解决`appendR`需要一个证明，即`k = Nat.plusR 0 k`。它们并不定义相等，因为`plusR`在第二个参数的变量上卡住了。
 为了让它计算，`k`必须是一个具体的构造子。
 这时，我们可以使用模式匹配。
 
@@ -347,8 +347,8 @@ Getting it started with initial patterns and placeholders yields the following m
 ```
 <!-- Having refined `k` to `0` via pattern matching, the first placeholder stands for evidence of a statement that does hold definitionally.
 The `rfl` tactic takes care of it, leaving only the second placeholder: -->
-将 `k `通过模式匹配细化为`0`后，第一个占位符需要一个定义相等的命题的证据。
-使用`rfl`策术完成它，只留下第二个占位符：
+将 `k `通过模式匹配细化为 `0` 后，第一个占位符需要一个定义相等的命题的证据。
+使用 `rfl` 策术完成它，只留下第二个占位符：
 
 ```lean
 {{#example_in Examples/DependentTypes/Pitfalls.lean plusR_zero_left3}}
@@ -376,7 +376,7 @@ The standard library contains a function `congrArg` that takes a function and an
 In this case, the function is `(· + 1)`: -->
 在等式命题两侧的 `+ 1` 下面是函数本身返回的另一个实例。
 换句话说，对 `k` 的递归调用将返回 `k = Nat.plusR 0 k` 的证据。
-如果相等性不适用于函数实参，那么它就不是相等性。
+如果相等性不适用于函数参数，那么它就不是相等性。
 换句话说，如果 `x = y` ，那么 `f x = f y` 。
 标准库包含一个函数`congrArg`，它接受一个函数和一个相等性证明，并返回一个新的证明，其中函数已经应用于等式的两侧。
 在这种情形下，函数是`(· + 1)`：
@@ -422,8 +422,8 @@ In other words, the following definition contains no type errors: -->
 This is because `plusR` itself pattern matches on its second argument, so the proof can "unstick" it through pattern matching, exposing the computational behavior.
 The skeleton of the proof is very similar to that of `plusR_zero_left`:-->
 
-证明是一个递归函数，它对 `plusR` 的第二个实参`k`进行模式匹配。
-这是因为 `plusR` 自身也是对第二个实参进行模式匹配，所以证明可以相同的模式匹配解套它，将计算行为暴露出来。
+证明是一个递归函数，它对 `plusR` 的第二个参数 `k` 进行模式匹配。
+这是因为 `plusR` 自身也是对第二个参数进行模式匹配，所以证明可以相同的模式匹配解套它，将计算行为暴露出来。
 证明的框架与`plusR_zero_left`非常相似：
 
 ```lean
@@ -450,7 +450,7 @@ The skeleton of the proof is very similar to that of `plusR_zero_left`:-->
 ```
 <!-- When making the length arguments to `appendR` implicit again, they are no longer explicitly named to be appealed to in the proofs.
 However, Lean's type checker has enough information to fill them in automatically behind the scenes, because no other values would allow the types to match: -->
-如果再次将 `appendR` 的长度实参改成隐式实参，它们在证明中也将不具有显示的名字。
+如果再次将 `appendR` 的长度参数改成隐式参数，它们在证明中也将不具有显示的名字。
 然而，Lean 的类型检查器有足够的信息自动填充它们，只有唯一的值可以使类型匹配：
 
 ```lean
@@ -495,10 +495,10 @@ Instead, subtypes and explicit propositions are typically used to enforce import
 This approach involves many explicit proofs, and very few appeals to definitional equality.
 As befits an interactive theorem prover, Lean has been designed to make explicit proofs convenient.
 Generally speaking, this approach should be preferred in most cases. -->
-在惯用的 Lean 代码中，索引数据类型并不经常使用。
+在惯用的 Lean 代码中，带有索引的数据类型并不经常使用。
 相反，子类型和显式命题通常用于保证重要的不变性。
 这种方法涉及许多显式证明，而很少直接使用定义相等。
-与交互式定理证明器相符，Lean 的很多设计是为了使显式证明方便。
+为了可以被用作一个交互式定理证明器，Lean 的很多设计是为了使显式证明方便。
 一般来说，在大多数情况下，应该优先考虑这种方法。
 
 <!-- However, understanding indexed families of datatypes is important.
@@ -509,7 +509,7 @@ The process of proving theorems is in fact constructing expressions with these t
 Also, indexed datatypes are sometimes exactly the right tool for the job.
 Fluency in their use is an important part of knowing when to use them. -->
 然而，理解索引族是重要的。
-诸如`plusR_zero_left`和`plusR_succ_left`的递归函数实际上是**使用了数学归纳法的证明**。
+诸如 `plusR_zero_left` 和 `plusR_succ_left` 之类的递归函数实际上是**使用了数学归纳法的证明**。
 递归的基情形对应于归纳的基情形，递归调用则表示对归纳假设的使用。
 更一般地说，Lean 中的新命题通常被定义为证据的归纳类型，这些归纳类型通常具有索引。
 证明定理的过程实际上是在构造具有这些类型的表达式，这个过程与本节中的证明非常相似。
