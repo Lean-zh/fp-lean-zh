@@ -144,34 +144,66 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="indices-parameters-and-universe-levels"><a class="header" href="#indices-parameters-and-universe-levels">Indices, Parameters, and Universe Levels</a></h1>
-<p>The distinction between indices and parameters of an inductive type is more than just a way to describe arguments to the type that either vary or do not between the constructors.
+                        <!--
+# Indices, Parameters, and Universe Levels
+-->
+<h1 id="索引参量和宇宙层级"><a class="header" href="#索引参量和宇宙层级">索引、参量和宇宙层级</a></h1>
+<!--
+The distinction between indices and parameters of an inductive type is more than just a way to describe arguments to the type that either vary or do not between the constructors.
 Whether an argument to an inductive type is a parameter or an index also matters when it comes time to determine the relationships between their universe levels.
 In particular, an inductive type may have the same universe level as a parameter, but it must be in a larger universe than its indices.
 This restriction is necessary to ensure that Lean can be used as a theorem prover as well as a programming language—without it, Lean's logic would be inconsistent.
-Experimenting with error messages is a good way to illustrate these rules, as well as the precise rules that determine whether an argument to a type is a parameter or an index.</p>
-<p>Generally speaking, the definition of an inductive type takes its parameters before a colon and its indices after the colon.
+Experimenting with error messages is a good way to illustrate these rules, as well as the precise rules that determine whether an argument to a type is a parameter or an index.
+-->
+<p>归纳类型的参量和索引的区别不仅仅是这些参数在构造子之间相同还是不同。
+当确定宇宙层级之间的关系时，归纳类型参数是参量还是索引也很重要：
+归纳类型的宇宙层级可以与参量相同，但必须比其索引更大。
+这种限制是为了确保 Lean 除了作为编程语言还可以作为定理证明器——否则，Lean 的逻辑将是不一致的。
+我们将通过展示不同例子输出的错误信息来阐释决定以下两者的具体规则：宇宙层级和某个参数应该被视为参量还是索引。</p>
+<!--
+Generally speaking, the definition of an inductive type takes its parameters before a colon and its indices after the colon.
 Parameters are given names like function arguments, whereas indices only have their types described.
-This can be seen in the definition of <code>Vect</code>:</p>
+This can be seen in the definition of `Vect`:
+-->
+<p>通常来说，在归纳类型定义中出现在冒号之前的被当作参量，出现在冒号之后的被当作索引。
+参量像函数参数可以给出类型和名字，而索引只能给出类型。
+如 <code>Vect</code> 的定义所示：</p>
 <pre><code class="language-lean">inductive Vect (α : Type u) : Nat → Type u where
    | nil : Vect α 0
    | cons : α → Vect α n → Vect α (n + 1)
 </code></pre>
-<p>In this definition, <code>α</code> is a parameter and the <code>Nat</code> is an index.
-Parameters may be referred to throughout the definition (for example, <code>Vect.cons</code> uses <code>α</code> for the type of its first argument), but they must always be used consistently.
-Because indices are expected to change, they are assigned individual values at each constructor, rather than being provided as arguments at the top of the datatype definition.</p>
-<p>A very simple datatype with a parameter is <code>WithParameter</code>:</p>
+<!--
+In this definition, `α` is a parameter and the `Nat` is an index.
+Parameters may be referred to throughout the definition (for example, `Vect.cons` uses `α` for the type of its first argument), but they must always be used consistently.
+Because indices are expected to change, they are assigned individual values at each constructor, rather than being provided as arguments at the top of the datatype definition.
+-->
+<p>在这个定义中，<code>α</code> 是一个参量，<code>Nat</code> 是一个索引。
+参量可以在整个定义中被使用（例如，<code>Vect.cons</code> 使用 <code>α</code> 作为其第一个参数的类型），但它们必须始终一致。
+因为索引可能会不同，所以它们在每个构造子中被分配单独的值，而不是作为参数出现在数据类型的顶部的定义中。</p>
+<!--
+A very simple datatype with a parameter is `WithParameter`:
+-->
+<p>一个非常简单的带有参量的数据类型是 <code>WithParameter</code>：</p>
 <pre><code class="language-lean">inductive WithParameter (α : Type u) : Type u where
   | test : α → WithParameter α
 </code></pre>
-<p>The universe level <code>u</code> can be used for both the parameter and for the inductive type itself, illustrating that parameters do not increase the universe level of a datatype.
-Similarly, when there are multiple parameters, the inductive type receives whichever universe level is greater:</p>
+<!--
+The universe level `u` can be used for both the parameter and for the inductive type itself, illustrating that parameters do not increase the universe level of a datatype.
+Similarly, when there are multiple parameters, the inductive type receives whichever universe level is greater:
+-->
+<p>宇宙层级 <code>u</code> 可以用于参量和归纳类型本身，说明参量不会增加数据类型的宇宙层级。
+同样，当有多个参量时，归纳类型的宇宙层级取决于这些参量的宇宙层级中最大的那个：</p>
 <pre><code class="language-lean">inductive WithTwoParameters (α : Type u) (β : Type v) : Type (max u v) where
   | test : α → β → WithTwoParameters α β
 </code></pre>
-<p>Because parameters do not increase the universe level of a datatype, they can be more convenient to work with.
+<!--
+Because parameters do not increase the universe level of a datatype, they can be more convenient to work with.
 Lean attempts to identify arguments that are described like indices (after the colon), but used like parameters, and turn them into parameters:
-Both of the following inductive datatypes have their parameter written after the colon:</p>
+Both of the following inductive datatypes have their parameter written after the colon:
+-->
+<p>由于参量不会增加数据类型的宇宙层级，使用它们很方便。
+Lean 会尝试识别像索引一样出现在冒号之后，但像参量一样使用的参数，并将它们转换为参量：
+以下两个归纳数据类型的参量都出现在冒号之后：</p>
 <pre><code class="language-lean">inductive WithParameterAfterColon : Type u → Type u where
   | test : α → WithParameterAfterColon α
 
@@ -179,13 +211,20 @@ inductive WithParameterAfterColon2 : Type u → Type u where
   | test1 : α → WithParameterAfterColon2 α
   | test2 : WithParameterAfterColon2 α
 </code></pre>
-<p>When a parameter is not named in the initial datatype declaration, different names may be used for it in each constructor, so long as they are used consistently.
-The following declaration is accepted:</p>
+<!--
+When a parameter is not named in the initial datatype declaration, different names may be used for it in each constructor, so long as they are used consistently.
+The following declaration is accepted:
+-->
+<p>当一个参量在数据类型的声明中没有命名时，可以在每个构造子中使用不同的名称，只要它们的使用是一致的。
+以下声明被接受：</p>
 <pre><code class="language-lean">inductive WithParameterAfterColonDifferentNames : Type u → Type u where
   | test1 : α → WithParameterAfterColonDifferentNames α
   | test2 : β → WithParameterAfterColonDifferentNames β
 </code></pre>
-<p>However, this flexibility does not extend to datatypes that explicitly declare the names of their parameters:</p>
+<!--
+However, this flexibility does not extend to datatypes that explicitly declare the names of their parameters:
+-->
+<p>然而，当参量的命名被指定时，这种灵活性就不被允许了：</p>
 <pre><code class="language-lean">inductive WithParameterBeforeColonDifferentNames (α : Type u) : Type u where
   | test1 : α → WithParameterBeforeColonDifferentNames α
   | test2 : β → WithParameterBeforeColonDifferentNames β
@@ -195,7 +234,10 @@ The following declaration is accepted:</p>
 expected
   α
 </code></pre>
-<p>Similarly, attempting to name an index results in an error:</p>
+<!--
+Similarly, attempting to name an index results in an error:
+-->
+<p>类似的，尝试命名一个索引会导致错误：</p>
 <pre><code class="language-lean">inductive WithNamedIndex (α : Type u) : Type (u + 1) where
   | test1 : WithNamedIndex α
   | test2 : WithNamedIndex α → WithNamedIndex α → WithNamedIndex (α × α)
@@ -205,13 +247,20 @@ expected
 expected
   α
 </code></pre>
-<p>Using an appropriate universe level and placing the index after the colon results in a declaration that is acceptable:</p>
+<!--
+Using an appropriate universe level and placing the index after the colon results in a declaration that is acceptable:
+-->
+<p>使用适当的宇宙层级并将索引放在冒号之后会导致一个可接受的声明：</p>
 <pre><code class="language-lean">inductive WithIndex : Type u → Type (u + 1) where
   | test1 : WithIndex α
   | test2 : WithIndex α → WithIndex α → WithIndex (α × α)
 </code></pre>
-<p>Even though Lean can sometimes determine that an argument after the colon in an inductive type declaration is a parameter when it is used consistently in all constructors, all parameters are still required to come before all indices.
-Attempting to place a parameter after an index results in the argument being considered an index itself, which would require the universe level of the datatype to increase:</p>
+<!--
+Even though Lean can sometimes determine that an argument after the colon in an inductive type declaration is a parameter when it is used consistently in all constructors, all parameters are still required to come before all indices.
+Attempting to place a parameter after an index results in the argument being considered an index itself, which would require the universe level of the datatype to increase:
+-->
+<p>虽然 Lean 有时（即，在确定一个参数在所有构造子中的使用一致时）可以确定冒号后的参数是一个参量，但所有参量仍然需要出现在所有索引之前。
+试图在索引之后放置一个参量会导致该参量被视为一个索引，进而导致数据类型的宇宙层级必须增加：</p>
 <pre><code class="language-lean">inductive ParamAfterIndex : Nat → Type u → Type u where
   | test1 : ParamAfterIndex 0 γ
   | test2 : ParamAfterIndex n γ → ParamAfterIndex k γ → ParamAfterIndex (n + k) γ
@@ -223,8 +272,11 @@ at universe level
 it must be smaller than or equal to the inductive datatype universe level
   u+1
 </code></pre>
-<p>Parameters need not be types.
-This example shows that ordinary datatypes such as <code>Nat</code> may be used as parameters:</p>
+<!--
+Parameters need not be types.
+This example shows that ordinary datatypes such as `Nat` may be used as parameters:
+-->
+<p>参量不必是类型。这个例子显示了普通数据类型，如 <code>Nat</code> 也可以被用作参量：</p>
 <pre><code class="language-lean">inductive NatParam (n : Nat) : Nat → Type u where
   | five : NatParam 4 5
 </code></pre>
@@ -233,20 +285,36 @@ This example shows that ordinary datatypes such as <code>Nat</code> may be used 
 expected
   n
 </code></pre>
-<p>Using the <code>n</code> as suggested causes the declaration to be accepted:</p>
+<!--
+Using the `n` as suggested causes the declaration to be accepted:
+-->
+<p>按照错误信息的提示将 <code>4</code> 改成 <code>n</code> 会导致声明被接受：</p>
 <pre><code class="language-lean">inductive NatParam (n : Nat) : Nat → Type u where
   | five : NatParam n 5
 </code></pre>
-<p>What can be concluded from these experiments?
-The rules of parameters and indices are as follows:</p>
+<!--
+What can be concluded from these experiments?
+The rules of parameters and indices are as follows:
+ 1. Parameters must be used identically in each constructor's type.
+ 2. All parameters must come before all indices.
+ 3. The universe level of the datatype being defined must be at least as large as the largest parameter, and strictly larger than the largest index.
+ 4. Named arguments written before the colon are always parameters, while arguments after the colon are typically indices. Lean may determine that the usage of arguments after the colon makes them into parameters if they are used consistently in all constructors and don't come after any indices.
+-->
+<p>从以上结果中可以总结出什么？</p>
+<p>参量和索引的规则如下：</p>
 <ol>
-<li>Parameters must be used identically in each constructor's type.</li>
-<li>All parameters must come before all indices.</li>
-<li>The universe level of the datatype being defined must be at least as large as the largest parameter, and strictly larger than the largest index.</li>
-<li>Named arguments written before the colon are always parameters, while arguments after the colon are typically indices. Lean may determine that the usage of arguments after the colon makes them into parameters if they are used consistently in all constructors and don't come after any indices.</li>
+<li>参量在每个构造子的类型中的使用方式必须相同。</li>
+<li>所有参量必须在所有索引之前。</li>
+<li>正在定义的数据类型的宇宙层级必须至少与最大的参量宇宙层级一样大，并严格大于最大的索引宇宙层级。</li>
+<li>冒号前写的命名参数始终是参量，而冒号后的参数通常是索引。如果 Lean 发现冒号后的参数在所有构造子中使用一致且不在任何索引之后，则可能能够
+这个参数是参量。</li>
 </ol>
-<p>When in doubt, the Lean command <code>#print</code> can be used to check how many of a datatype's arguments are parameters.
-For example, for <code>Vect</code>, it points out that the number of parameters is 1:</p>
+<!--
+When in doubt, the Lean command `#print` can be used to check how many of a datatype's arguments are parameters.
+For example, for `Vect`, it points out that the number of parameters is 1:
+-->
+<p>当不确定时，可以使用 Lean 命令 <code>#print</code> 来检查数据类型参数中的多少是参量。
+例如，对于 <code>Vect</code>，它指出参量的数量是 1：</p>
 <pre><code class="language-lean">#print Vect
 </code></pre>
 <pre><code class="language-output info">inductive Vect.{u} : Type u → Nat → Type u
@@ -255,11 +323,20 @@ constructors:
 Vect.nil : {α : Type u} → Vect α 0
 Vect.cons : {α : Type u} → {n : Nat} → α → Vect α n → Vect α (n + 1)
 </code></pre>
-<p>It is worth thinking about which arguments should be parameters and which should be indices when choosing the order of arguments to a datatype.
+<!--
+It is worth thinking about which arguments should be parameters and which should be indices when choosing the order of arguments to a datatype.
 Having as many arguments as possible be parameters helps keep universe levels under control, which can make a complicated program easier to type check.
-One way to make this possible is to ensure that all parameters come before all indices in the argument list.</p>
-<p>Additionally, even though Lean is capable of determining that arguments after the colon are nonetheless parameters by their usage, it's a good idea to write parameters with explicit names.
-This makes the intention clear to readers, and it causes Lean to report an error if the argument is mistakenly used inconsistently across the constructors.</p>
+One way to make this possible is to ensure that all parameters come before all indices in the argument list.
+-->
+<p>在选择数据类型的参数顺序时，应当考虑哪些参数应该是参量，哪些应该是索引。
+尽可能多地将参数作为参量有助于保持一个可控的宇宙层级，从而使复杂的程序的类型检查更容易进行。
+一种可能方法是确保参数列表中所有参量出现在所有索引之前。</p>
+<!--
+Additionally, even though Lean is capable of determining that arguments after the colon are nonetheless parameters by their usage, it's a good idea to write parameters with explicit names.
+This makes the intention clear to readers, and it causes Lean to report an error if the argument is mistakenly used inconsistently across the constructors.
+-->
+<p>同时，尽管 Lean 有时可以确定冒号后的参数仍然是参量，但最好使用显式命名编写参量。
+这使读者清晰的明白意图，并且 Lean 在这个参量在构造子之间有不一致的使用时会报告错误。</p>
 
                     </main>
 

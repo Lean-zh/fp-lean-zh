@@ -144,36 +144,71 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="pitfalls-of-programming-with-dependent-types"><a class="header" href="#pitfalls-of-programming-with-dependent-types">Pitfalls of Programming with Dependent Types</a></h1>
-<p>The flexibility of dependent types allows more useful programs to be accepted by a type checker, because the language of types is expressive enough to describe variations that less-expressive type systems cannot.
+                        <!--
+# Pitfalls of Programming with Dependent Types
+-->
+<h1 id="使用依值类型编程的陷阱"><a class="header" href="#使用依值类型编程的陷阱">使用依值类型编程的陷阱</a></h1>
+<!--
+The flexibility of dependent types allows more useful programs to be accepted by a type checker, because the language of types is expressive enough to describe variations that less-expressive type systems cannot.
 At the same time, the ability of dependent types to express very fine-grained specifications allows more buggy programs to be rejected by a type checker.
-This power comes at a cost.</p>
-<p>The close coupling between the internals of type-returning functions such as <code>Row</code> and the types that they produce is an instance of a bigger difficulty: the distinction between the interface and the implementation of functions begins to break down when functions are used in types.
+This power comes at a cost.
+-->
+<p>依值类型的灵活性允许类型检查器接受更多有用的程序，因为类型的语言足够表达那些一般类型系统不够表达的变化。
+同时，依值类型表达非常精细的规范的能力允许类型检查器拒绝更多有错误的程序。
+这种能力是有代价的。</p>
+<!--
+The close coupling between the internals of type-returning functions such as `Row` and the types that they produce is an instance of a bigger difficulty: the distinction between the interface and the implementation of functions begins to break down when functions are used in types.
 Normally, all refactorings are valid as long as they don't change the type signature or input-output behavior of a function.
 Functions can be rewritten to use more efficient algorithms and data structures, bugs can be fixed, and code clarity can be improved without breaking client code.
-When the function is used in a type, however, the internals of the function's implementation become part of the type, and thus part of the <em>interface</em> to another program.</p>
-<p>As an example, take the following two implementations of addition on <code>Nat</code>.
-<code>Nat.plusL</code> is recursive on its first argument:</p>
+When the function is used in a type, however, the internals of the function's implementation become part of the type, and thus part of the _interface_ to another program.
+-->
+<p>返回类型的函数（如 <code>Row</code> ）的实现与它的类型之间的紧密耦合是下列问题的一个具体案例：
+当类型中包含函数时，接口和实现之间的区别开始瓦解。
+通常，只要重构不改变函数的类型签名或输入输出行为，它就不会导致问题。
+所以一个函数可以方便地进行下列重构而不会破坏客户端代码：使用更高效的算法和数据结构重写，修复错误，提高代码的清晰度。
+然而，当函数出现在类型中时，函数的内部实现成为类型的一部分，因此成为另一个程序的<strong>接口</strong>的一部分。</p>
+<!--
+As an example, take the following two implementations of addition on `Nat`.
+`Nat.plusL` is recursive on its first argument:
+-->
+<p>以 <code>Nat</code> 上的加法的两个实现为例。
+<code>Nat.plusL</code> 对第一个参数进行递归：</p>
 <pre><code class="language-lean">def Nat.plusL : Nat → Nat → Nat
   | 0, k =&gt; k
   | n + 1, k =&gt; plusL n k + 1
 </code></pre>
-<p><code>Nat.plusR</code>, on the other hand, is recursive on its second argument:</p>
+<!--
+`Nat.plusR`, on the other hand, is recursive on its second argument:
+-->
+<p><code>Nat.plusR</code> 则对第二个参数进行递归：</p>
 <pre><code class="language-lean">def Nat.plusR : Nat → Nat → Nat
   | n, 0 =&gt; n
   | n, k + 1 =&gt; plusR n k + 1
 </code></pre>
-<p>Both implementations of addition are faithful to the underlying mathematical concept, and they thus return the same result when given the same arguments.</p>
-<p>However, these two implementations present quite different interfaces when they are used in types.
-As an example, take a function that appends two <code>Vect</code>s.
-This function should return a <code>Vect</code> whose length is the sum of the length of the arguments.
-Because <code>Vect</code> is essentially a <code>List</code> with a more informative type, it makes sense to write the function just as one would for <code>List.append</code>, with pattern matching and recursion on the first argument.
-Starting with a type signature and initial pattern match pointing at placeholders yields two messages:</p>
+<!--
+Both implementations of addition are faithful to the underlying mathematical concept, and they thus return the same result when given the same arguments.
+-->
+<p>两种加法的实现都与数学概念一致，因此在给定相同参数时返回相同的结果。</p>
+<!--
+However, these two implementations present quite different interfaces when they are used in types.
+As an example, take a function that appends two `Vect`s.
+This function should return a `Vect` whose length is the sum of the length of the arguments.
+Because `Vect` is essentially a `List` with a more informative type, it makes sense to write the function just as one would for `List.append`, with pattern matching and recursion on the first argument.
+Starting with a type signature and initial pattern match pointing at placeholders yields two messages:
+-->
+<p>然而，当这两种实现用于类型时，它们呈现出非常不同的接口。
+以一个将两个 <code>Vect</code> 连接起来的函数为例。
+这个函数应该返回一个长度为两个参数的长度之和的 <code>Vect</code>。
+因为 <code>Vect</code> 本质上是一个带有更多信息的<code>List</code>，所以写这个函数类似 <code>List.append</code>，对第一个参数进行模式匹配和递归。</p>
+<p>让我们给定一个初始的类型签名然后进行模式匹配。占位符给出两条信息：</p>
 <pre><code class="language-lean">def appendL : Vect α n → Vect α k → Vect α (n.plusL k)
   | .nil, ys =&gt; _
   | .cons x xs, ys =&gt; _
 </code></pre>
-<p>The first message, in the <code>nil</code> case, states that the placeholder should be replaced by a <code>Vect</code> with length <code>plusL 0 k</code>:</p>
+<!--
+The first message, in the `nil` case, states that the placeholder should be replaced by a `Vect` with length `plusL 0 k`:
+-->
+<p>第一个信息：在 <code>nil</code> 的情形下，占位符应该被替换为一个长度为 <code>plusL 0 k</code> 的 <code>Vect</code>：</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 α : Type u_1
@@ -181,7 +216,10 @@ n k : Nat
 ys : Vect α k
 ⊢ Vect α (Nat.plusL 0 k)
 </code></pre>
-<p>The second message, in the <code>cons</code> case, states that the placeholder should be replaced by a <code>Vect</code> with length <code>plusL (n✝ + 1) k</code>:</p>
+<!--
+The second message, in the `cons` case, states that the placeholder should be replaced by a `Vect` with length `plusL (n✝ + 1) k`:
+-->
+<p>第二个信息：在<code>cons</code>的情形下，占位符应该被替换为一个长度为<code>plusL (n✝ + 1) k</code> 的 <code>Vect</code>：</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 α : Type u_1
@@ -191,15 +229,32 @@ xs : Vect α n✝
 ys : Vect α k
 ⊢ Vect α (Nat.plusL (n✝ + 1) k)
 </code></pre>
-<p>The symbol after <code>n</code>, called a <em>dagger</em>, is used to indicate names that Lean has internally invented.
-Behind the scenes, pattern matching on the first <code>Vect</code> implicitly caused the value of the first <code>Nat</code> to be refined as well, because the index on the constructor <code>cons</code> is <code>n + 1</code>, with the tail of the <code>Vect</code> having length <code>n</code>.
-Here, <code>n✝</code> represents the <code>Nat</code> that is one less than the argument <code>n</code>.</p>
-<h2 id="definitional-equality"><a class="header" href="#definitional-equality">Definitional Equality</a></h2>
-<p>In the definition of <code>plusL</code>, there is a pattern case <code>0, k =&gt; k</code>.
-This applies in the length used in the first placeholder, so another way to write the underscore's type <code>Vect α (Nat.plusL 0 k)</code> is <code>Vect α k</code>.
-Similarly, <code>plusL</code> contains a pattern case <code>n + 1, k =&gt; plusN n k + 1</code>.
-This means that the type of the second underscore can be equivalently written <code>Vect α (plusL n✝ k + 1)</code>.</p>
-<p>To expose what is going on behind the scenes, the first step is to write the <code>Nat</code> arguments explicitly, which also results in daggerless error messages because the names are now written explicitly in the program:</p>
+<!--
+The symbol after `n`, called a _dagger_, is used to indicate names that Lean has internally invented.
+Behind the scenes, pattern matching on the first `Vect` implicitly caused the value of the first `Nat` to be refined as well, because the index on the constructor `cons` is `n + 1`, with the tail of the `Vect` having length `n`.
+Here, `n✝` represents the `Nat` that is one less than the argument `n`.
+-->
+<p><code>n</code> 后面的符号，称为<strong>剑标（dagger）</strong>，用于表示 Lean 内部生成的名称。
+对第一个 <code>Vect</code> 的模式匹配隐式导致第一个 <code>Nat</code> 的值也被细化，因为构造子<code>cons</code>的索引是<code>n + 1</code>，<code>Vect</code>的尾部长度为<code>n</code>。
+在这里，<code>n✝</code>表示比参数 <code>n</code> 小1的 <code>Nat</code>。</p>
+<!--
+## Definitional Equality
+-->
+<h2 id="定义相等性"><a class="header" href="#定义相等性">定义相等性</a></h2>
+<!--
+In the definition of `plusL`, there is a pattern case `0, k => k`.
+This applies in the length used in the first placeholder, so another way to write the underscore's type `Vect α (Nat.plusL 0 k)` is `Vect α k`.
+Similarly, `plusL` contains a pattern case `n + 1, k => plusN n k + 1`.
+This means that the type of the second underscore can be equivalently written `Vect α (plusL n✝ k + 1)`.
+-->
+<p>在 <code>plusL</code> 的定义中，有一个模式<code>0, k =&gt; k</code>。
+因此第一个下划线的类型  <code>Vect α (Nat.plusL 0 k)</code> 的另一个写法是 <code>Vect α k</code>。
+类似地，<code>plusL</code> 包含另一个模式 <code>n + 1, k =&gt; plusN n k + 1</code>。
+因此第二个下划线的类型可以等价地写为<code>Vect α (plusL n✝ k + 1)</code>。</p>
+<!--
+To expose what is going on behind the scenes, the first step is to write the `Nat` arguments explicitly, which also results in daggerless error messages because the names are now written explicitly in the program:
+-->
+<p>为了清楚到底发生了什么，第一步是显式地写出 <code>Nat</code> 参数。这一变化同时导致错误信息中的剑标消失了，因为此时程序已经显式给出了这个参数的名字：</p>
 <pre><code class="language-lean">def appendL : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusL k)
   | 0, k, .nil, ys =&gt; _
   | n + 1, k, .cons x xs, ys =&gt; _
@@ -220,7 +275,10 @@ xs : Vect α n
 ys : Vect α k
 ⊢ Vect α (Nat.plusL (n + 1) k)
 </code></pre>
-<p>Annotating the underscores with the simplified versions of the types does not introduce a type error, which means that the types as written in the program are equivalent to the ones that Lean found on its own:</p>
+<!--
+Annotating the underscores with the simplified versions of the types does not introduce a type error, which means that the types as written in the program are equivalent to the ones that Lean found on its own:
+-->
+<p>用简化版本的类型注释下划线不会导致类型错误，这意味着程序中写的类型与 Lean 自己找到的类型是等价的：</p>
 <pre><code class="language-lean">def appendL : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusL k)
   | 0, k, .nil, ys =&gt; (_ : Vect α k)
   | n + 1, k, .cons x xs, ys =&gt; (_ : Vect α (n.plusL k + 1))
@@ -241,9 +299,14 @@ xs : Vect α n
 ys : Vect α k
 ⊢ Vect α (Nat.plusL n k + 1)
 </code></pre>
-<p>The first case demands a <code>Vect α k</code>, and <code>ys</code> has that type.
+<!--
+The first case demands a `Vect α k`, and `ys` has that type.
 This is parallel to the way that appending the empty list to any other list returns that other list.
-Refining the definition with <code>ys</code> instead of the first underscore yields a program with only one remaining underscore to be filled out:</p>
+Refining the definition with `ys` instead of the first underscore yields a program with only one remaining underscore to be filled out:
+-->
+<p>第一个情形要求一个<code>Vect α k</code>，而 <code>ys</code> 有这种类型。
+这跟将一个列表附加到一个空列表时直接返回这个列表的情况相似。
+用 <code>ys</code> 替代第一个下划线后，只剩下一个下划线需要填充：</p>
 <pre><code class="language-lean">def appendL : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusL k)
   | 0, k, .nil, ys =&gt; ys
   | n + 1, k, .cons x xs, ys =&gt; (_ : Vect α (n.plusL k + 1))
@@ -257,47 +320,106 @@ xs : Vect α n
 ys : Vect α k
 ⊢ Vect α (Nat.plusL n k + 1)
 </code></pre>
-<p>Something very important has happened here.
-In a context where Lean expected a <code>Vect α (Nat.plusL 0 k)</code>, it received a <code>Vect α k</code>.
-However, <code>Nat.plusL</code> is not an <code>abbrev</code>, so it may seem like it shouldn't be running during type checking.
-Something else is happening.</p>
-<p>The key to understanding what's going on is that Lean doesn't just expand <code>abbrev</code>s while type checking.
+<!--
+Something very important has happened here.
+In a context where Lean expected a `Vect α (Nat.plusL 0 k)`, it received a `Vect α k`.
+However, `Nat.plusL` is not an `abbrev`, so it may seem like it shouldn't be running during type checking.
+Something else is happening.
+-->
+<p>这里发生了非常重要的事情。
+在 Lean 期望一个 <code>Vect α (Nat.plusL 0 k)</code> 的上下文中，它接受了一个 <code>Vect α k</code> 。
+然而，<code>Nat.plusL</code>不是一个 <code>abbrev</code>，所以似乎它不应该在类型检查期间运行。
+还有其他事情发生了。</p>
+<!--
+The key to understanding what's going on is that Lean doesn't just expand `abbrev`s while type checking.
 It can also perform computation while checking whether two types are equivalent to one another, such that any expression of one type can be used in a context that expects the other type.
-This property is called <em>definitional equality</em>, and it is subtle.</p>
-<p>Certainly, two types that are written identically are considered to be definitionally equal—<code>Nat</code> and <code>Nat</code> or <code>List String</code> and <code>List String</code> should be considered equal.
-Any two concrete types built from different datatypes are not equal, so <code>List Nat</code> is not equal to <code>Int</code>.
-Additionally, types that differ only by renaming internal names are equal, so <code>(n : Nat) → Vect String n</code> is the same as <code>(k : Nat) → Vect String k</code>.
+This property is called _definitional equality_, and it is subtle.
+-->
+<p>理解发生了什么的关键在于 Lean 在类型检查期间不止展开所有 <code>abbrev</code> 的定义。
+它还可以在检查两个类型是否等价时执行计算，从而允许一个具有类型A的表达式可以在一个期待类型B的上下文中被使用。
+这种属性称为<strong>定义相等性（definitional equality）</strong>。这种相等性很微妙。</p>
+<!--
+Certainly, two types that are written identically are considered to be definitionally equal—`Nat` and `Nat` or `List String` and `List String` should be considered equal.
+Any two concrete types built from different datatypes are not equal, so `List Nat` is not equal to `Int`.
+Additionally, types that differ only by renaming internal names are equal, so `(n : Nat) → Vect String n` is the same as `(k : Nat) → Vect String k`.
 Because types can contain ordinary data, definitional equality must also describe when data are equal.
-Uses of the same constructors are equal, so <code>0</code> equals <code>0</code> and <code>[5, 3, 1]</code> equals <code>[5, 3, 1]</code>.</p>
-<p>Types contain more than just function arrows, datatypes, and constructors, however.
-They also contain <em>variables</em> and <em>functions</em>.
-Definitional equality of variables is relatively simple: each variable is equal only to itself, so <code>(n k : Nat) → Vect Int n</code> is not definitionally equal to <code>(n k : Nat) → Vect Int k</code>.
+Uses of the same constructors are equal, so `0` equals `0` and `[5, 3, 1]` equals `[5, 3, 1]`.
+-->
+<p>当然，完全相同的两个类型被认为是定义相等的，例如<code>Nat</code>和<code>Nat</code>或<code>List String</code>和<code>List String</code>。
+任何两个由不同数据类型构造的具体类型都不相等，因此<code>List Nat</code>不等于<code>Int</code>。
+此外，两个只在内部名称上存在不同的类型（译者注：即α-等价）是相等的，例如<code>(n : Nat) → Vect String n</code>与<code>(k : Nat) → Vect String k</code>。
+因为类型可以包含普通数据，定义相等还必须描述何时数据是相等的。
+使用相同构造子的数据是相等的，因此<code>0</code>等于<code>0</code>，<code>[5, 3, 1]</code>等于<code>[5, 3, 1]</code>。</p>
+<!--
+Types contain more than just function arrows, datatypes, and constructors, however.
+They also contain _variables_ and _functions_.
+Definitional equality of variables is relatively simple: each variable is equal only to itself, so `(n k : Nat) → Vect Int n` is not definitionally equal to `(n k : Nat) → Vect Int k`.
 Functions, on the other hand, are more complicated.
 While mathematics considers two functions to be equal if they have identical input-output behavior, there is no efficient algorithm to check that, and the whole point of definitional equality is for Lean to check whether two types are interchangeable.
-Instead, Lean considers functions to be definitionally equal either when they are both <code>fun</code>-expressions with definitionally equal bodies.
-In other words, two functions must use <em>the same algorithm</em> that calls <em>the same helpers</em> to be considered definitionally equal.
-This is not typically very helpful, so definitional equality of functions is mostly used when the exact same defined function occurs in two types.</p>
-<p>When functions are <em>called</em> in a type, checking definitional equality may involve reducing the function call.
-The type <code>Vect String (1 + 4)</code> is definitionally equal to the type <code>Vect String (3 + 2)</code> because <code>1 + 4</code> is definitionally equal to <code>3 + 2</code>.
-To check their equality, both are reduced to <code>5</code>, and then the constructor rule can be used five times.
-Definitional equality of functions applied to data can be checked first by seeing if they're already the same—there's no need to reduce <code>[&quot;a&quot;, &quot;b&quot;] ++ [&quot;c&quot;]</code> to check that it's equal to <code>[&quot;a&quot;, &quot;b&quot;] ++ [&quot;c&quot;]</code>, after all.
-If not, the function is called and replaced with its value, and the value can then be checked.</p>
-<p>Not all function arguments are concrete data.
-For example, types may contain <code>Nat</code>s that are not built from the <code>zero</code> and <code>succ</code> constructors.
-In the type <code>(n : Nat) → Vect String n</code>, the variable <code>n</code> is a <code>Nat</code>, but it is impossible to know <em>which</em> <code>Nat</code> it is before the function is called.
-Indeed, the function may be called first with <code>0</code>, and then later with <code>17</code>, and then again with <code>33</code>.
-As seen in the definition of <code>appendL</code>, variables with type <code>Nat</code> may also be passed to functions such as <code>plusL</code>.
-Indeed, the type <code>(n : Nat) → Vect String n</code> is definitionally equal to the type <code>(n : Nat) → Vect String (Nat.plusL 0 n)</code>.</p>
-<p>The reason that <code>n</code> and <code>Nat.plusL 0 n</code> are definitionally equal is that <code>plusL</code>'s pattern match examines its <em>first</em> argument.
-This is problematic: <code>(n : Nat) → Vect String n</code> is <em>not</em> definitionally equal to <code>(n : Nat) → Vect String (Nat.plusL n 0)</code>, even though zero should be both a left and a right identity of addition.
+Instead, Lean considers functions to be definitionally equal either when they are both `fun`-expressions with definitionally equal bodies.
+In other words, two functions must use _the same algorithm_ that calls _the same helpers_ to be considered definitionally equal.
+This is not typically very helpful, so definitional equality of functions is mostly used when the exact same defined function occurs in two types.
+-->
+<p>然而，类型不仅包含函数类型、数据类型和构造子。
+它们还包含<strong>变量</strong>和<strong>函数</strong>。
+变量的定义相等性相对简单：每个变量只等于自己，因此<code>(n k : Nat) → Vect Int n</code>不等于<code>(n k : Nat) → Vect Int k</code>。
+函数则复杂得多。数学上对函数相等的定义为两个函数具有相同的输入输出行为。但这种相等性无法被算法检查。
+这违背了而定义相等性的目的：通过算法自动检查两个类型是否相等。
+因此，Lean 认为函数只有在它们的函数体定义相等时才是定义相等的。
+换句话说，两个函数必须使用<strong>相同的算法</strong>，调用<strong>相同的辅助函数</strong>，才能被认为是定义相等的。
+这通常不是很有用，因此函数的定义相等一般只用于当两个类型中出现完全相同的函数时。</p>
+<!--
+When functions are _called_ in a type, checking definitional equality may involve reducing the function call.
+The type `Vect String (1 + 4)` is definitionally equal to the type `Vect String (3 + 2)` because `1 + 4` is definitionally equal to `3 + 2`.
+To check their equality, both are reduced to `5`, and then the constructor rule can be used five times.
+Definitional equality of functions applied to data can be checked first by seeing if they're already the same—there's no need to reduce `["a", "b"] ++ ["c"]` to check that it's equal to `["a", "b"] ++ ["c"]`, after all.
+If not, the function is called and replaced with its value, and the value can then be checked.
+-->
+<p>当函数在类型中被<strong>调用</strong>时，检查定义相等可能涉及规约这些调用。
+类型 <code>Vect String (1 + 4)</code> 与类型 <code>Vect String (3 + 2)</code> 是定义相等的，因为 <code>1 + 4</code> 与 <code>3 + 2</code> 是定义相等的。
+为了检查它们的相等性，两者都被规约为<code>5</code>，然后使用五次“构造子”规则。 <!-- TODO: ? --></p>
+<p>检查函数应用于数据的定义相等性可以首先检查它们是否已经相同——例如，检查<code>[&quot;a&quot;, &quot;b&quot;] ++ [&quot;c&quot;]</code>是否等于<code>[&quot;a&quot;, &quot;b&quot;] ++ [&quot;c&quot;]</code>时没有必要进行规约。
+如果不同，调用函数并继续检查结果的定义相等性。</p>
+<!--
+Not all function arguments are concrete data.
+For example, types may contain `Nat`s that are not built from the `zero` and `succ` constructors.
+In the type `(n : Nat) → Vect String n`, the variable `n` is a `Nat`, but it is impossible to know _which_ `Nat` it is before the function is called.
+Indeed, the function may be called first with `0`, and then later with `17`, and then again with `33`.
+As seen in the definition of `appendL`, variables with type `Nat` may also be passed to functions such as `plusL`.
+Indeed, the type `(n : Nat) → Vect String n` is definitionally equal to the type `(n : Nat) → Vect String (Nat.plusL 0 n)`.
+-->
+<p>并非所有函数参数都是具体数据。
+例如，类型可能包含不是由 <code>zero</code> 和 <code>succ</code> 构造子构建的<code>Nat</code>。
+在类型<code>(n : Nat) → Vect String n</code>中，变量<code>n</code>是一个<code>Nat</code>，但在调用函数之前不可能知道它<strong>哪个</strong><code>Nat</code>。
+实际上，函数可能首先用<code>0</code>调用，然后用<code>17</code>调用，然后再用<code>33</code>调用。
+如<code>appendL</code>的定义中所见，类型为<code>Nat</code>的变量也可以传递给<code>plusL</code>等函数。
+实际上，类型<code>(n : Nat) → Vect String n</code>和<code>(n : Nat) → Vect String (Nat.plusL 0 n)</code>定义相等。</p>
+<!--
+The reason that `n` and `Nat.plusL 0 n` are definitionally equal is that `plusL`'s pattern match examines its _first_ argument.
+This is problematic: `(n : Nat) → Vect String n` is _not_ definitionally equal to `(n : Nat) → Vect String (Nat.plusL n 0)`, even though zero should be both a left and a right identity of addition.
 This happens because pattern matching gets stuck when it encounters variables.
-Until the actual value of <code>n</code> becomes known, there is no way to know which case of <code>Nat.plusL n 0</code> should be selected.</p>
-<p>The same issue appears with the <code>Row</code> function in the query example.
-The type <code>Row (c :: cs)</code> does not reduce to any datatype because the definition of <code>Row</code> has separate cases for singleton lists and lists with at least two entries.
-In other words, it gets stuck when trying to match the variable <code>cs</code> against concrete <code>List</code> constructors.
-This is why almost every function that takes apart or constructs a <code>Row</code> needs to match the same three cases as <code>Row</code> itself: getting it unstuck reveals concrete types that can be used for either pattern matching or constructors.</p>
-<p>The missing case in <code>appendL</code> requires a <code>Vect α (Nat.plusL n k + 1)</code>.
-The <code>+ 1</code> in the index suggests that the next step is to use <code>Vect.cons</code>:</p>
+Until the actual value of `n` becomes known, there is no way to know which case of `Nat.plusL n 0` should be selected.
+-->
+<p><code>n</code> 和 <code>Nat.plusL 0 n</code> 是定义相等的原因是 <code>plusL</code> 对的<strong>第一个</strong>参数进行模式匹配。
+这在别的情况下会导致问题：<code>(n : Nat) → Vect String n</code> 与<code>(n : Nat) → Vect String (Nat.plusL n 0)</code> 并<strong>不</strong>定义相等，尽管0应该同时是加法的左和右单位元。
+这是因为模式匹配在遇到变量时会卡住。
+在 <code>n</code> 的实际值变得已知之前，没有办法知道应该选择 <code>Nat.plusL n 0</code> 的哪种情形。</p>
+<!--
+The same issue appears with the `Row` function in the query example.
+The type `Row (c :: cs)` does not reduce to any datatype because the definition of `Row` has separate cases for singleton lists and lists with at least two entries.
+In other words, it gets stuck when trying to match the variable `cs` against concrete `List` constructors.
+This is why almost every function that takes apart or constructs a `Row` needs to match the same three cases as `Row` itself: getting it unstuck reveals concrete types that can be used for either pattern matching or constructors.
+-->
+<p>同样的问题出现在查询示例中的 <code>Row</code> 函数中。
+类型<code>Row (c :: cs)</code>不会规约到任何数据类型，因为 <code>Row</code> 的定义对单例列表和至少有两个条目的列表的处理方式不同。
+换句话说，当尝试将变量<code>cs</code>与具体的<code>List</code>构造子匹配时会卡住。
+这就是为什么几乎每个拆分或构造 <code>Row</code> 的函数都需要与 <code>Row</code> 本身对应的三种情形：为了获得模式匹配或构造子可以使用的具体类型。</p>
+<!--
+The missing case in `appendL` requires a `Vect α (Nat.plusL n k + 1)`.
+The `+ 1` in the index suggests that the next step is to use `Vect.cons`:
+-->
+<p><code>appendL</code>中缺失的情形需要一个<code>Vect α (Nat.plusL n k + 1)</code>。
+索引中的<code>+ 1</code>表明下一步是使用<code>Vect.cons</code>：</p>
 <pre><code class="language-lean">def appendL : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusL k)
   | 0, k, .nil, ys =&gt; ys
   | n + 1, k, .cons x xs, ys =&gt; .cons x (_ : Vect α (n.plusL k))
@@ -311,22 +433,40 @@ xs : Vect α n
 ys : Vect α k
 ⊢ Vect α (Nat.plusL n k)
 </code></pre>
-<p>A recursive call to <code>appendL</code> can construct a <code>Vect</code> with the desired length:</p>
+<!--
+A recursive call to `appendL` can construct a `Vect` with the desired length:
+-->
+<p>一个对 <code>appendL</code> 的递归调用可以构造一个具有所需长度的 <code>Vect</code> ：</p>
 <pre><code class="language-lean">def appendL : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusL k)
   | 0, k, .nil, ys =&gt; ys
   | n + 1, k, .cons x xs, ys =&gt; .cons x (appendL n k xs ys)
 </code></pre>
-<p>Now that the program is finished, removing the explicit matching on <code>n</code> and <code>k</code> makes it easier to read and easier to call the function:</p>
+<!--
+Now that the program is finished, removing the explicit matching on `n` and `k` makes it easier to read and easier to call the function:
+-->
+<p>既然程序完成了，删除对 <code>n</code> 和 <code>k</code> 的显式匹配使得这个函数更容易阅读和调用：</p>
 <pre><code class="language-lean">def appendL : Vect α n → Vect α k → Vect α (n.plusL k)
   | .nil, ys =&gt; ys
   | .cons x xs, ys =&gt; .cons x (appendL xs ys)
 </code></pre>
-<p>Comparing types using definitional equality means that everything involved in definitional equality, including the internals of function definitions, becomes part of the <em>interface</em> of programs that use dependent types and indexed families.
+<!--
+Comparing types using definitional equality means that everything involved in definitional equality, including the internals of function definitions, becomes part of the _interface_ of programs that use dependent types and indexed families.
 Exposing the internals of a function in a type means that refactoring the exposed program may cause programs that use it to no longer type check.
-In particular, the fact that <code>plusL</code> is used in the type of <code>appendL</code> means that the definition of <code>plusL</code> cannot be replaced by the otherwise-equivalent <code>plusR</code>.</p>
-<h2 id="getting-stuck-on-addition"><a class="header" href="#getting-stuck-on-addition">Getting Stuck on Addition</a></h2>
-<p>What happens if append is defined with <code>plusR</code> instead?
-Beginning in the same way, with explicit lengths and placeholder underscores in each case, reveals the following useful error messages:</p>
+In particular, the fact that `plusL` is used in the type of `appendL` means that the definition of `plusL` cannot be replaced by the otherwise-equivalent `plusR`.
+-->
+<p>比较类型使用定义相等意味着定义相等中涉及的所有内容，包括函数的内部定义，都成为使用依值类型和索引族的程序的<strong>接口</strong>的一部分。
+在类型中暴露函数的内部实现意味着重构暴露的函数可能导致使用它的程序无法通过类型检查。
+特别是，<code>plusL</code>在 <code>appendL</code> 的类型中使用的事实意味着 <code>plusL</code> 的使用不能被等价的 <code>plusR</code> 替换。</p>
+<!--
+## Getting Stuck on Addition
+-->
+<h2 id="在加法上卡住"><a class="header" href="#在加法上卡住">在加法上卡住</a></h2>
+<!--
+What happens if append is defined with `plusR` instead?
+Beginning in the same way, with explicit lengths and placeholder underscores in each case, reveals the following useful error messages:
+-->
+<p>如果使用 <code>plusR</code> 定义 <code>append</code> 会发生什么？
+让我们从头来过。使用显式长度并用占位符填充每种情形，会显示以下有用的错误消息：</p>
 <pre><code class="language-lean">def appendR : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusR k)
   | 0, k, .nil, ys =&gt; _
   | n + 1, k, .cons x xs, ys =&gt; _
@@ -347,7 +487,10 @@ xs : Vect α n
 ys : Vect α k
 ⊢ Vect α (Nat.plusR (n + 1) k)
 </code></pre>
-<p>However, attempting to place a <code>Vect α k</code> type annotation around the first placeholder results in an type mismatch error:</p>
+<!--
+However, attempting to place a `Vect α k` type annotation around the first placeholder results in an type mismatch error:
+-->
+<p>然而，尝试在第一个占位符上添加一个<code>Vect α k</code>类型注释会导致类型不匹配错误：</p>
 <pre><code class="language-lean">def appendR : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusR k)
   | 0, k, .nil, ys =&gt; (_ : Vect α k)
   | n + 1, k, .cons x xs, ys =&gt; _
@@ -359,14 +502,24 @@ has type
 but is expected to have type
   Vect α (Nat.plusR 0 k) : Type ?u.2973
 </code></pre>
-<p>This error is pointing out that <code>plusR 0 k</code> and <code>k</code> are <em>not</em> definitionally equal.</p>
-<p>This is because <code>plusR</code> has the following definition:</p>
+<!--
+This error is pointing out that `plusR 0 k` and `k` are _not_ definitionally equal.
+-->
+<p>这个错误指出 <code>plusR 0 k</code> 和 <code>k</code> <strong>不</strong>定义相等。</p>
+<!--
+This is because `plusR` has the following definition:
+-->
+<p>这是因为 <code>plusR</code> 有以下定义：</p>
 <pre><code class="language-lean">def Nat.plusR : Nat → Nat → Nat
   | n, 0 =&gt; n
   | n, k + 1 =&gt; plusR n k + 1
 </code></pre>
-<p>Its pattern matching occurs on the <em>second</em> argument, not the first argument, which means that the presence of the variable <code>k</code> in that position prevents it from reducing.
-<code>Nat.add</code> in Lean's standard library is equivalent to <code>plusR</code>, not <code>plusL</code>, so attempting to use it in this definition results in precisely the same difficulties:</p>
+<!--
+Its pattern matching occurs on the _second_ argument, not the first argument, which means that the presence of the variable `k` in that position prevents it from reducing.
+`Nat.add` in Lean's standard library is equivalent to `plusR`, not `plusL`, so attempting to use it in this definition results in precisely the same difficulties:
+-->
+<p>它的模式匹配发生在<strong>第二</strong>个参数上，而非第一个，这意味着该位置上的变量 <code>k</code> 阻止了它的规约。
+Lean 标准库中的 <code>Nat.add</code> 等价于 <code>plusR</code> ，而不是 <code>plusL</code> ，因此尝试在这个定义中使用它会导致完全相同的问题：</p>
 <pre><code class="language-lean">def appendR : (n k : Nat) → Vect α n → Vect α k → Vect α (n + k)
   | 0, k, .nil, ys =&gt; (_ : Vect α k)
   | n + 1, k, .cons x xs, ys =&gt; _
@@ -378,28 +531,64 @@ has type
 but is expected to have type
   Vect α (0 + k) : Type ?u.2973
 </code></pre>
-<p>Addition is getting <em>stuck</em> on the variables.
-Getting it unstuck requires <a href="../type-classes/standard-classes.html#equality-and-ordering">propositional equality</a>.</p>
-<h2 id="propositional-equality"><a class="header" href="#propositional-equality">Propositional Equality</a></h2>
-<p>Propositional equality is the mathematical statement that two expressions are equal.
+<!--
+Addition is getting _stuck_ on the variables.
+Getting it unstuck requires [propositional equality](../type-classes/standard-classes.md#equality-and-ordering).
+-->
+<p>加法在变量上<strong>卡住</strong>。
+解决它需要<a href="../type-classes/standard-classes.html#equality-and-ordering">命题相等</a>。</p>
+<!--
+## Propositional Equality
+-->
+<h2 id="命题相等性"><a class="header" href="#命题相等性">命题相等性</a></h2>
+<!--
+Propositional equality is the mathematical statement that two expressions are equal.
 While definitional equality is a kind of ambient fact that Lean automatically checks when required, statements of propositional equality require explicit proofs.
-Once an equality proposition has been proved, it can be used in a program to modify a type, replacing one side of the equality with the other, which can unstick the type checker.</p>
-<p>The reason why definitional equality is so limited is to enable it to be checked by an algorithm.
+Once an equality proposition has been proved, it can be used in a program to modify a type, replacing one side of the equality with the other, which can unstick the type checker.
+-->
+<p>命题相等性是两个表达式相等的数学陈述。
+Lean 在需要时会自动检查定义相等性，但命题相等性需要显式证明。
+一旦一个相等命题被证明，它就可以在程序中被使用，从而将一个类型替换为等式另一侧的类型，从而解套卡住的类型检查器。</p>
+<!--
+The reason why definitional equality is so limited is to enable it to be checked by an algorithm.
 Propositional equality is much richer, but the computer cannot in general check whether two expressions are propositionally equal, though it can verify that a purported proof is in fact a proof.
 The split between definitional and propositional equality represents a division of labor between humans and machines: the most boring equalities are checked automatically as part of definitional equality, freeing the human mind to work on the interesting problems available in propositional equality.
-Similarly, definitional equality is invoked automatically by the type checker, while propositional equality must be specifically appealed to.</p>
-<p>In <a href="../props-proofs-indexing.html">Propositions, Proofs, and Indexing</a>, some equality statements are proved using <code>simp</code>.
+Similarly, definitional equality is invoked automatically by the type checker, while propositional equality must be specifically appealed to.
+-->
+<p>定义相等性只规定了很有限的相等性，所以它可以被算法自动地检查。
+命题相等性要丰富得多，但计算机通常无法检查两个表达式是否命题相等，尽管它可以验证所谓的证明是否实际上是一个证明。
+定义相等和命题相等之间的分裂代表了人类和机器之间的分工：最无聊的相等性作为定义相等的一部分被自动检查，从而使人类思维可以处理命题相等中可用的有趣问题。
+同样，定义相等性由类型检查器自动调用，而命题相等必须明确地被调用。</p>
+<!--
+In [Propositions, Proofs, and Indexing](../props-proofs-indexing.md), some equality statements are proved using `simp`.
 All of these equality statements are ones in which the propositional equality is in fact already a definitional equality.
-Typically, statements of propositional equality are proved by first getting them into a form where they are either definitional or close enough to existing proved equalities, and then using tools like <code>simp</code> to take care of the simplified cases.
-The <code>simp</code> tactic is quite powerful: behind the scenes, it uses a number of fast, automated tools to construct a proof.
-A simpler tactic called <code>rfl</code> specifically uses definitional equality to prove propositional equality.
-The name <code>rfl</code> is short for <em>reflexivity</em>, which is the property of equality that states that everything equals itself.</p>
-<p>Unsticking <code>appendR</code> requires a proof that <code>k = Nat.plusR 0 k</code>, which is not a definitional equality because <code>plusR</code> is stuck on the variable in its second argument.
-To get it to compute, the <code>k</code> must become a concrete constructor.
-This is a job for pattern matching.</p>
-<p>In particular, because <code>k</code> could be <em>any</em> <code>Nat</code>, this task requires a function that can return evidence that <code>k = Nat.plusR 0 k</code> for <em>any</em> <code>k</code> whatsoever.
-This should be a function that returns a proof of equality, with type <code>(k : Nat) → k = Nat.plusR 0 k</code>.
-Getting it started with initial patterns and placeholders yields the following messages:</p>
+Typically, statements of propositional equality are proved by first getting them into a form where they are either definitional or close enough to existing proved equalities, and then using tools like `simp` to take care of the simplified cases.
+The `simp` tactic is quite powerful: behind the scenes, it uses a number of fast, automated tools to construct a proof.
+A simpler tactic called `rfl` specifically uses definitional equality to prove propositional equality.
+The name `rfl` is short for _reflexivity_, which is the property of equality that states that everything equals itself.
+-->
+<p>在<a href="../props-proofs-indexing.html">命题、证明和索引</a>中，一些相等性命题使用 <code>simp</code> 证明。
+那里面的相等性命题实际上已经定义相等。
+通常，命题相等性的证明是通过首先将它们变成定义相等或接近现有证明的相等性的形式，然后使用像 <code>simp</code> 这样的策术来处理简化后的情形。
+<code>simp</code> 策术非常强大：它使用许多快速的自动化工具来构造证明。
+一个更简单的策术叫做 <code>rfl</code> ，它专门使用定义相等来证明命题相等。
+<code>rfl</code> 的名称来自**反射性（reflexivity）**的缩写，它是相等性的一个属性：一切都等于自己。</p>
+<!--
+Unsticking `appendR` requires a proof that `k = Nat.plusR 0 k`, which is not a definitional equality because `plusR` is stuck on the variable in its second argument.
+To get it to compute, the `k` must become a concrete constructor.
+This is a job for pattern matching.
+-->
+<p>解决<code>appendR</code>需要一个证明，即<code>k = Nat.plusR 0 k</code>。它们并不定义相等，因为<code>plusR</code>在第二个参数的变量上卡住了。
+为了让它计算，<code>k</code>必须是一个具体的构造子。
+这时，我们可以使用模式匹配。</p>
+<!--
+In particular, because `k` could be _any_ `Nat`, this task requires a function that can return evidence that `k = Nat.plusR 0 k` for _any_ `k` whatsoever.
+This should be a function that returns a proof of equality, with type `(k : Nat) → k = Nat.plusR 0 k`.
+Getting it started with initial patterns and placeholders yields the following messages:
+-->
+<p>因为 <code>k</code> 可以是<strong>任何</strong> <code>Nat</code> ，所以我们需要一个对任何 <code>k</code> 都能返回 <code>k = Nat.plusR 0 k</code> 的证据的函数。
+它的类型应该为<code>(k : Nat) → k = Nat.plusR 0 k</code>。
+进行模式匹配并输入占位符后得到以下信息：</p>
 <pre><code class="language-lean">def plusR_zero_left : (k : Nat) → k = Nat.plusR 0 k
   | 0 =&gt; _
   | k + 1 =&gt; _
@@ -413,15 +602,24 @@ context:
 k : Nat
 ⊢ k + 1 = Nat.plusR 0 (k + 1)
 </code></pre>
-<p>Having refined <code>k</code> to <code>0</code> via pattern matching, the first placeholder stands for evidence of a statement that does hold definitionally.
-The <code>rfl</code> tactic takes care of it, leaving only the second placeholder:</p>
+<!--
+Having refined `k` to `0` via pattern matching, the first placeholder stands for evidence of a statement that does hold definitionally.
+The `rfl` tactic takes care of it, leaving only the second placeholder:
+-->
+<p>将 <code>k </code>通过模式匹配细化为 <code>0</code> 后，第一个占位符需要一个定义相等的命题的证据。
+使用 <code>rfl</code> 策术完成它，只留下第二个占位符：</p>
 <pre><code class="language-lean">def plusR_zero_left : (k : Nat) → k = Nat.plusR 0 k
   | 0 =&gt; by rfl
   | k + 1 =&gt; _
 </code></pre>
-<p>The second placeholder is a bit trickier.
-The expression <code>Nat.plusR 0 k + 1</code> is definitionally equal to <code>Nat.plusR 0 (k + 1)</code>.
-This means that the goal could also be written <code>k + 1 = Nat.plusR 0 k + 1</code>:</p>
+<!--
+The second placeholder is a bit trickier.
+The expression `Nat.plusR 0 k + 1` is definitionally equal to `Nat.plusR 0 (k + 1)`.
+This means that the goal could also be written `k + 1 = Nat.plusR 0 k + 1`:
+-->
+<p>第二个占位符有点棘手。
+表达式<code>Nat.plusR 0 k + 1</code>定义相等于<code>Nat.plusR 0 (k + 1)</code>。
+这意味着目标也可以写成<code>k + 1 = Nat.plusR 0 k + 1</code>：</p>
 <pre><code class="language-lean">def plusR_zero_left : (k : Nat) → k = Nat.plusR 0 k
   | 0 =&gt; by rfl
   | k + 1 =&gt; (_ : k + 1 = Nat.plusR 0 k + 1)
@@ -431,25 +629,41 @@ context:
 k : Nat
 ⊢ k + 1 = Nat.plusR 0 k + 1
 </code></pre>
-<p>Underneath the <code>+ 1</code> on each side of the equality statement is another instance of what the function itself returns.
-In other words, a recursive call on <code>k</code> would return evidence that <code>k = Nat.plusR 0 k</code>.
+<!--
+Underneath the `+ 1` on each side of the equality statement is another instance of what the function itself returns.
+In other words, a recursive call on `k` would return evidence that `k = Nat.plusR 0 k`.
 Equality wouldn't be equality if it didn't apply to function arguments. 
-In other words, if <code>x = y</code>, then <code>f x = f y</code>.
-The standard library contains a function <code>congrArg</code> that takes a function and an equality proof and returns a new proof where the function has been applied to both sides of the equality.
-In this case, the function is <code>(· + 1)</code>:</p>
+In other words, if `x = y`, then `f x = f y`.
+The standard library contains a function `congrArg` that takes a function and an equality proof and returns a new proof where the function has been applied to both sides of the equality.
+In this case, the function is `(· + 1)`:
+-->
+<p>在等式命题两侧的 <code>+ 1</code> 下面是函数本身返回的另一个实例。
+换句话说，对 <code>k</code> 的递归调用将返回 <code>k = Nat.plusR 0 k</code> 的证据。
+如果相等性不适用于函数参数，那么它就不是相等性。
+换句话说，如果 <code>x = y</code> ，那么 <code>f x = f y</code> 。
+标准库包含一个函数<code>congrArg</code>，它接受一个函数和一个相等性证明，并返回一个新的证明，其中函数已经应用于等式的两侧。
+在这种情形下，函数是<code>(· + 1)</code>：</p>
 <pre><code class="language-lean">def plusR_zero_left : (k : Nat) → k = Nat.plusR 0 k
   | 0 =&gt; by rfl
   | k + 1 =&gt;
     congrArg (· + 1) (plusR_zero_left k)
 </code></pre>
-<p>Propositional equalities can be deployed in a program using the rightward triangle operator <code>▸</code>.
+<!--
+Propositional equalities can be deployed in a program using the rightward triangle operator `▸`.
 Given an equality proof as its first argument and some other expression as its second, this operator replaces instances of the left side of the equality with the right side of the equality in the second argument's type.
-In other words, the following definition contains no type errors:</p>
+In other words, the following definition contains no type errors:
+-->
+<p>命题相等性可以使用右三角运算符<code>▸</code>在程序中使用。
+给定一个相等性证明作为第一个参数，另一个表达式作为第二个参数，这个运算符将第二个参数类型中等式左侧的实例替换为等式的右侧的实例。
+换句话说，以下定义不会导致类型错误：</p>
 <pre><code class="language-lean">def appendR : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusR k)
   | 0, k, .nil, ys =&gt; plusR_zero_left k ▸ (_ : Vect α k)
   | n + 1, k, .cons x xs, ys =&gt; _
 </code></pre>
-<p>The first placeholder has the expected type:</p>
+<!--
+The first placeholder has the expected type:
+-->
+<p>第一个占位符有预期的类型：</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 α : Type u_1
@@ -457,12 +671,18 @@ k : Nat
 ys : Vect α k
 ⊢ Vect α k
 </code></pre>
-<p>It can now be filled in with <code>ys</code>:</p>
+<!--
+It can now be filled in with `ys`:
+-->
+<p>现在可以用<code>ys</code>填充它：</p>
 <pre><code class="language-lean">def appendR : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusR k)
   | 0, k, .nil, ys =&gt; plusR_zero_left k ▸ ys
   | n + 1, k, .cons x xs, ys =&gt; _
 </code></pre>
-<p>Filling in the remaining placeholder requires unsticking another instance of addition:</p>
+<!--
+Filling in the remaining placeholder requires unsticking another instance of addition:
+-->
+<p>填充剩下的占位符需要解套另一个卡住的加法：</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 α : Type u_1
@@ -472,41 +692,70 @@ xs : Vect α n
 ys : Vect α k
 ⊢ Vect α (Nat.plusR (n + 1) k)
 </code></pre>
-<p>Here, the statement to be proved is that <code>Nat.plusR (n + 1) k = Nat.plusR n k + 1</code>, which can be used with <code>▸</code> to draw the <code>+ 1</code> out to the top of the expression so that it matches the index of <code>cons</code>.</p>
-<p>The proof is a recursive function that pattern matches on the second argument to <code>plusR</code>, namely <code>k</code>.
-This is because <code>plusR</code> itself pattern matches on its second argument, so the proof can &quot;unstick&quot; it through pattern matching, exposing the computational behavior.
-The skeleton of the proof is very similar to that of <code>plusR_zero_left</code>:</p>
+<!--
+Here, the statement to be proved is that `Nat.plusR (n + 1) k = Nat.plusR n k + 1`, which can be used with `▸` to draw the `+ 1` out to the top of the expression so that it matches the index of `cons`.
+-->
+<p>这里，要证明的命题是 <code>Nat.plusR (n + 1) k = Nat.plusR n k + 1</code>，可以使用<code>▸</code>将<code>+ 1</code>拉到表达式的顶部，使其与<code>cons</code>的索引匹配。</p>
+<!--
+The proof is a recursive function that pattern matches on the second argument to `plusR`, namely `k`.
+This is because `plusR` itself pattern matches on its second argument, so the proof can "unstick" it through pattern matching, exposing the computational behavior.
+The skeleton of the proof is very similar to that of `plusR_zero_left`:-->
+<p>证明是一个递归函数，它对 <code>plusR</code> 的第二个参数 <code>k</code> 进行模式匹配。
+这是因为 <code>plusR</code> 自身也是对第二个参数进行模式匹配，所以证明可以相同的模式匹配解套它，将计算行为暴露出来。
+证明的框架与<code>plusR_zero_left</code>非常相似：</p>
 <pre><code class="language-lean">def plusR_succ_left (n : Nat) : (k : Nat) → Nat.plusR (n + 1) k = Nat.plusR n k + 1
   | 0 =&gt; by rfl
   | k + 1 =&gt; _
 </code></pre>
-<p>The remaining case's type is definitionally equal to <code>Nat.plusR (n + 1) k + 1 = Nat.plusR n (k + 1) + 1</code>, so it can be solved with <code>congrArg</code>, just as in <code>plusR_zero_left</code>:</p>
+<!--
+The remaining case's type is definitionally equal to `Nat.plusR (n + 1) k + 1 = Nat.plusR n (k + 1) + 1`, so it can be solved with `congrArg`, just as in `plusR_zero_left`:
+-->
+<p>剩下的情形的类型在定义上等于 <code>Nat.plusR (n + 1) k + 1 = Nat.plusR n (k + 1) + 1</code>，因此可以像 <code>plusR_zero_left</code> 一样用 <code>congrArg</code> 解决：</p>
 <pre><code class="language-output error">don't know how to synthesize placeholder
 context:
 n k : Nat
 ⊢ Nat.plusR (n + 1) (k + 1) = Nat.plusR n (k + 1) + 1
 </code></pre>
-<p>This results in a finished proof:</p>
+<!--
+This results in a finished proof:
+-->
+<p>证明就此完成</p>
 <pre><code class="language-lean">def plusR_succ_left (n : Nat) : (k : Nat) → Nat.plusR (n + 1) k = Nat.plusR n k + 1
   | 0 =&gt; by rfl
   | k + 1 =&gt; congrArg (· + 1) (plusR_succ_left n k)
 </code></pre>
-<p>The finished proof can be used to unstick the second case in <code>appendR</code>:</p>
+<!--
+The finished proof can be used to unstick the second case in `appendR`:
+-->
+<p>完成的证明可以用来解套<code>appendR</code>中的第二个情形：</p>
 <pre><code class="language-lean">def appendR : (n k : Nat) → Vect α n → Vect α k → Vect α (n.plusR k)
   | 0, k, .nil, ys =&gt; plusR_zero_left k ▸ ys
   | n + 1, k, .cons x xs, ys =&gt; plusR_succ_left n k ▸ .cons x (appendR n k xs ys)
 </code></pre>
-<p>When making the length arguments to <code>appendR</code> implicit again, they are no longer explicitly named to be appealed to in the proofs.
-However, Lean's type checker has enough information to fill them in automatically behind the scenes, because no other values would allow the types to match:</p>
+<!--
+When making the length arguments to `appendR` implicit again, they are no longer explicitly named to be appealed to in the proofs.
+However, Lean's type checker has enough information to fill them in automatically behind the scenes, because no other values would allow the types to match:
+-->
+<p>如果再次将 <code>appendR</code> 的长度参数改成隐式参数，它们在证明中也将不具有显示的名字。
+然而，Lean 的类型检查器有足够的信息自动填充它们，只有唯一的值可以使类型匹配：</p>
 <pre><code class="language-lean">def appendR : Vect α n → Vect α k → Vect α (n.plusR k)
   | .nil, ys =&gt; plusR_zero_left _ ▸ ys
   | .cons x xs, ys =&gt; plusR_succ_left _ _ ▸ .cons x (appendR xs ys)
 </code></pre>
-<h2 id="pros-and-cons"><a class="header" href="#pros-and-cons">Pros and Cons</a></h2>
-<p>Indexed families have an important property: pattern matching on them affects definitional equality.
-For example, in the <code>nil</code> case in a <code>match</code> expression on a <code>Vect</code>, the length simply <em>becomes</em> <code>0</code>.
-Definitional equality can be very convenient, because it is always active and does not need to be invoked explicitly.</p>
-<p>However, the use of definitional equality with dependent types and pattern matching has serious software engineering drawbacks.
+<!--
+## Pros and Cons
+-->
+<h2 id="优势和劣势"><a class="header" href="#优势和劣势">优势和劣势</a></h2>
+<!--
+Indexed families have an important property: pattern matching on them affects definitional equality.
+For example, in the `nil` case in a `match` expression on a `Vect`, the length simply _becomes_ `0`.
+Definitional equality can be very convenient, because it is always active and does not need to be invoked explicitly.
+-->
+<p>索引族有一个重要的特性：对它们进行模式匹配会影响定义相等性。
+例如，在<code>Vect</code>上的<code>match</code>表达式中的<code>nil</code>情形中，长度会直接<strong>变成</strong><code>0</code>。
+定义相等非常好用，因为它从不需要显式调用。</p>
+<!--
+However, the use of definitional equality with dependent types and pattern matching has serious software engineering drawbacks.
 First off, functions must be written especially to be used in types, and functions that are convenient to use in types may not use the most efficient algorithms.
 Once a function has been exposed through using it in a type, its implementation has become part of the interface, leading to difficulties in future refactoring.
 Secondly, definitional equality can be slow.
@@ -515,23 +764,60 @@ Third, error messages that result from failures of definitional equality are not
 It is not always easy to understand the provenance of the expressions in the error messages.
 Finally, encoding non-trivial invariants in a collection of indexed families and dependently-typed functions can often be brittle.
 It is often necessary to change early definitions in a system when the exposed reduction behavior of functions proves to not provide convenient definitional equalities.
-The alternative is to litter the program with appeals to equality proofs, but these can become quite unwieldy.</p>
-<p>In idiomatic Lean code, indexed datatypes are not used very often.
+The alternative is to litter the program with appeals to equality proofs, but these can become quite unwieldy.
+-->
+<p>然而，使用依赖类型和模式匹配的定义相等在软件工程上有严重的缺点。
+首先，在类型中使用的函数需要额外编写，同时在类型中方便使用的实现并不一定是一个高效的实现。
+一旦一个函数在类型中被使用，它的实现就成为接口的一部分，导致未来重构困难。
+其次，检查定义相等性可能会很慢。
+当检查两个表达式是否定义相等时，如果相关的函数复杂并且有许多抽象层，Lean 可能需要运行大量代码。
+第三，定义相等检查失败而报告的错误信息可能很难理解，因为它们通常包含了函数内部实现相关的信息。
+并不总是容易理解错误消息中表达式的来源。
+最后，在一组索引族和依赖类型函数中编码非平凡的不变性通常是脆弱的。
+当函数的规约行为不能方便地提供需要的定义相等性时，通常需要更改系统中的早期定义。
+另一种方法是在程序中的很多地方手动引入相等性的证明，但这样会变得非常麻烦。</p>
+<!--
+In idiomatic Lean code, indexed datatypes are not used very often.
 Instead, subtypes and explicit propositions are typically used to enforce important invariants.
 This approach involves many explicit proofs, and very few appeals to definitional equality.
 As befits an interactive theorem prover, Lean has been designed to make explicit proofs convenient.
-Generally speaking, this approach should be preferred in most cases.</p>
-<p>However, understanding indexed families of datatypes is important.
-Recursive functions such as <code>plusR_zero_left</code> and <code>plusR_succ_left</code> are in fact <em>proofs by mathematical induction</em>.
+Generally speaking, this approach should be preferred in most cases.
+-->
+<p>在惯用的 Lean 代码中，带有索引的数据类型并不经常使用。
+相反，子类型和显式命题通常用于保证重要的不变性。
+这种方法涉及许多显式证明，而很少直接使用定义相等。
+为了可以被用作一个交互式定理证明器，Lean 的很多设计是为了使显式证明方便。
+一般来说，在大多数情况下，应该优先考虑这种方法。</p>
+<!--
+However, understanding indexed families of datatypes is important.
+Recursive functions such as `plusR_zero_left` and `plusR_succ_left` are in fact _proofs by mathematical induction_.
 The base case of the recursion corresponds to the base case in induction, and the recursive call represents an appeal to the induction hypothesis.
 More generally, new propositions in Lean are often defined as inductive types of evidence, and these inductive types usually have indices.
 The process of proving theorems is in fact constructing expressions with these types behind the scenes, in a process not unlike the proofs in this section.
 Also, indexed datatypes are sometimes exactly the right tool for the job.
-Fluency in their use is an important part of knowing when to use them.</p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
+Fluency in their use is an important part of knowing when to use them.
+-->
+<p>然而，理解索引族是重要的。
+诸如 <code>plusR_zero_left</code> 和 <code>plusR_succ_left</code> 之类的递归函数实际上是<strong>使用了数学归纳法的证明</strong>。
+递归的基情形对应于归纳的基情形，递归调用则表示对归纳假设的使用。
+更一般地说，Lean 中的新命题通常被定义为证据的归纳类型，这些归纳类型通常具有索引。
+证明定理的过程实际上是在构造具有这些类型的表达式，这个过程与本节中的证明非常相似。
+此外，索引数据类型有时确实是最佳选择。熟练掌握它们的使用是知道何时使用它们的一个重要部分。</p>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+ * Using a recursive function in the style of `plusR_succ_left`, prove that for all `Nat`s `n` and `k`, `n.plusR k = n + k`.
+ -->
 <ul>
-<li>Using a recursive function in the style of <code>plusR_succ_left</code>, prove that for all <code>Nat</code>s <code>n</code> and <code>k</code>, <code>n.plusR k = n + k</code>.</li>
-<li>Write a function on <code>Vect</code> for which <code>plusR</code> is more natural than <code>plusL</code>, where <code>plusL</code> would require proofs to be used in the definition.</li>
+<li>使用类似于<code>plusR_succ_left</code>的递归函数，证明对于所有的<code>Nat</code> <code>n</code> 和 <code>k</code>，<code>n.plusR k = n + k</code>。</li>
+</ul>
+<!--
+ * Write a function on `Vect` for which `plusR` is more natural than `plusL`, where `plusL` would require proofs to be used in the definition.
+ -->
+<ul>
+<li>写一个在 <code>Vect</code> 上的函数，其中 <code>plusR</code> 比 <code>plusL</code> 更自然：<code>plusL</code> 需要在定义中显示使用（命题相等性的）证明。</li>
 </ul>
 
                     </main>

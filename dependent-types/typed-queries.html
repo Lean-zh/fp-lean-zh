@@ -144,15 +144,34 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="worked-example-typed-queries"><a class="header" href="#worked-example-typed-queries">Worked Example: Typed Queries</a></h1>
-<p>Indexed families are very useful when building an API that is supposed to resemble some other language.
+                        <!--
+# Worked Example: Typed Queries
+-->
+<h1 id="实际案例类型化查询"><a class="header" href="#实际案例类型化查询">实际案例：类型化查询</a></h1>
+<!--
+Indexed families are very useful when building an API that is supposed to resemble some other language.
 They can be used to write a library of HTML constructors that don't permit generating invalid HTML, to encode the specific rules of a configuration file format, or to model complicated business constraints.
-This section describes an encoding of a subset of relational algebra in Lean using indexed families, as a simpler demonstration of techniques that can be used to build a more powerful database query language.</p>
-<p>This subset uses the type system to enforce requirements such as disjointness of field names, and it uses type-level computation to reflect the schema into the types of values that are returned from a query.
+This section describes an encoding of a subset of relational algebra in Lean using indexed families, as a simpler demonstration of techniques that can be used to build a more powerful database query language.
+-->
+<p>类型族在构建一个模仿其他语言的 API 时非常有用。
+它们可以用来编写一个保证生成合法页面的 HTML 生成器，或者编码某种文件格式的配置，或是用来建模复杂的业务约束。
+本节描述了如何在 Lean 中使用索引族对关系代数的一个子集进行编码，然而本节的展示的技术完全可以被用来构建一个更加强大的数据库查询语言。</p>
+<!--
+This subset uses the type system to enforce requirements such as disjointness of field names, and it uses type-level computation to reflect the schema into the types of values that are returned from a query.
 It is not a realistic system, however—databases are represented as linked lists of linked lists, the type system is much simpler than that of SQL, and the operators of relational algebra don't really match those of SQL.
-However, it is large enough to demonstrate useful principles and techniques.</p>
-<h2 id="a-universe-of-data"><a class="header" href="#a-universe-of-data">A Universe of Data</a></h2>
-<p>In this relational algebra, the base data that can be held in columns can have types <code>Int</code>, <code>String</code>, and <code>Bool</code> and are described by the universe <code>DBType</code>:</p>
+However, it is large enough to demonstrate useful principles and techniques.
+-->
+<p>这个子集使用类型系统来保证某些要求，比如字段名称的不相交性，并使用类型上的计算将数据库模式（Schema）反映到从查询返回的值的类型中。
+它并不是一个实际的数据库系统——数据库用链表的链表表示；类型系统比 SQL 的简单得多；关系代数的运算符与 SQL 的运算符并不完全匹配。
+然而，它足够用来展示使用索引族的一些有用的原则和技术。</p>
+<!--
+## A Universe of Data
+-->
+<h2 id="一个数据的宇宙"><a class="header" href="#一个数据的宇宙">一个数据的宇宙</a></h2>
+<!--
+In this relational algebra, the base data that can be held in columns can have types `Int`, `String`, and `Bool` and are described by the universe `DBType`:
+-->
+<p>在这个关系代数中，保存在列中的基本数据的类型包括 <code>Int</code>、<code>String</code> 和 <code>Bool</code>，并由宇宙 <code>DBType</code> 描述：</p>
 <pre><code class="language-lean">inductive DBType where
   | int | string | bool
 
@@ -161,35 +180,54 @@ abbrev DBType.asType : DBType → Type
   | .string =&gt; String
   | .bool =&gt; Bool
 </code></pre>
-<p>Using <code>asType</code> allows these codes to be used for types.
-For example:</p>
+<!--
+Using `asType` allows these codes to be used for types.
+For example:
+-->
+<p><code>asType</code> 将这些编码转化为类型：</p>
 <pre><code class="language-lean">#eval (&quot;Mount Hood&quot; : DBType.string.asType)
 </code></pre>
 <pre><code class="language-output info">&quot;Mount Hood&quot;
 </code></pre>
-<p>It is possible to compare the values described by any of the three database types for equality.
+<!--
+It is possible to compare the values described by any of the three database types for equality.
 Explaining this to Lean, however, requires a bit of work.
-Simply using <code>BEq</code> directly fails:</p>
+Simply using `BEq` directly fails:
+-->
+<p>可以对三种类型的任何两个值都判断是否相等。
+然而，向 Lean 解释这一点需要一些工作。
+直接使用 <code>BEq</code> 会失败：</p>
 <pre><code class="language-lean">def DBType.beq (t : DBType) (x y : t.asType) : Bool :=
   x == y
 </code></pre>
 <pre><code class="language-output info">failed to synthesize instance
   BEq (asType t)
 </code></pre>
-<p>Just as in the nested pairs universe, type class search doesn't automatically check each possibility for <code>t</code>'s value
-The solution is to use pattern matching to refine the types of <code>x</code> and <code>y</code>:</p>
+<!--
+Just as in the nested pairs universe, type class search doesn't automatically check each possibility for `t`'s value
+The solution is to use pattern matching to refine the types of `x` and `y`:
+-->
+<p>就像在嵌套对的宇宙中一样，类型类搜索不会自动检查 <code>t</code> 的值的每种可能性。
+解决方案是使用模式匹配来细化 <code>x</code> 和 <code>y</code> 的类型：</p>
 <pre><code class="language-lean">def DBType.beq (t : DBType) (x y : t.asType) : Bool :=
   match t with
   | .int =&gt; x == y
   | .string =&gt; x == y
   | .bool =&gt; x == y
 </code></pre>
-<p>In this version of the function, <code>x</code> and <code>y</code> have types <code>Int</code>, <code>String</code>, and <code>Bool</code> in the three respective cases, and these types all have <code>BEq</code> instances.
-The definition of <code>dbEq</code> can be used to define a <code>BEq</code> instance for the types that are coded for by <code>DBType</code>:</p>
+<!--
+In this version of the function, `x` and `y` have types `Int`, `String`, and `Bool` in the three respective cases, and these types all have `BEq` instances.
+The definition of `dbEq` can be used to define a `BEq` instance for the types that are coded for by `DBType`:
+-->
+<p>在这个版本的函数中，<code>x</code> 和 <code>y</code> 在三种情形下的类型分别为 <code>Int</code>、<code>String</code> 和 <code>Bool</code>，这些类型都有 <code>BEq</code> 实例。
+<code>dbEq</code> 的定义可以用来为 <code>DBType</code> 编码的类型定义一个 <code>BEq</code> 实例：</p>
 <pre><code class="language-lean">instance {t : DBType} : BEq t.asType where
   beq := t.beq
 </code></pre>
-<p>This is not the same as an instance for the codes themselves:</p>
+<!--
+This is not the same as an instance for the codes themselves:
+-->
+<p>这个实例与编码本身的实例不同：</p>
 <pre><code class="language-lean">instance : BEq DBType where
   beq
     | .int, .int =&gt; true
@@ -197,10 +235,18 @@ The definition of <code>dbEq</code> can be used to define a <code>BEq</code> ins
     | .bool, .bool =&gt; true
     | _, _ =&gt; false
 </code></pre>
-<p>The former instance allows comparison of values drawn from the types described by the codes, while the latter allows comparison of the codes themselves.</p>
-<p>A <code>Repr</code> instance can be written using the same technique.
-The method of the <code>Repr</code> class is called <code>reprPrec</code> because it is designed to take things like operator precedence into account when displaying values.
-Refining the type through dependent pattern matching allows the <code>reprPrec</code> methods from the <code>Repr</code> instances for <code>Int</code>, <code>String</code>, and <code>Bool</code> to be used:</p>
+<!--
+The former instance allows comparison of values drawn from the types described by the codes, while the latter allows comparison of the codes themselves.
+-->
+<p>前一个实例允许比较编码描述的类型中的值，而后一个实例允许比较编码本身。</p>
+<!--
+A `Repr` instance can be written using the same technique.
+The method of the `Repr` class is called `reprPrec` because it is designed to take things like operator precedence into account when displaying values.
+Refining the type through dependent pattern matching allows the `reprPrec` methods from the `Repr` instances for `Int`, `String`, and `Bool` to be used:
+-->
+<p>一个 <code>Repr</code> 实例可以使用相同的技术编写。
+<code>Repr</code> 类的方法被称为 <code>reprPrec</code>，因为它在显示值时考虑了操作符优先级等因素。
+通过依值模式匹配细化类型，可以使用 <code>Int</code>、<code>String</code> 和 <code>Bool</code> 的 <code>Repr</code> 实例的 <code>reprPrec</code> 方法：</p>
 <pre><code class="language-lean">instance {t : DBType} : Repr t.asType where
   reprPrec :=
     match t with
@@ -208,27 +254,47 @@ Refining the type through dependent pattern matching allows the <code>reprPrec</
     | .string =&gt; reprPrec
     | .bool =&gt; reprPrec
 </code></pre>
-<h2 id="schemas-and-tables"><a class="header" href="#schemas-and-tables">Schemas and Tables</a></h2>
-<p>A schema describes the name and type of each column in a database:</p>
+<!--
+## Schemas and Tables
+-->
+<h2 id="数据库模式和表"><a class="header" href="#数据库模式和表">数据库模式和表</a></h2>
+<!--
+A schema describes the name and type of each column in a database:
+-->
+<p>一个数据库模式描述了数据库中每一列的名称和类型：</p>
 <pre><code class="language-lean">structure Column where
   name : String
   contains : DBType
 
 abbrev Schema := List Column
 </code></pre>
-<p>In fact, a schema can be seen as a universe that describes rows in a table.
-The empty schema describes the unit type, a schema with a single column describes that value on its own, and a schema with at least two columns is represented by a tuple:</p>
+<!--
+In fact, a schema can be seen as a universe that describes rows in a table.
+The empty schema describes the unit type, a schema with a single column describes that value on its own, and a schema with at least two columns is represented by a tuple:
+-->
+<p>事实上，数据库模式可以看作是描述表中行的宇宙。
+空数据库模式描述了 <code>Unit</code> 类型，具有单个列的数据库模式描述了那个值本身，具有至少两个列的数据库模式可以有由元组表示：</p>
 <pre><code class="language-lean">abbrev Row : Schema → Type
   | [] =&gt; Unit
   | [col] =&gt; col.contains.asType
   | col1 :: col2 :: cols =&gt; col1.contains.asType × Row (col2::cols)
 </code></pre>
-<p>As described in <a href="../getting-to-know/polymorphism.html#prod">the initial section on product types</a>, Lean's product type and tuples are right-associative.
-This means that nested pairs are equivalent to ordinary flat tuples.</p>
-<p>A table is a list of rows that share a schema:</p>
+<!--
+As described in [the initial section on product types](../getting-to-know/polymorphism.md#prod), Lean's product type and tuples are right-associative.
+This means that nested pairs are equivalent to ordinary flat tuples.
+-->
+<p>正如在<a href="../getting-to-know/polymorphism.html#prod">积类型的起始节</a>中描述的那样，Lean 的积类型和元组是右结合的。
+这意味着嵌套对等同于普通的展平元组。</p>
+<!--
+A table is a list of rows that share a schema:
+-->
+<p>表是一个共享数据库模式的行的列表：</p>
 <pre><code class="language-lean">abbrev Table (s : Schema) := List (Row s)
 </code></pre>
-<p>For example, a diary of visits to mountain peaks can be represented with the schema <code>peak</code>:</p>
+<!--
+For example, a diary of visits to mountain peaks can be represented with the schema `peak`:
+-->
+<p>例如，可以用数据库模式 <code>peak</code> 表示对山峰的拜访日记：</p>
 <pre><code class="language-lean">abbrev peak : Schema := [
   ⟨&quot;name&quot;, DBType.string⟩,
   ⟨&quot;location&quot;, DBType.string⟩,
@@ -236,7 +302,10 @@ This means that nested pairs are equivalent to ordinary flat tuples.</p>
   ⟨&quot;lastVisited&quot;, .int⟩
 ]
 </code></pre>
-<p>A selection of peaks visited by the author of this book appears as an ordinary list of tuples:</p>
+<!--
+A selection of peaks visited by the author of this book appears as an ordinary list of tuples:
+-->
+<p>本书作者拜访过的部分山峰以元组的列表呈现：</p>
 <pre><code class="language-lean">def mountainDiary : Table peak := [
   (&quot;Mount Nebo&quot;,       &quot;USA&quot;,     3637, 2013),
   (&quot;Moscow Mountain&quot;,  &quot;USA&quot;,     1519, 2015),
@@ -244,7 +313,10 @@ This means that nested pairs are equivalent to ordinary flat tuples.</p>
   (&quot;Mount St. Helens&quot;, &quot;USA&quot;,     2549, 2010)
 ]
 </code></pre>
-<p>Another example consists of waterfalls and a diary of visits to them:</p>
+<!--
+Another example consists of waterfalls and a diary of visits to them:
+-->
+<p>另一个例子包括瀑布和对它们的拜访日记：</p>
 <pre><code class="language-lean">abbrev waterfall : Schema := [
   ⟨&quot;name&quot;, .string⟩,
   ⟨&quot;location&quot;, .string⟩,
@@ -256,10 +328,18 @@ def waterfallDiary : Table waterfall := [
   (&quot;Shoshone Falls&quot;,  &quot;USA&quot;, 2014)
 ]
 </code></pre>
-<h3 id="recursion-and-universes-revisited"><a class="header" href="#recursion-and-universes-revisited">Recursion and Universes, Revisited</a></h3>
-<p>The convenient structuring of rows as tuples comes at a cost: the fact that <code>Row</code> treats its two base cases separately means that functions that use <code>Row</code> in their types and are defined recursively over the codes (that, is the schema) need to make the same distinctions.
+<!--
+### Recursion and Universes, Revisited
+-->
+<h3 id="回顾递归和宇宙"><a class="header" href="#回顾递归和宇宙">回顾递归和宇宙</a></h3>
+<!--
+The convenient structuring of rows as tuples comes at a cost: the fact that `Row` treats its two base cases separately means that functions that use `Row` in their types and are defined recursively over the codes (that, is the schema) need to make the same distinctions.
 One example of a case where this matters is an equality check that uses recursion over the schema to define a function that checks rows for equality.
-This example does not pass Lean's type checker:</p>
+This example does not pass Lean's type checker:
+-->
+<p>将行结构化为元组的方便性是有代价的：<code>Row</code> 将其两个基情形的分开处理意味着在类型中使用 <code>Row</code> 和在编码（即数据库模式）上递归定义的函数需要做出相同的区分。
+一个具体的例子是一个通过对数据库模式递归检查行是否相等的函数。
+下面的实现无法通过 Lean 的类型检查：</p>
 <pre><code class="language-lean">def Row.bEq (r1 r2 : Row s) : Bool :=
   match s with
   | [] =&gt; true
@@ -275,9 +355,14 @@ has type
 but is expected to have type
   Row (col :: cols) : Type
 </code></pre>
-<p>The problem is that the pattern <code>col :: cols</code> does not sufficiently refine the type of the rows.
-This is because Lean cannot yet tell whether the singleton pattern <code>[col]</code> or the <code>col1 :: col2 :: cols</code> pattern in the definition of <code>Row</code> was matched, so the call to <code>Row</code> does not compute down to a pair type.
-The solution is to mirror the structure of <code>Row</code> in the definition of <code>Row.bEq</code>:</p>
+<!--
+The problem is that the pattern `col :: cols` does not sufficiently refine the type of the rows.
+This is because Lean cannot yet tell whether the singleton pattern `[col]` or the `col1 :: col2 :: cols` pattern in the definition of `Row` was matched, so the call to `Row` does not compute down to a pair type.
+The solution is to mirror the structure of `Row` in the definition of `Row.bEq`:
+-->
+<p>问题在于模式 <code>col :: cols</code> 并没有足够细化行的类型。
+这是因为 Lean 无法确定到底是 <code>Row</code> 定义中的哪种模式被匹配上：单例模式 <code>[col]</code> 或是 <code>col1 :: col2 :: cols</code> 模式。因此对 <code>Row</code> 的调用不会计算到一个有序对类型。
+解决方案是在 <code>Row.bEq</code> 的定义中反映 <code>Row</code> 的结构：</p>
 <pre><code class="language-lean">def Row.bEq (r1 r2 : Row s) : Bool :=
   match s with
   | [] =&gt; true
@@ -290,64 +375,137 @@ The solution is to mirror the structure of <code>Row</code> in the definition of
 instance : BEq (Row s) where
   beq := Row.bEq
 </code></pre>
-<p>Unlike in other contexts, functions that occur in types cannot be considered only in terms of their input/output behavior.
+<!--
+Unlike in other contexts, functions that occur in types cannot be considered only in terms of their input/output behavior.
 Programs that use these types will find themselves forced to mirror the algorithm used in the type-level function so that their structure matches the pattern-matching and recursive behavior of the type.
-A big part of the skill of programming with dependent types is the selection of appropriate type-level functions with the right computational behavior.</p>
-<h3 id="column-pointers"><a class="header" href="#column-pointers">Column Pointers</a></h3>
-<p>Some queries only make sense if a schema contains a particular column.
-For example, a query that returns mountains with an elevation greater than 1000 meters only makes sense in the context of a schema with a <code>&quot;elevation&quot;</code> column that contains integers.
-One way to indicate that a column is contained in a schema is to provide a pointer directly to it, and defining the pointer as an indexed family makes it possible to rule out invalid pointers.</p>
-<p>There are two ways that a column can be present in a schema: either it is at the beginning of the schema, or it is somewhere later in the schema.
-Eventually, if a column is later in a schema, then it will be the beginning of some tail of the schema.</p>
-<p>The indexed family <code>HasCol</code> is a translation of the specification into Lean code:</p>
+A big part of the skill of programming with dependent types is the selection of appropriate type-level functions with the right computational behavior.
+-->
+<p>不同于其他上下文，出现在类型中的函数不能仅仅考虑其输入/输出行为。
+使用这些类型的程序将发现自己被迫镜像那些类型中使用到的函数所使用的算法，以便它们的结构与类型的模式匹配和递归行为相匹配。
+使用依赖类型编程的技巧的一个重要部分是在类型的计算中选择具有正确计算行为函数。</p>
+<!--
+### Column Pointers
+-->
+<h3 id="列指针"><a class="header" href="#列指针">列指针</a></h3>
+<!--
+Some queries only make sense if a schema contains a particular column.
+For example, a query that returns mountains with an elevation greater than 1000 meters only makes sense in the context of a schema with a `"elevation"` column that contains integers.
+One way to indicate that a column is contained in a schema is to provide a pointer directly to it, and defining the pointer as an indexed family makes it possible to rule out invalid pointers.
+-->
+<p>如果数据库模式包含特定列，那么某些查询才有意义。
+例如，一个返回海拔高于 1000 米的山的查询只在包含整数的 <code>&quot;elevation&quot;</code> 列的数据库模式中才有意义。
+一种表示数据库模式包含某个列的方法是直接提供指向这个列的指针。将指针定义为一个索引族使得可以排除无效指针。</p>
+<!--
+There are two ways that a column can be present in a schema: either it is at the beginning of the schema, or it is somewhere later in the schema.
+Eventually, if a column is later in a schema, then it will be the beginning of some tail of the schema.
+-->
+<p>列可以出现在数据库模式的两个地方：要么在它的开头，要么在它的后面的某个地方。
+如果列出现在模式的后面的某个地方，那么它也必然是某一个尾数据库模式的开头。</p>
+<!--
+The indexed family `HasCol` is a translation of the specification into Lean code:
+-->
+<p>索引族 <code>HasCol</code> 将这种规范表达为 Lean 的代码：</p>
 <pre><code class="language-lean">inductive HasCol : Schema → String → DBType → Type where
   | here : HasCol (⟨name, t⟩ :: _) name t
   | there : HasCol s name t → HasCol (_ :: s) name t
 </code></pre>
-<p>The family's three arguments are the schema, the column name, and its type.
+<!--
+The family's three arguments are the schema, the column name, and its type.
 All three are indices, but re-ordering the arguments to place the schema after the column name and type would allow the name and type to be parameters.
-The constructor <code>here</code> can be used when the schema begins with the column <code>⟨name, t⟩</code>; it is thus a pointer to the first column in the schema that can only be used when the first column has the desired name and type.
-The constructor <code>there</code> transforms a pointer into a smaller schema into a pointer into a schema with one more column on it.</p>
-<p>Because <code>&quot;elevation&quot;</code> is the third column in <code>peak</code>, it can be found by looking past the first two columns with <code>there</code>, after which it is the first column.
-In other words, to satisfy the type <code>HasCol peak &quot;elevation&quot; .int</code>, use the expression <code>.there (.there .here)</code>.
-One way to think about <code>HasCol</code> is as a kind of decorated <code>Nat</code>—<code>zero</code> corresponds to <code>here</code>, and <code>succ</code> corresponds to <code>there</code>.
-The extra type information makes it impossible to have off-by-one errors.</p>
-<p>A pointer to a particular column in a schema can be used to extract that column's value from a row:</p>
+The constructor `here` can be used when the schema begins with the column `⟨name, t⟩`; it is thus a pointer to the first column in the schema that can only be used when the first column has the desired name and type.
+The constructor `there` transforms a pointer into a smaller schema into a pointer into a schema with one more column on it.
+-->
+<p>这个族的三个参数是数据库模式、列名和它的类型。
+所有三个参数都是索引，但重新排列参数，将数据库模式放在列名和类型之后，可以使列名和类型成为参量。
+当数据库模式以列 <code>⟨name, t⟩</code> 开头时，可以使用构造子 <code>here</code>：它是一个指向当前数据库模式的第一列的指针，只有当第一列具有所需的名称和类型时才能使用。
+构造子 <code>there</code> 将一个指向较小数据库模式的指针转换为一个指向在头部包含在一个额外列的数据库模式的指针。</p>
+<!--
+Because `"elevation"` is the third column in `peak`, it can be found by looking past the first two columns with `there`, after which it is the first column.
+In other words, to satisfy the type `HasCol peak "elevation" .int`, use the expression `.there (.there .here)`.
+One way to think about `HasCol` is as a kind of decorated `Nat`—`zero` corresponds to `here`, and `succ` corresponds to `there`.
+The extra type information makes it impossible to have off-by-one errors.
+-->
+<p>因为 <code>&quot;elevation&quot;</code> 是 <code>peak</code> 中的第三列，所以可以通过 <code>there</code> 跳过前两列然后使用 <code>here</code> 找到它。
+换句话说，要满足类型 <code>HasCol peak &quot;elevation&quot; .int</code>，使用表达式 <code>.there (.there .here)</code>。
+<code>HasCol</code> 也可以理解为是一种带有修饰的 <code>Nat</code>——<code>zero</code> 对应于 <code>here</code>，<code>succ</code> 对应于 <code>there</code>。
+额外的类型信息使得不可能出现列序号偏差了一位之类的错误。</p>
+<!--
+A pointer to a particular column in a schema can be used to extract that column's value from a row:
+-->
+<p>指向数据库模式中的列的指针可以用来从行中提取该列的值：</p>
 <pre><code class="language-lean">def Row.get (row : Row s) (col : HasCol s n t) : t.asType :=
   match s, col, row with
   | [_], .here, v =&gt; v
   | _::_::_, .here, (v, _) =&gt; v
   | _::_::_, .there next, (_, r) =&gt; get r next
 </code></pre>
-<p>The first step is to pattern match on the schema, because this determines whether the row is a tuple or a single value.
-No case is needed for the empty schema because there is a <code>HasCol</code> available, and both constructors of <code>HasCol</code> specify non-empty schemas.
-If the schema has just a single column, then the pointer must point to it, so only the <code>here</code> constructor of <code>HasCol</code> need be matched.
-If the schema has two or more columns, then there must be a case for <code>here</code>, in which case the value is the first one in the row, and one for <code>there</code>, in which case a recursive call is used.
-Because the <code>HasCol</code> type guarantees that the column exists in the row, <code>Row.get</code> does not need to return an <code>Option</code>.</p>
-<p><code>HasCol</code> plays two roles:</p>
+<!--
+The first step is to pattern match on the schema, because this determines whether the row is a tuple or a single value.
+No case is needed for the empty schema because there is a `HasCol` available, and both constructors of `HasCol` specify non-empty schemas.
+If the schema has just a single column, then the pointer must point to it, so only the `here` constructor of `HasCol` need be matched.
+If the schema has two or more columns, then there must be a case for `here`, in which case the value is the first one in the row, and one for `there`, in which case a recursive call is used.
+Because the `HasCol` type guarantees that the column exists in the row, `Row.get` does not need to return an `Option`.
+-->
+<p>第一步是对数据库模式进行模式匹配，因为这决定了行是元组还是单个值。
+空模式的情形不需要考虑，因为 <code>HasCol</code>的两个构造子都对应着非空的数据库模式。
+如果数据库模式只有一个列，那么指针必须指向它，因此只需要匹配 <code>HasCol</code> 的 <code>here</code> 构造子。
+如果数据库模式有两个或更多列，那么必须有一个 <code>here</code> 的情形，此时值是行中的第一个值，以及一个 <code>there</code> 的情形，此时需要进行递归调用。
+<code>HasCol</code> 类型保证了列存在于行中，所以 <code>Row.get</code> 不需要返回一个 <code>Option</code>。</p>
+<!--
+`HasCol` plays two roles:
+-->
+<p><code>HasCol</code> 扮演了两个角色：</p>
+<!--
+ 1. It serves as _evidence_ that a column with a particular name and type exists in a schema.
+ -->
 <ol>
-<li>
-<p>It serves as <em>evidence</em> that a column with a particular name and type exists in a schema.</p>
-</li>
-<li>
-<p>It serves as <em>data</em> that can be used to find the value associated with the column in a row.</p>
-</li>
+<li>它作为<strong>证据</strong>，证明模式中存在具有特定名称和类型的列。</li>
 </ol>
-<p>The first role, that of evidence, is similar to way that propositions are used.
-The definition of the indexed family <code>HasCol</code> can be read as a specification of what counts as evidence that a given column exists.
-Unlike propositions, however, it matters which constructor of <code>HasCol</code> was used.
-In the second role, the constructors are used like <code>Nat</code>s to find data in a collection.
-Programming with indexed families often requires the ability to switch fluently between both perspectives.</p>
-<h3 id="subschemas"><a class="header" href="#subschemas">Subschemas</a></h3>
-<p>One important operation in relational algebra is to <em>project</em> a table or row into a smaller schema.
+<!--
+ 2. It serves as _data_ that can be used to find the value associated with the column in a row.
+ -->
+<ol start="2">
+<li>它作为<strong>数据</strong>，可以用来在行中找到与列关联的值。</li>
+</ol>
+<!--
+The first role, that of evidence, is similar to way that propositions are used.
+The definition of the indexed family `HasCol` can be read as a specification of what counts as evidence that a given column exists.
+Unlike propositions, however, it matters which constructor of `HasCol` was used.
+In the second role, the constructors are used like `Nat`s to find data in a collection.
+Programming with indexed families often requires the ability to switch fluently between both perspectives.
+-->
+<p>第一个角色，即证据的角色，类似于命题的使用方式。
+索引族 <code>HasCol</code> 的定义可以被视为一个规范，说明什么样的证据可以证明给定的列存在。
+然而，与命题不同，使用 <code>HasCol</code> 的哪个构造子很重要。
+在第二个角色中，构造子起到类似 <code>Nat</code>的作用，用于在集合中查找数据。
+使用索引族编程通常需要能够流畅地使用它的这两个角色。</p>
+<!--
+### Subschemas
+-->
+<h3 id="子数据库模式"><a class="header" href="#子数据库模式">子数据库模式</a></h3>
+<!--
+One important operation in relational algebra is to _project_ a table or row into a smaller schema.
 Every column not present in the smaller schema is forgotten.
 In order for projection to make sense, the smaller schema must be a subschema of the larger schema, which means that every column in the smaller schema must be present in the larger schema.
-Just as <code>HasCol</code> makes it possible to write a single-column lookup in a row that cannot fail, a representation of the subschema relationship as an indexed family makes it possible to write a projection function that cannot fail.</p>
-<p>The ways in which one schema can be a subschema of another can be defined as an indexed family.
+Just as `HasCol` makes it possible to write a single-column lookup in a row that cannot fail, a representation of the subschema relationship as an indexed family makes it possible to write a projection function that cannot fail.
+-->
+<p>关系代数中的一个重要操作是将表或行<strong>投影</strong>到一个较小的数据库模式中。
+不在这一数据库模式中的每一列都会被舍弃。
+为了使投影有意义，小数据库模式必须是大数据库模式的子数据库模式：小数据库模式中的每一列都必须存在于大数据库模式中。
+正如 <code>HasCol</code> 允许我们编写一个从行中提取某个列函数且这个函数一定不会失败一样，
+将子模式关系表示为索引族允许我们编写一个不会失败的投影函数。</p>
+<!--
+The ways in which one schema can be a subschema of another can be defined as an indexed family.
 The basic idea is that a smaller schema is a subschema of a bigger schema if every column in the smaller schema occurs in the bigger schema.
-If the smaller schema is empty, then it's certainly a subschema of the bigger schema, represented by the constructor <code>nil</code>.
+If the smaller schema is empty, then it's certainly a subschema of the bigger schema, represented by the constructor `nil`.
 If the smaller schema has a column, then that column must be in the bigger schema, and all the rest of the columns in the subschema must also be a subschema of the bigger schema.
-This is represented by the constructor <code>cons</code>.</p>
+This is represented by the constructor `cons`.
+-->
+<p>可以将“一个数据库模式是另一个数据库模式的子数据库模式”定义为一个索引族。
+基本思想是，如果小数据库模式中的每一列都出现在大数据库模式中，那么小数据库模式就是大数据库模式的子数据库模式。
+如果小数据库模式为空，则它肯定是大数据库模式的子数据库模式，由构造子 <code>nil</code> 表示。
+如果小数据库模式有一列，那么该列必须在大数据库模式中且子数据库模式中的其余列也必须是大数据库模式的子数据库模式。
+这由子 <code>cons</code> 表示。</p>
 <pre><code class="language-lean">inductive Subschema : Schema → Schema → Type where
   | nil : Subschema [] bigger
   | cons :
@@ -355,30 +513,56 @@ This is represented by the constructor <code>cons</code>.</p>
       Subschema smaller bigger →
       Subschema (⟨n, t⟩ :: smaller) bigger
 </code></pre>
-<p>In other words, <code>Subschema</code> assigns each column of the smaller schema a <code>HasCol</code> that points to its location in the larger schema.</p>
-<p>The schema <code>travelDiary</code> represents the fields that are common to both <code>peak</code> and <code>waterfall</code>:</p>
+<!--
+In other words, `Subschema` assigns each column of the smaller schema a `HasCol` that points to its location in the larger schema.
+-->
+<p>换句话说，<code>Subschema</code> 为小数据库模式的每一列分配一个 <code>HasCol</code>，该 <code>HasCol</code> 指向大数据库模式中的位置。</p>
+<!--
+The schema `travelDiary` represents the fields that are common to both `peak` and `waterfall`:
+-->
+<p>模式 <code>travelDiary</code> 表示 <code>peak</code> 和 <code>waterfall</code> 共有的字段：</p>
 <pre><code class="language-lean">abbrev travelDiary : Schema :=
   [⟨&quot;name&quot;, .string⟩, ⟨&quot;location&quot;, .string⟩, ⟨&quot;lastVisited&quot;, .int⟩]
 </code></pre>
-<p>It is certainly a subschema of <code>peak</code>, as shown by this example:</p>
+<!--
+It is certainly a subschema of `peak`, as shown by this example:
+-->
+<p>正如这个例子所示，它肯定是 <code>peak</code> 的子数据库模式：</p>
 <pre><code class="language-lean">example : Subschema travelDiary peak :=
   .cons .here
     (.cons (.there .here)
       (.cons (.there (.there (.there .here))) .nil))
 </code></pre>
-<p>However, code like this is difficult to read and difficult to maintain.
-One way to improve it is to instruct Lean to write the <code>Subschema</code> and <code>HasCol</code> constructors automatically.
-This can be done using the tactic feature that was introduced in <a href="../props-proofs-indexing.html">the Interlude on propositions and proofs</a>.
-That interlude uses <code>by simp</code> to provide evidence of various propositions.</p>
-<p>In this context, two tactics are useful:</p>
+<!--
+However, code like this is difficult to read and difficult to maintain.
+One way to improve it is to instruct Lean to write the `Subschema` and `HasCol` constructors automatically.
+This can be done using the tactic feature that was introduced in [the Interlude on propositions and proofs](../props-proofs-indexing.md).
+That interlude uses `by simp` to provide evidence of various propositions.
+-->
+<p>然而，这样的代码很难阅读和维护。
+改进的一种方法是指导 Lean 自动编写 <code>Subschema</code> 和 <code>HasCol</code> 构造子。
+这可以通过使用<a href="../props-proofs-indexing.html">关于命题和证明的插曲</a>中介绍的策术特性来完成。
+该插曲使用 <code>by simp</code> 提供了各种命题的证据。</p>
+<!--
+In this context, two tactics are useful:
+ * The `constructor` tactic instructs Lean to solve the problem using the constructor of a datatype.
+ * The `repeat` tactic instructs Lean to repeat a tactic over and over until it either fails or the proof is finished.
+-->
+<p>此时，两种策术是有用的：</p>
 <ul>
-<li>The <code>constructor</code> tactic instructs Lean to solve the problem using the constructor of a datatype.</li>
-<li>The <code>repeat</code> tactic instructs Lean to repeat a tactic over and over until it either fails or the proof is finished.</li>
+<li><code>constructor</code> 策术指示 Lean 使用数据类型的构造子解决问题。</li>
+<li><code>repeat</code> 策术指示 Lean 重复一个策术，直到它失败或证明完成。</li>
 </ul>
-<p>In the next example, <code>by constructor</code> has the same effect as just writing <code>.nil</code> would have:</p>
+<!--
+In the next example, `by constructor` has the same effect as just writing `.nil` would have:
+-->
+<p>下一个例子中，<code>by constructor</code> 的效果与直接写 <code>.nil</code> 是一样的：</p>
 <pre><code class="language-leantac">example : Subschema [] peak := by constructor
 </code></pre>
-<p>However, attempting that same tactic with a slightly more complicated type fails:</p>
+<!--
+However, attempting that same tactic with a slightly more complicated type fails:
+-->
+<p>然而，在一个稍微复杂的类型下尝试相同的策术会失败：</p>
 <pre><code class="language-leantac">example : Subschema [⟨&quot;location&quot;, .string⟩] peak := by constructor
 </code></pre>
 <pre><code class="language-output error">unsolved goals
@@ -388,10 +572,16 @@ case a
 case a
 ⊢ Subschema [] peak
 </code></pre>
-<p>Errors that begin with <code>unsolved goals</code> describe tactics that failed to completely build the expressions that they were supposed to.
-In Lean's tactic language, a <em>goal</em> is a type that a tactic is to fulfill by constructing an appropriate expression behind the scenes.
-In this case, <code>constructor</code> caused <code>Subschema.cons</code> to be applied, and the two goals represent the two arguments expected by <code>cons</code>.
-Adding another instance of <code>constructor</code> causes the first goal (<code>HasCol peak \&quot;location\&quot; DBType.string</code>) to be addressed with <code>HasCol.there</code>, because <code>peak</code>'s first column is not <code>&quot;location&quot;</code>:</p>
+<!--
+Errors that begin with `unsolved goals` describe tactics that failed to completely build the expressions that they were supposed to.
+In Lean's tactic language, a _goal_ is a type that a tactic is to fulfill by constructing an appropriate expression behind the scenes.
+In this case, `constructor` caused `Subschema.cons` to be applied, and the two goals represent the two arguments expected by `cons`.
+Adding another instance of `constructor` causes the first goal (`HasCol peak \"location\" DBType.string`) to be addressed with `HasCol.there`, because `peak`'s first column is not `"location"`:
+-->
+<p>以 <code>unsolved goals</code> 开头的错误描述了策术未能完全构建它们应该构建的表达式。
+在 Lean 的策略语言中，<strong>证明目标（goal）</strong> 是策术需要通过构造适当的表达式来实现的类型。
+在这种情形下，<code>constructor</code> 导致应用 <code>Subschema.cons</code>，两个目标表示 <code>cons</code> 期望的两个参数。
+添加另一个 <code>constructor</code> 实例导致第一个目标（<code>HasCol peak \&quot;location\&quot; DBType.string</code>）被 <code>HasCol.there</code> 处理，因为 <code>peak</code> 的第一列不是 <code>&quot;location&quot;</code>：</p>
 <pre><code class="language-leantac">example : Subschema [⟨&quot;location&quot;, .string⟩] peak := by
   constructor
   constructor
@@ -406,7 +596,10 @@ case a.a
 case a
 ⊢ Subschema [] peak
 </code></pre>
-<p>However, adding a third <code>constructor</code> results in the first goal being solved, because <code>HasCol.here</code> is applicable:</p>
+<!--
+However, adding a third `constructor` results in the first goal being solved, because `HasCol.here` is applicable:
+-->
+<p>然而，添加第三个 <code>constructor</code> 解决了第一个证明目标，因为 <code>HasCol.here</code> 是适用的：</p>
 <pre><code class="language-leantac">example : Subschema [⟨&quot;location&quot;, .string⟩] peak := by
   constructor
   constructor
@@ -416,65 +609,125 @@ case a
 case a
 ⊢ Subschema [] peak
 </code></pre>
-<p>A fourth instance of <code>constructor</code> solves the <code>Subschema peak []</code> goal:</p>
+<!--
+A fourth instance of `constructor` solves the `Subschema peak []` goal:
+-->
+<p>第四个 <code>constructor</code> 实例解决了 <code>Subschema peak []</code> 目标：</p>
 <pre><code class="language-leantac">example : Subschema [⟨&quot;location&quot;, .string⟩] peak := by
   constructor
   constructor
   constructor
   constructor
 </code></pre>
-<p>Indeed, a version written without the use of tactics has four constructors:</p>
+<!--
+Indeed, a version written without the use of tactics has four constructors:
+-->
+<p>事实上，一个没有使用策术的版本有四个构造子：</p>
 <pre><code class="language-lean">example : Subschema [⟨&quot;location&quot;, .string⟩] peak :=
   .cons (.there .here) .nil
 </code></pre>
-<p>Instead of experimenting to find the right number of times to write <code>constructor</code>, the <code>repeat</code> tactic can be used to ask Lean to just keep trying <code>constructor</code> as long as it keeps making progress:</p>
+<!--
+Instead of experimenting to find the right number of times to write `constructor`, the `repeat` tactic can be used to ask Lean to just keep trying `constructor` as long as it keeps making progress:
+-->
+<p>不要尝试找到写 <code>constructor</code> 的正确次数，可以使用 <code>repeat</code> 策术要求 Lean 只要取得进展就继续尝试 <code>constructor</code>：</p>
 <pre><code class="language-leantac">example : Subschema [⟨&quot;location&quot;, .string⟩] peak := by repeat constructor
 </code></pre>
-<p>This more flexible version also works for more interesting <code>Subschema</code> problems:</p>
+<!--
+This more flexible version also works for more interesting `Subschema` problems:
+-->
+<p>这个更灵活的版本也适用于更有趣的 <code>Subschema</code> 问题：</p>
 <pre><code class="language-leantac">example : Subschema travelDiary peak := by repeat constructor
 
 example : Subschema travelDiary waterfall := by repeat constructor
 </code></pre>
-<p>The approach of blindly trying constructors until something works is not very useful for types like <code>Nat</code> or <code>List Bool</code>.
-Just because an expression has type <code>Nat</code> doesn't mean that it's the <em>correct</em> <code>Nat</code>, after all.
-But types like <code>HasCol</code> and <code>Subschema</code> are sufficiently constrained by their indices that only one constructor will ever be applicable, which means that the contents of the program itself are less interesting, and a computer can pick the correct one.</p>
-<p>If one schema is a subschema of another, then it is also a subschema of the larger schema extended with an additional column.
+<!--
+The approach of blindly trying constructors until something works is not very useful for types like `Nat` or `List Bool`.
+Just because an expression has type `Nat` doesn't mean that it's the _correct_ `Nat`, after all.
+But types like `HasCol` and `Subschema` are sufficiently constrained by their indices that only one constructor will ever be applicable, which means that the contents of the program itself are less interesting, and a computer can pick the correct one.
+-->
+<p>盲目尝试构造子直到某个符合预期类型的值被构造出来的方法对于 <code>Nat</code> 或 <code>List Bool</code> 这样的类型并不是很有用。
+毕竟，一个表达式的类型是 <code>Nat</code> 并不意味着它是 <strong>正确的</strong> <code>Nat</code>。
+但 <code>HasCol</code> 和 <code>Subschema</code> 这样的类型受到索引的约束，
+只有一个构造子适用。
+这意味着程序本身是平凡的，计算机可以选择正确的构造子。</p>
+<!--
+If one schema is a subschema of another, then it is also a subschema of the larger schema extended with an additional column.
 This fact can be captured as a function definition.
-<code>Subschema.addColumn</code> takes evidence that <code>smaller</code> is a subschema of <code>bigger</code>, and then returns evidence that <code>smaller</code> is a subschema of <code>c :: bigger</code>, that is, <code>bigger</code> with one additional column:</p>
+`Subschema.addColumn` takes evidence that `smaller` is a subschema of `bigger`, and then returns evidence that `smaller` is a subschema of `c :: bigger`, that is, `bigger` with one additional column:
+-->
+<p>如果一个数据库模式是另一个数据库模式的子数据库模式，那么它也是扩展了一个额外列的更大数据库模式的子数据库模式。
+这个事实被下列函数定义表示出来。
+<code>Subschema.addColumn</code> 接受 <code>smaller</code> 是 <code>bigger</code> 的子数据库模式的证据，然后返回 <code>smaller</code> 是 <code>c :: bigger</code> 的子数据库模式的证据，即，<code>bigger</code> 增加了一个额外列：</p>
 <pre><code class="language-lean">def Subschema.addColumn (sub : Subschema smaller bigger) : Subschema smaller (c :: bigger) :=
   match sub with
   | .nil  =&gt; .nil
   | .cons col sub' =&gt; .cons (.there col) sub'.addColumn
 </code></pre>
-<p>A subschema describes where to find each column from the smaller schema in the larger schema.
-<code>Subschema.addColumn</code> must translate these descriptions from the original larger schema into the extended larger schema.
-In the <code>nil</code> case, the smaller schema is <code>[]</code>, and <code>nil</code> is also evidence that <code>[]</code> is a subschema of <code>c :: bigger</code>.
-In the <code>cons</code> case, which describes how to place one column from <code>smaller</code> into <code>larger</code>, the placement of the column needs to be adjusted with <code>there</code> to account for the new column <code>c</code>, and a recursive call adjusts the rest of the columns.</p>
-<p>Another way to think about <code>Subschema</code> is that it defines a <em>relation</em> between two schemas—the existence of an expression  with type <code>Subschema bigger smaller</code> means that <code>(bigger, smaller)</code> is in the relation.
-This relation is reflexive, meaning that every schema is a subschema of itself:</p>
+<!--
+A subschema describes where to find each column from the smaller schema in the larger schema.
+`Subschema.addColumn` must translate these descriptions from the original larger schema into the extended larger schema.
+In the `nil` case, the smaller schema is `[]`, and `nil` is also evidence that `[]` is a subschema of `c :: bigger`.
+In the `cons` case, which describes how to place one column from `smaller` into `larger`, the placement of the column needs to be adjusted with `there` to account for the new column `c`, and a recursive call adjusts the rest of the columns.
+-->
+<p>子数据库模式描述了在大数据库模式中找到小数据库模式的每一列的位置。
+<code>Subschema.addColumn</code> 必须将这些描述从指向原始的大数据库模式转换为指向扩展后的更大数据库模式。
+在 <code>nil</code> 的情形下，小数据库模式是 <code>[]</code>，<code>nil</code> 也是 <code>[]</code> 是 <code>c :: bigger</code> 的子数据库模式的证据。
+在 <code>cons</code> 的情形下，它描述了如何将 <code>smaller</code> 中的一列放入 <code>larger</code>，需要使用 <code>there</code> 调整列的放置位置以考虑新列 <code>c</code>，递归调用调整其余列。</p>
+<!--
+Another way to think about `Subschema` is that it defines a _relation_ between two schemas—the existence of an expression  with type `Subschema bigger smaller` means that `(bigger, smaller)` is in the relation.
+This relation is reflexive, meaning that every schema is a subschema of itself:
+-->
+<p>另一个思考 <code>Subschema</code> 的方式是它定义了两个数据库模式之间的 <strong>关系</strong> —— 存在一个类型为 <code>Subschema bigger smaller</code> 的表达式意味着 <code>(bigger, smaller)</code> 在这个关系中。
+这个关系是自反的，意味着每个数据库模式都是自己的子数据库模式：</p>
 <pre><code class="language-lean">def Subschema.reflexive : (s : Schema) → Subschema s s
   | [] =&gt; .nil
   | _ :: cs =&gt; .cons .here (reflexive cs).addColumn
 </code></pre>
-<h3 id="projecting-rows"><a class="header" href="#projecting-rows">Projecting Rows</a></h3>
-<p>Given evidence that <code>s'</code> is a subschema of <code>s</code>, a row in <code>s</code> can be projected into a row in <code>s'</code>.
-This is done using the evidence that <code>s'</code> is a subschema of <code>s</code>, which explains where each column of <code>s'</code> is found in <code>s</code>.
-The new row in <code>s'</code> is built up one column at a time by retrieving the value from the appropriate place in the old row.</p>
-<p>The function that performs this projection, <code>Row.project</code>, has three cases, one for each case of <code>Row</code> itself.
-It uses <code>Row.get</code> together with each <code>HasCol</code> in the <code>Subschema</code> argument to construct the projected row:</p>
+<!--
+### Projecting Rows
+-->
+<h3 id="投影行"><a class="header" href="#投影行">投影行</a></h3>
+<!--
+Given evidence that `s'` is a subschema of `s`, a row in `s` can be projected into a row in `s'`.
+This is done using the evidence that `s'` is a subschema of `s`, which explains where each column of `s'` is found in `s`.
+The new row in `s'` is built up one column at a time by retrieving the value from the appropriate place in the old row.
+-->
+<p>给定 <code>s'</code> 是 <code>s</code> 的子数据库模式的证据，可以将 <code>s</code> 中的行投影到 <code>s'</code> 中的行。
+这是通过分析 <code>s'</code> 是 <code>s</code> 的子数据库模式的证据完成的：它解释了 <code>s'</code> 的每一列在 <code>s</code> 中的位置。
+在 <code>s'</code> 中的新行是通过从旧行的适当位置检索值逐列构建的。</p>
+<!--
+The function that performs this projection, `Row.project`, has three cases, one for each case of `Row` itself.
+It uses `Row.get` together with each `HasCol` in the `Subschema` argument to construct the projected row:
+-->
+<p>执行这种投影的函数 <code>Row.project</code> 有三种情形，分别对应于 <code>Row</code> 本身的三种情形。
+它使用 <code>Row.get</code> 与 <code>Subschema</code> 参数中的每个 <code>HasCol</code> 一起构造投影行：</p>
 <pre><code class="language-lean">def Row.project (row : Row s) : (s' : Schema) → Subschema s' s → Row s'
   | [], .nil =&gt; ()
   | [_], .cons c .nil =&gt; row.get c
   | _::_::_, .cons c cs =&gt; (row.get c, row.project _ cs)
 </code></pre>
-<h2 id="conditions-and-selection"><a class="header" href="#conditions-and-selection">Conditions and Selection</a></h2>
-<p>Projection removes unwanted columns from a table, but queries must also be able to remove unwanted rows.
-This operation is called <em>selection</em>.
-Selection relies on having a means of expressing which rows are desired.</p>
-<p>The example query language contains expressions, which are analogous to what can be written in a <code>WHERE</code> clause in SQL.
-Expressions are represented by the indexed family <code>DBExpr</code>.
-Because expressions can refer to columns from the database, but different sub-expressions all have the same schema, <code>DBExpr</code> takes the database schema as a parameter.
-Additionally, each expression has a type, and these vary, making it an index:</p>
+<!--
+## Conditions and Selection
+-->
+<h2 id="条件和选取"><a class="header" href="#条件和选取">条件和选取</a></h2>
+<!--
+Projection removes unwanted columns from a table, but queries must also be able to remove unwanted rows.
+This operation is called _selection_.
+Selection relies on having a means of expressing which rows are desired.
+-->
+<p>投影从表中删除不需要的列，但查询也必须能够删除不需要的行。
+这个操作称为 <strong>选择（selection）</strong>。
+选择的前提是有一种表达“哪些行是需要的”的方式。</p>
+<!--
+The example query language contains expressions, which are analogous to what can be written in a `WHERE` clause in SQL.
+Expressions are represented by the indexed family `DBExpr`.
+Because expressions can refer to columns from the database, but different sub-expressions all have the same schema, `DBExpr` takes the database schema as a parameter.
+Additionally, each expression has a type, and these vary, making it an index:
+-->
+<p>示例查询语言包含表达式，类似于 SQL 中可以写在 <code>WHERE</code> 子句中的内容。
+表达式由索引族 <code>DBExpr</code> 表示。
+表达式可以引用数据库中的列，但不同的子表达式都有相同的数据库模式。<code>DBExpr</code> 以数据库模式作为参量。
+此外，每个表达式都有一个类型，这些类型不同，所以这是一个索引：</p>
 <pre><code class="language-lean">inductive DBExpr (s : Schema) : DBType → Type where
   | col (n : String) (loc : HasCol s n t) : DBExpr s t
   | eq (e1 e2 : DBExpr s t) : DBExpr s .bool
@@ -482,28 +735,52 @@ Additionally, each expression has a type, and these vary, making it an index:</p
   | and (e1 e2 : DBExpr s .bool) : DBExpr s .bool
   | const : t.asType → DBExpr s t
 </code></pre>
-<p>The <code>col</code> constructor represents a reference to a column in the database.
-The <code>eq</code> constructor compares two expressions for equality, <code>lt</code> checks whether one is less than the other, <code>and</code> is Boolean conjunction, and <code>const</code> is a constant value of some type.</p>
-<p>For example, an expression in <code>peak</code> that checks whether the <code>elevation</code> column is greater than 1000 and the location is <code>&quot;Denmark&quot;</code> can be written:</p>
+<!--
+The `col` constructor represents a reference to a column in the database.
+The `eq` constructor compares two expressions for equality, `lt` checks whether one is less than the other, `and` is Boolean conjunction, and `const` is a constant value of some type.
+-->
+<p><code>col</code> 构造子表示对数据库中的列的引用。
+<code>eq</code> 构造子比较两个表达式是否相等，<code>lt</code> 检查一个是否小于另一个，<code>and</code> 是布尔合取，<code>const</code> 是某种类型的常量值。</p>
+<!--
+For example, an expression in `peak` that checks whether the `elevation` column is greater than 1000 and the location is `"Denmark"` can be written:
+-->
+<p>例如，在 <code>peak</code> 中检查 <code>elevation</code> 列的值大于 1000 并且位置等于 <code>&quot;Denmark&quot;</code> 的表达式可以写为：</p>
 <pre><code class="language-leantac">def tallInDenmark : DBExpr peak .bool :=
   .and (.lt (.const 1000) (.col &quot;elevation&quot; (by repeat constructor)))
        (.eq (.col &quot;location&quot; (by repeat constructor)) (.const &quot;Denmark&quot;))
 </code></pre>
-<p>This is somewhat noisy.
-In particular, references to columns contain boilerplate calls to <code>by repeat constructor</code>.
-A Lean feature called <em>macros</em> can help make expressions easier to read by eliminating this boilerplate:</p>
+<!--
+This is somewhat noisy.
+In particular, references to columns contain boilerplate calls to `by repeat constructor`.
+A Lean feature called _macros_ can help make expressions easier to read by eliminating this boilerplate:
+-->
+<p>这有点复杂。
+特别是，对列的引用包含了重复的对 <code>by repeat constructor</code> 的调用。
+Lean 的一个特性叫做 <strong>宏（macro）</strong>，可以消除这些重复代码，使表达式更易于阅读：</p>
 <pre><code class="language-leantac">macro &quot;c!&quot; n:term : term =&gt; `(DBExpr.col $n (by repeat constructor))
 </code></pre>
-<p>This declaration adds the <code>c!</code> keyword to Lean, and instructs Lean to replace any instance of <code>c!</code> followed by an expression with the corresponding <code>DBExpr.col</code> construction.
-Here, <code>term</code> stands for Lean expressions, rather than commands, tactics, or some other part of the language.
+<!--
+This declaration adds the `c!` keyword to Lean, and instructs Lean to replace any instance of `c!` followed by an expression with the corresponding `DBExpr.col` construction.
+Here, `term` stands for Lean expressions, rather than commands, tactics, or some other part of the language.
 Lean macros are a bit like C preprocessor macros, except they are better integrated into the language and they automatically avoid some of the pitfalls of CPP.
-In fact, they are very closely related to macros in Scheme and Racket.</p>
-<p>With this macro, the expression can be much easier to read:</p>
+In fact, they are very closely related to macros in Scheme and Racket.
+-->
+<p>这个声明为 Lean 添加了 <code>c!</code> 关键字，并指示 Lean 用相应的 <code>DBExpr.col</code> 构造替换后面跟着的任何 <code>c!</code> 实例。
+这里，<code>term</code> 代表 Lean 表达式，而不是命令、策术或语言的其他部分。
+Lean 宏有点像 C 预处理器宏，只是它们更好地集成到语言中，并且它们自动避免了 CPP 的一些陷阱。
+事实上，它们与 Scheme 和 Racket 中的宏非常密切相关。</p>
+<!--
+With this macro, the expression can be much easier to read:
+-->
+<p>有了这个宏，表达式就容易阅读得多：</p>
 <pre><code class="language-lean">def tallInDenmark : DBExpr peak .bool :=
   .and (.lt (.const 1000) (c! &quot;elevation&quot;))
        (.eq (c! &quot;location&quot;) (.const &quot;Denmark&quot;))
 </code></pre>
-<p>Finding the value of an expression with respect to a given row uses <code>Row.get</code> to extract column references, and it delegates to Lean's operations on values for every other expression:</p>
+<!--
+Finding the value of an expression with respect to a given row uses `Row.get` to extract column references, and it delegates to Lean's operations on values for every other expression:
+-->
+<p>求某行在一个表达式下的值包括对表达式中的 <code>.col</code> 调用 <code>Row.get</code> 提取列引用，其他构造子则委托给 Lean 中对应的运算进行处理：</p>
 <pre><code class="language-lean">def DBExpr.evaluate (row : Row s) : DBExpr s t → t.asType
   | .col _ loc =&gt; row.get loc
   | .eq e1 e2  =&gt; evaluate row e1 == evaluate row e2
@@ -511,35 +788,64 @@ In fact, they are very closely related to macros in Scheme and Racket.</p>
   | .and e1 e2 =&gt; evaluate row e1 &amp;&amp; evaluate row e2
   | .const v =&gt; v
 </code></pre>
-<p>Evaluating the expression for Valby Bakke, the tallest hill in the Copenhagen area, yields <code>false</code> because Valby Bakke is much less than 1 km over sea level:</p>
+<!--
+Evaluating the expression for Valby Bakke, the tallest hill in the Copenhagen area, yields `false` because Valby Bakke is much less than 1 km over sea level:
+-->
+<p>对 Valby Bakke，哥本哈根地区最高的山，求值得到 <code>false</code>，因为 Valby Bakke 的海拔远低于 1 km：</p>
 <pre><code class="language-lean">#eval tallInDenmark.evaluate (&quot;Valby Bakke&quot;, &quot;Denmark&quot;, 31, 2023)
 </code></pre>
 <pre><code class="language-output info">false
 </code></pre>
-<p>Evaluating it for a fictional mountain of 1230m elevation yields <code>true</code>:</p>
+<!--
+Evaluating it for a fictional mountain of 1230m elevation yields `true`:
+-->
+<p>对一个海拔 1230 米的虚构的山求值得到 <code>true</code>：</p>
 <pre><code class="language-lean">#eval tallInDenmark.evaluate (&quot;Fictional mountain&quot;, &quot;Denmark&quot;, 1230, 2023)
 </code></pre>
 <pre><code class="language-output info">true
 </code></pre>
-<p>Evaluating it for the highest peak in the US state of Idaho yields <code>false</code>, as Idaho is not part of Denmark:</p>
+<!--
+Evaluating it for the highest peak in the US state of Idaho yields `false`, as Idaho is not part of Denmark:
+-->
+<p>为美国爱达荷州最高峰求值得到 <code>false</code>，因为爱达荷州不是丹麦的一部分：</p>
 <pre><code class="language-lean">#eval tallInDenmark.evaluate (&quot;Mount Borah&quot;, &quot;USA&quot;, 3859, 1996)
 </code></pre>
 <pre><code class="language-output info">false
 </code></pre>
-<h2 id="queries"><a class="header" href="#queries">Queries</a></h2>
-<p>The query language is based on relational algebra.
-In addition to tables, it includes the following operators:</p>
+<!--
+## Queries
+-->
+<h2 id="查询"><a class="header" href="#查询">查询</a></h2>
+<!--
+The query language is based on relational algebra.
+In addition to tables, it includes the following operators:
+ 1. The union of two expressions that have the same schema combines the rows that result from two queries
+ 2. The difference of two expressions that have the same schema removes rows found in the second result from the rows in the first result
+ 3. Selection by some criterion filters the result of a query according to an expression
+ 4. Projection into a subschema, removing columns from the result of a query
+ 5. Cartesian product, combining every row from one query with every row from another
+ 6. Renaming a column in the result of a query, which modifies its schema
+ 7. Prefixing all columns in a query with a name
+-->
+<p>查询语言基于关系代数。
+除了表之外，它还包括以下运算符：</p>
 <ol>
-<li>The union of two expressions that have the same schema combines the rows that result from two queries</li>
-<li>The difference of two expressions that have the same schema removes rows found in the second result from the rows in the first result</li>
-<li>Selection by some criterion filters the result of a query according to an expression</li>
-<li>Projection into a subschema, removing columns from the result of a query</li>
-<li>Cartesian product, combining every row from one query with every row from another</li>
-<li>Renaming a column in the result of a query, which modifies its schema</li>
-<li>Prefixing all columns in a query with a name</li>
+<li>并，将两个具有相同数据库模式的表达式的查询的结果行合并</li>
+<li>差，定义在两个具有相同数据库模式的表达式，从第一个表达式的查询结果中删除同时存在于第二个表达式的查询结果的行</li>
+<li>选择，按照某些标准，根据表达式过滤查询的结果</li>
+<li>投影，从查询结果中删除列</li>
+<li>笛卡尔积，将一个查询的每一行与另一个查询的每一行组合</li>
+<li>重命名，修改查询结果中某一个列的名字</li>
+<li>添加前缀，为查询中的所有列名添加一个前缀</li>
 </ol>
-<p>The last operator is not strictly necessary, but it makes the language more convenient to use.</p>
-<p>Once again, queries are represented by an indexed family:</p>
+<!--
+The last operator is not strictly necessary, but it makes the language more convenient to use.
+-->
+<p>最后一个运算符不是严格必要的，但它使语言更方便使用。</p>
+<!--
+Once again, queries are represented by an indexed family:
+-->
+<p>查询同样由一个索引族表示：</p>
 <pre><code class="language-lean">inductive Query : Schema → Type where
   | table : Table s → Query s
   | union : Query s → Query s → Query s
@@ -557,57 +863,106 @@ In addition to tables, it includes the following operators:</p>
       (n : String) → Query s →
       Query (s.map fun c =&gt; {c with name := n ++ &quot;.&quot; ++ c.name})
 </code></pre>
-<p>The <code>select</code> constructor requires that the expression used for selection return a Boolean.
-The <code>product</code> constructor's type contains a call to <code>disjoint</code>, which ensures that the two schemas don't share any names:</p>
+<!--
+The `select` constructor requires that the expression used for selection return a Boolean.
+The `product` constructor's type contains a call to `disjoint`, which ensures that the two schemas don't share any names:
+-->
+<p><code>select</code> 构造子要求用于选择的表达式返回一个布尔值。
+<code>product</code> 构造子的类型包含对 <code>disjoint</code> 的调用，它确保两个数据库模式没有相同的列名：</p>
 <pre><code class="language-lean">def disjoint [BEq α] (xs ys : List α) : Bool :=
   not (xs.any ys.contains || ys.any xs.contains)
 </code></pre>
-<p>The use of an expression of type <code>Bool</code> where a type is expected triggers a coercion from <code>Bool</code> to <code>Prop</code>.
-Just as decidable propositions can be considered to be Booleans, where evidence for the proposition is coerced to <code>true</code> and refutations of the proposition are coerced to <code>false</code>, Booleans are coerced into the proposition that states that the expression is equal to <code>true</code>.
-Because all uses of the library are expected to occur in contexts where the schemas are known ahead of time, this proposition can be proved with <code>by simp</code>.
-Similarly, the <code>renameColumn</code> constructor checks that the new name does not already exist in the schema.
-It uses the helper <code>Schema.renameColumn</code> to change the name of the column pointed to by <code>HasCol</code>:</p>
+<!--
+The use of an expression of type `Bool` where a type is expected triggers a coercion from `Bool` to `Prop`.
+Just as decidable propositions can be considered to be Booleans, where evidence for the proposition is coerced to `true` and refutations of the proposition are coerced to `false`, Booleans are coerced into the proposition that states that the expression is equal to `true`.
+Because all uses of the library are expected to occur in contexts where the schemas are known ahead of time, this proposition can be proved with `by simp`.
+Similarly, the `renameColumn` constructor checks that the new name does not already exist in the schema.
+It uses the helper `Schema.renameColumn` to change the name of the column pointed to by `HasCol`:
+-->
+<p>将 <code>Bool</code> 类型的表达式用在期望一个类型的位置会触发从 <code>Bool</code> 到 <code>Prop</code> 的强制转换。<!--
+TODO: coercion
+--></p>
+<p>正如可判定命题被视为一个布尔值：命题的证据被强制转换为 <code>true</code>，命题的反驳被强制转换为 <code>false</code>，布尔值也可以反过来被强制转换为表达式等于 <code>true</code> 的命题。
+因为预期所有库的使用将发生在数据库模式已经给定的场景下，所以这个命题可以用 <code>by simp</code> 证明。
+类似地，<code>renameColumn</code> 构造子检查新名称是否已经存在于数据库模式中。
+它使用辅助函数 <code>Schema.renameColumn</code> 来更改 <code>HasCol</code> 指向的列的名称：</p>
 <pre><code class="language-lean">def Schema.renameColumn : (s : Schema) → HasCol s n t → String → Schema
   | c :: cs, .here, n' =&gt; {c with name := n'} :: cs
   | c :: cs, .there next, n' =&gt; c :: renameColumn cs next n'
 </code></pre>
-<h2 id="executing-queries"><a class="header" href="#executing-queries">Executing Queries</a></h2>
-<p>Executing queries requires a number of helper functions.
-The result of a query is a table; this means that each operation in the query language requires a corresponding implementation that works with tables.</p>
-<h3 id="cartesian-product"><a class="header" href="#cartesian-product">Cartesian Product</a></h3>
-<p>Taking the Cartesian product of two tables is done by appending each row from the first table to each row from the second.
-First off, due to the structure of <code>Row</code>, adding a single column to a row requires pattern matching on its schema in order to determine whether the result will be a bare value or a tuple.
-Because this is a common operation, factoring the pattern matching out into a helper is convenient:</p>
+<!--
+## Executing Queries
+-->
+<h2 id="执行查询"><a class="header" href="#执行查询">执行查询</a></h2>
+<!--
+Executing queries requires a number of helper functions.
+The result of a query is a table; this means that each operation in the query language requires a corresponding implementation that works with tables.
+-->
+<p>执行查询需要一些辅助函数。
+查询的结果是一个表。
+这意味着查询语言中的每个操作都需要一个可以与表一起工作的实现。</p>
+<!--
+### Cartesian Product
+-->
+<h3 id="笛卡尔积"><a class="header" href="#笛卡尔积">笛卡尔积</a></h3>
+<!--
+Taking the Cartesian product of two tables is done by appending each row from the first table to each row from the second.
+First off, due to the structure of `Row`, adding a single column to a row requires pattern matching on its schema in order to determine whether the result will be a bare value or a tuple.
+Because this is a common operation, factoring the pattern matching out into a helper is convenient:
+-->
+<p>取两个表的笛卡尔积是通过将第一个表的每一行附加到第二个表的每一行来完成的。
+首先，由于 <code>Row</code> 的结构，将一列添加到行中需要对数据库模式进行模式匹配，以确定结果是一个裸值还是一个元组。
+这是一个常见的操作，所以我们将模式匹配提取到一个辅助函数中方便复用：</p>
 <pre><code class="language-lean">def addVal (v : c.contains.asType) (row : Row s) : Row (c :: s) :=
   match s, row with
   | [], () =&gt; v
   | c' :: cs, v' =&gt; (v, v')
 </code></pre>
-<p>Appending two rows is recursive on the structure of both the first schema and the first row, because the structure of the row proceeds in lock-step with the structure of the schema.
+<!--
+Appending two rows is recursive on the structure of both the first schema and the first row, because the structure of the row proceeds in lock-step with the structure of the schema.
 When the first row is empty, appending returns the second row.
 When the first row is a singleton, the value is added to the second row.
-When the first row contains multiple columns, the first column's value is added to the result of recursion on the remainder of the row.</p>
+When the first row contains multiple columns, the first column's value is added to the result of recursion on the remainder of the row.
+-->
+<p>对两行进行附加需要同时对第一行和它的数据库模式进行递归，因为行的结构与模式的结构是绑定的。
+当第一行为空时，返回第二行。
+当第一行是一个单例时，将值添加到第二行。
+当第一行包含多列时，将第一列的值添加到其余列和第二行附加的递归调用的结果上。</p>
 <pre><code class="language-lean">def Row.append (r1 : Row s1) (r2 : Row s2) : Row (s1 ++ s2) :=
   match s1, r1 with
   | [], () =&gt; r2
   | [_], v =&gt; addVal v r2
   | _::_::_, (v, r') =&gt; (v, r'.append r2)
 </code></pre>
-<p><code>List.flatMap</code> applies a function that itself returns a list to every entry in an input list, returning the result of appending the resulting lists in order:</p>
+<!--
+`List.flatMap` applies a function that itself returns a list to every entry in an input list, returning the result of appending the resulting lists in order:
+-->
+<p><code>List.flatMap</code> 接受两个一个函数参数和一个列表，函数对列表中的每一项均会返回一个列表，然后<code>List.flatMap</code>按将列表的列表含顺序依次附加：</p>
 <pre><code class="language-lean">def List.flatMap (f : α → List β) : (xs : List α) → List β
   | [] =&gt; []
   | x :: xs =&gt; f x ++ xs.flatMap f
 </code></pre>
-<p>The type signature suggests that <code>List.flatMap</code> could be used to implement a <code>Monad List</code> instance.
-Indeed, together with <code>pure x := [x]</code>, <code>List.flatMap</code> does implement a monad.
-However, it's not a very useful <code>Monad</code> instance.
-The <code>List</code> monad is basically a version of <code>Many</code> that explores <em>every</em> possible path through the search space in advance, before users have the chance to request some number of values.
-Because of this performance trap, it's usually not a good idea to define a <code>Monad</code> instance for <code>List</code>.
-Here, however, the query language has no operator for restricting the number of results to be returned, so combining all possibilities is exactly what is desired:</p>
+<!--
+The type signature suggests that `List.flatMap` could be used to implement a `Monad List` instance.
+Indeed, together with `pure x := [x]`, `List.flatMap` does implement a monad.
+However, it's not a very useful `Monad` instance.
+The `List` monad is basically a version of `Many` that explores _every_ possible path through the search space in advance, before users have the chance to request some number of values.
+Because of this performance trap, it's usually not a good idea to define a `Monad` instance for `List`.
+Here, however, the query language has no operator for restricting the number of results to be returned, so combining all possibilities is exactly what is desired:
+-->
+<p>类型签名表明 <code>List.flatMap</code> 可以用来实现 <code>Monad List</code> 实例。
+实际上，与 <code>pure x := [x]</code> 一起，<code>List.flatMap</code> 确实实现了一个单子。
+然而，这不是一个非常有用的 <code>Monad</code> 实例。
+<code>List</code> 单子基本上是一个提前探索搜索空间中的 <strong>每一条</strong> 可能路径的 <code>Many</code> 单子，尽管用户可能只需要其中的某些值。
+由于这种性能陷阱，通常不建议为 <code>List</code> 定义 <code>Monad</code> 实例。
+然而查询语言没有限制返回的结果数量的运算符，因此返回所有的组合正是所需要的结果：</p>
 <pre><code class="language-lean">def Table.cartesianProduct (table1 : Table s1) (table2 : Table s2) : Table (s1 ++ s2) :=
   table1.flatMap fun r1 =&gt; table2.map r1.append
 </code></pre>
-<p>Just as with <code>List.product</code>, a loop with mutation in the identity monad can be used as an alternative implementation technique:</p>
+<!--
+Just as with `List.product`, a loop with mutation in the identity monad can be used as an alternative implementation technique:
+-->
+<p>正如 <code>List.product</code> 一样，这个函数也可以通过在恒等单子下使用带变更（mutation）的循环实现：</p>
 <pre><code class="language-lean">def Table.cartesianProduct (table1 : Table s1) (table2 : Table s2) : Table (s1 ++ s2) := Id.run do
   let mut out : Table (s1 ++ s2) := []
   for r1 in table1 do
@@ -615,46 +970,94 @@ Here, however, the query language has no operator for restricting the number of 
       out := (r1.append r2) :: out
   pure out.reverse
 </code></pre>
-<h3 id="difference"><a class="header" href="#difference">Difference</a></h3>
-<p>Removing undesired rows from a table can be done using <code>List.filter</code>, which takes a list and a function that returns a <code>Bool</code>.
-A new list is returned that contains only the entries for which the function returns <code>true</code>.
-For instance,</p>
+<!--
+### Difference
+-->
+<h3 id="差"><a class="header" href="#差">差</a></h3>
+<!--
+Removing undesired rows from a table can be done using `List.filter`, which takes a list and a function that returns a `Bool`.
+A new list is returned that contains only the entries for which the function returns `true`.
+For instance,
+-->
+<p>从表中删除不需要的行可以使用 <code>List.filter</code> 完成，它接受一个列表和一个返回 <code>Bool</code> 的函数。
+返回一个新列表，这个新列表仅包含旧列表中函数值为 <code>true</code> 的条目。
+例如，</p>
 <pre><code class="language-lean">[&quot;Willamette&quot;, &quot;Columbia&quot;, &quot;Sandy&quot;, &quot;Deschutes&quot;].filter (·.length &gt; 8)
 </code></pre>
-<p>evaluates to</p>
+<!--
+evaluates to
+-->
+<p>求值为</p>
 <pre><code class="language-lean">[&quot;Willamette&quot;, &quot;Deschutes&quot;]
 </code></pre>
-<p>because <code>&quot;Columbia&quot;</code> and <code>&quot;Sandy&quot;</code> have lengths less than or equal to <code>8</code>.
-Removing the entries of a table can be done using the helper <code>List.without</code>:</p>
+<!--
+because `"Columbia"` and `"Sandy"` have lengths less than or equal to `8`.
+Removing the entries of a table can be done using the helper `List.without`:
+-->
+<p>因为 <code>&quot;Columbia&quot;</code> 和 <code>&quot;Sandy&quot;</code> 的长度小于或等于 <code>8</code>。
+可以使用辅助函数 <code>List.without</code> 删除表的条目：</p>
 <pre><code class="language-lean">def List.without [BEq α] (source banned : List α) : List α :=
   source.filter fun r =&gt; !(banned.contains r)
 </code></pre>
-<p>This will be used with the <code>BEq</code> instance for <code>Row</code> when interpreting queries.</p>
-<h3 id="renaming-columns"><a class="header" href="#renaming-columns">Renaming Columns</a></h3>
-<p>Renaming a column in a row is done with a recursive function that traverses the row until the column in question is found, at which point the column with the new name gets the same value as the column with the old name:</p>
+<!--
+This will be used with the `BEq` instance for `Row` when interpreting queries.
+-->
+<p>这个将在执行查询时与 <code>Row</code> 的 <code>BEq</code> 实例一起使用。</p>
+<!--
+### Renaming Columns
+-->
+<h3 id="重命名"><a class="header" href="#重命名">重命名</a></h3>
+<!--
+Renaming a column in a row is done with a recursive function that traverses the row until the column in question is found, at which point the column with the new name gets the same value as the column with the old name:
+-->
+<p>在一行数据中重命名一个列需要使用一个递归函数遍历整行直到找到需要重命名的列，
+然后将用一个新名字指向该列，而值仍然为这列原有的值：</p>
 <pre><code class="language-lean">def Row.rename (c : HasCol s n t) (row : Row s) : Row (s.renameColumn c n') :=
   match s, row, c with
   | [_], v, .here =&gt; v
   | _::_::_, (v, r), .here =&gt; (v, r)
   | _::_::_, (v, r), .there next =&gt; addVal v (r.rename next)
 </code></pre>
-<p>While this function changes the <em>type</em> of its argument, the actual return value contains precisely the same data as the original argument.
-From a run-time perspective, <code>renameRow</code> is nothing but a slow identity function.
+<!--
+While this function changes the _type_ of its argument, the actual return value contains precisely the same data as the original argument.
+From a run-time perspective, `renameRow` is nothing but a slow identity function.
 One difficulty in programming with indexed families is that when performance matters, this kind of operation can get in the way.
-It takes a very careful, often brittle, design to eliminate these kinds of &quot;re-indexing&quot; functions.</p>
-<h3 id="prefixing-column-names"><a class="header" href="#prefixing-column-names">Prefixing Column Names</a></h3>
-<p>Adding a prefix to column names is very similar to renaming a column.
-Instead of proceeding to a desired column and then returning, <code>prefixRow</code> must process all columns:</p>
+It takes a very careful, often brittle, design to eliminate these kinds of "re-indexing" functions.
+-->
+<p>这个函数改变了其参数的 <strong>类型</strong>，但实际返回的数据完全相同。
+从运行时的角度看，<code>renameRow</code> 只是一个拖慢运行的恒等函数。
+这暗示了使用索引族进行编程时的一个常见问题，当性能很重要时，这种操作可能会造成不必要的性能损失。
+需要非常小心，但通常很脆弱的设计来消除这种 <strong>重新索引</strong> 函数。</p>
+<!--
+### Prefixing Column Names
+-->
+<h3 id="添加前缀"><a class="header" href="#添加前缀">添加前缀</a></h3>
+<!--
+Adding a prefix to column names is very similar to renaming a column.
+Instead of proceeding to a desired column and then returning, `prefixRow` must process all columns:
+-->
+<p>添加前缀与重命名列非常相似。
+然而<code>prefixRow</code> 必须处理所有列，而非找到一个特定的列然后直接返回：</p>
 <pre><code class="language-lean">def prefixRow (row : Row s) : Row (s.map fun c =&gt; {c with name := n ++ &quot;.&quot; ++ c.name}) :=
   match s, row with
   | [], _ =&gt; ()
   | [_], v =&gt; v
   | _::_::_, (v, r) =&gt; (v, prefixRow r)
 </code></pre>
-<p>This can be used with <code>List.map</code> in order to add a prefix to all rows in a table.
-Once again, this function only exists to change the type of a value.</p>
-<h3 id="putting-the-pieces-together"><a class="header" href="#putting-the-pieces-together">Putting the Pieces Together</a></h3>
-<p>With all of these helpers defined, executing a query requires only a short recursive function:</p>
+<!--
+This can be used with `List.map` in order to add a prefix to all rows in a table.
+Once again, this function only exists to change the type of a value.
+-->
+<p>这个可以与 <code>List.map</code> 一起使用，以便为表中的所有行添加前缀。
+和重命名函数一样，这个函数只改变一个值的类型，但不改变值本身。</p>
+<!--
+### Putting the Pieces Together
+-->
+<h3 id="将所有东西组合在一起"><a class="header" href="#将所有东西组合在一起">将所有东西组合在一起</a></h3>
+<!--
+With all of these helpers defined, executing a query requires only a short recursive function:
+-->
+<p>定义了所有这些辅助函数后，执行查询只需要一个简短的递归函数：</p>
 <pre><code class="language-lean">def Query.exec : Query s → Table s
   | .table t =&gt; t
   | .union q1 q2 =&gt; exec q1 ++ exec q2
@@ -665,31 +1068,58 @@ Once again, this function only exists to change the type of a value.</p>
   | .renameColumn q c _ _ =&gt; exec q |&gt;.map (·.rename c)
   | .prefixWith _ q =&gt; exec q |&gt;.map prefixRow
 </code></pre>
-<p>Some arguments to the constructors are not used during execution.
-In particular, both the constructor <code>project</code> and the function <code>Row.project</code> take the smaller schema as explicit arguments, but the type of the <em>evidence</em> that this schema is a subschema of the larger schema contains enough information for Lean to fill out the argument automatically.
-Similarly, the fact that the two tables have disjoint column names that is required by the <code>product</code> constructor is not needed by <code>Table.cartesianProduct</code>.
-Generally speaking, dependent types provide many opportunities to have Lean fill out arguments on behalf of the programmer.</p>
-<p>Dot notation is used with the results of queries to call functions defined both in the <code>Table</code> and <code>List</code> namespaces, such <code>List.map</code>, <code>List.filter</code>, and <code>Table.cartesianProduct</code>.
-This works because <code>Table</code> is defined using <code>abbrev</code>.
-Just like type class search, dot notation can see through definitions created with <code>abbrev</code>. </p>
-<p>The implementation of <code>select</code> is also quite concise.
-After executing the query <code>q</code>, <code>List.filter</code> is used to remove the rows that do not satisfy the expression.
-Filter expects a function from <code>Row s</code> to <code>Bool</code>, but <code>DBExpr.evaluate</code> has type <code>Row s → DBExpr s t → t.asType</code>.
-Because the type of the <code>select</code> constructor requires that the expression have type <code>DBExpr s .bool</code>, <code>t.asType</code> is actually <code>Bool</code> in this context.</p>
-<p>A query that finds the heights of all mountain peaks with an elevation greater than 500 meters can be written:</p>
+<!--
+Some arguments to the constructors are not used during execution.
+In particular, both the constructor `project` and the function `Row.project` take the smaller schema as explicit arguments, but the type of the _evidence_ that this schema is a subschema of the larger schema contains enough information for Lean to fill out the argument automatically.
+Similarly, the fact that the two tables have disjoint column names that is required by the `product` constructor is not needed by `Table.cartesianProduct`.
+Generally speaking, dependent types provide many opportunities to have Lean fill out arguments on behalf of the programmer.
+-->
+<p>构造子的一些参数在执行过程中没有被用到。
+特别是，构造器 <code>project</code> 和函数 <code>Row.project</code> 都将较小的数据库模式作为显式参数，但表明这个数据库模式是较大数据库模式的子数据库模式的 <strong>证据</strong> 的类型包含足够的信息，以便 Lean 自动填充参数。
+类似地，<code>product</code> 构造子要求两个表具有不同的列名，但 <code>Table.cartesianProduct</code> 不需要。
+一般来说，依值类型编程中让 Lean 可以代替程序员自己填写很多参数。</p>
+<!--
+Dot notation is used with the results of queries to call functions defined both in the `Table` and `List` namespaces, such `List.map`, `List.filter`, and `Table.cartesianProduct`.
+This works because `Table` is defined using `abbrev`.
+Just like type class search, dot notation can see through definitions created with `abbrev`. 
+-->
+<p>对查询的结果使用点符号（dot notation）以调用在 <code>Table</code> 和 <code>List</code> 命名空间中定义的函数，如 <code>List.map</code>、<code>List.filter</code> 和 <code>Table.cartesianProduct</code>。
+因为 <code>Table</code> 是使用 <code>abbrev</code> 定义的，所以这样做是可行的。
+就像类型类搜索一样，点符号可以看穿使用 <code>abbrev</code> 创建的定义。</p>
+<!--
+The implementation of `select` is also quite concise.
+After executing the query `q`, `List.filter` is used to remove the rows that do not satisfy the expression.
+Filter expects a function from `Row s` to `Bool`, but `DBExpr.evaluate` has type `Row s → DBExpr s t → t.asType`.
+Because the type of the `select` constructor requires that the expression have type `DBExpr s .bool`, `t.asType` is actually `Bool` in this context.
+-->
+<p><code>select</code>的实现也非常简洁。
+在执行查询 <code>q</code> 后，使用 <code>List.filter</code> 删除不满足表达式的行。
+<code>filter</code> 需要一个从 <code>Row s</code> 到 <code>Bool</code> 的函数作为参数，但 <code>DBExpr.evaluate</code> 的类型是 <code>Row s → DBExpr s t → t.asType</code>。
+但这并不会产生类型错误，因为 <code>select</code> 构造器的类型要求表达式的类型为 <code>DBExpr s .bool</code>，所以 <code>t.asType</code> 实际上就是 <code>Bool</code>。</p>
+<!--
+A query that finds the heights of all mountain peaks with an elevation greater than 500 meters can be written:
+-->
+<p>一个找到所有海拔高于 500 米的山峰的高度的查询可以写成：</p>
 <pre><code class="language-leantac">open Query in
 def example1 :=
   table mountainDiary |&gt;.select
   (.lt (.const 500) (c! &quot;elevation&quot;)) |&gt;.project
   [⟨&quot;elevation&quot;, .int⟩] (by repeat constructor)
 </code></pre>
-<p>Executing it returns the expected list of integers:</p>
+<!--
+Executing it returns the expected list of integers:
+-->
+<p>执行它返回预期的整数列表：</p>
 <pre><code class="language-lean">#eval example1.exec
 </code></pre>
 <pre><code class="language-output info">[3637, 1519, 2549]
 </code></pre>
-<p>To plan a sightseeing tour, it may be relevant to match all pairs mountains and waterfalls in the same location.
-This can be done by taking the Cartesian product of both tables, selecting only the rows in which they are equal, and then projecting out the names:</p>
+<!--
+To plan a sightseeing tour, it may be relevant to match all pairs mountains and waterfalls in the same location.
+This can be done by taking the Cartesian product of both tables, selecting only the rows in which they are equal, and then projecting out the names:
+-->
+<p>为了规划一个观光旅行，可能需要同一位置的所有山和瀑布的有序对。
+这可以通过取两个表的笛卡尔积，选择它们 <code>location</code> 相等的行，然后投影出山和瀑布的名称来完成：</p>
 <pre><code class="language-leantac">open Query in
 def example2 :=
   let mountain := table mountainDiary |&gt;.prefixWith &quot;mountain&quot;
@@ -698,7 +1128,10 @@ def example2 :=
     |&gt;.select (.eq (c! &quot;mountain.location&quot;) (c! &quot;waterfall.location&quot;))
     |&gt;.project [⟨&quot;mountain.name&quot;, .string⟩, ⟨&quot;waterfall.name&quot;, .string⟩] (by repeat constructor)
 </code></pre>
-<p>Because the example data includes only waterfalls in the USA, executing the query returns pairs of mountains and waterfalls in the US:</p>
+<!--
+Because the example data includes only waterfalls in the USA, executing the query returns pairs of mountains and waterfalls in the US:
+-->
+<p>因为示例数据只包括美国的瀑布，执行查询返回美国的山和瀑布有序对：</p>
 <pre><code class="language-lean">#eval example2.exec
 </code></pre>
 <pre><code class="language-output info">[(&quot;Mount Nebo&quot;, &quot;Multnomah Falls&quot;),
@@ -708,9 +1141,16 @@ def example2 :=
  (&quot;Mount St. Helens&quot;, &quot;Multnomah Falls&quot;),
  (&quot;Mount St. Helens&quot;, &quot;Shoshone Falls&quot;)]
 </code></pre>
-<h3 id="errors-you-may-meet"><a class="header" href="#errors-you-may-meet">Errors You May Meet</a></h3>
-<p>Many potential errors are ruled out by the definition of <code>Query</code>.
-For instance, forgetting the added qualifier in <code>&quot;mountain.location&quot;</code> yields a compile-time error that highlights the column reference <code>c! &quot;location&quot;</code>:</p>
+<!--
+### Errors You May Meet
+-->
+<h3 id="可能遇到的错误"><a class="header" href="#可能遇到的错误">可能遇到的错误</a></h3>
+<!--
+Many potential errors are ruled out by the definition of `Query`.
+For instance, forgetting the added qualifier in `"mountain.location"` yields a compile-time error that highlights the column reference `c! "location"`:
+-->
+<p>很多潜在的错误都被 <code>Query</code> 的定义排除了。
+例如，忘记在 <code>&quot;mountain.location&quot;</code> 中添加限定符会导致编译时错误，突出显示列引用 <code>c! &quot;location&quot;</code>：</p>
 <pre><code class="language-leantac">open Query in
 def example2 :=
   let mountains := table mountainDiary |&gt;.prefixWith &quot;mountain&quot;
@@ -719,8 +1159,12 @@ def example2 :=
     |&gt;.select (.eq (c! &quot;location&quot;) (c! &quot;waterfall.location&quot;))
     |&gt;.project [⟨&quot;mountain.name&quot;, .string⟩, ⟨&quot;waterfall.name&quot;, .string⟩] (by repeat constructor)
 </code></pre>
-<p>This is excellent feedback!
-On the other hand, the text of the error message is quite difficult to act on:</p>
+<!--
+This is excellent feedback!
+On the other hand, the text of the error message is quite difficult to act on:
+-->
+<p>这是一个很棒的反馈！
+但是，很难从这个错误信息知道下面应该做什么：</p>
 <pre><code class="language-output error">unsolved goals
 case a.a.a.a.a.a.a
 mountains : Query (List.map (fun c =&gt; { name := &quot;mountain&quot; ++ &quot;.&quot; ++ c.name, contains := c.contains }) peak) :=
@@ -729,7 +1173,10 @@ waterfalls : Query (List.map (fun c =&gt; { name := &quot;waterfall&quot; ++ &qu
   prefixWith &quot;waterfall&quot; (table waterfallDiary)
 ⊢ HasCol (List.map (fun c =&gt; { name := &quot;waterfall&quot; ++ &quot;.&quot; ++ c.name, contains := c.contains }) []) &quot;location&quot; ?m.109970
 </code></pre>
-<p>Similarly, forgetting to add prefixes to the names of the two tables results in an error on <code>by simp</code>, which should provide evidence that the schemas are in fact disjoint;</p>
+<!--
+Similarly, forgetting to add prefixes to the names of the two tables results in an error on `by simp`, which should provide evidence that the schemas are in fact disjoint;
+-->
+<p>类似地，忘记为两个表的名称添加前缀会导致 <code>by simp</code> 上的错误，它应该提供证据表明数据库模式实际上是不同的；</p>
 <pre><code class="language-leantac">open Query in
 def example2 :=
   let mountains := table mountainDiary
@@ -738,20 +1185,44 @@ def example2 :=
     |&gt;.select (.eq (c! &quot;mountain.location&quot;) (c! &quot;waterfall.location&quot;))
     |&gt;.project [⟨&quot;mountain.name&quot;, .string⟩, ⟨&quot;waterfall.name&quot;, .string⟩] (by repeat constructor)
 </code></pre>
-<p>However, the error message is similarly unhelpful:</p>
+<!--
+However, the error message is similarly unhelpful:
+-->
+<p>然而，错误信息同样没有帮助：</p>
 <pre><code class="language-output error">unsolved goals
 mountains : Query peak := table mountainDiary
 waterfalls : Query waterfall := table waterfallDiary
 ⊢ False
 </code></pre>
-<p>Lean's macro system contains everything needed not only to provide a convenient syntax for queries, but also to arrange for the error messages to be helpful.
+<!--
+Lean's macro system contains everything needed not only to provide a convenient syntax for queries, but also to arrange for the error messages to be helpful.
 Unfortunately, it is beyond the scope of this book to provide a description of implementing languages with Lean macros.
-An indexed family such as <code>Query</code> is probably best as the core of a typed database interaction library, rather than its user interface.</p>
-<h2 id="exercises"><a class="header" href="#exercises">Exercises</a></h2>
-<h3 id="dates"><a class="header" href="#dates">Dates</a></h3>
-<p>Define a structure to represent dates. Add it to the <code>DBType</code> universe and update the rest of the code accordingly. Provide the extra <code>DBExpr</code> constructors that seem to be necessary.</p>
-<h3 id="nullable-types"><a class="header" href="#nullable-types">Nullable Types</a></h3>
-<p>Add support for nullable columns to the query language by representing database types with the following structure:</p>
+An indexed family such as `Query` is probably best as the core of a typed database interaction library, rather than its user interface.
+-->
+<p>Lean 的宏系统不仅可以为查询提供方便的语法，还可以生成的错误信息变得有用。
+不幸的是，本书的范围不包括如何使用 Lean 的宏实现语言。
+像 <code>Query</code> 这样的索引族可能最适合作为一个有类型的数据库交互库的核心，直接暴露给用户的接口。</p>
+<!--
+## Exercises
+-->
+<h2 id="练习"><a class="header" href="#练习">练习</a></h2>
+<!--
+### Dates
+-->
+<h3 id="日期"><a class="header" href="#日期">日期</a></h3>
+<!--
+Define a structure to represent dates. Add it to the `DBType` universe and update the rest of the code accordingly. Provide the extra `DBExpr` constructors that seem to be necessary.
+-->
+<p>定义一个用来表示日期的结构。将其添加到 <code>DBType</code> 宇宙中，并相应地更新其余代码。
+定义必要的额外的 <code>DBExpr</code> 构造子。</p>
+<!--
+### Nullable Types
+-->
+<h3 id="可空类型"><a class="header" href="#可空类型">可空类型</a></h3>
+<!--
+Add support for nullable columns to the query language by representing database types with the following structure:
+-->
+<p>通过以下结构表示数据库类型，为查询语言添加对可空列的支持：</p>
 <pre><code class="language-lean">structure NDBType where
   underlying : DBType
   nullable : Bool
@@ -762,9 +1233,18 @@ abbrev NDBType.asType (t : NDBType) : Type :=
   else
     t.underlying.asType
 </code></pre>
-<p>Use this type in place of <code>DBType</code> in <code>Column</code> and <code>DBExpr</code>, and look up SQL's rules for <code>NULL</code> and comparison operators to determine the types of <code>DBExpr</code>'s constructors.</p>
-<h3 id="experimenting-with-tactics"><a class="header" href="#experimenting-with-tactics">Experimenting with Tactics</a></h3>
-<p>What is the result of asking Lean to find values of the following types using <code>by repeat constructor</code>? Explain why each gives the result that it does.</p>
+<!--
+Use this type in place of `DBType` in `Column` and `DBExpr`, and look up SQL's rules for `NULL` and comparison operators to determine the types of `DBExpr`'s constructors.
+-->
+<p>在 <code>Column</code> 和 <code>DBExpr</code> 中使用这种类型代替 <code>DBType</code>，并查找 SQL 的 <code>NULL</code> 和比较运算符的规则，以确定 <code>DBExpr</code> 构造子的类型。</p>
+<!--
+### Experimenting with Tactics
+-->
+<h3 id="尝试策术"><a class="header" href="#尝试策术">尝试策术</a></h3>
+<!--
+What is the result of asking Lean to find values of the following types using `by repeat constructor`? Explain why each gives the result that it does.
+-->
+<p>在 Lean 中使用 <code>by repeat constructor</code> 观察 Lean 为以下类型找到了什么值，并解释每个结果。</p>
 <ul>
 <li><code>Nat</code></li>
 <li><code>List Nat</code></li>
