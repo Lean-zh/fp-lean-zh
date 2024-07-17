@@ -67,8 +67,8 @@ For now, ignore these parameters to `Type`.
 -->
 
 在这个输出信息中，实例本身被给予了 `inst` 这个名字。
-此外，`Type` 后面有一个 `u_1` ，这是 Lean
-目前，可以忽略这些Type的参数。
+此外，`Type` 后面有一个 `u_1` ，这里使用了目前尚未介绍的 Lean 的特性。
+我们可以暂时忽略这些 `Type` 的参数。
 
 <!--
 ## Defining Polymorphic Functions with Instance Implicits
