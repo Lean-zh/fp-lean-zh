@@ -103,9 +103,9 @@ In Lean, however, moving up the inheritance hierarchy actually erases the underl
 To see this in action, consider the result of evaluating `troll.toMythicalCreature`:
 -->
 
-在 Lean 的继承层次体系中向上移动与面向对象语言中的向上转型（Upcasting）并不相同。
+在 Lean 的继承层级体系中逐级上升与面向对象语言中的向上转型（Upcasting）并不相同。
 向上转型运算符会使派生类的值被视为父类的实例，但该值会保留其原有的特性和结构体。
-然而，在 Lean 中，在继承层次体系内向上移动实际上会擦除原有的底层信息。
+然而，在 Lean 中，在继承层级体系内逐级上升实际上会擦除原有的底层信息。
 要查看此操作，请看 `troll.toMythicalCreature` 的求值结果：
 
 ```lean
@@ -393,4 +393,4 @@ By carefully designing type class inheritance hierarchies, programmers can get t
 
 由于使用了完全相同的语言特性，类型类继承支持结构体继承的所有特性，包括多重继承、父类型方法的默认实现以及自动解决菱形继承问题。
 这在许多情况下都很有用，就像 Java、C# 和 Kotlin 等语言中的多重接口继承。
-通过精心设计类型类的继承层次体系，程序员可以兼得两方面的优势：一方面是得到一个可独立实现的抽象的细粒度集合，另一方面是从更大、更通用的抽象中自动构造出这些特定的抽象。
+通过精心设计类型类的继承层级体系，程序员可以兼得两方面的优势：一方面是得到一个可独立实现的抽象的精细集合，另一方面是从更大、更通用的抽象中自动构造出这些特定的抽象。
