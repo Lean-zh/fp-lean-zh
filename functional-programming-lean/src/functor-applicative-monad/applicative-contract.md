@@ -158,7 +158,7 @@ Thinking about the meanings of the operations while reading these arguments can 
 -->
 
 本节的其余部分包含一个论点，即基于 `bind` 的 `seq` 的这种实现实际上满足了 `Applicative` 契约。
-函数式编程的一个美妙之处在于，这种论点可以用铅笔在纸上完成，使用[表达式求值初步章节](../getting-to-know/evaluating.md)中的求值规则。
+函数式编程的一个美妙之处在于，这种论点可以用铅笔在纸上完成，使用[表达式求值初步小节](../getting-to-know/evaluating.md)中的求值规则。
 在阅读这些论点时，思考操作的含义有时有助于理解。
 
 <!--

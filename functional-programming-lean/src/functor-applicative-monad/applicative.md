@@ -374,7 +374,7 @@ In the `then` branch, `h` is bound to evidence that `n > 0`, and this evidence c
 -->
 
 检查类型为 `α` 的值是否属于子类型 `{x : α // p x}`，通常需要命题 `p x` 是 **可判定的 (Decidable)**。
-[关于相等性和排序类的章节](../type-classes/standard-classes.md#equality-and-ordering) 描述了如何将可判定命题与 `if` 一起使用。
+[关于相等性和排序类的小节](../type-classes/standard-classes.md#equality-and-ordering) 描述了如何将可判定命题与 `if` 一起使用。
 当 `if` 与一个可判定命题一起使用时，可以提供一个名称。
 在 `then` 分支中，该名称会与命题为真的证据绑定，在 `else` 分支中，该名称会与命题为假的证据绑定。
 这在检查给定的 `Nat` 是否为正数时非常有用：
@@ -509,7 +509,7 @@ They are described [in the section that describes the `Applicative` contract](ap
 {{#example_decl Examples/FunctorApplicativeMonad.lean ValidateAndThen}}
 ```
 虽然这此数的类型签名使其适合作为一个 `Monad` 实例中的 `bind` 去使用，但也有充分的理由不这样做。
-这些理由在[描述 `Applicative` 契约的章节](applicative-contract.md#additional-stipulations)中进行了说明。
+这些理由在[描述 `Applicative` 契约的小节](applicative-contract.md#additional-stipulations)中进行了说明。
 
 <!--
 To check that the birth year is a number, a built-in function called `String.toNat? : String → Option Nat` is useful.

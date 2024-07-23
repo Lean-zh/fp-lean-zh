@@ -288,7 +288,7 @@ Both support failure without providing a reason (unlike, say, `Except` and `Vali
 -->
 
 许多类型都支持失败和恢复的概念。
-[多种单子中对算术表达式的求值](../monads/arithmetic.md#nondeterministic-search)章节中的 `Many` 单子就是其中的一种，`Option` 也是如此。
+[多种单子中对算术表达式的求值](../monads/arithmetic.md#nondeterministic-search)小节中的 `Many` 单子就是其中的一种，`Option` 也是如此。
 这两种类型都支持失败但不提供失败的原因的情况（不同于 `Except` 和 `Validate`，它们需要对出错的原因进行某些指示）。
 
 <!--
