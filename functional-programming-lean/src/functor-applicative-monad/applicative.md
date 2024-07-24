@@ -46,7 +46,7 @@ The same consideration informs the instance of `Applicative` for `Except`:
 This short-circuiting behavior depends only on the `Option` or `Except` structures that _surround_ the function, rather than on the function itself.
 -->
 
-这种短路行为仅依赖于 **包围** 着函数的 `Option` 或 `Except` 结构体，而不是函数本身。
+这种短路行为仅依赖于 **包围** 着函数的 `Option` 或 `Except` 结构，而不是函数本身。
 
 <!--
 Monads can be seen as a way of capturing the notion of sequentially executing statements into a pure functional language.
