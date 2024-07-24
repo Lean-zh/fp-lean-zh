@@ -133,7 +133,7 @@ This justifies a definition of `Applicative` that extends `Functor`, with a defa
 ## All Monads are Applicative Functors
 -->
 
-## 所有 Monad 都是应用函子
+## 所有单子都是应用函子
 
 <!--
 An instance of `Monad` already requires an implementation of `pure`.
