@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>应用函子的法则 - Lean 函数式编程</title>
+        <title>应用函子的契约 - Lean 函数式编程</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -79,7 +79,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../title.html">Lean 函数式编程</a></li><li class="chapter-item expanded affix "><a href="../introduction.html">引言</a></li><li class="chapter-item expanded affix "><a href="../acknowledgments.html">鸣谢</a></li><li class="chapter-item expanded "><a href="../getting-to-know.html"><strong aria-hidden="true">1.</strong> 了解 Lean</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-to-know/evaluating.html"><strong aria-hidden="true">1.1.</strong> 求值表达式</a></li><li class="chapter-item expanded "><a href="../getting-to-know/types.html"><strong aria-hidden="true">1.2.</strong> 类型</a></li><li class="chapter-item expanded "><a href="../getting-to-know/functions-and-definitions.html"><strong aria-hidden="true">1.3.</strong> 函数与定义</a></li><li class="chapter-item expanded "><a href="../getting-to-know/structures.html"><strong aria-hidden="true">1.4.</strong> 结构体</a></li><li class="chapter-item expanded "><a href="../getting-to-know/datatypes-and-patterns.html"><strong aria-hidden="true">1.5.</strong> 数据类型、模式匹配与递归</a></li><li class="chapter-item expanded "><a href="../getting-to-know/polymorphism.html"><strong aria-hidden="true">1.6.</strong> 多态</a></li><li class="chapter-item expanded "><a href="../getting-to-know/conveniences.html"><strong aria-hidden="true">1.7.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../getting-to-know/summary.html"><strong aria-hidden="true">1.8.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../hello-world.html"><strong aria-hidden="true">2.</strong> Hello, World!</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../hello-world/running-a-program.html"><strong aria-hidden="true">2.1.</strong> 运行程序</a></li><li class="chapter-item expanded "><a href="../hello-world/step-by-step.html"><strong aria-hidden="true">2.2.</strong> 逐步执行</a></li><li class="chapter-item expanded "><a href="../hello-world/starting-a-project.html"><strong aria-hidden="true">2.3.</strong> 创建项目</a></li><li class="chapter-item expanded "><a href="../hello-world/cat.html"><strong aria-hidden="true">2.4.</strong> 现实示例：cat</a></li><li class="chapter-item expanded "><a href="../hello-world/conveniences.html"><strong aria-hidden="true">2.5.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../hello-world/summary.html"><strong aria-hidden="true">2.6.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../props-proofs-indexing.html"><strong aria-hidden="true">3.</strong> 插曲：命题、证明与索引</a></li><li class="chapter-item expanded "><a href="../type-classes.html"><strong aria-hidden="true">4.</strong> 重载与类型类</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../type-classes/pos.html"><strong aria-hidden="true">4.1.</strong> 正数</a></li><li class="chapter-item expanded "><a href="../type-classes/polymorphism.html"><strong aria-hidden="true">4.2.</strong> 类型类与多态</a></li><li class="chapter-item expanded "><a href="../type-classes/out-params.html"><strong aria-hidden="true">4.3.</strong> 控制实例搜索</a></li><li class="chapter-item expanded "><a href="../type-classes/indexing.html"><strong aria-hidden="true">4.4.</strong> 数组与索引</a></li><li class="chapter-item expanded "><a href="../type-classes/standard-classes.html"><strong aria-hidden="true">4.5.</strong> 标准类</a></li><li class="chapter-item expanded "><a href="../type-classes/coercion.html"><strong aria-hidden="true">4.6.</strong> 强制转换</a></li><li class="chapter-item expanded "><a href="../type-classes/conveniences.html"><strong aria-hidden="true">4.7.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../type-classes/summary.html"><strong aria-hidden="true">4.8.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../monads.html"><strong aria-hidden="true">5.</strong> 单子</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../monads/class.html"><strong aria-hidden="true">5.1.</strong> 单子类型类</a></li><li class="chapter-item expanded "><a href="../monads/arithmetic.html"><strong aria-hidden="true">5.2.</strong> 示例：用单子表达算术运算</a></li><li class="chapter-item expanded "><a href="../monads/do.html"><strong aria-hidden="true">5.3.</strong> 单子的 do-记法</a></li><li class="chapter-item expanded "><a href="../monads/io.html"><strong aria-hidden="true">5.4.</strong> IO 单子</a></li><li class="chapter-item expanded "><a href="../monads/conveniences.html"><strong aria-hidden="true">5.5.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../monads/summary.html"><strong aria-hidden="true">5.6.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../functor-applicative-monad.html"><strong aria-hidden="true">6.</strong> 函子、应用函子与单子</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../functor-applicative-monad/inheritance.html"><strong aria-hidden="true">6.1.</strong> 结构和继承</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/applicative.html"><strong aria-hidden="true">6.2.</strong> 应用函子</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/applicative-contract.html" class="active"><strong aria-hidden="true">6.3.</strong> 应用函子的法则</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/alternative.html"><strong aria-hidden="true">6.4.</strong> 选择子</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/universes.html"><strong aria-hidden="true">6.5.</strong> 宇宙</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/complete.html"><strong aria-hidden="true">6.6.</strong> 完整定义</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/summary.html"><strong aria-hidden="true">6.7.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../monad-transformers.html"><strong aria-hidden="true">7.</strong> 单子变换器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../monad-transformers/reader-io.html"><strong aria-hidden="true">7.1.</strong> 组合 IO 与 Reader</a></li><li class="chapter-item expanded "><a href="../monad-transformers/transformers.html"><strong aria-hidden="true">7.2.</strong> 单子构建工具包</a></li><li class="chapter-item expanded "><a href="../monad-transformers/order.html"><strong aria-hidden="true">7.3.</strong> 对单子变换器排序</a></li><li class="chapter-item expanded "><a href="../monad-transformers/do.html"><strong aria-hidden="true">7.4.</strong> 更多 do 的特性</a></li><li class="chapter-item expanded "><a href="../monad-transformers/conveniences.html"><strong aria-hidden="true">7.5.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../monad-transformers/summary.html"><strong aria-hidden="true">7.6.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../dependent-types.html"><strong aria-hidden="true">8.</strong> 依值类型编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../dependent-types/indexed-families.html"><strong aria-hidden="true">8.1.</strong> 索引族</a></li><li class="chapter-item expanded "><a href="../dependent-types/universe-pattern.html"><strong aria-hidden="true">8.2.</strong> 宇宙设计模式</a></li><li class="chapter-item expanded "><a href="../dependent-types/typed-queries.html"><strong aria-hidden="true">8.3.</strong> 现实示例：类型化查询</a></li><li class="chapter-item expanded "><a href="../dependent-types/indices-parameters-universes.html"><strong aria-hidden="true">8.4.</strong> 索引、形参与宇宙层级</a></li><li class="chapter-item expanded "><a href="../dependent-types/pitfalls.html"><strong aria-hidden="true">8.5.</strong> 依值类型编程的陷阱</a></li><li class="chapter-item expanded "><a href="../dependent-types/summary.html"><strong aria-hidden="true">8.6.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../tactics-induction-proofs.html"><strong aria-hidden="true">9.</strong> 插曲：策略、归纳与证明</a></li><li class="chapter-item expanded "><a href="../programs-proofs.html"><strong aria-hidden="true">10.</strong> 编程、证明与性能</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs-proofs/tail-recursion.html"><strong aria-hidden="true">10.1.</strong> 尾递归</a></li><li class="chapter-item expanded "><a href="../programs-proofs/tail-recursion-proofs.html"><strong aria-hidden="true">10.2.</strong> 证明等价</a></li><li class="chapter-item expanded "><a href="../programs-proofs/arrays-termination.html"><strong aria-hidden="true">10.3.</strong> 数组与停机性</a></li><li class="chapter-item expanded "><a href="../programs-proofs/inequalities.html"><strong aria-hidden="true">10.4.</strong> 更多不等式</a></li><li class="chapter-item expanded "><a href="../programs-proofs/fin.html"><strong aria-hidden="true">10.5.</strong> 安全数组索引</a></li><li class="chapter-item expanded "><a href="../programs-proofs/insertion-sort.html"><strong aria-hidden="true">10.6.</strong> 插入排序与数组可变性</a></li><li class="chapter-item expanded "><a href="../programs-proofs/special-types.html"><strong aria-hidden="true">10.7.</strong> 特殊类型</a></li><li class="chapter-item expanded "><a href="../programs-proofs/summary.html"><strong aria-hidden="true">10.8.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../next-steps.html">下一步</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../title.html">Lean 函数式编程</a></li><li class="chapter-item expanded affix "><a href="../introduction.html">引言</a></li><li class="chapter-item expanded affix "><a href="../acknowledgments.html">鸣谢</a></li><li class="chapter-item expanded "><a href="../getting-to-know.html"><strong aria-hidden="true">1.</strong> 了解 Lean</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-to-know/evaluating.html"><strong aria-hidden="true">1.1.</strong> 求值表达式</a></li><li class="chapter-item expanded "><a href="../getting-to-know/types.html"><strong aria-hidden="true">1.2.</strong> 类型</a></li><li class="chapter-item expanded "><a href="../getting-to-know/functions-and-definitions.html"><strong aria-hidden="true">1.3.</strong> 函数与定义</a></li><li class="chapter-item expanded "><a href="../getting-to-know/structures.html"><strong aria-hidden="true">1.4.</strong> 结构体</a></li><li class="chapter-item expanded "><a href="../getting-to-know/datatypes-and-patterns.html"><strong aria-hidden="true">1.5.</strong> 数据类型、模式匹配与递归</a></li><li class="chapter-item expanded "><a href="../getting-to-know/polymorphism.html"><strong aria-hidden="true">1.6.</strong> 多态</a></li><li class="chapter-item expanded "><a href="../getting-to-know/conveniences.html"><strong aria-hidden="true">1.7.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../getting-to-know/summary.html"><strong aria-hidden="true">1.8.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../hello-world.html"><strong aria-hidden="true">2.</strong> Hello, World!</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../hello-world/running-a-program.html"><strong aria-hidden="true">2.1.</strong> 运行程序</a></li><li class="chapter-item expanded "><a href="../hello-world/step-by-step.html"><strong aria-hidden="true">2.2.</strong> 逐步执行</a></li><li class="chapter-item expanded "><a href="../hello-world/starting-a-project.html"><strong aria-hidden="true">2.3.</strong> 创建项目</a></li><li class="chapter-item expanded "><a href="../hello-world/cat.html"><strong aria-hidden="true">2.4.</strong> 现实示例：cat</a></li><li class="chapter-item expanded "><a href="../hello-world/conveniences.html"><strong aria-hidden="true">2.5.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../hello-world/summary.html"><strong aria-hidden="true">2.6.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../props-proofs-indexing.html"><strong aria-hidden="true">3.</strong> 插曲：命题、证明与索引</a></li><li class="chapter-item expanded "><a href="../type-classes.html"><strong aria-hidden="true">4.</strong> 重载与类型类</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../type-classes/pos.html"><strong aria-hidden="true">4.1.</strong> 正数</a></li><li class="chapter-item expanded "><a href="../type-classes/polymorphism.html"><strong aria-hidden="true">4.2.</strong> 类型类与多态</a></li><li class="chapter-item expanded "><a href="../type-classes/out-params.html"><strong aria-hidden="true">4.3.</strong> 控制实例搜索</a></li><li class="chapter-item expanded "><a href="../type-classes/indexing.html"><strong aria-hidden="true">4.4.</strong> 数组与索引</a></li><li class="chapter-item expanded "><a href="../type-classes/standard-classes.html"><strong aria-hidden="true">4.5.</strong> 标准类</a></li><li class="chapter-item expanded "><a href="../type-classes/coercion.html"><strong aria-hidden="true">4.6.</strong> 强制转换</a></li><li class="chapter-item expanded "><a href="../type-classes/conveniences.html"><strong aria-hidden="true">4.7.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../type-classes/summary.html"><strong aria-hidden="true">4.8.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../monads.html"><strong aria-hidden="true">5.</strong> 单子</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../monads/class.html"><strong aria-hidden="true">5.1.</strong> 单子类型类</a></li><li class="chapter-item expanded "><a href="../monads/arithmetic.html"><strong aria-hidden="true">5.2.</strong> 示例：用单子表达算术运算</a></li><li class="chapter-item expanded "><a href="../monads/do.html"><strong aria-hidden="true">5.3.</strong> 单子的 do-记法</a></li><li class="chapter-item expanded "><a href="../monads/io.html"><strong aria-hidden="true">5.4.</strong> IO 单子</a></li><li class="chapter-item expanded "><a href="../monads/conveniences.html"><strong aria-hidden="true">5.5.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../monads/summary.html"><strong aria-hidden="true">5.6.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../functor-applicative-monad.html"><strong aria-hidden="true">6.</strong> 函子、应用函子与单子</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../functor-applicative-monad/inheritance.html"><strong aria-hidden="true">6.1.</strong> 结构体和继承</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/applicative.html"><strong aria-hidden="true">6.2.</strong> 应用函子</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/applicative-contract.html" class="active"><strong aria-hidden="true">6.3.</strong> 应用函子的契约</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/alternative.html"><strong aria-hidden="true">6.4.</strong> 选择子</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/universes.html"><strong aria-hidden="true">6.5.</strong> 宇宙</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/complete.html"><strong aria-hidden="true">6.6.</strong> 完整定义</a></li><li class="chapter-item expanded "><a href="../functor-applicative-monad/summary.html"><strong aria-hidden="true">6.7.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../monad-transformers.html"><strong aria-hidden="true">7.</strong> 单子变换器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../monad-transformers/reader-io.html"><strong aria-hidden="true">7.1.</strong> 组合 IO 与 Reader</a></li><li class="chapter-item expanded "><a href="../monad-transformers/transformers.html"><strong aria-hidden="true">7.2.</strong> 单子构建工具包</a></li><li class="chapter-item expanded "><a href="../monad-transformers/order.html"><strong aria-hidden="true">7.3.</strong> 对单子变换器排序</a></li><li class="chapter-item expanded "><a href="../monad-transformers/do.html"><strong aria-hidden="true">7.4.</strong> 更多 do 的特性</a></li><li class="chapter-item expanded "><a href="../monad-transformers/conveniences.html"><strong aria-hidden="true">7.5.</strong> 其他便利功能</a></li><li class="chapter-item expanded "><a href="../monad-transformers/summary.html"><strong aria-hidden="true">7.6.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../dependent-types.html"><strong aria-hidden="true">8.</strong> 依值类型编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../dependent-types/indexed-families.html"><strong aria-hidden="true">8.1.</strong> 索引族</a></li><li class="chapter-item expanded "><a href="../dependent-types/universe-pattern.html"><strong aria-hidden="true">8.2.</strong> 宇宙设计模式</a></li><li class="chapter-item expanded "><a href="../dependent-types/typed-queries.html"><strong aria-hidden="true">8.3.</strong> 现实示例：类型化查询</a></li><li class="chapter-item expanded "><a href="../dependent-types/indices-parameters-universes.html"><strong aria-hidden="true">8.4.</strong> 索引、形参与宇宙层级</a></li><li class="chapter-item expanded "><a href="../dependent-types/pitfalls.html"><strong aria-hidden="true">8.5.</strong> 依值类型编程的陷阱</a></li><li class="chapter-item expanded "><a href="../dependent-types/summary.html"><strong aria-hidden="true">8.6.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../tactics-induction-proofs.html"><strong aria-hidden="true">9.</strong> 插曲：策略、归纳与证明</a></li><li class="chapter-item expanded "><a href="../programs-proofs.html"><strong aria-hidden="true">10.</strong> 编程、证明与性能</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../programs-proofs/tail-recursion.html"><strong aria-hidden="true">10.1.</strong> 尾递归</a></li><li class="chapter-item expanded "><a href="../programs-proofs/tail-recursion-proofs.html"><strong aria-hidden="true">10.2.</strong> 证明等价</a></li><li class="chapter-item expanded "><a href="../programs-proofs/arrays-termination.html"><strong aria-hidden="true">10.3.</strong> 数组与停机性</a></li><li class="chapter-item expanded "><a href="../programs-proofs/inequalities.html"><strong aria-hidden="true">10.4.</strong> 更多不等式</a></li><li class="chapter-item expanded "><a href="../programs-proofs/fin.html"><strong aria-hidden="true">10.5.</strong> 安全数组索引</a></li><li class="chapter-item expanded "><a href="../programs-proofs/insertion-sort.html"><strong aria-hidden="true">10.6.</strong> 插入排序与数组可变性</a></li><li class="chapter-item expanded "><a href="../programs-proofs/special-types.html"><strong aria-hidden="true">10.7.</strong> 特殊类型</a></li><li class="chapter-item expanded "><a href="../programs-proofs/summary.html"><strong aria-hidden="true">10.8.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../next-steps.html">下一步</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -144,22 +144,65 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="the-applicative-contract"><a class="header" href="#the-applicative-contract">The Applicative Contract</a></h1>
-<p>Just like <code>Functor</code>, <code>Monad</code>, and types that implement <code>BEq</code> and <code>Hashable</code>, <code>Applicative</code> has a set of rules that all instances should adhere to.</p>
-<p>There are four rules that an applicative functor should follow:</p>
+                        <!--
+# The Applicative Contract
+-->
+<h1 id="应用函子的契约"><a class="header" href="#应用函子的契约">应用函子的契约</a></h1>
+<!--
+Just like `Functor`, `Monad`, and types that implement `BEq` and `Hashable`, `Applicative` has a set of rules that all instances should adhere to.
+-->
+<p>就像 <code>Functor</code>、<code>Monad</code> 以及实现了 <code>BEq</code> 和 <code>Hashable</code> 的类型一样，<code>Applicative</code> 也有一套所有实例都应遵守的规则。</p>
+<!--
+There are four rules that an applicative functor should follow:
+1. It should respect identity, so `pure id <*> v = v`
+2. It should respect function composition, so `pure (· ∘ ·) <*> u <*> v <*> w = u <*> (v <*> w)`
+3. Sequencing pure operations should be a no-op, so `pure f <*> pure x = pure (f x)`
+4. The ordering of pure operations doesn't matter, so `u <*> pure x = pure (fun f => f x) <*> u`
+-->
+<p>应用函子应该遵循四条规则：</p>
 <ol>
-<li>It should respect identity, so <code>pure id &lt;*&gt; v = v</code></li>
-<li>It should respect function composition, so <code>pure (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code></li>
-<li>Sequencing pure operations should be a no-op, so <code>pure f &lt;*&gt; pure x = pure (f x)</code></li>
-<li>The ordering of pure operations doesn't matter, so <code>u &lt;*&gt; pure x = pure (fun f =&gt; f x) &lt;*&gt; u</code></li>
+<li>应遵循同一律，即 <code>pure id &lt;*&gt; v = v</code></li>
+<li>应遵循函数复合律，即 <code>pure (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code></li>
+<li>对纯操作进行排序应等同于无操作，即 <code>pure f &lt;*&gt; pure x = pure (f x)</code></li>
+<li>纯操作的顺序不应影响结果，即 <code>u &lt;*&gt; pure x = pure (fun f =&gt; f x) &lt;*&gt; u</code></li>
 </ol>
-<p>To check these for the <code>Applicative Option</code> instance, start by expanding <code>pure</code> into <code>some</code>.</p>
-<p>The first rule states that <code>some id &lt;*&gt; v = v</code>.
-The definition of <code>seq</code> for <code>Option</code> states that this is the same as <code>id &lt;$&gt; v = v</code>, which is one of the <code>Functor</code> rules that have already been checked.</p>
-<p>The second rule states that <code>some (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code>.
-If any of <code>u</code>, <code>v</code>, or <code>w</code> is <code>none</code>, then both sides are <code>none</code>, so the property holds.
-Assuming that <code>u</code> is <code>some f</code>, that <code>v</code> is <code>some g</code>, and that <code>w</code> is <code>some x</code>, then this is equivalent to saying that <code>some (· ∘ ·) &lt;*&gt; some f &lt;*&gt; some g &lt;*&gt; some x = some f &lt;*&gt; (some g &lt;*&gt; some x)</code>.
-Evaluating the two sides yields the same result:</p>
+<!--
+To check these for the `Applicative Option` instance, start by expanding `pure` into `some`.
+-->
+<p>要检验对于 <code>Applicative Option</code> 实例的这些规则，首先将 <code>pure</code> 展开为 <code>some</code>。</p>
+<!--
+The first rule states that `some id <*> v = v`.
+The definition of `seq` for `Option` states that this is the same as `id <$> v = v`, which is one of the `Functor` rules that have already been checked.
+-->
+<p>第一条规则表明 <code>some id &lt;*&gt; v = v</code>。
+<code>Option</code> 的 <code>seq</code> 定义指明，这与 <code>id &lt;$&gt; v = v</code> 相同，这是已被检查过的 <code>Functor</code> 规则之一。</p>
+<!--
+The second rule states that `some (· ∘ ·) <*> u <*> v <*> w = u <*> (v <*> w)`.
+If any of `u`, `v`, or `w` is `none`, then both sides are `none`, so the property holds.
+Assuming that `u` is `some f`, that `v` is `some g`, and that `w` is `some x`, then this is equivalent to saying that `some (· ∘ ·) <*> some f <*> some g <*> some x = some f <*> (some g <*> some x)`.
+Evaluating the two sides yields the same result:
+```lean
+some (· ∘ ·) <*> some f <*> some g <*> some x
+===>
+some (f ∘ ·) <*> some g <*> some x
+===>
+some (f ∘ g) <*> some x
+===>
+some ((f ∘ g) x)
+===>
+some (f (g x))
+
+some f <*> (some g <*> some x)
+===>
+some f <*> (some (g x))
+===>
+some (f (g x))
+```
+-->
+<p>第二条规则指出 <code>some (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code>。
+如果 <code>u</code>、<code>v</code> 或 <code>w</code> 中有任何一个是 <code>none</code>，则两边均为 <code>none</code>，因此该属性成立。
+假设 <code>u</code> 是 <code>some f</code>，<code>v</code> 是 <code>some g</code>，<code>w</code> 是 <code>some x</code>，那么这等价于声明 <code>some (· ∘ ·) &lt;*&gt; some f &lt;*&gt; some g &lt;*&gt; some x = some f &lt;*&gt; (some g &lt;*&gt; some x)</code>。
+对两边求值得到相同的结果：</p>
 <pre><code class="language-lean">some (· ∘ ·) &lt;*&gt; some f &lt;*&gt; some g &lt;*&gt; some x
 ===&gt;
 some (f ∘ ·) &lt;*&gt; some g &lt;*&gt; some x
@@ -176,57 +219,134 @@ some f &lt;*&gt; (some (g x))
 ===&gt;
 some (f (g x))
 </code></pre>
-<p>The third rule follows directly from the definition of <code>seq</code>:</p>
+<!--
+The third rule follows directly from the definition of `seq`:
+```lean
+some f <*> some x
+===>
+f <$> some x
+===>
+some (f x)
+```
+-->
+<p>第三条规则直接源于 <code>seq</code> 的定义：</p>
 <pre><code class="language-lean">some f &lt;*&gt; some x
 ===&gt;
 f &lt;$&gt; some x
 ===&gt;
 some (f x)
 </code></pre>
-<p>In the fourth case, assume that <code>u</code> is <code>some f</code>, because if it's <code>none</code>, both sides of the equation are <code>none</code>.
-<code>some f &lt;*&gt; some x</code> evaluates directly to <code>some (f x)</code>, as does <code>some (fun g =&gt; g x) &lt;*&gt; some f</code>.</p>
-<h2 id="all-applicatives-are-functors"><a class="header" href="#all-applicatives-are-functors">All Applicatives are Functors</a></h2>
-<p>The two operators for <code>Applicative</code> are enough to define <code>map</code>:</p>
+<!--
+In the fourth case, assume that `u` is `some f`, because if it's `none`, both sides of the equation are `none`.
+`some f <*> some x` evaluates directly to `some (f x)`, as does `some (fun g => g x) <*> some f`.
+-->
+<p>在第四种情况下，假设 <code>u</code> 是 <code>some f</code>，因为如果它是 <code>none</code>，则等式的两边都是 <code>none</code>。
+<code>some f &lt;*&gt; some x</code> 的求值结果直接为 <code>some (f x)</code>，正如 <code>some (fun g =&gt; g x) &lt;*&gt; some f</code> 也是如此。</p>
+<!--
+## All Applicatives are Functors
+-->
+<h2 id="所有的应用函子都是函子"><a class="header" href="#所有的应用函子都是函子">所有的应用函子都是函子</a></h2>
+<!--
+The two operators for `Applicative` are enough to define `map`:
+```lean
+def map [Applicative f] (g : α → β) (x : f α) : f β :=
+  pure g <*> x
+```
+-->
+<p><code>Applicative</code> 的两个运算符足以定义 <code>map</code>：</p>
 <pre><code class="language-lean">def map [Applicative f] (g : α → β) (x : f α) : f β :=
   pure g &lt;*&gt; x
 </code></pre>
-<p>This can only be used to implement <code>Functor</code> if the contract for <code>Applicative</code> guarantees the contract for <code>Functor</code>, however.
-The first rule of <code>Functor</code> is that <code>id &lt;$&gt; x = x</code>, which follows directly from the first rule for <code>Applicative</code>.
-The second rule of <code>Functor</code> is that <code>map (f ∘ g) x = map f (map g x)</code>.
-Unfolding the definition of <code>map</code> here results in <code>pure (f ∘ g) &lt;*&gt; x = pure f &lt;*&gt; (pure g &lt;*&gt; x)</code>.
-Using the rule that sequencing pure operations is a no-op, the left side can be rewritten to <code>pure (· ∘ ·) &lt;*&gt; pure f &lt;*&gt; pure g &lt;*&gt; x</code>.
-This is an instance of the rule that states that applicative functors respect function composition.</p>
-<p>This justifies a definition of <code>Applicative</code> that extends <code>Functor</code>, with a default definition of <code>map</code> given in terms of <code>pure</code> and <code>seq</code>:</p>
+<!--
+This can only be used to implement `Functor` if the contract for `Applicative` guarantees the contract for `Functor`, however.
+The first rule of `Functor` is that `id <$> x = x`, which follows directly from the first rule for `Applicative`.
+The second rule of `Functor` is that `map (f ∘ g) x = map f (map g x)`.
+Unfolding the definition of `map` here results in `pure (f ∘ g) <*> x = pure f <*> (pure g <*> x)`.
+Using the rule that sequencing pure operations is a no-op, the left side can be rewritten to `pure (· ∘ ·) <*> pure f <*> pure g <*> x`.
+This is an instance of the rule that states that applicative functors respect function composition.
+-->
+<p>但是，只有当 <code>Applicative</code> 的契约保证了 <code>Functor</code> 的契约时，这才能用来实现 <code>Functor</code>。
+<code>Functor</code> 的第一条规则是 <code>id &lt;$&gt; x = x</code>，这直接源于 <code>Applicative</code> 的第一条规则。
+<code>Functor</code> 的第二条规则是 <code>map (f ∘ g) x = map f (map g x)</code>。
+在这里展开 <code>map</code> 的定义会得到 <code>pure (f ∘ g) &lt;*&gt; x = pure f &lt;*&gt; (pure g &lt;*&gt; x)</code>。
+使用将纯操作进行排序视为无操作的规则，其左侧可以重写为 <code>pure (· ∘ ·) &lt;*&gt; pure f &lt;*&gt; pure g &lt;*&gt; x</code>。
+这是应用函子遵守函数复合规则的一个实例。</p>
+<!--
+This justifies a definition of `Applicative` that extends `Functor`, with a default definition of `map` given in terms of `pure` and `seq`:
+```lean
+class Applicative (f : Type → Type) extends Functor f where
+  pure : α → f α
+  seq : f (α → β) → (Unit → f α) → f β
+  map g x := seq (pure g) (fun () => x)
+```
+-->
+<p>这证明了定义一个扩展自 <code>Functor</code> 的 <code>Applicative</code> 是合理的，其中 <code>map</code> 的默认定义可以用 <code>pure</code> 和 <code>seq</code> 来表示：</p>
 <pre><code class="language-lean">class Applicative (f : Type → Type) extends Functor f where
   pure : α → f α
   seq : f (α → β) → (Unit → f α) → f β
   map g x := seq (pure g) (fun () =&gt; x)
 </code></pre>
-<h2 id="all-monads-are-applicative-functors"><a class="header" href="#all-monads-are-applicative-functors">All Monads are Applicative Functors</a></h2>
-<p>An instance of <code>Monad</code> already requires an implementation of <code>pure</code>.
-Together with <code>bind</code>, this is enough to define <code>seq</code>:</p>
+<!--
+## All Monads are Applicative Functors
+-->
+<h2 id="所有单子都是应用函子"><a class="header" href="#所有单子都是应用函子">所有单子都是应用函子</a></h2>
+<!--
+An instance of `Monad` already requires an implementation of `pure`.
+Together with `bind`, this is enough to define `seq`:
+```lean
+def seq [Monad m] (f : m (α → β)) (x : Unit → m α) : m β := do
+  let g ← f
+  let y ← x ()
+  pure (g y)
+```
+Once again, checking that the `Monad` contract implies the `Applicative` contract will allow this to be used as a default definition for `seq` if `Monad` extends `Applicative`.
+-->
+<p><code>Monad</code> 的一个实例已经需要实现 <code>pure</code>。
+结合 <code>bind</code>，这足以定义 <code>seq</code>：</p>
 <pre><code class="language-lean">def seq [Monad m] (f : m (α → β)) (x : Unit → m α) : m β := do
   let g ← f
   let y ← x ()
   pure (g y)
 </code></pre>
-<p>Once again, checking that the <code>Monad</code> contract implies the <code>Applicative</code> contract will allow this to be used as a default definition for <code>seq</code> if <code>Monad</code> extends <code>Applicative</code>.</p>
-<p>The rest of this section consists of an argument that this implementation of <code>seq</code> based on <code>bind</code> in fact satisfies the <code>Applicative</code> contract.
-One of the beautiful things about functional programming is that this kind of argument can be worked out on a piece of paper with a pencil, using the kinds of evaluation rules from <a href="../getting-to-know/evaluating.html">the initial section on evaluating expressions</a>.
-Thinking about the meanings of the operations while reading these arguments can sometimes help with understanding.</p>
-<p>Replacing <code>do</code>-notation with explicit uses of <code>&gt;&gt;=</code> makes it easier to apply the <code>Monad</code> rules:</p>
+<p>再一次，检验 <code>Monad</code> 的契约暗含 <code>Applicative</code> 的契约，如果 <code>Monad</code> 扩展自 <code>Applicative</code>，这将允许将其用作 <code>seq</code> 的默认定义。</p>
+<!--
+The rest of this section consists of an argument that this implementation of `seq` based on `bind` in fact satisfies the `Applicative` contract.
+One of the beautiful things about functional programming is that this kind of argument can be worked out on a piece of paper with a pencil, using the kinds of evaluation rules from [the initial section on evaluating expressions](../getting-to-know/evaluating.md).
+Thinking about the meanings of the operations while reading these arguments can sometimes help with understanding.
+-->
+<p>本节的其余部分包含一个论点，即基于 <code>bind</code> 的 <code>seq</code> 的这种实现实际上满足了 <code>Applicative</code> 契约。
+函数式编程的一个美妙之处在于，这种论点可以用铅笔在纸上完成，使用<a href="../getting-to-know/evaluating.html">表达式求值初步小节</a>中的求值规则。
+在阅读这些论点时，思考操作的含义有时有助于理解。</p>
+<!--
+Replacing `do`-notation with explicit uses of `>>=` makes it easier to apply the `Monad` rules:
+```lean
+def seq [Monad m] (f : m (α → β)) (x : Unit → m α) : m β := do
+  f >>= fun g =>
+  x () >>= fun y =>
+  pure (g y)
+```
+-->
+<p>将 <code>do</code> 表示法替换为 <code>&gt;&gt;=</code> 的显式使用可以更容易地应用 <code>Monad</code> 规则：</p>
 <pre><code class="language-lean">def seq [Monad m] (f : m (α → β)) (x : Unit → m α) : m β := do
   f &gt;&gt;= fun g =&gt;
   x () &gt;&gt;= fun y =&gt;
   pure (g y)
 </code></pre>
-<p>To check that this definition respects identity, check that <code>seq (pure id) (fun () =&gt; v) = v</code>.
-The left hand side is equivalent to <code>pure id &gt;&gt;= fun g =&gt; (fun () =&gt; v) () &gt;&gt;= fun y =&gt; pure (g y)</code>.
-The unit function in the middle can be eliminated immediately, yielding <code>pure id &gt;&gt;= fun g =&gt; v &gt;&gt;= fun y =&gt; pure (g y)</code>.
-Using the fact that <code>pure</code> is a left identity of <code>&gt;&gt;=</code>, this is the same as <code>v &gt;&gt;= fun y =&gt; pure (id y)</code>, which is <code>v &gt;&gt;= fun y =&gt; pure y</code>.
-Because <code>fun x =&gt; f x</code> is the same as <code>f</code>, this is the same as <code>v &gt;&gt;= pure</code>, and the fact that <code>pure</code> is a right identity of <code>&gt;&gt;=</code> can be used to get <code>v</code>.</p>
-<p>This kind of informal reasoning can be made easier to read with a bit of reformatting.
-In the following chart, read &quot;EXPR1 ={ REASON }= EXPR2&quot; as &quot;EXPR1 is the same as EXPR2 because REASON&quot;:</p>
+<!--
+To check that this definition respects identity, check that `seq (pure id) (fun () => v) = v`.
+The left hand side is equivalent to `pure id >>= fun g => (fun () => v) () >>= fun y => pure (g y)`.
+The unit function in the middle can be eliminated immediately, yielding `pure id >>= fun g => v >>= fun y => pure (g y)`.
+Using the fact that `pure` is a left identity of `>>=`, this is the same as `v >>= fun y => pure (id y)`, which is `v >>= fun y => pure y`.
+Because `fun x => f x` is the same as `f`, this is the same as `v >>= pure`, and the fact that `pure` is a right identity of `>>=` can be used to get `v`.
+-->
+<p>为了检查这个定义遵循恒等性，请检验 <code>seq (pure id) (fun () =&gt; v) = v</code>。
+左侧等价于 <code>pure id &gt;&gt;= fun g =&gt; (fun () =&gt; v) () &gt;&gt;= fun y =&gt; pure (g y)</code>。
+中间的单位函数可以立即消除，得到 <code>pure id &gt;&gt;= fun g =&gt; v &gt;&gt;= fun y =&gt; pure (g y)</code>。
+利用 <code>pure</code> 是 <code>&gt;&gt;=</code> 的左恒等性这一事实，其等同于 <code>v &gt;&gt;= fun y =&gt; pure (id y)</code>，也就是 <code>v &gt;&gt;= fun y =&gt; pure y</code>。
+因为 <code>fun x =&gt; f x</code> 与 <code>f</code> 是相同的，所以这与 <code>v &gt;&gt;= pure</code> 相同，并且 <code>pure</code> 是 <code>&gt;&gt;=</code> 的右恒等性可以被用来获取 <code>v</code>。</p>
+<!--
+This kind of informal reasoning can be made easier to read with a bit of reformatting.
+In the following chart, read "EXPR1 ={ REASON }= EXPR2" as "EXPR1 is the same as EXPR2 because REASON":
 <div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">pure id >>= fun g => v >>= fun y => pure (g y)</code></pre>
@@ -256,9 +376,43 @@ In the following chart, read &quot;EXPR1 ={ REASON }= EXPR2&quot; as &quot;EXPR1
 <pre><code class="language-lean hljs">v</code></pre>
 </div>
 </div>
-<p>To check that it respects function composition, check that <code>pure (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code>.
-The first step is to replace <code>&lt;*&gt;</code> with this definition of <code>seq</code>.
-After that, a (somewhat long) series of steps that use the identity and associativity rules from the <code>Monad</code> contract is enough to get from one to the other:</p>
+
+-->
+<p>这种非正式的推理可以通过稍微的重新编排来使其更易阅读。
+在下表中，读取 &quot;EXPR1 ={ REASON }= EXPR2&quot; 时，请将其理解为 &quot;EXPR1 因为 REASON 与 EXPR2 相同&quot;:</p>
+<div class="equational">
+<div class="term">
+<pre><code class="language-lean hljs">pure id >>= fun g => v >>= fun y => pure (g y)</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">v >>= fun y => pure (id y)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Reduce the call to <code class="hljs">id</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">v >>= fun y => pure y</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">fun x => f x</code> is the same as <code class="hljs">f</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">v >>= pure</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a right identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">v</code></pre>
+</div>
+</div>
+<!--
+To check that it respects function composition, check that `pure (· ∘ ·) <*> u <*> v <*> w = u <*> (v <*> w)`.
+The first step is to replace `<*>` with this definition of `seq`.
+After that, a (somewhat long) series of steps that use the identity and associativity rules from the `Monad` contract is enough to get from one to the other:
 <div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">seq (seq (seq (pure (· ∘ ·)) (fun _ => u))
@@ -392,7 +546,146 @@ pure (x q)</code></pre>
 <pre><code class="language-lean hljs">seq u (fun () => seq v (fun () => w))</code></pre>
 </div>
 </div>
-<p>To check that sequencing pure operations is a no-op:</p>
+
+-->
+<p>要检查它遵守函数复合的规则，请验证 <code>pure (· ∘ ·) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)</code>。
+第一步是用 <code>seq</code> 的这个定义替换 <code>&lt;*&gt;</code>。
+之后，使用 <code>Monad</code> 契约中的恒等律和结合律规则的一系列（有点长的）步骤，以从一个得到另一个：</p>
+<div class="equational">
+<div class="term">
+<pre><code class="language-lean hljs">seq (seq (seq (pure (· ∘ ·)) (fun _ => u))
+      (fun _ => v))
+  (fun _ => w)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Definition of <code class="hljs">seq</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">((pure (· ∘ ·) >>= fun f =>
+   u >>= fun x =>
+   pure (f x)) >>= fun g =>
+  v >>= fun y =>
+  pure (g y)) >>= fun h =>
+ w >>= fun z =>
+ pure (h z)</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">((u >>= fun x =>
+   pure (x ∘ ·)) >>= fun g =>
+   v >>= fun y =>
+  pure (g y)) >>= fun h =>
+ w >>= fun z =>
+ pure (h z)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Insertion of parentheses for clarity</em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">((u >>= fun x =>
+   pure (x ∘ ·)) >>= (fun g =>
+   v >>= fun y =>
+  pure (g y))) >>= fun h =>
+ w >>= fun z =>
+ pure (h z)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Associativity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">(u >>= fun x =>
+  pure (x ∘ ·) >>= fun g =>
+ v  >>= fun y => pure (g y)) >>= fun h =>
+ w >>= fun z =>
+ pure (h z)</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">(u >>= fun x =>
+  v >>= fun y =>
+  pure (x ∘ y)) >>= fun h =>
+ w >>= fun z =>
+ pure (h z)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Associativity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun x =>
+v >>= fun y =>
+pure (x ∘ y) >>= fun h =>
+w >>= fun z =>
+pure (h z)</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun x =>
+v >>= fun y =>
+w >>= fun z =>
+pure ((x ∘ y) z)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Definition of function composition</em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun x =>
+v >>= fun y =>
+w >>= fun z =>
+pure (x (y z))</code></pre>
+</div>
+<div class="explanation">
+={ <em>Time to start moving backwards!<code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun x =>
+v >>= fun y =>
+w >>= fun z =>
+pure (y z) >>= fun q =>
+pure (x q)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Associativity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun x =>
+v >>= fun y =>
+ (w >>= fun p =>
+  pure (y p)) >>= fun q =>
+ pure (x q)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Associativity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun x =>
+ (v >>= fun y =>
+  w >>= fun q =>
+  pure (y q)) >>= fun z =>
+ pure (x z)</code></pre>
+</div>
+<div class="explanation">
+={ <em>This includes the definition of <code class="hljs">seq</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun x =>
+seq v (fun () => w) >>= fun q =>
+pure (x q)</code></pre>
+</div>
+<div class="explanation">
+={ <em>This also includes the definition of <code class="hljs">seq</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">seq u (fun () => seq v (fun () => w))</code></pre>
+</div>
+</div>
+<!--
+To check that sequencing pure operations is a no-op:
 <div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">seq (pure f) (fun () => pure x)</code></pre>
@@ -419,7 +712,37 @@ pure (g x)</code></pre>
 <pre><code class="language-lean hljs">pure (f x)</code></pre>
 </div>
 </div>
-<p>And finally, to check that the ordering of pure operations doesn't matter:</p>
+
+-->
+<p>以检验对纯操作进行排序为无操作：</p>
+<div class="equational">
+<div class="term">
+<pre><code class="language-lean hljs">seq (pure f) (fun () => pure x)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Replacing <code class="hljs">seq</code> with its definition</em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">pure f >>= fun g =>
+pure x >>= fun y =>
+pure (g y)</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">pure f >>= fun g =>
+pure (g x)</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">pure (f x)</code></pre>
+</div>
+</div>
+<!--
+And finally, to check that the ordering of pure operations doesn't matter:
 <div class="equational">
 <div class="term">
 <pre><code class="language-lean hljs">seq u (fun () => pure x)</code></pre>
@@ -461,7 +784,63 @@ pure (h f)</code></pre>
 <pre><code class="language-lean hljs">seq (pure (fun f => f x)) (fun () => u)</code></pre>
 </div>
 </div>
-<p>This justifies a definition of <code>Monad</code> that extends <code>Applicative</code>, with a default definition of <code>seq</code>:</p>
+
+-->
+<p>最后，以检验纯操作的顺序是无关紧要的：</p>
+<div class="equational">
+<div class="term">
+<pre><code class="language-lean hljs">seq u (fun () => pure x)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Definition of <code class="hljs">seq</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun f =>
+pure x >>= fun y =>
+pure (f y)</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun f =>
+pure (f x)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Clever replacement of one expression by an equivalent one that makes the rule match</em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">u >>= fun f =>
+pure ((fun g => g x) f)</code></pre>
+</div>
+<div class="explanation">
+={ <em><code class="hljs">pure</code> is a left identity of <code class="hljs">>>=</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">pure (fun g => g x) >>= fun h =>
+u >>= fun f =>
+pure (h f)</code></pre>
+</div>
+<div class="explanation">
+={ <em>Definition of <code class="hljs">seq</code></em> }=
+</div>
+<div class="term">
+<pre><code class="language-lean hljs">seq (pure (fun f => f x)) (fun () => u)</code></pre>
+</div>
+</div>
+<!--
+This justifies a definition of `Monad` that extends `Applicative`, with a default definition of `seq`:
+```lean
+class Monad (m : Type → Type) extends Applicative m where
+  bind : m α → (α → m β) → m β
+  seq f x :=
+    bind f fun g =>
+    bind (x ()) fun y =>
+    pure (g y)
+```
+`Applicative`'s own default definition of `map` means that every `Monad` instance automatically generates `Applicative` and `Functor` instances as well.
+-->
+<p>这证明了 <code>Monad</code> 的定义扩展自 <code>Applicative</code>，并提供一个 <code>seq</code> 的默认定义：</p>
 <pre><code class="language-lean">class Monad (m : Type → Type) extends Applicative m where
   bind : m α → (α → m β) → m β
   seq f x :=
@@ -469,24 +848,68 @@ pure (h f)</code></pre>
     bind (x ()) fun y =&gt;
     pure (g y)
 </code></pre>
-<p><code>Applicative</code>'s own default definition of <code>map</code> means that every <code>Monad</code> instance automatically generates <code>Applicative</code> and <code>Functor</code> instances as well.</p>
-<h2 id="additional-stipulations"><a class="header" href="#additional-stipulations">Additional Stipulations</a></h2>
-<p>In addition to adhering to the individual contracts associated with each type class, combined implementations <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> should work equivalently to these default implementations.
-In other words, a type that provides both <code>Applicative</code> and <code>Monad</code> instances should not have an implementation of <code>seq</code> that works differently from the version that the <code>Monad</code> instance generates as a default implementation.
-This is important because polymorphic functions may be refactored to replace a use of <code>&gt;&gt;=</code> with an equivalent use of <code>&lt;*&gt;</code>, or a use of <code>&lt;*&gt;</code> with an equivalent use of <code>&gt;&gt;=</code>.
-This refactoring should not change the meaning of programs that use this code.</p>
-<p>This rule explains why <code>Validate.andThen</code> should not be used to implement <code>bind</code> in a <code>Monad</code> instance.
+<p><code>Applicative</code> 自身对 <code>map</code> 的默认定义意味着每个 <code>Monad</code> 实例都会自动生成 <code>Applicative</code> 和 <code>Functor</code> 实例。</p>
+<!--
+## Additional Stipulations
+-->
+<h2 id="附加规定"><a class="header" href="#附加规定">附加规定</a></h2>
+<!--
+In addition to adhering to the individual contracts associated with each type class, combined implementations `Functor`, `Applicative` and `Monad` should work equivalently to these default implementations.
+In other words, a type that provides both `Applicative` and `Monad` instances should not have an implementation of `seq` that works differently from the version that the `Monad` instance generates as a default implementation.
+This is important because polymorphic functions may be refactored to replace a use of `>>=` with an equivalent use of `<*>`, or a use of `<*>` with an equivalent use of `>>=`.
+This refactoring should not change the meaning of programs that use this code.
+-->
+<p>除了遵守每个类型类相关的单独契约之外，<code>Functor</code>、<code>Applicative</code> 和 <code>Monad</code> 的组合实现应与这些默认实现等效。
+换句话说，一个同时提供 <code>Applicative</code> 和 <code>Monad</code> 实例的类型，其 <code>seq</code> 的实现不应与 <code>Monad</code> 实例生成的默认实现不同。
+这很重要，因为多态函数可以被重构，以使用 <code>&lt;*&gt;</code> 的等效使用去替换 <code>&gt;&gt;=</code>，或者用 <code>&gt;&gt;=</code> 的等效使用去替换 <code>&lt;*&gt;</code>。
+这种重构不应改变使用该代码的程序的含义。</p>
+<!--
+This rule explains why `Validate.andThen` should not be used to implement `bind` in a `Monad` instance.
 On its own, it obeys the monad contract.
-However, when it is used to implement <code>seq</code>, the behavior is not equivalent to <code>seq</code> itself.
+However, when it is used to implement `seq`, the behavior is not equivalent to `seq` itself.
 To see where they differ, take the example of two computations, both of which return errors.
-Start with an example of a case where two errors should be returned, one from validating a function (which could have just as well resulted from a prior argument to the function), and one from validating an argument:</p>
+Start with an example of a case where two errors should be returned, one from validating a function (which could have just as well resulted from a prior argument to the function), and one from validating an argument:
+```lean
+def notFun : Validate String (Nat → String) :=
+  .errors { head := "First error", tail := [] }
+
+def notArg : Validate String Nat :=
+  .errors { head := "Second error", tail := [] }
+```
+-->
+<p>这条规则解释了为什么在 <code>Monad</code> 实例中不应使用 <code>Validate.andThen</code> 来实现 <code>bind</code>。
+就其本身而言，它遵守单子契约。
+然而，当它用于实现 <code>seq</code> 时，其行为并不等同于 <code>seq</code> 本身。
+要了解它们的区别，举一个两个计算都返回错误的例子。
+首先来看一个应该返回两个错误的情况，一个来自函数验证（这也可能是由函数先前的一个参数导致的），另一个来自参数验证：</p>
 <pre><code class="language-lean">def notFun : Validate String (Nat → String) :=
   .errors { head := &quot;First error&quot;, tail := [] }
 
 def notArg : Validate String Nat :=
   .errors { head := &quot;Second error&quot;, tail := [] }
 </code></pre>
-<p>Combining them with the version of <code>&lt;*&gt;</code> from <code>Validate</code>'s <code>Applicative</code> instance results in both errors being reported to the user:</p>
+<!--
+Combining them with the version of `<*>` from `Validate`'s `Applicative` instance results in both errors being reported to the user:
+```lean
+notFun <*> notArg
+===>
+match notFun with
+| .ok g => g <$> notArg
+| .errors errs =>
+  match notArg with
+  | .ok _ => .errors errs
+  | .errors errs' => .errors (errs ++ errs')
+===>
+match notArg with
+| .ok _ => .errors { head := "First error", tail := [] }
+| .errors errs' => .errors ({ head := "First error", tail := [] } ++ errs')
+===>
+.errors ({ head := "First error", tail := [] } ++ { head := "Second error", tail := []})
+===>
+.errors { head := "First error", tail := ["Second error"]}
+```
+-->
+<p>将它们与 <code>Validate</code> 的 <code>Applicative</code> 实例中的 <code>&lt;*&gt;</code> 版本结合起来，会导致两个错误都被报告给用户：</p>
 <pre><code class="language-lean">notFun &lt;*&gt; notArg
 ===&gt;
 match notFun with
@@ -504,7 +927,26 @@ match notArg with
 ===&gt;
 .errors { head := &quot;First error&quot;, tail := [&quot;Second error&quot;]}
 </code></pre>
-<p>Using the version of <code>seq</code> that was implemented with <code>&gt;&gt;=</code>, here rewritten to <code>andThen</code>, results in only the first error being available:</p>
+<!--
+Using the version of `seq` that was implemented with `>>=`, here rewritten to `andThen`, results in only the first error being available:
+```lean
+seq notFun (fun () => notArg)
+===>
+notFun.andThen fun g =>
+notArg.andThen fun y =>
+pure (g y)
+===>
+match notFun with
+| .errors errs => .errors errs
+| .ok val =>
+  (fun g =>
+    notArg.andThen fun y =>
+    pure (g y)) val
+===>
+.errors { head := "First error", tail := [] }
+```
+-->
+<p>使用由 <code>&gt;&gt;=</code> 实现的 <code>seq</code> 版本（这里重写为 <code>andThen</code>）会导致只出现第一个错误：</p>
 <pre><code class="language-lean">seq notFun (fun () =&gt; notArg)
 ===&gt;
 notFun.andThen fun g =&gt;
