@@ -40,7 +40,7 @@
 - [函子、应用函子与单子](functor-applicative-monad.md)
   - [结构体和继承](functor-applicative-monad/inheritance.md)
   - [应用函子](functor-applicative-monad/applicative.md)
-  - [应用函子的法则](functor-applicative-monad/applicative-contract.md)
+  - [应用函子的契约](functor-applicative-monad/applicative-contract.md)
   - [选择子](functor-applicative-monad/alternative.md)
   - [宇宙](functor-applicative-monad/universes.md)
   - [完整定义](functor-applicative-monad/complete.md)

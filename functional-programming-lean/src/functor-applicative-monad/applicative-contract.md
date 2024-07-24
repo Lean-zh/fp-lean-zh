@@ -2,7 +2,7 @@
 # The Applicative Contract
 -->
 
-# 应用契约
+# 应用函子的契约
 
 <!--
 Just like `Functor`, `Monad`, and types that implement `BEq` and `Hashable`, `Applicative` has a set of rules that all instances should adhere to.
