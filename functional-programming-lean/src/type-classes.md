@@ -26,7 +26,7 @@ The compiler uses the number of arguments and their types to determine which ove
 
 除了数字字面量和运算符，许多语言还可以重载函数或方法。
 在 C++，Java，C# 和 Kotlin 中，对于不同的数字和类型参数，一个方法可以有多种实现。
-便是其使用参数的数字和它们的类型来决定使用哪个重载。
+编译器使用参数的数字和它们的类型来决定使用哪个重载。
 
 <!--
 Function and operator overloading has a key limitation: polymorphic functions can't restrict their type arguments to types for which a given overload exists.
