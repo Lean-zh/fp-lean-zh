@@ -2,7 +2,7 @@
 # Tail Recursion
 -->
 
-# 尾递归
+# 尾递归 { #tail-recursion }
 
 <!--
 While Lean's `do`-notation makes it possible to use traditional loop syntax such as `for` and `while`, these constructs are translated behind the scenes to invocations of recursive functions.
@@ -166,7 +166,7 @@ At each recursive call, the function argument on the stack is simply replaced wi
 ## Tail and Non-Tail Positions
 -->
 
-## 尾部与非尾部位置
+## 尾部与非尾部位置 { #tail-and-non-tail-positions }
 
 <!--
 The reason why `Tail.sumHelper` is tail recursive is that the recursive call is in _tail position_.
@@ -227,7 +227,7 @@ While it is certainly possible to eliminate a tail call to some other function, 
 ## Reversing Lists
 -->
 
-## 反转列表
+## 反转列表 { #reversing-lists }
 
 <!--
 The function `NonTail.reverse` reverses lists by appending the head of each sub-list to the end of the result:
@@ -298,7 +298,7 @@ Appending `[x]` after the result of the recursion in `NonTail.reverse` is analog
 ## Multiple Recursive Calls
 -->
 
-## 多个递归调用
+## 多个递归调用 { #multiple-recursive-calls }
 
 <!--
 In the definition of `BinTree.mirror`, there are two recursive calls:
@@ -337,7 +337,7 @@ There are systematic techniques for making these functions tail-recursive, such 
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 Translate each of the following non-tail-recursive functions into accumulator-passing tail-recursive functions:

@@ -2,13 +2,13 @@
 # Summary
 -->
 
-# 总结
+# 总结 { #summary }
 
 <!--
 ## Encoding Side Effects
 -->
 
-## 编码副作用
+## 编码副作用 { #encoding-side-effects }
 
 <!--
 Lean is a pure functional language.
@@ -37,7 +37,7 @@ Lean 类型签名不仅描述了函数期望的参数类型和它返回的结果
 ## The Monad Type Class
 -->
 
-## 单子类型类
+## 单子类型类 { #the-monad-type-class }
 
 <!--
 It's possible to write purely functional programs in languages that allow effects anywhere.
@@ -64,7 +64,7 @@ The contract for `Monad` instances ensures that `bind` and `pure` actually captu
 ## `do`-Notation for Monads
 -->
 
-## 单子的 `do`-记法
+## 单子的 `do`-记法 { #do-notation-for-monads }
 
 <!--
 Rather than being limited to `IO`, `do`-notation works for any monad.
@@ -82,7 +82,7 @@ A program written with `do` is translated to applications of `>>=` behind the sc
 ## Custom Monads
 -->
 
-## 定制单子
+## 定制单子 { #custom-monads }
 
 <!--
 Different languages provide different sets of side effects.
@@ -103,7 +103,7 @@ Because Lean is designed to make programming with any monad convenient, programm
 ## The `IO` Monad
 -->
 
-## `IO` 单子
+## `IO` 单子 { #the-io-monad }
 
 <!--
 Programs that can affect the real world are written as `IO` actions in Lean.

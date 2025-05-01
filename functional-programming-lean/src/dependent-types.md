@@ -2,7 +2,7 @@
 # Programming with Dependent Types
 -->
 
-# 使用依值类型编程
+# 使用依值类型编程 { #programming-with-dependent-types }
 
 <!-- 
 In most statically-typed programming languages, there is a hermetic seal between the world of types and the world of programs.

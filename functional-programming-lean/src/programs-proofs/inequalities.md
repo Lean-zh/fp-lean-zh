@@ -2,7 +2,7 @@
 # More Inequalities
 -->
 
-# 更多不等式
+# 更多不等式 { #more-inequalities }
 
 <!--
 Lean's built-in proof automation is sufficient to check that `arrayMapHelper` and `findHelper` terminate.
@@ -18,7 +18,7 @@ Lean 的内置证明自动化足以检查 `arrayMapHelper` 和 `findHelper` 是�
 ## Merge Sort
 -->
 
-## 归并排序
+## 归并排序 { #merge-sort }
 
 一个停机证明非平凡的函数示例是 `List` 上的归并排序。归并排序包含两个阶段：
 首先，将列表分成两半。使用归并排序对每一半进行排序，
@@ -135,7 +135,7 @@ Instead of complaining that the function isn't structurally recursive, Lean inst
 ## Splitting a List Makes it Shorter
 -->
 
-## 分割列表使其变短
+## 分割列表使其变短 { #splitting-a-list-makes-it-shorter }
 
 <!--
 It will also be necessary to prove that `(splitList xs).snd.length < xs.length`.
@@ -306,7 +306,7 @@ It's time to prove that these wrappings of `Nat.succ` preserve the truth of the 
 ### Adding One to Both Sides
 -->
 
-### 两边同时加一
+### 两边同时加一 { #adding-one-to-both-sides }
 
 <!--
 For the `left` goal, the statement to prove is `Nat.succ_le_succ : n ≤ m → Nat.succ n ≤ Nat.succ m`.
@@ -437,7 +437,7 @@ Which proof steps correspond to which parts of the definition?
 ### Adding One to the Greater Side
 -->
 
-### 在较大的一侧加一
+### 在较大的一侧加一 { #adding-one-to-the-greater-side }
 
 <!--
 The second inequality needed to prove `splitList_shorter_le` is `∀(n m : Nat), n ≤ m → n ≤ Nat.succ m`.
@@ -517,7 +517,7 @@ The recursive function is typically both harder to understand from the perspecti
 ### Finishing the Proof
 -->
 
-### 完成证明
+### 完成证明 { #finishing-the-proof }
 
 <!--
 Now that both helper theorems have been proved, the rest of `splitList_shorter_le` will be completed quickly.
@@ -659,7 +659,7 @@ The facts needed to prove that `mergeSort` terminates can be pulled out of the r
 ## Merge Sort Terminates
 -->
 
-## 归并排序停机证明
+## 归并排序停机证明 { #merge-sort-terminates }
 
 <!--
 Merge sort has two recursive calls, one for each sub-list returned by `splitList`.
@@ -796,7 +796,7 @@ The function can be tested on examples:
 ## Division as Iterated Subtraction
 -->
 
-## 用减法迭代表示除法
+## 用减法迭代表示除法 { #division-as-iterated-subtraction }
 
 <!--
 Just as multiplication is iterated addition and exponentiation is iterated multiplication, division can be understood as iterated subtraction.
@@ -805,7 +805,7 @@ Proving that division terminates requires the use of a fact about inequalities.
 -->
 
 正如乘法是迭代的加法，指数是迭代的乘法，除法可以理解为迭代的减法。
-[本书中对递归函数的第一个描述](../getting-to-know/datatypes-and-patterns.md#递归函数)
+[本书中对递归函数的第一个描述](../getting-to-know/datatypes-and-patterns.md#recursive-functions)
 给出了除法的一个版本，当除数不为零时停机，但 Lean 并不接受。证明除法终止需要使用关于不等式的事实。
 
 <!--
@@ -892,7 +892,7 @@ The full definition of `div`, including the termination proof, is:
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 Prove the following theorems:

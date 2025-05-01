@@ -2,7 +2,7 @@
 # Positive Numbers
 -->
 
-# 正数
+# 正数 { #positive-numbers }
 
 <!--
 In some applications, only positive numbers make sense.
@@ -79,7 +79,7 @@ This indicates that the error is due to an overloaded operation that has not bee
 ## Classes and Instances
 -->
 
-## 类与实例
+## 类与实例 { #classes-and-instances }
 
 <!--
 A type class consists of a name, some parameters, and a collection of _methods_.
@@ -214,7 +214,7 @@ These errors mean that Lean was unable to find an instance for a given type clas
 ## Overloaded Addition
 -->
 
-## 重载加法
+## 重载加法 { #overloaded-addition }
 
 <!--
 Lean's built-in addition operator is syntactic sugar for a type class called `HAdd`, which flexibly allows the arguments to addition to have different types.
@@ -252,7 +252,7 @@ Defining an instance of `Add Pos` allows `Pos` values to use ordinary addition s
 ## Conversion to Strings
 -->
 
-## 转换为字符串
+## 转换为字符串 { #conversion-to-strings }
 
 <!--
 Another useful built-in class is called `ToString`.
@@ -262,7 +262,7 @@ For example, a `ToString` instance is used when a value occurs in an interpolate
 
 另一个有用的内置类叫做 `ToString`。
 `ToString` 的实例提供了一种将给定类型转换为字符串的标准方式。
-例如，当值出现在插值字符串中时，会使用 ToString 实例。它决定了在[`IO` 的描述开始处](../hello-world/running-a-program#运行程序)使用的 `IO.println` 函数如何显示一个值。
+例如，当值出现在插值字符串中时，会使用 ToString 实例。它决定了在[`IO` 的描述开始处](../hello-world/running-a-program#running-a-program)使用的 `IO.println` 函数如何显示一个值。
 
 <!--
 For example, one way to convert a `Pos` into a `String` is to reveal its inner structure.
@@ -327,7 +327,7 @@ Additionally, if a type has a `ToString` instance, then it can be used to displa
 ## Overloaded Multiplication
 -->
 
-## 重载乘法运算符
+## 重载乘法运算符 { #overloaded-multiplication }
 
 <!--
 For multiplication, there is a type class called `HMul` that allows mixed argument types, just like `HAdd`.
@@ -365,7 +365,7 @@ With this instance, multiplication works as expected:
 ## Literal Numbers
 -->
 
-## 数字字面量
+## 数字字面量 { #literal-numbers }
 
 <!--
 It is quite inconvenient to write out a sequence of constructors for positive numbers.
@@ -502,13 +502,13 @@ This makes it possible to use natural number literals for positive numbers, but 
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 ### Another Representation
 -->
 
-### 另一种表示
+### 另一种表示 { #another-representation }
 
 <!--
 An alternative way to represent a positive number is as the successor of some `Nat`.
@@ -531,7 +531,7 @@ Define instances of `Add`, `Mul`, `ToString`, and `OfNat` that allow this versio
 ### Even Numbers
 -->
 
-### 偶数
+### 偶数 { #even-numbers }
 
 <!--
 Define a datatype that represents only even numbers. Define instances of `Add`, `Mul`, and `ToString` that allow it to be used conveniently.
@@ -545,7 +545,7 @@ Define a datatype that represents only even numbers. Define instances of `Add`, 
 ### HTTP Requests
 -->
 
-### HTTP 请求
+### HTTP 请求 { #http-requests }
 
 <!--
 An HTTP request begins with an identification of a HTTP method, such as `GET` or `POST`, along with a URI and an HTTP version.

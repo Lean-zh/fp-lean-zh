@@ -6,8 +6,6 @@ installed correctly and that the programmer is able to run the
 compiled code.
 -->
 
-# 了解 Lean
-
 按照惯例，介绍一门编程语言通常会编译并运行一个在控制台上显示「Hello, world!」
 的程序。这个简单的程序能确保语言工具安装正确，且程序员能够运行已编译的代码。
 

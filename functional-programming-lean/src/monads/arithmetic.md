@@ -2,7 +2,7 @@
 ## Example: Arithmetic in Monads
 -->
 
-## 例子：利用单子实现算术表达式求值
+## 例子：利用单子实现算术表达式求值 { #example-arithmetic-in-monads }
 
 <!--
 Monads are a way of encoding programs with side effects into a language that does not have them.
@@ -29,7 +29,7 @@ One example of a program that can make sense in a variety of monads is an evalua
 ### Arithmetic Expressions
 -->
 
-### 算术表达式
+### 算术表达式 { #arithmetic-expressions }
 
 <!--
 An arithmetic expression is either a literal integer or a primitive binary operator applied to two expressions. The operators are addition, subtraction, multiplication, and division:
@@ -63,7 +63,7 @@ and `14 / (45 - 5 * 9)` is represented:
 ### Evaluating Expressions
 -->
 
-### 对表达式求值
+### 对表达式求值 { #evaluating-expressions }
 
 <!--
 Because expressions include division, and division by zero is undefined, evaluation might fail.
@@ -162,7 +162,7 @@ In this refactored code, the fact that the two code paths differ only in their t
 ### Further Effects
 -->
 
-### 额外的作用
+### 额外的作用 { #further-effects }
 
 <!--
 Failure and exceptions are not the only kinds of effects that can be interesting when working with an evaluator.
@@ -200,7 +200,7 @@ The second step is to broaden the scope of the division handler argument to `eva
 #### No Effects
 -->
 
-#### 无作用
+#### 无作用 { #no-effects }
 
 <!--
 The type `Empty` has no constructors, and thus no values, like the `Nothing` type in Scala or Kotlin.
@@ -247,7 +247,7 @@ This can be used together with `Id`, the identity monad, to evaluate expressions
 #### Nondeterministic Search
 -->
 
-#### 非确定性搜索
+#### 非确定性搜索 { #nondeterministic-search }
 
 <!--
 Instead of simply failing when encountering division by zero, it would also be sensible to backtrack and try a different input.
@@ -514,7 +514,7 @@ Using these operators, the earlier examples can be evaluated:
 #### Custom Environments
 -->
 
-#### 自定义环境
+#### 自定义环境 { #custom-environments }
 
 <!--
 The evaluator can be made user-extensible by allowing strings to be used as operators, and then providing a mapping from strings to a function that implements them.
@@ -830,13 +830,13 @@ Kotlin的上下文对象可以解决类似的问题，但根本上是一种自�
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 ### Checking Contracts
 -->
 
-### 检查约定
+### 检查约定 { #checking-contracts }
 
 <!--
 Check the monad contract for `State σ` and `Except ε`.
@@ -848,7 +848,7 @@ Check the monad contract for `State σ` and `Except ε`.
 ### Readers with Failure
 -->
 
-### 允许Reader失败
+### 允许Reader失败 { #readers-with-failure }
 <!--
 Adapt the reader monad example so that it can also indicate failure when the custom operator is not defined, rather than just returning zero.
 In other words, given these definitions:
@@ -879,7 +879,7 @@ do the following:
 ### A Tracing Evaluator
 -->
 
-### 带有跟踪信息的求值器
+### 带有跟踪信息的求值器 { #a-tracing-evaluator }
 
 <!--
 The `WithLog` type can be used with the evaluator to add optional tracing of some operations.

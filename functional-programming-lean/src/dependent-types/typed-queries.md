@@ -2,7 +2,7 @@
 # Worked Example: Typed Queries
 -->
 
-# 实际案例：类型化查询
+# 实际案例：类型化查询 { #worked-example-typed-queries }
 
 <!--
 Indexed families are very useful when building an API that is supposed to resemble some other language.
@@ -28,7 +28,7 @@ However, it is large enough to demonstrate useful principles and techniques.
 ## A Universe of Data
 -->
 
-## 一个数据的宇宙
+## 一个数据的宇宙 { #a-universe-of-data }
 
 <!--
 In this relational algebra, the base data that can be held in columns can have types `Int`, `String`, and `Bool` and are described by the universe `DBType`:
@@ -128,7 +128,7 @@ Refining the type through dependent pattern matching allows the `reprPrec` metho
 ## Schemas and Tables
 -->
 
-## 数据库模式和表
+## 数据库模式和表 { #schemas-and-tables }
 
 <!--
 A schema describes the name and type of each column in a database:
@@ -205,7 +205,7 @@ Another example consists of waterfalls and a diary of visits to them:
 ### Recursion and Universes, Revisited
 -->
 
-### 回顾递归和宇宙
+### 回顾递归和宇宙 { #recursion-and-universes-revisited }
 
 <!--
 The convenient structuring of rows as tuples comes at a cost: the fact that `Row` treats its two base cases separately means that functions that use `Row` in their types and are defined recursively over the codes (that, is the schema) need to make the same distinctions.
@@ -252,7 +252,7 @@ A big part of the skill of programming with dependent types is the selection of 
 ### Column Pointers
 -->
 
-### 列指针
+### 列指针 { #column-pointers }
 
 <!--
 Some queries only make sense if a schema contains a particular column.
@@ -365,7 +365,7 @@ Programming with indexed families often requires the ability to switch fluently 
 ### Subschemas
 -->
 
-### 子数据库模式
+### 子数据库模式 { #subschemas }
 
 <!--
 One important operation in relational algebra is to _project_ a table or row into a smaller schema.
@@ -594,7 +594,7 @@ This relation is reflexive, meaning that every schema is a subschema of itself:
 ### Projecting Rows
 -->
 
-### 投影行
+### 投影行 { #projecting-rows }
 
 <!--
 Given evidence that `s'` is a subschema of `s`, a row in `s` can be projected into a row in `s'`.
@@ -622,7 +622,7 @@ It uses `Row.get` together with each `HasCol` in the `Subschema` argument to con
 ## Conditions and Selection
 -->
 
-## 条件和选取
+## 条件和选取 { #conditions-and-selection }
 
 <!--
 Projection removes unwanted columns from a table, but queries must also be able to remove unwanted rows.
@@ -757,7 +757,7 @@ Evaluating it for the highest peak in the US state of Idaho yields `false`, as I
 ## Queries
 -->
 
-## 查询
+## 查询 { #queries }
 
 <!--
 The query language is based on relational algebra.
@@ -834,7 +834,7 @@ TODO: coercion
 ## Executing Queries
 -->
 
-## 执行查询
+## 执行查询 { #executing-queries }
 
 <!--
 Executing queries requires a number of helper functions.
@@ -849,7 +849,7 @@ The result of a query is a table; this means that each operation in the query la
 ### Cartesian Product
 -->
 
-### 笛卡尔积
+### 笛卡尔积 { #cartesian-product }
 
 <!--
 Taking the Cartesian product of two tables is done by appending each row from the first table to each row from the second.
@@ -925,7 +925,7 @@ Just as with `List.product`, a loop with mutation in the identity monad can be u
 ### Difference
 -->
 
-### 差
+### 差 { #difference }
 
 <!--
 Removing undesired rows from a table can be done using `List.filter`, which takes a list and a function that returns a `Bool`.
@@ -973,7 +973,7 @@ This will be used with the `BEq` instance for `Row` when interpreting queries.
 ### Renaming Columns
 -->
 
-### 重命名
+### 重命名 { #renaming-columns }
 <!--
 Renaming a column in a row is done with a recursive function that traverses the row until the column in question is found, at which point the column with the new name gets the same value as the column with the old name:
 -->
@@ -1001,7 +1001,7 @@ It takes a very careful, often brittle, design to eliminate these kinds of "re-i
 ### Prefixing Column Names
 -->
 
-### 添加前缀
+### 添加前缀 { #prefixing-column-names }
 
 <!--
 Adding a prefix to column names is very similar to renaming a column.
@@ -1027,7 +1027,7 @@ Once again, this function only exists to change the type of a value.
 ### Putting the Pieces Together
 -->
 
-### 将所有东西组合在一起
+### 将所有东西组合在一起 { #putting-the-pieces-together }
 
 <!--
 With all of these helpers defined, executing a query requires only a short recursive function:
@@ -1125,7 +1125,7 @@ Because the example data includes only waterfalls in the USA, executing the quer
 ### Errors You May Meet
 -->
 
-### 可能遇到的错误
+### 可能遇到的错误 { #errors-you-may-meet }
 
 <!--
 Many potential errors are ruled out by the definition of `Query`.
@@ -1182,13 +1182,13 @@ Lean 的宏系统不仅可以为查询提供方便的语法，还可以生成的
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 ### Dates
 -->
 
-### 日期
+### 日期 { #dates }
 
 <!--
 Define a structure to represent dates. Add it to the `DBType` universe and update the rest of the code accordingly. Provide the extra `DBExpr` constructors that seem to be necessary.
@@ -1201,7 +1201,7 @@ Define a structure to represent dates. Add it to the `DBType` universe and updat
 ### Nullable Types
 -->
 
-### 可空类型
+### 可空类型 { #nullable-types }
 
 <!--
 Add support for nullable columns to the query language by representing database types with the following structure:
@@ -1231,7 +1231,7 @@ Use this type in place of `DBType` in `Column` and `DBExpr`, and look up SQL's r
 ### Experimenting with Tactics
 -->
 
-### 尝试策术
+### 尝试策术 { #experimenting-with-tactics }
 
 <!--
 What is the result of asking Lean to find values of the following types using `by repeat constructor`? Explain why each gives the result that it does.

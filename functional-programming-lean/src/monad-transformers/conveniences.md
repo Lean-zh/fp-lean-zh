@@ -1,12 +1,12 @@
 <!--
 # Additional Conveniences
 -->
-# 其他便利功能
+# 其他便利功能 { #additional-conveniences }
 
 <!--
 ## Pipe Operators
 -->
-## 管道操作符
+## 管道操作符 { #pipe-operators }
 
 <!--
 Functions are normally written before their arguments.
@@ -113,7 +113,7 @@ Lean 的方法点符号（Dot notation）使用点前的类型名称来解析点
 <!--
 ## Infinite Loops
 -->
-## 无限循环
+## 无限循环 { #infinite-loops }
 
 <!--
 Within a `do`-block, the `repeat` keyword introduces an infinite loop.
@@ -157,7 +157,7 @@ Partiality does not "infect" calling functions.
 <!--
 ## While Loops
 -->
-## While 循环
+## While 循环 { #while-loops }
 
 <!--
 When programming with local mutability, `while` loops can be a convenient alternative to `repeat` with an `if`-guarded `break`:
@@ -170,4 +170,3 @@ When programming with local mutability, `while` loops can be a convenient altern
 Behind the scenes, `while` is just a simpler notation for `repeat`.
 -->
 在后端， `while` 只是 `repeat` 的一个更简单的标记。
-

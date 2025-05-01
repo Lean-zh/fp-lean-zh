@@ -2,7 +2,7 @@
 # Starting a Project
 -->
 
-# 创建项目
+# 创建项目 { #starting-a-project }
 
 <!--
 As a program written in Lean becomes more serious, an ahead-of-time compiler-based workflow that results in an executable becomes more attractive.
@@ -30,7 +30,7 @@ Lake 也包含一门用于配置构建的特殊语言。
 ## First steps
 -->
 
-## 入门
+## 入门 { #first-steps }
 
 <!--
 To get started with a project that uses Lake, use the command `{{#command {first-lake} {lake} {lake new greeting} }}` in a directory that does not already contain a file or directory called `greeting`.
@@ -127,7 +127,7 @@ Running `{{#command {first-lake/greeting} {lake} {./build/bin/greeting} }}` resu
 ## Lakefiles
 -->
 
-## Lakefile 构建文件
+## Lakefile 构建文件 { #lakefiles }
 
 <!--
 A `lakefile.lean` describes a _package_, which is a coherent collection of Lean code for distribution, analogous to an `npm` or `nuget` package or a Rust crate.
@@ -199,7 +199,7 @@ To build a target that is not annotated with `@[default_target]`, specify the ta
 ## Libraries and Imports
 -->
 
-## 库与导入
+## 库与导入 { #libraries-and-imports }
 
 <!--
 A Lean library consists of a hierarchically organized collection of source files from which names can be imported, called _modules_.

@@ -2,13 +2,13 @@
 # Additional Conveniences
 -->
 
-# 其他便利功能
+# 其他便利功能 { #additional-conveniences }
 
 <!--
 ## Shared Argument Types
 -->
 
-## 共享参数类型
+## 共享参数类型 { #shared-argument-types }
 
 <!--
 When defining a function that takes multiple arguments that have the same type, both can be written before the same colon.
@@ -40,7 +40,7 @@ This is especially useful when the type signature is large.
 ## Leading Dot Notation
 -->
 
-## 开头的点号
+## 开头的点号 { #leading-dot-notation }
 
 <!--
 The constructors of an inductive type are in a namespace.
@@ -89,7 +89,7 @@ If `BinTree.empty` is defined as an alternative way of creating `BinTree`s, then
 ## Or-Patterns
 -->
 
-## 或-模式
+## 或-模式 { #or-patterns }
 
 <!--
 In contexts that allow multiple patterns, such as `match`-expressions, multiple patterns may share their result expressions.

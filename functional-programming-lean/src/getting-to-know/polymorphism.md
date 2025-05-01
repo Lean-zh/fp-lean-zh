@@ -2,7 +2,7 @@
 # Polymorphism
 -->
 
-# 多态
+# 多态 { #polymorphism }
 
 <!--
 Just as in most languages, types in Lean can take arguments.
@@ -215,7 +215,7 @@ Evaluation can occur both in the expression and its type:
 ## Linked Lists
 -->
 
-## 链表
+## 链表 { #linked-lists }
 
 <!--
 Lean's standard library includes a canonical linked list datatype, called `List`, and special syntax that makes it more convenient to use.
@@ -329,7 +329,7 @@ To make it easier to read functions on lists, the bracket notation `[]` can be u
 ## Implicit Arguments
 -->
 
-## 隐式参数
+## 隐式参数 { #implicit-arguments }
 
 <!--
 Both `replaceX` and `length` are somewhat bureaucratic to use, because the type argument is typically uniquely determined by the later values.
@@ -423,7 +423,7 @@ For instance, a version of `List.length` that only works for lists of integers c
 ## More Built-In Datatypes
 -->
 
-## 更多内置数据类型
+## 更多内置数据类型 { #more-built-in-datatypes }
 
 <!--
 In addition to lists, Lean's standard library contains a number of other structures and inductive datatypes that can be used in a variety of contexts.
@@ -435,7 +435,7 @@ In addition to lists, Lean's standard library contains a number of other structu
 ### `Option`
 -->
 
-### `Option` 可选类型
+### `Option` 可选类型 { #option }
 
 <!--
 Not every list has a first entry—some lists are empty.
@@ -601,7 +601,7 @@ Both messages use the _same_ metavariable to describe the missing implicit argum
 ### `Prod`
 -->
 
-### `Prod` 积类型
+### `Prod` 积类型 { #prod }
 
 <!--
 The `Prod` structure, short for "Product", is a generic way of joining two values together.
@@ -688,7 +688,7 @@ In other words, all products of more than two types, and their corresponding con
 ### `Sum`
 -->
 
-### `Sum` 和类型
+### `Sum` 和类型 { #sum }
 
 <!--
 The `Sum` datatype is a generic way of allowing a choice between values of two different types.
@@ -770,7 +770,7 @@ As expected, `{{#example_in Examples/Intro.lean dogCount}}` yields `{{#example_o
 ### `Unit`
 -->
 
-### `Unit` 单位类型
+### `Unit` 单位类型 { #unit }
 
 <!--
 `Unit` is a type with just one argumentless constructor, called `unit`.
@@ -827,7 +827,7 @@ Unit's constructor can be written as empty parentheses: `{{#example_in Examples/
 ### `Empty`
 -->
 
-### `Empty` 空类型
+### `Empty` 空类型 { #empty }
 
 <!--
 The `Empty` datatype has no constructors whatsoever.
@@ -855,7 +855,7 @@ This can allow generic code to be used in contexts that have additional restrict
 ### Naming: Sums, Products, and Units
 -->
 
-### 命名：和类型，积类型与单位类型
+### 命名：和类型，积类型与单位类型 { #naming-sums-products-and-units }
 
 <!--
 Generally speaking, types that offer multiple constructors are called _sum types_, while types whose single constructor takes multiple arguments are called _product types_.
@@ -881,7 +881,7 @@ Similarly, \\( 2 \times 1 = 2 \\), and \\( 2 + 1 = 3 \\).
 ## Messages You May Meet
 -->
 
-## 你可能会遇到的信息
+## 你可能会遇到的信息 { #messages-you-may-meet }
 
 <!--
 Not all definable structures or inductive types can have the type `Type`.
@@ -989,7 +989,7 @@ The same message can appear when type arguments are omitted in other contexts, s
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
  * Write a function to find the last entry in a list. It should return an `Option`.

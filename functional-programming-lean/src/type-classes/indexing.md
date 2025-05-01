@@ -2,7 +2,7 @@
 # Arrays and Indexing
 -->
 
-# 数组与索引
+# 数组与索引 { #arrays-and-indexing }
 
 <!--
 The [Interlude](../props-proofs-indexing.md) describes how to use indexing notation in order to look up entries in a list by their position.
@@ -16,7 +16,7 @@ This syntax is also governed by a type class, and it can be used for a variety o
 ## Arrays
 -->
 
-## 数组
+## 数组 { #arrays }
 <!--
 For instance, Lean arrays are much more efficient than linked lists for most purposes.
 In Lean, the type `Array α` is a dynamically-sized array holding values of type `α`, much like a Java `ArrayList`, a C++ `std::vector`, or a Rust `Vec`.
@@ -70,7 +70,7 @@ For instance, `{{#example_in Examples/Classes.lean northernTreesEight}}` results
 ## Non-Empty Lists
 -->
 
-## 非空列表
+## 非空列表 { #non-empty-lists }
 
 <!--
 A datatype that represents non-empty lists can be defined as a structure with a field for the head of the list and a field for the tail, which is an ordinary, potentially empty list:
@@ -188,7 +188,7 @@ This requires techniques for working with proofs and propositions that are descr
 ## Overloading Indexing
 -->
 
-## 重载索引
+## 重载索引 { #overloading-indexing }
 
 <!--
 Indexing notation for a collection type can be overloaded by defining an instance of the `GetElem` type class.

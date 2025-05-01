@@ -2,7 +2,7 @@
 # Universes
 -->
 
-# 宇宙
+# 宇宙 { #universes }
 
 <!--
 In the interests of simplicity, this book has thus far papered over an important feature of Lean: _universes_.
@@ -142,7 +142,7 @@ Similarly, even though `Type` is in `Type 1`, the function type `{{#example_in E
 ## User Defined Types
 -->
 
-## 用户定义类型
+## 用户定义类型 { #user-defined-types }
 
 <!--
 Structures and inductive datatypes can be declared to inhabit particular universes.
@@ -212,7 +212,7 @@ Then, if Lean rejects the definition, increase its level by one, which will usua
 ## Universe Polymorphism
 -->
 
-## 宇宙多态
+## 宇宙多态 { #universe-polymorphism }
 
 <!--
 Defining a datatype in a specific universe can lead to code duplication.
@@ -372,7 +372,7 @@ In positions where Lean expects a universe level, any of the following are allow
 ### Writing Universe-Polymorphic Definitions
 -->
 
-### 编写宇宙多态定义
+### 编写宇宙多态定义 { #writing-universe-polymorphic-definitions }
 
 <!--
 Until now, every datatype defined in this book has been in `Type`, the smallest universe of data.
@@ -404,7 +404,7 @@ Non-polymorphic types, such as `Nat` and `String`, can be placed directly in `Ty
 ### `Prop` and Polymorphism
 -->
 
-### `Prop` 和多态
+### `Prop` 和多态 { #prop-and-polymorphism }
 
 <!--
 Just as `Type`, `Type 1`, and so on describe types that classify programs and data, `Prop` classifies logical propositions.
@@ -466,7 +466,7 @@ Together with `Sort`, this allows the special rule for functions that return `Pr
 ## Polymorphism in Practice
 -->
 
-## 多态的实际应用
+## 多态的实际应用 { #polymorphism-in-practice }
 
 <!--
 In the remainder of the book, definitions of polymorphic datatypes, structures, and classes will use universe polymorphism in order to be consistent with the Lean standard library.

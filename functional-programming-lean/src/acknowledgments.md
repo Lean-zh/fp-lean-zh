@@ -2,7 +2,7 @@
 # Acknowledgments
 -->
 
-# 鸣谢
+# 鸣谢 { #acknowledgments }
 
 <!--
 This free online book was made possible by the generous support of Microsoft Research, who paid for it to be written and given away.

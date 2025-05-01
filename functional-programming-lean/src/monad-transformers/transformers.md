@@ -1,7 +1,7 @@
 <!--
 # A Monad Construction Kit
 -->
-# 单子构建工具包
+# 单子构建工具包 { #a-monad-construction-kit }
 
 <!--
 `ReaderT` is far from the only useful monad transformer.
@@ -43,7 +43,7 @@ The type classes are a way for programs to express their requirements, and monad
 <!--
 ## Failure with `OptionT`
 -->
-## 使用 `OptionT` 失败
+## 使用 `OptionT` 失败 { #failure-with-optiont }
 
 <!--
 Failure, represented by the `Option` monad, and exceptions, represented by the `Except` monad, both have corresponding transformers.
@@ -102,7 +102,7 @@ The main function, `interact`, invokes `getUserInfo` in a purely `IO` context, w
 <!--
 ### The Monad Instance
 -->
-### 单子实例
+### 单子实例 { #the-monad-instance }
 
 <!--
 Writing the monad instance reveals a difficulty.
@@ -221,7 +221,7 @@ It can be checked in the same way, by expanding the definitions of `bind` and `p
 <!--
 ### An `Alternative` Instance
 -->
-### 一个 `Alternative` 实例
+### 一个 `Alternative` 实例 { #an-alternative-instance }
 
 <!--
 One convenient way to use `OptionT` is through the `Alternative` type class.
@@ -238,7 +238,7 @@ Successful return is already indicated by `pure`, and the `failure` and `orElse`
 <!--
 ### Lifting
 -->
-### 提升
+### 提升 { #lifting }
 
 <!--
 Lifting an action from `m` to `OptionT m` only requires wrapping `some` around the result of the computation:
@@ -252,7 +252,7 @@ Lifting an action from `m` to `OptionT m` only requires wrapping `some` around t
 <!--
 ## Exceptions
 -->
-## 异常
+## 异常 { #exceptions }
 
 <!--
 The monad transformer version of `Except` is very similar to the monad transformer version of `Option`.
@@ -335,7 +335,7 @@ This can be accomplished using the fact that `Functor` is a superclass of `Monad
 <!--
 ### Type Classes for Exceptions
 -->
-### 异常的类型类
+### 异常的类型类 { #type-classes-for-exceptions }
 
 <!--
 Exception handling fundamentally consists of two operations: the ability to throw exceptions, and the ability to recover from them.
@@ -425,7 +425,7 @@ For example, failure due to `Option` can be seen as throwing an exception that c
 <!--
 ## State
 -->
-## 状态
+## 状态 { #state }
 
 <!--
 A simulation of mutable state is added to a monad by having monadic actions accept a starting state as an argument and return a final state together with their result.
@@ -512,7 +512,7 @@ While it would be possible to provide a default implementation of `modifyGet` in
 <!--
 ## `Of` Classes and `The` Functions
 -->
-## `Of` 类和 `The` 函数
+## `Of` 类和 `The` 函数 { #of-classes-and-the-functions }
 
 <!--
 Thus far, each monad type class that takes extra information, like the type of exceptions for `MonadExcept` or the type of the state for `MonadState`, has this type of extra information as an output parameter.
@@ -567,7 +567,7 @@ It's generally a good idea to implement the `Of` version, and then start writing
 <!--
 ## Transformers and `Id`
 -->
-## 转换器和 `Id`
+## 转换器和 `Id` { #transformers-and-id }
 
 <!--
 The identity monad `Id` is the monad that has no effects whatsoever, to be used in contexts that expect a monad for some reason but where none is actually necessary.
@@ -581,12 +581,12 @@ For instance, `StateT σ Id` works just like `State σ`.
 <!--
 ## Exercises
 -->
-## 练习
+## 练习 { #exercises }
 
 <!--
 ### Monad Contract
 -->
-### 单子约定
+### 单子约定 { #monad-contract }
 <!--
 Using pencil and paper, check that the rules of the monad transformer contract are satisfied for each monad transformer in this section.
 -->
@@ -594,7 +594,7 @@ Using pencil and paper, check that the rules of the monad transformer contract a
 <!--
 ### Logging Transformer
 -->
-### 日志转换器
+### 日志转换器 { #logging-transformer }
 <!--
 Define a monad transformer version of `WithLog`.
 Also define the corresponding type class `MonadWithLog`, and write a program that combines logging and exceptions.
@@ -605,7 +605,7 @@ Also define the corresponding type class `MonadWithLog`, and write a program tha
 <!--
 ### Counting Files
 -->
-### 文件计数
+### 文件计数 { #counting-files }
 
 <!--
 Modify `doug`'s monad with `StateT` such that it counts the number of directories and files seen.

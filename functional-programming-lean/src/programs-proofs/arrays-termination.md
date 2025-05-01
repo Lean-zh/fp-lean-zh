@@ -2,7 +2,7 @@
 # Arrays and Termination
 -->
 
-# 数组与停机性
+# 数组与停机性 { #arrays-and-termination }
 
 <!--
 To write efficient code, it is important to select appropriate data structures.
@@ -39,7 +39,7 @@ Both of these are expressed using an inequality proposition, rather than proposi
 ## Inequality
 -->
 
-## 不等式
+## 不等式 { #inequality }
 
 <!--
 Because different types have different notions of ordering, inequality is governed by two type classes, called `LE` and `LT`.
@@ -47,7 +47,7 @@ The table in the section on [standard type classes](../type-classes/standard-cla
 -->
 
 由于不同的类型有不同的序概念，不等式需要由两个类来控制，分别称为 `LE` 和 `LT`。
-[标准类型类](../type-classes/standard-classes.md#相等性与有序性)
+[标准类型类](../type-classes/standard-classes.md#equality-and-ordering)
 一节中的表格描述了这些类与语法的关系：
 
 <!--
@@ -93,7 +93,7 @@ Defining `Nat.le` requires a feature of Lean that has not yet been presented: it
 ### Inductively-Defined Propositions, Predicates, and Relations
 -->
 
-### 归纳定义的命题、谓词和关系
+### 归纳定义的命题、谓词和关系 { #inductively-defined-propositions-predicates-and-relations }
 
 <!--
 `Nat.le` is an _inductively-defined relation_.
@@ -167,7 +167,7 @@ The inductively-defined predicate `IsThree` states that its argument is three:
 The mechanism used here is just like [indexed families such as `HasCol`](../dependent-types/typed-queries.md#column-pointers), except the resulting type is a proposition that can be proved rather than data that can be used.
 -->
 
-这里使用的机制就像[索引族，如 `HasCol`](../dependent-types/typed-queries.md#列指针)，
+这里使用的机制就像[索引族，如 `HasCol`](../dependent-types/typed-queries.md#column-pointers)，
 只不过结果类型是一个可以被证明的命题，而非可以被使用的数据。
 
 <!--
@@ -288,7 +288,7 @@ As described in [the initial Interlude on proofs](../props-proofs-indexing.md#co
 
 标准假命题 `False` 没有构造子，因此无法提供直接证据。
 为 `False` 提供证据的唯一方法是假设本身不可能，类似于用 `nomatch`
-来标记类型系统认为无法访问的代码。如 [插曲中的证明一节](../props-proofs-indexing.md#连词)
+来标记类型系统认为无法访问的代码。如 [插曲中的证明一节](../props-proofs-indexing.md#connectives)
 所述，否定 `Not A` 是 `A → False` 的缩写。`Not A` 也可以写成 `¬A`。
 
 <!--
@@ -362,7 +362,7 @@ Just as a pattern match on a `Vect String 2` doesn't need to include a case for 
 ### Inequality of Natural Numbers
 -->
 
-### 自然数不等式
+### 自然数不等式 { #inequality-of-natural-numbers }
 
 <!--
 The definition of `Nat.le` has a parameter and an index:
@@ -428,7 +428,7 @@ This is because `4 < 7` is equivalent to `5 ≤ 7`.
 ## Proving Termination
 -->
 
-## 停机性证明
+## 停机性证明 { #proving-termination }
 
 <!--
 The function `Array.map` transforms an array with a function, returning a new array that contains the result of applying the function to each element of the input array.
@@ -556,7 +556,7 @@ Sometimes, creativity can be required in order to figure out just why a function
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
  * Implement a `ForM (Array α)` instance on arrays using a tail-recursive accumulator-passing function and a `termination_by` clause.

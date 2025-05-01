@@ -2,7 +2,7 @@
 # The Applicative Contract
 -->
 
-# 应用函子的契约
+# 应用函子的契约 { #the-applicative-contract }
 
 <!--
 Just like `Functor`, `Monad`, and types that implement `BEq` and `Hashable`, `Applicative` has a set of rules that all instances should adhere to.
@@ -85,7 +85,7 @@ In the fourth case, assume that `u` is `some f`, because if it's `none`, both si
 ## All Applicatives are Functors
 -->
 
-## 所有的应用函子都是函子
+## 所有的应用函子都是函子 { #all-applicatives-are-functors }
 
 
 <!--
@@ -133,7 +133,7 @@ This justifies a definition of `Applicative` that extends `Functor`, with a defa
 ## All Monads are Applicative Functors
 -->
 
-## 所有单子都是应用函子
+## 所有单子都是应用函子 { #all-monads-are-applicative-functors }
 
 <!--
 An instance of `Monad` already requires an implementation of `pure`.
@@ -244,7 +244,7 @@ This justifies a definition of `Monad` that extends `Applicative`, with a defaul
 ## Additional Stipulations
 -->
 
-## 附加规定
+## 附加规定 { #additional-stipulations }
 
 <!--
 In addition to adhering to the individual contracts associated with each type class, combined implementations `Functor`, `Applicative` and `Monad` should work equivalently to these default implementations.

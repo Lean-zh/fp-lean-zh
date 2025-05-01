@@ -1,7 +1,7 @@
 <!--
 # Indices, Parameters, and Universe Levels
 -->
-# 索引、参量和宇宙层级
+# 索引、参量和宇宙层级 { #indices-parameters-and-universe-levels }
 
 <!--
 The distinction between indices and parameters of an inductive type is more than just a way to describe arguments to the type that either vary or do not between the constructors.

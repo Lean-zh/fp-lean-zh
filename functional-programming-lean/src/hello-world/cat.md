@@ -2,7 +2,7 @@
 # Worked Example: `cat`
 -->
 
-# 现实示例 `cat`
+# 现实示例 `cat` { #worked-example-cat }
 
 <!--
 The standard Unix utility `cat` takes a number of command-line options, followed by zero or more input files.
@@ -40,7 +40,7 @@ This makes it easier to learn the mechanical process of typing in code, recoveri
 ## Getting started
 -->
 
-## 开始
+## 开始 { #getting-started }
 
 <!--
 The first step in implementing `feline` is to create a package and decide how to organize the code.
@@ -84,7 +84,7 @@ Ensure that the code can be built by running `{{#command {feline/1} {feline/1} {
 ## Concatenating Streams
 -->
 
-## 连接流
+## 连接流 { #concatenating-streams }
 
 <!--
 Now that the basic skeleton of the program has been built, it's time to actually enter the code.
@@ -115,7 +115,7 @@ For the sake of simplicity, this implementation uses a conservative 20 kilobyte 
 ### Streams
 -->
 
-### 流
+### 流 { #streams }
 
 <!--
 The main work of `feline` is done by `dump`, which reads input one block at a time, dumping the result to standard output, until the end of the input has been reached:
@@ -229,7 +229,7 @@ Lean 文件勾柄跟踪了一个底层文件的描述符。当没有对文件勾
 ### Handling Input
 -->
 
-### 处理输入
+### 处理输入 { #handling-input }
 
 <!--
 The main loop of `feline` is another tail-recursive function, called `process`.
@@ -283,7 +283,7 @@ Thus, `process` does not introduce any non-termination.
 ### Main
 -->
 
-### Main 活动
+### Main 活动 { #main }
 
 <!--
 The final step is to write the `main` action.
@@ -319,7 +319,7 @@ Otherwise, the arguments should be processed one after the other.
 ## Meow!
 -->
 
-## 喵！
+## 喵！ { #meow }
 
 <!--
 To check whether `feline` works, the first step is to build it with `{{#command {feline/2} {feline/2} {lake build} }}`.
@@ -405,7 +405,7 @@ should yield
 ## Exercise
 -->
 
-## 练习
+## 练习 { #exercise }
 
 <!--
 Extend `feline` with support for usage information.

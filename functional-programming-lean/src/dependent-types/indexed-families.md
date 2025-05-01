@@ -2,7 +2,7 @@
 # Indexed Families
 -->
 
-# 索引族
+# 索引族 { #indexed-families }
 
 <!--
 Polymorphic inductive types take type arguments.
@@ -344,7 +344,7 @@ The refinement of the length can be observed by making `n` into an explicit argu
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 Getting a feel for programming with dependent types requires experience, and the exercises in this section are very important.

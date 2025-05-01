@@ -2,7 +2,7 @@
 # Evaluating Expressions
 -->
 
-# 求值表达式
+# 求值表达式 { #evaluating-expressions }
 
 <!--
 The most important thing to understand as a programmer learning Lean
@@ -222,7 +222,7 @@ For the sake of brevity, a series of evaluation steps like this will sometimes b
 ## Messages You May Meet
 -->
 
-## 可能会遇到的信息
+## 可能会遇到的信息 { #messages-you-may-meet }
 
 <!--
 Asking Lean to evaluate a function application that is missing an argument will lead to an error message.
@@ -268,7 +268,7 @@ Lean 无法向用户显示函数，因此在被要求这样做时会返回错误
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 What are the values of the following expressions? Work them out by hand,

@@ -2,13 +2,13 @@
 # Additional Conveniences
 -->
 
-# 其他便利功能
+# 其他便利功能 { #additional-conveniences }
 
 <!--
 ## Constructor Syntax for Instances
 -->
 
-## 实例的构造子语法
+## 实例的构造子语法 { #constructor-syntax-for-instances }
 
 <!--
 Behind the scenes, type classes are structure types and instances are values of these types.
@@ -61,7 +61,7 @@ Placing a call to this function after `:=` in an instance declaration is the eas
 ## Examples
 -->
 
-## 例子
+## 例子 { #examples }
 
 <!--
 When experimenting with Lean code, definitions can be more convenient to use than `#eval` or `#check` commands.
@@ -109,4 +109,3 @@ In source files, `example` declarations are best paired with comments that expla
 这会在幕后创建一个函数，这个函数没有名字，也不能被调用。
 此外，这可以用来检查某库中的函数是否可以在任意的或一些类型的未知值上正常工作。
 在源码中，`example` 声明很适合与解释概念的注释搭配使用。
-

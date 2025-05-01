@@ -2,7 +2,7 @@
 # Structures and Inheritance
 -->
 
-# 结构体和继承
+# 结构体和继承 { #structures-and-inheritance }
 
 <!--
 In order to understand the full definitions of `Functor`, `Applicative`, and `Monad`, another Lean feature is necessary: structure inheritance.
@@ -198,7 +198,7 @@ Evaluating `{{#example_in Examples/FunctorApplicativeMonad.lean smallTroll}}` yi
 ### Multiple Inheritance
 -->
 
-### 多重继承
+### 多重继承 { #multiple-inheritance }
 
 <!--
 A helper is a mythical creature that can provide assistance when given the correct payment:
@@ -299,7 +299,7 @@ The `@[reducible]` attribute has the same effect as writing `abbrev`.
 ### Default Declarations
 -->
 
-### 默认声明
+### 默认声明 { #default-declarations }
 
 <!--
 When one structure inherits from another, default field definitions can be used to instantiate the parent structure's fields based on the child structure's fields.
@@ -371,7 +371,7 @@ The two sized fields on `huldre` match one another:
 ### Type Class Inheritance
 -->
 
-### 类型类继承
+### 类型类继承 { #type-class-inheritance }
 
 <!--
 Behind the scenes, type classes are structures.

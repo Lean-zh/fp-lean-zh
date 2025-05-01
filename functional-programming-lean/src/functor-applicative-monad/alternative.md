@@ -2,13 +2,13 @@
 # Alternatives
 -->
 
-# 选择子
+# 选择子 { #alternatives }
 
 <!--
 ## Recovery from Failure
 -->
 
-## 从失败中恢复
+## 从失败中恢复 { #recovery-from-failure }
 
 <!--
 `Validate` can also be used in situations where there is more than one way for input to be acceptable.
@@ -279,7 +279,7 @@ The worst possible input returns all the possible failures:
 ## The `Alternative` Class
 -->
 
-## `Alternative` 类
+## `Alternative` 类 { #the-alternative-class }
 
 <!--
 Many types support a notion of failure and recovery.
@@ -373,13 +373,13 @@ Running it on `20` yields the expected results:
 ## Exercises
 -->
 
-## 练习题
+## 练习题 { #exercises }
 
 <!--
 ### Improve Validation Friendliness
 -->
 
-### 提高验证的友好性
+### 提高验证的友好性 { #improve-validation-friendliness }
 
 <!--
 The errors returned from `Validate` programs that use `<|>` can be difficult to read, because inclusion in the list of errors simply means that the error can be reached through _some_ code path.

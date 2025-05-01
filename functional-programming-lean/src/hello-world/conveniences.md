@@ -2,13 +2,13 @@
 # Additional Conveniences
 -->
 
-# 其他便利功能
+# 其他便利功能 { #additional-conveniences }
 
 <!--
 ## Nested Actions
 -->
 
-## 嵌套活动
+## 嵌套活动 { #nested-actions }
 
 <!--
 Many of the functions in `feline` exhibit a repetitive pattern in which an `IO` action's result is given a name, and then used immediately and only once.
@@ -153,7 +153,7 @@ Indeed, they could not be wrapped this way, because the type of the conditional 
 ## Flexible Layouts for `do`
 -->
 
-## `do` 的灵活布局
+## `do` 的灵活布局 { #flexible-layouts-for-do }
 
 <!--
 In Lean, `do` expressions are whitespace-sensitive.
@@ -192,7 +192,7 @@ Idiomatic Lean code uses curly braces with `do` very rarely.
 ## Running `IO` Actions With `#eval`
 -->
 
-## 用 `#eval` 运行 `IO` 活动
+## 用 `#eval` 运行 `IO` 活动 { #running-io-actions-with-eval }
 
 <!--
 Lean's `#eval` command can be used to execute `IO` actions, rather than just evaluating them.

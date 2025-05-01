@@ -2,7 +2,7 @@
 # Datatypes and Patterns
 -->
 
-# 数据类型与模式匹配
+# 数据类型与模式匹配 { #datatypes-and-patterns }
 
 <!--
 Structures enable multiple independent pieces of data to be combined into a coherent whole that is represented by a brand new type.
@@ -189,7 +189,7 @@ It also illustrates that Lean constructors correspond to objects in JavaScript o
 ## Pattern Matching
 -->
 
-## 模式匹配
+## 模式匹配 { #pattern-matching }
 
 <!--
 In many languages, these kinds of data are consumed by first using an instance-of operator to check which subclass has been received and then reading the values of the fields that are available in the given subclass.
@@ -340,7 +340,7 @@ In this case, it would have been much simpler to just use the `z` accessor, but 
 ## Recursive Functions
 -->
 
-## 递归函数
+## 递归函数 { #recursive-functions }
 
 <!--
 Definitions that refer to the name being defined are called _recursive definitions_.
@@ -486,5 +486,5 @@ This topic is explored in [the final chapter](../programs-proofs/inequalities.md
 -->
 
 此消息表示 `div` 需要手动证明停机。这个主题在
-[最后一章](../programs-proofs/inequalities.md#用减法迭代表示除法)
+[最后一章](../programs-proofs/inequalities.md#division-as-iterated-subtraction)
 中进行了探讨。

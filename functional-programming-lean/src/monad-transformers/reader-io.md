@@ -1,7 +1,7 @@
 <!--
 # Combining IO and Reader
 -->
-# 组合 IO 与 Reader
+# 组合 IO 与 Reader { #combining-io-and-reader }
 
 <!--
 One case where a reader monad can be useful is when there is some notion of the "current configuration" of the application that is passed through many recursive calls.
@@ -39,7 +39,7 @@ $ {{#command {doug-demo} {doug} {doug} }}
 <!--
 ## Implementation
 -->
-## 实现
+## 实现 { #implementation }
 
 <!--
 Internally, `doug` passes a configuration value downwards as it recursively traverses the directory structure.
@@ -182,7 +182,7 @@ Because `doList` carries out all the actions in a list and does not base control
 <!--
 ## Using a Custom Monad
 -->
-## 使用自定义单子
+## 使用自定义单子 { #using-a-custom-monad }
 
 <!--
 While this implementation of `doug` works, manually passing the configuration around is verbose and error-prone.
@@ -330,7 +330,7 @@ Monad transformers consist of:
 <!--
 ## Adding a Reader to Any Monad
 -->
-## 将读取器添加到任意单子
+## 将读取器添加到任意单子 { #adding-a-reader-to-any-monad }
 
 <!--
 Adding a reader effect to `IO` was accomplished in `ConfigIO` by wrapping `IO α` in a function type.
@@ -498,12 +498,12 @@ Just as some functions work in any monad, others can work in any monad that prov
 <!--
 ## Exercises
 -->
-## 练习
+## 练习 { #exercises }
 
 <!--
 ### Controlling the Display of Dotfiles
 -->
-### 控制点文件的显示
+### 控制点文件的显示 { #controlling-the-display-of-dotfiles }
 
 <!--
 Files whose names begin with a dot character (`'.'`) typically represent files that should usually be hidden, such as source-control metadata and configuration files.
@@ -517,7 +517,7 @@ This option should be controlled with a `-a` command-line option.
 <!--
 ### Starting Directory as Argument
 -->
-### 起始目录作为参数
+### 起始目录作为参数 { #starting-directory-as-argument }
 
 <!--
 Modify `doug` so that it takes a starting directory as an additional command-line argument.

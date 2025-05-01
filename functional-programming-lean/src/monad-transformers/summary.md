@@ -1,12 +1,12 @@
 <!--
 # Summary
 -->
-# 总结
+# 总结 { #summary }
 
 <!--
 ## Combining Monads
 -->
-## 组合单子
+## 组合单子 { #combining-monads }
 
 <!--
 When writing a monad from scratch, there are design patterns that tend to describe the ways that each effect is added to the monad.
@@ -39,7 +39,7 @@ Monad transformers may be implemented as polymorphic structures or inductive dat
 <!--
 ## Type Classes for Effects
 -->
-## 作用的类型类
+## 作用的类型类 { #type-classes-for-effects }
 
 <!--
 A common design pattern is to implement a particular effect by defining a monad that has the effect, a monad transformer that adds it to another monad, and a type class that provides a generic interface to the effect.
@@ -60,7 +60,7 @@ Thus, both versions are typically provided, with the ordinary-parameter version 
 <!--
 ## Monad Transformers Don't Commute
 -->
-## 单子转换器不可交换
+## 单子转换器不可交换 { #monad-transformers-dont-commute }
 
 <!--
 It is important to note that changing the order of transformers in a monad can change the meaning of programs that use the monad.
@@ -74,7 +74,7 @@ While most imperative languages provide only the latter, the increased flexibili
 <!--
 ## `do`-Notation for Monad Transformers
 -->
-## 单子转换器的 `do`-标记
+## 单子转换器的 `do`-标记 { #do-notation-for-monad-transformers }
 <!--
 Lean's `do`-blocks support early return, in which the block is terminated with some value, locally mutable variables, `for`-loops with `break` and `continue`, and single-branched `if`-statements.
 While this may seem to be introducing imperative features that would get in the way of using Lean to write proofs, it is in fact nothing more than a more convenient syntax for certain common uses of monad transformers.

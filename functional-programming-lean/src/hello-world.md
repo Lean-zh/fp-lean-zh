@@ -1,4 +1,4 @@
-# Hello, World!
+# Hello, World! { #hello-world }
 
 <!--
 While Lean has been designed to have a rich interactive environment in which programmers can get quite a lot of feedback from the language without leaving the confines of their favorite text editor, it is also a language in which real programs can be written.

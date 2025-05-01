@@ -2,7 +2,7 @@
 # Running a Program
 -->
 
-# 运行程序
+# 运行程序 { #running-a-program }
 
 <!--
 The simplest way to run a Lean program is to use the `--run` option to the Lean executable.
@@ -36,7 +36,7 @@ The program displays `{{#command_out {hello} {lean --run Hello.lean} }}` and exi
 ## Anatomy of a Greeting
 -->
 
-## 问候程序的剖析
+## 问候程序的剖析 { #anatomy-of-a-greeting }
 
 <!--
 When Lean is invoked with the `--run` option, it invokes the program's `main` definition.
@@ -87,7 +87,7 @@ Lean 区分表达式的 **求值（Evaluation）**（严格遵循用变量值替
 ## Functional Programming vs Effects
 -->
 
-## 函数式编程与副作用
+## 函数式编程与副作用 { #functional-programming-vs-effects }
 
 <!--
 Lean's model of computation is based on the evaluation of mathematical expressions, in which variables are given exactly one value that does not change over time.
@@ -167,7 +167,7 @@ RTS 执行这些活动，委托给用户的 Lean 代码来执行计算。从 Lea
 ## Real-World Functional Programming
 -->
 
-## 现实世界的函数式编程
+## 现实世界的函数式编程 { #real-world-functional-programming }
 
 <!--
 The other useful way to think about side effects in Lean is by considering `IO` actions to be functions that take the entire world as an argument and return a value paired with a new world.
@@ -217,7 +217,7 @@ To enable programs to use multiple effects, there is a sub-language of Lean call
 ## Combining `IO` Actions
 -->
 
-## 组合 `IO` 活动
+## 组合 `IO` 活动 { #combining-io-actions }
 
 <!--
 Most useful programs accept input in addition to producing output.
@@ -349,5 +349,5 @@ Finally, the last line in the program is:
 It uses [string interpolation](../getting-to-know/conveniences.md#string-interpolation) to insert the provided name into a greeting string, writing the result to `stdout`.
 -->
 
-它使用[字符串插值](../getting-to-know/conveniences.md#字符串插值)
+它使用[字符串插值](../getting-to-know/conveniences.md#string-interpolation)
 将提供的名称插入到问候字符串中，并将结果写入到 `stdout`。

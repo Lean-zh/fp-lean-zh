@@ -2,7 +2,7 @@
 # Safe Array Indices
 -->
 
-# 安全数组索引
+# 安全数组索引 { #safe-array-indices }
 
 <!--
 The `GetElem` instance for `Array` and `Nat` requires a proof that the provided `Nat` is smaller than the array.
@@ -71,7 +71,7 @@ A more specific type results in a value that can be used without making the prog
 ## Exercise
 -->
 
-## 练习
+## 练习 { #exercise }
 
 <!--
 Write a function `Fin.next? : Fin n → Option (Fin n)` that returns the next largest `Fin` when it would be in bounds, or `none` if not.

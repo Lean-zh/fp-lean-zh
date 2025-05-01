@@ -2,7 +2,7 @@
 # Pitfalls of Programming with Dependent Types
 -->
 
-# 使用依值类型编程的陷阱
+# 使用依值类型编程的陷阱 { #pitfalls-of-programming-with-dependent-types }
 
 <!--
 The flexibility of dependent types allows more useful programs to be accepted by a type checker, because the language of types is expressive enough to describe variations that less-expressive type systems cannot.
@@ -104,7 +104,7 @@ Here, `n✝` represents the `Nat` that is one less than the argument `n`.
 ## Definitional Equality
 -->
 
-## 定义相等性
+## 定义相等性 { #definitional-equality }
 
 <!--
 In the definition of `plusL`, there is a pattern case `0, k => k`.
@@ -328,7 +328,7 @@ In particular, the fact that `plusL` is used in the type of `appendL` means that
 ## Getting Stuck on Addition
 -->
 
-## 在加法上卡住
+## 在加法上卡住 { #getting-stuck-on-addition }
 
 <!--
 What happens if append is defined with `plusR` instead?
@@ -403,7 +403,7 @@ Getting it unstuck requires [propositional equality](../type-classes/standard-cl
 ## Propositional Equality
 -->
 
-## 命题相等性
+## 命题相等性 { #propositional-equality }
 
 <!--
 Propositional equality is the mathematical statement that two expressions are equal.
@@ -630,7 +630,7 @@ However, Lean's type checker has enough information to fill them in automaticall
 ## Pros and Cons
 -->
 
-## 优势和劣势
+## 优势和劣势 { #pros-and-cons }
 
 <!--
 Indexed families have an important property: pattern matching on them affects definitional equality.
@@ -702,7 +702,7 @@ Fluency in their use is an important part of knowing when to use them.
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
  <!--
  * Using a recursive function in the style of `plusR_succ_left`, prove that for all `Nat`s `n` and `k`, `n.plusR k = n + k`.
@@ -715,4 +715,3 @@ Fluency in their use is an important part of knowing when to use them.
  -->
 
  * 写一个在 `Vect` 上的函数，其中 `plusR` 比 `plusL` 更自然：`plusL` 需要在定义中显示使用（命题相等性的）证明。
-
