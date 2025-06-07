@@ -2,7 +2,7 @@
 # Functors, Applicative Functors, and Monads
 -->
 
-# 函子、应用函子与单子
+# 函子、应用函子与单子 { #functors-applicative-functors-and-monads }
 
 <!--
 `Functor` and `Monad` both describe operations for types that are still waiting for a type argument.

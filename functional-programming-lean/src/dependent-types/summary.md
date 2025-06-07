@@ -2,13 +2,13 @@
 # Summary
 -->
 
-# 总结
+# 总结 { #summary }
 
 <!--
 ## Dependent Types
 -->
 
-## 依值类型
+## 依值类型 { #dependent-types }
 
 <!--
 Dependent types, where types contain non-type code such as function calls and ordinary data constructors, lead to a massive increase in the expressive power of a type system.
@@ -52,7 +52,7 @@ Type-level computation can be seen as a kind of partial evaluation, where only t
 ## The Universe Pattern
 -->
 
-# 宇宙设计模式
+## 宇宙设计模式 { #the-universe-pattern }
 
 <!--
 A common pattern when working with dependent types is to section off some subset of the type system.
@@ -87,7 +87,7 @@ Defining a custom universe has a number of advantages over using the types direc
 ## Indexed Families
 -->
 
-## 索引族
+## 索引族 { #indexed-families }
 
 <!--
 Datatypes can take two separate kinds of arguments: _parameters_ are identical in each constructor of the datatype, while _indices_ may vary between constructors.
@@ -137,7 +137,7 @@ Avoiding these slowdowns for complicated programs can require specialized techni
 ## Definitional and Propositional Equality
 -->
 
-## 定义相等性和命题相等性
+## 定义相等性和命题相等性 { #definitional-and-propositional-equality }
 
 <!--
 Lean's type checker must, from time to time, check whether two types should be considered interchangeable.

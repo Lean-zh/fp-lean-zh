@@ -2,13 +2,13 @@
 # Summary
 -->
 
-# 总结
+# 总结 { #summary }
 
 <!--
 ## Type Classes and Overloading
 -->
 
-## 类型类和重载
+## 类型类和重载 { #type-classes-and-overloading }
 
 <!--
 Type classes are Lean's mechanism for overloading functions and operators.
@@ -70,7 +70,7 @@ When an instance is a default instance, then it will be chosen as a fallback whe
 ## Type Classes for Common Syntax
 -->
 
-## 常见语法的类型类
+## 常见语法的类型类 { #type-classes-for-common-syntax }
 
 <!--
 Most infix operators in Lean are overridden with a type class.
@@ -100,7 +100,7 @@ When Lean is unable to check that list or array access operations are in bounds 
 ## Functors
 -->
 
-## 函子
+## 函子 { #functors }
 
 <!--
 A functor is a polymorphic type that supports a mapping operation.
@@ -125,7 +125,7 @@ Lean 中的 `Functor` 类型类还包含了额外的默认方法，这些方法�
 ## Deriving Instances
 -->
 
-## 派生实例
+## 派生实例 { #deriving-instances }
 
 <!--
 Many type classes have very standard implementations.
@@ -151,7 +151,7 @@ Because each class for which instances can be derived requires special handling,
 ## Coercions
 -->
 
-## 强制转换
+## 强制转换 { #coercions }
 <!--
 Coercions allow Lean to recover from what would normally be a compile-time error by inserting a call to a function that transforms data from one type to another.
 For example, the coercion from any type `α` to the type `Option α` allows values to be written directly, rather than with the `some` constructor, making `Option` work more like nullable types from object-oriented languages.

@@ -2,7 +2,7 @@
 # Applicative Functors
 -->
 
-# 应用函子
+# 应用函子 { #applicative-functors }
 
 <!--
 An _applicative functor_ is a functor that has two additional operations available: `pure` and `seq`.
@@ -197,7 +197,7 @@ After all, a caller could choose `α` to be `Empty`, which has no values at all.
 ## A Non-Monadic Applicative
 -->
 
-## 一个非单子的应用函子
+## 一个非单子的应用函子 { #a-non-monadic-applicative }
 
 <!--
 When validating user input to a form, it's generally considered to be best to provide many errors at once, rather than one error at a time.
@@ -244,7 +244,7 @@ Unlike `Except`, it allows multiple errors to be accumulated, without a risk of 
 ### User Input
 -->
 
-### 用户输入
+### 用户输入 { #user-input }
 
 <!--
 As an example of user input, take the following structure:
@@ -279,7 +279,7 @@ With this tool in hand, a validation framework can be written that uses an appli
 ### Subtypes
 -->
 
-### 子类型
+### 子类型 { #subtypes }
 
 <!--
 Representing these conditions is easiest with one additional Lean type, called `Subtype`:
@@ -387,7 +387,7 @@ In the `then` branch, `h` is bound to evidence that `n > 0`, and this evidence c
 ### Validated Input
 -->
 
-### 经验证输入
+### 经验证输入 { #validated-input }
 
 <!--
 The validated user input is a structure that expresses the business logic using multiple techniques:

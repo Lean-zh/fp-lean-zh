@@ -2,7 +2,7 @@
 # Functions and Definitions
 -->
 
-# 函数与定义
+# 函数与定义 { #functions-and-definitions }
 
 <!--
 In Lean, definitions are introduced using the `def` keyword. For instance, to define the name `{{#example_in Examples/Intro.lean helloNameVal}}` to refer to the string `{{#example_out Examples/Intro.lean helloNameVal}}`, write:
@@ -82,7 +82,7 @@ Nonetheless, definitions such as `hello` introduce names that refer _directly_ t
 ## Defining Functions
 -->
 
-## 定义函数
+## 定义函数 { #defining-functions }
 
 <!--
 There are a variety of ways to define functions in Lean. The simplest is to place the function's arguments before the definition's type, separated by spaces. For instance, a function that adds one to its argument can be written:
@@ -180,7 +180,7 @@ Function arrows associate to the right, which means that `Nat → Nat → Nat` s
 ### Exercises
 -->
 
-### 练习
+### 练习 { #exercises }
 
 <!--
  * Define the function `joinStringsWith` with type `String -> String -> String -> String` that creates a new string by placing its first argument between its second and third arguments. `{{#example_eval Examples/Intro.lean joinStringsWithEx 0}}` should evaluate to `{{#example_eval Examples/Intro.lean joinStringsWithEx 1}}`.
@@ -200,7 +200,7 @@ Function arrows associate to the right, which means that `Nat → Nat → Nat` s
 ## Defining Types
 -->
 
-## 定义类型
+## 定义类型 { #defining-types }
 
 <!--
 Most typed programming languages have some means of defining aliases for types, such as C's `typedef`.
@@ -246,7 +246,7 @@ Because ``Str`` has been defined to mean ``String``, the definition of ``aStr`` 
 ### Messages You May Meet
 -->
 
-### 你可能会遇到的信息
+### 你可能会遇到的信息 { #messages-you-may-meet }
 
 <!--
 Experimenting with using definitions for types is made more complicated by the way that Lean supports overloaded integer literals.

@@ -2,7 +2,7 @@
 # The IO Monad
 -->
 
-# IO 单子
+# IO 单子 { #the-io-monad }
 
 <!--
 `IO` as a monad can be understood from two perspectives, which were described in the section on [running programs](../hello-world/running-a-program.md).

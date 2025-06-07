@@ -2,7 +2,7 @@
 # The Complete Definitions
 -->
 
-# 完整定义
+# 完整定义 { #the-complete-definitions }
 
 <!--
 Now that all the relevant language features have been presented, this section describes the complete, honest definitions of `Functor`, `Applicative`, and `Monad` as they occur in the Lean standard library.
@@ -16,7 +16,7 @@ For the sake of understanding, no details are omitted.
 ## Functor
 -->
 
-## 函子
+## 函子 { #functor }
 
 <!--
 The complete definition of the `Functor` class makes use of universe polymorphism and a default method implementation:
@@ -106,7 +106,7 @@ All the type classes in this section share this property.
 ## Applicative
 -->
 
-## 应用类型类
+## 应用类型类 { #applicative }
 
 <!--
 The `Applicative` type class is actually built from a number of smaller classes that each contain some of the relevant methods.
@@ -254,7 +254,7 @@ From the perspective of effects, the side effects of `a` occur, but the values a
 ## Monad
 -->
 
-## 单子
+## 单子 { #monad }
 
 <!--
 Just as the constituent operations of `Applicative` are split into their own type classes, `Bind` has its own class as well:
@@ -286,7 +286,7 @@ From the perspective of API boundaries, any type with a `Monad` instance gets in
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
  1. Understand the default implementations of `map`, `seq`, `seqLeft`, and `seqRight` in `Monad` by working through examples such as `Option` and `Except`. In other words, substitute their definitions for `bind` and `pure` into the default definitions, and simplify them to recover the versions `map`, `seq`, `seqLeft`, and `seqRight` that would be written by hand.

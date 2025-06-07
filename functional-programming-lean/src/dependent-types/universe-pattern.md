@@ -2,7 +2,7 @@
 # The Universe Design Pattern 
 -->
 
-# 宇宙设计模式
+# 宇宙设计模式 { #the-universe-design-pattern }
 
 <!--
 In Lean, types such as `Type`, `Type 3`, and `Prop` that classify other types are known as universes.
@@ -111,7 +111,7 @@ The `t` in the error message stands for an unknown value of type `NestedPairs`.
 ## Type Classes vs Universes 
 -->
 
-## 类型类 vs 宇宙
+## 类型类 vs 宇宙 { #type-classes-vs-universes }
 
 <!--
 Type classes allow an open-ended collection of types to be used with an API as long as they have implementations of the necessary interfaces.
@@ -147,7 +147,7 @@ Type classes are useful in many of the same situations as interfaces in Java or 
 ## A Universe of Finite Types 
 -->
 
-## 一个有限类型的宇宙
+## 一个有限类型的宇宙 { #a-universe-of-finite-types }
 
 <!--
 Restricting the types that can be used with an API to a predetermined collection can enable operations that would be impossible for an open-ended API.
@@ -463,7 +463,7 @@ Nested exponentials grow quickly, and there are many higher-order functions.
 ## Exercises 
 -->
 
-## 练习
+## 练习 { #exercises }
 
  <!--
  * Write a function that converts any value from a type coded for by `Finite` into a string. Functions should be represented as their tables.

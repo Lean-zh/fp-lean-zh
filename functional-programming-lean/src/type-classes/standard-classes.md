@@ -2,7 +2,7 @@
 # Standard Classes
 -->
 
-# 标准类
+# 标准类 { #standard-classes }
 
 <!--
 This section presents a variety of operators and functions that can be overloaded using type classes in Lean.
@@ -18,7 +18,7 @@ Unlike C++, infix operators in Lean are defined as abbreviations for named funct
 ## Arithmetic
 -->
 
-## 算术符号
+## 算术符号 { #arithmetic }
 
 <!--
 Most arithmetic operators are available in a heterogeneous form, where the arguments may have different type and an output parameter decides the type of the resulting expression.
@@ -47,7 +47,7 @@ The following arithmetic operators are overloaded:
 ## Bitwise Operators
 -->
 
-## 位运算符
+## 位运算符 { #bitwise-operators }
 
 <!--
 Lean contains a number of standard bitwise operators that are overloaded using type classes.
@@ -78,7 +78,7 @@ Because the names `And` and `Or` are already taken as the names of logical conne
 ## Equality and Ordering
 -->
 
-## 相等性与有序性
+## 相等性与有序性 { #equality-and-ordering }
 
 <!--
 Testing equality of two values typically uses the `BEq` class, which is short for "Boolean equality".
@@ -242,7 +242,7 @@ In situations where `compareTo` would be the right approach in Java, use `Ord.co
 ## Hashing
 -->
 
-## 哈希
+## 哈希 { #hashing }
 
 <!--
 Java and C# have `hashCode` and `GetHashCode` methods, respectively, that compute a hash of a value for use in data structures such as hash tables.
@@ -304,7 +304,7 @@ Binary trees use both recursion and recursive instance search in the implementat
 ## Deriving Standard Classes
 -->
 
-## 派生标准类
+## 派生标准类 { #deriving-standard-classes }
 
 <!--
 Instance of classes like `BEq` and `Hashable` are often quite tedious to implement by hand.
@@ -371,7 +371,7 @@ Changesets involving updates to datatypes are easier to read without line after 
 实例派生除了在开发效率和代码可读性上有很大的优势外，它也使得代码更易于维护，因为实例会随着类型定义的变化而更新。
 对数据类型的一系列更新更易于阅读，因为不需要一行又一行地对相等性测试和哈希计算进行公式化的修改。
 
-## Appending
+## Appending { #appending }
 
 <!--
 Many datatypes have some sort of append operator.
@@ -440,7 +440,7 @@ results in
 ## Functors
 -->
 
-## 函子
+## 函子 { #functors }
 
 <!--
 A polymorphic type is a _functor_ if it has an overload for a function named `map` that transforms every element contained in it by a function.
@@ -598,7 +598,7 @@ These rules prevent implementations of `map` that move the data around or delete
 ## Messages You May Meet
 -->
 
-## 你也许会遇到的问题
+## 你也许会遇到的问题 { #messages-you-may-meet }
 
 <!--
 Lean is not able to derive instances for all classes.
@@ -632,7 +632,7 @@ This message, however, means that no code generator was found for `ToString`.
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
  * Write an instance of `HAppend (List α) (NonEmptyList α) (NonEmptyList α)` and test it.

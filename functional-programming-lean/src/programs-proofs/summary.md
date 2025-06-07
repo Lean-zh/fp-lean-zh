@@ -2,13 +2,13 @@
 # Summary
 -->
 
-# 总结
+# 总结 { #summary }
 
 <!--
 ## Tail Recursion
 -->
 
-## 尾递归
+## 尾递归 { #tail-recursion }
 
 <!--
 Tail recursion is recursion in which the results of recursive calls are returned immediately, rather than being used in some other way.
@@ -43,7 +43,7 @@ In other words, two functions that each end with a tail call to the other will n
 ## Reference Counting and In-Place Updates
 -->
 
-## 引用计数与原地更新
+## 引用计数与原地更新 { #reference-counting-and-in-place-updates }
 
 <!--
 Rather than using a tracing garbage collector, as is done in Java, C#, and most JavaScript implementations, Lean uses reference counting for memory management.
@@ -81,7 +81,7 @@ The debugging helper `dbgTraceIfShared` can be used at key locations in the prog
 ## Proving Programs Correct
 -->
 
-## 证明程序的正确性
+## 证明程序的正确性 { #proving-programs-correct }
 
 <!--
 Rewriting a program in accumulator-passing style, or making other transformations that make it run faster, can also make it more difficult to understand.
@@ -115,7 +115,7 @@ In particular, to prove that a function is equivalent to an accumulator-passing 
 ## Safe Array Indices
 -->
 
-## 安全的数组索引
+## 安全的数组索引 { #safe-array-indices }
 
 <!--
 The type `Fin n` represents natural numbers that are strictly less than `n`.
@@ -148,7 +148,7 @@ Lean 为 `Fin` 提供了大多数有用的数字类型类的实例。`Fin` 的 `
 ## Provisional Proofs
 -->
 
-## 临时性证明
+## 临时性证明 { #provisional-proofs }
 
 <!--
 Sometimes, it can be useful to pretend that a statement is proved without actually doing the work of proving it.
@@ -186,7 +186,7 @@ Using `sorry` is convenient during development, but keeping it in the code is da
 ## Proving Termination
 -->
 
-## 停机证明
+## 停机证明 { #proving-termination }
 
 <!--
 When a recursive function does not use structural recursion, Lean cannot automatically determine that it terminates.

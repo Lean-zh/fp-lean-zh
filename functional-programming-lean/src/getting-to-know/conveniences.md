@@ -2,7 +2,7 @@
 # Additional Conveniences
 -->
 
-# 其他便利功能
+# 其他便利功能 { #additional-conveniences }
 
 <!--
 Lean contains a number of convenience features that make programs much more concise.
@@ -14,7 +14,7 @@ Lean 包含许多便利功能，能够让程序更加简洁。
 ## Automatic Implicit Arguments
 -->
 
-## 自动隐式参数
+## 自动隐式参数 { #automatic-implicit-arguments }
 
 <!--
 When writing polymorphic functions in Lean, it is typically not necessary to list all the implicit arguments.
@@ -50,7 +50,7 @@ This can greatly simplify highly polymorphic definitions that take many implicit
 ## Pattern-Matching Definitions
 -->
 
-## 模式匹配定义
+## 模式匹配定义 { #pattern-matching-definitions }
 
 <!--
 When defining functions with `def`, it is quite common to name an argument and then immediately use it with pattern matching.
@@ -126,7 +126,7 @@ This function is called `Option.getD` in the standard library, and can be called
 ## Local Definitions
 -->
 
-## 局部定义
+## 局部定义 { #local-definitions }
 
 <!--
 It is often useful to name intermediate steps in a computation.
@@ -233,7 +233,7 @@ When it reaches the end of the input list, `soFar` contains a reversed version o
 ## Type Inference
 -->
 
-## 类型推断
+## 类型推断 { #type-inference }
 
 <!--
 In many situations, Lean can automatically determine an expression's type.
@@ -390,7 +390,7 @@ Especially while still learning Lean, it is useful to provide most types explici
 ## Simultaneous Matching
 -->
 
-## 同时匹配
+## 同时匹配 { #simultaneous-matching }
 
 <!--
 Pattern-matching expressions, just like pattern-matching definitions, can match on multiple values at once.
@@ -410,7 +410,7 @@ Here is a version of `drop` that uses simultaneous matching:
 ## Natural Number Patterns
 -->
 
-## 自然数模式
+## 自然数模式 { #natural-number-patterns }
 
 <!--
 In the section on [datatypes and patterns](datatypes-and-patterns.md), `even` was defined like this:
@@ -492,7 +492,7 @@ This restriction enables Lean to transform all uses of the `+` notation in a pat
 ## Anonymous Functions
 -->
 
-## 匿名函数
+## 匿名函数 { #anonymous-functions }
 
 <!--
 Functions in Lean need not be defined at the top level.
@@ -640,7 +640,7 @@ while `{{#example_in Examples/Intro.lean applyCdot}}` results in:
 ## Namespaces
 -->
 
-## 命名空间
+## 命名空间 { #namespaces }
 
 <!--
 Each name in Lean occurs in a _namespace_, which is a collection of names.
@@ -762,7 +762,7 @@ To do this, simply omit the `in` from a top-level usage of `open`.
 ## if let
 -->
 
-## if let
+## if let { #if-let }
 
 <!--
 When consuming values that have a sum type, it is often the case that only a single constructor is of interest.
@@ -810,7 +810,7 @@ In some contexts, using `if let` instead of `match` can make code easier to read
 ## Positional Structure Arguments
 -->
 
-## 带位置的结构体参数
+## 带位置的结构体参数 { #positional-structure-arguments }
 
 <!--
 The [section on structures](structures.md) presents two ways of constructing structures:
@@ -870,7 +870,7 @@ Adding an annotation, such as in `{{#example_in Examples/Intro.lean pointPosWith
 ## String Interpolation
 -->
 
-## 字符串插值
+## 字符串插值 { #string-interpolation }
 
 <!--
 In Lean, prefixing a string with `s!` triggers _interpolation_, where expressions contained in curly braces inside the string are replaced with their values.

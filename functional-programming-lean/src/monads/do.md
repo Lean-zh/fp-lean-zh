@@ -2,7 +2,7 @@
 # `do`-Notation for Monads
 -->
 
-# 单子的 `do`-记法
+# 单子的 `do`-记法 { #do-notation-for-monads }
 
 <!--
 While APIs based on monads are very powerful, the explicit use of `>>=` with anonymous functions is still somewhat noisy.
@@ -182,7 +182,7 @@ Using nested actions, `number` can be made much more concise:
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
  * Rewrite `evaluateM`, its helpers, and the different specific use cases using `do`-notation instead of explicit calls to `>>=`.

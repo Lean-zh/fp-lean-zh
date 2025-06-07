@@ -2,7 +2,7 @@
 # Proving Equivalence
 -->
 
-# 证明等价
+# 证明等价 { #proving-equivalence }
 
 <!--
 Programs that have been rewritten to use tail recursion and an accumulator can look quite different from the original program.
@@ -18,7 +18,7 @@ After testing both versions of the program on examples to rule out simple bugs, 
 ## Proving `sum` Equal
 -->
 
-## 证明 `sum` 相等
+## 证明 `sum` 相等 { #proving-sum-equal }
 
 <!--
 To prove that both versions of `sum` are equal, begin by writing the theorem statement with a stub proof:
@@ -212,7 +212,7 @@ In other words, this proof is stuck.
 ## A Second Attempt
 -->
 
-## 第二次尝试
+## 第二次尝试 { #a-second-attempt }
 
 <!--
 Rather than attempting to muddle through the proof, it's time to take a step back and think.
@@ -548,13 +548,13 @@ This may require rewriting the goal to make the neutral initial accumulator valu
 ## Exercise
 -->
 
-## 练习
+## 练习 { #exercise }
 
 <!--
 ### Warming Up
 -->
 
-### 热身
+### 热身 { #warming-up }
 
 <!--
 Write your own proofs for `Nat.zero_add`, `Nat.add_assoc`, and `Nat.add_comm` using the `induction` tactic.
@@ -566,13 +566,13 @@ Write your own proofs for `Nat.zero_add`, `Nat.add_assoc`, and `Nat.add_comm` us
 ### More Accumulator Proofs
 -->
 
-### 更多累加器证明
+### 更多累加器证明 { #more-accumulator-proofs }
 
 <!--
 #### Reversing Lists
 -->
 
-#### 反转列表
+#### 反转列表 { #reversing-lists }
 
 <!--
 Adapt the proof for `sum` into a proof for `NonTail.reverse` and `Tail.reverse`.
@@ -613,7 +613,7 @@ This results in a suitable goal:
 #### Factorial
 -->
 
-#### 阶乘
+#### 阶乘 { #factorial }
 
 <!--
 Prove that `NonTail.factorial` from the exercises in the previous section is equal to your tail-recursive solution by finding the relationship between the accumulator and the result and proving a suitable helper theorem.

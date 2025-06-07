@@ -2,7 +2,7 @@
 # Type Classes and Polymorphism
 -->
 
-# 类型类与多态
+# 类型类与多态 { #type-classes-and-polymorphism }
 
 <!--
 It can be useful to write functions that work for _any_ overloading of a given function.
@@ -24,7 +24,7 @@ It returns an `IO` action.
 ## Checking Polymorphic Functions' Types
 -->
 
-## 对多态函数的类型检查
+## 对多态函数的类型检查 { #checking-polymorphic-functions-types }
 
 <!--
 Checking the type of a function that takes implicit arguments or uses type classes requires the use of some additional syntax.
@@ -74,7 +74,7 @@ For now, ignore these parameters to `Type`.
 ## Defining Polymorphic Functions with Instance Implicits
 -->
 
-## 定义含隐式实例的多态函数
+## 定义含隐式实例的多态函数 { #defining-polymorphic-functions-with-instance-implicits }
 
 <!--
 A function that sums all entries in a list needs two instances: `Add` allows the entries to be added, and an `OfNat` instance for `0` provides a sensible value to return for the empty list:
@@ -197,7 +197,7 @@ API的客户端无需手工组合所有必要的部分，从而使用户从这�
 ## Methods and Implicit Arguments
 -->
 
-## 方法与隐式参数
+## 方法与隐式参数 { #methods-and-implicit-arguments }
 
 
 <!--
@@ -264,27 +264,27 @@ Thus, in these cases, Lean uses an explicit argument for the class's method.
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 ### Even Number Literals
 -->
 
-### 偶数数字字面量
+### 偶数数字字面量 { #even-number-literals }
 
 <!--
 Write an instance of `OfNat` for the even number datatype from the [previous section's exercises](pos.md#even-numbers) that uses recursive instance search.
 For the base instance, it is necessary to write `OfNat Even Nat.zero` instead of `OfNat Even 0`.
 -->
 
-为[上一节的练习题](pos#偶数)中的偶数数据类型写一个使用递归实例搜索的 `OfNat` 实例。
+为[上一节的练习题](pos#even-numbers)中的偶数数据类型写一个使用递归实例搜索的 `OfNat` 实例。
 对于基本实例，有必要编写 `OfNat Even Nat.zero` 而不是 `OfNat Even 0`。
 
 <!--
 ### Recursive Instance Search Depth
 -->
 
-### 递归实例搜索深度
+### 递归实例搜索深度 { #recursive-instance-search-depth }
 
 <!--
 There is a limit to how many times the Lean compiler will attempt a recursive instance search.

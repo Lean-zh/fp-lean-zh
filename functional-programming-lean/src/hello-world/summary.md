@@ -2,13 +2,13 @@
 # Summary
 -->
 
-# 总结
+# 总结 { #summary }
 
 <!--
 ## Evaluation vs Execution
 -->
 
-## 求值与执行
+## 求值与执行 { #evaluation-vs-execution }
 
 <!--
 Side effects are aspects of program execution that go beyond the evaluation of mathematical expressions, such as reading files, throwing exceptions, or triggering industrial machinery.
@@ -53,7 +53,7 @@ An `IO` action `main` is executed when the program starts.
 ## `do` Notation
 -->
 
-## `do` 记法
+## `do` 记法 { #do-notation }
 
 <!--
 The Lean standard library provides a number of basic `IO` actions that represent effects such as reading from and writing to files and interacting with standard input and standard output.
@@ -99,7 +99,7 @@ Lean 编译器会隐式地将它们提升到最近的封闭 `do` 中，该 `do` 
 ## Compiling and Running Programs
 -->
 
-## 编译并运行程序
+## 编译并运行程序 { #compiling-and-running-programs }
 
 <!--
 A Lean program that consists of a single file with a `main` definition can be run using `lean --run FILE`.
@@ -127,7 +127,7 @@ Lean 项目被组织成 **包（Package）** ，它们是库和可执行文件�
 ## Partiality
 -->
 
-## 偏函数
+## 偏函数 { #partiality }
 
 <!--
 One consequence of following the mathematical model of expression evaluation is that every expression must have a value.

@@ -2,7 +2,7 @@
 # Insertion Sort and Array Mutation
 -->
 
-# 插入排序与数组可变性
+# 插入排序与数组可变性 { #insertion-sort-and-array-mutation }
 
 <!--
 While insertion sort does not have the optimal worst-case time complexity for a sorting algorithm, it still has a number of useful properties:
@@ -138,7 +138,7 @@ In other words, each iteration inserts the next element of the array into the ap
 ## The Inner Loop
 -->
 
-## 内层循环
+## 内层循环 { #the-inner-loop }
 
 <!--
 The inner loop of insertion sort can be implemented as a tail-recursive function that takes the array and the index of the element being inserted as arguments.
@@ -219,7 +219,7 @@ The `simp` tactic's database contains the fact that swapping two elements of an 
 ## The Outer Loop
 -->
 
-## 外层循环
+## 外层循环 { #the-outer-loop }
 
 <!--
 The outer loop of insertion sort moves the pointer from left to right, invoking `insertSorted` at each iteration to insert the element at the pointer into the correct position in the array.
@@ -274,7 +274,7 @@ Before constructing the termination proof, it can be convenient to test the defi
 ### Termination
 -->
 
-### 停机性
+### 停机性 { #termination }
 
 <!--
 Once again, the function terminates because the difference between the index and the size of the array being processed decreases on each recursive call.
@@ -619,7 +619,7 @@ It's type is `{{#example_out Examples/ProgramsProofs/InsertionSort.lean sub_succ
 ## The Driver Function
 -->
 
-## 驱动函数
+## 驱动函数 { #the-driver-function }
 
 <!--
 Insertion sort itself calls `insertionSortLoop`, initializing the index that demarcates the sorted region of the array from the unsorted region to `0`:
@@ -657,7 +657,7 @@ A few quick tests show the function is at least not blatantly wrong:
 ## Is This Really Insertion Sort?
 -->
 
-## 它真的是插入排序吗？
+## 它真的是插入排序吗？ { #is-this-really-insertion-sort }
 
 <!--
 Insertion sort is _defined_ to be an in-place sorting algorithm.
@@ -839,7 +839,7 @@ When running `sort --shared`, the array is copied as needed to preserve the pure
 ## Other Opportunities for Mutation
 -->
 
-## 其他可变性的机会
+## 其他可变性的机会 { #other-opportunities-for-mutation }
 
 <!--
 The use of mutation instead of copying when references are unique is not limited to array update operators.
@@ -857,7 +857,7 @@ Lean 还会尝试「回收」引用计数即将降至零的构造函数，重新
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
  * Write a function that reverses arrays. Test that if the input array has a reference count of one, then your function does not allocate a new array.

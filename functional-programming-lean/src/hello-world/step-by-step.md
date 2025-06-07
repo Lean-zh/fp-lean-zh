@@ -2,7 +2,7 @@
 # Step By Step
 -->
 
-# 逐步执行
+# 逐步执行 { #step-by-step }
 
 <!--
 A `do` block can be executed one line at a time.
@@ -19,7 +19,7 @@ Start with the program from the prior section:
 ## Standard IO
 -->
 
-## 标准 IO
+## 标准 IO { #standard-io }
 
 <!--
 The first line is `{{#include ../../../examples/hello-name/HelloName.lean:line1}}`, while the remainder is:
@@ -59,7 +59,7 @@ Finally, this value is associated with the name `stdout` for the remainder of th
 ## Asking a Question
 -->
 
-## 提问
+## 提问 { #asking-a-question }
 
 <!--
 Now that `stdin` and `stdout` have been found, the remainder of the block consists of a question and an answer:
@@ -86,7 +86,7 @@ Statements that consist only of expressions do not introduce any new variables.
 该代码块中的第一个语句 `{{#include ../../../examples/hello-name/HelloName.lean:line3}}`
 由一个表达式组成。要执行一个表达式，首先要对其进行求值。在这种情况下，`IO.FS.Stream.putStrLn`
 的类型为 `IO.FS.Stream → String → IO Unit`。这意味着它是一个接受流和字符串并返回 `IO` 活动的函数。
-该表达式使用[访问器记法](../getting-to-know/structures.md#幕后)进行函数调用。
+该表达式使用[访问器记法](../getting-to-know/structures.md#behind-the-scenes)进行函数调用。
 此函数应用于两个参数：标准输出流和字符串。表达式的值为一个 `IO` 活动，
 该活动将字符串和换行符写入输出流。得到此值后，下一步是执行它，这会导致字符串和换行符写入到
 `stdout`。仅由表达式组成的语句不会引入任何新变量。
@@ -170,7 +170,7 @@ In the current line of the program, whitespace characters (including the newline
 ## Greeting the User
 -->
 
-## 向用户问好
+## 向用户问好 { #greeting-the-user }
 
 <!--
 All that remains to be executed in the `do` block is a single statement:
@@ -200,7 +200,7 @@ Once the expression has been evaluated, the resulting `IO` action is executed, r
 ## `IO` Actions as Values
 -->
 
-## `IO` 活动作为值
+## `IO` 活动作为值 { #io-actions-as-values }
 
 <!--
 In the above description, it can be difficult to see why the distinction between evaluating expressions and executing `IO` actions is necessary.
@@ -378,7 +378,7 @@ The final step, `pure ()`, does not have any effects, and it is only present bec
 ## Exercise
 -->
 
-## 练习
+## 练习 { #exercise }
 
 <!--
 Step through the execution of the following program on a piece of paper:

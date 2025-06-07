@@ -2,7 +2,7 @@
 # Structures
 -->
 
-# 结构体
+# 结构体 { #structures }
 
 <!--
 The first step in writing a program is usually to identify the problem domain's concepts, and then find suitable representations for them in code.
@@ -282,7 +282,7 @@ To make programs more concise, Lean also allows the structure type annotation in
 ## Updating Structures
 -->
 
-## 更新结构体
+## 更新结构体 { #updating-structures }
 
 <!--
 Imagine a function `zeroX` that replaces the `x` field of a `Point` with `0.0`.
@@ -383,7 +383,7 @@ All references to the old structure continue to refer to the same field values i
 ## Behind the Scenes
 -->
 
-## 幕后
+## 幕后 { #behind-the-scenes }
 
 <!--
 Every structure has a _constructor_.
@@ -559,7 +559,7 @@ This is because the target of the accessor notation is used as the first argumen
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
  * Define a structure named `RectangularPrism` that contains the height, width, and depth of a rectangular prism, each as a `Float`.

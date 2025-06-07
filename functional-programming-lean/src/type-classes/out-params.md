@@ -2,7 +2,7 @@
 # Controlling Instance Search
 -->
 
-# 控制实例搜索
+# 控制实例搜索 { #controlling-instance-search }
 
 <!--
 An instance of the `Add` class is sufficient to allow two expressions with type `Pos` to be conveniently added, producing another `Pos`.
@@ -27,7 +27,7 @@ These functions allow natural numbers to be added to positive numbers, but they 
 ## Heterogeneous Overloadings
 -->
 
-## 异质重载
+## 异质重载 { #heterogeneous-overloadings }
 
 <!--
 As mentioned in the section on [overloaded addition](pos.md#overloaded-addition), Lean provides a type class called `HAdd` for overloading addition heterogeneously.
@@ -35,7 +35,7 @@ The `HAdd` class takes three type parameters: the two argument types and the ret
 Instances of `HAdd Nat Pos Pos` and `HAdd Pos Nat Pos` allow ordinary addition notation to be used to mix the types:
 -->
 
-就像在[重载加法](./pos#重载加法)一节提到的，Lean 提供了名为 `HAdd` 的类型类来重载异质加法。
+就像在[重载加法](./pos#overloaded-addition)一节提到的，Lean 提供了名为 `HAdd` 的类型类来重载异质加法。
 `HAdd` 类接受三个类型参数：两个参数的类型和一个返回类型。
 `HAdd Nat Pos Pos` 和 `HAdd Pos Nat Pos` 的实例可以让常规加法符号可以接受不同类型。
 
@@ -127,7 +127,7 @@ However, this solution is not very convenient for users of the positive number l
 ## Output Parameters
 -->
 
-## 输出参数
+## 输出参数 { #output-parameters }
 
 <!--
 This problem can also be solved by declaring `γ` to be an _output parameter_.
@@ -177,7 +177,7 @@ Output parameters can determine other types in the program, and instance search 
 ## Default Instances
 -->
 
-## 默认实例
+## 默认实例 { #default-instances }
 
 <!--
 Deciding whether a parameter is an input or an output controls the circumstances under which Lean will initiate type class search.
@@ -323,7 +323,7 @@ For more information on default instance priorities, please consult the Lean man
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 Define an instance of `HMul (PPoint α) α (PPoint α)` that multiplies both projections by the scalar.
