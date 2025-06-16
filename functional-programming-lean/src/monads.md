@@ -53,7 +53,7 @@ The result must be an `Option` because empty lists have no first entry.
 Extracting the first and third entries requires a check that each is not `none`:
 -->
 
-"结果必须是`Option`，因为空列表没有第一个项。
+结果必须是`Option`，因为空列表没有第一个项。
 提取第一个和第三个项需要检查每个项都不为 `none`：
 ```lean
 {{#example_decl Examples/Monads.lean firstThird}}
