@@ -8540,7 +8540,7 @@ The `CoeFun` class intercepts what would otherwise be a "not a function" error w
 <p>有许多不同的强制转换。
 他们可以从不同的错误类型中恢复，他们都是用自己的类型类来描述的。
 <code>Coe</code> 类型类用于从类型错误中恢复。
-当 Lean 有一个 <code>α</code> 类型的表达式，但却希望这里是一个 <code>β</code> 类型时，Lean 会首先尝试串起一个能将 <code>α</code> 强制转换为 <code>β</code> 的链，仅当它无法这么做的时候才会宝座。
+当 Lean 有一个 <code>α</code> 类型的表达式，但却希望这里是一个 <code>β</code> 类型时，Lean 会首先尝试串起一个能将 <code>α</code> 强制转换为 <code>β</code> 的链，仅当它无法这么做的时候才会报错。
 <code>CoeDep</code> 类将被强制转换的具体值作为额外参数，这样可以对该值进行进一步的类型类搜索，或者在实例中使用构造函数来限制转换的范围。
 <code>CoeFun</code> 类在编译函数应用时会拦截“不是函数”的错误，并允许将函数位置的值转换为实际函数（如果可能的话）。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="monads"><a class="header" href="#monads">Monads</a></h1>
@@ -14508,14 +14508,14 @@ Running `doug` results in the following:
 <pre><code>$ doug
 ├── doug-demo/
 │   ├── a/
-│   │   ├── d/
-│   │   │   ├── another-file
 │   │   ├── b/
 │   │   │   ├── hello
 │   │   │   ├── c/
 │   │   ├── e/
 │   │   │   ├── still-another-file-again
 │   │   │   ├── f/
+│   │   ├── d/
+│   │   │   ├── another-file
 </code></pre>
 <!--
 ## Implementation
