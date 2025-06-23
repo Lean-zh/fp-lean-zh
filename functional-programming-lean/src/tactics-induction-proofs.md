@@ -1,6 +1,6 @@
-## 小插曲：策略，归纳与证明
+# 小插曲：策略，归纳与证明 { #interlude-tactics-induction-and-proofs }
 
-### 一个关于证明与用户界面的说明
+## 一个关于证明与用户界面的说明 { #a-note-on-proofs-and-user-interfaces }
 <!--
 This book presents the process of writing proofs as if they are written in one go and submitted to Lean, which then replies with error messages that describe what remains to be done. The actual process of interacting with Lean is much more pleasant. Lean provides information about the proof as the cursor is moved through it and there are a number of interactive features that make proving easier. Please consult the documentation of your Lean development environment for more information.
 -->
@@ -11,7 +11,7 @@ The approach in this book that focuses on incrementally building a proof and sho
 -->
 本书中的方法侧重于逐步构建证明并显示产生的消息，这展示了 Lean 在编写证明时提供的各种互动反馈，尽管这比专家使用的过程慢得多。同时，看到不完整的证明逐步趋向完整是一种对证明有益的视角。随着您编写证明技能的提高，Lean 的反馈将不再感觉像错误，而更像是对您自己思维过程的支持。学习互动方法非常重要。
 
-### 递归和归纳
+## 递归和归纳 { #recursion-and-induction }
 <!--
 The functions plusR_succ_left and plusR_zero_left from the preceding chapter can be seen from two perspectives. On the one hand, they are recursive functions that build up evidence for a proposition, just as other recursive functions might construct a list, a string, or any other data structure. On the other, they also correspond to proofs by mathematical induction.
 -->
@@ -33,7 +33,7 @@ Because it's impossible to check the statement for every natural number, inducti
 -->
 因为我们不可能对**每个**自然数进行检查，归纳提供了一种手段来编写原则上可以扩展到任何特定自然数的证明。例如，如果需要对数字 3 进行具体证明，那么可以首先使用基本情况，然后归纳步骤三次，分别证明命题对 0、1、2，最后对 3 成立。因此，它证明了该命题对所有自然数成立。
 
-### 归纳策略
+## 归纳策略 { #the-induction-tactic }
 <!--
 Writing proofs by induction as recursive functions that use helpers such as congrArg does not always do a good job of expressing the intentions behind the proof. While recursive functions indeed have the structure of induction, they should probably be viewed as an encoding of a proof. Furthermore, Lean's tactic system provides a number of opportunities to automate the construction of a proof that are not available when writing the recursive function explicitly. Lean provides an induction tactic that can carry out an entire proof by induction in a single tactic block. Behind the scenes, Lean constructs the recursive function that corresponds the use of induction.
 -->
@@ -203,7 +203,7 @@ This rewrite makes both sides of the equation identical, and Lean takes care of 
 -->
 这个重写使得等式的两边相同，Lean 会自己处理 **rfl**。证毕。
 
-### 策略高尔夫
+## 策略高尔夫 { #tactic-golf }
 <!--
 So far, the tactic language has not shown its true value. The above proof is no shorter than the recursive function; it's merely written in a domain-specific language instead of the full Lean language. But proofs with tactics can be shorter, easier, and more maintainable. Just as a lower score is better in the game of golf, a shorter proof is better in the game of tactic golf.
 
@@ -330,7 +330,7 @@ For beginners, this proof is not easier to read. However, a common pattern for e
 -->
 对于初学者来说，这个证明并不容易阅读。然而，专家用户的常见模式是使用像 **simp** 这样的强大策略处理一些简单情况，使他们可以将证明的文本集中在有趣的情况下。此外，这些证明在面对函数和数据类型的小变化时往往更稳健。策略高尔夫游戏是培养编写证明时的良好品味和风格的有用部分。
 
-### 其他数据类型的归纳
+## 其他数据类型的归纳 { #induction-on-other-datatypes }
 <!--
 Mathematical induction proves a statement for natural numbers by providing a base case for Nat.zero and an induction step for Nat.succ. The principle of induction is also valid for other datatypes. Constructors without recursive arguments form the base cases, while constructors with recursive arguments form the induction steps. The ability to carry out proofs by induction is the very reason why they are called inductive datatypes.
 -->
@@ -500,7 +500,7 @@ theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
   induction t <;> simp_arith [BinTree.mirror, BinTree.count, *]
 ```
 
-### 练习
+## 练习 { #exercises }
 
 <!--
 1. Prove plusR_succ_left using the induction ... with tactic.
@@ -510,4 +510,3 @@ theorem BinTree.mirror_count (t : BinTree α) : t.mirror.count = t.count := by
 1. 使用**induction...with** 策略证明 **plusR_succ_left**。
 2. 重写 **plus_succ_left** 的证明，使用 **<;>** 并写成一行。
 3. 使用列表归纳证明列表追加是结合的：**theorem List.append_assoc (xs ys zs : List α) : xs ++ (ys ++ zs) = (xs ++ ys) ++ zs**
-

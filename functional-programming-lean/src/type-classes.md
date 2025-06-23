@@ -2,7 +2,7 @@
 # Overloading and Type Classes
 -->
 
-# 重载与类型类
+# 重载与类型类 { #overloading-and-type-classes }
 
 <!--
 In many languages, the built-in datatypes get special treatment.
@@ -80,7 +80,3 @@ Lean 的类型类更像是 Java 或 C# 中的 **接口（interface）**。
 类似地，类型类的实例也很像 Java 或 C# 中描述实现了的接口的类，而不是 Java 或 C# 中类的实例。
 不像 Java 或 C# 的接口，对于一个类型，该类型的作者并不能访问的类型类也可以给这个类型实例。
 从这种意义上讲，这和 Rust 的 traits 很像。
-
-
-
-

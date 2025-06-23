@@ -2,13 +2,13 @@
 # Summary
 -->
 
-# 总结
+# 总结 { #summary }
 
 <!--
 ## Evaluating Expressions
 -->
 
-## 求值表达式
+## 求值表达式 { #evaluating-expressions }
 
 <!--
 In Lean, computation occurs when expressions are evaluated.
@@ -34,7 +34,7 @@ Lean 变量只是值的占位符，而非可以写入新值的位置。变量的
 ## Functions
 -->
 
-## 函数
+## 函数 { #functions }
 
 <!--
 Functions in Lean are first-class values, meaning that they can be passed as arguments to other functions, saved in variables, and used like any other value.
@@ -74,7 +74,7 @@ There are three primary ways of creating functions:
 ## Types
 -->
 
-## 类型
+## 类型 { #types }
 
 <!--
 Lean checks that every expression has a type.
@@ -134,7 +134,7 @@ Giving an argument a name in a function type allows later types to mention that 
 ## Structures and Inductive Types
 -->
 
-## 结构体与归纳类型
+## 结构体与归纳类型 { #structures-and-inductive-types }
 
 <!--
 Brand new datatypes can be introduced to Lean using the `structure` or `inductive` features.
@@ -167,7 +167,7 @@ Pattern matching means that knowing how to create a value implies knowing how to
 ## Recursion
 -->
 
-## 递归
+## 递归 { #recursion }
 
 <!--
 A definition is recursive when the name being defined is used in the definition itself.

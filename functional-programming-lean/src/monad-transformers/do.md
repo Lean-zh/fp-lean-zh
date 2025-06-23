@@ -1,7 +1,7 @@
 <!--
 # More do Features
 -->
-# 更多 do 的特性
+# 更多 do 的特性 { #more-do-features }
 <!--
 Lean's `do`-notation provides a syntax for writing programs with monads that resembles imperative programming languages.
 In addition to providing a convenient syntax for programs with monads, `do`-notation provides syntax for using certain monad transformers.
@@ -12,7 +12,7 @@ Lean 的 `do`-标记为使用单子编写程序提供了一种类似命令式编
 <!--
 ## Single-Branched `if`
 -->
-## 单分支 `if`
+## 单分支 `if` { #single-branched-if }
 
 <!--
 When working in a monad, a common pattern is to carry out a side effect only if some condition is true.
@@ -65,7 +65,7 @@ The remaining extensions in this section, however, require Lean to automatically
 <!--
 ## Early Return
 -->
-## 提前返回
+## 提前返回 { #early-return }
 
 <!--
 The standard library contains a function `List.find?` that returns the first entry in a list that satisfies some check.
@@ -187,7 +187,7 @@ the expression `{{#example_in Examples/MonadTransformers/Do.lean greetDavid}}` e
 <!--
 ## Loops
 -->
-## 循环
+## 循环 { #loops }
 
 <!--
 Just as every program with mutable state can be rewritten to a program that passes the state as arguments, every loop can be rewritten as a recursive function.
@@ -209,7 +209,7 @@ If the loop terminates without having returned, the answer is `none`.
 <!--
 ### Looping with ForM
 -->
-### 使用 ForM 循环
+### 使用 ForM 循环 { #looping-with-form }
 
 <!--
 Lean includes a type class that describes looping over a container type in some monad.
@@ -326,7 +326,7 @@ $ {{#command {formio} {formio} {lean --run ForMIO.lean < test-data}}}
 <!--
 ### Stopping Iteration
 -->
-### 中止循环
+### 中止循环 { #stopping-iteration }
 
 <!--
 Terminating a loop early is difficult to do with `forM`.
@@ -499,7 +499,7 @@ produces three lines of output:
 <!--
 ## Mutable Variables
 -->
-## 可变变量
+## 可变变量 { #mutable-variables }
 
 <!--
 In addition to early `return`, `else`-less `if`, and `for` loops, Lean supports local mutable variables within a `do` block.
@@ -582,7 +582,7 @@ This is because the recursive function is written in the identity monad, and onl
 <!--
 ## What counts as a `do` block?
 -->
-## 什么算作 `do` 区块？
+## 什么算作 `do` 区块？ { #what-counts-as-a-do-block }
 
 <!--
 Many features of `do`-notation apply only to a single `do`-block.
@@ -683,7 +683,7 @@ These programs are also accepted:
 <!--
 ## Imperative or Functional Programming?
 -->
-## 命令式还是函数式编程？
+## 命令式还是函数式编程？ { #imperative-or-functional-programming }
 
 <!--
 The imperative features provided by Lean's `do`-notation allow many programs to very closely resemble their counterparts in languages like Rust, Java, or C#.
@@ -700,7 +700,7 @@ Lean 的 `do`-标记提供的命令式特性让许多程序与 Rust、Java 或 C
 <!--
 ## Exercises
 -->
-## 练习
+## 练习 { #exercises }
 
 <!--
 * Rewrite `doug` to use `for` instead of the `doList` function. Are there other opportunities to use the features introduced in this section to improve the code? If so, use them!

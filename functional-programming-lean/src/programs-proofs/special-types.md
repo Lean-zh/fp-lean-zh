@@ -2,7 +2,7 @@
 # Special Types
 -->
 
-# 特殊类型
+# 特殊类型 { #special-types }
 
 <!--
 Understanding the representation of data in memory is very important.
@@ -117,7 +117,7 @@ The following types have special representations:
 ## Exercise
 -->
 
-## 练习
+## 练习 { #exercise }
 
 <!--
 The [definition of `Pos`](../type-classes/pos.html) does not take advantage of Lean's compilation of `Nat` to an efficient type.

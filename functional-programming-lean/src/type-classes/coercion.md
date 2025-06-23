@@ -2,7 +2,7 @@
 # Coercions
 -->
 
-# 强制转换
+# 强制转换 { #coercions }
 
 <!--
 In mathematics, it is common to use the same symbol to stand for different aspects of some object in different contexts.
@@ -30,7 +30,7 @@ Unlike Java, C, and Kotlin, the coercions are extensible by defining instances o
 ## Positive Numbers
 -->
 
-## 正数
+## 正数 { #positive-numbers }
 
 <!--
 For example, every positive number corresponds to a natural number.
@@ -98,7 +98,7 @@ Using `#check` shows the result of the instance search that was used behind the 
 ## Chaining Coercions
 -->
 
-## 链式强制转换
+## 链式强制转换 { #chaining-coercions }
 
 <!--
 When searching for coercions, Lean will attempt to assemble a coercion out of a chain of smaller coercions.
@@ -216,7 +216,7 @@ It can also make the programmer's intentions more clear.
 ## Non-Empty Lists and Dependent Coercions
 -->
 
-## 非空列表与依值强制转换
+## 非空列表与依值强制转换 { #non-empty-lists-and-dependent-coercions }
 
 <!--
 An instance of `Coe α β` makes sense when the type `β` has a value that can represent each value from the type `α`.
@@ -265,7 +265,7 @@ For example, any `List` that is not actually empty can be coerced to a `NonEmpty
 ## Coercing to Types
 -->
 
-## 强制转换为类型（*本节中 sort 的翻译待讨论*）
+## 强制转换为类型（*本节中 sort 的翻译待讨论*） { #coercing-to-types }
 
 <!--
 In mathematics, it is common to have a concept that consists of a set equipped with additional structure.
@@ -343,7 +343,7 @@ Rather than have two kinds of `if` expression, the Lean standard library defines
 -->
 
 另一个有用的 `CoeSort` 使用场景是它可以让 `Bool` 和 `Prop` 建立联系。
-就像在[有序性和等价性那一节](./standard-classes#相等性与有序性)我们提到的，Lean 的 `if` 表达式需要条件为一个可判定的命题而不是一个 `Bool`。
+就像在[有序性和等价性那一节](./standard-classes#equality-and-ordering)我们提到的，Lean 的 `if` 表达式需要条件为一个可判定的命题而不是一个 `Bool`。
 然而，程序通常需要能够根据布尔值进行分支。
 Lean 标准库并没有定义两种 `if` 表达式，而是定义了一种从 `Bool` 到命题的强制转换，即该 `Bool` 值等于 `true`：
 ```lean
@@ -359,7 +359,7 @@ In this case, the sort in question is `Prop` rather than `Type`.
 ## Coercing to Functions
 -->
 
-## 强制转换为函数 （*本节翻译需要润色*）
+## 强制转换为函数 （*本节翻译需要润色*） { #coercing-to-functions }
 
 <!--
 Many datatypes that occur regularly in programming consist of a function along with some extra information about it.
@@ -497,7 +497,7 @@ The serializer can be passed directly to `buildResponse`:
 ### Aside: JSON as a String
 -->
 
-### 附注：将 JSON 表示为字符串
+### 附注：将 JSON 表示为字符串 { #aside-json-as-a-string }
 
 <!--
 It can be a bit difficult to understand JSON when encoded as Lean objects.
@@ -587,7 +587,7 @@ With this definition, the output of serialization is easier to read:
 ## Messages You May Meet
 -->
 
-## 可能会遇到的问题
+## 可能会遇到的问题 { #messages-you-may-meet }
 
 <!--
 Natural number literals are overloaded with the `OfNat` type class.
@@ -607,7 +607,7 @@ Because coercions fire in cases where types don't match, rather than in cases of
 ## Design Considerations
 -->
 
-## 设计原则
+## 设计原则 { #design-considerations }
 
 <!--
 Coercions are a powerful tool that should be used responsibly.
@@ -673,6 +673,4 @@ This means that there is still an important difference between expressions that 
 
 最后，强制转换不会在字段访问符号的上下文中应用。
 这意味着需要强制转换的表达式与不需要强制转换的表达式之间仍然存在重要区别，而这个区别对用户来说是肉眼可见的。
-
-
 

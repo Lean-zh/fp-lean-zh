@@ -2,7 +2,7 @@
 # Next Steps
 -->
 
-# 下一步
+# 下一步 { #next-steps }
 
 <!--
 This book introduces the very basics of functional programming in Lean, including a tiny amount of interactive theorem proving. Using dependently-typed functional languages like Lean is a deep topic, and much can be said. Depending on your interests, the following resources might be useful for learning Lean 4.
@@ -16,7 +16,7 @@ This book introduces the very basics of functional programming in Lean, includin
 ### Learning Lean
 -->
 
-### 学习 Lean
+## 学习 Lean { #learning-lean }
 
 <!--
 Lean 4 itself is described in the following resources:
@@ -47,10 +47,10 @@ Lean 4 本身在以下资源中有详细描述：
 寻求帮助和帮助他人的好地方。
 
 <!--
-### The Standard Library
+## The Standard Library
 -->
 
-### 标准库
+## 标准库 { #the-standard-library }
 
 <!--
 Out of the box, Lean itself includes a fairly minimal library. Lean is self-hosted, and the included code is just enough to implement Lean itself. For many applications, a larger standard library is needed.
@@ -75,10 +75,10 @@ require std from git
 ```
 
 <!--
-### Mathematics in Lean
+## Mathematics in Lean
 -->
 
-### Lean 形式化数学
+## Lean 形式化数学 { #mathematics-in-lean }
 
 <!--
 Most resources for mathematicians are written for Lean 3. A wide selection are available at the community site. To get started doing mathematics in Lean 4, it is probably easiest to participate in the process of porting the mathematics library mathlib from Lean 3 to Lean 4. Please see the mathlib4 README for further information.
@@ -90,10 +90,10 @@ Most resources for mathematicians are written for Lean 3. A wide selection are a
 有关更多信息，请参阅 [mathlib4 的 README](https://github.com/leanprover-community/mathlib4).
 
 <!--
-### Using Dependent Types in Computer Science
+## Using Dependent Types in Computer Science
 -->
 
-### 在计算机科学中使用依值类型
+## 在计算机科学中使用依值类型 { #using-dependent-types-in-computer-science }
 
 <!--
 Coq is a language that has a lot in common with Lean. For computer scientists, the Software Foundations series of interactive textbooks provides an excellent introduction to applications of Coq in computer science. The fundamental ideas of Lean and Coq are very similar, and skills are readily transferable between the systems.
@@ -105,10 +105,10 @@ Coq 是一种与 Lean 有许多共同点的语言。对于计算机科学家来�
 编程技巧在两个语言之间是可以相互转换的。
 
 <!--
-### Programming with Dependent Types
+## Programming with Dependent Types
 -->
 
-### 使用依值类型编程
+## 使用依值类型编程 { #programming-with-dependent-types }
 
 <!--
 For programmers who are interested in learning to use indexed families and dependent types to structure programs, Edwin Brady's Type Driven Development with Idris provides an excellent introduction. Like Coq, Idris is a close cousin of Lean, though it lacks tactics.
@@ -119,10 +119,10 @@ For programmers who are interested in learning to use indexed families and depen
 提供了一个很好的介绍。和 Coq 一样，Idris 是 Lean 的近亲语言，但是它缺乏策略。
 
 <!--
-### Understanding Dependent Types
+## Understanding Dependent Types
 -->
 
-### 理解依值类型
+## 理解依值类型 { #understanding-dependent-types }
 
 <!--
 The Little Typer is a book for programmers who haven't formally studied logic or the theory of programming languages, but who want to build an understanding of the core ideas of dependent type theory. While all of the above resources aim to be as practical as possible, The Little Typer presents an approach to dependent type theory where the very basics are built up from scratch, using only concepts from programming. Disclaimer: the author of Functional Programming in Lean is also an author of The Little Typer.

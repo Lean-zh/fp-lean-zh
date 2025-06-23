@@ -2,13 +2,13 @@
 # Summary
 -->
 
-# 总结
+# 总结 { #summary }
 
 <!--
 ## Type Classes and Structures
 -->
 
-## 类型类与结构体
+## 类型类与结构体 { #type-classes-and-structures }
 
 <!--
 Behind the scenes, type classes are represented by structures.
@@ -28,7 +28,7 @@ Both structures and classes may provide default values for fields (which are def
 ## Structures and Inheritance
 -->
 
-## 结构体和继承
+## 结构体和继承 { #structures-and-inheritance }
 
 <!--
 Structures may inherit from other structures.
@@ -56,7 +56,7 @@ Together with default methods, this can be used to create a fine-grained hierarc
 ## Applicative Functors
 -->
 
-## 应用函子
+## 应用函子 { #applicative-functors }
 
 <!--
 An applicative functor is a functor with two additional operations:
@@ -106,7 +106,7 @@ The default implementations of `Functor`'s methods in terms of `Applicative`'s, 
 ## Universes
 -->
 
-## 宇宙
+## 宇宙 { #universes }
 
 <!--
 To allow Lean to be used as both a programming language and a theorem prover, some restrictions on the language are necessary.

@@ -2,7 +2,7 @@
 # Programming, Proving, and Performance
 -->
 
-# 编程、证明与性能
+# 编程、证明与性能 { #programming-proving-and-performance }
 
 <!--
 This chapter is about programming.

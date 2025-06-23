@@ -2,7 +2,7 @@
 # The Monad Type Class
 -->
 
-# Monad类型类
+# Monad类型类 { #the-monad-type-class }
 
 <!--
 Rather than having to import an operator like `ok` or `andThen` for each type that is a monad, the Lean standard library contains a type class that allow them to be overloaded, so that the same operators can be used for _any_ monad.
@@ -108,7 +108,7 @@ The fact that `m` must have a `Monad` instance means that the `>>=` and `pure` o
 ## General Monad Operations
 -->
 
-## 通用的单子运算符
+## 通用的单子运算符 { #general-monad-operations }
 
 <!--
 Because many different types are monads, functions that are polymorphic over _any_ monad are very powerful.
@@ -141,7 +141,7 @@ The `Monad` class requires that its parameter expect a single type argument—th
 This means that the instance for `State` should mention the state type `σ`, which becomes a parameter to the instance:
 -->
 
-如[本章简介](../monads.md#对树节点编号)所介绍的，`State σ α`表示使用类型为 `σ` 的可变变量，并返回类型为 `α` 的值的程序。
+如[本章简介](../monads.md#numbering-tree-nodes)所介绍的，`State σ α`表示使用类型为 `σ` 的可变变量，并返回类型为 `α` 的值的程序。
 这些程序实际上是从起始状态到值和最终状态构成的对(pair)的函数。
 `Monad`类型类要求：类型参数期望另一个类型参数，即它应该是`Type → Type`。
 这意味着 `State` 的实例应提及状态类型`σ`，使它成为实例的参数：
@@ -185,7 +185,7 @@ A [logging effect](../monads.md#logging) can be represented using `WithLog`.
 Just like `State`, its `Monad` instance is polymorphic with respect to the type of the logged data:
 -->
 
-可以使用 `WithLog` 表示[日志记录效应](../monads.md#日志记录)。
+可以使用 `WithLog` 表示[日志记录效应](../monads.md#logging)。
 就和 `State` 一样，它的 `Monad` 实例对于被记录数据的类型也是多态的：
 
 ```lean
@@ -218,7 +218,7 @@ Using this function with `mapM` results in a log containing even numbers paired 
 ## The Identity Monad
 -->
 
-## 恒等单子
+## 恒等单子 { #the-identity-monad }
 
 <!--
 Monads encode programs with effects, such as failure, exceptions, or logging, into explicit representations as data and functions.
@@ -292,7 +292,7 @@ Similarly, using `mapM` with a function whose type doesn't provide any specific 
 ## The Monad Contract
 -->
 
-## 单子约定
+## 单子约定 { #the-monad-contract }
 <!--
 Just as every pair of instances of `BEq` and `Hashable` should ensure that any two equal values have the same hash, there is a contract that each instance of `Monad` should obey.
 First, `pure` should be a left identity of `bind`.
@@ -320,13 +320,13 @@ The associative property of `bind` basically says that the sequencing bookkeepin
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 ### Mapping on a Tree
 -->
 
-### 映射一棵树
+### 映射一棵树 { #mapping-on-a-tree }
 
 <!--
 Define a function `BinTree.mapM`.
@@ -346,7 +346,7 @@ def BinTree.mapM [Monad m] (f : α → m β) : BinTree α → m (BinTree β)
 ### The Option Monad Contract
 -->
 
-### Option单子的约定
+### Option单子的约定 { #the-option-monad-contract }
 
 <!--
 First, write a convincing argument that the `Monad` instance for `Option` satisfies the monad contract.

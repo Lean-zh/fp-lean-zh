@@ -1,4 +1,4 @@
-# Lean 函数式编程
+# Lean 函数式编程 { #functional-programming-in-lean }
 
 [Lean 函数式编程](./title.md)
 [引言](./introduction.md)

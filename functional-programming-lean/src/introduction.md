@@ -1,10 +1,4 @@
 <!--
-# Introduction
--->
-
-# 引言
-
-<!--
 Lean is an interactive theorem prover developed at Microsoft Research, based on dependent type theory.
 Dependent type theory unites the worlds of programs and proofs; thus, Lean is also a programming language.
 Lean takes its dual nature seriously, and it is designed to be suitable for use as a general-purpose programming language—Lean is even implemented in itself.
@@ -80,7 +74,7 @@ It is also useful to explore Lean as you read the book, finding creative new way
 # Getting Lean
 -->
 
-# 获取 Lean
+# 获取 Lean { #getting-lean }
 
 <!--
 Before writing and running programs written in Lean, you'll need to set up Lean on your own computer.
@@ -113,7 +107,7 @@ Please refer to the [Lean manual](https://lean-lang.org/lean4/doc/quickstart.htm
 # Typographical Conventions
 -->
 
-# 排版约定
+# 排版约定 { #typographical-conventions }
 
 <!--
 Code examples that are provided to Lean as _input_ are formatted like this:
@@ -158,7 +152,7 @@ Warnings are formatted like this:
 declaration uses 'sorry'
 ```
 
-# Unicode
+# Unicode { #unicode }
 
 <!--
 Idiomatic Lean code makes use of a variety of Unicode characters that are not part of ASCII.

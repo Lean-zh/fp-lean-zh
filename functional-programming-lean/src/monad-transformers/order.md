@@ -1,7 +1,7 @@
 <!--
 # Ordering Monad Transformers
 -->
-# 对单子转换器排序
+# 对单子转换器排序 { #ordering-monad-transformers }
 
 <!--
 When composing a monad from a stack of monad transformers, it's important to be aware that the order in which the monad transformers are layered matters.
@@ -152,7 +152,7 @@ When an exception is thrown in `M2`, it is accompanied by a state.
 <!--
 ## Commuting Monads
 -->
-## 交换单子
+## 交换单子 { #commuting-monads }
 
 <!--
 In the jargon of functional programming, two monad transformers are said to _commute_ if they can be re-ordered without the meaning of the program changing.
@@ -194,7 +194,7 @@ With great expressive power comes the responsibility to check that what's being 
 <!--
 ## Exercises
 -->
-## 练习
+## 练习 { #exercises }
 
 <!--
  * Check that `ReaderT` and `StateT` commute by expanding their definitions and reasoning about the resulting types.

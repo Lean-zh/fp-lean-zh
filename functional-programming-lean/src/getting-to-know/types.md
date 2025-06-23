@@ -2,7 +2,7 @@
 # Types
 -->
 
-# 类型
+# 类型 { #types }
 
 <!--
 Types classify programs based on the values that they can

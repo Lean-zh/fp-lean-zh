@@ -1,4 +1,4 @@
-# Monads
+# Monads { #monads }
 
 <!--
 In C# and Kotlin, the `?.` operator is a way to look up a property or call a method on a potentially-null value.
@@ -36,7 +36,7 @@ Please suspend your disbelief in the meantime.
 ## Checking for `none`: Don't Repeat Yourself
 -->
 
-## 检查`none`：避免重复代码
+## 检查`none`：避免重复代码 { #checking-for-none-dont-repeat-yourself }
 
 <!--
 In Lean, pattern matching can be used to chain checks for null.
@@ -128,7 +128,7 @@ Improving the syntax used to write `andThen` can make these computations even ea
 ### Infix Operators
 -->
 
-### 中缀运算符
+### 中缀运算符 { #infix-operators }
 
 <!--
 In Lean, infix operators can be declared using the `infix`, `infixl`, and `infixr` commands, which create (respectively) non-associative, left-associative, and right-associative operators.
@@ -199,7 +199,7 @@ This style is much more concise when writing larger functions:
 ## Propagating Error Messages
 -->
 
-## 错误消息的传递
+## 错误消息的传递 { #propagating-error-messages }
 
 <!--
 Pure functional languages such as Lean have no built-in exception mechanism for error handling, because throwing or catching an exception is outside of the step-by-step evaluation model for expressions.
@@ -363,7 +363,7 @@ The technique scales similarly to larger functions:
 {{#example_decl Examples/Monads.lean firstThirdFifthSeventInfixExcept}}
 ```
 
-## 日志记录
+## 日志记录 { #logging }
 
 <!--
 A number is even if dividing it by 2 leaves no remainder:
@@ -472,7 +472,7 @@ And, once again, the infix operator helps put focus on the correct steps:
 ## Numbering Tree Nodes
 -->
 
-## 对树节点编号
+## 对树节点编号 { #numbering-tree-nodes }
 
 <!--
 An _inorder numbering_ of a tree associates each data point in the tree with the step it would be visited at in an inorder traversal of the tree.
@@ -611,7 +611,7 @@ Because `State` simulates only a single local variable, `get` and `set` don't ne
 ## Monads: A Functional Design Pattern
 -->
 
-## 单子：一种函数式设计模式
+## 单子：一种函数式设计模式 { #monads-a-functional-design-pattern }
 
 <!--
 Each of these examples has consisted of:
@@ -638,4 +638,3 @@ For example, `Option` represents programs that can fail by returning `none`, `Ex
 虽然单子的思想源自于一门称为范畴论的数学分支，但为了将它们用于编程，并不需要理解范畴论。
 单子的关键思想是，每个单子都使用纯函数式语言Lean提供的工具对特定类型的副作用进行编码。
 例如`Option`表示可能通过返回`none`而失败的程序，`Except`表示可能抛出异常的程序，`WithLog`表示在运行过程中累积日志的程序，`State`表示具有单个可变变量的程序。
-

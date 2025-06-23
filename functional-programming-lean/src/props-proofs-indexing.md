@@ -2,7 +2,7 @@
 # Interlude: Propositions, Proofs, and Indexing
 -->
 
-# 插曲：命题、证明与索引
+# 插曲：命题、证明与索引 { #interlude-propositions-proofs-and-indexing }
 
 <!--
 Like many languages, Lean uses square brackets for indexing into arrays and lists.
@@ -59,7 +59,7 @@ Understanding how this works requires an understanding of three key ideas: propo
 ## Propositions and Proofs
 -->
 
-## 命题与证明
+## 命题与证明 { #propositions-and-proofs }
 
 <!--
 A _proposition_ is a statement that can be true or false.
@@ -206,7 +206,7 @@ The prior example could be rewritten as follows:
 ## Tactics
 -->
 
-## 策略
+## 策略 { #tactics }
 
 <!--
 Proofs are normally written using _tactics_, rather than by providing evidence directly.
@@ -273,7 +273,7 @@ This tactic is `simp`, configured to take certain arithmetic identities into acc
 ## Connectives
 -->
 
-## 连词
+## 连词 { #connectives }
 
 <!--
 The basic building blocks of logic, such as "and", "or", "true", "false", and "not", are called _logical connectives_.
@@ -378,7 +378,7 @@ The `simp` 策略可以证明使用了这些连接词的定理。例如：
 ## Evidence as Arguments
 -->
 
-## 证据作为参数
+## 证据作为参数 { #evidence-as-arguments }
 
 <!--
 While `simp` does a great job proving propositions that involve equalities and inequalities of specific numbers, it is not very good at proving statements that involve variables.
@@ -444,7 +444,7 @@ In these cases, `by simp` can construct the evidence automatically:
 ## Indexing Without Evidence
 -->
 
-## 无证据索引
+## 无证据索引 { #indexing-without-evidence }
 
 <!--
 In cases where it's not practical to prove that an indexing operation is in bounds, there are other alternatives.
@@ -499,7 +499,7 @@ Because code that is run with `#eval` runs in the context of the Lean compiler, 
 ## Messages You May Meet
 -->
 
-## 你可能会遇到的信息
+## 你可能会遇到的信息 { #messages-you-may-meet }
 
 <!--
 In addition to the error that occurs when Lean is unable to find compile-time evidence that an indexing operation is safe, polymorphic functions that use unsafe indexing may produce the following message:
@@ -564,7 +564,7 @@ This error message results from having Lean attempt to treat `woodlandCritters` 
 ## Exercises
 -->
 
-## 练习
+## 练习 { #exercises }
 
 <!--
 * Prove the following theorems using `rfl`: `2 + 3 = 5`, `15 - 8 = 7`, `"Hello, ".append "world" = "Hello, world"`. What happens if `rfl` is used to prove `5 < 18`? Why?
