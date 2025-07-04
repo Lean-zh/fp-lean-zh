@@ -90,7 +90,7 @@ jobs:
     - name: Build book
       run: |
         pushd book
-        lake exe fp-lean --depth 2 --without-html-single --verbose
+        lake exe fp-lean-zh --depth 2 --without-html-single --verbose
         popd
 
     - name: Save book/.lake
