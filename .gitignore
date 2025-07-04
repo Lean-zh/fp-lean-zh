@@ -4,3 +4,4 @@
 *.olean
 .vscode
 functional-programming-lean/
+book/.lake
