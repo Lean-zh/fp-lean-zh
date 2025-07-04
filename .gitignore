@@ -4,4 +4,30 @@
 *.olean
 .vscode
 functional-programming-lean/
-book/.lake
+
+# Lean build artifacts
+book/.lake/
+examples/.lake/
+**/.lake/
+
+# Lake package cache
+**/lake-packages/
+
+# Build outputs
+**/build/
+**/*.olean
+**/*.ilean
+**/*.trace
+
+# IDE files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
