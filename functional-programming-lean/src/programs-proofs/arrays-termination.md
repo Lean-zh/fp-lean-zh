@@ -102,10 +102,10 @@ When a proposition takes an argument, it is referred to as a _predicate_ that ma
 Propositions that take multiple arguments are called _relations_.
 -->
 
-`Nat.le` 是一个 **归纳定义的关系（Inductively-Defined Relation）**。
+`Nat.le` 是一个 __归纳定义的关系（Inductively-Defined Relation）__。
 就像 `inductive` 可以用来创建新的数据类型一样，它也可以用来创建新的命题。
-当一个命题接受一个参数时，它被称为 **谓词（Predicate）**，它可能对某些潜在参数为真，
-但并非对所有参数都为真。接受多个参数的命题称为 **关系（Relation）**。"
+当一个命题接受一个参数时，它被称为 __谓词（Predicate）__，它可能对某些潜在参数为真，
+但并非对所有参数都为真。接受多个参数的命题称为 __关系（Relation）__。"
 
 <!--
 Each constructor of an inductively defined proposition is a way to prove it.
@@ -566,7 +566,7 @@ Sometimes, creativity can be required in order to figure out just why a function
 -->
 
  * 使用尾递归累加器传递函数和 `termination_by` 子句在数组上实现 `ForM (Array α)` 实例。
- * 使用 **不需要** `termination_by` 子句的尾递归累加器传递函数实现一个用于反转数组的函数。
+ * 使用 __不需要__ `termination_by` 子句的尾递归累加器传递函数实现一个用于反转数组的函数。
  * 使用恒等单子中的 `for ... in ...` 循环重新实现 `Array.map`、`Array.find` 和 `ForM` 实例，
    并比较结果代码。
  * 使用恒等单子中的 `for ... in ...` 循环重新实现数组反转。将其与尾递归函数的版本进行比较。
