@@ -214,7 +214,7 @@ numerals are polymorphic in Lean, but the numeral `38` cannot be used in a conte
   NaturalNumber
 due to the absence of the instance above
 
-Hint: Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 ```
 
 :::

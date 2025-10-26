@@ -856,9 +856,12 @@ NewNamespace.quadruple (x : Nat) : Nat
 
 :::
 
--- # if let
+-- # {lit}`if let`
 
-# if let
+# {lit}`if let`
+%%%
+tag := "if-let"
+%%%
 
 :::paragraph
 -- When consuming values that have a sum type, it is often the case that only a single constructor is of interest.
@@ -1008,7 +1011,7 @@ tag := "string-interpolation"
 failed to synthesize
   ToString (Nat → Nat)
 
-Hint: Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 ```
 
 -- This is because there is no standard way to convert functions into strings.

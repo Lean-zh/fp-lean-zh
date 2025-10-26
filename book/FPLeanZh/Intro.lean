@@ -134,14 +134,14 @@ Lean's replies are formatted like this:
 Lean 返回的错误消息格式如下：
 
 ```anchorError add1_string
-Application Type mismatch
-  add1 "seven"
-argument
+Application type mismatch: The argument
   "seven"
 has type
-  String : Type
+  String
 but is expected to have type
-  Nat : Type
+  Nat
+in the application
+  add1 "seven"
 ```
 
 /- Warnings are formatted like this:
@@ -152,7 +152,12 @@ but is expected to have type
 declaration uses 'sorry'
 ```
 
-# Unicode
+-- # Unicode
+
+# Unicode字符
+%%%
+tag := "unicode"
+%%%
 
 
 /- Idiomatic Lean code makes use of a variety of Unicode characters that are not part of ASCII.
@@ -173,17 +178,49 @@ In Emacs, use {lit}`C-c C-k` with point on the character in question.
 
 
 
-# Release history
+-- # Release history
+# 发布历史
 %%%
+tag := "release-history"
 number := false
 htmlSplit := .never
 %%%
+
+-- ## October, 2025
+## 2025 年 10 月
+%%%
+tag := none
+%%%
+
+-- The book has been updated to the latest stable Lean release (version 4.23.0), and now describes functional induction and the {tactic}`grind` tactic.
+本书已更新到最新的稳定 Lean 版本（版本 4.23.0），现在描述了函数归纳和 {tactic}`grind` 策略。
+
+-- ## August, 2025
+## 2025 年 8 月
+%%%
+tag := none
+%%%
+
+-- This is a maintenance release to resolve an issue with copy-pasting code from the book.
+这是一个维护版本，用于解决从本书中复制粘贴代码的问题。
+
+-- ## July, 2025
+## 2025 年 7 月
+%%%
+tag := none
+%%%
+
+-- The book has been updated for version 4.21 of Lean.
+本书已更新到 Lean 4.21 版本。
 
 /- ## June, 2025
 
 The book has been reformatted with Verso.
 -/
 ## 2025 年 6 月
+%%%
+tag := none
+%%%
 
 本书已使用 Verso 重新格式化。
 
@@ -192,6 +229,9 @@ The book has been reformatted with Verso.
 The book has been extensively updated and now describes Lean version 4.18.
 -/
 ## 2025 年 4 月
+%%%
+tag := none
+%%%
 
 本书已 extensively 更新，现在描述 Lean 4.18 版本。
 
@@ -200,6 +240,9 @@ The book has been extensively updated and now describes Lean version 4.18.
 This is a minor bugfix release that fixes a regression in an example program.
 -/
 ## 2024 年 1 月
+%%%
+tag := none
+%%%
 
 这是一个次要的错误修复版本，修复了示例程序中的一个回归问题。
 
@@ -208,6 +251,9 @@ This is a minor bugfix release that fixes a regression in an example program.
 In this first maintenance release, a number of smaller issues were fixed and the text was brought up to date with the latest release of Lean.
 -/
 ## 2023 年 10 月
+%%%
+tag := none
+%%%
 
 在此第一个维护版本中，修复了一些小问题，并根据 Lean 的最新版本更新了文本。
 
@@ -216,6 +262,9 @@ In this first maintenance release, a number of smaller issues were fixed and the
 The book is now complete! Compared to the April pre-release, many small details have been improved and minor mistakes have been fixed.
 -/
 ## 2023 年 5 月
+%%%
+tag := none
+%%%
 
 本书现已完成！与 4 月的预发布版本相比，许多小细节得到了改进，并修复了小错误。
 
@@ -225,6 +274,9 @@ This release adds an interlude on writing proofs with tactics as well as a final
 This is the last release prior to the final release.
 -/
 ## 2023 年 4 月
+%%%
+tag := none
+%%%
 
 此版本增加了关于使用策略编写证明的插曲，以及一个结合了性能和成本模型讨论与终止和程序等价证明的最终章节。
 这是最终发布之前的最后一个版本。
@@ -234,6 +286,9 @@ This is the last release prior to the final release.
 This release adds a chapter on programming with dependent types and indexed families.
 -/
 ## 2023 年 3 月
+%%%
+tag := none
+%%%
 
 此版本增加了关于使用依赖类型和索引族编程的章节。
 
@@ -242,6 +297,9 @@ This release adds a chapter on programming with dependent types and indexed fami
 This release adds a chapter on monad transformers that includes a description of the imperative features that are available in {kw}`do`-notation.
 -/
 ## 2023 年 1 月
+%%%
+tag := none
+%%%
 
 此版本增加了关于单子转换器的章节，其中包括对 {kw}`do`-notation 中可用的命令式功能的描述。
 
@@ -252,6 +310,9 @@ This is accompanied with improvements to the description of monads.
 The December 2022 release was delayed until January 2023 due to winter holidays.
 -/
 ## 2022 年 12 月
+%%%
+tag := none
+%%%
 
 此版本增加了关于应用函子的章节，其中还更详细地描述了结构和类型类。
 同时改进了对单子的描述。
@@ -261,6 +322,10 @@ The December 2022 release was delayed until January 2023 due to winter holidays.
 This release adds a chapter on programming with monads. Additionally, the example of using JSON in the coercions section has been updated to include the complete code.
 -/
 ## 2022 年 11 月
+%%%
+tag := none
+%%%
+
 此版本增加了关于使用单子编程的章节。此外，强制转换部分中使用 JSON 的示例已更新，包含了完整的代码。
 
 /- ## October, 2022
@@ -268,6 +333,9 @@ This release adds a chapter on programming with monads. Additionally, the exampl
 This release completes the chapter on type classes. In addition, a short interlude introducing propositions, proofs, and tactics has been added just before the chapter on type classes, because a small amount of familiarity with the concepts helps to understand some of the standard library type classes.
 -/
 ## 2022 年 10 月
+%%%
+tag := none
+%%%
 
 此版本完成了类型类章节。此外，在类型类章节之前添加了一个简短的插曲，介绍了命题、证明和策略，因为对这些概念的少量熟悉有助于理解一些标准库类型类。
 
@@ -276,6 +344,9 @@ This release completes the chapter on type classes. In addition, a short interlu
 This release adds the first half of a chapter on type classes, which are Lean's mechanism for overloading operators and an important means of organizing code and structuring libraries. Additionally, the second chapter has been updated to account for changes in Lean's stream API.
 -/
 ## 2022 年 9 月
+%%%
+tag := none
+%%%
 
 此版本增加了类型类章节的前半部分，类型类是 Lean 重载运算符的机制，也是组织代码和构建库的重要手段。此外，第二章已更新，以适应 Lean 流 API 的变化。
 
@@ -284,6 +355,9 @@ This release adds the first half of a chapter on type classes, which are Lean's 
 This third public release adds a second chapter, which describes compiling and running programs along with Lean's model for side effects.
 -/
 ## 2022 年 8 月
+%%%
+tag := none
+%%%
 
 第三次公开发布增加了第二章，其中描述了程序的编译和运行以及 Lean 的副作用模型。
 
@@ -292,6 +366,9 @@ This third public release adds a second chapter, which describes compiling and r
 The second public release completes the first chapter.
 -/
 ## 2022 年 7 月
+%%%
+tag := none
+%%%
 
 第二次公开发布完成了第一章。
 
@@ -300,11 +377,19 @@ The second public release completes the first chapter.
 This was the first public release, consisting of an introduction and part of the first chapter.
 -/
 ## 2022 年 6 月
+%%%
+tag := none
+%%%
 
 这是第一次公开发布，包括引言和第一章的一部分。
 
 
-# About the Author
+-- # About the Author
+
+# 关于作者
+%%%
+tag := "about-the-author"
+%%%
 
 /- David Thrane Christiansen has been using functional languages for twenty years, and dependent types for ten.
 Together with Daniel P. Friedman, he wrote [_The Little Typer_](https://thelittletyper.com/), an introduction to the key ideas of dependent type theory.
@@ -320,14 +405,18 @@ David Thrane Christiansen 使用函数式语言已有二十年，使用依赖类
 离开学术界后，他曾在俄勒冈州波特兰的 Galois 和丹麦哥本哈根的 Deon Digital 担任软件开发人员，并曾担任 Haskell 基金会的执行董事。
 在撰写本书时，他受雇于 [Lean Focused Research Organization](https://lean-fro.org)，全职从事 Lean 的工作。
 
-# License
+-- # License
+# 许可证
+%%%
+tag := "license"
+%%%
 
+-- {creativeCommons}
 {creativeCommons}
-
 /- The original version of the book was written by David Thrane Christiansen on contract to Microsoft Corporation, who generously released it under a Creative Commons Attribution 4.0 International License.
 The current version has been modified by the author from the original version to account for changes in newer versions of Lean.
-A detailed account of the changes can be found in the book's [source code repository](https://github.com/subfish-zhou/fp-lean-zh/).
+A detailed account of the changes can be found in the book's [source code repository](https://github.com/leanprover/fp-lean/).
 -/
 本书的原始版本由 David Thrane Christiansen 受微软公司委托撰写，微软公司慷慨地将其以知识共享署名 4.0 国际许可协议发布。
 当前版本已由作者在原始版本的基础上进行修改，以适应 Lean 新版本的变化。
-有关更改的详细说明，请参阅本书的[源代码仓库](https://github.com/subfish-zhou/fp-lean-zh/)。
+有关更改的详细说明，请参阅本书的[源代码仓库](https://github.com/leanprover/fp-lean/)。
