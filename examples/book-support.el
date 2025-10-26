@@ -2,7 +2,7 @@
 (require 'cl-extra)
 (require 'flycheck)
 
-(defun fp-lean--wrap (start end)
+(defun fp-lean-zh--wrap (start end)
   (if (use-region-p)
       (progn (save-excursion
                (goto-char (region-beginning))
@@ -26,43 +26,43 @@
     (beginning-of-line)
     (save-excursion (newline))))
 
-(defun fp-lean--flycheck-overlay-info (overlay)
+(defun fp-lean-zh--flycheck-overlay-info (overlay)
   "Return the Flycheck info from OVERLAY, or nil if none."
   (overlay-get overlay 'flycheck-error))
 
-(defun fp-lean--flycheck-message-at (where)
+(defun fp-lean-zh--flycheck-message-at (where)
   "Get the Flycheck message at WHERE, returning nil if none."
-  (let ((info (cl-some #'fp-lean--flycheck-overlay-info (overlays-at where))))
+  (let ((info (cl-some #'fp-lean-zh--flycheck-overlay-info (overlays-at where))))
     (if info (flycheck-error-message info) nil)))
 
-(defun fp-lean--flycheck-messages-in (beg end)
+(defun fp-lean-zh--flycheck-messages-in (beg end)
   "Get the Flycheck messages between BEG and END."
   (cl-loop for overlay in (overlays-in beg end)
-           for info = (fp-lean--flycheck-overlay-info overlay)
+           for info = (fp-lean-zh--flycheck-overlay-info overlay)
            when info
            collect (flycheck-error-message info)))
 
-(defun fp-lean--arbitrary-flycheck-message ()
+(defun fp-lean-zh--arbitrary-flycheck-message ()
   "Select an arbitrary Flycheck message from the region if it's active."
   (let ((arbitrary-message
          (if (use-region-p)
-             (car (fp-lean--flycheck-messages-in (region-beginning) (region-end)))
+             (car (fp-lean-zh--flycheck-messages-in (region-beginning) (region-end)))
            nil)))
     (or arbitrary-message "")))
 
-(defun fp-lean-save-arbitrary-flycheck-message-to-kill-ring ()
+(defun fp-lean-zh-save-arbitrary-flycheck-message-to-kill-ring ()
   "Add an arbitrary Flycheck message from the active region or around point to the kill ring."
   (interactive)
   (let ((arbitrary-message
          (if (use-region-p)
-             (car (fp-lean--flycheck-messages-in (region-beginning) (region-end)))
-           (car (fp-lean--flycheck-messages-in (point) (point))))))
+             (car (fp-lean-zh--flycheck-messages-in (region-beginning) (region-end)))
+           (car (fp-lean-zh--flycheck-messages-in (point) (point))))))
     (if arbitrary-message
         (kill-new arbitrary-message)
       (error "No Flycheck output found here"))))
 
 
-(defun fp-lean--escape (string)
+(defun fp-lean-zh--escape (string)
   "Escape STRING for Lean."
   (replace-regexp-in-string
    "\""
@@ -71,98 +71,98 @@
    nil
    'literal))
 
-(defun fp-lean-decl (name)
+(defun fp-lean-zh-decl (name)
   "Use a book declaration called NAME."
   (interactive "MName: ")
-  (fp-lean--wrap (format "book declaration {{{ %s }}}" name) "stop book declaration"))
+  (fp-lean-zh--wrap (format "book declaration {{{ %s }}}" name) "stop book declaration"))
 
-(defun fp-lean-info (name)
+(defun fp-lean-zh-info (name)
   "Expect info named NAME."
   (interactive "MName: ")
-  (let ((msg (fp-lean--escape (fp-lean--arbitrary-flycheck-message))))
-   (fp-lean--wrap (format "expect info {{{ %s }}}" name)
+  (let ((msg (fp-lean-zh--escape (fp-lean-zh--arbitrary-flycheck-message))))
+   (fp-lean-zh--wrap (format "expect info {{{ %s }}}" name)
                   (format "message\n\"%s\"\nend expect" msg))))
 
-(defun fp-lean-error (name)
+(defun fp-lean-zh-error (name)
   "Expect error named NAME."
   (interactive "MName: ")
-  (let ((msg (fp-lean--escape (fp-lean--arbitrary-flycheck-message))))
-    (fp-lean--wrap
+  (let ((msg (fp-lean-zh--escape (fp-lean-zh--arbitrary-flycheck-message))))
+    (fp-lean-zh--wrap
      (format "expect error {{{ %s }}}" name)
      (format "message\n\"%s\"\nend expect" msg))))
 
-(defun fp-lean-warning (name)
+(defun fp-lean-zh-warning (name)
   "Expect warning named NAME."
   (interactive "MName: ")
-  (let ((msg (fp-lean--escape (fp-lean--arbitrary-flycheck-message))))
-    (fp-lean--wrap
+  (let ((msg (fp-lean-zh--escape (fp-lean-zh--arbitrary-flycheck-message))))
+    (fp-lean-zh--wrap
      (format "expect warning {{{ %s }}}" name)
      (format "message\n\"%s\"\nend expect" msg))))
 
-(defun fp-lean-eval (name)
+(defun fp-lean-zh-eval (name)
   "Evaluation steps named NAME."
   (interactive "MName: ")
-  (fp-lean--wrap (format "evaluation steps {{{ %s }}}" name) "end evaluation steps"))
+  (fp-lean-zh--wrap (format "evaluation steps {{{ %s }}}" name) "end evaluation steps"))
 
-(defun fp-lean-example (name)
+(defun fp-lean-zh-example (name)
   "Book example named NAME."
   (interactive "MName: ")
-  (fp-lean--wrap (format "bookExample {{{ %s }}}" name) "end bookExample"))
+  (fp-lean-zh--wrap (format "bookExample {{{ %s }}}" name) "end bookExample"))
 
-(defun fp-lean-example-type (name)
+(defun fp-lean-zh-example-type (name)
   "Book example for type named NAME."
   (interactive "MName: ")
-  (fp-lean--wrap (format "bookExample type {{{ %s }}}" name) "end bookExample"))
+  (fp-lean-zh--wrap (format "bookExample type {{{ %s }}}" name) "end bookExample"))
 
 
-(defun fp-lean-code ()
+(defun fp-lean-zh-code ()
   (interactive)
-  (fp-lean--wrap "```lean" "```"))
+  (fp-lean-zh--wrap "```lean" "```"))
 
-(defun fp-lean-output-info ()
+(defun fp-lean-zh-output-info ()
   (interactive)
-  (fp-lean--wrap "```output info" "```"))
+  (fp-lean-zh--wrap "```output info" "```"))
 
-(defun fp-lean-output-error ()
+(defun fp-lean-zh-output-error ()
   (interactive)
-  (fp-lean--wrap "```output error" "```"))
+  (fp-lean-zh--wrap "```output error" "```"))
 
 
-(defvar-local fp-lean--current-file nil)
+(defvar-local fp-lean-zh--current-file nil)
 
-(defun fp-lean--examples-dir ()
+(defun fp-lean-zh--examples-dir ()
   "Get the root of the examples."
   (file-name-as-directory (concat (file-name-as-directory (project-root (project-current))) "examples")))
 
-(defun fp-lean--mdbook-dir ()
+(defun fp-lean-zh--mdbook-dir ()
   "Get the root of the mdbook project."
   (file-name-as-directory
    (concat (file-name-as-directory (project-root (project-current)))
            "functional-programming-lean")))
 
-(defun fp-lean--make-file-examples-relative (filename)
+(defun fp-lean-zh--make-file-examples-relative (filename)
   "Make a FILENAME be relative to the Lean examples for the book."
-  (file-relative-name (expand-file-name filename) (fp-lean--examples-dir)))
+  (file-relative-name (expand-file-name filename) (fp-lean-zh--examples-dir)))
 
-(defun fp-lean-get-file ()
+(defun fp-lean-zh-get-file ()
   "Get the examples filename to use, defaulting to the last one."
-  (let ((default-directory (fp-lean--examples-dir)))
+  (let ((default-directory (fp-lean-zh--examples-dir)))
     (expand-file-name
      (read-file-name
-      (if fp-lean--current-file
-          (format "File (%s): " fp-lean--current-file)
+      (if fp-lean-zh--current-file
+          (format "File (%s): " fp-lean-zh--current-file)
         "File: ")
-      (fp-lean--examples-dir)
-      (and fp-lean--current-file (fp-lean--make-file-examples-relative fp-lean--current-file))
+      (fp-lean-zh--examples-dir)
+      (and fp-lean-zh--current-file (fp-lean-zh--make-file-examples-relative fp-lean-zh--current-file))
       'confirm
-      (and fp-lean--current-file (fp-lean--make-file-examples-relative fp-lean--current-file))
+      (and fp-lean-zh--current-file (fp-lean-zh--make-file-examples-relative fp-lean-zh--current-file))
       (lambda (f)
         (and
          (or (file-directory-p f)
              (string= (file-name-extension f) "lean"))
          (not (string-suffix-p "~" f))))))))
 
-(defun fp-lean-name-from-file (filename)
+(defun fp-lean-zh-name-from-file (filename)
   "Get a name of a defined thing from FILENAME."
   (completing-read "Name: "
                    (with-temp-buffer
@@ -174,35 +174,35 @@
                        results))
                    nil nil nil nil nil t))
 
-(defun fp-lean-get-file-and-name ()
+(defun fp-lean-zh-get-file-and-name ()
   "Read an examples file and a named anchor from it."
-  (let ((file (fp-lean-get-file)))
-    (list (fp-lean--make-file-examples-relative file)
-          (fp-lean-name-from-file file))))
+  (let ((file (fp-lean-zh-get-file)))
+    (list (fp-lean-zh--make-file-examples-relative file)
+          (fp-lean-zh-name-from-file file))))
 
-(defun fp-lean-text-decl (file name)
+(defun fp-lean-zh-text-decl (file name)
   "Insert a declaration from FILE called NAME."
-  (interactive (fp-lean-get-file-and-name))
-  (setq fp-lean--current-file file)
+  (interactive (fp-lean-zh-get-file-and-name))
+  (setq fp-lean-zh--current-file file)
   (insert (format "{{#example_decl %s %s}}" file name)))
 
-(defun fp-lean-text-equations (file name)
+(defun fp-lean-zh-text-equations (file name)
   "Insert equations from FILE called NAME."
-  (interactive (fp-lean-get-file-and-name))
-  (setq fp-lean--current-file file)
+  (interactive (fp-lean-zh-get-file-and-name))
+  (setq fp-lean-zh--current-file file)
   (insert (format "{{#equations %s %s}}" file name)))
 
-(defun fp-lean-text-example (file name)
+(defun fp-lean-zh-text-example (file name)
   "Insert a declaration from FILE called NAME."
-  (interactive (fp-lean-get-file-and-name))
-  (setq fp-lean--current-file file)
+  (interactive (fp-lean-zh-get-file-and-name))
+  (setq fp-lean-zh--current-file file)
   (insert (format "{{#example_in %s %s}}" file name))
   (insert (format "{{#example_out %s %s}}" file name)))
 
-(defun fp-lean-text-interaction (file name)
+(defun fp-lean-zh-text-interaction (file name)
   "Insert an example interaction from FILE called NAME."
-  (interactive (fp-lean-get-file-and-name))
-  (setq fp-lean--current-file file)
+  (interactive (fp-lean-zh-get-file-and-name))
+  (setq fp-lean-zh--current-file file)
   (insert "```lean")
   (newline)
   (insert (format "{{#example_in %s %s}}" file name))
@@ -213,10 +213,10 @@
   (newline)
   (insert "```"))
 
-(defun fp-lean-text-error (file name)
+(defun fp-lean-zh-text-error (file name)
   "Insert an error example from FILE called NAME."
-  (interactive (fp-lean-get-file-and-name))
-  (setq fp-lean--current-file file)
+  (interactive (fp-lean-zh-get-file-and-name))
+  (setq fp-lean-zh--current-file file)
   (insert "```lean")
   (newline)
   (insert (format "{{#example_in %s %s}}" file name))
@@ -227,44 +227,44 @@
   (newline)
   (insert "```"))
 
-(defvar fp-lean-process nil
+(defvar fp-lean-zh-process nil
   "Process under which the book is being served (to avoid duplication).")
 
-(defun fp-lean-serve-book ()
+(defun fp-lean-zh-serve-book ()
   "Start or restart the server."
   (interactive)
-  (let ((buffer (if (processp fp-lean-process)
-                    (process-buffer fp-lean-process)
-                  "*FP-Lean-Server*")))
-    (when fp-lean-process
-      (when (processp fp-lean-process)
-        (let ((buf (process-buffer fp-lean-process)))
+  (let ((buffer (if (processp fp-lean-zh-process)
+                    (process-buffer fp-lean-zh-process)
+                  "*fp-lean-zh-Server*")))
+    (when fp-lean-zh-process
+      (when (processp fp-lean-zh-process)
+        (let ((buf (process-buffer fp-lean-zh-process)))
           (when (and buf (buffer-live-p buf))
             (with-current-buffer buf
               (goto-char (point-max))
               (insert "\n")
               (insert (format-time-string "%Y-%m-%d %H:%M:%S - Process killed" (current-time))))))
-        (kill-process fp-lean-process))
-      (setq fp-lean-process nil))
-    (let* ((default-directory (fp-lean--mdbook-dir)))
-      (setq fp-lean-process (start-process "Lean book server" buffer "mdbook" "serve"))
-      (message "Lean book server running in buffer %s" (buffer-name (process-buffer fp-lean-process))))))
+        (kill-process fp-lean-zh-process))
+      (setq fp-lean-zh-process nil))
+    (let* ((default-directory (fp-lean-zh--mdbook-dir)))
+      (setq fp-lean-zh-process (start-process "Lean book server" buffer "mdbook" "serve"))
+      (message "Lean book server running in buffer %s" (buffer-name (process-buffer fp-lean-zh-process))))))
 
-(defun fp-lean-ensure-server ()
+(defun fp-lean-zh-ensure-server ()
    "Ensure a server is running."
   (interactive)
-  (unless (and fp-lean-process
-               (processp fp-lean-process)
-               (process-live-p fp-lean-process))
-    (fp-lean-serve-book)))
+  (unless (and fp-lean-zh-process
+               (processp fp-lean-zh-process)
+               (process-live-p fp-lean-zh-process))
+    (fp-lean-zh-serve-book)))
 
-(defun fp-lean-browse-book ()
+(defun fp-lean-zh-browse-book ()
   "Open the book."
   (interactive)
-  (fp-lean-ensure-server)
+  (fp-lean-zh-ensure-server)
   (browse-url "localhost:3000"))
 
-(defun fp-lean-text-link (md-file)
+(defun fp-lean-zh-text-link (md-file)
   "Insert a link to another chapter or section in MD-FILE."
   (interactive
    (list (read-file-name "Markdown file: " nil nil 'confirm)))

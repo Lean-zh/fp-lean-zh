@@ -28,6 +28,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Get short SHA
+      id: shortSHA
+      run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
     - name: Setup Python
       uses: actions/setup-python@v3
       with:
@@ -90,7 +94,7 @@ jobs:
     - name: Build book
       run: |
         pushd book
-        lake exe fp-lean --depth 2 --without-html-single --verbose
+        lake exe fp-lean-zh --depth 2 --without-html-single --verbose
         popd
 
     - name: Save book/.lake
@@ -145,4 +149,4 @@ jobs:
         fails-without-credentials: true
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: "4e471a74-81e0-42f2-b27c-ca8c80a34f7c"
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

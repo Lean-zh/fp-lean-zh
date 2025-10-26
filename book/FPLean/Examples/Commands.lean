@@ -1,9 +1,9 @@
-import FPLean.Examples.Commands.Env
-import FPLean.Examples.Commands.ShLex
+import FPLeanZh.Examples.Commands.Env
+import FPLeanZh.Examples.Commands.ShLex
 import Lean.Elab
 import Verso.FS
 
-namespace FPLean.Commands
+namespace FPLeanZh.Commands
 open Lean
 
 variable {m : _} [Monad m] [MonadEnv m] [MonadLiftT IO m] [MonadLiftT BaseIO m] [MonadError m]

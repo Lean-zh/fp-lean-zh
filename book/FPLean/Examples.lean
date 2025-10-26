@@ -1,14 +1,12 @@
 import SubVerso.Examples
 import Lean.Data.NameMap
-import Lean.DocString.Syntax
 import VersoManual
-import FPLean.Examples.Commands
-import FPLean.Examples.OtherLanguages
+import FPLeanZh.Examples.Commands
+import FPLeanZh.Examples.OtherLanguages
 
 open Lean (NameMap MessageSeverity)
-open Lean.Doc.Syntax
 
-namespace FPLean
+namespace FPLeanZh
 
 
 open Verso Doc Elab Genre.Manual ArgParse Code Highlighted WebAssets Output Html Log Code External
@@ -143,14 +141,6 @@ div.paragraph > .eval-steps:not(:last-child), div.paragraph > .eval-steps:not(:l
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }
-
-.eval-steps .hl.lean.block:not(:last-child)::after {
-  content: "⟹";
-  display: block;
-  margin-left: 1em;
-  font-size: 175%;
-}
-
 "#
 
 block_extension Block.leanEvalSteps (steps : Array Highlighted) where
@@ -159,7 +149,7 @@ block_extension Block.leanEvalSteps (steps : Array Highlighted) where
   toTeX := none
   extraCss := [highlightingStyle, evalStepsStyle]
   extraJs := [highlightingJs]
-  extraJsFiles := [{filename := "popper.js", contents := popper, sourceMap? := none}, {filename := "tippy.js", contents := tippy, sourceMap? := none}]
+  extraJsFiles := [{filename := "popper.js", contents := popper}, {filename := "tippy.js", contents := tippy}]
   extraCssFiles := [("tippy-border.css", tippy.border.css)]
   toHtml :=
     open Verso.Output.Html in
@@ -263,7 +253,7 @@ block_extension Block.leanOutput (severity : MessageSeverity) (message : String)
         pure <| .seq #[← go b, .raw "\n"]
   extraCss := [highlightingStyle]
   extraJs := [highlightingJs]
-  extraJsFiles := [{filename := "popper.js", contents := popper, sourceMap? := none}, {filename := "tippy.js", contents := tippy, sourceMap? := none}]
+  extraJsFiles := [{filename := "popper.js", contents := popper}, {filename := "tippy.js", contents := tippy}]
   extraCssFiles := [("tippy-border.css", tippy.border.css)]
   toHtml :=
     open Verso.Output.Html in
@@ -401,18 +391,18 @@ private def quoteCode (str : String) : String := Id.run do
 @[role_expander moduleEvalStep]
 def moduleEvalStep : RoleExpander
   | args, inls => do
-    let {project, module := moduleName, anchor?, step, showProofStates := _, defSite := _} ← parseThe EvalStepContext args
+    let {module := moduleName, anchor?, step, showProofStates := _, defSite := _} ← parseThe EvalStepContext args
     let code? ← oneCodeStr? inls
 
     let modStr := moduleName.getId.toString
 
-    let items ← loadModuleContent project modStr
+    let items ← loadModuleContent modStr
     let highlighted := Highlighted.seq (items.map (·.code))
 
     let fragment ←
       if let some anchor := anchor? then
         try
-          let {anchors, ..} ← anchored project moduleName anchor
+          let {anchors, ..} ← anchored moduleName anchor
           if let some hl := anchors[anchor.getId.toString]? then
             pure hl
           else
@@ -421,11 +411,10 @@ def moduleEvalStep : RoleExpander
               Suggestion.saveSuggestion anchor x x
             return #[← ``(sorryAx _ true)]
         catch
-          | .error refStx e =>
-            logErrorAt refStx e
+          | .error ref e =>
+            logErrorAt ref e
             return #[← ``(sorryAx _ true)]
-          | e =>
-            throw e
+          | e => throw e
       else pure highlighted
 
     let steps := splitHighlighted (· == "===>") fragment
@@ -460,7 +449,7 @@ private def editCodeBlock [Monad m] [MonadFileMap m] (stx : Syntax) (newContents
   let some rng := stx.getRange?
     | pure none
   let { start := {line := l1, ..}, .. } := txt.utf8RangeToLspRange rng
-  let line1 := (txt.lineStart (l1 + 1)).extract txt.source (txt.lineStart (l1 + 2))
+  let line1 := txt.source.extract (txt.lineStart (l1 + 1)) (txt.lineStart (l1 + 2))
   if line1.startsWith "```" then
     return some s!"{delims}{line1.dropWhile (· == '`') |>.trim}\n{withNl newContents}{delims}"
   else
@@ -485,9 +474,9 @@ where
 @[code_block_expander moduleEvalStep]
 def moduleEvalStepBlock : CodeBlockExpander
   | args, code => do
-    let {project, module := moduleName, anchor?, step, showProofStates := _, defSite := _} ← parseThe EvalStepContext args
+    let {module := moduleName, anchor?, step, showProofStates := _, defSite := _} ← parseThe EvalStepContext args
 
-    withAnchored project moduleName anchor? fun fragment => do
+    withAnchored moduleName anchor? fun fragment => do
       let steps := splitHighlighted (· == "===>") fragment
 
       if let some step := steps[step.val]? then
@@ -507,9 +496,9 @@ macro_rules
 @[code_block_expander moduleEvalSteps]
 def moduleEvalSteps : CodeBlockExpander
   | args, str => do
-    let {project, module := moduleName, anchor?, showProofStates := _, defSite := _} ← parseThe CodeContext args
+    let {module := moduleName, anchor?, showProofStates := _, defSite := _} ← parseThe CodeContext args
 
-    withAnchored project moduleName anchor? fun fragment => do
+    withAnchored moduleName anchor? fun fragment => do
       _ ← ExpectString.expectString "steps" str fragment.toString
 
       let steps := splitHighlighted (· == "===>") fragment
@@ -524,9 +513,9 @@ macro_rules
 @[code_block_expander moduleEqSteps]
 def moduleEqSteps : CodeBlockExpander
   | args, str => do
-    let {project, module := moduleName, anchor?, showProofStates := _, defSite := _} ← parseThe CodeContext args
+    let {module := moduleName, anchor?, showProofStates := _, defSite := _} ← parseThe CodeContext args
 
-    withAnchored project moduleName anchor? fun fragment => do
+    withAnchored moduleName anchor? fun fragment => do
       _ ← ExpectString.expectString "steps" str fragment.toString
 
       let steps := splitHighlighted (· ∈ ["={", "}="]) fragment
@@ -698,8 +687,8 @@ def commandBlock : BlockCommandOf CommandBlockConfig
     let out := «show».getD command |>.getString
     ``(Block.other (Block.shellCommand $(quote out) $(quote <| prompt.map (·.getString))) #[Block.code $(quote out)])
 
-instance : Coe StrLit (TSyntax `doc_arg) where
-  coe stx := ⟨mkNode ``Lean.Doc.Syntax.anon #[mkNode ``Lean.Doc.Syntax.arg_str #[stx.raw]]⟩
+instance : Coe StrLit (TSyntax `argument) where
+  coe stx := ⟨mkNode ``Verso.Syntax.anon #[mkNode ``Verso.Syntax.arg_str #[stx.raw]]⟩
 
 macro_rules
   | `(block|```command $args* | $s```) => `(block|command{command $args* $s})
@@ -835,21 +824,13 @@ def file : CodeBlockExpander
     logSilentInfo contents
     return #[← ``(Block.other (InlineLean.Block.exampleFile (FileType.other $(quote (show?.getD (fn.fileName.getD fn.toString))))) #[Block.code $(quote contents)])]
 
-structure PlainFileConfig where
-  project : StrLit
-  file : StrLit
-  show? : Option StrLit
-
-instance [Monad m] [MonadOptions m] [MonadError m] : FromArgs PlainFileConfig m where
-  fromArgs := PlainFileConfig.mk <$> projectOrDefault <*> .positional' `file <*> (some <$> .positional `show .strLit <|> pure none)
-
 @[code_block_expander plainFile]
 def plainFile : CodeBlockExpander
   | args, expectedContentsStr => do
-    let {project := projectDir, file, show?} ← parseThe PlainFileConfig args
+    let (file, show?) ← ArgParse.run ((·, ·) <$> .positional `file .strLit <*> (some <$> .positional `show .strLit <|> pure none)) args
     let show? := show?.map (·.getString)
 
-    let projectDir : System.FilePath := projectDir.getString
+    let projectDir : System.FilePath ← getProjectDir
     let fn :=  projectDir / file.getString
     let contents ← IO.FS.readFile fn
 
@@ -859,7 +840,7 @@ def plainFile : CodeBlockExpander
     return #[← ``(Block.other (InlineLean.Block.exampleFile (FileType.other $(quote (show?.getD (fn.fileName.getD fn.toString))))) #[Block.code $(quote contents)])]
 
 
-private def severityName {m} [Monad m] [MonadEnv m] [MonadResolveName m] [MonadOptions m] [MonadLog m] [AddMessageContext m] : MessageSeverity → m String
+private def severityName {m} [Monad m] [MonadEnv m] [MonadResolveName m] : MessageSeverity → m String
   | .error => unresolveNameGlobal ``MessageSeverity.error <&> (·.toString)
   | .warning => unresolveNameGlobal ``MessageSeverity.warning <&> (·.toString)
   | .information => unresolveNameGlobal ``MessageSeverity.information <&> (·.toString)
@@ -877,10 +858,10 @@ def moduleOutText : RoleExpander
   | args, inls => withTraceNode `Elab.Verso (fun _ => pure m!"moduleOutText") <| do
     let str? ← oneCodeStr? inls
 
-    let {project, module := moduleName, anchor?, severity, showProofStates := _, defSite := _, expandTraces, onlyTrace} ← parseThe MessageContext args
+    let {module := moduleName, anchor?, severity, showProofStates := _, defSite := _, expandTraces, onlyTrace} ← parseThe MessageContext args
     if onlyTrace.isSome then throwError "Unsupported option: `onlyTrace`"
 
-    withAnchored project moduleName anchor? fun hl => do
+    withAnchored moduleName anchor? fun hl => do
       let infos := allInfo hl
       if let some str := str? then
         let mut strings := #[]
@@ -959,16 +940,16 @@ def hasSubstring (s pattern : String) : Bool :=
   if h : pattern.endPos.1 = 0 then false
   else
     have hPatt := Nat.zero_lt_of_ne_zero h
-    let rec loop (pos : String.Pos.Raw) :=
+    let rec loop (pos : String.Pos) :=
       if h : pos.byteIdx + pattern.endPos.byteIdx > s.endPos.byteIdx then
         false
       else
         have := Nat.lt_of_lt_of_le (Nat.add_lt_add_left hPatt _) (Nat.ge_of_not_lt h)
-        if pos.substrEq s pattern 0 pattern.endPos.byteIdx then
+        if s.substrEq pos pattern 0 pattern.endPos.byteIdx then
           have := Nat.sub_lt_sub_left this (Nat.add_lt_add_left hPatt _)
           true
         else
-          have := Nat.sub_lt_sub_left this (pos.byteIdx_lt_byteIdx_next s)
-          loop (pos.next s)
+          have := Nat.sub_lt_sub_left this (s.lt_next pos)
+          loop (s.next pos)
       termination_by s.endPos.1 - pos.1
     loop 0

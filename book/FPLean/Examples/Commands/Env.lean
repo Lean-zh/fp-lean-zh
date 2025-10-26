@@ -8,7 +8,7 @@ open Lean Std
 
 open SubVerso Highlighting Module Highlighted
 
-namespace FPLean
+namespace FPLeanZh
 
 structure Container where
   /-- The container's temporary working directory -/

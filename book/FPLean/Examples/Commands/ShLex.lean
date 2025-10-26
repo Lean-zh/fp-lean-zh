@@ -1,4 +1,4 @@
-namespace FPLean.Commands.Shell
+namespace FPLeanZh.Commands.Shell
 
 private inductive State where
   | normal

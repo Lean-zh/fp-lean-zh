@@ -8,7 +8,7 @@ open Lean (NameMap MessageSeverity)
 open Lean.Doc.Syntax
 open Std
 
-namespace FPLean
+namespace FPLeanZh
 
 
 open Verso Doc Elab Genre.Manual ArgParse Code Highlighted WebAssets Output Html

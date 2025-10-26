@@ -56,7 +56,7 @@ target buildExamples (pkg) : Unit := do
 target syncBuildExamples : Unit := do
   .pure <$> (← buildExamples.fetch).await
 
-lean_lib FPLean where
+lean_lib FPLeanZh where
   needs := #[syncBuildExamples]
 
-@[default_target] lean_exe «fp-lean» where root := `Main
+@[default_target] lean_exe «fp-lean-zh» where root := `Main
