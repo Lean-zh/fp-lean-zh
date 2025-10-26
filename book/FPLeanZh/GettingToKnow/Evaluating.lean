@@ -235,13 +235,11 @@ could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
 Lean 无法将函数显示给用户，因此在被要求这样做时会返回错误。
 
 
+-- # Exercises
+# 练习
 %%%
 tag := "evaluating-exercises"
 %%%
-
--- # Exercises
-
-# 练习
 
 -- What are the values of the following expressions? Work them out by hand,
 -- then enter them into Lean to check your work.

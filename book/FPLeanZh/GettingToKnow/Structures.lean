@@ -477,14 +477,15 @@ def Point.modifyBoth (f : Float → Float) (p : Point) : Point :=
 
 -- In this case, {lit}`TARGET` represents {anchorName fourAndThree}`fourAndThree`, while {lit}`ARG1` is {anchorName modifyBothTest}`Float.floor`.
 -- This is because the target of the accessor notation is used as the first argument in which the type matches, not necessarily the first argument.
-%%%
-tag := "structure-exercises"
-%%%
 
 在这种情况下，{lit}`TARGET` 表示 {anchorName fourAndThree}`fourAndThree`，而 {lit}`ARG1` 是 {anchorName modifyBothTest}`Float.floor`。
 这是因为访问器记法的目标用作类型匹配的第一个参数，不一定是第一个参数。
 
 # 练习
+%%%
+tag := "structure-exercises"
+%%%
+
 -- # Exercises
 
 -- * Define a structure named {anchorName RectangularPrism}`RectangularPrism` that contains the height, width, and depth of a rectangular prism, each as a {anchorName RectangularPrism}`Float`.

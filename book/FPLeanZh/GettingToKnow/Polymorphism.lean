@@ -358,15 +358,14 @@ def length (α : Type) (xs : List α) : Nat :=
   match xs with
   | [] => 0
   | y :: ys => Nat.succ (length α ys)
-%%%
-tag := "implicit-parameters"
-%%%
-
 ```
 
 :::
-# 隐式参数
 -- # Implicit Arguments
+# 隐式参数
+%%%
+tag := "implicit-parameters"
+%%%
 
 :::paragraph
 -- Both {anchorName replaceX}`replaceX` and {anchorName length1}`length` are somewhat bureaucratic to use, because the type argument is typically uniquely determined by the later values.
@@ -454,21 +453,16 @@ def length {α : Type} (xs : List α) : Nat :=
 #check List.length (α := Int)
 ```
 
+```anchorInfo lengthExpNat
+List.length : List Int → Nat
+```
+
+-- # More Built-In Datatypes
+# 更多内置数据类型
 %%%
 tag := "more-built-in-types"
 %%%
 
-```anchorInfo lengthExpNat
-List.length : List Int → Nat
-%%%
-tag := "Empty"
-%%%
-
-```
-
--- # More Built-In Datatypes
-
-# 更多内置数据类型
 
 -- In addition to lists, Lean's standard library contains a number of other structures and inductive datatypes that can be used in a variety of contexts.
 
@@ -477,8 +471,9 @@ tag := "Empty"
 -- ## {lit}`Option`
 ## {lit}`Option` 可空类型
 %%%
-tag := "Option"
+tag := "Empty"
 %%%
+
 
 -- Not every list has a first entry—some lists are empty.
 -- Many operations on collections may fail to find what they are looking for.
@@ -611,11 +606,10 @@ none
 错误消息提供了一个有用的线索。两个消息都使用 *相同的* 元变量来描述缺失的隐式参数，这意味着 Lean 已经确定两个缺失的部分将共享一个解决方案，即使它无法确定实际值。
 
 :::
-
-## {lit}`Prod` 积类型
 -- ## {lit}`Prod`
+## {lit}`Prod` 积类型
 %%%
-tag := "prod"
+tag := "Empty"
 %%%
 
 -- The {anchorName Prod}`Prod` structure, short for “Product”, is a generic way of joining two values together.
@@ -670,9 +664,6 @@ def fives : String × Int := ("five", 5)
 -- This means that the following definitions are equivalent:
 两种表示法都是右结合的。这意味着以下定义是等价的：
 
-%%%
-tag := "Sum"
-%%%
 
 ```anchor sevens
 def sevens : String × Int × Nat := ("VII", 7, 4 + 3)
@@ -690,6 +681,9 @@ def sevens : String × (Int × Nat) := ("VII", (7, 4 + 3))
 
 -- ## {anchorName Sum}`Sum`
 ## {anchorName Sum}`Sum` 和类型
+%%%
+tag := "Sum"
+%%%
 
 -- The {anchorName Sum}`Sum` datatype is a generic way of allowing a choice between values of two different types.
 -- For instance, a {anchorTerm fragments}`Sum String Int` is either a {anchorName fragments}`String` or an {anchorName fragments}`Int`.
@@ -742,9 +736,6 @@ def animals : List PetName :=
 :::
 
 :::paragraph
-%%%
-tag := "Unit"
-%%%
 
 -- Pattern matching can be used to distinguish between the two constructors.
 -- For instance, a function that counts the number of dogs in a list of animal names (that is, the number of {anchorName howManyDogs}`Sum.inl` constructors) looks like this:
@@ -766,6 +757,10 @@ def howManyDogs (pets : List PetName) : Nat :=
 
 -- ## {anchorName Unit}`Unit`
 ## {anchorName Unit}`Unit` 单元类型
+%%%
+tag := "Unit"
+%%%
+
 
 :::paragraph
 -- {anchorName Unit}`Unit` is a type with just one argumentless constructor, called {anchorName Unit}`unit`.
@@ -787,9 +782,6 @@ inductive Unit : Type where
 在自身，{anchorName Unit}`Unit` 并不是特别有用。然而，在多态代码中，它可以用于表示缺失数据的占位符。例如，以下归纳数据类型表示算术表达式：
 
 
-%%%
-tag := "Empty"
-%%%
 
 ```anchor ArithExpr
 inductive ArithExpr (ann : Type) : Type where
@@ -804,9 +796,6 @@ inductive ArithExpr (ann : Type) : Type where
 -- Expressions that don't come from the parser, however, will not have source locations, so their type can be {anchorTerm ArithExprEx}`ArithExpr Unit`.
 类型参数 {anchorName ArithExpr}`ann` 表示标注，每个构造器都标注了。来自解析器的表达式可能带有源位置标注，所以返回类型 {anchorTerm ArithExprEx}`ArithExpr SourcePos` 确保解析器在每个子表达式中放置一个 {anchorName ArithExprEx}`SourcePos`。然而，来自解析器的表达式不会带有源位置，所以它们的类型可以是 {anchorTerm ArithExprEx}`ArithExpr Unit`。
 
-%%%
-tag := "sum-products-units"
-%%%
 
 :::
 
@@ -815,14 +804,15 @@ tag := "sum-products-units"
 -- In the C family, a function that returns {CSharp}`void` will return control to its caller, but it will not return any interesting value.
 -- By being an intentionally uninteresting value, {anchorName ArithExprEx}`Unit` allows this to be expressed without requiring a special-purpose {CSharp}`void` feature in the type system.
 -- Unit's constructor can be written as empty parentheses: {anchorTerm unitParens}`() : Unit`.
-%%%
-tag := "polymorphism-messages"
-%%%
 
 此外，因为所有 Lean 函数都有参数，其他语言中的零参数函数可以表示为接受 {anchorName ArithExprEx}`Unit` 参数的函数。在返回位置，{anchorName ArithExprEx}`Unit` 类型类似于 C 语言派生语言中的 {CSharp}`void`。在 C 家族中，返回 {CSharp}`void` 的函数将控制权返回给它的调用者，但不会返回任何有趣的价值。通过成为故意无趣的价值，{anchorName ArithExprEx}`Unit` 允许这种情况被表达，而无需在类型系统中要求特殊用途的 {CSharp}`void` 功能。{anchorName ArithExprEx}`Unit` 的构造器可以写为空括号：{anchorTerm unitParens}`() : Unit`。
 
 -- ## {lit}`Empty`
 ## {lit}`Empty` 空类型
+%%%
+tag := "Empty"
+%%%
+
 
 -- The {anchorName fragments}`Empty` datatype has no constructors whatsoever.
 -- Thus, it indicates unreachable code, because no series of calls can ever terminate with a value at type {anchorName fragments}`Empty`.
@@ -839,6 +829,10 @@ tag := "polymorphism-messages"
 
 -- ## Naming: Sums, Products, and Units
 ## 命名：和类型，积类型与单元类型
+%%%
+tag := "sum-products-units"
+%%%
+
 
 -- Generally speaking, types that offer multiple constructors are called _sum types_, while types whose single constructor takes multiple arguments are called {deftech}_product types_.
 -- These terms are related to sums and products used in ordinary arithmetic.
@@ -851,6 +845,9 @@ tag := "polymorphism-messages"
 一般来说，提供多个构造器的类型称为*和类型*，而单个构造器接受多个参数的类型称为{deftech}*积类型*。这些术语与普通算术中使用的和与积有关。当涉及的类型包含有限数量的值时，这种关系最容易看到。如果 {anchorName SumProd}`α` 和 {anchorName SumProd}`β` 是分别包含 $`n` 和 $`k` 个不同值的类型，那么 {anchorTerm SumProd}`α ⊕ β` 包含 $`n + k` 个不同值，而 {anchorTerm SumProd}`α × β` 包含 $`n \times k` 个不同值。例如，{anchorName fragments}`Bool` 有两个值：{anchorName BoolNames}`true` 和 {anchorName BoolNames}`false`，而 {anchorName Unit}`Unit` 有一个值：{anchorName BooloUnit}`Unit.unit`。积 {anchorTerm fragments}`Bool × Unit` 有两个值：{anchorTerm BoolxUnit}`(true, Unit.unit)` 和 {anchorTerm BoolxUnit}`(false, Unit.unit)`，而和 {anchorTerm fragments}`Bool ⊕ Unit` 有三个值：{anchorTerm BooloUnit}`Sum.inl true`，{anchorTerm BooloUnit}`Sum.inl false`，和 {anchorTerm BooloUnit}`Sum.inr Unit.unit`。同样，$`2 \times 1 = 2`，和 $`2 + 1 = 3`。
 
 # 你可能遇到的消息
+%%%
+tag := "polymorphism-messages"
+%%%
 -- # Messages You May Meet
 
 :::
@@ -1079,9 +1076,6 @@ def allTools : List WoodSplittingTool := [
 could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
   List WoodSplittingTool
 ```
-%%%
-tag := "polymorphism-exercises"
-%%%
 
 -- This is because Lean attempts to use code from a built-in table to display a list, but this code demands that display code for {anchorName WoodSplittingTool}`WoodSplittingTool` already exists.
 -- This error can be worked around by instructing Lean to generate this display code when a datatype is defined, instead of at the last moment as part of {anchorTerm evalAllTools}`#eval`, by adding {anchorTerm Firewood}`deriving Repr` to its definition:
@@ -1119,6 +1113,9 @@ def allFirewood : List Firewood := [
 -- # Exercises
 
 # 练习
+%%%
+tag := "polymorphism-exercises"
+%%%
 
 --  * Write a function to find the last entry in a list. It should return an {anchorName fragments}`Option`.
 --  * Write a function that finds the first entry in a list that satisfies a given predicate. Start the definition with {anchorTerm List.findFirst?Ex}`def List.findFirst? {α : Type} (xs : List α) (predicate : α → Bool) : Option α := …`.

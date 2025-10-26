@@ -13,6 +13,9 @@ set_option verso.exampleModule "Examples.Intro"
 
 
 #doc (Manual) "类型" =>
+%%%
+tag := "getting-to-know-types"
+%%%
 -- "Types" =>
 
 
