@@ -11,6 +11,9 @@ set_option verso.exampleModule "Examples.Intro"
 
 
 #doc (Manual) "Functions and Definitions" =>
+%%%
+tag := "functions-and-definitions"
+%%%
 
 :::paragraph
 -- In Lean, definitions are introduced using the {kw}`def` keyword.
@@ -65,6 +68,10 @@ def lean : String := "Lean"
 
 -- # Defining Functions
 # 定义函数
+
+%%%
+tag := "defining-functions"
+%%%
 
 :::paragraph
 -- There are a variety of ways to define functions in Lean. The simplest is to place the function's arguments before the definition's type, separated by spaces. For instance, a function that adds one to its argument can be written:
@@ -137,6 +144,10 @@ if 13 < 14 then 14 else 13
 -- This can be seen by providing one argument to a multiple-argument function: {anchorTerm maximum3Type}`#check maximum 3` yields {anchorInfo maximum3Type}`maximum 3 : Nat → Nat` and {anchorTerm stringAppendHelloType}`#check spaceBetween "Hello "` yields {anchorInfo stringAppendHelloType}`spaceBetween "Hello " : String → String`.
 -- Using a function that returns a function to implement multiple-argument functions is called _currying_ after the mathematician Haskell Curry.
 -- Function arrows associate to the right, which means that {anchorTerm currying}`Nat → Nat → Nat` should be parenthesized {anchorTerm currying}`Nat → (Nat → Nat)`.
+%%%
+tag := "function-definition-exercises"
+%%%
+
 在幕后，所有函数实际上都只接受一个参数。像 {anchorName maximum3Type}`maximum` 这样看起来接受多个参数的函数，实际上是接受一个参数然后返回一个新函数。这个新函数接受下一个参数，并且这个过程会一直持续到不再需要更多参数为止。这可以通过向多参数函数提供一个参数来观察：{anchorTerm maximum3Type}`#check maximum 3` 会得到 {anchorInfo maximum3Type}`maximum 3 : Nat → Nat`，而 {anchorTerm stringAppendHelloType}`#check spaceBetween "Hello "` 会得到 {anchorInfo stringAppendHelloType}`spaceBetween "Hello " : String → String`。使用返回函数的函数来实现多参数函数被称为 _柯里化_，以数学家 Haskell Curry 命名。函数箭头是右结合的，这意味着 {anchorTerm currying}`Nat → Nat → Nat` 应该用括号括起来写成 {anchorTerm currying}`Nat → (Nat → Nat)`。
 
 -- ## Exercises
@@ -152,6 +163,10 @@ if 13 < 14 then 14 else 13
 
 
 # Defining Types
+%%%
+tag := "defining-types"
+%%%
+
 -- # Defining Types
 
 -- Most typed programming languages have some means of defining aliases for types, such as C's {c}`typedef`.

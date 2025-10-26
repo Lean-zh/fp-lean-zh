@@ -180,6 +180,10 @@ type Nat = Zero | Succ;
 它也说明了 Lean 构造器对应于 JavaScript 或 TypeScript 中包含标识内容标签的对象。
 
 # 模式匹配
+%%%
+tag := "pattern-matching"
+%%%
+
 -- # Pattern Matching
 
 -- In many languages, these kinds of data are consumed by first using an instance-of operator to check which subclass has been received and then reading the values of the fields that are available in the given subclass.

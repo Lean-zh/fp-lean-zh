@@ -232,6 +232,10 @@ def posOrNegThree (s : Sign) :
 :::
 
 # 链表
+%%%
+tag := "linked-lists"
+%%%
+
 -- # Linked Lists
 
 :::paragraph
@@ -354,6 +358,10 @@ def length (α : Type) (xs : List α) : Nat :=
   match xs with
   | [] => 0
   | y :: ys => Nat.succ (length α ys)
+%%%
+tag := "implicit-parameters"
+%%%
+
 ```
 
 :::
@@ -446,8 +454,16 @@ def length {α : Type} (xs : List α) : Nat :=
 #check List.length (α := Int)
 ```
 
+%%%
+tag := "more-built-in-types"
+%%%
+
 ```anchorInfo lengthExpNat
 List.length : List Int → Nat
+%%%
+tag := "Empty"
+%%%
+
 ```
 
 -- # More Built-In Datatypes
@@ -460,6 +476,9 @@ List.length : List Int → Nat
 
 -- ## {lit}`Option`
 ## {lit}`Option` 可空类型
+%%%
+tag := "Option"
+%%%
 
 -- Not every list has a first entry—some lists are empty.
 -- Many operations on collections may fail to find what they are looking for.
@@ -651,6 +670,10 @@ def fives : String × Int := ("five", 5)
 -- This means that the following definitions are equivalent:
 两种表示法都是右结合的。这意味着以下定义是等价的：
 
+%%%
+tag := "Sum"
+%%%
+
 ```anchor sevens
 def sevens : String × Int × Nat := ("VII", 7, 4 + 3)
 ```
@@ -719,6 +742,10 @@ def animals : List PetName :=
 :::
 
 :::paragraph
+%%%
+tag := "Unit"
+%%%
+
 -- Pattern matching can be used to distinguish between the two constructors.
 -- For instance, a function that counts the number of dogs in a list of animal names (that is, the number of {anchorName howManyDogs}`Sum.inl` constructors) looks like this:
 模式匹配可以用于区分两个构造器。例如，一个计算动物名字列表中狗数量的函数（即 {anchorName howManyDogs}`Sum.inl` 构造器的数量）看起来像这样：
@@ -760,6 +787,10 @@ inductive Unit : Type where
 在自身，{anchorName Unit}`Unit` 并不是特别有用。然而，在多态代码中，它可以用于表示缺失数据的占位符。例如，以下归纳数据类型表示算术表达式：
 
 
+%%%
+tag := "Empty"
+%%%
+
 ```anchor ArithExpr
 inductive ArithExpr (ann : Type) : Type where
   | int : ann → Int → ArithExpr ann
@@ -773,6 +804,10 @@ inductive ArithExpr (ann : Type) : Type where
 -- Expressions that don't come from the parser, however, will not have source locations, so their type can be {anchorTerm ArithExprEx}`ArithExpr Unit`.
 类型参数 {anchorName ArithExpr}`ann` 表示标注，每个构造器都标注了。来自解析器的表达式可能带有源位置标注，所以返回类型 {anchorTerm ArithExprEx}`ArithExpr SourcePos` 确保解析器在每个子表达式中放置一个 {anchorName ArithExprEx}`SourcePos`。然而，来自解析器的表达式不会带有源位置，所以它们的类型可以是 {anchorTerm ArithExprEx}`ArithExpr Unit`。
 
+%%%
+tag := "sum-products-units"
+%%%
+
 :::
 
 -- Additionally, because all Lean functions have arguments, zero-argument functions in other languages can be represented as functions that take a {anchorName ArithExprEx}`Unit` argument.
@@ -780,6 +815,10 @@ inductive ArithExpr (ann : Type) : Type where
 -- In the C family, a function that returns {CSharp}`void` will return control to its caller, but it will not return any interesting value.
 -- By being an intentionally uninteresting value, {anchorName ArithExprEx}`Unit` allows this to be expressed without requiring a special-purpose {CSharp}`void` feature in the type system.
 -- Unit's constructor can be written as empty parentheses: {anchorTerm unitParens}`() : Unit`.
+%%%
+tag := "polymorphism-messages"
+%%%
+
 此外，因为所有 Lean 函数都有参数，其他语言中的零参数函数可以表示为接受 {anchorName ArithExprEx}`Unit` 参数的函数。在返回位置，{anchorName ArithExprEx}`Unit` 类型类似于 C 语言派生语言中的 {CSharp}`void`。在 C 家族中，返回 {CSharp}`void` 的函数将控制权返回给它的调用者，但不会返回任何有趣的价值。通过成为故意无趣的价值，{anchorName ArithExprEx}`Unit` 允许这种情况被表达，而无需在类型系统中要求特殊用途的 {CSharp}`void` 功能。{anchorName ArithExprEx}`Unit` 的构造器可以写为空括号：{anchorTerm unitParens}`() : Unit`。
 
 -- ## {lit}`Empty`
@@ -1040,6 +1079,10 @@ def allTools : List WoodSplittingTool := [
 could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
   List WoodSplittingTool
 ```
+%%%
+tag := "polymorphism-exercises"
+%%%
+
 -- This is because Lean attempts to use code from a built-in table to display a list, but this code demands that display code for {anchorName WoodSplittingTool}`WoodSplittingTool` already exists.
 -- This error can be worked around by instructing Lean to generate this display code when a datatype is defined, instead of at the last moment as part of {anchorTerm evalAllTools}`#eval`, by adding {anchorTerm Firewood}`deriving Repr` to its definition:
 

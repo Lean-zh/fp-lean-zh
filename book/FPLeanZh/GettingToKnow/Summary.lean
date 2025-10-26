@@ -11,8 +11,16 @@ set_option verso.exampleModule "Examples.Intro"
 
 #doc (Manual) "总结" =>
 
+%%%
+tag := "getting-to-know-summary"
+%%%
+
 -- # Evaluating Expressions
 # 求值表达式
+
+%%%
+tag := "none"
+%%%
 
 -- In Lean, computation occurs when expressions are evaluated.
 -- This follows the usual rules of mathematical expressions: sub-expressions are replaced by their values following the usual order of operations, until the entire expression has become a value.
@@ -28,6 +36,10 @@ set_option verso.exampleModule "Examples.Intro"
 
 一旦被赋值，变量就永远不会改变。
 与数学类似，但与大多数编程语言不同，Lean 变量只是值的占位符，而不是可以写入新值的地址。
+%%%
+tag := "none"
+%%%
+
 变量的值可以来自使用 {kw}`def` 的全局定义、使用 {kw}`let` 的局部定义、作为函数的命名参数，或来自模式匹配。
 
 -- # Functions
@@ -53,6 +65,10 @@ set_option verso.exampleModule "Examples.Intro"
 
 创建函数主要有三种方法：
 1. 匿名函数使用 {kw}`fun` 编写。
+%%%
+tag := "none"
+%%%
+
    例如，一个交换 {anchorName fragments}`Point` 字段的函数可以写成 {anchorTerm swapLambda}`fun (point : Point) => { x := point.y, y := point.x : Point }`
 2. 非常简单的匿名函数可以通过在括号内放置一个或多个居中点 {anchorTerm subOneDots}`·` 来编写。
    每个居中点都成为函数的一个参数，括号界定其主体。
@@ -96,6 +112,10 @@ Lean 有时能够自动确定类型，但通常需要用户提供类型。
 
 -- Some functions or datatypes take types as arguments.
 -- They are called _polymorphic_.
+%%%
+tag := "none"
+%%%
+
 -- Polymorphism allows programs such as one that calculates the length of a list without caring what type the entries in the list have.
 -- Because types are first class in Lean, polymorphism does not require any special syntax, so types are passed just like other arguments.
 -- Naming an argument in a function type allows later types to mention that name, and when the function is applied to an argument, the type of the resulting term is found by replacing the argument's name with the actual value it was applied to.
@@ -120,6 +140,10 @@ Lean 有时能够自动确定类型，但通常需要用户提供类型。
 Lean 中的构造函数与面向对象语言中的构造函数不同：Lean 的构造函数是数据的惰性持有者，而不是初始化已分配对象的活动代码。
 
 -- Typically, {kw}`structure` is used to introduce a product type (that is, a type with just one constructor that takes any number of arguments), while {kw}`inductive` is used to introduce a sum type (that is, a type with many distinct constructors).
+%%%
+tag := "none"
+%%%
+
 -- Datatypes defined with {kw}`structure` are provided with one accessor function for each field.
 -- Both structures and inductive datatypes may be consumed with pattern matching, which exposes the values stored inside of constructors using a subset of the syntax used to call said constructors.
 -- Pattern matching means that knowing how to create a value implies knowing how to consume it.

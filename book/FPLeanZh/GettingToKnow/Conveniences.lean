@@ -10,6 +10,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
 #doc (Manual) "附加语法" =>
+%%%
+tag := "getting-to-know-conveniences"
+%%%
 -- "Additional Conveniences"
 
 -- Lean contains a number of convenience features that make programs much more concise.
@@ -18,6 +21,9 @@ Lean 包含许多便利功能，使程序更加简洁。
 
 # 自动隐式参数
 -- # Automatic Implicit Parameters
+%%%
+tag := "automatic-implicit-parameters"
+%%%
 
 :::paragraph
 -- When writing polymorphic functions in Lean, it is typically not necessary to list all the implicit parameters.
@@ -56,7 +62,9 @@ def length (xs : List α) : Nat :=
 
 # 模式匹配定义
 -- # Pattern-Matching Definitions
-
+%%%
+tag := "pattern-matching-definitions"
+%%%
 -- When defining functions with {kw}`def`, it is quite common to name an argument and then immediately use it with pattern matching.
 -- For instance, in {anchorName lengthImpAuto}`length`, the argument {anchorName lengthImpAuto}`xs` is used only in {kw}`match`.
 -- In these situations, the cases of the {kw}`match` expression can be written directly, without naming the argument at all.
@@ -133,7 +141,9 @@ def fromOption (default : α) : Option α → α
 :::
 # 局部定义
 -- # Local Definitions
-
+%%%
+tag := "local-definitions"
+%%%
 -- It is often useful to name intermediate steps in a computation.
 -- In many cases, intermediate values represent useful concepts all on their own, and naming them explicitly can make the program easier to read.
 -- In other cases, the intermediate value is used more than once.
@@ -246,7 +256,9 @@ def reverse (xs : List α) : List α :=
 
 # 类型推断
 -- # Type Inference
-
+%%%
+tag := "type-inference"
+%%%
 :::paragraph
 -- In many situations, Lean can automatically determine an expression's type.
 -- In these cases, explicit types may be omitted from both top-level definitions (with {kw}`def`) and local definitions (with {kw}`let`).
@@ -498,6 +510,9 @@ def sameLength (xs : List α) (ys : List β) : Bool :=
 :::
 # 自然数模式
 -- # Natural Number Patterns
+%%%
+tag := "natural-number-patterns"
+%%%
 
 :::paragraph
 
@@ -586,6 +601,9 @@ Invalid pattern(s): `n` is an explicit pattern variable, but it only occurs in p
 
 # 匿名函数
 -- # Anonymous Functions
+%%%
+tag := "anonymous-functions"
+%%%
 
 :::paragraph
 
@@ -736,7 +754,9 @@ def double : Nat → Nat := fun
 
 # 命名空间
 -- # Namespaces
-
+%%%
+tag := "namespaces"
+%%%
 -- Each name in Lean occurs in a _namespace_, which is a collection of names.
 -- Names are placed in namespaces using {lit}`.`, so {anchorName fragments}`List.map` is the name {anchorName fragments}`map` in the {lit}`List` namespace.
 -- Names in different namespaces do not conflict with each other, even if they are otherwise identical.
@@ -915,7 +935,9 @@ def Inline.string? (inline : Inline) : Option String :=
 
 # 位置结构参数
 -- # Positional Structure Arguments
-
+%%%
+tag := "positional-structure-arguments"
+%%%
 -- The {ref "structures"}[section on structures] presents two ways of constructing structures:
 --  1. The constructor can be called directly, as in {anchorTerm pointCtor}`Point.mk 1 2`.
 --  2. Brace notation can be used, as in {anchorTerm pointBraces}`{ x := 1, y := 2 }`.

@@ -203,6 +203,10 @@ String.append "it is " "no"
 
 # 可能遇到的消息
 
+%%%
+tag := "evaluating-messages"
+%%%
+
 :::paragraph
 -- Asking Lean to evaluate a function application that is missing an argument will lead to an error message.
 -- In particular, the example
@@ -230,6 +234,10 @@ could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
 出现此消息是因为 Lean 函数仅应用于某些参数时会返回等待其余参数的新函数。
 Lean 无法将函数显示给用户，因此在被要求这样做时会返回错误。
 
+
+%%%
+tag := "evaluating-exercises"
+%%%
 
 -- # Exercises
 
