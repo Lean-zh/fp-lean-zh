@@ -10,7 +10,6 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
 #doc (Manual) "总结" =>
-
 %%%
 tag := "getting-to-know-summary"
 %%%
@@ -19,7 +18,7 @@ tag := "getting-to-know-summary"
 # 求值表达式
 
 %%%
-tag := "none"
+tag := none
 %%%
 
 -- In Lean, computation occurs when expressions are evaluated.
@@ -36,14 +35,13 @@ tag := "none"
 
 一旦被赋值，变量就永远不会改变。
 与数学类似，但与大多数编程语言不同，Lean 变量只是值的占位符，而不是可以写入新值的地址。
-%%%
-tag := "none"
-%%%
-
 变量的值可以来自使用 {kw}`def` 的全局定义、使用 {kw}`let` 的局部定义、作为函数的命名参数，或来自模式匹配。
 
 -- # Functions
 # 函数
+%%%
+tag := none
+%%%
 
 -- Functions in Lean are first-class values, meaning that they can be passed as arguments to other functions, saved in variables, and used like any other value.
 -- Every Lean function takes exactly one argument.
@@ -65,10 +63,6 @@ tag := "none"
 
 创建函数主要有三种方法：
 1. 匿名函数使用 {kw}`fun` 编写。
-%%%
-tag := "none"
-%%%
-
    例如，一个交换 {anchorName fragments}`Point` 字段的函数可以写成 {anchorTerm swapLambda}`fun (point : Point) => { x := point.y, y := point.x : Point }`
 2. 非常简单的匿名函数可以通过在括号内放置一个或多个居中点 {anchorTerm subOneDots}`·` 来编写。
    每个居中点都成为函数的一个参数，括号界定其主体。
@@ -77,6 +71,9 @@ tag := "none"
 
 -- # Types
 # 类型
+%%%
+tag := none
+%%%
 
 -- Lean checks that every expression has a type.
 -- Types, such as {anchorName fragments}`Int`, {anchorName fragments}`Point`, {anchorTerm fragments}`{α : Type} → Nat → α → List α`, and {anchorTerm fragments}`Option (String ⊕ (Nat × String))`, describe the values that may eventually be found for an expression.
@@ -112,10 +109,6 @@ Lean 有时能够自动确定类型，但通常需要用户提供类型。
 
 -- Some functions or datatypes take types as arguments.
 -- They are called _polymorphic_.
-%%%
-tag := "none"
-%%%
-
 -- Polymorphism allows programs such as one that calculates the length of a list without caring what type the entries in the list have.
 -- Because types are first class in Lean, polymorphism does not require any special syntax, so types are passed just like other arguments.
 -- Naming an argument in a function type allows later types to mention that name, and when the function is applied to an argument, the type of the resulting term is found by replacing the argument's name with the actual value it was applied to.
@@ -128,6 +121,9 @@ tag := "none"
 
 -- # Structures and Inductive Types
 # 结构和归纳类型
+%%%
+tag := none
+%%%
 
 -- Brand new datatypes can be introduced to Lean using the {kw}`structure` or {kw}`inductive` features.
 -- These new types are not considered to be equivalent to any other type, even if their definitions are otherwise identical.
@@ -140,10 +136,6 @@ tag := "none"
 Lean 中的构造函数与面向对象语言中的构造函数不同：Lean 的构造函数是数据的惰性持有者，而不是初始化已分配对象的活动代码。
 
 -- Typically, {kw}`structure` is used to introduce a product type (that is, a type with just one constructor that takes any number of arguments), while {kw}`inductive` is used to introduce a sum type (that is, a type with many distinct constructors).
-%%%
-tag := "none"
-%%%
-
 -- Datatypes defined with {kw}`structure` are provided with one accessor function for each field.
 -- Both structures and inductive datatypes may be consumed with pattern matching, which exposes the values stored inside of constructors using a subset of the syntax used to call said constructors.
 -- Pattern matching means that knowing how to create a value implies knowing how to consume it.
@@ -160,6 +152,9 @@ tag := "none"
 -- In Lean's logical side, circular definitions could lead to logical inconsistency.
 
 # 递归
+%%%
+tag := none
+%%%
 
 当被定义的名称在定义本身中使用时，定义是递归的。
 因为 Lean 除了是一种编程语言之外，还是一个交互式定理证明器，所以对递归定义有一定的限制。
