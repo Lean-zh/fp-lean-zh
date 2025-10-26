@@ -1,33 +1,9 @@
+functional-programming-lean/book
 *~
 *#
 .#*
+_out/
 *.olean
-.vscode
-functional-programming-lean/
-
-# Lean build artifacts
-book/.lake/
-examples/.lake/
-**/.lake/
-
-# Lake package cache
-**/lake-packages/
-
-# Build outputs
-**/build/
-**/*.olean
-**/*.ilean
-**/*.trace
-
-# IDE files
-.vscode/
-.idea/
-
-# OS generated files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+.lake
+venv

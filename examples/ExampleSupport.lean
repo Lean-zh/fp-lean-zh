@@ -12,7 +12,7 @@ syntax withPosition("book" "declaration" "{{{" ws ident ws "}}}" command+ "stop"
 open Lean in
 def mkExampleStx (kind : Name) (name : Ident) (lastHeaderToken : Syntax) (commands : Array Command) : MacroM Command := do
   if h : commands.size ≥ 1 then
-    `(%example (kind := $(mkIdent <| `FPLeanZh ++ kind)) $(mkIdentFrom lastHeaderToken name.getId true):ident
+    `(%example (kind := $(mkIdent <| `FPLean ++ kind)) $(mkIdentFrom lastHeaderToken name.getId true):ident
         $(commands[0])
         $(commands.extract 1 commands.size)*
       %end)
@@ -22,7 +22,7 @@ def mkExampleStx (kind : Name) (name : Ident) (lastHeaderToken : Syntax) (comman
 open Lean in
 def wrapExampleStx (kind : Name) (name : Ident) (lastHeaderToken : Syntax) (commands : MacroM Command) : MacroM Command := do
   let cmd ← commands
-  `(%example +embeddedOnly (kind := $(mkIdent <| `FPLeanZh ++ kind)) $(mkIdentFrom lastHeaderToken name.getId true):ident
+  `(%example +embeddedOnly (kind := $(mkIdent <| `FPLean ++ kind)) $(mkIdentFrom lastHeaderToken name.getId true):ident
       $cmd
     %end)
 
@@ -141,7 +141,7 @@ elab_rules : command
     let hls ←
       withEmptyMessageLog do
         let desiredError := msg.getString
-        let cmd ← `(command|%show_term (kind := FPLeanZh.forMessage) $name:ident := $expr)
+        let cmd ← `(command|%show_term (kind := FPLean.forMessage) $name:ident := $expr)
         elabCommand cmd
         let afterState <- get
         let newMessages := afterState.messages.toList
@@ -249,7 +249,7 @@ elab_rules : command
     open Lean.Meta in do
       let hls ← withEmptyMessageLog do
         let desiredWarning := msg.getString
-        let cmd ← `(%show_term (kind := FPLeanZh.forMessage) $name:ident := $expr)
+        let cmd ← `(%show_term (kind := FPLean.forMessage) $name:ident := $expr)
         elabCommand cmd
         let afterState <- get
         let newMessages := afterState.messages.toList

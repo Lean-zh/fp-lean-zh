@@ -25,7 +25,7 @@ def apply_transformations(content):
             module = maybe_mod.group(1).replace('/', '.')
         content = re.sub(
             r'^#\s+(.*?)\n',
-            r'import VersoManual\nimport FPLeanZh.Examples\n\nopen Verso.Genre Manual\nopen Verso.Code.External\n\nopen FPLeanZh\n\nset_option verso.exampleProject "../examples"\nset_option verso.exampleModule "' + module + r'"\n\n#doc (Manual) "\1" =>\n',
+            r'import VersoManual\nimport FPLean.Examples\n\nopen Verso.Genre Manual\nopen Verso.Code.External\n\nopen FPLean\n\nset_option verso.exampleProject "../examples"\nset_option verso.exampleModule "' + module + r'"\n\n#doc (Manual) "\1" =>\n',
             content,
             count=1
         )

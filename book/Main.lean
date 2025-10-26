@@ -1,5 +1,5 @@
 import VersoManual
-import FPLeanZh
+import FPLean
 
 open Verso.Genre Manual
 open Verso Code External
@@ -28,4 +28,4 @@ def config : Config where
   sourceLink := some "https://github.com/leanprover/fp-lean"
   issueLink := some "https://github.com/leanprover/fp-lean/issues"
   linkTargets := fun st => st.localTargets ++ st.remoteTargets
-def main := manualMain (%doc FPLeanZh) (config := config.addKaTeX)
+def main := manualMain (%doc FPLean) (config := config.addKaTeX)

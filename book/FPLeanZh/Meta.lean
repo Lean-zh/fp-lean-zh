@@ -1,3 +1,0 @@
-import VersoManual
-
-namespace FPLeanZh
