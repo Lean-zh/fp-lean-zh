@@ -3,16 +3,16 @@ import VersoManual
 import FPLeanZh.Intro
 import FPLeanZh.Acks
 import FPLeanZh.GettingToKnow
-import FPLeanZh.HelloWorld
-import FPLeanZh.PropsProofsIndexing
-import FPLeanZh.TypeClasses
-import FPLeanZh.Monads
-import FPLeanZh.FunctorApplicativeMonad
-import FPLeanZh.MonadTransformers
-import FPLeanZh.DependentTypes
-import FPLeanZh.TacticsInductionProofs
-import FPLeanZh.ProgramsProofs
-import FPLeanZh.NextSteps
+-- import FPLeanZh.HelloWorld
+-- import FPLeanZh.PropsProofsIndexing
+-- import FPLeanZh.TypeClasses
+-- import FPLeanZh.Monads
+-- import FPLeanZh.FunctorApplicativeMonad
+-- import FPLeanZh.MonadTransformers
+-- import FPLeanZh.DependentTypes
+-- import FPLeanZh.TacticsInductionProofs
+-- import FPLeanZh.ProgramsProofs
+-- import FPLeanZh.NextSteps
 
 open Verso.Genre Manual
 open Verso Code External
@@ -47,3 +47,23 @@ _版权所有 Microsoft Corporation 2023 和 Lean FRO, LLC 2023–2025_
 {include 1 FPLeanZh.Acks}
 
 {include 1 FPLeanZh.GettingToKnow}
+
+-- {include 1 FPLeanZh.HelloWorld}
+
+-- {include 1 FPLeanZh.PropsProofsIndexing}
+
+-- {include 1 FPLeanZh.TypeClasses}
+
+-- {include 1 FPLeanZh.Monads}
+
+-- {include 1 FPLeanZh.FunctorApplicativeMonad}
+
+-- {include 1 FPLeanZh.MonadTransformers}
+
+-- {include 1 FPLeanZh.DependentTypes}
+
+-- {include 1 FPLeanZh.TacticsInductionProofs}
+
+-- {include 1 FPLeanZh.ProgramsProofs}
+
+-- {include 1 FPLeanZh.NextSteps}
