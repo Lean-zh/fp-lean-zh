@@ -20,7 +20,7 @@ htmlSplit := .never
 本书介绍了 Lean 中函数式编程的基本知识，包括一些互动定理证明的内容。使用依值类型的函数式语言（如 Lean）是一个深奥的主题，内容丰富。根据您的兴趣，以下资源可能对学习 Lean 4 有用。
 
 -- # Learning Lean
-# "学习 Lean" =>
+# "学习 Lean"
 %%%
 tag := "learning-lean"
 %%%
