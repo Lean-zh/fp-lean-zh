@@ -340,6 +340,8 @@ def length (α : Type) (xs : List α) : Nat :=
   | List.cons y ys => Nat.succ (length α ys)
 ```
 
+:::
+
 -- Names such as {lit}`xs` and {lit}`ys` are conventionally used to stand for lists of unknown values.
 -- The {lit}`s` in the name indicates that they are plural, so they are pronounced “exes” and “whys” rather than “x s” and “y s”.
 
@@ -359,6 +361,7 @@ def length (α : Type) (xs : List α) : Nat :=
 ```
 
 :::
+
 -- # Implicit Arguments
 # 隐式参数
 %%%
@@ -454,6 +457,8 @@ def length {α : Type} (xs : List α) : Nat :=
 ```anchorInfo lengthExpNat
 List.length : List Int → Nat
 ```
+
+:::
 
 -- # More Built-In Datatypes
 # 更多内置数据类型
@@ -848,7 +853,7 @@ tag := "sum-products-units"
 tag := "polymorphism-messages"
 %%%
 
-:::
+:::paragraph
 -- Not all definable structures or inductive types can have the type {anchorTerm Prod}`Type`.
 -- In particular, if a constructor takes an arbitrary type as an argument, then the inductive type must have a different type.
 -- These errors usually state something about “universe levels”.
@@ -884,7 +889,7 @@ which is not less than or equal to the inductive type's resulting universe level
 现在，尝试将类型作为整个归纳类型的参数，而不是构造器的参数。
 :::
 
-:::
+:::paragraph
 -- Similarly, if a constructor's argument is a function that takes the datatype being defined as an argument, then the definition is rejected.
 -- For example:
 

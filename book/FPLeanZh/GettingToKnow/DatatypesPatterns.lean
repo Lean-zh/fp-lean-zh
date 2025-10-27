@@ -466,7 +466,7 @@ Nat.succ (Nat.succ 3)
 -- One way to think about addition is that $`n + k` applies {anchorName times}`Nat.succ` $`k` times to $`n`.
 -- Similarly, multiplication $`n × k` adds $`n` to itself $`k` times and subtraction $`n - k` takes $`n`'s predecessor $`k` times.
 思考加法的一种方法是 $`n + k` 将 {anchorName times}`Nat.succ` 应用到 $`n` 上 $`k` 次。
-类似地，乘法 $`n × k` 将 $`n` 加到自身 $`k` 次，减法 $`n - k` 取 $`n$ 的前驱 $`k` 次。
+类似地，乘法 $`n × k` 将 $`n` 加到自身 $`k` 次，减法 $`n - k` 取 $`n` 的前驱 $`k` 次。
 
 ```anchor times
 def times (n : Nat) (k : Nat) : Nat :=
