@@ -48,3 +48,23 @@ _版权所有 Microsoft Corporation 2023 和 Lean FRO, LLC 2023–2025_
 {include 1 FPLeanZh.Acks}
 
 {include 1 FPLeanZh.GettingToKnow}
+
+{include 1 FPLeanZh.HelloWorld}
+
+{include 1 FPLeanZh.PropsProofsIndexing}
+
+{include 1 FPLeanZh.TypeClasses}
+
+{include 1 FPLeanZh.Monads}
+
+{include 1 FPLeanZh.FunctorApplicativeMonad}
+
+{include 1 FPLeanZh.MonadTransformers}
+
+{include 1 FPLeanZh.DependentTypes}
+
+{include 1 FPLeanZh.TacticsInductionProofs}
+
+{include 1 FPLeanZh.ProgramsProofs}
+
+{include 1 FPLeanZh.NextSteps}
