@@ -3,16 +3,16 @@ import VersoManual
 import FPLeanZh.Intro
 import FPLeanZh.Acks
 import FPLeanZh.GettingToKnow
--- import FPLeanZh.HelloWorld
--- import FPLeanZh.PropsProofsIndexing
--- import FPLeanZh.TypeClasses
--- import FPLeanZh.Monads
--- import FPLeanZh.FunctorApplicativeMonad
--- import FPLeanZh.MonadTransformers
--- import FPLeanZh.DependentTypes
--- import FPLeanZh.TacticsInductionProofs
--- import FPLeanZh.ProgramsProofs
--- import FPLeanZh.NextSteps
+import FPLeanZh.HelloWorld
+import FPLeanZh.PropsProofsIndexing
+import FPLeanZh.TypeClasses
+import FPLeanZh.Monads
+import FPLeanZh.FunctorApplicativeMonad
+import FPLeanZh.MonadTransformers
+import FPLeanZh.DependentTypes
+import FPLeanZh.TacticsInductionProofs
+import FPLeanZh.ProgramsProofs
+import FPLeanZh.NextSteps
 
 open Verso.Genre Manual
 open Verso Code External
