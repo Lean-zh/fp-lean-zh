@@ -535,5 +535,5 @@ h✝ : ¬n < k
 -- This message means that {anchorName div}`div` requires a manual proof of termination.
 -- This topic is explored in {ref "division-as-iterated-subtraction"}[the final chapter].
 此消息意味着 {anchorName div}`div` 需要手动终止证明。
-这个主题在 {ref "division-as-iterated-subtraction"}[最后一章] 中探讨。
+这个主题在 *最后一章* 中探讨。
 :::
