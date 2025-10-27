@@ -17,7 +17,7 @@ tag := "getting-to-know-summary"
 -- # Evaluating Expressions
 # 求值表达式
 %%%
-tag := none
+tag := "summary_evaluating-expressions"
 %%%
 
 -- In Lean, computation occurs when expressions are evaluated.
@@ -39,7 +39,7 @@ tag := none
 -- # Functions
 # 函数
 %%%
-tag := none
+tag := "summary_functions"
 %%%
 
 -- Functions in Lean are first-class values, meaning that they can be passed as arguments to other functions, saved in variables, and used like any other value.
@@ -71,7 +71,7 @@ tag := none
 -- # Types
 # 类型
 %%%
-tag := none
+tag := "summary_types"
 %%%
 
 -- Lean checks that every expression has a type.
@@ -121,7 +121,7 @@ Lean 有时能够自动确定类型，但通常需要用户提供类型。
 -- # Structures and Inductive Types
 # 结构和归纳类型
 %%%
-tag := none
+tag := "summary_structures-inductive-types"
 %%%
 
 -- Brand new datatypes can be introduced to Lean using the {kw}`structure` or {kw}`inductive` features.
@@ -147,7 +147,7 @@ Lean 中的构造函数与面向对象语言中的构造函数不同：Lean 的�
 -- # Recursion
 # 递归
 %%%
-tag := none
+tag := "summary_recursion"
 %%%
 
 -- A definition is recursive when the name being defined is used in the definition itself.

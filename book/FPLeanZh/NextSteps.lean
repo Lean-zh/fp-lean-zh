@@ -49,7 +49,7 @@ Lean 4 本身在以下资源中有详细描述：
 -- # Mathematics in Lean
 # Lean 形式化数学
 %%%
-tag := none
+tag := "nextsteps_mathematics-in-lean"
 %%%
 
 -- A wide selection of learning resources for mathematicians are available at [the community site](https://leanprover-community.github.io/learn.html).
@@ -59,7 +59,7 @@ tag := none
 -- # Using Dependent Types in Computer Science
 # 在计算机科学中使用依值类型
 %%%
-tag := none
+tag := "nextsteps_dependent-types-computer-science"
 %%%
 
 -- Rocq is a language that has a lot in common with Lean.
@@ -74,7 +74,7 @@ Rocq 是一种与 Lean 有许多共同点的语言。对于计算机科学家来
 -- # Programming with Dependent Types
 # 使用依值类型编程
 %%%
-tag := none
+tag := "nextsteps_programming-dependent-types"
 %%%
 
 -- For programmers who are interested in learning to use indexed families and dependent types to structure programs, Edwin Brady's [_Type Driven Development with Idris_](https://www.manning.com/books/type-driven-development-with-idris) provides an excellent introduction.
@@ -85,7 +85,7 @@ tag := none
 -- # Understanding Dependent Types
 # 理解依值类型
 %%%
-tag := none
+tag := "nextsteps_understanding-dependent-types"
 %%%
 
 -- [_The Little Typer_](https://thelittletyper.com/) is a book for programmers who haven't formally studied logic or the theory of programming languages, but who want to build an understanding of the core ideas of dependent type theory.

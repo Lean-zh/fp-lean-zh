@@ -195,7 +195,7 @@ htmlSplit := .never
 -- ## October, 2025
 ## 2025 年 10 月
 %%%
-tag := none
+tag := "release-2025-10"
 %%%
 
 -- The book has been updated to the latest stable Lean release (version 4.23.0), and now describes functional induction and the {tactic}`grind` tactic.
@@ -204,7 +204,7 @@ tag := none
 -- ## August, 2025
 ## 2025 年 8 月
 %%%
-tag := none
+tag := "release-2025-08"
 %%%
 
 -- This is a maintenance release to resolve an issue with copy-pasting code from the book.
@@ -213,7 +213,7 @@ tag := none
 -- ## July, 2025
 ## 2025 年 7 月
 %%%
-tag := none
+tag := "release-2025-07"
 %%%
 
 -- The book has been updated for version 4.21 of Lean.
@@ -225,7 +225,7 @@ The book has been reformatted with Verso.
 -/
 ## 2025 年 6 月
 %%%
-tag := none
+tag := "release-2025-06"
 %%%
 
 本书已使用 Verso 重新格式化。
@@ -236,7 +236,7 @@ The book has been extensively updated and now describes Lean version 4.18.
 -/
 ## 2025 年 4 月
 %%%
-tag := none
+tag := "release-2025-04"
 %%%
 
 本书已 extensively 更新，现在描述 Lean 4.18 版本。
@@ -247,7 +247,7 @@ This is a minor bugfix release that fixes a regression in an example program.
 -/
 ## 2024 年 1 月
 %%%
-tag := none
+tag := "release-2024-01"
 %%%
 
 这是一个次要的错误修复版本，修复了示例程序中的一个回归问题。
@@ -258,7 +258,7 @@ In this first maintenance release, a number of smaller issues were fixed and the
 -/
 ## 2023 年 10 月
 %%%
-tag := none
+tag := "release-2023-10"
 %%%
 
 在此第一个维护版本中，修复了一些小问题，并根据 Lean 的最新版本更新了文本。
@@ -269,7 +269,7 @@ The book is now complete! Compared to the April pre-release, many small details 
 -/
 ## 2023 年 5 月
 %%%
-tag := none
+tag := "release-2023-05"
 %%%
 
 本书现已完成！与 4 月的预发布版本相比，许多小细节得到了改进，并修复了小错误。
@@ -281,7 +281,7 @@ This is the last release prior to the final release.
 -/
 ## 2023 年 4 月
 %%%
-tag := none
+tag := "release-2023-04"
 %%%
 
 此版本增加了关于使用策略编写证明的插曲，以及一个结合了性能和成本模型讨论与终止和程序等价证明的最终章节。
@@ -293,7 +293,7 @@ This release adds a chapter on programming with dependent types and indexed fami
 -/
 ## 2023 年 3 月
 %%%
-tag := none
+tag := "release-2023-03"
 %%%
 
 此版本增加了关于使用依赖类型和索引族编程的章节。
@@ -304,7 +304,7 @@ This release adds a chapter on monad transformers that includes a description of
 -/
 ## 2023 年 1 月
 %%%
-tag := none
+tag := "release-2023-01"
 %%%
 
 此版本增加了关于单子转换器的章节，其中包括对 {kw}`do`-notation 中可用的命令式功能的描述。
@@ -317,7 +317,7 @@ The December 2022 release was delayed until January 2023 due to winter holidays.
 -/
 ## 2022 年 12 月
 %%%
-tag := none
+tag := "release-2022-12"
 %%%
 
 此版本增加了关于应用函子的章节，其中还更详细地描述了结构和类型类。
@@ -329,7 +329,7 @@ This release adds a chapter on programming with monads. Additionally, the exampl
 -/
 ## 2022 年 11 月
 %%%
-tag := none
+tag := "release-2022-11"
 %%%
 
 此版本增加了关于使用单子编程的章节。此外，强制转换部分中使用 JSON 的示例已更新，包含了完整的代码。
@@ -340,7 +340,7 @@ This release completes the chapter on type classes. In addition, a short interlu
 -/
 ## 2022 年 10 月
 %%%
-tag := none
+tag := "release-2022-10"
 %%%
 
 此版本完成了类型类章节。此外，在类型类章节之前添加了一个简短的插曲，介绍了命题、证明和策略，因为对这些概念的少量熟悉有助于理解一些标准库类型类。
@@ -351,7 +351,7 @@ This release adds the first half of a chapter on type classes, which are Lean's 
 -/
 ## 2022 年 9 月
 %%%
-tag := none
+tag := "release-2022-09"
 %%%
 
 此版本增加了类型类章节的前半部分，类型类是 Lean 重载运算符的机制，也是组织代码和构建库的重要手段。此外，第二章已更新，以适应 Lean 流 API 的变化。
@@ -362,7 +362,7 @@ This third public release adds a second chapter, which describes compiling and r
 -/
 ## 2022 年 8 月
 %%%
-tag := none
+tag := "release-2022-08"
 %%%
 
 第三次公开发布增加了第二章，其中描述了程序的编译和运行以及 Lean 的副作用模型。
@@ -373,7 +373,7 @@ The second public release completes the first chapter.
 -/
 ## 2022 年 7 月
 %%%
-tag := none
+tag := "release-2022-07"
 %%%
 
 第二次公开发布完成了第一章。
@@ -384,7 +384,7 @@ This was the first public release, consisting of an introduction and part of the
 -/
 ## 2022 年 6 月
 %%%
-tag := none
+tag := "release-2022-06"
 %%%
 
 这是第一次公开发布，包括引言和第一章的一部分。
