@@ -2,12 +2,12 @@ import VersoManual
 
 import FPLeanZh.Examples
 
-import FPLeanZh.MonadTransformers.ReaderIO
-import FPLeanZh.MonadTransformers.Transformers
-import FPLeanZh.MonadTransformers.Order
-import FPLeanZh.MonadTransformers.Do
-import FPLeanZh.MonadTransformers.Conveniences
-import FPLeanZh.MonadTransformers.Summary
+-- import FPLeanZh.MonadTransformers.ReaderIO
+-- import FPLeanZh.MonadTransformers.Transformers
+-- import FPLeanZh.MonadTransformers.Order
+-- import FPLeanZh.MonadTransformers.Do
+-- import FPLeanZh.MonadTransformers.Conveniences
+-- import FPLeanZh.MonadTransformers.Summary
 
 open Verso.Genre Manual
 open Verso Code External
