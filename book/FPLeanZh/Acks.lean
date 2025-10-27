@@ -9,8 +9,10 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.TODO"
 
-#doc (Manual) "Acknowledgments" =>
+-- Acknowledgments
+#doc (Manual) "致谢" =>
 %%%
+tag := "acknowledgments"
 number := false
 %%%
 

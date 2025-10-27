@@ -20,6 +20,9 @@ set_option verso.exampleModule "Examples.Monads"
 
 -- Monad Transformers
 #doc (Manual) "单子转换器" =>
+%%%
+tag := "monad-transformers"
+%%%
 
 -- A monad is a way to encode some collection of side effects in a pure language.
 -- Different monads provide different effects, such as state and error handling.

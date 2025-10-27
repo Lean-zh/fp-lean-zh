@@ -9,8 +9,10 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
-#doc (Manual) "Introduction" =>
+-- Introduction
+#doc (Manual) "简介" =>
 %%%
+tag := "introduction"
 htmlSplit := .never
 number := false
 %%%

@@ -19,6 +19,9 @@ set_option verso.exampleModule "Examples.FunctorApplicativeMonad"
 
 -- Functors, Applicative Functors, and Monads
 #doc (Manual) "函子、应用函子和单子" =>
+%%%
+tag := "functor-applicative-monad"
+%%%
 
 -- {anchorTerm FunctorPair}`Functor` and {moduleName}`Monad` both describe operations for types that are still waiting for a type argument.
 -- One way to understand them is that {anchorTerm FunctorPair}`Functor` describes containers in which the contained data can be transformed, and {moduleName}`Monad` describes an encoding of programs with side effects.

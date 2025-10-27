@@ -27,12 +27,11 @@ def versionString : RoleExpander
     pure #[← ``(Verso.Doc.Inline.code $(quote version))]
   | _, _ => throwError "Unexpected arguments"
 
-
-#doc (Manual) "Lean 函数式编程" =>
 -- "Functional Programming in Lean"
-
+#doc (Manual) "Lean 函数式编程" =>
 %%%
 authors := ["David Thrane Christiansen"]
+tag := "functional-programming-in-lean"
 %%%
 
 _译者：[Oling Cat](https://github.com/OlingCat)，[Qiu233](https://github.com/Qiu233)，[JiechengZhao](https://github.com/JiechengZhao)，[Subfish Zhou](https://github.com/subfish-zhou)_

@@ -18,6 +18,9 @@ set_option verso.exampleModule "Examples.DependentTypes"
 
 -- Programming with Dependent Types
 #doc (Manual) "使用依值类型编程" =>
+%%%
+tag := "programming-with-dependent-types"
+%%%
 
 -- In most statically-typed programming languages, there is a hermetic seal between the world of types and the world of programs.
 -- Types and programs have different grammars and they are used at different times.

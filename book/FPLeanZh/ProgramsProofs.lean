@@ -21,6 +21,9 @@ set_option verso.exampleModule "Examples.TODO"
 
 -- Programming, Proving, and Performance
 #doc (Manual) "编程、证明与性能" =>
+%%%
+tag := "programs-proofs-performance"
+%%%
 
 -- This chapter is about programming.
 -- Programs need to compute the correct result, but they also need to do so efficiently.

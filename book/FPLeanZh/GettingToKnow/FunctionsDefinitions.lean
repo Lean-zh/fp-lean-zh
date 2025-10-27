@@ -162,7 +162,7 @@ tag := "function-definition-exercises"
 
 
 -- # Defining Types
-# Defining Types
+# 定义类型
 %%%
 tag := "defining-types"
 %%%
@@ -195,7 +195,7 @@ def aStr : Str := "This is a string."
 这之所以有效，是因为类型遵循 Lean 的其余规则。类型是表达式，在表达式中，定义的名称可以替换为其定义。因为 {anchorName aStr}`Str` 被定义为 {anchorName Book}`String`，所以 {anchorName aStr}`aStr` 的定义是有意义的。
 
 -- ## Messages You May Meet
-## Messages You May Meet
+## 你可能遇到的消息
 %%%
 tag := "abbrev-vs-def"
 %%%

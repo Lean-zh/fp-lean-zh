@@ -15,7 +15,7 @@ set_option pp.rawOnError true
 -- Interlude: Propositions, Proofs, and Indexing
 #doc (Manual) "插曲：命题、证明与索引" =>
 %%%
-tag := "props-proofs-indexing"
+tag := "propositions-proofs-indexing"
 number := false
 htmlSplit := .never
 %%%
@@ -413,7 +413,7 @@ failed to synthesize
 Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 ```
 
--- Defining {anchorName onePlusOneIsStillTwo}`OnePlusOneIsTwo` with {ref "abbrev-vs-def"}[{kw}`abbrev` fixes the problem] by marking the definition for unfolding.
+Defining {anchorName onePlusOneIsStillTwo}`OnePlusOneIsTwo` with {ref "abbrev-vs-def"}[{kw}`abbrev` fixes the problem] by marking the definition for unfolding.
 
 In addition to the error that occurs when Lean is unable to find compile-time evidence that an indexing operation is safe, polymorphic functions that use unsafe indexing may produce the following message:
 
