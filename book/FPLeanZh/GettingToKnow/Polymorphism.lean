@@ -474,7 +474,7 @@ tag := "more-built-in-types"
 -- ## {lit}`Option`
 ## {lit}`Option` 可空类型
 %%%
-tag := "Empty"
+tag := "Option"
 %%%
 
 
@@ -612,7 +612,7 @@ none
 -- ## {lit}`Prod`
 ## {lit}`Prod` 积类型
 %%%
-tag := "Empty"
+tag := "prod"
 %%%
 
 -- The {anchorName Prod}`Prod` structure, short for “Product”, is a generic way of joining two values together.
