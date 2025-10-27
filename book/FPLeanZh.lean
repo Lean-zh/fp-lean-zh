@@ -33,8 +33,9 @@ def versionString : RoleExpander
 
 %%%
 authors := ["David Thrane Christiansen"]
-translators := ["Oling Cat", "Qiu233", "JiechengZhao"]
 %%%
+
+_译者：[Oling Cat](https://github.com/OlingCat)，[Qiu233](https://github.com/Qiu233)，[JiechengZhao](https://github.com/JiechengZhao)，[Subfish Zhou](https://github.com/subfish-zhou)_
 
 -- _Copyright Microsoft Corporation 2023 and Lean FRO, LLC 2023–2025_
 _版权所有 Microsoft Corporation 2023 和 Lean FRO, LLC 2023–2025_
