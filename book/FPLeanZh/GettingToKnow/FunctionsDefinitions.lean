@@ -161,12 +161,11 @@ tag := "function-definition-exercises"
  * 定义一个函数 {anchorName volume}`volume`，类型为 {anchorTerm volume}`Nat → Nat → Nat → Nat`，它计算给定高度、宽度和深度的长方体的体积。
 
 
+-- # Defining Types
 # Defining Types
 %%%
 tag := "defining-types"
 %%%
-
--- # Defining Types
 
 -- Most typed programming languages have some means of defining aliases for types, such as C's {c}`typedef`.
 -- In Lean, however, types are a first-class part of the language—they are expressions like any other.
@@ -195,8 +194,8 @@ def aStr : Str := "This is a string."
 -- Because {anchorName aStr}`Str` has been defined to mean {anchorName Book}`String`, the definition of {anchorName aStr}`aStr` makes sense.
 这之所以有效，是因为类型遵循 Lean 的其余规则。类型是表达式，在表达式中，定义的名称可以替换为其定义。因为 {anchorName aStr}`Str` 被定义为 {anchorName Book}`String`，所以 {anchorName aStr}`aStr` 的定义是有意义的。
 
-## Messages You May Meet
 -- ## Messages You May Meet
+## Messages You May Meet
 %%%
 tag := "abbrev-vs-def"
 %%%

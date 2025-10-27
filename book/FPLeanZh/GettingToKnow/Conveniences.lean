@@ -19,8 +19,8 @@ tag := "getting-to-know-conveniences"
 
 Lean 包含许多便利功能，使程序更加简洁。
 
-# 自动隐式参数
 -- # Automatic Implicit Parameters
+# 自动隐式参数
 %%%
 tag := "automatic-implicit-parameters"
 %%%
@@ -60,8 +60,8 @@ def length (xs : List α) : Nat :=
 
 :::
 
-# 模式匹配定义
 -- # Pattern-Matching Definitions
+# 模式匹配定义
 %%%
 tag := "pattern-matching-definitions"
 %%%
@@ -139,8 +139,9 @@ def fromOption (default : α) : Option α → α
 ```
 
 :::
-# 局部定义
+
 -- # Local Definitions
+# 局部定义
 %%%
 tag := "local-definitions"
 %%%
@@ -254,8 +255,8 @@ def reverse (xs : List α) : List α :=
 
 :::
 
-# 类型推断
 -- # Type Inference
+# 类型推断
 %%%
 tag := "type-inference"
 %%%
@@ -426,8 +427,8 @@ Failed to infer type of binder `x`
 一般来说，说“推断失败”或提到元变量的消息通常表明需要更多的类型注解。
 特别是在学习 Lean 时，明确提供大多数类型是有用的。
 
-# 同时匹配
 -- # Simultaneous Matching
+# 同时匹配
 %%%
 tag := "simultaneous-matching"
 %%%
@@ -508,8 +509,9 @@ def sameLength (xs : List α) (ys : List β) : Bool :=
 ```
 
 :::
-# 自然数模式
+
 -- # Natural Number Patterns
+# 自然数模式
 %%%
 tag := "natural-number-patterns"
 %%%
@@ -599,8 +601,8 @@ Invalid pattern(s): `n` is an explicit pattern variable, but it only occurs in p
 
 :::
 
-# 匿名函数
 -- # Anonymous Functions
+# 匿名函数
 %%%
 tag := "anonymous-functions"
 %%%
@@ -752,8 +754,8 @@ def double : Nat → Nat := fun
 
 :::
 
-# 命名空间
 -- # Namespaces
+# 命名空间
 %%%
 tag := "namespaces"
 %%%
@@ -877,7 +879,6 @@ NewNamespace.quadruple (x : Nat) : Nat
 :::
 
 -- # {lit}`if let`
-
 # {lit}`if let`
 %%%
 tag := "if-let"
@@ -933,8 +934,8 @@ def Inline.string? (inline : Inline) : Option String :=
 
 :::
 
-# 位置结构参数
 -- # Positional Structure Arguments
+# 位置结构参数
 %%%
 tag := "positional-structure-arguments"
 %%%
@@ -985,8 +986,8 @@ Invalid `⟨...⟩` notation: The expected type of this term could not be determ
 
 :::
 
-# 字符串插值
 -- # String Interpolation
+# 字符串插值
 %%%
 tag := "string-interpolation"
 %%%

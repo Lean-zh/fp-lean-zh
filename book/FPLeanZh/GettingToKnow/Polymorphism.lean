@@ -48,7 +48,6 @@ tag := "polymorphism"
 structure PPoint (α : Type) where
   x : α
   y : α
-deriving Repr
 ```
 
 :::
@@ -231,12 +230,11 @@ def posOrNegThree (s : Sign) :
 
 :::
 
+-- # Linked Lists
 # 链表
 %%%
 tag := "linked-lists"
 %%%
-
--- # Linked Lists
 
 :::paragraph
 -- Lean's standard library includes a canonical linked list datatype, called {anchorName fragments}`List`, and special syntax that makes it more convenient to use.
@@ -844,11 +842,11 @@ tag := "sum-products-units"
 
 一般来说，提供多个构造器的类型称为*和类型*，而单个构造器接受多个参数的类型称为{deftech}*积类型*。这些术语与普通算术中使用的和与积有关。当涉及的类型包含有限数量的值时，这种关系最容易看到。如果 {anchorName SumProd}`α` 和 {anchorName SumProd}`β` 是分别包含 $`n` 和 $`k` 个不同值的类型，那么 {anchorTerm SumProd}`α ⊕ β` 包含 $`n + k` 个不同值，而 {anchorTerm SumProd}`α × β` 包含 $`n \times k` 个不同值。例如，{anchorName fragments}`Bool` 有两个值：{anchorName BoolNames}`true` 和 {anchorName BoolNames}`false`，而 {anchorName Unit}`Unit` 有一个值：{anchorName BooloUnit}`Unit.unit`。积 {anchorTerm fragments}`Bool × Unit` 有两个值：{anchorTerm BoolxUnit}`(true, Unit.unit)` 和 {anchorTerm BoolxUnit}`(false, Unit.unit)`，而和 {anchorTerm fragments}`Bool ⊕ Unit` 有三个值：{anchorTerm BooloUnit}`Sum.inl true`，{anchorTerm BooloUnit}`Sum.inl false`，和 {anchorTerm BooloUnit}`Sum.inr Unit.unit`。同样，$`2 \times 1 = 2`，和 $`2 + 1 = 3`。
 
+-- # Messages You May Meet
 # 你可能遇到的消息
 %%%
 tag := "polymorphism-messages"
 %%%
--- # Messages You May Meet
 
 :::
 -- Not all definable structures or inductive types can have the type {anchorTerm Prod}`Type`.
@@ -1111,7 +1109,6 @@ def allFirewood : List Firewood := [
 :::
 
 -- # Exercises
-
 # 练习
 %%%
 tag := "polymorphism-exercises"

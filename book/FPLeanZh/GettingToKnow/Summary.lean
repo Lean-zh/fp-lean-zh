@@ -145,16 +145,14 @@ Lean 中的构造函数与面向对象语言中的构造函数不同：Lean 的�
 模式匹配意味着知道如何创建值就意味着知道如何使用它。
 
 -- # Recursion
-
--- A definition is recursive when the name being defined is used in the definition itself.
--- Because Lean is an interactive theorem prover in addition to being a programming language, there are certain restrictions placed on recursive definitions.
--- In Lean's logical side, circular definitions could lead to logical inconsistency.
-
 # 递归
 %%%
 tag := none
 %%%
 
+-- A definition is recursive when the name being defined is used in the definition itself.
+-- Because Lean is an interactive theorem prover in addition to being a programming language, there are certain restrictions placed on recursive definitions.
+-- In Lean's logical side, circular definitions could lead to logical inconsistency.
 当被定义的名称在定义本身中使用时，定义是递归的。
 因为 Lean 除了是一种编程语言之外，还是一个交互式定理证明器，所以对递归定义有一定的限制。
 在 Lean 的逻辑方面，循环定义可能导致逻辑不一致。

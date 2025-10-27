@@ -92,21 +92,12 @@ Lean 的浮点数类型称为 {anchorName zeroFloat}`Float`，浮点数以通常
 structure Point where
   x : Float
   y : Float
-deriving Repr
 ```
 
 -- After this declaration, {anchorName Point}`Point` is a new structure type.
--- The final line, which says {anchorTerm Point}`deriving Repr`, asks Lean to generate code to display values of type {anchorName Point}`Point`.
--- This code is used by {kw}`#eval` to render the result of evaluation for consumption by programmers, analogous to the {python}`repr` function in Python.
--- It is also possible to override the compiler's generated display code.
-
-在此声明之后，{anchorName Point}`Point` 是一个新的结构类型。
-最后一行，即 {anchorTerm Point}`deriving Repr`，要求 Lean 生成代码来显示 {anchorName Point}`Point` 类型的值。
-此代码由 {kw}`#eval` 使用来渲染求值结果供程序员使用，类似于 Python 中的 {python}`repr` 函数。
-也可以覆盖编译器生成的显示代码。
-
 -- The typical way to create a value of a structure type is to provide values for all of its fields inside of curly braces.
 -- The origin of a Cartesian plane is where {anchorName Point}`x` and {anchorName Point}`y` are both zero:
+在此声明之后，{anchorName Point}`Point` 是一个新的结构类型。
 创建结构类型值的典型方法是在花括号内为其所有字段提供值。
 笛卡尔平面的原点是 {anchorName Point}`x` 和 {anchorName Point}`y` 都为零的地方：
 
@@ -202,7 +193,6 @@ structure Point3D where
   x : Float
   y : Float
   z : Float
-deriving Repr
 ```
 
 ```anchor origin3D
@@ -249,12 +239,11 @@ invalid {...} notation, expected type is not known
 { x := 0.0, y := 0.0 } : Point
 ```
 
+-- # Updating Structures
 # 更新结构
 %%%
 tag := "updating-structures"
 %%%
-
--- # Updating Structures
 
 -- Imagine a function {anchorName zeroXBad}`zeroX` that replaces the {anchorName zeroXBad}`x` field of a {anchorName zeroXBad}`Point` with {anchorTerm zeroX}`0`.
 -- In most programming language communities, this sentence would mean that the memory location pointed to by {anchorName Point}`x` was to be overwritten with a new value.
@@ -337,8 +326,8 @@ def fourAndThree : Point :=
 结构更新不修改原始结构这一事实的一个后果是，更容易推理从旧值计算新值的情况。
 对旧结构的所有引用继续引用所有提供的新值中的相同字段值。
 
-# 幕后的原理
 -- # Behind the Scenes
+# 幕后的原理
 %%%
 tag := "behind-the-scenes"
 %%%
@@ -397,7 +386,6 @@ structure Point where
   point ::
   x : Float
   y : Float
-deriving Repr
 ```
 
 -- In addition to the constructor, an accessor function is defined for each field of a structure.
@@ -481,12 +469,11 @@ def Point.modifyBoth (f : Float → Float) (p : Point) : Point :=
 在这种情况下，{lit}`TARGET` 表示 {anchorName fourAndThree}`fourAndThree`，而 {lit}`ARG1` 是 {anchorName modifyBothTest}`Float.floor`。
 这是因为访问器记法的目标用作类型匹配的第一个参数，不一定是第一个参数。
 
+-- # Exercises
 # 练习
 %%%
 tag := "structure-exercises"
 %%%
-
--- # Exercises
 
 -- * Define a structure named {anchorName RectangularPrism}`RectangularPrism` that contains the height, width, and depth of a rectangular prism, each as a {anchorName RectangularPrism}`Float`.
 -- * Define a function named {anchorTerm RectangularPrism}`volume : RectangularPrism → Float` that computes the volume of a rectangular prism.

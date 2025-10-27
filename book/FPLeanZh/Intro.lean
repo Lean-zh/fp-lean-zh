@@ -21,7 +21,7 @@ Dependent type theory unites the worlds of programs and proofs; thus, Lean is al
 Lean takes its dual nature seriously, and it is designed to be suitable for use as a general-purpose programming language—Lean is even implemented in itself.
 This book is about writing programs in Lean.
 -/
-Lean 是一个基于__依值类型论（Dependent Type Theory）__的交互式定理证明器。
+Lean 是一个基于*依值类型论（Dependent Type Theory）*的交互式定理证明器。
 它最初由微软研究院开发，现在由 [Lean FRO](https://lean-fro.org) 负责开发。
 依值类型论将程序和证明的世界统一了起来，因此，Lean 也是一门编程语言。
 Lean 认真对待其双重性质，并被设计为适合用作通用编程语言——Lean 甚至是用它自己实现的。
@@ -38,13 +38,13 @@ _Dependent types_, which are the most unusual feature of Lean, make types into a
 学习使用 Lean 编程很大一部分内容在于学习这些属性是如何影响程序编写方式的，
 以及如何像函数式程序员一样思考。
 
-- __严格性（Strictness）__ 意味着 Lean 中的函数调用与大多数语言中的工作方式类似：
+- *严格性（Strictness）* 意味着 Lean 中的函数调用与大多数语言中的工作方式类似：
 在函数体开始运行之前，参数会被完全计算。
-- __纯粹性（Purity）__ 意味着 Lean 程序除非明确声明，否则无法产生副作用，
+- *纯粹性（Purity）* 意味着 Lean 程序除非明确声明，否则无法产生副作用，
 例如修改内存中的位置、发送电子邮件或删除文件等。
-Lean 是一种 __函数式（Functional）__ 语言，这意味着函数就像任何其他值一样是一等值，
+Lean 是一种 *函数式（Functional）* 语言，这意味着函数就像任何其他值一样是一等值，
 并且执行模型受数学表达式的求值启发。
-- __依值类型（Dependent type）__ 是 Lean 最不寻常的特性，它使类型成为语言的一等部分，
+- *依值类型（Dependent type）* 是 Lean 最不寻常的特性，它使类型成为语言的一等部分，
 允许类型包含程序，而程序计算类型。
 
 /- This book is intended for programmers who want to learn Lean, but who have not necessarily used a functional programming language before.
@@ -82,7 +82,9 @@ It is also useful to explore Lean as you read the book, finding creative new way
 -- # Getting Lean
 
 # 获取 Lean
-
+%%%
+tag := "getting-lean"
+%%%
 /- Before writing and running programs written in Lean, you'll need to set up Lean on your own computer.
 The Lean tooling consists of the following:
 -/
@@ -107,10 +109,12 @@ The Lean tooling consists of the following:
 -- # Typographical Conventions
 
 # 排版约定
-
+%%%
+tag := "typographical-conventions"
+%%%
 /- Code examples that are provided to Lean as _input_ are formatted like this:
 -/
-作为 __输入__ 提供给 Lean 的代码示例格式如下：
+作为 *输入* 提供给 Lean 的代码示例格式如下：
 
 ```anchor add1
 def add1 (n : Nat) : Nat := n + 1

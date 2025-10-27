@@ -179,12 +179,11 @@ type Nat = Zero | Succ;
 就像 C# 和 Java 一样，这种编码最终比 Lean 中的类型更多，因为 {typescript}`Zero` 和 {typescript}`Succ` 各自都是一个类型。
 它也说明了 Lean 构造器对应于 JavaScript 或 TypeScript 中包含标识内容标签的对象。
 
+-- # Pattern Matching
 # 模式匹配
 %%%
 tag := "pattern-matching"
 %%%
-
--- # Pattern Matching
 
 -- In many languages, these kinds of data are consumed by first using an instance-of operator to check which subclass has been received and then reading the values of the fields that are available in the given subclass.
 -- The instance-of check determines which code to run, ensuring that the data needed by this code is available, while the fields themselves provide the data.
@@ -335,8 +334,8 @@ def depth (p : Point3D) : Float :=
 在这种情况下，只使用 {anchorName fragments}`Point3D.z` 访问器会简单得多，但结构模式有时是编写函数的最简单方法。
 :::
 
-# 递归函数
 -- # Recursive Functions
+# 递归函数
 %%%
 tag := "recursive-functions"
 %%%
