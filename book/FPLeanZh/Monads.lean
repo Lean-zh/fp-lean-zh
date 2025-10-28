@@ -135,6 +135,7 @@ def firstThird (xs : List α) : Option (α × α) :=
 ```
 The {anchorName firstThirdandThenExpl}`andThen` helper provides a sort of “pipeline” through which values flow, and the version with the somewhat unusual indentation is more suggestive of this fact.
 Improving the syntax used to write {anchorName firstThirdandThenExpl}`andThen` can make these computations even easier to understand.
+
 ### Infix Operators
 %%%
 tag := "defining-infix-operators"
@@ -591,6 +592,7 @@ def number (t : BinTree α) : BinTree (Nat × α) :=
   (helper t 0).snd
 ```
 Because {anchorName State}`State` simulates only a single local variable, {anchorName get}`get` and {anchorName set}`set` don't need to refer to any particular variable name.
+
 ## Monads: A Functional Design Pattern
 %%%
 tag := "monad-as-design-pattern"

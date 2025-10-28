@@ -263,6 +263,7 @@ theorem andImpliesOr : A ∧ B → A ∨ B :=
  -  {anchorTerm connectiveTable}`¬A`
  -  A function that would transform evidence of {anchorName connectiveTable}`A` into evidence of {anchorName connectiveTable}`False`
 
+:::
 
 The {tactic}`decide` tactic can prove theorems that use these connectives.
 For example:
@@ -362,10 +363,12 @@ There is also a version that crashes the program when the index is out of bounds
 "deer"
 ```
 
+
 # Messages You May Meet
 %%%
 tag := "props-proofs-indexing-messages"
 %%%
+
 In addition to proving that a statement is true, the {anchorTerm thirdRabbitErr}`decide` tactic can also prove that it is false.
 When asked to prove that a one-element list has more than two elements, it returns an error that indicates that the statement is indeed false:
 
