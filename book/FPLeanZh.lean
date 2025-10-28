@@ -30,7 +30,7 @@ def versionString : RoleExpander
 -- "Functional Programming in Lean"
 #doc (Manual) "Lean 函数式编程" =>
 %%%
-file := "FunctionalProgrammingInLean"
+file := "FPLeanZh"
 authors := ["David Thrane Christiansen"]
 tag := "functional-programming-in-lean"
 %%%
