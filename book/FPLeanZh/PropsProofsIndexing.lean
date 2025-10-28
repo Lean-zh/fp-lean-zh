@@ -264,8 +264,6 @@ theorem andImpliesOr : A ∧ B → A ∨ B :=
  -  A function that would transform evidence of {anchorName connectiveTable}`A` into evidence of {anchorName connectiveTable}`False`
 
 
-:::
-
 The {tactic}`decide` tactic can prove theorems that use these connectives.
 For example:
 
@@ -354,7 +352,6 @@ some "snail"
 none
 ```
 
-:::paragraph
 There is also a version that crashes the program when the index is out of bounds, rather than returning an {moduleTerm}`Option`:
 
 ```anchor crittersBang
@@ -364,8 +361,6 @@ There is also a version that crashes the program when the index is out of bounds
 ```anchorInfo crittersBang
 "deer"
 ```
-:::
-
 
 # Messages You May Meet
 %%%

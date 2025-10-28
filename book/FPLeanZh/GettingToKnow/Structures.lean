@@ -134,8 +134,6 @@ def origin : Point := { x := 0.0, y := 0.0 }
 0.000000
 ```
 
-:::paragraph
-
 -- This can be used to define functions that take structures as arguments.
 -- For instance, addition of points is performed by adding the underlying coordinate values.
 -- It should be the case that
@@ -154,8 +152,6 @@ def origin : Point := { x := 0.0, y := 0.0 }
 ```anchorInfo addPointsEx
 { x := -6.500000, y := 32.200000 }
 ```
-
-:::
 
 -- The function itself takes two {anchorName Point}`Point`s as arguments, called {anchorName addPoints}`p1` and {anchorName addPoints}`p2`.
 -- The resulting point is based on the {anchorName addPoints}`x` and {anchorName addPoints}`y` fields of both {anchorName addPoints}`p1` and {anchorName addPoints}`p2`:

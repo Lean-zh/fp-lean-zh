@@ -16,8 +16,6 @@ tag := "functions-and-definitions"
 %%%
 -- Functions and Definitions
 
-:::paragraph
-
 -- In Lean, definitions are introduced using the {kw}`def` keyword.
 -- For instance, to define the name {anchorTerm helloNameVal}`hello` to refer to the string {anchorTerm helloNameVal}`"Hello"`, write:
 在 Lean 中，定义使用 {kw}`def` 关键字引入。例如，要定义名称 {anchorTerm helloNameVal}`hello` 来引用字符串 {anchorTerm helloNameVal}`"Hello"`，请编写：
@@ -30,10 +28,6 @@ def hello := "Hello"
 -- This is because {anchorTerm helloNameVal}`=` is used to describe equalities between existing expressions, and using two different operators helps prevent confusion.
 在 Lean 中，新名称使用冒号加等号运算符 {anchorTerm hello}`:=` 而非 {anchorTerm helloNameVal}`=` 定义。这是因为 {anchorTerm helloNameVal}`=` 用于描述现有表达式之间的相等性，而使用两个不同的运算符有助于避免混淆。
 
-:::
-
-:::paragraph
-
 -- In the definition of {anchorTerm helloNameVal}`hello`, the expression {anchorTerm helloNameVal}`"Hello"` is simple enough that Lean is able to determine the definition's type automatically.
 -- However, most definitions are not so simple, so it will usually be necessary to add a type.
 -- This is done using a colon after the name being defined:
@@ -42,10 +36,6 @@ def hello := "Hello"
 ```anchor lean
 def lean : String := "Lean"
 ```
-
-:::
-
-:::paragraph
 
 -- Now that the names have been defined, they can be used, so
 现在名称已经定义，它们可以使用了，因此
@@ -64,8 +54,6 @@ def lean : String := "Lean"
 -- In Lean, defined names may only be used after their definitions.
 在 Lean 中，定义的名称只能在其定义之后使用。
 
-:::
-
 -- In many languages, definitions of functions use a different syntax than definitions of other values.
 -- For instance, Python function definitions begin with the {kw}`def` keyword, while other definitions are defined with an equals sign.
 -- In Lean, functions are defined using the same {kw}`def` keyword as other values.
@@ -77,8 +65,6 @@ def lean : String := "Lean"
 %%%
 tag := "defining-functions"
 %%%
-
-:::paragraph
 
 -- There are a variety of ways to define functions in Lean. The simplest is to place the function's arguments before the definition's type, separated by spaces. For instance, a function that adds one to its argument can be written:
 在 Lean 中有多种方法可以定义函数，最简单的方法是在定义的类型之前放置函数的参数，并用空格分隔。例如，可以编写一个将其参数加 1 的函数：
@@ -93,10 +79,6 @@ def add1 (n : Nat) : Nat := n + 1
 ```anchor add1_7
 #eval add1 7
 ```
-
-:::
-
-:::paragraph
 
 -- Just as functions are applied to multiple arguments by writing spaces between each argument, functions that accept multiple arguments are defined with spaces between the arguments' names and types. The function {anchorName maximum}`maximum`, whose result is equal to the greatest of its two arguments, takes two {anchorName maximum}`Nat` arguments {anchorName Nat}`n` and {anchorName maximum}`k` and returns a {anchorName maximum}`Nat`.
 就像将函数应用于多个参数会用空格分隔一样，接受多个参数的函数定义也是在参数名与类型之间加上空格。函数 {anchorName maximum}`maximum` 的结果等于其两个参数中最大的一个，它接受两个 {anchorName maximum}`Nat` 参数 {anchorName Nat}`n` 和 {anchorName maximum}`k`，并返回一个 {anchorName maximum}`Nat`。
@@ -116,10 +98,6 @@ def spaceBetween (before : String) (after : String) : String :=
   String.append before (String.append " " after)
 ```
 
-:::
-
-:::paragraph
-
 -- When a defined function like {anchorName maximum_eval}`maximum` has been provided with its arguments, the result is determined by first replacing the argument names with the provided values in the body, and then evaluating the resulting body. For example:
 当向 {anchorName maximum_eval}`maximum` 这样的已定义函数提供参数时，其结果会首先用提供的值替换函数体中对应的参数名称，然后对产生的函数体求值。例如：
 
@@ -132,8 +110,6 @@ if 13 < 14 then 14 else 13
 ===>
 14
 ```
-
-:::
 
 -- Expressions that evaluate to natural numbers, integers, and strings have types that say this ({anchorName Nat}`Nat`, {anchorName Positivity}`Int`, and {anchorName Book}`String`, respectively).
 -- This is also true of functions.
@@ -181,8 +157,6 @@ tag := "defining-types"
 -- This means that definitions can refer to types just as well as they can refer to other values.
 大多数类型化编程语言都有某种定义类型别名的方法，例如 C 语言的 {c}`typedef`。然而，在 Lean 中，类型是语言的一等公民——它们像任何其他表达式一样。这意味着定义可以引用类型，就像它们可以引用其他值一样。
 
-:::paragraph
-
 -- For example, if {anchorName StringTypeDef}`String` is too much to type, a shorter abbreviation {anchorName StringTypeDef}`Str` can be defined:
 例如，如果 {anchorName StringTypeDef}`String` 太长，可以定义一个更短的缩写 {anchorName StringTypeDef}`Str`：
 
@@ -197,8 +171,6 @@ def Str : Type := String
 def aStr : Str := "This is a string."
 ```
 
-:::
-
 -- The reason this works is that types follow the same rules as the rest of Lean.
 -- Types are expressions, and in an expression, a defined name can be replaced with its definition.
 -- Because {anchorName aStr}`Str` has been defined to mean {anchorName Book}`String`, the definition of {anchorName aStr}`aStr` makes sense.
@@ -209,8 +181,6 @@ def aStr : Str := "This is a string."
 %%%
 tag := "abbrev-vs-def"
 %%%
-
-:::paragraph
 
 -- Experimenting with using definitions for types is made more complicated by the way that Lean supports overloaded integer literals.
 -- If {anchorName NaturalNumberTypeDef}`Nat` is too short, a longer name {anchorName NaturalNumberTypeDef}`NaturalNumber` can be defined:
@@ -241,15 +211,11 @@ due to the absence of the instance above
 Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 ```
 
-:::
-
 -- This error occurs because Lean allows number literals to be _overloaded_.
 -- When it makes sense to do so, natural number literals can be used for new types, just as if those types were built in to the system.
 -- This is part of Lean's mission of making it convenient to represent mathematics, and different branches of mathematics use number notation for very different purposes.
 -- The specific feature that allows this overloading does not replace all defined names with their definitions before looking for overloading, which is what leads to the error message above.
 此错误发生是因为 Lean 允许数字字面量被 _重载_。当有意义时，自然数字面量可以用于新类型，就像这些类型是内置到系统中一样。这是 Lean 使数学表示方便的使命的一部分，而数学的不同分支使用数字表示法用于非常不同的目的。允许这种重载的特定功能在查找重载之前不会用它们的定义替换所有定义的名称，这就是导致上述错误消息的原因。
-
-:::paragraph
 
 -- One way to work around this limitation is by providing the type {anchorName thirtyEightFixed}`Nat` on the right-hand side of the definition, causing {anchorName thirtyEightFixed}`Nat`'s overloading rules to be used for {anchorTerm thirtyEightFixed}`38`:
 解决此限制的一种方法是在定义的右侧提供类型 {anchorName thirtyEightFixed}`Nat`，从而使 {anchorName thirtyEightFixed}`Nat` 的重载规则用于 {anchorTerm thirtyEightFixed}`38`：
@@ -261,13 +227,9 @@ def thirtyEight : NaturalNumber := (38 : Nat)
 -- The definition is still type-correct because {anchorEvalStep NaturalNumberDef 0}`NaturalNumber` is the same type as {anchorEvalStep NaturalNumberDef 1}`Nat`—by definition!
 该定义仍然是类型正确的，因为 {anchorEvalStep NaturalNumberDef 0}`NaturalNumber` 与 {anchorEvalStep NaturalNumberDef 1}`Nat` 是相同的类型——根据定义！
 
-:::
-
 -- Another solution is to define an overloading for {anchorName NaturalNumberDef}`NaturalNumber` that works equivalently to the one for {anchorName NaturalNumberDef}`Nat`.
 -- This requires more advanced features of Lean, however.
 另一种解决方案是为 {anchorName NaturalNumberDef}`NaturalNumber` 定义一个重载，其工作方式与 {anchorName NaturalNumberDef}`Nat` 的重载等效。然而，这需要 Lean 更高级的功能。
-
-:::paragraph
 
 -- Finally, defining the new name for {anchorName NaturalNumberDef}`Nat` using {kw}`abbrev` instead of {kw}`def` allows overloading resolution to replace the defined name with its definition.
 -- Definitions written using {kw}`abbrev` are always unfolded.
@@ -287,8 +249,6 @@ def thirtyNine : N := 39
 
 -- are accepted without issue.
 被接受，没有问题。
-
-:::
 
 -- Behind the scenes, some definitions are internally marked as being unfoldable during overload resolution, while others are not.
 -- Definitions that are to be unfolded are called _reducible_.

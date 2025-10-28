@@ -50,8 +50,6 @@ tag := "datatypes-and-patterns"
 递归和类型称为 *归纳数据类型（Inductive Datatypes）*，因为可以使用数学归纳法来证明关于它们的陈述。
 在编程时，归纳数据类型通过模式匹配和递归函数来使用。
 
-:::paragraph
-
 -- Many of the built-in types are actually inductive datatypes in the standard library.
 -- For instance, {anchorName Bool}`Bool` is an inductive datatype:
 
@@ -80,10 +78,6 @@ inductive Bool where
 就像结构声明将其名称放在以声明类型命名的命名空间中一样，归纳数据类型将其构造器的名称放在一个命名空间中。
 在 Lean 标准库中，{anchorName BoolNames}`true` 和 {anchorName BoolNames}`false` 从这个命名空间重新导出，以便可以单独编写，而不是分别作为 {anchorName BoolNames}`Bool.true` 和 {anchorName BoolNames}`Bool.false`。
 
-:::
-
-:::paragraph
-
 -- From a data modeling perspective, inductive datatypes are used in many of the same contexts where a sealed abstract class might be used in other languages.
 -- In languages like C# or Java, one might write a similar definition of {anchorName Bool}`Bool`:
 
@@ -99,8 +93,6 @@ class False : Bool {}
 -- However, the specifics of these representations are fairly different. In particular, each non-abstract class creates both a new type and new ways of allocating data. In the object-oriented example, {CSharp}`True` and {CSharp}`False` are both types that are more specific than {CSharp}`Bool`, while the Lean definition introduces only the new type {anchorName Bool}`Bool`.
 
 但是，这些表示的具体细节是相当不同的。特别是，每个非抽象类都创建了新类型和新的数据分配方式。在面向对象的示例中，{CSharp}`True` 和 {CSharp}`False` 都是比 {CSharp}`Bool` 更具体的类型，而 Lean 定义仅引入新类型 {anchorName Bool}`Bool`。
-
-:::
 
 -- The type {anchorName Nat}`Nat` of non-negative integers is an inductive datatype:
 非负整数的类型 {anchorName Nat}`Nat` 是一个归纳数据类型：
@@ -215,8 +207,6 @@ def isZero (n : Nat) : Bool :=
 如果 {anchorName isZero}`n` 由 {anchorName isZero}`Nat.zero` 构造，则采用模式匹配的第一个分支，结果为 {anchorName isZero}`true`。
 如果 {anchorName isZero}`n` 由 {anchorName isZero}`Nat.succ` 构造，则采用第二个分支，结果为 {anchorName isZero}`false`。
 
-:::paragraph
-
 -- Step-by-step, evaluation of {anchorEvalStep isZeroZeroSteps 0}`isZero Nat.zero` proceeds as follows:
 逐步地，{anchorEvalStep isZeroZeroSteps 0}`isZero Nat.zero` 的求值过程如下：
 
@@ -229,10 +219,6 @@ match Nat.zero with
 ===>
 true
 ```
-
-:::
-
-:::paragraph
 
 -- Evaluation of {anchorEvalStep isZeroFiveSteps 0}`isZero 5` proceeds similarly:
 {anchorEvalStep isZeroFiveSteps 0}`isZero 5` 的求值类似地进行：
@@ -249,16 +235,12 @@ match Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero)))) with
 false
 ```
 
-:::
-
 -- The {anchorName isZero}`k` in the second branch of the pattern in {anchorName isZero}`isZero` is not decorative.
 -- It makes the {anchorName isZero}`Nat` that is the argument to {anchorName isZero}`Nat.succ` visible, with the provided name.
 -- That smaller number can then be used to compute the final result of the expression.
 {anchorName isZero}`isZero` 模式第二分支中的 {anchorName isZero}`k` 不是装饰性的。
 它使作为 {anchorName isZero}`Nat.succ` 参数的 {anchorName isZero}`Nat` 以提供的名称可见。
 然后可以使用该较小的数字来计算表达式的最终结果。
-
-:::paragraph
 
 -- Just as the successor of some number $`n` is one greater than $`n` (that is, $`n + 1`), the predecessor of a number is one less than it.
 -- If {anchorName pred}`pred` is a function that finds the predecessor of a {anchorName pred}`Nat`, then it should be the case that the following examples find the expected result:
@@ -281,10 +263,6 @@ false
 838
 ```
 
-:::
-
-:::paragraph
-
 -- Because {anchorName Nat}`Nat` cannot represent negative numbers, {anchorName NatNames}`Nat.zero` is a bit of a conundrum.
 -- Usually, when working with {anchorName Nat}`Nat`, operators that would ordinarily produce a negative number are redefined to produce {anchorName NatNames}`zero` itself:
 因为 {anchorName Nat}`Nat` 不能表示负数，{anchorName NatNames}`Nat.zero` 有点让人困惑。
@@ -296,8 +274,6 @@ false
 ```anchorInfo predZero
 0
 ```
-
-:::
 
 -- To find the predecessor of a {anchorName pred}`Nat`, the first step is to check which constructor was used to create it.
 -- If it was {anchorName pred}`Nat.zero`, then the result is {anchorName pred}`Nat.zero`.
@@ -315,8 +291,6 @@ def pred (n : Nat) : Nat :=
   | Nat.succ k => k
 ```
 
-:::paragraph
-
 -- Applying this function to {anchorTerm predFiveSteps}`5` yields the following steps:
 将此函数应用于 {anchorTerm predFiveSteps}`5` 产生以下步骤：
 
@@ -332,10 +306,6 @@ match Nat.succ 4 with
 4
 ```
 
-:::
-
-:::paragraph
-
 -- Pattern matching can be used with structures as well as with sum types.
 -- For instance, a function that extracts the third dimension from a {anchorName depth}`Point3D` can be written as follows:
 模式匹配可以与结构以及和类型一起使用。
@@ -349,8 +319,6 @@ def depth (p : Point3D) : Float :=
 
 -- In this case, it would have been much simpler to just use the {anchorName fragments}`Point3D.z` accessor, but structure patterns are occasionally the simplest way to write a function.
 在这种情况下，只使用 {anchorName fragments}`Point3D.z` 访问器会简单得多，但结构模式有时是编写函数的最简单方法。
-
-:::
 
 -- # Recursive Functions
 # 递归函数
@@ -366,8 +334,6 @@ tag := "recursive-functions"
 归纳数据类型允许是递归的；实际上，{anchorName Nat}`Nat` 是这种数据类型的示例，因为 {anchorName Nat}`succ` 需要另一个 {anchorName Nat}`Nat`。
 递归数据类型可以表示任意大的数据，仅受可用内存等技术因素限制。
 正如在数据类型定义中不可能为每个自然数写下一个构造器一样，也不可能为每种可能性写下模式匹配情况。
-
-:::paragraph
 
 -- Recursive datatypes are nicely complemented by recursive functions.
 -- A simple recursive function over {anchorName even}`Nat` checks whether its argument is even.
@@ -389,8 +355,6 @@ def even (n : Nat) : Bool :=
   | Nat.succ k => not (even k)
 ```
 
-:::
-
 -- This pattern of thought is typical for writing recursive functions on {anchorName even}`Nat`.
 -- First, identify what to do for {anchorName even}`Nat.zero`.
 -- Then, determine how to transform a result for an arbitrary {anchorName even}`Nat` into a result for its successor, and apply this transformation to the result of the recursive call.
@@ -399,8 +363,6 @@ def even (n : Nat) : Bool :=
 首先，确定对 {anchorName even}`Nat.zero` 做什么。
 然后，确定如何将任意 {anchorName even}`Nat` 的结果转换为其后继的结果，并将此转换应用于递归调用的结果。
 这种模式称为 *结构递归（Structural Recursion）*。
-
-:::paragraph
 
 -- Unlike many languages, Lean ensures by default that every recursive function will eventually reach a base case.
 -- From a programming perspective, this rules out accidental infinite loops.
@@ -433,10 +395,6 @@ no parameters suitable for structural recursion
 well-founded recursion cannot be used, 'evenLoops' does not take any (non-fixed) arguments
 ```
 
-:::
-
-:::paragraph
-
 -- Even though addition takes two arguments, only one of them needs to be inspected.
 -- To add zero to a number $`n`, just return $`n`.
 -- To add the successor of $`k` to $`n`, take the successor of the result of adding $`k` to $`n`.
@@ -450,10 +408,6 @@ def plus (n : Nat) (k : Nat) : Nat :=
   | Nat.zero => n
   | Nat.succ k' => Nat.succ (plus n k')
 ```
-
-:::
-
-:::paragraph
 
 -- In the definition of {anchorName plus}`plus`, the name {anchorName plus}`k'` is chosen to indicate that it is connected to, but not identical with, the argument {anchorName plus}`k`.
 -- For instance, walking through the evaluation of {anchorEvalStep plusThreeTwo 0}`plus 3 2` yields the following steps:
@@ -486,10 +440,6 @@ Nat.succ (Nat.succ 3)
 5
 ```
 
-:::
-
-:::paragraph
-
 -- One way to think about addition is that $`n + k` applies {anchorName times}`Nat.succ` $`k` times to $`n`.
 -- Similarly, multiplication $`n × k` adds $`n` to itself $`k` times and subtraction $`n - k` takes $`n`'s predecessor $`k` times.
 思考加法的一种方法是 $`n + k` 将 {anchorName times}`Nat.succ` 应用到 $`n` 上 $`k` 次。
@@ -509,10 +459,6 @@ def minus (n : Nat) (k : Nat) : Nat :=
   | Nat.succ k' => pred (minus n k')
 ```
 
-:::
-
-:::paragraph
-
 -- Not every function can be easily written using structural recursion.
 -- The understanding of addition as iterated {anchorName plus}`Nat.succ`, multiplication as iterated addition, and subtraction as iterated predecessor suggests an implementation of division as iterated subtraction.
 -- In this case, if the numerator is less than the divisor, the result is zero.
@@ -528,10 +474,6 @@ def div (n : Nat) (k : Nat) : Nat :=
     0
   else Nat.succ (div (n - k) k)
 ```
-
-:::
-
-:::paragraph
 
 -- As long as the second argument is not {anchorTerm div}`0`, this program terminates, as it always makes progress towards the base case.
 -- However, it is not structurally recursive, because it doesn't follow the pattern of finding a result for zero and transforming a result for a smaller {anchorName div}`Nat` into a result for its successor.
@@ -567,5 +509,3 @@ h✝ : ¬n < k
 
 此消息意味着 {anchorName div}`div` 需要手动终止证明。
 这个主题在 *最后一章* 中探讨。
-
-:::

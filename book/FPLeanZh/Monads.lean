@@ -49,7 +49,6 @@ Please suspend your disbelief in the meantime.
 tag := "example-option-monad"
 %%%
 
-:::paragraph
 In Lean, pattern matching can be used to chain checks for null.
 Getting the first entry from a list can just use the optional indexing notation:
 
@@ -57,9 +56,6 @@ Getting the first entry from a list can just use the optional indexing notation:
 def first (xs : List α) : Option α :=
   xs[0]?
 ```
-:::
-
-:::paragraph
 The result must be an {anchorName first}`Option` because empty lists have no first entry.
 Extracting the first and third entries requires a check that each is not {moduleName}`none`:
 
@@ -106,9 +102,6 @@ def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
         | some seventh =>
           some (first, third, fifth, seventh)
 ```
-:::
-
-:::paragraph
 The fundamental problem with this code is that it addresses two concerns: extracting the numbers and checking that all of them are present.
 The second concern is addressed by copying and pasting the code that handles the {moduleName}`none` case.
 It is often good style to lift a repetitive segment into a helper function:
@@ -123,9 +116,6 @@ This helper, which is used similarly to {CSharp}`?.` in C# and Kotlin, takes car
 It takes two arguments: an optional value and a function to apply when the value is not {moduleName}`none`.
 If the first argument is {moduleName}`none`, then the helper returns {moduleName}`none`.
 If the first argument is not {moduleName}`none`, then the function is applied to the contents of the {moduleName}`some` constructor.
-:::
-
-:::paragraph
 Now, {anchorName firstThirdandThen}`firstThird` can be rewritten to use {anchorName firstThirdandThen}`andThen` instead of pattern matching:
 
 ```anchor firstThirdandThen
@@ -145,8 +135,6 @@ def firstThird (xs : List α) : Option (α × α) :=
 ```
 The {anchorName firstThirdandThenExpl}`andThen` helper provides a sort of “pipeline” through which values flow, and the version with the somewhat unusual indentation is more suggestive of this fact.
 Improving the syntax used to write {anchorName firstThirdandThenExpl}`andThen` can make these computations even easier to understand.
-:::
-
 ### Infix Operators
 %%%
 tag := "defining-infix-operators"
@@ -159,7 +147,6 @@ The addition operator {lit}`+` is left associative, so {anchorTerm plusFixity}`w
 The exponentiation operator {lit}`^` is right associative, so {anchorTerm powFixity}`w ^ x ^ y ^ z` is equivalent to {anchorTerm powFixity}`w ^ (x ^ (y ^ z))`.
 Comparison operators such as {lit}`<` are non-associative, so {lit}`x < y < z` is a syntax error and requires manual parentheses.
 
-:::paragraph
 The following declaration makes {anchorName andThenOptArr}`andThen` into an infix operator:
 
 ```anchor andThenOptArr
@@ -171,13 +158,10 @@ In Lean, {lit}`+` has precedence 65 and {lit}`*` has precedence 70.
 Higher-precedence operators are applied before lower-precedence operators.
 According to the declaration of {lit}`~~>`, both {lit}`+` and {lit}`*` have higher precedence, and thus apply first.
 Typically, figuring out the most convenient precedences for a group of operators requires some experimentation and a large collection of examples.
-:::
-
 Following the new infix operator is a double arrow {lit}`=>`, which specifies the named function to be used for the infix operator.
 Lean's standard library uses this feature to define {lit}`+` and {lit}`*` as infix operators that point at {moduleName}`HAdd.hAdd` and {moduleName}`HMul.hMul`, respectively, allowing type classes to be used to overload the infix operators.
 Here, however, {anchorName firstThirdandThen}`andThen` is just an ordinary function.
 
-:::paragraph
 Having defined an infix operator for {anchorName andThenOptArr}`andThen`, {anchorName firstThirdInfix (show := firstThird)}`firstThirdInfix` can be rewritten in a way that brings the “pipeline” feeling of {moduleName}`none`-checks front and center:
 
 ```anchor firstThirdInfix
@@ -195,8 +179,6 @@ def firstThirdFifthSeventh (xs : List α) : Option (α × α × α × α) :=
   xs[6]? ~~> fun seventh =>
   some (first, third, fifth, seventh)
 ```
-:::
-
 ## Propagating Error Messages
 %%%
 tag := "example-except-monad"
@@ -206,7 +188,6 @@ Pure functional languages such as Lean have no built-in exception mechanism for 
 However, functional programs certainly need to handle errors.
 In the case of {anchorName firstThirdFifthSeventInfix}`firstThirdFifthSeventh`, it is likely relevant for a user to know just how long the list was and where the lookup failed.
 
-:::paragraph
 This is typically accomplished by defining a datatype that can be either an error or a result, and translating functions with exceptions into functions that return this datatype:
 
 ```anchor Except
@@ -217,9 +198,6 @@ deriving BEq, Hashable, Repr
 ```
 The type variable {anchorName Except}`ε` stands for the type of errors that can be produced by the function.
 Callers are expected to handle both errors and successes, which makes the type variable {anchorName Except}`ε` play a role that is a bit like that of a list of checked exceptions in Java.
-:::
-
-:::paragraph
 Similarly to {anchorName first}`Option`, {anchorName Except}`Except` can be used to indicate a failure to find an entry in a list.
 In this case, the error type is a {moduleName}`String`:
 
@@ -247,9 +225,6 @@ Looking up an out-of-bounds value yields an {anchorName ExceptExtra}`Except.erro
 ```anchorInfo failure
 Except.error "Index 4 not found (maximum is 3)"
 ```
-:::
-
-:::paragraph
 A single list lookup can conveniently return a value or an error:
 ```anchor firstExcept
 def first (xs : List α) : Except String α :=
@@ -297,9 +272,6 @@ def firstThirdFifthSeventh (xs : List α) : Except String (α × α × α × α)
         | Except.ok seventh =>
           Except.ok (first, third, fifth, seventh)
 ```
-:::
-
-:::paragraph
 Once again, a common pattern can be factored out into a helper.
 Each step through the function checks for an error, and only proceeds with the rest of the computation if the result was a success.
 A new version of {anchorName andThenExcept}`andThen` can be defined for {anchorName andThenExcept}`Except`:
@@ -318,9 +290,6 @@ def firstThird' (xs : List α) : Except String (α × α) :=
   andThen (get xs 2) fun third =>
   Except.ok (first, third)
 ```
-:::
-
-:::paragraph
 In both the {anchorName first}`Option` and {anchorName andThenExcept}`Except` case, there are two repeating patterns: there is the checking of intermediate results at each step, which has been factored out into {anchorName andThenExcept}`andThen`, and there is the final successful result, which is {moduleName}`some` or {anchorName andThenExcept}`Except.ok`, respectively.
 For the sake of convenience, success can be factored out into a helper called {anchorName okExcept}`ok`:
 
@@ -340,9 +309,6 @@ def get (xs : List α) (i : Nat) : Except String α :=
   | none => fail s!"Index {i} not found (maximum is {xs.length - 1})"
   | some x => ok x
 ```
-:::
-
-:::paragraph
 After adding the infix declaration for {anchorName andThenExceptInfix}`andThen`, {anchorName firstThirdInfixExcept}`firstThird` can be just as concise as the version that returns an {anchorName first}`Option`:
 
 ```anchor andThenExceptInfix
@@ -366,14 +332,11 @@ def firstThirdFifthSeventh (xs : List α) : Except String (α × α × α × α)
   ok (first, third, fifth, seventh)
 ```
 
-:::
-
 ## Logging
 %%%
 tag := "logging"
 %%%
 
-:::paragraph
 A number is even if dividing it by 2 leaves no remainder:
 ```anchor isEven
 def isEven (i : Int) : Bool :=
@@ -387,9 +350,6 @@ def sumAndFindEvens : List Int → List Int × Int
     let (moreEven, sum) := sumAndFindEvens is
     (if isEven i then i :: moreEven else moreEven, sum + i)
 ```
-:::
-
-:::paragraph
 This function is a simplified example of a common pattern.
 Many programs need to traverse a data structure once, while both computing a main result and accumulating some kind of tertiary extra result.
 One example of this is logging: a program that is an {moduleName}`IO` action can always log to a file on disk, but because the disk is outside of the mathematical world of Lean functions, it becomes much more difficult to prove things about logs based on {moduleName}`IO`.
@@ -405,8 +365,6 @@ def inorderSum : BinTree Int → List Int × Int
     (leftVisited ++ hereVisited ++ rightVisited,
      leftSum + hereSum + rightSum)
 ```
-:::
-
 Both {anchorName sumAndFindEvensDirect}`sumAndFindEvens` and {anchorName inorderSum}`inorderSum` have a common repetitive structure.
 Each step of computation returns a pair that consists of a list of data that have been saved along with the primary result.
 The lists are then appended, and the primary result is computed and paired with the appended lists.
@@ -523,7 +481,6 @@ BinTree.branch
   (BinTree.branch (BinTree.leaf) (4, "e") (BinTree.leaf))
 ```
 
-:::paragraph
 Trees are most naturally processed with recursive functions, but the usual pattern of recursion on trees makes it difficult to compute an inorder numbering.
 This is because the highest number assigned anywhere in the left subtree is used to determine the numbering of a node's data value, and then again to determine the starting point for numbering the right subtree.
 In an imperative language, this issue can be worked around by using a mutable variable that contains the next number to be assigned.
@@ -567,15 +524,12 @@ python3 inordernumbering.py
 ```commandOut inorderpy "python3 inordernumbering.py"
 Branch((3, 'd'), left=Branch((2, 'c'), left=Branch((0, 'a'), left=None, right=Branch((1, 'b'), left=None, right=None)), right=None), right=Branch((4, 'e'), left=None, right=None))
 ```
-:::
-
 
 Even though Lean does not have mutable variables, a workaround exists.
 From the point of view of the rest of the world, the mutable variable can be thought of as having two relevant aspects: its value when the function is called, and its value when the function returns.
 In other words, a function that uses a mutable variable can be seen as a function that takes the mutable variable's starting value as an argument, returning a pair of the variable's final value and the function's result.
 This final value can then be passed as an argument to the next step.
 
-:::paragraph
 Just as the Python example uses an outer function that establishes a mutable variable and an inner helper function that changes the variable, a Lean version of the function uses an outer function that provides the variable's starting value and explicitly returns the function's result along with an inner helper function that threads the variable's value while computing the numbered tree:
 
 ```anchor numberDirect
@@ -596,17 +550,11 @@ The first step is to give a name to the pattern of taking an input state as an a
 def State (σ : Type) (α : Type) : Type :=
   σ → (σ × α)
 ```
-:::
-
-:::paragraph
 In the case of {anchorName State}`State`, {anchorName okState}`ok` is a function that returns the input state unchanged, along with the provided value:
 ```anchor okState
 def ok (x : α) : State σ α :=
   fun s => (s, x)
 ```
-:::
-
-:::paragraph
 When working with a mutable variable, there are two fundamental operations: reading the value and replacing it with a new one.
 Reading the current value is accomplished with a function that places the input state unmodified into the output state, and also places it into the value field:
 ```anchor get
@@ -618,9 +566,6 @@ Writing a new value consists of ignoring the input state, and placing the provid
 def set (s : σ) : State σ Unit :=
   fun _ => (s, ())
 ```
-:::
-
-:::paragraph
 Finally, two computations that use state can be sequenced by finding both the output state and return value of the first function, then passing them both into the next function:
 
 ```anchor andThenState
@@ -631,9 +576,6 @@ def andThen (first : State σ α) (next : α → State σ β) : State σ β :=
 
 infixl:55 " ~~> " => andThen
 ```
-:::
-
-:::paragraph
 Using {anchorName State}`State` and its helpers, local mutable state can be simulated:
 
 ```anchor numberMonadicish
@@ -649,8 +591,6 @@ def number (t : BinTree α) : BinTree (Nat × α) :=
   (helper t 0).snd
 ```
 Because {anchorName State}`State` simulates only a single local variable, {anchorName get}`get` and {anchorName set}`set` don't need to refer to any particular variable name.
-:::
-
 ## Monads: A Functional Design Pattern
 %%%
 tag := "monad-as-design-pattern"

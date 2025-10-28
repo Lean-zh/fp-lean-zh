@@ -56,8 +56,6 @@ tag := "evaluating"
 并不是以求值表达式的方式使用 Lean 的核心部分。因此，本章重点介绍如何使用
 Lean 交互式地求值表达式，而下一章将介绍如何编写、编译并运行 {lit}`Hello, world!` 程序。
 
-:::paragraph
-
 -- To ask Lean to evaluate an expression, write {kw}`#eval` before it in your editor, which will then report the result back.
 -- Typically, the result is found by putting the cursor or mouse pointer over {kw}`#eval`.
 -- For instance,
@@ -77,10 +75,6 @@ Lean 交互式地求值表达式，而下一章将介绍如何编写、编译并
 3
 ```
 
-:::
-
-:::paragraph
-
 -- Lean obeys the ordinary rules of precedence and associativity for
 -- arithmetic operators. That is,
 
@@ -93,10 +87,6 @@ Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，
 -- yields the value {anchorInfo orderOfOperations}`11` rather than {anchorInfo orderOfOperationsWrong}`15`.
 
 会产生值 {anchorInfo orderOfOperations}`11` 而非 {anchorInfo orderOfOperationsWrong}`15`。
-
-:::
-
-:::paragraph
 
 -- While both ordinary mathematical notation and the majority of programming languages use parentheses (e.g. {lit}`f(x)`) to apply a function to its arguments, Lean simply writes the function next to its arguments (e.g. {lit}`f x`).
 -- Function application is one of the most common operations, so it pays to keep it concise.
@@ -122,10 +112,6 @@ Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，
 
 其中函数的两个参数只是写在后面用空格隔开。
 
-:::
-
-:::paragraph
-
 -- Just as the order-of-operations rules for arithmetic demand parentheses in the expression {anchorTerm orderOfOperationsWrong}`(1 + 2) * 5`, parentheses are also necessary when a function's argument is to be computed via another function call.
 -- For instance, parentheses are required in
 
@@ -142,10 +128,6 @@ Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，
 中需要括号，否则第二个 {moduleTerm (anchor := stringAppendNested)}`String.append` 将被解释为第一个函数的参数，而非一个接受 {moduleTerm (anchor := stringAppendNested)}`"oak "`
 和 {moduleTerm (anchor := stringAppendNested)}`"tree"` 作为参数的函数。必须先得到内部 {anchorTerm stringAppendNested}`String.append` 调用的值，然后才能将其追加到
 {moduleTerm (anchor := stringAppendNested)}`"great "` 后面，从而产生最终的值 {anchorInfo stringAppendNested}`"great oak tree"`。
-
-:::
-
-:::paragraph
 
 -- Imperative languages often have two kinds of conditional: a conditional _statement_ that determines which instructions to carry out based on a Boolean value, and a conditional _expression_ that determines which of two expressions to evaluate based on a Boolean value.
 -- For instance, in C and C++, the conditional statement is written using {c}`if` and {c}`else`, while the conditional expression is written with a ternary operator in which {c}`?` and {c}`:` separate the condition from the branches.
@@ -185,10 +167,6 @@ String.append "it is " "no"
 
 最终求值为 {anchorEvalStep stringAppend 3}`"it is no"`。
 
-:::
-
-:::paragraph
-
 -- For the sake of brevity, a series of evaluation steps like this will sometimes be written with arrows between them:
 
 为了简洁起见，这样的一系列求值步骤有时会用箭头连接起来：
@@ -203,15 +181,11 @@ String.append "it is " "no"
 "it is no"
 ```
 
-:::
-
 -- # Messages You May Meet
 # 可能遇到的消息
 %%%
 tag := "evaluating-messages"
 %%%
-
-:::paragraph
 
 -- Asking Lean to evaluate a function application that is missing an argument will lead to an error message.
 -- In particular, the example
@@ -230,8 +204,6 @@ tag := "evaluating-messages"
 could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
   String → String
 ```
-
-:::
 
 -- This message occurs because Lean functions that are applied to only some of their arguments return new functions that are waiting for the rest of the arguments.
 -- Lean cannot display functions to users, and thus returns an error when asked to do so.

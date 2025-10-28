@@ -26,8 +26,6 @@ Lean 包含许多便利功能，使程序更加简洁。
 tag := "automatic-implicit-parameters"
 %%%
 
-:::paragraph
-
 -- When writing polymorphic functions in Lean, it is typically not necessary to list all the implicit parameters.
 -- Instead, they can simply be mentioned.
 -- If Lean can determine their type, then they are automatically inserted as implicit parameters.
@@ -60,8 +58,6 @@ def length (xs : List α) : Nat :=
 
 这可以大大简化接受许多隐式参数的高度多态定义。
 
-:::
-
 -- # Pattern-Matching Definitions
 # 模式匹配定义
 %%%
@@ -74,8 +70,6 @@ tag := "pattern-matching-definitions"
 使用 {kw}`def` 定义函数时，命名参数然后立即用模式匹配使用它是很常见的。
 例如，在 {anchorName lengthImpAuto}`length` 中，参数 {anchorName lengthImpAuto}`xs` 仅在 {kw}`match` 中使用。
 在这些情况下，{kw}`match` 表达式的情况可以直接编写，根本不需要命名参数。
-
-:::paragraph
 
 -- The first step is to move the arguments' types to the right of the colon, so the return type is a function type.
 -- For instance, the type of {anchorName lengthMatchDef}`length` is {anchorTerm lengthMatchDef}`List α → Nat`.
@@ -105,10 +99,6 @@ def drop : Nat → List α → List α
   | _, [] => []
   | Nat.succ n, x :: xs => drop n xs
 ```
-
-:::
-
-:::paragraph
 
 -- Named arguments and patterns can also be used in the same definition.
 -- For instance, a function that takes a default value and an optional value, and returns the default when the optional value is {anchorName fromOption}`none`, can be written:
@@ -142,8 +132,6 @@ def fromOption (default : α) : Option α → α
 ""
 ```
 
-:::
-
 -- # Local Definitions
 # 局部定义
 %%%
@@ -158,8 +146,6 @@ tag := "local-definitions"
 在许多情况下，中间值本身就代表有用的概念，明确命名它们可以使程序更易读。
 在其他情况下，中间值被多次使用。
 与大多数其他语言一样，在 Lean 中写两次相同的代码会导致计算两次，而将结果保存在变量中会导致计算结果被保存和重用。
-
-:::paragraph
 
 -- For instance, {anchorName unzipBad}`unzip` is a function that transforms a list of pairs into a pair of lists.
 -- When the list of pairs is empty, then the result of {anchorName unzipBad}`unzip` is a pair of empty lists.
@@ -186,10 +172,6 @@ def unzip : List (α × β) → List α × List β
 对列表中的每个条目都会导致两次递归调用，这使得这个函数的时间复杂度是指数级的。
 然而，两次递归调用会有相同的结果，所以没有理由进行两次递归调用。
 
-:::
-
-:::paragraph
-
 -- In Lean, the result of the recursive call can be named, and thus saved, using {kw}`let`.
 -- Local definitions with {kw}`let` resemble top-level definitions with {kw}`def`: it takes a name to be locally defined, arguments if desired, a type signature, and then a body following {lit}`:=`.
 -- After the local definition, the expression in which the local definition is available (called the _body_ of the {kw}`let`-expression) must be on a new line, starting at a column in the file that is less than or equal to that of the {kw}`let` keyword.
@@ -212,10 +194,6 @@ def unzip : List (α × β) → List α × List β
 
 要在单行中使用 {kw}`let`，用分号将局部定义与主体分开。
 
-:::
-
-:::paragraph
-
 -- Local definitions with {kw}`let` may also use pattern matching when one pattern is enough to match all cases of a datatype.
 -- In the case of {anchorName unzip}`unzip`, the result of the recursive call is a pair.
 -- Because pairs have only a single constructor, the name {anchorName unzip}`unzipped` can be replaced with a pair pattern:
@@ -235,10 +213,6 @@ def unzip : List (α × β) → List α × List β
 -- Judicious use of patterns with {kw}`let` can make code easier to read, compared to writing the accessor calls by hand.
 
 与手动编写访问器调用相比，明智地使用 {kw}`let` 的模式可以使代码更易读。
-
-:::
-
-:::paragraph
 
 -- The biggest difference between {kw}`let` and {kw}`def` is that recursive {kw}`let` definitions must be explicitly indicated by writing {kw}`let rec`.
 -- For instance, one way to reverse a list involves a recursive helper function, as in this definition:
@@ -260,15 +234,11 @@ def reverse (xs : List α) : List α :=
 辅助函数遍历输入列表，每次将一个条目移动到 {anchorName reverse}`soFar`。
 当它到达输入列表的末尾时，{anchorName reverse}`soFar` 包含输入的反转版本。
 
-:::
-
 -- # Type Inference
 # 类型推断
 %%%
 tag := "type-inference"
 %%%
-
-:::paragraph
 
 -- In many situations, Lean can automatically determine an expression's type.
 -- In these cases, explicit types may be omitted from both top-level definitions (with {kw}`def`) and local definitions (with {kw}`let`).
@@ -286,8 +256,6 @@ def unzip : List (α × β) → List α × List β
     (x :: unzipped.fst, y :: unzipped.snd)
 ```
 
-:::
-
 -- As a rule of thumb, omitting the types of literal values (like strings and numbers) usually works, although Lean may pick a type for literal numbers that is more specific than the intended type.
 -- Lean can usually determine a type for a function application, because it already knows the argument types and the return type.
 -- Omitting return types for function definitions will often work, but function parameters typically require annotations.
@@ -297,8 +265,6 @@ def unzip : List (α × β) → List α × List β
 Lean 通常可以确定函数应用的类型，因为它已经知道参数类型和返回类型。
 省略函数定义的返回类型通常有效，但函数参数通常需要注解。
 不是函数的定义，如示例中的 {anchorName unzipNT}`unzipped`，如果它们的主体不需要类型注解，则不需要类型注解，这个定义的主体是一个函数应用。
-
-:::paragraph
 
 -- Omitting the return type for {anchorName unzipNRT}`unzip` is possible when using an explicit {kw}`match` expression:
 
@@ -312,10 +278,6 @@ def unzip (pairs : List (α × β)) :=
     let unzipped := unzip xys
     (x :: unzipped.fst, y :: unzipped.snd)
 ```
-
-:::
-
-:::paragraph
 
 -- Generally speaking, it is a good idea to err on the side of too many, rather than too few, type annotations.
 -- First off, explicit types communicate assumptions about the code to readers.
@@ -359,10 +321,6 @@ def unzip (pairs : List (α × β)) :=
 14 : Int
 ```
 
-:::
-
-:::paragraph
-
 -- Missing type annotations can give confusing error messages.
 -- Omitting all types from the definition of {anchorName unzipNoTypesAtAll}`unzip`:
 
@@ -394,10 +352,6 @@ Invalid match expression: This pattern contains metavariables:
 这是因为 {kw}`match` 需要知道被检查的值的类型，但该类型不可用。
 "元变量"是程序的未知部分，在错误消息中写作 {lit}`?m.XYZ`——它们在{ref "polymorphism"}[多态性章节]中有描述。
 在这个程序中，参数上的类型注解是必需的。
-
-:::
-
-:::paragraph
 
 -- Even some very simple programs require type annotations.
 -- For instance, the identity function just returns whatever argument it is passed.
@@ -431,8 +385,6 @@ def id x := x
 Failed to infer type of binder `x`
 ```
 
-:::
-
 -- In general, messages that say something like “failed to infer” or that mention metavariables are often a sign that more type annotations are necessary.
 -- Especially while still learning Lean, it is useful to provide most types explicitly.
 
@@ -444,8 +396,6 @@ Failed to infer type of binder `x`
 %%%
 tag := "simultaneous-matching"
 %%%
-
-:::paragraph
 
 -- Pattern-matching expressions, just like pattern-matching definitions, can match on multiple values at once.
 -- Both the expressions to be inspected and the patterns that they match against are written with commas between them, similarly to the syntax used for definitions.
@@ -462,10 +412,6 @@ def drop (n : Nat) (xs : List α) : List α :=
   | _, [] => []
   | Nat.succ n , y :: ys => drop n ys
 ```
-
-:::
-
-:::paragraph
 
 -- Simultaneous matching resembles matching on a pair, but there is an important difference.
 -- Lean tracks the connection between the expression being matched and the patterns, and this information is used for purposes that include checking for termination and propagating static type information.
@@ -520,15 +466,11 @@ def sameLength (xs : List α) (ys : List β) : Bool :=
   | _, _ => false
 ```
 
-:::
-
 -- # Natural Number Patterns
 # 自然数模式
 %%%
 tag := "natural-number-patterns"
 %%%
-
-:::paragraph
 
 -- In the section on {ref "datatypes-and-patterns"}[datatypes and patterns], {anchorName even}`even` was defined like this:
 
@@ -585,10 +527,6 @@ def halve : Nat → Nat
 在幕后，两个定义完全等价。
 记住：{anchorTerm halve}`halve n + 1` 等价于 {anchorTerm halveParens}`(halve n) + 1`，而不是 {anchorTerm halveParens}`halve (n + 1)`。
 
-:::
-
-:::paragraph
-
 -- When using this syntax, the second argument to {anchorTerm halveFlippedPat}`+` should always be a literal {anchorName halveFlippedPat}`Nat`.
 -- Even though addition is commutative, flipping the arguments in a pattern can result in errors like the following:
 
@@ -611,15 +549,11 @@ Invalid pattern(s): `n` is an explicit pattern variable, but it only occurs in p
 
 这个限制使 Lean 能够将模式中 {anchorTerm halveFlippedPat}`+` 记法的所有使用转换为底层 {anchorName even}`Nat.succ` 的使用，在幕后保持语言更简单。
 
-:::
-
 -- # Anonymous Functions
 # 匿名函数
 %%%
 tag := "anonymous-functions"
 %%%
-
-:::paragraph
 
 -- Functions in Lean need not be defined at the top level.
 -- As expressions, functions are produced with the {kw}`fun` syntax.
@@ -669,10 +603,6 @@ fun {α} x => x : {α : Type} → α → α
 这种匿名函数表达式的风格通常被称为 *lambda 表达式*，因为在编程语言的数学描述中使用的典型记法使用希腊字母 λ（lambda），而 Lean 有关键字 {kw}`fun`。
 尽管 Lean 确实允许使用 {kw}`λ` 代替 {kw}`fun`，但最常见的是写 {kw}`fun`。
 
-:::
-
-:::paragraph
-
 -- Anonymous functions also support the multiple-pattern style used in {kw}`def`.
 -- For instance, a function that returns the predecessor of a natural number if it exists can be written:
 
@@ -698,10 +628,6 @@ fun x =>
 注意 Lean 对函数的描述有一个命名参数和一个 {kw}`match` 表达式。
 Lean 的许多便利语法简写在幕后展开为更简单的语法，抽象有时会泄漏。
 
-:::
-
-:::paragraph
-
 -- Definitions using {kw}`def` that take arguments may be rewritten as function expressions.
 -- For instance, a function that doubles its argument can be written as follows:
 
@@ -725,10 +651,6 @@ def double : Nat → Nat := fun
 对于这些简单情况，Lean 提供了简写。
 在被括号包围的表达式中，居中点字符 {anchorTerm incrSteps}`·` 可以代表一个参数，括号内的表达式成为函数的主体。
 那个特定的函数也可以写成 {anchorEvalStep incrSteps 1}`(· + 1)`。
-
-:::
-
-:::paragraph
 
 -- The centered dot always creates a function out of the _closest_ surrounding set of parentheses.
 -- For instance, {anchorEvalStep funPair 0}`(· + 5, 3)` is a function that returns a pair of numbers, while {anchorEvalStep pairFun 0}`((· + 5), 3)` is a pair of a function and a number.
@@ -764,8 +686,6 @@ def double : Nat → Nat := fun
 10
 ```
 
-:::
-
 -- # Namespaces
 # 命名空间
 %%%
@@ -782,8 +702,6 @@ Lean 中的每个名称都出现在一个 *命名空间* 中，这是一个名�
 不同命名空间中的名称不会相互冲突，即使它们在其他方面相同。
 这意味着 {anchorName fragments}`List.map` 和 {anchorName fragments}`Array.map` 是不同的名称。
 命名空间可以嵌套，所以 {lit}`Project.Frontend.User.loginTime` 是嵌套命名空间 {lit}`Project.Frontend.User` 中的名称 {lit}`loginTime`。
-
-:::paragraph
 
 -- Names can be directly defined within a namespace.
 -- For instance, the name {anchorName fragments}`double` can be defined in the {anchorName even}`Nat` namespace:
@@ -806,10 +724,6 @@ def Nat.double (x : Nat) : Nat := x + x
 ```anchorInfo NatDoubleFour
 8
 ```
-
-:::
-
-:::paragraph
 
 -- In addition to defining names directly in a namespace, a sequence of declarations can be placed in a namespace using the {kw}`namespace` and {kw}`end` commands.
 -- For instance, this defines {anchorName NewNamespace}`triple` and {anchorName NewNamespace}`quadruple` in the namespace {lit}`NewNamespace`:
@@ -844,10 +758,6 @@ NewNamespace.triple (x : Nat) : Nat
 NewNamespace.quadruple (x : Nat) : Nat
 ```
 
-:::
-
-:::paragraph
-
 -- Namespaces may be _opened_, which allows the names in them to be used without explicit qualification.
 -- Writing {kw}`open` {lit}`MyNamespace `{kw}`in` before an expression causes the contents of {lit}`MyNamespace` to be available in the expression.
 -- For example, {anchorName quadrupleOpenDef}`timesTwelve` uses both {anchorName quadrupleOpenDef}`quadruple` and {anchorName quadrupleOpenDef}`triple` after opening {anchorTerm NewNamespace}`NewNamespace`:
@@ -861,10 +771,6 @@ def timesTwelve (x : Nat) :=
   open NewNamespace in
   quadruple (triple x)
 ```
-
-:::
-
-:::paragraph
 
 -- Namespaces can also be opened prior to a command.
 -- This allows all parts of the command to refer to the contents of the namespace, rather than just a single expression.
@@ -891,15 +797,11 @@ NewNamespace.quadruple (x : Nat) : Nat
 命名空间还可以为文件其余部分的 *所有* 后续命令打开。
 为此，只需从顶层使用的 {kw}`open` 中省略 {kw}`in`。
 
-:::
-
 -- # {lit}`if let`
 # {lit}`if let`
 %%%
 tag := "if-let"
 %%%
-
-:::paragraph
 
 -- When consuming values that have a sum type, it is often the case that only a single constructor is of interest.
 -- For example, given this type that represents a subset of Markdown inline elements:
@@ -926,10 +828,6 @@ def Inline.string? (inline : Inline) : Option String :=
   | _ => none
 ```
 
-:::
-
-:::paragraph
-
 -- An alternative way of writing this function's body uses {kw}`if` together with {kw}`let`:
 
 编写这个函数主体的另一种方式是将 {kw}`if` 与 {kw}`let` 一起使用：
@@ -948,8 +846,6 @@ def Inline.string? (inline : Inline) : Option String :=
 这非常像模式匹配 {kw}`let` 语法。
 区别在于它可以与和类型一起使用，因为在 {kw}`else` 情况下提供了回退。
 在某些上下文中，使用 {kw}`if let` 而不是 {kw}`match` 可以使代码更易读。
-
-:::
 
 -- # Positional Structure Arguments
 # 位置结构参数
@@ -980,8 +876,6 @@ tag := "positional-structure-arguments"
 尽管它们看起来像小于号 {lit}`<` 和大于号 {lit}`>`，但这些括号是不同的。
 它们可以分别使用 {lit}`\<` 和 {lit}`\>` 输入。
 
-:::paragraph
-
 -- Just as with the brace notation for named constructor arguments, this positional syntax can only be used in a context where Lean can determine the structure's type, either from a type annotation or from other type information in the program.
 -- For instance, {anchorTerm pointPosEvalNoType}`#eval ⟨1, 2⟩` yields the following error:
 
@@ -1002,15 +896,11 @@ Invalid `⟨...⟩` notation: The expected type of this term could not be determ
 { x := 1.000000, y := 2.000000 }
 ```
 
-:::
-
 -- # String Interpolation
 # 字符串插值
 %%%
 tag := "string-interpolation"
 %%%
-
-:::paragraph
 
 -- In Lean, prefixing a string with {kw}`s!` triggers _interpolation_, where expressions contained in curly braces inside the string are replaced with their values.
 -- This is similar to {python}`f`-strings in Python and {CSharp}`$`-prefixed strings in C#.
@@ -1031,10 +921,6 @@ tag := "string-interpolation"
 ```anchorInfo interpolation
 "three fives is 15"
 ```
-
-:::
-
-:::paragraph
 
 -- Not all expressions can be interpolated into a string.
 -- For instance, attempting to interpolate a function results in an error.
@@ -1066,5 +952,3 @@ Hint: Additional diagnostic information may be available using the `set_option d
 正如 Lean 编译器维护一个表，描述如何显示各种类型的表达式求值结果，它维护一个表，描述如何将各种类型的值转换为字符串。
 消息 {lit}`failed to synthesize instance` 意味着 Lean 编译器没有在此表中找到给定类型的条目。
 {ref "type-classes"}[类型类章节]更详细地描述了这种机制，包括添加新条目的方法。
-
-:::
