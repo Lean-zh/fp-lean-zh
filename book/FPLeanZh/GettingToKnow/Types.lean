@@ -11,12 +11,14 @@ example_module Examples.Intro
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
-
+%%%
+file := "GettingToKnow/Types"
+%%%
 #doc (Manual) "类型" =>
 %%%
 tag := "getting-to-know-types"
 %%%
--- "Types" =>
+-- Types
 
 
 -- Types classify programs based on the values that they can
@@ -53,6 +55,7 @@ Lean 的类型系统异常富有表现力。
 然而，这种尖端表达能力并不会使更简单的类型变得不必要，理解这些更简单的类型是使用更高级功能的前提。
 
 :::paragraph
+
 -- Every program in Lean must have a type. In particular, every
 -- expression must have a type before it can be evaluated. In the
 -- examples so far, Lean has been able to discover a type on its own, but
@@ -98,9 +101,11 @@ Lean 中的每个程序都必须有一个类型。特别是，每个表达式在
 
 -- With this type, the result is {anchorInfo oneMinusTwoIntEval}`-1`, as expected.
 有了这个类型，结果是 {anchorInfo oneMinusTwoIntEval}`-1`，符合预期。
+
 :::
 
 :::paragraph
+
 -- To check the type of an expression without evaluating it, use {kw}`#check` instead of {kw}`#eval`. For instance:
 
 要检查表达式的类型而不对其求值，请使用 {kw}`#check` 而不是 {kw}`#eval`。
@@ -112,9 +117,11 @@ Lean 中的每个程序都必须有一个类型。特别是，每个表达式在
 
 -- reports {anchorInfo oneMinusTwoIntType}`1 - 2 : Int` without actually performing the subtraction.
 报告 {anchorInfo oneMinusTwoIntType}`1 - 2 : Int`，而无需实际执行减法。
+
 :::
 
 :::paragraph
+
 -- When a program can't be given a type, an error is returned from both {kw}`#check` and {kw}`#eval`. For instance:
 
 当程序无法获得类型时，{kw}`#check` 和 {kw}`#eval` 都会返回错误。
@@ -140,4 +147,5 @@ in the application
 
 -- because the first argument to {anchorName stringAppendList}`String.append` is expected to be a string, but a list of strings was provided instead.
 因为 {anchorName stringAppendList}`String.append` 的第一个参数预期是字符串，但却提供了一个字符串列表。
+
 :::

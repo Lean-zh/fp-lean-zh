@@ -13,6 +13,9 @@ set_option verso.exampleModule "Examples.Props"
 set_option pp.rawOnError true
 
 -- Interlude: Propositions, Proofs, and Indexing
+%%%
+file := "PropsProofsIndexing"
+%%%
 #doc (Manual) "插曲：命题、证明与索引" =>
 %%%
 tag := "propositions-proofs-indexing"

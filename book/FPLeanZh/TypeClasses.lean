@@ -21,6 +21,9 @@ set_option verso.exampleModule "Examples.Classes"
 set_option pp.rawOnError true
 
 -- Overloading and Type Classes
+%%%
+file := "TypeClasses"
+%%%
 #doc (Manual) "重载与类型类" =>
 %%%
 tag := "type-classes"

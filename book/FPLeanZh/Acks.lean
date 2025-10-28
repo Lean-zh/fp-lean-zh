@@ -10,6 +10,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.TODO"
 
 -- Acknowledgments
+%%%
+file := "Acks"
+%%%
 #doc (Manual) "致谢" =>
 %%%
 tag := "acknowledgments"

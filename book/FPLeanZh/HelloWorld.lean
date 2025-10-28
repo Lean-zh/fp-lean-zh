@@ -14,7 +14,9 @@ open Verso Code External
 
 open FPLeanZh
 
-
+%%%
+file := "HelloWorld"
+%%%
 #doc (Manual) "Hello, World!" =>
 %%%
 tag := "hello-world"

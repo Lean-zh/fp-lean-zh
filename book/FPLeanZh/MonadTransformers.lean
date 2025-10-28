@@ -19,6 +19,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Monads"
 
 -- Monad Transformers
+%%%
+file := "MonadTransformers"
+%%%
 #doc (Manual) "单子转换器" =>
 %%%
 tag := "monad-transformers"

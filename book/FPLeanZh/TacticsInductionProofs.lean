@@ -10,6 +10,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Induction"
 
 -- Interlude: Tactics, Induction, and Proofs
+%%%
+file := "TacticsInductionProofs"
+%%%
 #doc (Manual) "插曲：策略、归纳与证明" =>
 %%%
 tag := "tactics-induction-proofs"

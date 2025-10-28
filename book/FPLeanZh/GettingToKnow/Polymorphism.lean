@@ -9,11 +9,14 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
+%%%
+file := "GettingToKnow/Polymorphism"
+%%%
 #doc (Manual) "多态性" =>
--- "Polymorphism"
 %%%
 tag := "polymorphism"
 %%%
+-- "Polymorphism"
 
 -- Just as in most languages, types in Lean can take arguments.
 -- For instance, the type {anchorTerm fragments}`List Nat` describes lists of natural numbers, {anchorTerm fragments}`List String` describes lists of strings, and {anchorTerm fragments}`List (List Point)` describes lists of lists of points.
@@ -36,6 +39,7 @@ tag := "polymorphism"
 这些类型参数可以在数据类型或定义中使用，这允许相同的数据类型或定义与通过用其他类型替换参数名称而产生的任何类型一起使用。
 
 :::paragraph
+
 -- The {anchorName Point}`Point` structure requires that both the {anchorName Point}`x` and {anchorName Point}`y` fields are {anchorName Point}`Float`s.
 -- There is, however, nothing about points that require a specific representation for each coordinate.
 -- A polymorphic version of {anchorName Point}`Point`, called {anchorName PPoint}`PPoint`, can take a type as an argument, and then use that type for both fields:
@@ -61,6 +65,7 @@ structure PPoint (α : Type) where
 {anchorTerm PPoint}`Type` 是一个描述其他类型的类型，所以 {anchorName Nat}`Nat`、{anchorTerm fragments}`List String` 和 {anchorTerm fragments}`PPoint Int` 都具有类型 {anchorTerm PPoint}`Type`。
 
 :::paragraph
+
 -- Just like {anchorName fragments}`List`, {anchorName PPoint}`PPoint` can be used by providing a specific type as its argument:
 
 就像 {anchorName fragments}`List` 一样，{anchorName PPoint}`PPoint` 可以通过提供特定类型作为其参数来使用：
@@ -77,8 +82,11 @@ def natOrigin : PPoint Nat :=
 在这个例子中，两个字段都被期望是 {anchorName natPoint}`Nat`。
 正如通过用参数值替换参数变量来调用函数一样，向 {anchorName PPoint}`PPoint` 提供类型 {anchorName fragments}`Nat` 作为参数会产生一个结构，其中字段 {anchorName PPoint}`x` 和 {anchorName PPoint}`y` 具有类型 {anchorName fragments}`Nat`，因为参数名 {anchorName PPoint}`α` 已被参数类型 {anchorName fragments}`Nat` 替换。
 类型是 Lean 中的普通表达式，所以将参数传递给多态类型（如 {anchorName PPoint}`PPoint`）不需要任何特殊语法。
+
 :::
+
 :::paragraph
+
 -- Definitions may also take types as arguments, which makes them polymorphic.
 -- The function {anchorName replaceX}`replaceX` replaces the {anchorName replaceX}`x` field of a {anchorName replaceX}`PPoint` with a new value.
 -- In order to allow {anchorName replaceX}`replaceX` to work with _any_ polymorphic point, it must be polymorphic itself.
@@ -99,9 +107,11 @@ def replaceX (α : Type) (point : PPoint α) (newX : α) : PPoint α :=
 
 换句话说，当参数 {anchorName replaceX}`point` 和 {anchorName replaceX}`newX` 的类型提到 {anchorName replaceX}`α` 时，它们指的是 *作为第一个参数提供的任何类型*。
 这类似于函数参数名称在函数体中出现时引用所提供的值的方式。
+
 :::
 
 :::paragraph
+
 -- This can be seen by asking Lean to check the type of {anchorName replaceX}`replaceX`, and then asking it to check the type of {anchorTerm replaceXNatOriginFiveT}`replaceX Nat`.
 
 这可以通过询问 Lean 检查 {anchorName replaceX}`replaceX` 的类型，然后询问它检查 {anchorTerm replaceXNatOriginFiveT}`replaceX Nat` 的类型来看出。
@@ -153,6 +163,7 @@ replaceX Nat natOrigin 5 : PPoint Nat
 :::
 
 :::paragraph
+
 -- The fact that the type of the whole function application expression was determined by passing a type as an argument has no bearing on the ability to evaluate it.
 
 通过将类型作为参数传递来确定整个函数应用表达式的类型这一事实对求值能力没有影响。
@@ -168,6 +179,7 @@ replaceX Nat natOrigin 5 : PPoint Nat
 :::
 
 :::paragraph
+
 -- Polymorphic functions work by taking a named type argument and having later types refer to the argument's name.
 -- However, there's nothing special about type arguments that allows them to be named.
 -- Given a datatype that represents positive or negative signs:
@@ -185,6 +197,7 @@ inductive Sign where
 :::
 
 :::paragraph
+
 -- it is possible to write a function whose argument is a sign.
 -- If the argument is positive, the function returns a {anchorName posOrNegThree}`Nat`, while if it's negative, it returns an {anchorName posOrNegThree}`Int`:
 
@@ -208,6 +221,7 @@ def posOrNegThree (s : Sign) :
 :::
 
 :::paragraph
+
 -- Applying {anchorName posOrNegThree}`posOrNegThree` to {anchorName Sign}`pos` results in the argument name {anchorName posOrNegThree}`s` in both the body of the function and its return type being replaced by {anchorName Sign}`pos`.
 -- Evaluation can occur both in the expression and its type:
 
@@ -237,6 +251,7 @@ tag := "linked-lists"
 %%%
 
 :::paragraph
+
 -- Lean's standard library includes a canonical linked list datatype, called {anchorName fragments}`List`, and special syntax that makes it more convenient to use.
 -- Lists are written in square brackets.
 -- For instance, a list that contains the prime numbers less than 10 can be written:
@@ -252,6 +267,7 @@ def primesUnder10 : List Nat := [2, 3, 5, 7]
 :::
 
 :::paragraph
+
 -- Behind the scenes, {anchorName List}`List` is an inductive datatype, defined like this:
 
 在幕后，{anchorName List}`List` 是一个归纳数据类型，定义如下：
@@ -281,6 +297,7 @@ inductive List (α : Type) where
 :::
 
 :::paragraph
+
 -- The {anchorName primesUnder10}`primesUnder10` example can be written more explicitly by using {anchorName List}`List`'s constructors directly:
 
 {anchorName primesUnder10}`primesUnder10` 示例可以通过直接使用 {anchorName List}`List` 的构造器更明确地编写：
@@ -293,9 +310,11 @@ def explicitPrimesUnder10 : List Nat :=
 -- These two definitions are completely equivalent, but {anchorName primesUnder10}`primesUnder10` is much easier to read than {anchorName explicitPrimesUnder10}`explicitPrimesUnder10`.
 
 这两个定义完全等价，但 {anchorName primesUnder10}`primesUnder10` 比 {anchorName explicitPrimesUnder10}`explicitPrimesUnder10` 更容易阅读。
+
 :::
 
 :::paragraph
+
 -- Functions that consume {anchorName List}`List`s can be defined in much the same way as functions that consume {anchorName Nat}`Nat`s.
 -- Indeed, one way to think of a linked list is as a {anchorName Nat}`Nat` that has an extra data field dangling off each {anchorName Nat}`succ` constructor.
 -- From this point of view, computing the length of a list is the process of replacing each {anchorName List}`cons` with a {anchorName Nat}`succ` and the final {anchorName List}`nil` with a {anchorName Nat}`zero`.
@@ -327,6 +346,7 @@ Nat.succ (Nat.succ Nat.zero)
 :::
 
 :::paragraph
+
 -- The definition of {anchorName length1}`length` is both polymorphic (because it takes the list entry type as an argument) and recursive (because it refers to itself).
 -- Generally, functions follow the shape of the data: recursive datatypes lead to recursive functions, and polymorphic datatypes lead to polymorphic functions.
 
@@ -349,6 +369,7 @@ def length (α : Type) (xs : List α) : Nat :=
 名称中的 {lit}`s` 表示它们是复数，所以它们读作"exes"和"whys"而不是"x s"和"y s"。
 
 :::paragraph
+
 -- To make it easier to read functions on lists, the bracket notation {anchorTerm length2}`[]` can be used to pattern-match against {anchorName List}`nil`, and an infix {anchorTerm length2}`::` can be used in place of {anchorName List}`cons`:
 
 为了更容易阅读列表上的函数，方括号记法 {anchorTerm length2}`[]` 可以用来对 {anchorName List}`nil` 进行模式匹配，中缀 {anchorTerm length2}`::` 可以用来代替 {anchorName List}`cons`：
@@ -369,6 +390,7 @@ tag := "implicit-parameters"
 %%%
 
 :::paragraph
+
 -- Both {anchorName replaceX}`replaceX` and {anchorName length1}`length` are somewhat bureaucratic to use, because the type argument is typically uniquely determined by the later values.
 -- Indeed, in most languages, the compiler is perfectly capable of determining type arguments on its own, and only occasionally needs help from users.
 -- This is also the case in Lean.
@@ -401,6 +423,7 @@ def replaceX {α : Type} (point : PPoint α) (newX : α) : PPoint α :=
 :::
 
 :::paragraph
+
 -- Similarly, {anchorName lengthImp}`length` can be redefined to take the entry type implicitly:
 
 类似地，{anchorName lengthImp}`length` 可以重新定义为隐式接受条目类型：
@@ -427,6 +450,7 @@ def length {α : Type} (xs : List α) : Nat :=
 :::
 
 :::paragraph
+
 -- In the standard library, Lean calls this function {anchorName lengthExpNat}`List.length`, which means that the dot syntax that is used for structure field access can also be used to find the length of a list:
 
 在标准库中，Lean 将此函数称为 {anchorName lengthExpNat}`List.length`，这意味着用于结构字段访问的点语法也可以用来查找列表的长度：
@@ -442,6 +466,7 @@ def length {α : Type} (xs : List α) : Nat :=
 :::
 
 :::paragraph
+
 -- Just as C# and Java require type arguments to be provided explicitly from time to time, Lean is not always capable of finding implicit arguments.
 -- In these cases, they can be provided using their names.
 -- For example, a version of {anchorName lengthExpNat}`List.length` that only works for lists of integers can be specified by setting {anchorTerm lengthExpNat}`α` to {anchorName lengthExpNat}`Int`:
@@ -491,6 +516,7 @@ tag := "Option"
 许多语言都有一个 {CSharp}`null` 值来表示没有值。Lean 没有为现有类型配备一个特殊的 {CSharp}`null` 值，而是提供了一个名为 {anchorName Option}`Option` 的数据类型，为其他类型配备了一个缺失值指示器。例如，一个可为空的 {anchorName fragments}`Int` 由 {anchorTerm nullOne}`Option Int` 表示，一个可为空的字符串列表由类型 {anchorTerm fragments}`Option (List String)` 表示。引入一个新类型来表示可空性意味着类型系统确保无法忘记对 {CSharp}`null` 的检查，因为 {anchorTerm nullOne}`Option Int` 不能在需要 {anchorName nullOne}`Int` 的上下文中使用。
 
 :::paragraph
+
 -- {anchorName Option}`Option` has two constructors, called {anchorName Option}`some` and {anchorName Option}`none`, that respectively represent the non-null and null versions of the underlying type.
 -- The non-null constructor, {anchorName Option}`some`, contains the underlying value, while {anchorName Option}`none` takes no arguments:
 
@@ -515,6 +541,7 @@ inductive Option (α : Type) : Type where
 {anchorName Option}`Option` 类型非常类似于 C# 和 Kotlin 中的可空类型，但并不完全相同。在这些语言中，如果一个类型（例如 {CSharp}`Boolean`）总是引用该类型的实际值（{CSharp}`true` 和 {CSharp}`false`），则类型 {CSharp}`Boolean?` 或 {CSharp}`Nullable<Boolean>` 还额外允许 {CSharp}`null` 值。在类型系统中跟踪这一点非常有用：类型检查器和其他工具可以帮助程序员记住检查 {CSharp}`null`，并且通过类型签名显式描述可空性的 API 比不描述的可空性 API 更有信息量。然而，这些可空类型与 Lean 的 {anchorName Option}`Option` 有一个非常重要的区别，那就是它们不允许多层可空性。{anchorTerm nullThree}`Option (Option Int)` 可以通过 {anchorTerm nullOne}`none`、{anchorTerm nullTwo}`some none` 或 {anchorTerm nullThree}`some (some 360)` 构造。另一方面，Kotlin 将 {Kotlin}`T??` 视为与 {Kotlin}`T?` 等价。这种微妙的差异在实践中很少相关，但有时可能很重要。
 
 :::paragraph
+
 -- To find the first entry in a list, if it exists, use {anchorName headHuh}`List.head?`.
 -- The question mark is part of the name, and is not related to the use of question marks to indicate nullable types in C# or Kotlin.
 -- In the definition of {anchorName headHuh}`List.head?`, an underscore is used to represent the tail of the list.
@@ -576,6 +603,7 @@ context:
 :::
 
 :::paragraph
+
 -- This is because Lean was unable to fully determine the expression's type.
 -- In particular, it could neither find the implicit type argument to {anchorName fragments}`List.head?`, nor the implicit type argument to {anchorName fragments}`List.nil`.
 -- In Lean's output, {lit}`?m.XYZ` represents a part of a program that could not be inferred.
@@ -609,6 +637,7 @@ none
 错误消息提供了一个有用的线索。两个消息都使用 *相同的* 元变量来描述缺失的隐式参数，这意味着 Lean 已经确定两个缺失的部分将共享一个解决方案，即使它无法确定实际值。
 
 :::
+
 -- ## {lit}`Prod`
 ## {lit}`Prod` 积类型
 %%%
@@ -629,6 +658,7 @@ tag := "prod"
 结构体 {anchorName Prod}`Prod` （是“Product”的简称）是一个通用的将两个值连接在一起的方式。例如，{anchorTerm fragments}`Prod Nat String` 包含一个 {anchorName fragments}`Nat` 和一个 {anchorName fragments}`String`。换句话说，{anchorTerm natPoint}`PPoint Nat` 可以被替换为 {anchorTerm fragments}`Prod Nat Nat`。{anchorName fragments}`Prod` 非常类似于 C# 的元组、Kotlin 的 {Kotlin}`Pair` 和 {Kotlin}`Triple` 类型以及 C++ 的 {cpp}`tuple`。许多应用程序最好通过定义自己的结构来实现，即使是简单的案例 {anchorName Point}`Point`，因为使用领域术语可以使代码更易读。此外，定义结构类型通过为不同的领域概念分配不同的类型来捕获更多的错误，防止它们被混淆。另一方面，有些情况下定义新类型的开销不值得，另外一些库已经足够通用，以至于没有比*偶对（Pair）*更具体的概念了。最后，标准库包含许多方便函数，使内置的 Pair 类型更容易使用。
 
 :::paragraph
+
 -- The structure {anchorName Prod}`Prod` is defined with two type arguments:
 结构体 {anchorName Prod}`Prod` 使用两个类型参数定义：
 
@@ -641,6 +671,7 @@ structure Prod (α : Type) (β : Type) : Type where
 :::
 
 :::paragraph
+
 -- Lists are used so frequently that there is special syntax to make them more readable.
 -- For the same reason, both the product type and its constructor have special syntax.
 -- The type {anchorTerm ProdSugar}`Prod α β` is typically written {anchorTerm ProdSugar}`α × β`, mirroring the usual notation for a Cartesian product of sets.
@@ -681,7 +712,6 @@ def sevens : String × (Int × Nat) := ("VII", (7, 4 + 3))
 
 :::
 
-
 -- ## {anchorName Sum}`Sum`
 ## {anchorName Sum}`Sum` 和类型
 %%%
@@ -701,6 +731,7 @@ tag := "Sum"
 正像 {anchorName Prod}`Prod`，当编写非常通用的代码时，在没有任何有意义的领域特定类型的小部分代码中，或者当标准库包含有用函数时，应该使用 {anchorName Sum}`Sum`。在大多数情况下，使用自定义归纳数据类型更可读和更易维护。
 
 :::paragraph
+
 -- Values of type {anchorTerm Sumαβ}`Sum α β` are either the constructor {anchorName Sum}`inl` applied to a value of type {anchorName Sum}`α` or the constructor {anchorName Sum}`inr` applied to a value of type {anchorName Sum}`β`:
 类型为 {anchorTerm Sumαβ}`Sum α β` 的值要么是构造器 {anchorName Sum}`inl` 应用于类型为 {anchorName Sum}`α` 的值，要么是构造器 {anchorName Sum}`inr` 应用于类型为 {anchorName Sum}`β` 的值：
 
@@ -718,6 +749,7 @@ inductive Sum (α : Type) (β : Type) : Type where
 :::
 
 :::paragraph
+
 -- As an example, if pet names can either be dog names or cat names, then a type for them can be introduced as a sum of strings:
 例如，如果宠物名字可以是狗名字或猫名字，那么可以引入一个字符串的和类型：
 
@@ -764,8 +796,8 @@ def howManyDogs (pets : List PetName) : Nat :=
 tag := "Unit"
 %%%
 
-
 :::paragraph
+
 -- {anchorName Unit}`Unit` is a type with just one argumentless constructor, called {anchorName Unit}`unit`.
 -- In other words, it describes only a single value, which consists of said constructor applied to no arguments whatsoever.
 -- {anchorName Unit}`Unit` is defined as follows:
@@ -779,6 +811,7 @@ inductive Unit : Type where
 :::
 
 :::paragraph
+
 -- On its own, {anchorName Unit}`Unit` is not particularly useful.
 -- However, in polymorphic code, it can be used as a placeholder for data that is missing.
 -- For instance, the following inductive datatype represents arithmetic expressions:
@@ -798,7 +831,6 @@ inductive ArithExpr (ann : Type) : Type where
 -- Expressions coming from a parser might be annotated with source locations, so a return type of {anchorTerm ArithExprEx}`ArithExpr SourcePos` ensures that the parser put a {anchorName ArithExprEx}`SourcePos` at each subexpression.
 -- Expressions that don't come from the parser, however, will not have source locations, so their type can be {anchorTerm ArithExprEx}`ArithExpr Unit`.
 类型参数 {anchorName ArithExpr}`ann` 表示标注，每个构造器都标注了。来自解析器的表达式可能带有源位置标注，所以返回类型 {anchorTerm ArithExprEx}`ArithExpr SourcePos` 确保解析器在每个子表达式中放置一个 {anchorName ArithExprEx}`SourcePos`。然而，来自解析器的表达式不会带有源位置，所以它们的类型可以是 {anchorTerm ArithExprEx}`ArithExpr Unit`。
-
 
 :::
 
@@ -854,6 +886,7 @@ tag := "polymorphism-messages"
 %%%
 
 :::paragraph
+
 -- Not all definable structures or inductive types can have the type {anchorTerm Prod}`Type`.
 -- In particular, if a constructor takes an arbitrary type as an argument, then the inductive type must have a different type.
 -- These errors usually state something about “universe levels”.
@@ -887,9 +920,11 @@ which is not less than or equal to the inductive type's resulting universe level
 
 后面的章节描述了为什么会这样，以及如何修改定义使其工作。
 现在，尝试将类型作为整个归纳类型的参数，而不是构造器的参数。
+
 :::
 
 :::paragraph
+
 -- Similarly, if a constructor's argument is a function that takes the datatype being defined as an argument, then the definition is rejected.
 -- For example:
 
@@ -912,9 +947,11 @@ inductive MyType : Type where
 -- For technical reasons, allowing these datatypes could make it possible to undermine Lean's internal logic, making it unsuitable for use as a theorem prover.
 
 出于技术原因，允许这些数据类型可能会破坏 Lean 的内部逻辑，使其不适合用作定理证明器。
+
 :::
 
 :::paragraph
+
 -- Recursive functions that take two parameters should not match against the pair, but rather match each parameter independently.
 -- Otherwise, the mechanism in Lean that checks whether recursive calls are made on smaller values is unable to see the connection between the input value and the argument in the recursive call.
 -- For example, this function that determines whether two lists have the same length is rejected:
@@ -980,9 +1017,11 @@ def sameLength (xs : List α) (ys : List β) : Bool :=
 -- {ref "simultaneous-matching"}[Simultaneous matching], described in the next section, is another way to solve the problem that is often more elegant.
 
 下一节描述的{ref "simultaneous-matching"}[同时匹配]是解决问题的另一种方式，通常更优雅。
+
 :::
 
 :::paragraph
+
 -- Forgetting an argument to an inductive type can also yield a confusing message.
 -- For example, when the argument {anchorName MissingTypeArg}`α` is not passed to {anchorName MissingTypeArg}`MyType` in {anchorTerm MissingTypeArg}`ctor`'s type:
 
@@ -1012,6 +1051,7 @@ type expected, got
 :::
 
 :::paragraph
+
 -- The same message can appear when type arguments are omitted in other contexts, such as in a type signature for a definition:
 
 当在其他上下文中省略类型参数时，可能出现相同的消息，比如在定义的类型签名中：
@@ -1033,6 +1073,7 @@ type expected, got
 :::
 
 :::paragraph
+
 -- Evaluating expressions that use polymorphic types may trigger a situation in which Lean is incapable of displaying a value.
 -- The {anchorTerm evalAxe}`#eval` command evaluates the provided expression, using the expression's type to determine how to display the result.
 -- For some types, such as functions, this process fails, but Lean is perfectly capable of automatically generating display code for most other types.
@@ -1111,6 +1152,7 @@ def allFirewood : List Firewood := [
 ```anchorInfo evalAllFirewood
 [Firewood.birch, Firewood.pine, Firewood.beech]
 ```
+
 :::
 
 -- # Exercises

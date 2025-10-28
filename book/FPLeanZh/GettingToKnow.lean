@@ -17,7 +17,10 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Hello"
 
-
+-- Getting to Know Lean
+%%%
+file := "GettingToKnow"
+%%%
 #doc (Manual) "了解 Lean" =>
 %%%
 tag := "getting-to-know"

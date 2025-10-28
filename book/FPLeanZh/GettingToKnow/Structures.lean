@@ -11,11 +11,14 @@ example_module Examples.Intro
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
+%%%
+file := "GettingToKnow/Structures"
+%%%
 #doc (Manual) "结构" =>
--- "Structures"
 %%%
 tag := "structures"
 %%%
+-- "Structures"
 
 -- The first step in writing a program is usually to identify the problem domain's concepts, and then find suitable representations for them in code.
 -- Sometimes, a domain concept is a collection of other, simpler, concepts.
@@ -134,6 +137,7 @@ def origin : Point := { x := 0.0, y := 0.0 }
 ```
 
 :::paragraph
+
 -- This can be used to define functions that take structures as arguments.
 -- For instance, addition of points is performed by adding the underlying coordinate values.
 -- It should be the case that
@@ -152,6 +156,7 @@ def origin : Point := { x := 0.0, y := 0.0 }
 ```anchorInfo addPointsEx
 { x := -6.500000, y := 32.200000 }
 ```
+
 :::
 
 -- The function itself takes two {anchorName Point}`Point`s as arguments, called {anchorName addPoints}`p1` and {anchorName addPoints}`p2`.

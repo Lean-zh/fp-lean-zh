@@ -18,6 +18,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Monads"
 
 -- Monads
+%%%
+file := "Monads"
+%%%
 #doc (Manual) "单子" =>
 %%%
 tag := "monads"

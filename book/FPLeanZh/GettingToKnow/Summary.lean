@@ -9,10 +9,14 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
+%%%
+file := "GettingToKnow/Summary"
+%%%
 #doc (Manual) "总结" =>
 %%%
 tag := "getting-to-know-summary"
 %%%
+-- Summary
 
 -- # Evaluating Expressions
 # 求值表达式

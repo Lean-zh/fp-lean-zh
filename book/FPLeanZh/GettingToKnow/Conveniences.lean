@@ -9,6 +9,9 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
+%%%
+file := "GettingToKnow/Conveniences"
+%%%
 #doc (Manual) "附加语法" =>
 %%%
 tag := "getting-to-know-conveniences"
@@ -26,6 +29,7 @@ tag := "automatic-implicit-parameters"
 %%%
 
 :::paragraph
+
 -- When writing polymorphic functions in Lean, it is typically not necessary to list all the implicit parameters.
 -- Instead, they can simply be mentioned.
 -- If Lean can determine their type, then they are automatically inserted as implicit parameters.
@@ -74,6 +78,7 @@ tag := "pattern-matching-definitions"
 在这些情况下，{kw}`match` 表达式的情况可以直接编写，根本不需要命名参数。
 
 :::paragraph
+
 -- The first step is to move the arguments' types to the right of the colon, so the return type is a function type.
 -- For instance, the type of {anchorName lengthMatchDef}`length` is {anchorTerm lengthMatchDef}`List α → Nat`.
 -- Then, replace the {lit}`:=` with each case of the pattern match:
@@ -106,6 +111,7 @@ def drop : Nat → List α → List α
 :::
 
 :::paragraph
+
 -- Named arguments and patterns can also be used in the same definition.
 -- For instance, a function that takes a default value and an optional value, and returns the default when the optional value is {anchorName fromOption}`none`, can be written:
 
@@ -185,6 +191,7 @@ def unzip : List (α × β) → List α × List β
 :::
 
 :::paragraph
+
 -- In Lean, the result of the recursive call can be named, and thus saved, using {kw}`let`.
 -- Local definitions with {kw}`let` resemble top-level definitions with {kw}`def`: it takes a name to be locally defined, arguments if desired, a type signature, and then a body following {lit}`:=`.
 -- After the local definition, the expression in which the local definition is available (called the _body_ of the {kw}`let`-expression) must be on a new line, starting at a column in the file that is less than or equal to that of the {kw}`let` keyword.
@@ -210,6 +217,7 @@ def unzip : List (α × β) → List α × List β
 :::
 
 :::paragraph
+
 -- Local definitions with {kw}`let` may also use pattern matching when one pattern is enough to match all cases of a datatype.
 -- In the case of {anchorName unzip}`unzip`, the result of the recursive call is a pair.
 -- Because pairs have only a single constructor, the name {anchorName unzip}`unzipped` can be replaced with a pair pattern:
@@ -233,6 +241,7 @@ def unzip : List (α × β) → List α × List β
 :::
 
 :::paragraph
+
 -- The biggest difference between {kw}`let` and {kw}`def` is that recursive {kw}`let` definitions must be explicitly indicated by writing {kw}`let rec`.
 -- For instance, one way to reverse a list involves a recursive helper function, as in this definition:
 
@@ -260,7 +269,9 @@ def reverse (xs : List α) : List α :=
 %%%
 tag := "type-inference"
 %%%
+
 :::paragraph
+
 -- In many situations, Lean can automatically determine an expression's type.
 -- In these cases, explicit types may be omitted from both top-level definitions (with {kw}`def`) and local definitions (with {kw}`let`).
 -- For example, the recursive call to {anchorName unzipNT}`unzip` does not need an annotation:
@@ -290,6 +301,7 @@ Lean 通常可以确定函数应用的类型，因为它已经知道参数类型
 不是函数的定义，如示例中的 {anchorName unzipNT}`unzipped`，如果它们的主体不需要类型注解，则不需要类型注解，这个定义的主体是一个函数应用。
 
 :::paragraph
+
 -- Omitting the return type for {anchorName unzipNRT}`unzip` is possible when using an explicit {kw}`match` expression:
 
 当使用显式 {kw}`match` 表达式时，可以省略 {anchorName unzipNRT}`unzip` 的返回类型：
@@ -352,6 +364,7 @@ def unzip (pairs : List (α × β)) :=
 :::
 
 :::paragraph
+
 -- Missing type annotations can give confusing error messages.
 -- Omitting all types from the definition of {anchorName unzipNoTypesAtAll}`unzip`:
 
@@ -387,6 +400,7 @@ Invalid match expression: This pattern contains metavariables:
 :::
 
 :::paragraph
+
 -- Even some very simple programs require type annotations.
 -- For instance, the identity function just returns whatever argument it is passed.
 -- With argument and type annotations, it looks like this:
@@ -772,6 +786,7 @@ Lean 中的每个名称都出现在一个 *命名空间* 中，这是一个名�
 命名空间可以嵌套，所以 {lit}`Project.Frontend.User.loginTime` 是嵌套命名空间 {lit}`Project.Frontend.User` 中的名称 {lit}`loginTime`。
 
 :::paragraph
+
 -- Names can be directly defined within a namespace.
 -- For instance, the name {anchorName fragments}`double` can be defined in the {anchorName even}`Nat` namespace:
 
@@ -834,6 +849,7 @@ NewNamespace.quadruple (x : Nat) : Nat
 :::
 
 :::paragraph
+
 -- Namespaces may be _opened_, which allows the names in them to be used without explicit qualification.
 -- Writing {kw}`open` {lit}`MyNamespace `{kw}`in` before an expression causes the contents of {lit}`MyNamespace` to be available in the expression.
 -- For example, {anchorName quadrupleOpenDef}`timesTwelve` uses both {anchorName quadrupleOpenDef}`quadruple` and {anchorName quadrupleOpenDef}`triple` after opening {anchorTerm NewNamespace}`NewNamespace`:
@@ -851,6 +867,7 @@ def timesTwelve (x : Nat) :=
 :::
 
 :::paragraph
+
 -- Namespaces can also be opened prior to a command.
 -- This allows all parts of the command to refer to the contents of the namespace, rather than just a single expression.
 -- To do this, place the {kw}`open`﻿{lit}` ... `{kw}`in` prior to the command.
@@ -885,6 +902,7 @@ tag := "if-let"
 %%%
 
 :::paragraph
+
 -- When consuming values that have a sum type, it is often the case that only a single constructor is of interest.
 -- For example, given this type that represents a subset of Markdown inline elements:
 
@@ -913,6 +931,7 @@ def Inline.string? (inline : Inline) : Option String :=
 :::
 
 :::paragraph
+
 -- An alternative way of writing this function's body uses {kw}`if` together with {kw}`let`:
 
 编写这个函数主体的另一种方式是将 {kw}`if` 与 {kw}`let` 一起使用：
@@ -964,6 +983,7 @@ tag := "positional-structure-arguments"
 它们可以分别使用 {lit}`\<` 和 {lit}`\>` 输入。
 
 :::paragraph
+
 -- Just as with the brace notation for named constructor arguments, this positional syntax can only be used in a context where Lean can determine the structure's type, either from a type annotation or from other type information in the program.
 -- For instance, {anchorTerm pointPosEvalNoType}`#eval ⟨1, 2⟩` yields the following error:
 
@@ -993,6 +1013,7 @@ tag := "string-interpolation"
 %%%
 
 :::paragraph
+
 -- In Lean, prefixing a string with {kw}`s!` triggers _interpolation_, where expressions contained in curly braces inside the string are replaced with their values.
 -- This is similar to {python}`f`-strings in Python and {CSharp}`$`-prefixed strings in C#.
 -- For instance,
@@ -1016,6 +1037,7 @@ tag := "string-interpolation"
 :::
 
 :::paragraph
+
 -- Not all expressions can be interpolated into a string.
 -- For instance, attempting to interpolate a function results in an error.
 
@@ -1046,4 +1068,5 @@ Hint: Additional diagnostic information may be available using the `set_option d
 正如 Lean 编译器维护一个表，描述如何显示各种类型的表达式求值结果，它维护一个表，描述如何将各种类型的值转换为字符串。
 消息 {lit}`failed to synthesize instance` 意味着 Lean 编译器没有在此表中找到给定类型的条目。
 {ref "type-classes"}[类型类章节]更详细地描述了这种机制，包括添加新条目的方法。
+
 :::

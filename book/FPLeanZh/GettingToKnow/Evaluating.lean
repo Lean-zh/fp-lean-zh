@@ -9,14 +9,16 @@ open FPLeanZh
 example_module Examples.Intro
 
 set_option verso.exampleProject "../examples"
-
 set_option verso.exampleModule "Examples.Intro"
 
+%%%
+file := "GettingToKnow/Evaluating"
+%%%
 #doc (Manual) "求值表达式" =>
 %%%
 tag := "evaluating"
 %%%
-
+-- Evaluating Expressions
 
 -- The most important thing to understand as a programmer learning Lean is how evaluation works.
 -- Evaluation is the process of finding the value of an expression, just as one does in arithmetic.
@@ -57,6 +59,7 @@ tag := "evaluating"
 Lean 交互式地求值表达式，而下一章将介绍如何编写、编译并运行 {lit}`Hello, world!` 程序。
 
 :::paragraph
+
 -- To ask Lean to evaluate an expression, write {kw}`#eval` before it in your editor, which will then report the result back.
 -- Typically, the result is found by putting the cursor or mouse pointer over {kw}`#eval`.
 -- For instance,
@@ -79,6 +82,7 @@ Lean 交互式地求值表达式，而下一章将介绍如何编写、编译并
 :::
 
 :::paragraph
+
 -- Lean obeys the ordinary rules of precedence and associativity for
 -- arithmetic operators. That is,
 
@@ -95,6 +99,7 @@ Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，
 :::
 
 :::paragraph
+
 -- While both ordinary mathematical notation and the majority of programming languages use parentheses (e.g. {lit}`f(x)`) to apply a function to its arguments, Lean simply writes the function next to its arguments (e.g. {lit}`f x`).
 -- Function application is one of the most common operations, so it pays to keep it concise.
 -- Rather than writing
@@ -118,10 +123,11 @@ Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，
 -- where the function's two arguments are simply written next to it with spaces.
 
 其中函数的两个参数只是写在后面用空格隔开。
+
 :::
 
-
 :::paragraph
+
 -- Just as the order-of-operations rules for arithmetic demand parentheses in the expression {anchorTerm orderOfOperationsWrong}`(1 + 2) * 5`, parentheses are also necessary when a function's argument is to be computed via another function call.
 -- For instance, parentheses are required in
 
@@ -138,9 +144,11 @@ Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，
 中需要括号，否则第二个 {moduleTerm (anchor := stringAppendNested)}`String.append` 将被解释为第一个函数的参数，而非一个接受 {moduleTerm (anchor := stringAppendNested)}`"oak "`
 和 {moduleTerm (anchor := stringAppendNested)}`"tree"` 作为参数的函数。必须先得到内部 {anchorTerm stringAppendNested}`String.append` 调用的值，然后才能将其追加到
 {moduleTerm (anchor := stringAppendNested)}`"great "` 后面，从而产生最终的值 {anchorInfo stringAppendNested}`"great oak tree"`。
+
 :::
 
 :::paragraph
+
 -- Imperative languages often have two kinds of conditional: a conditional _statement_ that determines which instructions to carry out based on a Boolean value, and a conditional _expression_ that determines which of two expressions to evaluate based on a Boolean value.
 -- For instance, in C and C++, the conditional statement is written using {c}`if` and {c}`else`, while the conditional expression is written with a ternary operator in which {c}`?` and {c}`:` separate the condition from the branches.
 -- In Python, the conditional statement begins with {python}`if`, while the conditional expression puts {python}`if` in the middle.
@@ -181,8 +189,8 @@ String.append "it is " "no"
 
 :::
 
-
 :::paragraph
+
 -- For the sake of brevity, a series of evaluation steps like this will sometimes be written with arrows between them:
 
 为了简洁起见，这样的一系列求值步骤有时会用箭头连接起来：
@@ -196,8 +204,8 @@ String.append "it is " "no"
 ===>
 "it is no"
 ```
-:::
 
+:::
 
 -- # Messages You May Meet
 # 可能遇到的消息
@@ -206,6 +214,7 @@ tag := "evaluating-messages"
 %%%
 
 :::paragraph
+
 -- Asking Lean to evaluate a function application that is missing an argument will lead to an error message.
 -- In particular, the example
 
