@@ -9,11 +9,9 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
-%%%
-file := "GettingToKnow/Polymorphism"
-%%%
 #doc (Manual) "多态性" =>
 %%%
+file := "Polymorphism"
 tag := "polymorphism"
 %%%
 -- "Polymorphism"

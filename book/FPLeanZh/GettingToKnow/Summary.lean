@@ -9,11 +9,9 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
-%%%
-file := "GettingToKnow/Summary"
-%%%
 #doc (Manual) "总结" =>
 %%%
+file := "Summary"
 tag := "getting-to-know-summary"
 %%%
 -- Summary

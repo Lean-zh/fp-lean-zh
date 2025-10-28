@@ -11,11 +11,9 @@ example_module Examples.Intro
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
-%%%
-file := "GettingToKnow/Evaluating"
-%%%
 #doc (Manual) "求值表达式" =>
 %%%
+file := "Evaluating"
 tag := "evaluating"
 %%%
 -- Evaluating Expressions

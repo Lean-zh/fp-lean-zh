@@ -7,11 +7,9 @@ open Verso.Code.External
 open FPLeanZh
 
 -- Next Steps
-%%%
-file := "NextSteps"
-%%%
 #doc (Manual) "继续学习" =>
 %%%
+file := "NextSteps"
 tag := "next-steps"
 htmlSplit := .never
 %%%

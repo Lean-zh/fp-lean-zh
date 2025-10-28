@@ -18,11 +18,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.FunctorApplicativeMonad"
 
 -- Functors, Applicative Functors, and Monads
-%%%
-file := "FunctorApplicativeMonad"
-%%%
 #doc (Manual) "函子、应用函子和单子" =>
 %%%
+file := "FunctorApplicativeMonad"
 tag := "functor-applicative-monad"
 %%%
 

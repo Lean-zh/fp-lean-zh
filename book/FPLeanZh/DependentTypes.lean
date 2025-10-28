@@ -17,11 +17,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.DependentTypes"
 
 -- Programming with Dependent Types
-%%%
-file := "DependentTypes"
-%%%
 #doc (Manual) "使用依值类型编程" =>
 %%%
+file := "ProgrammingWithDependentTypes"
 tag := "programming-with-dependent-types"
 %%%
 

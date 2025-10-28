@@ -11,11 +11,9 @@ example_module Examples.Intro
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
-%%%
-file := "GettingToKnow/Types"
-%%%
 #doc (Manual) "类型" =>
 %%%
+file := "Types"
 tag := "getting-to-know-types"
 %%%
 -- Types

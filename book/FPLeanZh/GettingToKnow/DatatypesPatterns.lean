@@ -11,11 +11,9 @@ example_module Examples.Intro
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
-%%%
-file := "GettingToKnow/DatatypesPatterns"
-%%%
 #doc (Manual) "数据类型和模式匹配" =>
 %%%
+file := "DatatypesPatterns"
 tag := "datatypes-and-patterns"
 %%%
 -- Datatypes and Pattern Matching

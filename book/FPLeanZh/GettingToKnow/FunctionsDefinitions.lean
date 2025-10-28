@@ -9,11 +9,9 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
-%%%
-file := "GettingToKnow/FunctionsDefinitions"
-%%%
 #doc (Manual) "函数和定义" =>
 %%%
+file := "FunctionsDefinitions"
 tag := "functions-and-definitions"
 %%%
 -- Functions and Definitions

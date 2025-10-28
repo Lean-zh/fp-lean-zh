@@ -10,11 +10,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Intro"
 
 -- Introduction
-%%%
-file := "Intro"
-%%%
 #doc (Manual) "简介" =>
 %%%
+file := "Introduction"
 tag := "introduction"
 htmlSplit := .never
 number := false

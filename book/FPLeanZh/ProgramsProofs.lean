@@ -20,11 +20,9 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.TODO"
 
 -- Programming, Proving, and Performance
-%%%
-file := "ProgramsProofs"
-%%%
 #doc (Manual) "编程、证明与性能" =>
 %%%
+file := "ProgrammingProvingPerformance"
 tag := "programs-proofs-performance"
 %%%
 
