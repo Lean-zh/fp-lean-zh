@@ -27,8 +27,10 @@ def versionString : RoleExpander
     pure #[← ``(Verso.Doc.Inline.code $(quote version))]
   | _, _ => throwError "Unexpected arguments"
 
--- "Functional Programming in Lean"#doc (Manual) "Lean 函数式编程" =>
+-- "Functional Programming in Lean"
+#doc (Manual) "Lean 函数式编程" =>
 %%%
+file := "FunctionalProgrammingInLean"
 authors := ["David Thrane Christiansen"]
 tag := "functional-programming-in-lean"
 %%%
