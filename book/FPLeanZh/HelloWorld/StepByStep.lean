@@ -15,7 +15,7 @@ example_module Examples.HelloWorld
 -- Step By Step
 #doc (Manual) "逐步执行" =>
 %%%
-file := "HelloWorld/StepByStep"
+file := "StepByStep"
 tag := "step-by-step"
 %%%
 

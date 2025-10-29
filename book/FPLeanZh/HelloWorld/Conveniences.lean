@@ -13,7 +13,7 @@ set_option verso.exampleModule "FelineLib"
 -- Additional Conveniences
 #doc (Manual) "额外的便利功能" =>
 %%%
-file := "HelloWorld/Conveniences"
+file := "Conveniences"
 tag := "hello-world-conveniences"
 %%%
 

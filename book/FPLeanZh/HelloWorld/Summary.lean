@@ -15,7 +15,7 @@ set_option verso.exampleModule "Examples.HelloWorld"
 -- Summary
 #doc (Manual) "总结" =>
 %%%
-file := "HelloWorld/Summary"
+file := "Summary"
 tag := "hello-world-summary"
 %%%
 

@@ -13,7 +13,7 @@ set_option verso.exampleModule "Main"
 -- Starting a Project
 #doc (Manual) "创建项目" =>
 %%%
-file := "HelloWorld/StartingAProject"
+file := "StartingAProject"
 tag := "starting-a-project"
 %%%
 

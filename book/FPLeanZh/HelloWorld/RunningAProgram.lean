@@ -16,7 +16,7 @@ example_module Hello
 -- Running a Program
 #doc (Manual) "运行程序" =>
 %%%
-file := "HelloWorld/RunningAProgram"
+file := "RunningAProgram"
 tag := "running-a-program"
 %%%
 

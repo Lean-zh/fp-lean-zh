@@ -16,6 +16,7 @@ open FPLeanZh
 
 #doc (Manual) "Hello, World!" =>
 %%%
+file := "HelloWorld"
 tag := "hello-world"
 %%%
 

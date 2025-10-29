@@ -16,7 +16,7 @@ example_module Examples.Cat
 -- Worked Example: {lit}`cat`
 #doc (Manual) "实例：{lit}`cat`" =>
 %%%
-file := "HelloWorld/Cat"
+file := "Cat"
 tag := "example-cat"
 %%%
 
