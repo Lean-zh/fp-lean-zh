@@ -1,12 +1,12 @@
 import VersoManual
 import FPLeanZh.Examples
 
--- import FPLeanZh.HelloWorld.RunningAProgram
--- import FPLeanZh.HelloWorld.StepByStep
--- import FPLeanZh.HelloWorld.StartingAProject
--- import FPLeanZh.HelloWorld.Cat
--- import FPLeanZh.HelloWorld.Conveniences
--- import FPLeanZh.HelloWorld.Summary
+import FPLeanZh.HelloWorld.RunningAProgram
+import FPLeanZh.HelloWorld.StepByStep
+import FPLeanZh.HelloWorld.StartingAProject
+import FPLeanZh.HelloWorld.Cat
+import FPLeanZh.HelloWorld.Conveniences
+import FPLeanZh.HelloWorld.Summary
 
 
 open Verso.Genre Manual
@@ -16,7 +16,6 @@ open FPLeanZh
 
 #doc (Manual) "Hello, World!" =>
 %%%
-file := "HelloWorld"
 tag := "hello-world"
 %%%
 
@@ -31,3 +30,15 @@ tag := "hello-world"
 -- In addition to a description of the Lean build tools, this chapter also provides a way to think about functional programs that interact with the world.
 
 {ref "getting-to-know"}[上一章]介绍了 Lean 函数式编程的基础知识，本章将解释如何开始一个编程项目、编译它并运行出结果。运行并与环境交互的程序（例如通过读取标准输入或创建文件）很难和将计算理解为数学表达式的求值相协调。除了介绍 Lean 构建工具之外，本章还提供了一种思考函数式程序与世界如何交互的方法。
+
+{include 1 FPLeanZh.HelloWorld.RunningAProgram}
+
+{include 1 FPLeanZh.HelloWorld.StepByStep}
+
+{include 1 FPLeanZh.HelloWorld.StartingAProject}
+
+{include 1 FPLeanZh.HelloWorld.Cat}
+
+{include 1 FPLeanZh.HelloWorld.Conveniences}
+
+{include 1 FPLeanZh.HelloWorld.Summary}
