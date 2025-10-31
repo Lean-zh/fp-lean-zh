@@ -677,14 +677,12 @@ tag := "props-proofs-indexing-exercises"
 %%%
 
 /- * Prove the following theorems using {anchorTerm exercises}`rfl`: {anchorTerm exercises}`2 + 3 = 5`, {anchorTerm exercises}`15 - 8 = 7`, {anchorTerm exercises}`"Hello, ".append "world" = "Hello, world"`. What happens if {anchorTerm exercises}`rfl` is used to prove {anchorTerm exercises}`5 < 18`? Why?
+   * Prove the following theorems using {anchorTerm exercises}`by decide`: {anchorTerm exercises}`2 + 3 = 5`, {anchorTerm exercises}`15 - 8 = 7`, {anchorTerm exercises}`"Hello, ".append "world" = "Hello, world"`, {anchorTerm exercises}`5 < 18`.
+   * Write a function that looks up the fifth entry in a list. Pass the evidence that this lookup is safe as an argument to the function.
 -/
 * 使用 {anchorTerm exercises}`rfl` 证明以下定理：{anchorTerm exercises}`2 + 3 = 5`、{anchorTerm exercises}`15 - 8 = 7`、
   {anchorTerm exercises}`"Hello, ".append "world" = "Hello, world"`。
   如果使用 {anchorTerm exercises}`rfl` 证明 {anchorTerm exercises}`5 < 18` 会发生什么？为什么？
-/- * Prove the following theorems using {anchorTerm exercises}`by decide`: {anchorTerm exercises}`2 + 3 = 5`, {anchorTerm exercises}`15 - 8 = 7`, {anchorTerm exercises}`"Hello, ".append "world" = "Hello, world"`, {anchorTerm exercises}`5 < 18`.
--/
 * 使用 {anchorTerm exercises}`by decide` 证明以下定理：{anchorTerm exercises}`2 + 3 = 5`、{anchorTerm exercises}`15 - 8 = 7`、
   {anchorTerm exercises}`"Hello, ".append "world" = "Hello, world"`、{anchorTerm exercises}`5 < 18`。
-/- * Write a function that looks up the fifth entry in a list. Pass the evidence that this lookup is safe as an argument to the function.
--/
 * 编写一个查找列表中第五个条目的函数。将此查找安全的证据作为参数传递给该函数。

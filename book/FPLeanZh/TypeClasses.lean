@@ -1,14 +1,14 @@
 import VersoManual
 import FPLeanZh.Examples
 
--- import FPLeanZh.TypeClasses.Pos
--- import FPLeanZh.TypeClasses.Polymorphism
--- import FPLeanZh.TypeClasses.OutParams
--- import FPLeanZh.TypeClasses.Indexing
--- import FPLeanZh.TypeClasses.Coercions
--- import FPLeanZh.TypeClasses.Conveniences
--- import FPLeanZh.TypeClasses.StandardClasses
--- import FPLeanZh.TypeClasses.Summary
+import FPLeanZh.TypeClasses.Pos
+import FPLeanZh.TypeClasses.Polymorphism
+import FPLeanZh.TypeClasses.OutParams
+import FPLeanZh.TypeClasses.Indexing
+import FPLeanZh.TypeClasses.Coercions
+import FPLeanZh.TypeClasses.Conveniences
+import FPLeanZh.TypeClasses.StandardClasses
+import FPLeanZh.TypeClasses.Summary
 
 open Verso.Genre Manual
 open Verso Code External
@@ -81,3 +81,19 @@ Lean 的类型类更像是 Java 或 C# 中的 *接口（interface）*。
 类似地，类型类的实例也很像 Java 或 C# 中描述实现了的接口的类，而不是 Java 或 C# 中类的实例。
 不像 Java 或 C# 的接口，对于一个类型，该类型的作者并不能访问的类型类也可以给这个类型实例。
 从这种意义上讲，这和 Rust 的 traits 很像。
+
+{include 1 FPLeanZh.TypeClasses.Pos}
+
+{include 1 FPLeanZh.TypeClasses.Polymorphism}
+
+{include 1 FPLeanZh.TypeClasses.OutParams}
+
+{include 1 FPLeanZh.TypeClasses.Indexing}
+
+{include 1 FPLeanZh.TypeClasses.StandardClasses}
+
+{include 1 FPLeanZh.TypeClasses.Coercions}
+
+{include 1 FPLeanZh.TypeClasses.Conveniences}
+
+{include 1 FPLeanZh.TypeClasses.Summary}
