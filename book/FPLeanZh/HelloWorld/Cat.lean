@@ -27,7 +27,7 @@ tag := "example-cat"
 -- A non-zero exit code is returned if any of the input files do not exist.
 
 标准的 Unix 实用程序 {lit}`cat` 接受多个命令行选项，后跟零个或多个输入文件。
-如果没有提供文件，或者其中一个是短划线（{lit}`-`），那么它将标准输入作为相应的输入，而不是读取文件。
+如果没有提供文件，或者其中一个是横线（{lit}`-`），那么它将标准输入作为相应的输入，而不是读取文件。
 输入的内容会一个接一个地写入标准输出。
 如果指定的输入文件不存在，这会在标准错误上注明，但 {lit}`cat` 会继续连接剩余的输入。
 如果任何输入文件不存在，则返回非零退出代码。
@@ -86,7 +86,7 @@ def main : IO Unit :=
 
 -- Ensure that the code can be built by running {command feline1 "feline/1"}`lake build`.
 
-通过运行 {command feline1 "feline/1"}`lake build` 确保代码可以构建。
+通过运行 {command feline1 "feline/1"}`lake build` 确保可以构建代码。
 
 -- # Concatenating Streams
 # 连接流
@@ -101,8 +101,7 @@ tag := "example-cat-streams"
 
 现在已经构建了程序的基本骨架，是时候实际输入代码了。
 {lit}`cat` 的正确实现可以用于无限的 IO 流，例如 {lit}`/dev/random`，这意味着它不能在输出之前将其输入读入内存。
-此外，它不应该一次只处理一个字符，因为这会导致令人沮丧的慢速性能。
-相反，最好一次读取连续的数据块，一次将数据一个块地导向标准输出。
+此外，它不应一次处理一个字符，因为这会导致性能变差。相反，最好一次读取连续的数据块，一次将数据定向到标准输出。
 
 -- The first step is to decide how big of a block to read.
 -- For the sake of simplicity, this implementation uses a conservative 20 kilobyte block.
@@ -124,7 +123,7 @@ tag := "streams"
 -- The main work of {lit}`feline` is done by {anchorName dump}`dump`, which reads input one block at a time, dumping the result to standard output, until the end of the input has been reached.
 -- The end of the input is indicated by {anchorName dump}`read` returning an empty byte array:
 
-{lit}`feline` 的主要工作由 {anchorName dump}`dump` 完成，它一次读取一个块的输入，将结果转储到标准输出，直到到达输入的末尾。
+{lit}`feline` 的主要工作由 {anchorName dump}`dump` 完成，它一次读取一个块的输入，将结果转储到标准输出，直到抵达输入的末尾。
 输入的结束由 {anchorName dump}`read` 返回空字节数组表示：
 ```module (anchor:=dump)
 partial def dump (stream : IO.FS.Stream) : IO Unit := do
@@ -143,9 +142,9 @@ partial def dump (stream : IO.FS.Stream) : IO Unit := do
 -- However, there is no way to prove that {anchorName dump}`dump` terminates, because infinite input (such as from {lit}`/dev/random`) would mean that it does not, in fact, terminate.
 -- In cases like this, there is no alternative to declaring the function {anchorTerm dump}`partial`.
 
-{anchorName dump}`dump` 函数被声明为 {anchorTerm dump}`partial`，因为它在不是立即小于参数的输入上递归调用自身。
-当函数被声明为部分函数时，Lean 不要求证明它终止。
-另一方面，部分函数也远不如正确性证明那样易于处理，因为在 Lean 的逻辑中允许无限循环会使其不健全。
+{anchorName dump}`dump` 函数被声明为偏函数 {anchorTerm dump}`partial`，因为它在不是立即小于参数的输入上递归调用自身。
+当函数被声明为偏函数时，Lean 不要求证明它终止。
+另一方面，偏函数也远不如正确性证明那样易于处理，因为在 Lean 的逻辑中允许无限循环会使其不健全。
 然而，没有办法证明 {anchorName dump}`dump` 终止，因为无限输入（例如来自 {lit}`/dev/random`）意味着它实际上不会终止。
 在这种情况下，没有其他选择只能将函数声明为 {anchorTerm dump}`partial`。
 
@@ -154,8 +153,8 @@ partial def dump (stream : IO.FS.Stream) : IO Unit := do
 -- Each operation is represented as an IO action that provides the corresponding operation:
 
 类型 {anchorName dump}`IO.FS.Stream` 表示 POSIX 流。
-在幕后，它表示为一个结构，该结构为每个 POSIX 流操作都有一个字段。
-每个操作都表示为提供相应操作的 IO 动作：
+在幕后，它表示为一个结构体，该结构为每个 POSIX 流操作都有一个字段。
+每个操作都表示为提供相应操作的 IO 活动：
 
 ```anchor Stream (module := Examples.Cat)
 structure Stream where
@@ -172,8 +171,8 @@ structure Stream where
 -- These are {anchorName Stream (module:=Examples.Cat)}`IO` actions rather than ordinary definitions because Lean allows these standard POSIX streams to be replaced in a process, which makes it easier to do things like capturing the output from a program into a string by writing a custom {anchorName dump}`IO.FS.Stream`.
 
 类型 {anchorName Stream (module:=Examples.Cat)}`BaseIO` 是 {anchorName Stream (module:=Examples.Cat)}`IO` 的变体，排除了运行时错误。
-Lean 编译器包含 {anchorName Stream (module:=Examples.Cat)}`IO` 动作（例如在 {anchorName dump}`dump` 中调用的 {anchorName dump}`IO.getStdout`）来获取表示标准输入、标准输出和标准错误的流。
-这些是 {anchorName Stream (module:=Examples.Cat)}`IO` 动作而不是普通定义，因为 Lean 允许在进程中替换这些标准 POSIX 流，这使得通过编写自定义的 {anchorName dump}`IO.FS.Stream` 来捕获程序输出到字符串等操作变得更容易。
+Lean 编译器包含 {anchorName Stream (module:=Examples.Cat)}`IO` 活动（例如在 {anchorName dump}`dump` 中调用的 {anchorName dump}`IO.getStdout`）来获取表示标准输入、标准输出和标准错误的流。
+这些是 {anchorName Stream (module:=Examples.Cat)}`IO` 活动而不是普通定义，因为 Lean 允许在进程中替换这些标准 POSIX 流，这使得通过编写自定义的 {anchorName dump}`IO.FS.Stream` 来捕获程序输出到字符串等操作变得更容易。
 
 -- The control flow in {anchorName dump}`dump` is essentially a {lit}`while` loop.
 -- When {anchorName dump}`dump` is called, if the stream has reached the end of the file, {anchorTerm dump}`pure ()` terminates the function by returning the constructor for {anchorName dump}`Unit`.
@@ -190,7 +189,7 @@ Lean 编译器包含 {anchorName Stream (module:=Examples.Cat)}`IO` 动作（例
 -- Names introduced with {kw}`let` in the branches of the {kw}`if` are visible only in their own branches, and are not in scope outside of the {kw}`if`.
 
 当 {kw}`if` 表达式作为 {kw}`do` 中的语句出现时，如在 {anchorName dump}`dump` 中，{kw}`if` 的每个分支都被隐式提供一个 {kw}`do`。
-换句话说，{kw}`else` 后面的步骤序列被视为要执行的 {anchorName dump}`IO` 动作序列，就像它们在开头有一个 {kw}`do` 一样。
+换句话说，{kw}`else` 后面的步骤序列被视为要执行的 {anchorName dump}`IO` 活动序列，就像它们在开头有一个 {kw}`do` 一样。
 在 {kw}`if` 分支中用 {kw}`let` 引入的名称只在其自己的分支中可见，在 {kw}`if` 外部不在作用域内。
 
 -- There is no danger of running out of stack space while calling {anchorName dump}`dump` because the recursive call happens as the very last step in the function, and its result is returned directly rather than being manipulated or computed with.
@@ -232,7 +231,7 @@ def fileStream (filename : System.FilePath) : IO (Option IO.FS.Stream) := do
 首先，通过在读取模式下打开文件来创建文件句柄。
 Lean 文件句柄跟踪底层文件描述符。
 当没有对文件句柄值的引用时，终结器会关闭文件描述符。
-其次，使用 {anchorName fileStream}`IO.FS.Stream.ofHandle` 给文件句柄提供与 POSIX 流相同的接口，它用在文件句柄上工作的相应 {anchorName fileStream}`IO` 动作填充 {anchorName Names}`Stream` 结构的每个字段。
+其次，使用 {anchorName fileStream}`IO.FS.Stream.ofHandle` 给文件句柄提供与 POSIX 流相同的接口，它用在文件句柄上工作的相应 {anchorName fileStream}`IO` 活动填充 {anchorName Names}`Stream` 结构的每个字段。
 
 -- ## Handling Input
 ## 处理输入
@@ -308,7 +307,7 @@ tag := "example-cat-main"
 -- * {anchorTerm Names}`main : IO UInt32` corresponds to {c}`int main(void)` in C, for programs without arguments that return exit codes, and
 -- * {anchorTerm Names}`main : List String → IO UInt32` corresponds to {c}`int main(int argc, char **argv)` in C, for programs that take arguments and signal success or failure.
 
-最后一步是编写 {anchorName main}`main` 动作。
+最后一步是编写 {anchorName main}`main` 活动。
 与先前的示例不同，{lit}`feline` 中的 {anchorName main}`main` 是一个函数。
 在 Lean 中，{anchorName main}`main` 可以有三种类型之一：
  * {anchorTerm Names}`main : IO Unit` 对应于无法读取命令行参数且始终以退出代码 {anchorTerm Names}`0` 表示成功的程序，

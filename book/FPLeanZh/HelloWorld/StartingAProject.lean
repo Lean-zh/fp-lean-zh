@@ -140,10 +140,10 @@ root = "Main"
 -- * a _library_ declaration, named {lit}`Greeting`, and
 -- * an _executable_, named {lit}`greeting`.
 
-这个初始的 Lake 配置包含三个项目：
- * 位于文件顶部的*包*设置，
- * 名为 {lit}`Greeting` 的*库*声明，以及
- * 名为 {lit}`greeting` 的*可执行文件*。
+此初始的 Lake 配置包含三个项：
+ * *包*配置，位于文件顶部，
+ * 一个 *库* 声明，名为 {lit}`Greeting`，
+ * 一个 *可执行文件*，名为 {lit}`greeting`。
 
 -- Each Lake configuration file will contain exactly one package, but any number of dependencies, libraries, or executables.
 -- By convention, package and executable names begin with a lowercase letter, while libraries begin with an uppercase letter.
@@ -156,7 +156,7 @@ root = "Main"
 按照惯例，包和可执行文件名以小写字母开头，而库名以大写字母开头。
 依赖项是其他 Lean 包的声明（无论是本地的还是来自远程 Git 存储库的）
 Lake 配置文件中的项目允许配置诸如源文件位置、模块层次结构和编译器标志等内容。
-不过，一般来说，默认值是合理的。
+不过一般来说，默认值就够用了。
 用 Lean 格式编写的 Lake 配置文件还可以包含*外部库*，这些是非 Lean 编写的库，要与生成的可执行文件静态链接；
 *自定义目标*，这些是不适合库/可执行文件分类的构建目标；
 以及*脚本*，它们本质上是 {moduleName}`IO` 动作（类似于 {moduleName}`main`），但另外还可以访问有关包配置的元数据。
@@ -165,7 +165,7 @@ Lake 配置文件中的项目允许配置诸如源文件位置、模块层次结
 -- By default, {lit}`lake build` builds those targets that are specified in the {lit}`defaultTargets` list.
 -- To build a target that is not a default target, specify the target's name as an argument after {lit}`lake build`.
 
-库、可执行文件和自定义目标都称为*目标*。
+库、可执行文件和自定义目标都称为 *目标（Target）*。
 默认情况下，{lit}`lake build` 构建在 {lit}`defaultTargets` 列表中指定的目标。
 要构建非默认目标，请在 {lit}`lake build` 后将目标名称指定为参数。
 
@@ -215,12 +215,12 @@ def main : IO Unit :=
 -- Modules may place names into any namespace they like, and the code that imports them may {kw}`open` the namespace or not.
 -- {kw}`import` is used to make the contents of a source file available, while {kw}`open` makes names from a namespace available in the current context without prefixes.
 
-模块名称层次结构与名称空间层次结构分离。
-在 Lean 中，模块是代码分发的单位，而名称空间是代码组织的单位。
-也就是说，在模块 {lit}`Greeting.Smile` 中定义的名称不会自动位于相应的名称空间 {lit}`Greeting.Smile` 中。
-特别是，{moduleName (module:=Greeting.Smile) (show:=happy)}`Expression.happy` 位于 {lit}`Expression` 名称空间中。
-模块可以将名称放入任何它们喜欢的名称空间中，导入它们的代码可以 {kw}`open` 名称空间，也可以不这样做。
-{kw}`import` 用于使源文件的内容可用，而 {kw}`open` 使名称空间中的名称在当前上下文中无需前缀即可使用。
+模块名称层次结构与命名空间层次结构分离。
+在 Lean 中，模块是代码的分发单元，而命名空间是代码的组织单元。
+也就是说，在模块 {lit}`Greeting.Smile` 中定义的名称不会自动位于相应的命名空间 {lit}`Greeting.Smile` 中。
+特别是，{moduleName (module:=Greeting.Smile) (show:=happy)}`Expression.happy` 位于 {lit}`Expression` 命名空间中。
+模块可以将名称放入任何它们喜欢的命名空间中，导入它们的代码可以 {kw}`open` 命名空间，也可以不这样做。
+{kw}`import` 用于使源文件的内容可用，而 {kw}`open` 使命名空间中的名称在当前上下文中无需前缀即可使用。
 
 -- The line {moduleTerm}`open Expression` makes the name {moduleName (module:=Greeting.Smile)}`Expression.happy` accessible as {moduleName}`happy` in {moduleName}`main`.
 -- Namespaces may also be opened _selectively_, making only some of their names available without explicit prefixes.
@@ -229,7 +229,7 @@ def main : IO Unit :=
 -- It can be made available as {moduleName (module:=Aux)}`toFloat` using {moduleTerm (module:=Aux)}`open Nat (toFloat)`.
 
 {moduleTerm}`open Expression` 行使名称 {moduleName (module:=Greeting.Smile)}`Expression.happy` 在 {moduleName}`main` 中可以作为 {moduleName}`happy` 访问。
-名称空间也可以*选择性地*打开，只让其中一些名称无需显式前缀即可使用。
+命名空间也可以*选择性地*打开，只让其中一些名称无需显式前缀即可使用。
 这是通过将所需的名称写在括号中来完成的。
 例如，{moduleTerm (module:=Aux)}`Nat.toFloat` 将自然数转换为 {moduleTerm (module:=Aux)}`Float`。
 可以使用 {moduleTerm (module:=Aux)}`open Nat (toFloat)` 使其作为 {moduleName (module:=Aux)}`toFloat` 可用。

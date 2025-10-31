@@ -50,8 +50,8 @@ tag := "hello-world-parts"
 -- This means that {moduleName (module := Hello)}`main` is not a function, because there are no arrows ({lit}`→`) in its type.
 -- Instead of being a function that has side effects, {moduleTerm}`main` consists of a description of effects to be carried out.
 
-当 Lean 使用 {lit}`--run` 选项调用时，它会调用程序的 {lit}`main` 定义。
-在不接受命令行参数的程序中，{moduleName (module := Hello)}`main` 的类型应该是 {moduleTerm}`IO Unit`。
+当使用 {lit}`--run` 选项调用 Lean 时，它会调用程序的 {lit}`main` 定义。
+对于不从命令行接受参数的程序，{moduleName (module := Hello)}`main` 的类型应该是 {moduleTerm}`IO Unit`。
 这意味着 {moduleName (module := Hello)}`main` 不是一个函数，因为它的类型中没有箭头 ({lit}`→`)。
 {moduleTerm}`main` 不是一个具有副作用的函数，而是由要执行的效果的描述组成。
 
@@ -62,10 +62,10 @@ tag := "hello-world-parts"
 -- If {moduleTerm}`Bool` represents a single bit of information, {moduleTerm}`Unit` represents zero bits of information.
 
 正如 {ref "polymorphism"}[前一章] 所讨论的，{moduleTerm}`Unit` 是最简单的归纳类型。
-它有一个名为 {moduleTerm}`unit` 的构造函数，不接受任何参数。
+它有一个名为 {moduleTerm}`unit` 的构造器，不接受任何参数。
 C 语言传统中的语言有一个 {CSharp}`void` 函数的概念，它不返回任何值。
-在 Lean 中，所有函数都接受一个参数并返回一个值，并且可以通过使用 {moduleTerm}`Unit` 类型来表示缺少有趣的参数或返回值。
-如果 {moduleTerm}`Bool` 表示一位信息，那么 {moduleTerm}`Unit` 表示零位信息。
+在 Lean 中，所有函数都接受一个参数并返回一个值，而使用 {moduleTerm}`Unit` 类型可以表示没什么参数或返回值。
+如果 {moduleTerm}`Bool` 表示一比特信息，那么 {moduleTerm}`Unit` 表示零比特信息。
 
 -- {moduleTerm}`IO α` is the type of a program that, when executed, will either throw an exception or return a value of type {moduleTerm}`α`.
 -- During execution, this program may have side effects.
@@ -76,16 +76,15 @@ C 语言传统中的语言有一个 {CSharp}`void` 函数的概念，它不返�
 -- If it did return something interesting, then that would be indicated by the {moduleTerm}`IO` action having a type other than {moduleTerm}`Unit`.
 
 {moduleTerm}`IO α` 是一个程序类型，当执行时，它会抛出异常或返回 {moduleTerm}`α` 类型的值。
-在执行期间，该程序可能具有副作用。
-这些程序被称为 {moduleTerm}`IO` *动作*。
-Lean 区分表达式的*求值*（严格遵循变量值替换和无副作用子表达式约简的数学模型）和 {anchorTerm sig}`IO` 动作的*执行*（依赖外部系统与世界交互）。
-{moduleTerm}`IO.println` 是一个从字符串到 {moduleTerm}`IO` 动作的函数，当执行时，它会将给定字符串写入标准输出。
-因为此动作在发出字符串的过程中不读取环境中任何有趣的信息，所以 {moduleTerm}`IO.println` 的类型是 {moduleTerm}`String → IO Unit`。
-如果它确实返回了有趣的东西，那么 {moduleTerm}`IO` 动作的类型将不是 {moduleTerm}`Unit`。
+在执行期间，该程序可能具有副作用。这些程序被称为 {moduleTerm}`IO` *活动（Action）*。
+Lean 区分表达式的 *求值（Evaluation）*（严格遵循用变量值替换值和无副作用地归约子表达式的数学模型）和 {anchorTerm sig}`IO` 活动的 *执行（Execution）*（依赖外部系统与世界交互）。
+{moduleTerm}`IO.println` 是一个从字符串到 {moduleTerm}`IO` 活动的函数，当执行时，它会将给定字符串写入标准输出。
+因为此活动在发出字符串的过程中不读取环境中任何有趣的信息，所以 {moduleTerm}`IO.println` 的类型是 {moduleTerm}`String → IO Unit`。
+如果它确实返回了有趣的东西，那么 {moduleTerm}`IO` 活动的类型将不是 {moduleTerm}`Unit`。
 
 
 -- # Functional Programming vs Effects
-# 函数式编程与效果
+# 函数式编程与副作用
 %%%
 tag := "fp-effects"
 %%%
@@ -138,7 +137,7 @@ Lean 是用 Lean 本身编写的，Lean 编译器当然会读取文件、创建�
 两位员工共同承担餐厅的所有职能，但他们的职责是分开的，每个人都执行他们最擅长的任务。
 正如让顾客远离可以使厨师专注于制作真正出色的咖啡和三明治一样，Lean 缺乏副作用使得程序可以作为形式数学证明的一部分使用。
 它还有助于程序员理解程序的各个部分，因为没有隐藏的状态变化会在组件之间产生微妙的耦合。
-厨师的笔记代表通过评估 Lean 表达式产生的 {moduleTerm}`IO` 动作，而柜台工作人员的回复是从效果中传回的值。
+厨师的笔记代表通过评估 Lean 表达式产生的 {moduleTerm}`IO` 活动，而柜台工作人员的回复是从效果中传回的值。
 
 -- This model of side effects is quite similar to how the overall aggregate of the Lean language, its compiler, and its run-time system (RTS) work.
 -- Primitives in the run-time system, written in C, implement all the basic effects.
@@ -147,11 +146,11 @@ Lean 是用 Lean 本身编写的，Lean 编译器当然会读取文件、创建�
 -- From the internal perspective of Lean, programs are free of side effects, and {moduleTerm}`IO` actions are just descriptions of tasks to be carried out.
 -- From the external perspective of the program's user, there is a layer of side effects that create an interface to the program's core logic.
 
-这种副作用模型与 Lean 语言、其编译器和运行时系统 (RTS) 的整体聚合工作方式非常相似。
-运行时系统中用 C 编写的基本操作实现了所有基本效果。
-当运行程序时，RTS 调用 {moduleTerm}`main` 动作，该动作将新的 {moduleTerm}`IO` 动作返回给 RTS 执行。
-RTS 执行这些动作，委托用户 Lean 代码执行计算。
-从 Lean 的内部角度来看，程序没有副作用，{moduleTerm}`IO` 动作只是要执行的任务的描述。
+这种副作用模型与 Lean 语言、其编译器和运行时系统 (Run-Time System，RTS) 的整体聚合工作方式非常相似。
+运行时系统中的原语（Primitive，用 C 语言编写）实现了所有基本副作用。
+当运行程序时，RTS 调用 {moduleTerm}`main` 活动，该活动将新的 {moduleTerm}`IO` 活动返回给 RTS 执行。
+RTS 执行这些活动，委托用户 Lean 代码执行计算。
+从 Lean 的内部角度来看，程序没有副作用，{moduleTerm}`IO` 活动只是要执行的任务的描述。
 从程序用户的外部角度来看，存在一个副作用层，它为程序的核心逻辑创建了一个接口。
 
 -- # Real-World Functional Programming
@@ -167,12 +166,12 @@ tag := "fp-world-passing"
 -- Careful abstraction boundaries can make this style of programming safe.
 -- If every primitive {moduleTerm}`IO` action accepts one world and returns a new one, and they can only be combined with tools that preserve this invariant, then the problem cannot occur.
 
-思考 Lean 中副作用的另一种有用方式是，将 {moduleTerm}`IO` 动作视为接受整个世界作为参数并返回一个值与一个新世界配对的函数。
-在这种情况下，从标准输入读取一行文本*是*一个纯函数，因为每次都提供一个不同的世界作为参数。
-将一行文本写入标准输出是一个纯函数，因为函数返回的世界与它开始时的世界不同。
+考虑 Lean 中副作用的另一种方式，就是将 {moduleTerm}`IO` 活动看做一个函数，它将整个世界作为参数输入，并返回一个值和一个新的世界。
+在这种情况下，从标准输入读取一行文本是一个*纯（Pure）*函数，因为每次都提供一个不同的世界作为参数。
+将一行文本写入标准输出也是一个纯函数，因为函数返回的世界与它开始时的世界不同。
 程序确实需要小心，永远不要重复使用世界，也不要未能返回一个新世界——毕竟，这相当于时间旅行或世界末日。
-仔细的抽象边界可以使这种编程风格安全。
-如果每个原始 {moduleTerm}`IO` 动作都接受一个世界并返回一个新世界，并且它们只能与保持此不变性的工具结合使用，那么问题就不会发生。
+谨小慎微的抽象边界可以使这种编程风格变得安全。
+如果每个原语 {moduleTerm}`IO` 活动都接受一个世界并返回一个新世界，并且它们只能与保持此不变性的工具结合使用，那么问题就不会发生。
 
 -- This model cannot be implemented.
 -- After all, the entire universe cannot be turned into a Lean value and placed into memory.
@@ -181,25 +180,19 @@ tag := "fp-world-passing"
 -- This token is then passed on to the IO primitives, and their returned tokens are similarly passed to the next step.
 -- At the end of the program, the token is returned to the operating system.
 
-这个模型无法实现。
-毕竟，整个宇宙不能变成 Lean 值并放入内存中。
-然而，可以通过一个代表世界的抽象令牌来实现这个模型的变体。
-当程序启动时，它会获得一个世界令牌。
-然后，这个令牌会传递给 IO 原语，它们返回的令牌也类似地传递给下一步。
-在程序结束时，令牌会返回给操作系统。
+当然，这种模型无法真正实现，毕竟整个世界无法变成 Lean 的值放入内存中。然而，可以实现一个此模型的变体，它带有代表世界的抽象标识。当程序启动时，它会提供一个世界标识。然后将此标识传递给 {moduleTerm}`IO` 原语，之后它们的返回标识同样地传递到下一步。在程序结束时，标识将返回给操作系统。
 
 -- This model of side effects is a good description of how {moduleTerm}`IO` actions as descriptions of tasks to be carried out by the RTS are represented internally in Lean.
 -- The actual functions that transform the real world are behind an abstraction barrier.
 -- But real programs typically consist of a sequence of effects, rather than just one.
 -- To enable programs to use multiple effects, there is a sub-language of Lean called {kw}`do` notation that allows these primitive {moduleTerm}`IO` actions to be safely composed into a larger, useful program.
 
-这种副作用模型很好地描述了 {moduleTerm}`IO` 动作作为 RTS 执行任务的描述在 Lean 内部是如何表示的。
-转换真实世界的实际函数隐藏在抽象屏障之后。
-但实际程序通常由一系列效果组成，而不仅仅是一个。
-为了使程序能够使用多种效果，Lean 中有一种名为 {kw}`do` 表示法的子语言，它允许这些原始 {moduleTerm}`IO` 动作安全地组合成一个更大、更有用的程序。
+这种副作用模型很好地描述了 {moduleTerm}`IO` 活动作为 RTS 执行任务的描述在 Lean 内部是如何表示的。
+用于转换现实世界的实际函数隐藏在抽象屏障之后。但实际的程序通常不只有一个作用，而是由一系列作用组成。
+为了使程序能够使用多个作用，Lean 中有一种名为 {kw}`do` -表示法的子语言，它允许这些原始 {moduleTerm}`IO` 活动安全地组合成一个更大、更有用的程序。
 
 -- # Combining {anchorName all}`IO` Actions
-# 组合 {anchorName all}`IO` 动作
+# 组合 {anchorName all}`IO` 活动
 %%%
 tag := "combining-io-actions"
 %%%
@@ -229,10 +222,10 @@ def main : IO Unit := do
 -- Just as SQL can be thought of as a special-purpose language for interacting with databases, the {kw}`do` syntax can be thought of as a special-purpose sub-language within Lean that is dedicated to modeling imperative programs.
 -- {anchorName all}`IO` actions that are built with a {kw}`do` block are executed by executing the statements in order.
 
-在此程序中，{anchorName all}`main` 动作由一个 {kw}`do` 块组成。
-该块包含一系列*语句*，这些语句既可以是局部变量（使用 {kw}`let` 引入），也可以是要执行的动作。
+在此程序中，{anchorName all}`main` 活动由一个 {kw}`do` 块组成。
+该块包含一系列 *语句（Statement）*，这些语句既可以是局部变量（使用 {kw}`let` 引入），也可以是要执行的活动。
 正如 SQL 可以被认为是与数据库交互的专用语言一样，{kw}`do` 语法可以被认为是 Lean 中专门用于建模命令式程序的专用子语言。
-使用 {kw}`do` 块构建的 {anchorName all}`IO` 动作通过按顺序执行语句来执行。
+使用 {kw}`do` 块构建的 {anchorName all}`IO` 活动通过按顺序执行语句来执行。
 
 -- This program can be run in the same manner as the prior program:
 
@@ -242,7 +235,7 @@ def main : IO Unit := do
 
 -- If the user responds with {lit}`David`, a session of interaction with the program reads:
 
-如果用户回复 {lit}`David`，则与程序的交互会话如下：
+如果用户回复 {lit}`David`，则与程序交互的会话会读取回应：
 
 ```commandOut helloName "expect -f ./run"
 How would you like to be addressed?
@@ -265,7 +258,7 @@ def main : IO Unit := do
 
 -- The first two lines, which read:
 
-前两行，内容如下：
+前两行，读取：
 ```module (anchor:=setup)
   let stdin ← IO.getStdin
   let stdout ← IO.getStdout
@@ -281,15 +274,15 @@ def main : IO Unit := do
 -- {moduleTerm (anchor := setup)}`IO.getStdin` and {moduleTerm (anchor := setup)}`IO.getStdout` are {moduleTerm (anchor := sig)}`IO` actions in order to allow {moduleTerm (anchor := setup)}`stdin` and {moduleTerm (anchor := setup)}`stdout` to be locally overridden in a program, which can be convenient.
 -- If they were global variables as in C, then there would be no meaningful way to override them, but {moduleName}`IO` actions can return different values each time they are executed.
 
-通过执行库动作 {moduleTerm (anchor := setup)}`IO.getStdin` 和 {moduleTerm (anchor := setup)}`IO.getStdout`，分别检索 {moduleTerm (anchor := setup)}`stdin` 和 {moduleTerm (anchor := setup)}`stdout` 句柄。
+通过执行库活动 {moduleTerm (anchor := setup)}`IO.getStdin` 和 {moduleTerm (anchor := setup)}`IO.getStdout`，分别检索 {moduleTerm (anchor := setup)}`stdin` 和 {moduleTerm (anchor := setup)}`stdout` 句柄（Handle）。
 在 {moduleTerm}`do` 块中，{moduleTerm}`let` 的含义与普通表达式略有不同。
 通常，{moduleTerm}`let` 中的局部定义只能在一个表达式中使用，该表达式紧跟在局部定义之后。
 在 {moduleTerm}`do` 块中，由 {moduleTerm}`let` 引入的局部绑定在 {moduleTerm}`do` 块的其余所有语句中都可用，而不仅仅是下一个语句。
 此外，{moduleTerm}`let` 通常使用 {lit}`:=` 将被定义的名称与其定义连接起来，而 {moduleTerm}`do` 中的某些 {moduleTerm}`let` 绑定则使用左箭头 ({lit}`←` 或 {lit}`<-`)。
-使用箭头意味着表达式的值是一个 {moduleTerm}`IO` 动作，该动作应该被执行，其结果保存在局部变量中。
+使用箭头意味着表达式的值是一个 {moduleTerm}`IO` 活动，该活动应该被执行，其结果保存在局部变量中。
 换句话说，如果箭头右侧的表达式类型为 {moduleTerm}`IO α`，那么在 {moduleTerm}`do` 块的其余部分中，该变量的类型为 {moduleTerm}`α`。
-{moduleTerm (anchor := setup)}`IO.getStdin` 和 {moduleTerm (anchor := setup)}`IO.getStdout` 是 {moduleTerm (anchor := sig)}`IO` 动作，以便允许在程序中局部覆盖 {moduleTerm (anchor := setup)}`stdin` 和 {moduleTerm (anchor := setup)}`stdout`，这很方便。
-如果它们像 C 语言中的全局变量一样，那么就没有有意义的方法来覆盖它们，但 {moduleName}`IO` 动作每次执行时都可以返回不同的值。
+{moduleTerm (anchor := setup)}`IO.getStdin` 和 {moduleTerm (anchor := setup)}`IO.getStdout` 是 {moduleTerm (anchor := sig)}`IO` 活动，以便允许在程序中局部覆盖 {moduleTerm (anchor := setup)}`stdin` 和 {moduleTerm (anchor := setup)}`stdout`，这很方便。
+如果它们像 C 语言中的全局变量一样，那么就不存在有意义的方法来覆盖它们，但 {moduleName}`IO` 活动每次执行时都可以返回不同的值。
 
 -- The next part of the {moduleTerm}`do` block is responsible for asking the user for their name:
 
@@ -305,7 +298,7 @@ def main : IO Unit := do
 -- The definition of {moduleTerm (anchor := question)}`name` uses {lit}`:=`, rather than {lit}`←`, because {moduleTerm}`String.dropRightWhile` is an ordinary function on strings, rather than an {moduleTerm (anchor := sig)}`IO` action.
 
 第一行将问题写入 {moduleTerm (anchor := setup)}`stdout`，第二行从 {moduleTerm (anchor := setup)}`stdin` 请求输入，第三行从输入行中删除尾随换行符（以及任何其他尾随空格）。
-{moduleTerm (anchor := question)}`name` 的定义使用 {lit}`:=`，而不是 {lit}`←`，因为 {moduleTerm}`String.dropRightWhile` 是一个普通的字符串函数，而不是 {moduleTerm (anchor := sig)}`IO` 动作。
+{moduleTerm (anchor := question)}`name` 的定义使用 {lit}`:=`，而不是 {lit}`←`，因为 {moduleTerm}`String.dropRightWhile` 是一个普通的字符串函数，而不是 {moduleTerm (anchor := sig)}`IO` 活动。
 
 -- Finally, the last line in the program is:
 
