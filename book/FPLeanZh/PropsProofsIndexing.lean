@@ -16,6 +16,7 @@ set_option pp.rawOnError true
 #doc (Manual) "插曲：命题、证明与索引" =>
 %%%
 file := "PropsProofsIndexing"
+tag := "props-proofs-indexing"
 number := false
 htmlSplit := .never
 %%%
@@ -608,7 +609,7 @@ Hint: Additional diagnostic information may be available using the `set_option d
 
 /- Defining {anchorName onePlusOneIsStillTwo}`OnePlusOneIsTwo` with {ref "abbrev-vs-def"}[{kw}`abbrev` fixes the problem] by marking the definition for unfolding.
 -/
-使用 {ref "getting-to-know/types.md#abbrev-vs-def"}[{kw}`abbrev` 定义 {anchorName onePlusOneIsStillTwo}`OnePlusOneIsTwo`] 通过标记定义以进行展开来解决问题。
+使用 {ref "abbrev-vs-def"}[{kw}`abbrev` 定义 {anchorName onePlusOneIsStillTwo}`OnePlusOneIsTwo`] 通过标记定义以进行展开来解决问题。
 
 /- In addition to the error that occurs when Lean is unable to find compile-time evidence that an indexing operation is safe, polymorphic functions that use unsafe indexing may produce the following message:
 -/
