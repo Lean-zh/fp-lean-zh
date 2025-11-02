@@ -136,7 +136,7 @@ Except.ok ("Peregrine falcon", "Golden eagle", "Spur-winged goose", "Anna's humm
 
 {anchorName firstThirdFifthSeventhMonad}`m` 必须有 {anchorName firstThirdFifthSeventhMonad}`Monad` 实例，这一事实这意味着可以使用 {lit}`>>=` 和 {anchorName firstThirdFifthSeventhMonad}`pure` 运算符。
 
--- General Monad Operations
+-- # General Monad Operations
 # 通用的单子运算符
 %%%
 tag := "monad-class-polymorphism"
@@ -254,7 +254,7 @@ def saveIfEven (i : Int) : WithLog Int Int :=
 { log := [2, 4], val := [1, 2, 3, 4, 5] }
 ```
 
--- The Identity Monad
+-- # The Identity Monad
 # 恒等单子
 %%%
 tag := "Id-monad"
@@ -313,11 +313,11 @@ Hint: Additional diagnostic information may be available using the `set_option d
 
 -- In this error, the application of one metavariable to another indicates that Lean doesn't run the type-level computation backwards.
 -- The return type of the function is expected to be the monad applied to some other type.
--- Similarly, using {anchorName mapMIdId}`mapM` with a function whose type doesn't provide any specific hints about which monad is to be used results in an "instance problem is stuck" message:
+-- Similarly, using {anchorName mapMIdId}`mapM` with a function whose type doesn't provide any specific hints about which monad is to be used results in an “instance problem is stuck” message:
 
 导致错误的原因是：一个元变量应用于另一个元变量，使得Lean不会反向运行类型计算。
 函数的返回类型应该是应用于其他类型参数的单子。
-类似地，将 {anchorName mapMIdId}`mapM` 和未提供任何特定单子类型信息的函数一起使用，会导致"instance problem stuck"错误：
+类似地，将 {anchorName mapMIdId}`mapM` 和未提供任何特定单子类型信息的函数一起使用，会导致 “instance problem stuck” 错误：
 
 ```anchor mapMIdId
 #eval mapM (fun (x : Nat) => x) [1, 2, 3, 4, 5]
@@ -327,7 +327,7 @@ typeclass instance problem is stuck, it is often due to metavariables
   Monad ?m.22785
 ```
 
--- The Monad Contract
+-- # The Monad Contract
 # 单子约定
 %%%
 tag := "monad-contract"
@@ -352,13 +352,13 @@ tag := "monad-contract"
 由于 {anchorName MonadContract}`pure` 不导致效应，因此用 {anchorName MonadContract}`bind` 将其与其他效应接连执行不应改变结果。
 {anchorName MonadContract}`bind`满足的结合律则意味着先计算哪一部分无关紧要，只要保证效应的顺序不变即可。
 
--- Exercises
+-- # Exercises
 # 练习
 %%%
 tag := "monad-class-exercises"
 %%%
 
--- Mapping on a Tree
+-- ## Mapping on a Tree
 ## 映射一棵树
 %%%
 tag := "tree-mapM"
@@ -376,7 +376,7 @@ tag := "tree-mapM"
 def BinTree.mapM [Monad m] (f : α → m β) : BinTree α → m (BinTree β)
 ```
 
--- The Option Monad Contract
+-- ## The Option Monad Contract
 ## Option单子的约定
 %%%
 tag := "option-monad-contract"

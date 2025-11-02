@@ -17,7 +17,7 @@ tag := "monads-conveniences"
 %%%
 
 
--- Shared Argument Types
+-- # Shared Argument Types
 # 共享参数类型
 %%%
 tag := "shared-argument-types"
@@ -48,7 +48,7 @@ def equal? [BEq α] (x y : α) : Option α :=
 -- This is especially useful when the type signature is large.
 这在类型签名很长的时候特别有用。
 
--- Leading Dot Notation
+-- # Leading Dot Notation
 # 开头的点号
 %%%
 tag := "leading-dot-notation"
@@ -92,7 +92,7 @@ def BinTree.empty : BinTree α := .leaf
 BinTree.empty : BinTree Nat
 ```
 
--- Or-Patterns
+-- # Or-Patterns
 # 或-模式
 %%%
 tag := "or-patterns"

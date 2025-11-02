@@ -9,12 +9,12 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Monads.Class"
 
+-- Example: Arithmetic in Monads
 #doc (Manual) "例子：利用单子实现算术表达式求值" =>
 %%%
 file := "Arithmetic"
 tag := "monads-arithmetic-example"
 %%%
--- Example: Arithmetic in Monads
 
 -- Monads are a way of encoding programs with side effects into a language that does not have them.
 -- It would be easy to read this as a sort of admission that pure functional programs are missing something important, requiring programmers to jump through hoops just to write a normal program.
@@ -32,7 +32,7 @@ tag := "monads-arithmetic-example"
 
 对许多单子都有意义的一个例子是算术表达式的求值器。
 
--- Arithmetic Expressions
+-- # Arithmetic Expressions
 # Arithmetic Expressions
 %%%
 tag := "monads-arithmetic-example-expr"
@@ -55,7 +55,7 @@ inductive Arith where
   | div
 ```
 
--- The expression `2 + 3` is represented:
+-- The expression {lit}`2 + 3` is represented:
 
 表达式 {lit}`2 + 3` 表示为：
 
@@ -65,7 +65,7 @@ open Arith in
 def twoPlusThree : Expr Arith :=
   prim plus (const 2) (const 3)
 ```
--- and `14 / (45 - 5 * 9)` is represented:
+-- and {lit}`14 / (45 - 5 * 9)` is represented:
 
 而 {lit}`14 / (45 - 5 * 9)` 表示为：
 ```anchor exampleArithExpr
@@ -78,7 +78,7 @@ def fourteenDivided : Expr Arith :=
         (const 9)))
 ```
 
--- Evaluating Expressions
+-- # Evaluating Expressions
 # Evaluating Expressions
 %%%
 tag := "monads-arithmetic-example-eval"
@@ -242,7 +242,7 @@ def evaluateM [Monad m]
 
 在重构后的代码中，两条路径仅在对失败情况的处理上有所不同，这一事实显而易见。
 
--- Further Effects
+-- # Further Effects
 # Further Effects
 %%%
 tag := "monads-arithmetic-example-effects"
@@ -303,7 +303,7 @@ def evaluateM [Monad m]
     applyPrim applySpecial p v1 v2
 ```
 
--- No Effects
+-- ## No Effects
 ## No Effects
 %%%
 tag := "monads-arithmetic-example-no-effects"
@@ -344,7 +344,7 @@ open Expr Prim in
 -9
 ```
 
--- Nondeterministic Search
+-- ## Nondeterministic Search
 ## Nondeterministic Search
 %%%
 tag := "nondeterministic-search"
@@ -661,7 +661,7 @@ open Expr Prim NeedsSearch
 [9]
 ```
 
--- Custom Environments
+-- ## Custom Environments
 ## Custom Environments
 %%%
 tag := "custom-environments"
@@ -720,9 +720,9 @@ def Reader (ρ : Type) (α : Type) : Type := ρ → α
 
 def read : Reader ρ ρ := fun env => env
 ```
--- By convention, the Greek letter {anchorName Reader}`ρ`, which is pronounced "rho", is used for environments.
+-- By convention, the Greek letter {anchorName Reader}`ρ`, which is pronounced “rho”, is used for environments.
 
-按照惯例，希腊字母 {anchorName Reader}`ρ`（发音为"rho"）用于表示环境。
+按照惯例，希腊字母 {anchorName Reader}`ρ`（发音为“rho”）用于表示环境。
 
 -- The fact that constants in arithmetic expressions evaluate to constant functions suggests that the appropriate definition of {anchorName IdMonad}`pure` for {anchorName Reader}`Reader` is a a constant function:
 
@@ -864,7 +864,7 @@ def Reader.bind
   fun env => next (result env) env
 ```
 
--- It's not always possible to write correct functions by simply "following the types", and it carries the risk of not understanding the resulting program.
+-- It's not always possible to write correct functions by simply “following the types”, and it carries the risk of not understanding the resulting program.
 -- However, it can also be easier to understand a program that has been written than one that has not, and the process of filling in the underscores can bring insights.
 -- In this case, {anchorName Readerbind}`Reader.bind` works just like {anchorName IdMonad}`bind` for {anchorName IdMonad}`Id`, except it accepts an additional argument that it then passes down to its arguments, and this intuition can help in understanding how it works.
 
@@ -998,7 +998,7 @@ Common Lisp、Clojure和Emacs Lisp中的动态或特殊变量可以用作 {ancho
 类似地，Scheme和Racket的参数对象是一个与 {anchorName Reader}`Reader` 完全对应的作用。
 Kotlin的上下文对象可以解决类似的问题，但根本上是一种自动传递函数参数的方式，因此更像是作为reader单子的编码，而不是语言中实现的作用。
 
--- Exercises
+-- ## Exercises
 ## Exercises
 %%%
 tag := "monads-arithmetic-example-exercises"
@@ -1006,7 +1006,7 @@ tag := "monads-arithmetic-example-exercises"
 
 练习
 
--- Checking Contracts
+-- ### Checking Contracts
 ### 检查约定
 %%%
 tag := "monads-arithmetic-example-checking-contracts"
@@ -1016,7 +1016,7 @@ tag := "monads-arithmetic-example-checking-contracts"
 
 检查 {anchorTerm StateMonad}`State σ` 和 {anchorTerm MonadOptionExcept}`Except ε` 满足单子约定。
 
--- Readers with Failure
+-- ### Readers with Failure
 ### 允许Reader失败
 %%%
 tag := "monads-arithmetic-example-readers-with-failure"
@@ -1045,7 +1045,7 @@ def ReaderExcept (ε : Type) (ρ : Type) (α : Type) : Type := ρ → Except ε 
  3. 为 {anchorName ReaderFail}`ReaderOption` 和 {anchorName ReaderFail}`ReaderExcept` 实现 {anchorName evaluateM}`Monad` 实例
  4. 为它们定义恰当的 {anchorName evaluateM}`applyPrim` 运算符，并且将它们和 {anchorName evaluateM}`evaluateM` 一起测试一些例子
 
--- A Tracing Evaluator
+-- ### A Tracing Evaluator
 ### 带有跟踪信息的求值器
 %%%
 tag := "monads-arithmetic-example-exercise-trace"

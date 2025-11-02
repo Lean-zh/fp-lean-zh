@@ -17,7 +17,7 @@ tag := "monads-summary"
 %%%
 
 
--- Encoding Side Effects
+-- # Encoding Side Effects
 # 编码副作用
 %%%
 tag := "encoding-side-effects"
@@ -42,7 +42,7 @@ Lean 是一种纯函数式语言。这意味着它不包含副作用，例如可
 函数式编程并不意味着程序不能使用作用，它只是要求它们 *诚实地* 说明它们使用的作用。
 Lean 类型签名不仅描述了函数期望的参数类型和它返回的结果类型，还描述了它可能使用的作用。
 
--- The Monad Type Class
+-- # The Monad Type Class
 # 单子类型类
 %%%
 tag := "monad-type-class"
@@ -65,7 +65,7 @@ tag := "monad-type-class"
 类型类 {anchorName FakeMonad}`Monad` 刻画了这两个重要属性。它有两个方法：{anchorName FakeMonad}`pure` 表示没有副作用的程序，
 {anchorName FakeMonad}`bind` 顺序执行有副作用的程序。{anchorName FakeMonad}`Monad` 实例的约束确保了 {anchorName FakeMonad}`bind` 和 {anchorName FakeMonad}`pure` 实际上刻画了纯计算和顺序执行。
 
--- {kw}`do`-Notation for Monads
+-- # {kw}`do`-Notation for Monads
 # 单子的 {kw}`do`-记法
 %%%
 tag := "do-notation"
@@ -81,7 +81,7 @@ tag := "do-notation"
 此外，{kw}`do`-记法还支持许多其他方便的简写，例如嵌套动作。
 使用 {kw}`do` 编写的程序在幕后会被翻译为 {lit}`>>=` 的应用。
 
--- Custom Monads
+-- # Custom Monads
 # 定制单子
 %%%
 tag := "custom-monads"
@@ -100,7 +100,7 @@ tag := "custom-monads"
 由于 Lean 被设计为能方便地使用任何单子进行编程，
 因此程序员可以自由选择最适合任何给定应用的副作用集。
 
--- The {lit}`IO` Monad
+-- # The {lit}`IO` Monad
 # {lit}`IO` 单子
 %%%
 tag := "io-monad"
