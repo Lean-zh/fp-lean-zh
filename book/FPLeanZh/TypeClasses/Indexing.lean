@@ -99,7 +99,7 @@ structure NonEmptyList (α : Type) : Type where
 
 -- For example, the non-empty list {moduleName}`idahoSpiders` (which contains some spider species native to the US state of Idaho) consists of {anchorTerm firstSpider}`"Banded Garden Spider"` followed by four other spiders, for a total of five spiders:
 
-例如，非空列表 {moduleName}`idahoSpiders`（其中包含一些原产于美国爱达荷州的蜘蛛物种）由 {anchorTerm firstSpider}`Banded Garden Spider` 和其他四种蜘蛛组成，总共五种蜘蛛：
+例如，非空列表 {moduleName}`idahoSpiders`（其中包含一些原产于美国爱达荷州的蜘蛛物种）由 {anchorTerm firstSpider}`"Banded Garden Spider"` 和其他四种蜘蛛组成，总共五种蜘蛛：
 
 ```anchor idahoSpiders
 def idahoSpiders : NonEmptyList String := {
