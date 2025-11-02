@@ -255,7 +255,7 @@ tag := "type-class-polymorphism-exercises"
 -- ## Even Number Literals
 ## 偶数字面量
 %%%
-tag := "even-numbers-ex"
+tag := "even-numbers-literals-ex"
 %%%
 
 -- Write an instance of {anchorName ofNatType}`OfNat` for the even number datatype from the {ref "even-numbers-ex"}[previous section's exercises] that uses recursive instance search.

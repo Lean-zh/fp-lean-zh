@@ -21,7 +21,7 @@ tag := "type-classes-summary"
 -- # Type Classes and Overloading
 # 类型类和重载
 %%%
-tag := "type-classes-and-overloading"
+tag := "type-classes-and-overloading-summary"
 %%%
 
 -- Type classes are Lean's mechanism for overloading functions and operators.
@@ -99,7 +99,7 @@ Lean 中的大多数中缀运算符都使用类型类进行重写。
 -- # Functors
 # 函子
 %%%
-tag := "functors"
+tag := "functors-summary"
 %%%
 
 -- A functor is a polymorphic type that supports a mapping operation.
@@ -119,7 +119,7 @@ tag := "functors"
 -- # Deriving Instances
 # 派生实例
 %%%
-tag := "deriving-instances"
+tag := "deriving-instances-summary"
 %%%
 
 -- Many type classes have very standard implementations.
@@ -141,7 +141,7 @@ tag := "deriving-instances"
 -- # Coercions
 # 强制类型转换
 %%%
-tag := "coercions"
+tag := "coercions-summary"
 %%%
 
 

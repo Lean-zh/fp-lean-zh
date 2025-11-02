@@ -15,7 +15,7 @@ set_option pp.rawOnError true
 #doc (Manual) "数组和索引" =>
 %%%
 file := "Indexing"
-tag := "array-indexing"
+tag := "indexing"
 %%%
 
 -- The {ref "props-proofs-indexing"}[Interlude] describes how to use indexing notation in order to look up entries in a list by their position.
