@@ -22,9 +22,7 @@ tag := "out-params"
 -- However, in many cases, it can be useful to be more flexible and allow _heterogeneous_ operator overloading, where the arguments may have different types.
 -- For example, adding a {moduleName}`Nat` to a {moduleName}`Pos` or a {moduleName}`Pos` to a {moduleName}`Nat` will always yield a {moduleName}`Pos`:
 
-{moduleName}`Add` 类的实例足以方便地将两个类型为 {moduleName}`Pos` 的表达式相加，从而产生另一个 {moduleName}`Pos`。
-然而，在许多情况下，更灵活并允许*异构*运算符重载可能很有用，其中参数可以具有不同的类型。
-例如，将 {moduleName}`Nat` 添加到 {moduleName}`Pos` 或将 {moduleName}`Pos` 添加到 {moduleName}`Nat` 将始终产生一个 {moduleName}`Pos`：
+要方便地相加两个 {moduleName}`Pos` 类型，并产生另一个 {moduleName}`Pos`，一个 {moduleName}`Add` 类的的实例就足够了。但是，在许多情况下，参数可能有不同的类型，重载一个灵活的 *异质* 运算符是更为有用的。例如，让 {moduleName}`Nat` 和 {moduleName}`Pos`，或 {moduleName}`Pos` 和 {moduleName}`Nat` 相加总会是一个 {moduleName}`Pos`：
 
 ```anchor addNatPos
 def addNatPos : Nat → Pos → Pos
@@ -38,10 +36,10 @@ def addPosNat : Pos → Nat → Pos
 
 -- These functions allow natural numbers to be added to positive numbers, but they cannot be used with the {moduleName}`Add` type class, which expects both arguments to {moduleName}`add` to have the same type.
 
-这些函数允许将自然数添加到正数中，但它们不能与 {moduleName}`Add` 类型类一起使用，该类型类要求 {moduleName}`add` 的两个参数具有相同的类型。
+这些函数允许自然数与正数相加，但它们不能与 {moduleName}`Add` 类型类一起使用，该类型类要求 {moduleName}`add` 的两个参数具有相同的类型。
 
 -- # Heterogeneous Overloadings
-# 异构重载
+# 异质重载
 %%%
 tag := "heterogeneous-operators"
 %%%
@@ -50,7 +48,7 @@ tag := "heterogeneous-operators"
 -- The {anchorName chapterIntro}`HAdd` class takes three type parameters: the two argument types and the return type.
 -- Instances of {anchorTerm haddInsts}`HAdd Nat Pos Pos` and {anchorTerm haddInsts}`HAdd Pos Nat Pos` allow ordinary addition notation to be used to mix the types:
 
-如 {ref "overloaded-addition"}[重载加法] 部分所述，Lean 提供了一个名为 {anchorName chapterIntro}`HAdd` 的类型类，用于异构地重载加法。
+如 {ref "overloaded-addition"}[重载加法] 一节所述，Lean 提供了一个名为 {anchorName chapterIntro}`HAdd` 的类型类来重载异质加法。
 {anchorName chapterIntro}`HAdd` 类接受三个类型参数：两个参数类型和返回类型。
 {anchorTerm haddInsts}`HAdd Nat Pos Pos` 和 {anchorTerm haddInsts}`HAdd Pos Nat Pos` 的实例允许使用普通的加法表示法来混合类型：
 
@@ -63,7 +61,7 @@ instance : HAdd Pos Nat Pos where
 ```
 
 -- Given the above two instances, the following examples work:
-鉴于以上两个实例，以下示例可以工作：
+有了上面两个实例，就有了下面的例子：
 
 ```anchor posNatEx
 #eval (3 : Pos) + (5 : Nat)
@@ -121,8 +119,7 @@ typeclass instance problem is stuck, it is often due to metavariables
 -- That is, the {anchorTerm HPlusInstances}`HPlus Pos Nat Pos` instance can only apply if the expression should have type {moduleName}`Pos`, but there's nothing in the program other than the instance itself to indicate that it should have this type.
 
 如 {ref "polymorphism"}[多态性的初步描述] 中所述，元变量表示程序中无法推断的未知部分。
-当在 {kw}`#eval` 之后编写表达式时，Lean 会尝试自动确定其类型。
-在这种情况下，它无法做到。
+当一个表达式被写在 {kw}`#eval` 之后时，Lean 会尝试自动确定其类型。在这种情况下，它无法做到自动确定类型。
 因为 {anchorName HPlusInstances}`HPlus` 的第三个类型参数是未知的，所以 Lean 无法执行类型类实例搜索，但实例搜索是 Lean 确定表达式类型的唯一方法。
 也就是说，只有当表达式应具有类型 {moduleName}`Pos` 时，{anchorTerm HPlusInstances}`HPlus Pos Nat Pos` 实例才能应用，但程序中除了实例本身之外没有任何东西表明它应具有此类型。
 
@@ -154,10 +151,10 @@ tag := "output-parameters"
 -- The parameters that aren't needed to start instance search are outputs of the process, which is declared with the {moduleName}`outParam` modifier:
 
 这个问题也可以通过将 {anchorName HPlus}`γ` 声明为*输出参数*来解决。
-大多数类型类参数是搜索算法的输入：它们用于选择实例。
+多数类型类参数是作为搜索算法的输入：它们被用于选取一个实例。
 例如，在 {moduleName}`OfNat` 实例中，类型和自然数都用于选择自然数字面量的特定解释。
-然而，在某些情况下，即使某些类型参数尚不清楚，也可以方便地启动搜索过程，并使用在搜索中发现的实例来确定元变量的值。
-不需要启动实例搜索的参数是该过程的输出，使用 {moduleName}`outParam` 修饰符声明：
+然而，在一些情况下，在尽管有些类型参数仍然处于未知状态时就开始进行搜索是更方便的。这样就能使用在搜索中发现的实例来决定元变量的值。
+在开始搜索实例时不需要用到的参数就是这个过程的结果，该参数使用 {moduleName}`outParam` 修饰符声明：
 
 ```anchor HPlusOut
 class HPlus (α : Type) (β : Type) (γ : outParam Type) where
@@ -167,8 +164,7 @@ class HPlus (α : Type) (β : Type) (γ : outParam Type) where
 -- With this output parameter, type class instance search is able to select an instance without knowing {anchorName HPlusOut}`γ` in advance.
 -- For instance:
 
-有了这个输出参数，类型类实例搜索就能够在不预先知道 {anchorName HPlusOut}`γ` 的情况下选择一个实例。
-例如：
+有了这个输出参数，类型类实例搜索就能够在不预先知道 {anchorName HPlusOut}`γ` 的情况下选择一个实例。例如：
 
 ```anchor hPlusWorks
 #eval HPlus.hPlus (3 : Pos) (5 : Nat)
@@ -182,10 +178,9 @@ class HPlus (α : Type) (β : Type) (γ : outParam Type) where
 -- The process of searching for an instance, possibly recursively, ends up being more powerful than mere overloading.
 -- Output parameters can determine other types in the program, and instance search can assemble a collection of underlying instances into a program that has this type.
 
-将输出参数视为定义一种函数可能会有所帮助。
-具有一个或多个输出参数的类型类的任何给定实例都为 Lean 提供了从输入确定输出的指令。
-搜索实例的过程（可能递归）最终比单纯的重载更强大。
-输出参数可以确定程序中的其他类型，实例搜索可以将底层实例的集合组装成具有此类型的程序。
+认为输出参数相当于是定义某种函数在思考时可能会有帮助。任意给定的，类型类的实例都有一个或更多输出参数提供给 Lean。
+这能指导 Lean 通过输入（的类型参数）来确定输出（的类型）。一个可能是递归的实例搜索过程，最终会比简单的重载更为强大。
+输出参数能够决定程序中的其他类型，实例搜索能够将一族附属实例组合成具有这种类型的程序。
 
 -- # Default Instances
 # 默认实例
@@ -198,10 +193,7 @@ tag := "default-instances"
 -- However, in some cases, output parameters are not enough, and instance search should also occur when some inputs are unknown.
 -- This is a bit like default values for optional function arguments in Python or Kotlin, except default _types_ are being selected.
 
-决定参数是输入还是输出可以控制 Lean 启动类型类搜索的情况。
-特别是，在所有输入都已知之前，不会发生类型类搜索。
-然而，在某些情况下，输出参数是不够的，当某些输入未知时，也应该进行实例搜索。
-这有点像 Python 或 Kotlin 中可选函数参数的默认值，只是正在选择默认*类型*。
+确定一个参数是否是一个输入或输出参数控制了 Lean 会在何时启动类型类搜索。具体而言，直到所有输入都变为已知，类型类搜索才会开始。然而，在一些情况下，输出参数是不足的。此时，即使一些输入参数仍然处于未知状态，实例搜索也应该开始。这有点像是 Python 或 Kotlin 中可选函数参数的默认值，但在这里是默认*类型*。
 
 -- _Default instances_ are instances that are available for instance search _even when not all their inputs are known_.
 -- When one of these instances can be used, it will be used.
@@ -210,19 +202,14 @@ tag := "default-instances"
 -- In particular, if an undesired default instance is selected, then an expression may have a different type than expected, which can cause confusing type errors to occur elsewhere in the program.
 -- Be selective about where default instances are used!
 
-*默认实例*是即使并非所有输入都已知也适用于实例搜索的实例。
-当可以使用这些实例之一时，就会使用它。
-这可以使程序成功进行类型检查，而不是因与未知类型和元变量相关的错误而失败。
-另一方面，默认实例会使实例选择的可预测性降低。
-特别是，如果选择了不需要的默认实例，则表达式的类型可能与预期的不同，这可能会导致程序中其他地方出现令人困惑的类型错误。
-请谨慎选择使用默认实例的位置！
+*默认实例* 是当 *并不是全部输入均为已知时* 可用的实例。当一个默认实例能被使用时，它就将会被使用。这能帮助程序成功通过类型检查，而不是因为关于未知类型和元变量的错误而失败。但另一方面，默认类型会让实例选取变得不那么可预测。具体而言，如果一个不合适的实例被选取了，那么表达式将可能具有和预期不同的类型。这会导致令人困惑的类型错误发生在程序中。明智地选择要使用默认实例的地方！
 
 -- One example of where default instances can be useful is an instance of {anchorName HPlusOut}`HPlus` that can be derived from an {moduleName}`Add` instance.
 -- In other words, ordinary addition is a special case of heterogeneous addition in which all three types happen to be the same.
 -- This can be implemented using the following instance:
 
-默认实例有用的一个例子是可以从 {moduleName}`Add` 实例派生的 {anchorName HPlusOut}`HPlus` 实例。
-换句话说，普通加法是异构加法的一种特殊情况，其中所有三种类型恰好相同。
+默认实例可以发挥作用的一个例子是，可以从 {moduleName}`Add` 实例派生出的 {anchorName HPlusOut}`HPlus` 实例。
+换句话说，普通加法是异质加法的一种特殊情况，其中所有三种类型恰好相同。
 这可以使用以下实例来实现：
 
 ```anchor notDefaultAdd
@@ -295,7 +282,7 @@ instance [Add α] : HPlus α α α where
 ```
 
 -- yields
-产生
+结果为：
 
 ```anchorInfo plusFive
 HPlus.hPlus 5 : Nat → Nat
@@ -304,8 +291,8 @@ HPlus.hPlus 5 : Nat → Nat
 -- Each operator that exists in overloadable heterogeneous and homogeneous versions follows the pattern of a default instance that allows the homogeneous version to be used in contexts where the heterogeneous is expected.
 -- The infix operator is replaced with a call to the heterogeneous version, and the homogeneous default instance is selected when possible.
 
-每个存在于可重载异构和同构版本中的运算符都遵循默认实例的模式，该模式允许在需要异构的上下文中使用同构版本。
-中缀运算符被替换为对异构版本的调用，并在可能的情况下选择同构默认实例。
+每个存在于可重载异质和同构版本中的运算符都遵循默认实例的模式，该模式允许在需要异质的上下文中使用同构版本。
+中缀运算符被替换为对异质版本的调用，并在可能的情况下选择同构默认实例。
 
 -- Similarly, simply writing {anchorTerm fiveType}`5` gives a {anchorTerm fiveType}`Nat` rather than a type with a metavariable that is waiting for more information in order to select an {moduleName}`OfNat` instance.
 -- This is because the {moduleName}`OfNat` instance for {moduleName}`Nat` is a default instance.

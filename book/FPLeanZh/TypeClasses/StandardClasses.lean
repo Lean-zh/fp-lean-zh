@@ -22,8 +22,7 @@ tag := "standard-classes"
 -- Each operator or function corresponds to a method of a type class.
 -- Unlike C++, infix operators in Lean are defined as abbreviations for named functions; this means that overloading them for new types is not done using the operator itself, but rather using the underlying name (such as {moduleName}`HAdd.hAdd`).
 
-本节介绍在 Lean 中可以使用类型类重载的各种运算符和函数。
-每个运算符或函数都对应一个类型类的方法。
+本节介绍在 Lean 中可以使用类型类重载的各种运算符和函数。每个运算符或函数都对应一个类型类的方法。
 与 C++ 不同，Lean 中的中缀运算符被定义为命名函数的缩写；这意味着为新类型重载它们不是使用运算符本身，而是使用底层名称（例如 {moduleName}`HAdd.hAdd`）。
 
 -- # Arithmetic
@@ -36,9 +35,9 @@ tag := "arithmetic-classes"
 -- For each heterogeneous operator, there is a corresponding homogeneous version that can found by removing the letter {lit}`h`, so that {moduleName}`HAdd.hAdd` becomes {moduleName}`Add.add`.
 -- The following arithmetic operators are overloaded:
 
-大多数算术运算符都以异构形式提供，其中参数可以具有不同的类型，并且输出参数决定结果表达式的类型。
-对于每个异构运算符，都有一个对应的同构版本，可以通过删除字母 {lit}`h` 来找到，因此 {moduleName}`HAdd.hAdd` 变为 {moduleName}`Add.add`。
-以下算术运算符被重载：
+多数算术运算符都是可以进行异质运算的。这意味着参数可能有不同的类型，并且输出参数决定了结果表达式的类型。
+对于每个异质运算符，都有一个同质运算符与其对应。可以通过删除字母 {lit}`h` 来找到，比如 {moduleName}`HAdd.hAdd` 变为 {moduleName}`Add.add`。
+下面的算术运算符都可以被重载：
 
 -- :::table +header
 --
@@ -199,10 +198,10 @@ Lean 包含许多使用类型类重载的标准位运算符。
 
 -- Because the names {anchorName chapterIntro}`And` and {anchorName chapterIntro}`Or` are already taken as the names of logical connectives, the homogeneous versions of {anchorName chapterIntro}`HAnd` and {anchorName chapterIntro}`HOr` are called {anchorName moreOps}`AndOp` and {anchorName moreOps}`OrOp` rather than {anchorName chapterIntro}`And` and {anchorName chapterIntro}`Or`.
 
-因为名称 {anchorName chapterIntro}`And` 和 {anchorName chapterIntro}`Or` 已被用作逻辑连接词的名称，所以 {anchorName chapterIntro}`HAnd` 和 {anchorName chapterIntro}`HOr` 的同构版本称为 {anchorName moreOps}`AndOp` 和 {anchorName moreOps}`OrOp`，而不是 {anchorName chapterIntro}`And` 和 {anchorName chapterIntro}`Or`。
+因为名称 {anchorName chapterIntro}`And` 和 {anchorName chapterIntro}`Or` 已被用作逻辑连接词的名称，所以 {anchorName chapterIntro}`HAnd` 和 {anchorName chapterIntro}`HOr` 的同质版本称为 {anchorName moreOps}`AndOp` 和 {anchorName moreOps}`OrOp`，而不是 {anchorName chapterIntro}`And` 和 {anchorName chapterIntro}`Or`。
 
 -- # Equality and Ordering
-# 相等与排序
+# 等价性与有序性
 %%%
 tag := "equality-and-ordering"
 %%%
@@ -212,10 +211,10 @@ tag := "equality-and-ordering"
 --  * {deftech}_Boolean equality_ is the same kind of equality that is found in other programming languages. It is a function that takes two values and returns a {anchorName CoeBoolProp}`Bool`. Boolean equality is written with two equals signs, just as in Python and C#. Because Lean is a pure functional language, there's no separate notions of reference vs value equality—pointers cannot be observed directly.
 --  * {deftech}_Propositional equality_ is the mathematical statement that two things are equal. Propositional equality is not a function; rather, it is a mathematical statement that admits proof. It is written with a single equals sign. A statement of propositional equality is like a type that classifies evidence of this equality.
 
-测试两个值的相等性通常使用 {moduleName}`BEq` 类，它是“布尔相等性”的缩写。
-由于 Lean 用作定理证明器，因此 Lean 中实际上有两种相等运算符：
- * {deftech}*布尔相等性* 与在其他编程语言中发现的相等性相同。它是一个接受两个值并返回一个 {anchorName CoeBoolProp}`Bool` 的函数。布尔相等性用两个等号书写，就像在 Python 和 C# 中一样。因为 Lean 是一种纯函数式语言，所以没有引用与值相等的单独概念——指针不能直接观察。
- * {deftech}*命题相等性* 是两个事物相等的数学陈述。命题相等性不是一个函数；相反，它是一个承认证明的数学陈述。它用一个等号书写。命题相等性的陈述就像一个对这种相等性的证据进行分类的类型。
+测试两个值的等价性通常使用 {moduleName}`BEq` 类，它是 Boolean equality（布尔等价）的缩写。
+由于 Lean 用作定理证明器，因此 Lean 中实际上有两种等价运算符：
+ * {deftech}*布尔等价* 和你能在其他编程语言中看到的等价是一样的。它是一个接受两个值并返回一个 {anchorName CoeBoolProp}`Bool` 的函数。布尔等价用两个等号书写，就像在 Python 和 C# 中一样。因为 Lean 是一种纯函数式语言，指针并不能被直接看到，所以地址和值等价并没有符号上的区别。
+ * {deftech}*命题等价* 是两个事物等价的数学陈述。命题等价不是一个函数；相反，它是一个承认证明的数学陈述。它用一个等号书写。命题等价的陈述就像一个对这种等价性的证据进行分类的类型。
 
 -- Both notions of equality are important, and used for different purposes.
 -- Boolean equality is useful in programs, when a decision needs to be made about whether two values are equal.
@@ -223,11 +222,9 @@ tag := "equality-and-ordering"
 -- Some values, such as functions, cannot be checked for equality.
 -- For example, {anchorTerm functionEq}`(fun (x : Nat) => 1 + x) == (Nat.succ ·)` yields the error:
 
-这两种相等性的概念都很重要，并且用于不同的目的。
-当需要决定两个值是否相等时，布尔相等性在程序中很有用。
-例如，{anchorTerm boolEqTrue}`"Octopus" ==  "Cuttlefish"` 的计算结果为 {anchorTerm boolEqTrue}`false`，而 {anchorTerm boolEqFalse}`"Octopodes" ==  "Octo".append "podes"` 的计算结果为 {anchorTerm boolEqFalse}`true`。
-某些值，例如函数，无法检查其相等性。
-例如，{anchorTerm functionEq}`(fun (x : Nat) => 1 + x) == (Nat.succ ·)` 会产生错误：
+这两种等价都很重要，它们有不同的用处。布尔等价在程序中很有用，有时我们需要考察两个值是否是等价的。
+例如，{anchorTerm boolEqTrue}`"Octopus" ==  "Cuttlefish"` 的结果为 {anchorTerm boolEqTrue}`false`，而 {anchorTerm boolEqFalse}`"Octopodes" ==  "Octo".append "podes"` 的结果为 {anchorTerm boolEqFalse}`true`。
+某些值，例如函数，无法检查其等价性。例如，{anchorTerm functionEq}`(fun (x : Nat) => 1 + x) == (Nat.succ ·)` 会产生错误：
 
 ```anchorError functionEq
 failed to synthesize
@@ -249,12 +246,11 @@ Hint: Additional diagnostic information may be available using the `set_option d
 -- The statement {anchorTerm functionEqProp}`(fun (x : Nat) => 1 + x) = (Nat.succ ·)` is a perfectly reasonable statement.
 -- From the perspective of mathematics, two functions are equal if they map equal inputs to equal outputs, so this statement is even true, though it requires a one-line proof to convince Lean of this fact.
 
-命题相等性是一个数学陈述，而不是程序的调用。
-因为命题就像描述某个陈述的证据的类型，所以命题相等性与像 {anchorName readFile}`String` 和 {anchorTerm moreOps}`Nat → List Int` 这样的类型比与布尔相等性有更多的共同点。
-这意味着它不能自动检查。
-然而，只要两个表达式具有相同的类型，就可以在 Lean 中陈述它们的相等性。
+命题等价性是一个数学陈述，而不是程序的调用。
+因为命题就像描述某个陈述的证据的类型，所以命题等价性与像 {anchorName readFile}`String` 和 {anchorTerm moreOps}`Nat → List Int` 这样的类型比与布尔等价性有更多的共同点。
+这意味着它不能自动检查。然而，只要两个表达式具有相同的类型，就可以在 Lean 中陈述它们的等价性。
 陈述 {anchorTerm functionEqProp}`(fun (x : Nat) => 1 + x) = (Nat.succ ·)` 是一个完全合理的陈述。
-从数学的角度来看，如果两个函数将相等的输入映射到相等的输出，那么它们就是相等的，所以这个陈述甚至是正确的，尽管它需要一个单行的证明来说服 Lean 这个事实。
+从数学的角度来看，如果两个函数将等价的输入映射到等价的输出，那么它们就是等价的，所以这个陈述甚至是正确的，尽管它需要一行证明。
 
 -- Generally speaking, when using Lean as a programming language, it's easiest to stick to Boolean functions rather than propositions.
 -- However, as the names {moduleName}`true` and {moduleName}`false` for {moduleName}`Bool`'s constructors suggest, this difference is sometimes blurred.
@@ -270,10 +266,8 @@ Hint: Additional diagnostic information may be available using the `set_option d
 
 -- In Lean, {kw}`if` works with decidable propositions.
 -- For example, {anchorTerm twoLessFour}`2 < 4` is a proposition:
-:::paragraph
 
 在 Lean 中，{kw}`if` 与可判定命题一起工作。
-
 例如，{anchorTerm twoLessFour}`2 < 4` 是一个命题：
 
 ```anchor twoLessFour
@@ -289,16 +283,13 @@ Hint: Additional diagnostic information may be available using the `set_option d
 尽管如此，将其写成 {kw}`if` 中的条件是完全可以接受的。
 例如，{anchorTerm ifProp}`if 2 < 4 then 1 else 2` 的类型为 {moduleName}`Nat`，计算结果为 {anchorTerm ifProp}`1`。
 
-:::
-
 -- Not all propositions are decidable.
 -- If they were, then computers would be able to prove any true proposition just by running the decision procedure, and mathematicians would be out of a job.
 -- More specifically, decidable propositions have an instance of the {anchorName DecLTLEPos}`Decidable` type class, which contains the decision procedure.
 -- Trying to use a proposition that isn't decidable as if it were a {anchorName CoeBoolProp}`Bool` results in a failure to find the {anchorName DecLTLEPos}`Decidable` instance.
 -- For example, {anchorTerm funEqDec}`if (fun (x : Nat) => 1 + x) = (Nat.succ ·) then "yes" else "no"` results in:
 
-并非所有命题都是可判定的。
-如果它们是，那么计算机只需运行判定过程就可以证明任何真实的命题，数学家就会失业。
+并非所有命题都是可判定的。如果它们是，那么计算机只需运行判定过程就可以证明任何真实的命题，数学家就会失业。
 更具体地说，可判定命题具有 {anchorName DecLTLEPos}`Decidable` 类型类的实例，该实例包含判定过程。
 试图将不可判定的命题当作 {anchorName CoeBoolProp}`Bool` 来使用会导致找不到 {anchorName DecLTLEPos}`Decidable` 实例。
 例如，{anchorTerm funEqDec}`if (fun (x : Nat) => 1 + x) = (Nat.succ ·) then "yes" else "no"` 会导致：
@@ -434,10 +425,7 @@ inductive Ordering where
 -- The {anchorName OrdPos}`Ord` type class can be overloaded to produce these comparisons.
 -- For {anchorName OrdPos}`Pos`, an implementation can be:
 
-{anchorName OrdPos}`Ord` 类型类可以被重载以产生这些比较。
-对于 {anchorName OrdPos}`Pos`，一个实现可以是：
-
-
+{anchorName OrdPos}`Ord` 类型类可以被重载以产生这些比较。对于 {anchorName OrdPos}`Pos`，一个实现可以是：
 
 ```anchor OrdPos
 def Pos.comp : Pos → Pos → Ordering
@@ -451,7 +439,7 @@ instance : Ord Pos where
 ```
 -- In situations where {java}`compareTo` would be the right approach in Java, use {moduleName}`Ord.compare` in Lean.
 
-在 Java 中 {java}`compareTo` 是正确方法的情况下，在 Lean 中使用 {moduleName}`Ord.compare`。
+在 Java 中使用 {java}`compareTo` 的情形，在 Lean 中使用 {moduleName}`Ord.compare`  就对了。
 
 -- # Hashing
 # 哈希
@@ -477,8 +465,7 @@ class Hashable (α : Type) where
 
 如果根据其类型的 {moduleName}`BEq` 实例认为两个值相等，那么它们应该具有相同的哈希值。
 换句话说，如果 {anchorTerm HashableSpec}`x == y`，那么 {anchorTerm HashableSpec}`hash x == hash y`。
-如果 {anchorTerm HashableSpec}`x ≠ y`，那么 {anchorTerm HashableSpec}`hash x` 不一定与 {anchorTerm HashableSpec}`hash y` 不同（毕竟，{moduleName}`Nat` 值的数量比 {moduleName}`UInt64` 值的数量多得多），但如果不想等的值可能具有不想等的哈希值，那么基于哈希的数据结构将具有更好的性能。
-这与 Java 和 C# 中的期望相同。
+如果 {anchorTerm HashableSpec}`x ≠ y`，那么 {anchorTerm HashableSpec}`hash x` 不一定与 {anchorTerm HashableSpec}`hash y` 不同（毕竟，{moduleName}`Nat` 值的数量比 {moduleName}`UInt64` 但是如果不一样的值有不一样的哈希值的话，那么建立在其上的数据结构会有更好的表现。这与 Java 和 C# 中对哈希的要求是一致的。
 
 -- The standard library contains a function {anchorTerm mixHash}`mixHash` with type {anchorTerm mixHash}`UInt64 → UInt64 → UInt64` that can be used to combine hashes for different fields for a constructor.
 -- A reasonable hash function for an inductive datatype can be written by assigning a unique number to each constructor, and then mixing that number with the hashes of each field.
@@ -497,24 +484,20 @@ instance : Hashable Pos where
   hash := hashPos
 ```
 
-
 -- {anchorTerm HashableNonEmptyList}`Hashable` instances for polymorphic types can use recursive instance search.
 -- Hashing a {anchorTerm HashableNonEmptyList}`NonEmptyList α` is only possible when {anchorName HashableNonEmptyList}`α` can be hashed:
-:::paragraph
+
 多态类型的 {anchorTerm HashableNonEmptyList}`Hashable` 实例可以使用递归实例搜索。
 
 只有当 {anchorName HashableNonEmptyList}`α` 可以被哈希时，才能对 {anchorTerm HashableNonEmptyList}`NonEmptyList α` 进行哈希：
 
 ```anchor HashableNonEmptyList
-
 instance [Hashable α] : Hashable (NonEmptyList α) where
   hash xs := mixHash (hash xs.head) (hash xs.tail)
 ```
 
-:::
-
 -- Binary trees use both recursion and recursive instance search in the implementations of {anchorName TreeHash}`BEq` and {anchorName TreeHash}`Hashable`:
-:::paragraph
+
 二叉树在 {anchorName TreeHash}`BEq` 和 {anchorName TreeHash}`Hashable` 的实现中都使用了递归和递归实例搜索：
 
 
@@ -543,11 +526,9 @@ def hashBinTree [Hashable α] : BinTree α → UInt64
         (mixHash (hash x)
           (hashBinTree right)))
 
-
 instance [Hashable α] : Hashable (BinTree α) where
   hash := hashBinTree
 ```
-:::
 
 -- # Deriving Standard Classes
 # 派生标准类
@@ -569,8 +550,7 @@ Lean 包含一个称为*实例派生*的功能，它允许编译器自动构造�
 -- For a type that is already defined, a standalone {kw}`deriving` command can be used.
 -- Write {kw}`deriving instance`{lit}` C1, C2, ... `{kw}`for`{lit}` T` to derive instances of {lit}`C1, C2, ...` for the type {lit}`T` after the fact.
 
-实例可以通过两种方式派生。
-第一种可以在定义结构或归纳类型时使用。
+派生实例的方法有两种。第一种在定义一个结构体或归纳类型时使用。
 在这种情况下，在类型声明的末尾添加 {kw}`deriving`，后跟应为其派生实例的类的名称。
 对于已经定义的类型，可以使用独立的 {kw}`deriving` 命令。
 事后为类型 {lit}`T` 派生 {lit}`C1, C2, ...` 的实例，请编写 {kw}`deriving instance`{lit}` C1, C2, ... `{kw}`for`{lit}` T`。
@@ -605,25 +585,24 @@ deriving instance BEq, Hashable for NonEmptyList
 -- The collection of classes for which instances can be derived can be extended by advanced users of Lean.
 
 然而，在某些情况下，派生的 {moduleName}`Ord` 实例可能无法精确地产生应用程序中所需的排序。
-在这种情况下，可以手动编写 {moduleName}`Ord` 实例。
-Lean 的高级用户可以扩展可以为其派生实例的类的集合。
+在这种情况下，可以手动编写 {moduleName}`Ord` 实例。你如果对自己的 Lean 水平足够有自信的话，你也可以自己添加可以派生实例的类型类。
 
 -- Aside from the clear advantages in programmer productivity and code readability, deriving instances also makes code easier to maintain, because the instances are updated as the definitions of types evolve.
 -- When reviewing changes to code, modifications that involve updates to datatypes are much easier to read without line after line of formulaic modifications to equality tests and hash computation.
 
-除了在程序员生产力和代码可读性方面的明显优势外，派生实例还使代码更易于维护，因为实例会随着类型定义的发展而更新。
-在审查代码更改时，修改涉及数据类型更新的修改更容易阅读，而无需逐行修改相等性测试和哈希计算的公式化修改。
+实例派生除了在开发效率和代码可读性上有很大的优势外，它也使得代码更易于维护，因为实例会随着类型定义的变化而更新。
+对数据类型的一系列更新更易于阅读，因为不需要一行又一行地对相等性测试和哈希计算进行公式化的修改。
 
 -- # Appending
-# 附加
+# Appending
 %%%
 tag := "append-class"
 %%%
 -- Many datatypes have some sort of append operator.
 -- In Lean, appending two values is overloaded with the type class {anchorName HAppend}`HAppend`, which is a heterogeneous operation like that used for arithmetic operations:
 
-许多数据类型都有某种附加运算符。
-在 Lean 中，附加两个值是使用类型类 {anchorName HAppend}`HAppend` 重载的，它是一种类似于用于算术运算的异构操作：
+许多数据类型都有某种连接运算符。
+在 Lean 中，连接两个值是使用类型类 {anchorName HAppend}`HAppend` 重载的，它是一种类似于用于算术运算的异质操作：
 
 ```anchor HAppend
 class HAppend (α : Type) (β : Type) (γ : outParam Type) where
@@ -634,7 +613,7 @@ class HAppend (α : Type) (β : Type) (γ : outParam Type) where
 -- For homogeneous cases, it's enough to implement an instance of {moduleName}`Append`, which follows the usual pattern:
 
 语法 {anchorTerm desugarHAppend}`xs ++ ys` 脱糖为 {anchorTerm desugarHAppend}`HAppend.hAppend xs ys`。
-对于同构情况，实现 {moduleName}`Append` 的实例就足够了，它遵循通常的模式：
+对于同质情况，实现 {moduleName}`Append` 的实例就足够了，它遵循通常的模式：
 
 ```anchor AppendNEList
 instance : Append (NonEmptyList α) where
@@ -668,7 +647,7 @@ instance : Append (NonEmptyList α) where
 
 -- Similarly, a definition of {moduleName}`HAppend` allows non-empty lists to be appended to ordinary lists:
 
-同样，{moduleName}`HAppend` 的定义允许将非空列表附加到普通列表：
+同样，{moduleName}`HAppend` 的定义允许将非空列表连接到普通列表：
 
 ```anchor AppendNEListList
 instance : HAppend (NonEmptyList α) (List α) (NonEmptyList α) where
@@ -703,10 +682,10 @@ tag := "Functor"
 -- For example, mapping a function over a list constructs a new list in which each entry from the starting list has been replaced by the result of the function on that entry.
 -- Mapping a function {anchorName optionFMeta}`f` over an {anchorName optionFMeta}`Option` leaves {anchorName optionFMeta}`none` untouched, and replaces {anchorTerm optionFMeta}`some x` with {anchorTerm optionFMeta}`some (f x)`.
 
-如果一个多态类型对一个名为 {anchorName FunctorDef}`map` 的函数有重载，该函数通过一个函数转换其中包含的每个元素，那么它就是一个 {deftech}*函子*。
+如果一个多态类型重载了一个名为 {anchorName FunctorDef}`map` 的函数，该函数通过一个函数映射其中包含的每个元素，那么它就是一个 {deftech}*函子*。
 虽然大多数语言都使用这个术语，但 C# 中与 {anchorName FunctorDef}`map` 等效的函数称为 {CSharp}`System.Linq.Enumerable.Select`。
-例如，将一个函数映射到一个列表上会构造一个新列表，其中起始列表中的每个条目都被该函数在该条目上的结果所替换。
-将一个函数 {anchorName optionFMeta}`f` 映射到一个 {anchorName optionFMeta}`Option` 上会使 {anchorName optionFMeta}`none` 保持不变，并将 {anchorTerm optionFMeta}`some x` 替换为 {anchorTerm optionFMeta}`some (f x)`。
+例如，用一个函数对一个列表进行映射会产生一个新的列表，列表中的每个元素都是函数应用在原列表中元素的结果。
+用函数 {anchorName optionFMeta}`f` 映射 {anchorName optionFMeta}`Option` 会使 {anchorName optionFMeta}`none` 保持不变，并将 {anchorTerm optionFMeta}`some x` 替换为 {anchorTerm optionFMeta}`some (f x)`。
 
 -- Here are some examples of functors and how their {anchorName FunctorDef}`Functor` instances overload {anchorName FunctorDef}`map`:
 --  * {anchorTerm mapList}`Functor.map (· + 5) [1, 2, 3]` evaluates to {anchorTerm mapList}`[6, 7, 8]`
@@ -714,9 +693,9 @@ tag := "Functor"
 --  * {anchorTerm mapListList}`Functor.map List.reverse [[1, 2, 3], [4, 5, 6]]` evaluates to {anchorTerm mapListList}`[[3, 2, 1], [6, 5, 4]]`
 
 以下是一些函子以及它们的 {anchorName FunctorDef}`Functor` 实例如何重载 {anchorName FunctorDef}`map` 的示例：
- * {anchorTerm mapList}`Functor.map (· + 5) [1, 2, 3]` 的计算结果为 {anchorTerm mapList}`[6, 7, 8]`
- * {anchorTerm mapOption}`Functor.map toString (some (List.cons 5 List.nil))` 的计算结果为 {anchorTerm mapOption}`some "[5]"`
- * {anchorTerm mapListList}`Functor.map List.reverse [[1, 2, 3], [4, 5, 6]]` 的计算结果为 {anchorTerm mapListList}`[[3, 2, 1], [6, 5, 4]]`。
+ * {anchorTerm mapList}`Functor.map (· + 5) [1, 2, 3]` 结果为 {anchorTerm mapList}`[6, 7, 8]`
+ * {anchorTerm mapOption}`Functor.map toString (some (List.cons 5 List.nil))` 结果为 {anchorTerm mapOption}`some "[5]"`
+ * {anchorTerm mapListList}`Functor.map List.reverse [[1, 2, 3], [4, 5, 6]]` 结果为 {anchorTerm mapListList}`[[3, 2, 1], [6, 5, 4]]`。
 
 -- Because {anchorName mapList}`Functor.map` is a bit of a long name for this common operation, Lean also provides an infix operator for mapping a function, namely {lit}`<$>`.
 -- The prior examples can be rewritten as follows:
@@ -724,11 +703,11 @@ tag := "Functor"
 --  * {anchorTerm mapInfixOption}`toString <$> (some (List.cons 5 List.nil))` evaluates to {anchorTerm mapInfixOption}`some "[5]"`
 --  * {anchorTerm mapInfixListList}`List.reverse <$> [[1, 2, 3], [4, 5, 6]]` evaluates to {anchorTerm mapInfixListList}`[[3, 2, 1], [6, 5, 4]]`
 
-因为 {anchorName mapList}`Functor.map` 对于这个常用操作来说有点长，所以 Lean 还提供了一个用于映射函数的中缀运算符，即 {lit}`<$>`。
+{anchorName mapList}`Functor.map` 很常用，但名字有点长，所以 Lean 还提供了一个用于映射函数的中缀运算符，即 {lit}`<$>`。
 前面的示例可以重写如下：
- * {anchorTerm mapInfixList}`(· + 5) <$> [1, 2, 3]` 的计算结果为 {anchorTerm mapInfixList}`[6, 7, 8]`
- * {anchorTerm mapInfixOption}`toString <$> (some (List.cons 5 List.nil))` 的计算结果为 {anchorTerm mapInfixOption}`some "[5]"`
- * {anchorTerm mapInfixListList}`List.reverse <$> [[1, 2, 3], [4, 5, 6]]` 的计算结果为 {anchorTerm mapInfixListList}`[[3, 2, 1], [6, 5, 4]]`。
+ * {anchorTerm mapInfixList}`(· + 5) <$> [1, 2, 3]` 结果为 {anchorTerm mapInfixList}`[6, 7, 8]`
+ * {anchorTerm mapInfixOption}`toString <$> (some (List.cons 5 List.nil))` 结果为 {anchorTerm mapInfixOption}`some "[5]"`
+ * {anchorTerm mapInfixListList}`List.reverse <$> [[1, 2, 3], [4, 5, 6]]` 结果为 {anchorTerm mapInfixListList}`[[3, 2, 1], [6, 5, 4]]`。
 
 -- An instance of {anchorTerm FunctorNonEmptyList}`Functor` for {anchorTerm FunctorNonEmptyList}`NonEmptyList` requires specifying the {anchorName FunctorNonEmptyList}`map` function.
 
@@ -746,7 +725,7 @@ instance : Functor NonEmptyList where
 
 在这里，{anchorTerm FunctorNonEmptyList}`map` 使用 {moduleName}`List` 的 {anchorTerm FunctorNonEmptyList}`Functor` 实例将函数映射到尾部。
 此实例是为 {anchorTerm FunctorNonEmptyList}`NonEmptyList` 定义的，而不是为 {anchorTerm FunctorNonEmptyListA}`NonEmptyList α` 定义的，因为参数类型 {anchorTerm FunctorNonEmptyListA}`α` 在解析类型类中不起作用。
-无论条目的类型是什么，都可以将函数映射到 {anchorTerm FunctorNonEmptyList}`NonEmptyList` 上。
+无论条目的类型是什么，都可以用函数来映射 {anchorTerm FunctorNonEmptyList}`NonEmptyList` 。
 如果 {anchorTerm FunctorNonEmptyListA}`α` 是该类的参数，那么就可以创建仅适用于 {anchorTerm FunctorNonEmptyListA}`NonEmptyList Nat` 的 {anchorTerm FunctorNonEmptyList}`Functor` 版本，但作为函子的一部分是 {anchorName FunctorNonEmptyList}`map` 适用于任何条目类型。
 
 -- Here is an instance of {anchorTerm FunctorPPoint}`Functor` for {anchorTerm FunctorPPoint}`PPoint`:
@@ -772,7 +751,7 @@ instance : Functor PPoint where
 
 {anchorName FunctorDef}`Functor` 类的定义使用了另一个尚未讨论的语言特性：默认方法定义。
 通常，一个类会指定一些有意义的可重载操作的最小集合，然后使用带有实例隐式参数的多态函数，这些函数建立在重载操作之上，以提供更大的功能库。
-例如，函数 {anchorName concat}`concat` 可以连接任何其条目可附加的非空列表：
+例如，函数 {anchorName concat}`concat` 可以连接任何其条目可连接的非空列表：
 
 ```anchor concat
 def concat [Append α] (xs : NonEmptyList α) : α :=

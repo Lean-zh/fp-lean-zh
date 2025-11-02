@@ -7,3 +7,4 @@ _out/
 .DS_Store
 .lake
 venv
+src/

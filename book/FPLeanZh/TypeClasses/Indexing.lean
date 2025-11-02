@@ -21,8 +21,8 @@ tag := "indexing"
 -- The {ref "props-proofs-indexing"}[Interlude] describes how to use indexing notation in order to look up entries in a list by their position.
 -- This syntax is also governed by a type class, and it can be used for a variety of different types.
 
-{ref "props-proofs-indexing"}[插曲] 描述了如何使用索引表示法按位置查找列表中的条目。
-此语法也由类型类控制，并且可以用于各种不同的类型。
+{ref "props-proofs-indexing"}[命题，证明与索引一节] 描述了如何使用索引表示法按位置查找列表中的条目。
+此语法也由类型类管理，并且可以用于各种不同的类型。
 
 -- # Arrays
 # 数组
@@ -38,16 +38,15 @@ tag := "array-indexing"
 
 例如，对于大多数用途，Lean 数组比链表效率高得多。
 在 Lean 中，类型 {anchorTerm arrVsList}`Array α` 是一个动态大小的数组，用于保存类型为 {anchorName arrVsList}`α` 的值，非常类似于 Java {java}`ArrayList`、C++ {cpp}`std::vector` 或 Rust {rust}`Vec`。
-与在每次使用 {anchorName arrVsList}`cons` 构造函数时都有指针间接的 {anchorTerm arrVsList}`List` 不同，数组占用连续的内存区域，这对于处理器缓存要好得多。
+不像是 {anchorTerm arrVsList}`List` 在每次使用 {anchorName arrVsList}`cons` 构造器时都会有一个指针指向每个节点，数组占用连续的内存区域，这对于处理器缓存要好得多。
 此外，在数组中查找值需要常量时间，而在链表中查找则需要与所访问索引成比例的时间。
 
 -- In pure functional languages like Lean, it is not possible to mutate a given position in a data structure.
 -- Instead, a copy is made that has the desired modifications.
 -- However, copying is not always necessary: the Lean compiler and runtime contain an optimization that can allow modifications to be implemented as mutations behind the scenes when there is only a single unique reference to an array.
 
-在像 Lean 这样的纯函数式语言中，不可能改变数据结构中给定位置的值。
-取而代之的是，会创建一个具有所需修改的副本。
-然而，复制并非总是必要的：Lean 编译器和运行时包含一个优化，当只有一个对数组的唯一引用时，可以允许将修改作为幕后突变来实现。
+在像 Lean 这样的纯函数式语言中，在数据结构中改变某位置上的数据的值是不可能的。相反，Lean 会制作一个副本，该副本具有所需的修改。
+当使用一个数组时，Lean 编译器和运行时包含了一个优化：当该数组只被引用了一次时，会在幕后将制作副本优化为原地操作。
 
 -- Arrays are written similarly to lists, but with a leading {lit}`#`:
 
@@ -65,11 +64,11 @@ def northernTrees : Array String :=
 -- Similarly, the compiler requires a proof that an index is in bounds, and attempting to look up a value outside the bounds of the array results in a compile-time error, just as with lists.
 -- For instance, {anchorTerm northernTreesEight}`northernTrees[8]` results in:
 
-可以使用 {anchorName arrVsList}`Array.size` 找到数组中的值的数量。
-例如，{anchorTerm northernTreesSize}`northernTrees.size` 的计算结果为 {anchorTerm northernTreesSize}`4`。
+可以使用 {anchorName arrVsList}`Array.size` 计数数组中的值。
+例如，{anchorTerm northernTreesSize}`northernTrees.size` 为 {anchorTerm northernTreesSize}`4`。
 对于小于数组大小的索引，可以使用索引表示法来查找相应的值，就像列表一样。
-也就是说，{anchorTerm northernTreesTwo}`northernTrees[2]` 的计算结果为 {anchorTerm northernTreesTwo}`"elm"`。
-同样，编译器需要一个证明索引在边界内的证据，并且尝试查找数组边界外的值会导致编译时错误，就像列表一样。
+也就是说，{anchorTerm northernTreesTwo}`northernTrees[2]` 为 {anchorTerm northernTreesTwo}`"elm"`。
+同样，编译器需要一个索引值未越界的证明。尝试去查找越界的值会导致编译时错误，就和列表一样。
 例如，{anchorTerm northernTreesEight}`northernTrees[8]` 会导致：
 
 ```anchorError northernTreesEight
@@ -89,7 +88,7 @@ tag := "non-empty-list-indexing"
 
 -- A datatype that represents non-empty lists can be defined as a structure with a field for the head of the list and a field for the tail, which is an ordinary, potentially empty list:
 
-表示非空列表的数据类型可以定义为一个结构，其中一个字段用于列表的头部，另一个字段用于尾部，尾部是一个普通的、可能为空的列表：
+一个表示非空列表的数据类型可以被定义为一个结构，这个结构有一个列表头字段，和一个尾字段。尾字段是一个常规的，可能为空的列表。
 
 ```anchor NonEmptyList
 structure NonEmptyList (α : Type) : Type where
@@ -160,7 +159,7 @@ def NonEmptyList.get? : NonEmptyList α → Nat → Option α
 
 -- The definition of what it means for an index to be in bounds should be written as an {kw}`abbrev` because the tactics used to find evidence that indices are acceptable are able to solve inequalities of numbers, but they don't know anything about the name {moduleName}`NonEmptyList.inBounds`:
 
-索引在边界内的含义的定义应写为 {kw}`abbrev`，因为用于查找索引可接受证据的策略能够解决数字不等式，但它们对名称 {moduleName}`NonEmptyList.inBounds` 一无所知：
+“索引值没有出界”意味着什么的这个定义，应该被写成一个 {kw}`abbrev`。因为这个可以用来证明索引值未越界的策略（tactics）要在不知道 {moduleName}`NonEmptyList.inBounds` 这个方法的情况下解决数字之间的不等关系。(此处原文表意不明，按原文字面意思译出。原文大致意思应为 abbrev 比 def 对 tactic 的适应性更好)
 
 ```anchor inBoundsNEList
 abbrev NonEmptyList.inBounds (xs : NonEmptyList α) (i : Nat) : Prop :=
@@ -171,7 +170,7 @@ abbrev NonEmptyList.inBounds (xs : NonEmptyList α) (i : Nat) : Prop :=
 -- For instance, {anchorTerm spiderBoundsChecks}`2` is in bounds for {moduleName}`idahoSpiders`, while {anchorTerm spiderBoundsChecks}`5` is not:
 
 此函数返回一个可能为真或为假的命题。
-例如，{anchorTerm spiderBoundsChecks}`2` 在 {moduleName}`idahoSpiders` 的边界内，而 {anchorTerm spiderBoundsChecks}`5` 不在：
+例如，{anchorTerm spiderBoundsChecks}`2` 对于 {moduleName}`idahoSpiders` 未越界，而 {anchorTerm spiderBoundsChecks}`5` 越界了：
 
 ```anchor spiderBoundsChecks
 theorem atLeastThreeSpiders : idahoSpiders.inBounds 2 := by decide
@@ -198,8 +197,7 @@ def NonEmptyList.get (xs : NonEmptyList α)
 -- It is, of course, possible to write this function to use the evidence directly, rather than delegating to a standard library function that happens to be able to use the same evidence.
 -- This requires techniques for working with proofs and propositions that are described later in this book.
 
-当然，也可以编写此函数以直接使用证据，而不是委托给恰好能够使用相同证据的标准库函数。
-这需要本书后面描述的用于处理证明和命题的技术。
+当然，将这个函数写成直接用证据的形式也是可能的。但这需要会玩证明和命题的一些技术，这些内容会在本书后续内容中提到。
 
 -- # Overloading Indexing
 # 重载索引
@@ -218,14 +216,14 @@ tag := "overloading-indexing"
 为了灵活性，{anchorName GetElem}`GetElem` 有四个参数：
  * 集合的类型
  * 索引的类型
- * 从集合中提取的元素的类型
- * 一个函数，用于确定什么算作索引在边界内的证据
+ * 集合中元素的类型
+ * 一个函数，用于确定什么是索引在边界内的证据
 
 -- The element type and the evidence function are both output parameters.
 -- {anchorName GetElem}`GetElem` has a single method, {anchorName GetElem}`getElem`, which takes a collection value, an index value, and evidence that the index is in bounds as arguments, and returns an element:
 
 元素类型和证据函数都是输出参数。
-{anchorName GetElem}`GetElem` 有一个方法，{anchorName GetElem}`getElem`，它接受一个集合值、一个索引值和索引在边界内的证据作为参数，并返回一个元素：
+{anchorName GetElem}`GetElem` 有一个方法，{anchorName GetElem}`getElem`，它接受一个集合值、一个索引值和索引在边界内的证据，并返回一个元素：
 
 ```anchor GetElem
 class GetElem
@@ -246,11 +244,11 @@ class GetElem
  * 集合是 {anchorTerm GetElemNEList}`NonEmptyList α`
  * 索引的类型为 {anchorName GetElemNEList}`Nat`
  * 元素的类型为 {anchorName GetElemNEList}`α`
- * 如果索引小于或等于尾部的长度，则索引在边界内
+ * 索引如果小于等于列表尾那么就没有越界
 
 -- In fact, the {anchorTerm GetElemNEList}`GetElem` instance can delegate directly to {anchorTerm GetElemNEList}`NonEmptyList.get`:
 
-实际上，{anchorTerm GetElemNEList}`GetElem` 实例可以直接委托给 {anchorTerm GetElemNEList}`NonEmptyList.get`：
+实际上，{anchorTerm GetElemNEList}`GetElem` 实例可以直接使用  {anchorTerm GetElemNEList}`NonEmptyList.get`：
 
 ```anchor GetElemNEList
 instance : GetElem (NonEmptyList α) Nat α NonEmptyList.inBounds where

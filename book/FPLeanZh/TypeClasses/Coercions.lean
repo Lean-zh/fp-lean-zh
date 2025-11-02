@@ -22,18 +22,15 @@ tag := "coercions"
 -- In programming languages, it is common to have rules to automatically translate values of one type into values of another type.
 -- Java allows a {java}`byte` to be automatically promoted to an {java}`int`, and Kotlin allows a non-nullable type to be used in a context that expects a nullable version of the type.
 
-在数学中，通常在不同的上下文中使用相同的符号来表示某个对象的不同方面。
-例如，如果在需要集合的上下文中引用环，则可以理解为意指的是环的底层集合。
-在编程语言中，通常有规则将一种类型的值自动转换为另一种类型的值。
-Java 允许将 {java}`byte` 自动提升为 {java}`int`，而 Kotlin 允许在需要可空版本的类型的上下文中使用不可空类型。
+在数学中，用同一个符号来在不同的语境中代表数学对象的不同方面是很常见的。例如，如果在一个需要集合的语境中给出了一个环，那么理解为该环对应的集合也是很有道理的。在编程语言中，有一些规则自动地将一种类型转换为另一种类型也是很常见的。
+Java 允许将 {java}`byte` 自动提升为 {java}`int`，Kotlin 也允许非空类型在可为空的语境中使用。
 
 -- In Lean, both purposes are served by a mechanism called {deftech}_coercions_.
 -- When Lean encounters an expression of one type in a context that expects a different type, it will attempt to coerce the expression before reporting a type error.
 -- Unlike Java, C, and Kotlin, the coercions are extensible by defining instances of type classes.
 
 在 Lean 中，这两个目的都由一种称为 {deftech}*强制类型转换* 的机制来服务。
-当 Lean 在需要不同类型的上下文中遇到一种类型的表达式时，它会在报告类型错误之前尝试强制转换该表达式。
-与 Java、C 和 Kotlin 不同，强制类型转换可以通过定义类型类的实例来扩展。
+当 Lean 遇到了在某语境中某表达式的类型与期望类型不一致时，Lean 在报错前会尝试进行强制转换。不像 Java，C，和 Kotlin，强制转换是通过定义类型类实例实现的，并且是可扩展的。
 
 -- # Strings and Paths
 # 字符串和路径
@@ -45,7 +42,7 @@ tag := "string-path-coercion"
 -- In fact, this was not necessary: Lean defines a coercion from {moduleName}`String` to {moduleName}`FilePath`, so a string can be used in an position where a path is expected.
 -- Even though the function {anchorTerm readFile}`IO.FS.readFile` has type {anchorTerm readFile}`System.FilePath → IO String`, the following code is accepted by Lean:
 
-在 {ref "handling-input"}[{lit}`feline` 的源代码] 中，使用匿名构造函数语法将 {moduleName}`String` 转换为 {moduleName}`FilePath`。
+在 {ref "handling-input"}[{lit}`feline` 的源代码] 中，使用匿名构造器语法将 {moduleName}`String` 转换为 {moduleName}`FilePath`。
 实际上，这没有必要：Lean 定义了从 {moduleName}`String` 到 {moduleName}`FilePath` 的强制类型转换，因此字符串可以用在需要路径的位置。
 尽管函数 {anchorTerm readFile}`IO.FS.readFile` 的类型为 {anchorTerm readFile}`System.FilePath → IO String`，但 Lean 接受以下代码：
 
@@ -156,7 +153,7 @@ tag := "chaining-coercions"
 
 在搜索强制类型转换时，Lean 会尝试从一系列较小的强制类型转换中组合出一个强制类型转换。
 例如，已经存在从 {anchorName chapterIntro}`Nat` 到 {anchorName chapterIntro}`Int` 的强制类型转换。
-由于该实例，再加上 {anchorTerm CoePosNat}`Coe Pos Nat` 实例，以下代码被接受：
+由于该实例，再加上 {anchorTerm CoePosNat}`Coe Pos Nat` 实例，我们就可以写出下面的代码：
 
 ```anchor posInt
 def oneInt : Int := Pos.one
@@ -194,7 +191,7 @@ def coercedToB : B := ()
 -- Remember: the double parentheses {anchorTerm CoercionCycle}`()` is short for the constructor {anchorName chapterIntro}`Unit.unit`.
 -- After deriving a {anchorTerm ReprBTm}`Repr B` instance with {anchorTerm ReprB}`deriving instance Repr for B`,
 
-记住：双括号 {anchorTerm CoercionCycle}`()` 是构造函数 {anchorName chapterIntro}`Unit.unit` 的缩写。
+记住：双括号 {anchorTerm CoercionCycle}`()` 是构造器 {anchorName chapterIntro}`Unit.unit` 的缩写。
 在使用 {anchorTerm ReprB}`deriving instance Repr for B` 派生 {anchorTerm ReprBTm}`Repr B` 实例后，
 
 ```anchor coercedToBEval
@@ -213,10 +210,10 @@ B.b
 -- This allows option types to be used in a manner even more similar to nullable types, because {anchorName CoeOption}`some` can be omitted.
 -- For instance, the function {anchorName lastHuh}`List.last?` that finds the last entry in a list can be written without a {anchorName CoeOption}`some` around the return value {anchorName lastHuh}`x`:
 
-{anchorName CoeOption}`Option` 类型的使用方式与 C# 和 Kotlin 中的可空类型类似：{anchorName NEListGetHuh}`none` 构造函数表示值的缺失。
+{anchorName CoeOption}`Option` 类型的使用方式与 C# 和 Kotlin 中的可空类型类似：{anchorName NEListGetHuh}`none` 构造器就代表了一个不存在的值。
 Lean 标准库定义了从任何类型 {anchorName CoeOption}`α` 到 {anchorTerm CoeOption}`Option α` 的强制类型转换，它将值包装在 {anchorName CoeOption}`some` 中。
 这使得选项类型的使用方式与可空类型更加相似，因为可以省略 {anchorName CoeOption}`some`。
-例如，查找列表中最后一个条目的函数 {anchorName lastHuh}`List.last?` 可以在返回值 {anchorName lastHuh}`x` 周围不带 {anchorName CoeOption}`some` 的情况下编写：
+例如，查找列表中最后一个条目的函数 {anchorName lastHuh}`List.last?` 可以返回值 {anchorName lastHuh}`x` 而无需加上 {anchorName CoeOption}`some` ：
 
 ```anchor lastHuh
 def List.last? : List α → Option α
@@ -229,7 +226,7 @@ def List.last? : List α → Option α
 -- These coercions can be chained, so that nested uses of {anchorName CoeOption}`Option` don't require nested {anchorName CoeOption}`some` constructors:
 
 实例搜索找到强制类型转换，并插入对 {anchorName Coe}`coe` 的调用，该调用将参数包装在 {anchorName CoeOption}`some` 中。
-这些强制类型转换可以链接，因此 {anchorName CoeOption}`Option` 的嵌套使用不需要嵌套的 {anchorName CoeOption}`some` 构造函数：
+这些强制类型转换可以是链式的，因此 {anchorName CoeOption}`Option` 的嵌套使用不需要嵌套的 {anchorName CoeOption}`some` 构造器：
 
 ```anchor perhapsPerhapsPerhaps
 def perhapsPerhapsPerhaps : Option (Option (Option String)) :=
@@ -322,7 +319,7 @@ class CoeDep (α : Type) (x : α) (β : Type) where
 -- This is a chance to select only certain values, either by imposing further type class constraints on the value or by writing certain constructors directly.
 -- For example, any {moduleName}`List` that is not actually empty can be coerced to a {moduleName}`NonEmptyList`:
 
-这是一个只选择某些值的机会，可以通过对值施加进一步的类型类约束或直接编写某些构造函数来实现。
+这是一个只选择某些值的机会，可以通过对值施加进一步的类型类约束或直接编写某些构造器来实现。
 例如，任何实际上不为空的 {moduleName}`List` 都可以强制转换为 {moduleName}`NonEmptyList`：
 
 ```anchor CoeDepListNEList
@@ -342,12 +339,11 @@ tag := "CoeSort"
 -- Similarly, the natural numbers with one and multiplication also form a monoid.
 -- Monoids are also widely used in functional programming: lists, the empty list, and the append operator form a monoid, as do strings, the empty string, and string append:
 
-在数学中，通常有一个概念，它由一个配备了附加结构的集合组成。
-例如，一个幺半群是某个集合 $`S`、$`S` 的一个元素 $`s` 以及 $`S` 上的一个结合二元运算符，使得 $`s` 在运算符的左边和右边都是中性的。
+在数学中，有一些概念由一个集合配备一些附加结构得来。
+例如，一个幺半群是某个集合 $`S`、$`S` 的元素 $`s` 以及 $`S` 上的结合二元运算，使得 $`s` 在运算符的左边和右边都是中性的。
 $`S` 被称为幺半群的“载体集”。
-具有零和加法的自然数形成一个幺半群，因为加法是结合的，并且将零加到任何数上都是单位元。
-同样，具有一和乘法的自然数也形成一个幺半群。
-幺半群在函数式编程中也广泛使用：列表、空列表和附加运算符形成一个幺半群，字符串、空字符串和字符串附加也是如此：
+自然数集上的零和加法构成一个幺半群，因为加法是满足结合律的，并且为任何一个数字加零都是恒等的。
+类似地，自然数上的一和乘法也构成一个幺半群。幺半群在函数式编程中的应用也很广泛：列表，空列表，和连接运算符构成一个幺半群。字符串，空字符串，和连接运算符也构成一个幺半群：
 
 ```anchor Monoid
 structure Monoid where
@@ -371,8 +367,8 @@ def listMonoid (α : Type) : Monoid :=
 -- Given a monoid, it is possible to write the {anchorName firstFoldMap}`foldMap` function that, in a single pass, transforms the entries in a list into a monoid's carrier set and then combines them using the monoid's operator.
 -- Because monoids have a neutral element, there is a natural result to return when the list is empty, and because the operator is associative, clients of the function don't have to care whether the recursive function combines elements from left to right or from right to left.
 
-给定一个幺半群，可以编写 {anchorName firstFoldMap}`foldMap` 函数，该函数在一次遍历中将列表中的条目转换为幺半群的载体集，然后使用幺半群的运算符将它们组合起来。
-因为幺半群有一个中性元素，所以当列表为空时有一个自然的结果可以返回，并且因为运算符是结合的，所以函数的客户端不必关心递归函数是从左到右还是从右到左组合元素。
+给定一个幺半群，可以编写 {anchorName firstFoldMap}`foldMap` 函数，该函数在一次遍历中将整个列表中的元素映射到载体集中，然后使用幺半群的运算符将它们组合起来。
+由于幺半群有单位元，所以当列表为空时我们就可以返回这个值。又因为运算符是满足结合律的，这个函数的用户不需要关心函数结合元素的顺序到底是从左到右的还是从右到左的。
 
 ```anchor firstFoldMap
 def foldMap (M : Monoid) (f : α → M.Carrier) (xs : List α) : M.Carrier :=
@@ -386,7 +382,7 @@ def foldMap (M : Monoid) (f : α → M.Carrier) (xs : List α) : M.Carrier :=
 -- Instead of saying “Let A be a monoid and let _x_ and _y_ be elements of its carrier set”, it is common to say “Let _A_ be a monoid and let _x_ and _y_ be elements of _A_”.
 -- This practice can be encoded in Lean by defining a new kind of coercion, from the monoid to its carrier set.
 
-尽管幺半群由三个独立的信息组成，但通常只引用幺半群的名称来指代其集合。
+尽管一个幺半群是由三部分信息组成的，但在提及它的载体集时使用幺半群的名字也是很常见的。
 我们通常不说“设 A 是一个幺半群，设 _x_ 和 _y_ 是其载体集的元素”，而是说“设 _A_ 是一个幺半群，设 _x_ 和 _y_ 是 _A_ 的元素”。
 这种做法可以通过定义一种新的强制类型转换（从幺半群到其载体集）在 Lean 中进行编码。
 
@@ -394,13 +390,14 @@ def foldMap (M : Monoid) (f : α → M.Carrier) (xs : List α) : M.Carrier :=
 -- The term _sort_ in Lean refers to these types that classify other types—{anchorTerm Coe}`Type` classifies types that themselves classify data, and {anchorTerm chapterIntro}`Prop` classifies propositions that themselves classify evidence of their truth.
 -- Just as {anchorName CoePosNat}`Coe` is checked when a type mismatch occurs, {anchorName CoeMonoid}`CoeSort` is used when something other than a sort is provided in a context where a sort would be expected.
 
-{anchorName CoeMonoid}`CoeSort` 类就像 {anchorName CoePosNat}`Coe` 类一样，只是强制类型转换的目标必须是*种类*，即 {anchorTerm chapterIntro}`Type` 或 {anchorTerm chapterIntro}`Prop`。
-在 Lean 中，*种类*一词指的是对其他类型进行分类的这些类型——{anchorTerm Coe}`Type` 对本身对数据进行分类的类型进行分类，而 {anchorTerm chapterIntro}`Prop` 对本身对其真实性证据进行分类的命题进行分类。
-就像在发生类型不匹配时检查 {anchorName CoePosNat}`Coe` 一样，当在需要种类的上下文中提供了种类以外的东西时，就会使用 {anchorName CoeMonoid}`CoeSort`。
+{anchorName CoeMonoid}`CoeSort` 类就像 {anchorName CoePosNat}`Coe` 类一样，只是强制类型转换的目标必须是 sort ，即 {anchorTerm chapterIntro}`Type` 或 {anchorTerm chapterIntro}`Prop`。
+在 Lean 中， sort 一词指的是对其他类型进行分类的这些类型——{anchorTerm Coe}`Type` 对本身对数据进行分类的类型进行分类，而 {anchorTerm chapterIntro}`Prop` 对本身对其真实性证据进行分类的命题进行分类。
+就像在发生类型不匹配时检查 {anchorName CoePosNat}`Coe` 一样，当在需要 sort 的上下文中提供了 sort 以外的东西时，就会使用 {anchorName CoeMonoid}`CoeSort`。
+> 译者注： sort 尚无标准译法。
 
 -- The coercion from a monoid into its carrier set extracts the carrier:
 
-从幺半群到其载体集的强制类型转换会提取载体：
+从一个幺半群到它的载体集的强制转换会返回该载体集：
 
 ```anchor CoeMonoid
 instance : CoeSort Monoid Type where
@@ -409,7 +406,7 @@ instance : CoeSort Monoid Type where
 
 -- With this coercion, the type signatures become less bureaucratic:
 
-通过这种强制类型转换，类型签名变得不那么官僚化：
+有了这个强制转换，类型签名变得不那么繁琐了：
 
 ```anchor foldMap
 def foldMap (M : Monoid) (f : α → M) (xs : List α) : M :=
@@ -424,10 +421,10 @@ def foldMap (M : Monoid) (f : α → M) (xs : List α) : M :=
 -- Programs typically need to be able to branch based on Boolean values, however.
 -- Rather than have two kinds of {kw}`if` expression, the Lean standard library defines a coercion from {anchorName types}`Bool` to the proposition that the {anchorName types}`Bool` in question is equal to {anchorName types}`true`:
 
-{anchorName CoeMonoid}`CoeSort` 的另一个有用示例用于弥合 {anchorName types}`Bool` 和 {anchorTerm chapterIntro}`Prop` 之间的差距。
-如 {ref "equality-and-ordering"}[关于排序和相等性的部分] 所述，Lean 的 {kw}`if` 表达式期望条件是可判定的命题，而不是 {anchorName types}`Bool`。
+另一个有用的 {anchorName CoeMonoid}`CoeSort` 的使用场景是它可以让{anchorName types}`Bool` 和 {anchorTerm chapterIntro}`Prop` 建立联系。
+如 {ref "equality-and-ordering"}[有序性和等价性那一节] 所述，Lean 的 {kw}`if` 表达式期望条件是可判定的命题，而不是 {anchorName types}`Bool`。
 然而，程序通常需要能够根据布尔值进行分支。
-Lean 标准库没有两种 {kw}`if` 表达式，而是定义了从 {anchorName types}`Bool` 到所讨论的 {anchorName types}`Bool` 等于 {anchorName types}`true` 的命题的强制类型转换：
+Lean 标准库没有两种 {kw}`if` 表达式，而是定义了从 {anchorName types}`Bool` 到所讨论的 {anchorName types}`Bool` 等于 {anchorName types}`true` 的命题的强制类型转换，即该 {anchorName types}`Bool` 值等于 {anchorName types}`true`：
 
 ```anchor CoeBoolProp
 instance : CoeSort Bool Prop where
@@ -436,7 +433,7 @@ instance : CoeSort Bool Prop where
 
 -- In this case, the sort in question is {anchorTerm chapterIntro}`Prop` rather than {anchorTerm chapterIntro}`Type`.
 
-在这种情况下，所讨论的种类是 {anchorTerm chapterIntro}`Prop` 而不是 {anchorTerm chapterIntro}`Type`。
+在这种情况下，所讨论的 sort 是 {anchorTerm chapterIntro}`Prop` 而不是 {anchorTerm chapterIntro}`Type`。
 
 -- # Coercing to Functions
 # 强制转换为函数
@@ -450,17 +447,15 @@ tag := "CoeFun"
 -- For example, the specific details of values emitted by a JSON serializer may be important because another application expects a particular format.
 -- Sometimes, the function itself may be derivable from just the configuration data.
 
-编程中经常出现的许多数据类型都包含一个函数以及一些关于它的额外信息。
-例如，一个函数可能附带一个用于在日志中显示的名称或一些配置数据。
-此外，将类型放在结构的字段中，类似于 {anchorName Monoid}`Monoid` 示例，在有多种方法可以实现操作并且需要比类型类允许的更多手动控制的情况下可能很有意义。
-例如，JSON 序列化器发出的值的具体细节可能很重要，因为另一个应用程序需要特定的格式。
-有时，函数本身可能仅从配置数据中派生出来。
+许多在编程中常见的数据类型都会有一个函数和一些额外的信息组成。例如，一个函数可能附带一个名称以在日志中显示，或附带一些配置数据。
+此外，将类型放在结构体的字段中，类似于 {anchorName Monoid}`Monoid` 示例，在有多种方法可以实现操作并且需要比类型类允许的更多手动控制的情况下可能很有意义。
+例如，JSON 序列化器生成的值的具体细节可能很重要，因为另一个应用程序期望特定的格式。有时，仅从配置数据就可以推导出函数本身。
 
 -- A type class called {anchorName CoeFun}`CoeFun` can transform values from non-function types to function types.
 -- {anchorName CoeFun}`CoeFun` has two parameters: the first is the type whose values should be transformed into functions, and the second is an output parameter that determines exactly which function type is being targeted.
 
 名为 {anchorName CoeFun}`CoeFun` 的类型类可以将非函数类型的值转换为函数类型。
-{anchorName CoeFun}`CoeFun` 有两个参数：第一个是其值应转换为函数的类型，第二个是输出参数，用于确定目标函数类型。
+{anchorName CoeFun}`CoeFun` 有两个参数：第一个是需要被转变为函数的值的类型，第二个是一个输出参数，决定了到底应该转换为哪个函数类型。
 
 ```anchor CoeFun
 class CoeFun (α : Type) (makeFunctionType : outParam (α → Type)) where
@@ -470,8 +465,7 @@ class CoeFun (α : Type) (makeFunctionType : outParam (α → Type)) where
 -- The second parameter is itself a function that computes a type.
 -- In Lean, types are first-class and can be passed to functions or returned from them, just like anything else.
 
-第二个参数本身就是一个计算类型的函数。
-在 Lean 中，类型是一等公民，可以像其他任何东西一样传递给函数或从函数返回。
+第二个参数本身是一个可以计算类型的函数。在 Lean 中，类型是一等公民，可以作为函数参数被传递，也可以作为返回值，就像其他东西一样。
 
 -- For example, a function that adds a constant amount to its argument can be represented as a wrapper around the amount to add, rather than by defining an actual function:
 
@@ -484,7 +478,7 @@ structure Adder where
 
 -- A function that adds five to its argument has a {anchorTerm add5}`5` in the {anchorName Adder}`howMuch` field:
 
-一个将其参数加五的函数在 {anchorName Adder}`howMuch` 字段中有一个 {anchorTerm add5}`5`：
+一个将其参数加 5 的函数在 {anchorName Adder}`howMuch` 字段中有一个 {anchorTerm add5}`5`：
 
 ```anchor add5
 def add5 : Adder := ⟨5⟩
@@ -556,7 +550,7 @@ structure Serializer where
 ```
 
 -- A serializer for strings need only wrap the provided string in the {anchorName StrSer}`JSON.string` constructor:
-字符串的序列化器只需将提供的字符串包装在 {anchorName StrSer}`JSON.string` 构造函数中：
+字符串的序列化器只需将提供的字符串包装在 {anchorName StrSer}`JSON.string` 构造器中：
 
 ```anchor StrSer
 def Str : Serializer :=
@@ -730,7 +724,7 @@ Hint: Additional diagnostic information may be available using the `set_option d
 ```
 
 -- # Design Considerations
-# 设计注意事项
+# 设计原则
 %%%
 tag := "design-considerations"
 %%%
@@ -740,28 +734,22 @@ tag := "design-considerations"
 -- This can be the difference between a bureaucratic mess of manual conversion functions and a clear program.
 -- As Abelson and Sussman wrote in the preface to _Structure and Interpretation of Computer Programs_ (MIT Press, 1996),
 
-强制类型转换是一个强大的工具，应该负责任地使用。
-一方面，它们可以使 API 自然地遵循所建模领域的日常规则。
-这可能是手动转换函数的官僚主义混乱与清晰程序之间的区别。
-正如 Abelson 和 Sussman 在 _Structure and Interpretation of Computer Programs_ (MIT Press, 1996) 的前言中所写：
+强制转换是一个强大的工具，请负责任地使用它。一方面，它可以使 API 设计得更贴近领域内使用习惯。这是繁琐的手动转换函数和一个清晰的程序间的差别。
+正如 Abelson 和 Sussman 在《计算机程序的构造和解释》 (_Structure and Interpretation of Computer Programs_, MIT Press, 1996) 的前言中所写：
 
 -- > Programs must be written for people to read, and only incidentally for machines to execute.
 
-> 程序必须为人们阅读而编写，而只是顺便让机器执行。
+> 写程序须以让人读明白为主，让计算机执行为辅。
 
 -- Coercions, used wisely, are a valuable means of achieving readable code that can serve as the basis for communication with domain experts.
 -- APIs that rely heavily on coercions have a number of important limitations, however.
 -- Think carefully about these limitations before using coercions in your own libraries.
 
-明智地使用强制类型转换是实现可读代码的宝贵手段，可作为与领域专家交流的基础。
-然而，严重依赖强制类型转换的 API 有许多重要的限制。
-在您自己的库中使用强制类型转换之前，请仔细考虑这些限制。
+明智地使用强制转换，可以使得代码更加易读——这是与领域内专家的交流的基础。然而，严重依赖强制转换的 API 会有许多限制。在你自己的代码中使用强制转换前，认真思考这些限制。
 
 -- First off, coercions are only applied in contexts where enough type information is available for Lean to know all of the types involved, because there are no output parameters in the coercion type classes. This means that a return type annotation on a function can be the difference between a type error and a successfully applied coercion.
 -- For example, the coercion from non-empty lists to lists makes the following program work:
-
-首先，强制类型转换仅在有足够类型信息可供 Lean 了解所有相关类型的上下文中应用，因为强制类型转换类型类中没有输出参数。这意味着函数上的返回类型注释可能是类型错误和成功应用的强制类型转换之间的区别。
-例如，从非空列表到列表的强制类型转换使以下程序可以工作：
+首先，强制转换只应该出现在类型信息充足，Lean 能够知道所有参与的类型的语境中。因为强制转换类型类中并没有输出参数这么一说。这意味着在函数上添加返回类型注释可以决定是类型错误还是成功应用强制转换。例如，从非空列表到列表的强制转换使以下程序得以运行：
 
 ```anchor lastSpiderA
 def lastSpider : Option String :=
@@ -769,8 +757,7 @@ def lastSpider : Option String :=
 ```
 
 -- On the other hand, if the type annotation is omitted, then the result type is unknown, so Lean is unable to find the coercion:
-
-另一方面，如果省略类型注释，则结果类型未知，因此 Lean 无法找到强制类型转换：
+另一方面，如果类型注释被省略了，那么结果的类型就是未知的，那么 Lean 就无法找到对应的强制转换。
 
 ```anchor lastSpiderB
 def lastSpider :=
@@ -789,10 +776,9 @@ in the application
 
 -- More generally, when a coercion is not applied for some reason, the user receives the original type error, which can make it difficult to debug chains of coercions.
 
-更一般地说，当由于某种原因未应用强制类型转换时，用户会收到原始类型错误，这会使调试强制类型转换链变得困难。
+通常来讲，如果一个强制转换因为一些原因失败了，用户会收到原始的类型错误，这会使在强制转换链上定位错误变得十分困难。
 
 -- Finally, coercions are not applied in the context of field accessor notation.
 -- This means that there is still an important difference between expressions that need to be coerced and those that don't, and this difference is visible to users of your API.
 
-最后，强制类型转换不适用于字段访问器表示法的上下文。
-这意味着需要强制类型转换的表达式和不需要强制类型转换的表达式之间仍然存在重要差异，并且这种差异对您的 API 用户是可见的。
+最后，强制转换不会在字段访问符号的上下文中应用。这意味着需要强制转换的表达式与不需要强制转换的表达式之间仍然存在重要区别，而这个区别对用户来说是肉眼可见的。
