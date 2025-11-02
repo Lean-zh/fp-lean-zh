@@ -45,7 +45,7 @@ Lean 类型签名不仅描述了函数期望的参数类型和它返回的结果
 -- # The Monad Type Class
 # 单子类型类
 %%%
-tag := "monad-type-class"
+tag := "monad-type-class-summary"
 %%%
 
 -- It's possible to write purely functional programs in languages that allow effects anywhere.
@@ -68,7 +68,7 @@ tag := "monad-type-class"
 -- # {kw}`do`-Notation for Monads
 # 单子的 {kw}`do`-记法
 %%%
-tag := "do-notation"
+tag := "do-notation-summary"
 %%%
 
 -- Rather than being limited to {moduleName}`IO`, {kw}`do`-notation works for any monad.
@@ -84,7 +84,7 @@ tag := "do-notation"
 -- # Custom Monads
 # 定制单子
 %%%
-tag := "custom-monads"
+tag := "custom-monads-summary"
 %%%
 
 -- Different languages provide different sets of side effects.
@@ -103,7 +103,7 @@ tag := "custom-monads"
 -- # The {lit}`IO` Monad
 # {lit}`IO` 单子
 %%%
-tag := "io-monad"
+tag := "io-monad-summary"
 %%%
 
 -- Programs that can affect the real world are written as {moduleName}`IO` actions in Lean.

@@ -29,7 +29,7 @@ tag := "monads"
 -- Otherwise, the underlying non-{CSharp}`null` value receives the call.
 -- Uses of {CSharp}`?.` can be chained, in which case the first {Kotlin}`null` result terminates the chain of lookups.
 -- Chaining null-checks like this is much more convenient than writing and maintaining deeply nested {kw}`if`s.
-在C#和Kotlin中，{CSharp}`?.`运算符是一种在可能为null的值上查找属性或调用方法的方式。如果`?.`前的值为{CSharp}`null`，则整个表达式为null。否则，该非{CSharp}`null`值会被用于调用。多个{CSharp}`?.`可以链接起来，在这种情况下，第一个{Kotlin}`null`结果将终止查找链。像这样链接null检查比编写和维护深层嵌套的{kw}`if`方便得多。
+在C#和Kotlin中，{CSharp}`?.`运算符是一种在可能为null的值上查找属性或调用方法的方式。如果接收到{CSharp}`null`，则整个表达式为null。否则，该非{CSharp}`null`值会被用于调用。多个{CSharp}`?.`可以链接起来，在这种情况下，第一个{Kotlin}`null`结果将终止查找链。像这样链接null检查比编写和维护深层嵌套的{kw}`if`方便得多。
 
 -- Similarly, exceptions are significantly more convenient than manually checking and propagating error codes.
 -- At the same time, logging is easiest to accomplish by having a dedicated logging framework, rather than having each function return both its log results and its return value.
@@ -674,7 +674,7 @@ def set (s : σ) : State σ Unit :=
   fun _ => (s, ())
 ```
 -- Finally, two computations that use state can be sequenced by finding both the output state and return value of the first function, then passing them both into the next function:
-最后，可以将`first`函数的输出状态和返回值传递到`next`函数中，以此实现这两个函数的先后调用：
+最后，可以将 first 函数的输出状态和返回值传递到 next 函数中，以此实现这两个函数的先后调用：
 
 ```anchor andThenState
 def andThen (first : State σ α) (next : α → State σ β) : State σ β :=
