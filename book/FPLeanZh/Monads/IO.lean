@@ -108,7 +108,7 @@ fun {α} x =>
 
 -- Printing the definition of {anchorName names}`IO` shows that it's defined in terms of simpler structures:
 
-打印 `IO` 的定义表明它是根据更简单的结构定义的：
+打印 {anchorName names}`IO` 的定义表明它是根据更简单的结构定义的：
 
 ```anchor printIO
 #print IO
@@ -201,8 +201,8 @@ EStateM.Result.error : {ε σ α : Type u} → ε → σ → EStateM.Result ε �
 -- Just like {anchorTerm Except (module:=Examples.Monads)}`Except ε α`, the {anchorName names (show := ok)}`EStateM.Result.ok` constructor includes a result of type {anchorName Except (module:=Examples.Monads)}`α`, and the {anchorName names (show := error)}`EStateM.Result.error` constructor includes an exception of type {anchorName Except (module:=Examples.Monads)}`ε`.
 -- Unlike {anchorName names}`Except`, both constructors have an additional state field that includes the final state of the computation.
 
-就像 {anchorTerm names}`Except ε α` 一样，{anchorName names (show := ok)}`EStateM.Result.ok` 构造子包含类型为 {anchorName names}`α` 的结果，
-{anchorName names (show := error)}`EStateM.Result.error` 构造子包含类型为 {anchorName names}`ε` 的异常。与 {anchorName names}`Except` 不同，
+就像 {anchorTerm Except (module:=Examples.Monads)}`Except ε α` 一样，{anchorName names (show := ok)}`EStateM.Result.ok` 构造子包含类型为 {anchorName Except (module:=Examples.Monads)}`α` 的结果，
+{anchorName names (show := error)}`EStateM.Result.error` 构造子包含类型为 {anchorName Except (module:=Examples.Monads)}`ε` 的异常。与 {anchorName names}`Except` 不同，
 这两个构造子都有一个附加的状态字段，其中包含计算的最终状态。
 
 -- The {anchorName names}`Monad` instance for {anchorTerm names}`EStateM ε σ` requires {anchorName names}`pure` and {anchorName names}`bind`.

@@ -283,9 +283,9 @@ instance : Monad Id where
 
 {anchorName IdMonad}`pure`的类型应为 {anchorTerm IdMore}`α → Id α`，但{anchorTerm IdMore}`Id α` *归约* 为 {anchorTerm IdMore}`α`。类似地，{anchorName IdMonad}`bind` 的类型应为{anchorTerm IdMore}`α → (α → Id β) → Id β`。
 由于这 *归约* 为 {anchorTerm IdMore}`α → (α → β) → β`，因此可以将第二个参数应用于第一个参数得到结果。
-*译者注：此处 *归约* 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。*
+> 译者注：此处 *归约* 一词原文为reduces to，实际含义为beta-reduction，请见类型论相关资料。
 
--- With the identity monad, {anchorName mapMId}`mapM` becomes equivalent to {anchorName Names (show:=map)}`Functor.map`
+--  With the identity monad, {anchorName mapMId}`mapM` becomes equivalent to {anchorName Names (show:=map)}`Functor.map`
 -- To call it this way, however, Lean requires a hint that the intended monad is {anchorName mapMId}`Id`:
 
 使用恒等单子时，{anchorName mapMId}`mapM`等同于{anchorName Names (show:=map)}`Functor.map`。但是要以这种方式调用它，Lean需要额外的提示来表明目标单子是 {anchorName mapMId}`Id`：

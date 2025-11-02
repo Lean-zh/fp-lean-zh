@@ -562,7 +562,7 @@ def addsTo (goal : Nat) : List Nat → Many (List Nat)
 -- The solutions that do not contain the head are found with a recursive call on the tail, while the solutions that do contain it result from subtracting the head from the goal, and then attaching the head to the solutions that result from the recursive call.
 
 对列表进行递归搜索。
-当列表为空且目标为 {anchorTerm addsTo (module:=Examples.Monads.Many)}`0` 时，返回空列表表示成功；否则，返回 `Many.none` 表示失败。
+当列表为空且目标为 {anchorTerm addsTo (module:=Examples.Monads.Many)}`0` 时，返回空列表表示成功；否则，返回失败。
 当列表非空时，有两种可能性：要么列表的头部大于目标，在这种情况下它不能参与任何成功的搜索，要么它不大于，在这种情况下可以参与。
 如果列表的头部 _不是_ 候选者，则对列表的尾部进行递归搜索。
 如果头部是候选者，则有两种用 {anchorName union (module:=Examples.Monads.Many)}`Many.union` 合并起来的可能性：找到的解含有头部，或者不含有。

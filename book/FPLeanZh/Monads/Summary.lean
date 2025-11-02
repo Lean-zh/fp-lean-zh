@@ -76,7 +76,7 @@ tag := "do-notation"
 -- Additionally, {kw}`do`-notation enables a number of additional convenient shorthands, such as nested actions.
 -- A program written with {kw}`do` is translated to applications of {lit}`>>=` behind the scenes.
 
-`do` 符号不仅限于 {moduleName}`IO`，它也适用于任何单子。
+{kw}`do` 符号不仅限于 {moduleName}`IO`，它也适用于任何单子。
 它允许使用单子的程序以类似于面向语句的语言的风格编写，语句一个接一个地顺序执行。
 此外，{kw}`do`-记法还支持许多其他方便的简写，例如嵌套动作。
 使用 {kw}`do` 编写的程序在幕后会被翻译为 {lit}`>>=` 的应用。

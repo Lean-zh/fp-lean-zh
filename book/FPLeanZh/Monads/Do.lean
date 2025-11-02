@@ -10,7 +10,7 @@ set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.Monads.Do"
 
 -- {kw}`do`-Notation for Monads
-#doc (Manual) "单子的 `do`-记法" =>
+#doc (Manual) "单子的 {kw}`do`-记法" =>
 %%%
 file := "Do"
 tag := "monad-do-notation"
