@@ -261,7 +261,7 @@ instance : GetElem (NonEmptyList α) Nat α NonEmptyList.inBounds where
 -- Evaluating {anchorTerm firstSpider}`idahoSpiders.head` yields {anchorTerm firstSpider}`"Banded Garden Spider"`, while {anchorTerm tenthSpider}`idahoSpiders[9]` leads to the compile-time error:
 
 有了这个实例，{anchorTerm GetElemNEList}`NonEmptyList` 的使用就和 {moduleName}`List` 一样方便了。
-计算 {anchorTerm firstSpider}`idahoSpiders.head` 会得到 {anchorTerm firstSpider}`Banded Garden Spider`，而 {anchorTerm tenthSpider}`idahoSpiders[9]` 会导致编译时错误：
+计算 {anchorTerm firstSpider}`idahoSpiders.head` 会得到 {anchorTerm firstSpider}`"Banded Garden Spider"`，而 {anchorTerm tenthSpider}`idahoSpiders[9]` 会导致编译时错误：
 
 ```anchorError tenthSpider
 failed to prove index is valid, possible solutions:
