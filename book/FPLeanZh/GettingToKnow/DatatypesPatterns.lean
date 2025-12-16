@@ -244,7 +244,7 @@ false
 
 -- Just as the successor of some number $`n` is one greater than $`n` (that is, $`n + 1`), the predecessor of a number is one less than it.
 -- If {anchorName pred}`pred` is a function that finds the predecessor of a {anchorName pred}`Nat`, then it should be the case that the following examples find the expected result:
-正如某个数字 $`n$ 的后继比 $`n$ 大一（即 $`n + 1`），数字的前驱比它小一。
+正如某个数字 $`n` 的后继比 $`n` 大一（即 $`n + 1`），数字的前驱比它小一。
 如果 {anchorName pred}`pred` 是一个查找 {anchorName pred}`Nat` 的前驱的函数，那么以下示例应该找到预期的结果：
 
 ```anchor  predFive
@@ -399,8 +399,8 @@ well-founded recursion cannot be used, 'evenLoops' does not take any (non-fixed)
 -- To add zero to a number $`n`, just return $`n`.
 -- To add the successor of $`k` to $`n`, take the successor of the result of adding $`k` to $`n`.
 尽管加法需要两个参数，但只需要检查其中一个。
-要将零加到数字 $`n$，只需返回 $`n$。
-要将 $`k$ 的后继加到 $`n$，取将 $`k$ 加到 $`n$ 的结果的后继。
+要将零加到数字 $`n`，只需返回 $`n`。
+要将 $`k` 的后继加到 $`n`，取将 $`k` 加到 $`n` 的结果的后继。
 
 ```anchor plus
 def plus (n : Nat) (k : Nat) : Nat :=

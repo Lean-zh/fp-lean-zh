@@ -33,7 +33,7 @@ tag := "monads-arithmetic-example"
 对许多单子都有意义的一个例子是算术表达式的求值器。
 
 -- # Arithmetic Expressions
-# Arithmetic Expressions
+# 算术表达式
 %%%
 tag := "monads-arithmetic-example-expr"
 %%%
@@ -79,7 +79,7 @@ def fourteenDivided : Expr Arith :=
 ```
 
 -- # Evaluating Expressions
-# Evaluating Expressions
+# 表达式求值
 %%%
 tag := "monads-arithmetic-example-eval"
 %%%
@@ -243,7 +243,7 @@ def evaluateM [Monad m]
 在重构后的代码中，两条路径仅在对失败情况的处理上有所不同，这一事实显而易见。
 
 -- # Further Effects
-# Further Effects
+# 额外的作用
 %%%
 tag := "monads-arithmetic-example-effects"
 %%%
@@ -304,7 +304,7 @@ def evaluateM [Monad m]
 ```
 
 -- ## No Effects
-## No Effects
+## 无作用
 %%%
 tag := "monads-arithmetic-example-no-effects"
 %%%
@@ -345,7 +345,7 @@ open Expr Prim in
 ```
 
 -- ## Nondeterministic Search
-## Nondeterministic Search
+## 非确定性搜索
 %%%
 tag := "nondeterministic-search"
 %%%
@@ -662,7 +662,7 @@ open Expr Prim NeedsSearch
 ```
 
 -- ## Custom Environments
-## Custom Environments
+## 自定义环境
 %%%
 tag := "custom-environments"
 %%%
@@ -999,7 +999,7 @@ Common Lisp、Clojure和Emacs Lisp中的动态或特殊变量可以用作 {ancho
 Kotlin的上下文对象可以解决类似的问题，但根本上是一种自动传递函数参数的方式，因此更像是作为reader单子的编码，而不是语言中实现的作用。
 
 -- ## Exercises
-## Exercises
+## 练习
 %%%
 tag := "monads-arithmetic-example-exercises"
 %%%
