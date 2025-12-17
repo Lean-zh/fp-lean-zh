@@ -1,13 +1,12 @@
 import VersoManual
 
 import FPLeanZh.Examples
-
--- import FPLeanZh.MonadTransformers.ReaderIO
--- import FPLeanZh.MonadTransformers.Transformers
--- import FPLeanZh.MonadTransformers.Order
--- import FPLeanZh.MonadTransformers.Do
--- import FPLeanZh.MonadTransformers.Conveniences
--- import FPLeanZh.MonadTransformers.Summary
+import FPLeanZh.MonadTransformers.ReaderIO
+import FPLeanZh.MonadTransformers.Transformers
+import FPLeanZh.MonadTransformers.Order
+import FPLeanZh.MonadTransformers.Do
+import FPLeanZh.MonadTransformers.Conveniences
+import FPLeanZh.MonadTransformers.Summary
 
 open Verso.Genre Manual
 open Verso Code External
@@ -53,3 +52,15 @@ tag := "monad-transformers"
 -- A concrete monad can be build from a collection of monad transformers, which enables much more code re-use.
 
 然而，手动编写每个单子是繁琐的，需要定义各种类型类的样板代码。每个组件也都可以提取到一个定义中，该定义修改某个其他单子以添加额外的作用。这种定义称为*单子转换器*（Monad Transformer）。一个具体的单子可以从一组单子转换器构建，从而实现更多代码的重用。
+
+{include 1 FPLeanZh.MonadTransformers.ReaderIO}
+
+{include 1 FPLeanZh.MonadTransformers.Transformers}
+
+{include 1 FPLeanZh.MonadTransformers.Order}
+
+{include 1 FPLeanZh.MonadTransformers.Do}
+
+{include 1 FPLeanZh.MonadTransformers.Conveniences}
+
+{include 1 FPLeanZh.MonadTransformers.Summary}

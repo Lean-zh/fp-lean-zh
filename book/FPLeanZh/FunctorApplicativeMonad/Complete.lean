@@ -1,10 +1,10 @@
 import VersoManual
-import FPLean.Examples
+import FPLeanZh.Examples
 
 open Verso.Genre Manual
 open Verso Code External
 
-open FPLean
+open FPLeanZh
 
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.FunctorApplicativeMonad.ActualDefs"
