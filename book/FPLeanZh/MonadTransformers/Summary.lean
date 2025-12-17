@@ -16,7 +16,7 @@ file := "Summary"
 tag := "monad-transformer-summary"
 %%%
 
--- Combining Monads
+-- # Combining Monads
 # 组合单子
 %%%
 tag := "combining-monads"
@@ -46,7 +46,7 @@ tag := "combining-monads"
 
 单子转换器可以多态结构或归纳数据类型的形式实现，但最常见的形式是从底层单子类型到增强单子类型的函数。
 
--- Type Classes for Effects
+-- # Type Classes for Effects
 # 作用的类型类
 %%%
 tag := "type-classes-for-effects"
@@ -66,7 +66,7 @@ tag := "type-classes-for-effects"
 输出参数对于每种作用只使用一次的简单程序最有用，但当给定程序中使用同一作用的多个实例时，类型检查器有可能过早提交错误的类型。
 因此，通常会提供两种版本，普通参数版本的类型类名称以 {lit}`-Of` 结尾。
 
--- Monad Transformers Don't Commute
+-- # Monad Transformers Don't Commute
 # 单子转换器不可交换
 %%%
 tag := "monad-transformers-dont-commute"
@@ -80,7 +80,7 @@ tag := "monad-transformers-dont-commute"
 例如，对 {anchorName Summary}`StateT` 和 {anchorTerm Summary}`ExceptT` 重新排序可能导致程序在抛出异常时丢失状态修改，也可能导致程序保持变化。
 虽然大多数命令式语言只提供了后者，但单子转换器所提供的更大灵活性要求我们深思熟虑，为手头的任务选择正确的转换器。
 
--- {kw}`do`-Notation for Monad Transformers
+-- # {kw}`do`-Notation for Monad Transformers
 # 单子转换器的 {kw}`do`-标记
 %%%
 tag := "do-notation-for-monad-transformers"

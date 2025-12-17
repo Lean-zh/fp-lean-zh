@@ -563,6 +563,7 @@ Validate.errors { head := ("birth year", "Must be digits"), tail := [] }
 
 使用 {anchorName checkInput}`checkInput` 进行表单验证说明了 {anchorName ApplicativeNames}`Applicative` 相比 {anchorName MonadExtends}`Monad` 的一个关键优势。
 因为 {lit}`>>=` 提供了足够的能力，可以根据第一步的值来修改程序其余部分的执行，所以它 _必须_ 接收第一步的值才能继续传递。
+
 -- If no value is received (e.g. because an error has occurred), then {lit}`>>=` cannot execute the rest of the program.
 -- {anchorName Validate}`Validate` demonstrates why it can be useful to run the rest of the program anyway: in cases where the earlier data isn't needed, running the rest of the program can yield useful information (in this case, more validation errors).
 -- {anchorName ApplicativeNames}`Applicative`'s {lit}`<*>` may run both of its arguments before recombining the results.

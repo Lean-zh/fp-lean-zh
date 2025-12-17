@@ -1,12 +1,12 @@
 import VersoManual
 import FPLeanZh.Examples
 
--- import FPLeanZh.DependentTypes.IndexedFamilies
--- import FPLeanZh.DependentTypes.UniversePattern
--- import FPLeanZh.DependentTypes.TypedQueries
--- import FPLeanZh.DependentTypes.IndicesParametersUniverses
--- import FPLeanZh.DependentTypes.Pitfalls
--- import FPLeanZh.DependentTypes.Summary
+import FPLeanZh.DependentTypes.IndexedFamilies
+import FPLeanZh.DependentTypes.UniversePattern
+import FPLeanZh.DependentTypes.TypedQueries
+import FPLeanZh.DependentTypes.IndicesParametersUniverses
+import FPLeanZh.DependentTypes.Pitfalls
+import FPLeanZh.DependentTypes.Summary
 
 open Verso.Genre Manual
 open Verso.Code.External
@@ -16,12 +16,12 @@ open FPLeanZh
 set_option verso.exampleProject "../examples"
 set_option verso.exampleModule "Examples.DependentTypes"
 
--- Programming with Dependent Types
 #doc (Manual) "使用依值类型编程" =>
 %%%
 file := "ProgrammingWithDependentTypes"
 tag := "programming-with-dependent-types"
 %%%
+-- Programming with Dependent Types
 
 -- In most statically-typed programming languages, there is a hermetic seal between the world of types and the world of programs.
 -- Types and programs have different grammars and they are used at different times.
@@ -58,12 +58,12 @@ def natOrStringThree (b : Bool) : if b then Nat else String :=
 --  * {ref "subtypes"}[Subtypes] contain propositions that refer to particular values.
 --  * Essentially all interesting propositions, including those that determine the validity of {ref "props-proofs-indexing"}[array indexing notation], are types that contain values and are thus dependent types.
 
--- 更多依值类型的例子包括：
---  * {ref "polymorphism"}[多态性简介] 包含 {anchorName posOrNegThree (module:= Examples.Intro)}`posOrNegThree`，其返回类型取决于参数的值。
---  * {ref "literal-numbers"}[{anchorName OfNat (module := Examples.Classes)}`OfNat` 类型类] 取决于使用的特定自然数字面量。
---  * {ref "validated-input"}[{anchorName CheckedInput (module := Examples.FunctorApplicativeMonad)}`CheckedInput` 结构] 中依赖于验证发生年份的验证器的例子。
---  * {ref "subtypes"}[子类型] 中包含引用特定值的命题。
---  * 基本上所有有趣的命题都是包含值的类型，因此是依值类型，包括决定 {ref "props-proofs-indexing"}[数组索引表示法] 有效性的命题。
+更多依值类型的例子包括：
+ * {ref "polymorphism"}[多态性简介] 包含 {anchorName posOrNegThree (module:= Examples.Intro)}`posOrNegThree`，其返回类型取决于参数的值。
+ * {ref "literal-numbers"}[{anchorName OfNat (module := Examples.Classes)}`OfNat` 类型类] 取决于使用的特定自然数字面量。
+ * {ref "validated-input"}[{anchorName CheckedInput (module := Examples.FunctorApplicativeMonad)}`CheckedInput` 结构] 中依赖于验证发生年份的验证器的例子。
+ * {ref "subtypes"}[子类型] 中包含引用特定值的命题。
+ * 基本上所有有趣的命题都是包含值的类型，因此是依值类型，包括决定 {ref "props-proofs-indexing"}[数组索引表示法] 有效性的命题。
 
 -- Dependent types vastly increase the power of a type system.
 -- The flexibility of return types that branch on argument values enables programs to be written that cannot easily be given types in other type systems.
@@ -77,3 +77,15 @@ def natOrStringThree (b : Bool) : if b then Nat else String :=
 依值类型大大增加了类型系统的能力。根据参数的值的不同返回不同类型的灵活性使得其他类型系统中很难给出类型的程序可以被接受。同时，依值类型使得类型签名可以表达“函数只能返回特定的值”等概念，使得编译阶段可以检查一些更加严格的不变量。
 
 然而，使用依值类型进行编程是一个非常复杂的问题，需要一些一般函数式编程中不会用到的技能。依值类型编程中很可能出现“设计了一个复杂类型以表达一个非常细致的规范，但是无法写出满足这个类型的程序”之类的问题。当然，这些问题也经常会引发对问题的新的理解，从而得到一个更加细化且可以被满足的类型。虽然本章只是简单介绍使用依值类型编程，但它是一个值得花一整本书专门讨论的深刻主题。
+
+{include 1 FPLeanZh.DependentTypes.IndexedFamilies}
+
+{include 1 FPLeanZh.DependentTypes.UniversePattern}
+
+{include 1 FPLeanZh.DependentTypes.TypedQueries}
+
+{include 1 FPLeanZh.DependentTypes.IndicesParametersUniverses}
+
+{include 1 FPLeanZh.DependentTypes.Pitfalls}
+
+{include 1 FPLeanZh.DependentTypes.Summary}

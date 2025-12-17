@@ -814,9 +814,6 @@ tag := "counting-files-exercise"
 
 -- Modify {lit}`doug`'s monad with {anchorName MonadStateT}`StateT` such that it counts the number of directories and files seen.
 -- At the end of execution, it should display a report like:
--- ```
---   Viewed 38 files in 5 directories.
--- ```
 
 用 {anchorName MonadStateT}`StateT` 来修改 {lit}`doug` 的单子，使它能统计所看到的目录和文件的数量。
 在执行结束时，它应该显示如下报告：

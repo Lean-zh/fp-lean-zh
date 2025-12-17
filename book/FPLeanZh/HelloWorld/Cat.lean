@@ -197,7 +197,7 @@ Lean 编译器包含 {anchorName Stream (module:=Examples.Cat)}`IO` 活动（例
 -- Because the compiled code does not need to retain any state, the Lean compiler can compile the recursive call to a jump.
 
 调用 {anchorName dump}`dump` 时不会有耗尽堆栈空间的危险，因为递归调用作为函数的最后一步发生，其结果直接返回而不是被操作或计算。
-这种递归被称为*尾递归*，在 *本书后面* 有更详细的描述。
+这种递归被称为*尾递归*，在 {ref "tail-recursion"}[本书后面] 有更详细的描述。
 由于编译的代码不需要保留任何状态，Lean 编译器可以将递归调用编译为跳转。
 
 -- If {lit}`feline` only redirected standard input to standard output, then {anchorName dump}`dump` would be sufficient.

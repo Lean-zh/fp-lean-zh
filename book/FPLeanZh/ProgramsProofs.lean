@@ -1,14 +1,14 @@
 import VersoManual
 import FPLeanZh.Examples
 
--- import FPLeanZh.ProgramsProofs.TailRecursion
--- import FPLeanZh.ProgramsProofs.TailRecursionProofs
--- import FPLeanZh.ProgramsProofs.ArraysTermination
--- import FPLeanZh.ProgramsProofs.Inequalities
--- import FPLeanZh.ProgramsProofs.Fin
--- import FPLeanZh.ProgramsProofs.InsertionSort
--- import FPLeanZh.ProgramsProofs.SpecialTypes
--- import FPLeanZh.ProgramsProofs.Summary
+import FPLeanZh.ProgramsProofs.TailRecursion
+import FPLeanZh.ProgramsProofs.TailRecursionProofs
+import FPLeanZh.ProgramsProofs.ArraysTermination
+import FPLeanZh.ProgramsProofs.Inequalities
+import FPLeanZh.ProgramsProofs.Fin
+import FPLeanZh.ProgramsProofs.InsertionSort
+import FPLeanZh.ProgramsProofs.SpecialTypes
+import FPLeanZh.ProgramsProofs.Summary
 
 
 open Verso.Genre Manual
@@ -59,3 +59,15 @@ tag := "programs-proofs-performance"
 -- Just as when learning programming, however, there's no substitute for hands-on experience when learning to write proofs—it's time to get started!
 
 交互式定理证明是一个深刻的话题。本章仅提供一个示例，面向在 Lean 中编程时出现的证明。大多数有趣的定理与编程没有密切关系。请参阅 {ref "next-steps"}[继续学习] 以获取更多学习资源的列表。然而，就像学习编程一样，在学习编写证明时，没有什么是可以替代实践经验的——是时候开始了！
+
+{include 1 FPLeanZh.DependentTypes.IndexedFamilies}
+
+{include 1 FPLeanZh.DependentTypes.UniversePattern}
+
+{include 1 FPLeanZh.DependentTypes.TypedQueries}
+
+{include 1 FPLeanZh.DependentTypes.IndicesParametersUniverses}
+
+{include 1 FPLeanZh.DependentTypes.Pitfalls}
+
+{include 1 FPLeanZh.DependentTypes.Summary}

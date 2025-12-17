@@ -125,6 +125,9 @@ def main (args : List String) : IO UInt32 := do
     IO.eprintln usage
     pure 1
 ```
+
+-- {anchorName OldMain}`IO.eprintln` is a version of {anchorName OldShowFile}`IO.println` that outputs to standard error.
+
 {anchorName OldMain}`IO.eprintln` 是 {anchorName OldShowFile}`IO.println` 的一个版本，它输出到标准错误。
 
 -- Not all paths should be shown in the directory tree.

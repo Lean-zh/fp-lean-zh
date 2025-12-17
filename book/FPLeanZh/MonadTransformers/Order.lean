@@ -174,7 +174,7 @@ Except.ok ((), { vowels := 2, consonants := 6 })
 {anchorTerm M2eval}`M2 α` 描述的是获取初始字母计数并返回新字母计数的函数，同时返回错误或 {anchorName M2eval}`α`。
 当 {anchorName M2eval}`M2` 中抛出异常时，会伴随一个状态。
 
--- Commuting Monads
+-- # Commuting Monads
 # 交换单子
 %%%
 tag := "commuting-monads"
@@ -213,7 +213,7 @@ tag := "commuting-monads"
 有强大的表达能力，我们也有责任检查所表达的是否是我们想要的，而 {anchorName countWithFallback}`countWithFallback` 的类型签名可能比它应有的多态性更强。
 
 
--- Exercises
+-- # Exercises
 # 练习
 %%%
 tag := "monad-transformer-order-exercises"

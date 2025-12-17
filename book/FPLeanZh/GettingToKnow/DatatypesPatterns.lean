@@ -16,7 +16,7 @@ set_option verso.exampleModule "Examples.Intro"
 file := "DatatypesPatterns"
 tag := "datatypes-and-patterns"
 %%%
--- Datatypes and Pattern Matching
+-- Datatypes and Patterns
 
 -- Structures enable multiple independent pieces of data to be combined into a coherent whole that is represented by a brand new type.
 -- Types such as structures that group together a collection of values are called _product types_.
@@ -506,6 +506,7 @@ h✝ : ¬n < k
 ```
 
 -- This message means that {anchorName div}`div` requires a manual proof of termination.
+-- This topic is explored in {ref "division-as-iterated-subtraction"}[the final chapter].
 
 此消息意味着 {anchorName div}`div` 需要手动终止证明。
-这个主题在 *最后一章* 中探讨。
+这个主题在 {ref "division-as-iterated-subtraction"}[最后一章] 中探讨。
