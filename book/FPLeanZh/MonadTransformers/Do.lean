@@ -36,7 +36,7 @@ tag := "single-branched-if"
 
 在单子中工作时，一种常见的模式是只有当某些条件为真时才执行副作用。
 例如，{anchorName countLettersModify (module := Examples.MonadTransformers.Defs)}`countLetters` 包含对元音或辅音的检查，而两者都不是的字母对状态没有影响。
-通过将 {kw}`else` 分支设置为 {anchorTerm countLettersModify (module := Examples.MonadTransformers.Defs)}`pure ()`，可以达成这一目的，因为 `pure ()` 不会产生任何影响：
+通过将 {kw}`else` 分支设置为 {anchorTerm countLettersModify (module := Examples.MonadTransformers.Defs)}`pure ()`，可以达成这一目的，因为它不会产生任何影响：
 
 ```anchor countLettersModify (module := Examples.MonadTransformers.Defs)
 def countLetters (str : String) : StateT LetterCounts (Except Err) Unit :=

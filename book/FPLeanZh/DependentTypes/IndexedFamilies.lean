@@ -124,7 +124,7 @@ but is expected to have type
 -- The type that says this precisely is:
 
 让列表的长度作为类型的一部分意味着类型具有更多的信息。
-例如 {anchorName replicateStart}`Vect.replicate` 是一个创建包含某个值（`x`）的特定份数（`n`）副本的 {anchorName replicateStart}`Vect` 的函数。
+例如 {anchorName replicateStart}`Vect.replicate` 是一个创建包含某个值的特定份数副本的 {anchorName replicateStart}`Vect` 的函数。
 可以精确地表示这一点的类型是：
 
 ```anchor replicateStart

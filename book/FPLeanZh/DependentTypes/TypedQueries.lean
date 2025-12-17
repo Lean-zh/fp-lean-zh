@@ -711,7 +711,9 @@ def tallInDenmark : DBExpr peak .bool :=
        (.eq (c! "location") (.const "Denmark"))
 ```
 
-Finding the value of an expression with respect to a given row uses {anchorName Rowget}`Row.get` to extract column references, and it delegates to Lean's operations on values for every other expression:
+-- Finding the value of an expression with respect to a given row uses {anchorName Rowget}`Row.get` to extract column references, and it delegates to Lean's operations on values for every other expression:
+
+求某行在一个表达式下的值时调用 {anchorName Rowget}`Row.get` 提取列引用，其他构造子则委托给 Lean 中对应的运算进行处理：
 
 ```anchor DBExprEval
 def DBExpr.evaluate (row : Row s) : DBExpr s t → t.asType

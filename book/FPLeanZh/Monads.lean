@@ -39,6 +39,7 @@ tag := "monads"
 -- # One API, Many Applications
 # 一个API，多种应用
 %%%
+file := "OneAPIManyApplications"
 tag := "monad-api-examples"
 %%%
 

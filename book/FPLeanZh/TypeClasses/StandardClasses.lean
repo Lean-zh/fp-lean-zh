@@ -117,7 +117,7 @@ tag := "arithmetic-classes"
 -- # Bitwise Operators
 # 位运算符
 %%%
-tag := "bitwise-operators"
+tag := "bitwise-classes"
 %%%
 
 -- Lean contains a number of standard bitwise operators that are overloaded using type classes.

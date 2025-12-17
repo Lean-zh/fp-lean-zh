@@ -138,7 +138,7 @@ def spam : IO Unit := do
 
 -- The {anchorName dump (module := FelineLib)}`dump` function from the {ref "streams"}[implementation of {lit}`feline`] uses a recursive function to run forever:
 
-{ref "streams"}[`feline`实现] 中的函数 {anchorName dump (module := FelineLib)}`dump` 使用递归函数来永远运行：
+{ref "streams"}[{lit}`feline`实现] 中的函数 {anchorName dump (module := FelineLib)}`dump` 使用递归函数来永远运行：
 
 ```anchor dump (module := FelineLib)
 partial def dump (stream : IO.FS.Stream) : IO Unit := do

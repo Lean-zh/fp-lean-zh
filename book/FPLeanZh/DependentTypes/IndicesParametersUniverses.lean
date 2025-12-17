@@ -189,15 +189,12 @@ Note: The value of parameter 'n' must be fixed throughout the inductive declarat
 ```
 -- Using the {anchorName NatParam}`n` as suggested causes the declaration to be accepted:
 
-按照错误信息的提示将 {anchorName NatParam}`n` 改成 `n` 会导致声明被接受：
+按照错误信息的提示改成 {anchorName NatParam}`n` 会导致声明被接受：
 
 ```anchor NatParam
 inductive NatParam (n : Nat) : Nat → Type u where
   | five : NatParam n 5
 ```
-
-
-
 
 -- What can be concluded from these experiments?
 -- The rules of parameters and indices are as follows:

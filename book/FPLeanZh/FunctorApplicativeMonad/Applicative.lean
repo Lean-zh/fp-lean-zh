@@ -368,7 +368,7 @@ def Nat.asFastPos? (n : Nat) : Option FastPos :=
 在 {kw}`then` 分支中，{anchorName NatFastPos}`h` 绑定到 {anchorTerm NatFastPos}`n > 0` 的证据，该证据可以用作 {anchorName Subtype}`Subtype` 构造函数的第二个参数。
 
 
-## Validated Input
+-- ## Validated Input
 ## 验证后的输入
 %%%
 tag := "validated-input"

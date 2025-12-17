@@ -31,7 +31,7 @@ tag := "complete-functor-definition"
 
 -- The complete definition of the {anchorName Applicative}`Functor` class makes use of universe polymorphism and a default method implementation:
 
-`Functor` 类的完整定义使用了宇宙多态性和默认方法实现：
+{anchorName Applicative}`Functor` 类的完整定义使用了宇宙多态性和默认方法实现：
 
 ```anchor HonestFunctor
 class Functor (f : Type u → Type v) : Type (max (u+1) v) where

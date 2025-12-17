@@ -726,7 +726,7 @@ Hint: Additional diagnostic information may be available using the `set_option d
 -- # Design Considerations
 # 设计原则
 %%%
-tag := "design-considerations"
+tag := "coercion-design-considerations"
 %%%
 
 -- Coercions are a powerful tool that should be used responsibly.
