@@ -25,7 +25,7 @@ def config : Config where
   ]
   extraHead := #[plausible]
   logo := some "/static/lean_logo.svg"
-  sourceLink := some "https://github.com/subfish-zhou/fp-lean-zh"
-  issueLink := some "https://github.com/subfish-zhou/fp-lean-zh/issues"
+  sourceLink := some "https://github.com/Lean-zh/fp-lean-zh"
+  issueLink := some "https://github.com/Lean-zh/fp-lean-zh/issues"
   linkTargets := fun st => st.localTargets ++ st.remoteTargets
 def main := manualMain (%doc FPLeanZh) (config := config.addKaTeX)
