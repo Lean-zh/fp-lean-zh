@@ -1,12 +1,12 @@
 import VersoManual
 import FPLeanZh.Examples
--- import FPLeanZh.FunctorApplicativeMonad.Inheritance
--- import FPLeanZh.FunctorApplicativeMonad.Applicative
--- import FPLeanZh.FunctorApplicativeMonad.ApplicativeContract
--- import FPLeanZh.FunctorApplicativeMonad.Alternative
--- import FPLeanZh.FunctorApplicativeMonad.Universes
--- import FPLeanZh.FunctorApplicativeMonad.Complete
--- import FPLeanZh.FunctorApplicativeMonad.Summary
+import FPLeanZh.FunctorApplicativeMonad.Inheritance
+import FPLeanZh.FunctorApplicativeMonad.Applicative
+import FPLeanZh.FunctorApplicativeMonad.ApplicativeContract
+import FPLeanZh.FunctorApplicativeMonad.Alternative
+import FPLeanZh.FunctorApplicativeMonad.Universes
+import FPLeanZh.FunctorApplicativeMonad.Complete
+import FPLeanZh.FunctorApplicativeMonad.Summary
 
 
 open Verso.Genre Manual
@@ -45,3 +45,17 @@ tag := "functor-applicative-monad"
 -- Every monad is an applicative functor, and every applicative functor is a functor, but the converses do not hold.
 
 函子 (Functor) 和 单子 (Monad) 之间有一个更深层次的关系。事实证明，*每个单子都是一个函子*。换句话说，单子抽象 (Monad Abstraction) 比函子抽象 (Functor Abstraction) 更强大，因为不是每个函子都是单子。此外，还有一个额外的中间抽象，被称为*应用函子* (Applicative Functors)，它有足够的能力来编写许多有趣的程序，而且还适用于那些无法使用 {anchorName MonadExtends}`Monad` 接口的库。类型类 {anchorName ApplicativeValidate}`Applicative` 提供了应用函子的可重载操作。每个单子都是一个应用函子，而每个应用函子也都是一个函子，但反之则不成立。
+
+{include 1 FPLeanZh.FunctorApplicativeMonad.Inheritance}
+
+{include 1 FPLeanZh.FunctorApplicativeMonad.Applicative}
+
+{include 1 FPLeanZh.FunctorApplicativeMonad.ApplicativeContract}
+
+{include 1 FPLeanZh.FunctorApplicativeMonad.Alternative}
+
+{include 1 FPLeanZh.FunctorApplicativeMonad.Universes}
+
+{include 1 FPLeanZh.FunctorApplicativeMonad.Complete}
+
+{include 1 FPLeanZh.FunctorApplicativeMonad.Summary}
