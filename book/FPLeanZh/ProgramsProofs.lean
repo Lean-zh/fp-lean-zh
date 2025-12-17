@@ -60,14 +60,18 @@ tag := "programs-proofs-performance"
 
 交互式定理证明是一个深刻的话题。本章仅提供一个示例，面向在 Lean 中编程时出现的证明。大多数有趣的定理与编程没有密切关系。请参阅 {ref "next-steps"}[继续学习] 以获取更多学习资源的列表。然而，就像学习编程一样，在学习编写证明时，没有什么是可以替代实践经验的——是时候开始了！
 
-{include 1 FPLeanZh.DependentTypes.IndexedFamilies}
+{include 1 FPLeanZh.ProgramsProofs.TailRecursion}
 
-{include 1 FPLeanZh.DependentTypes.UniversePattern}
+{include 1 FPLeanZh.ProgramsProofs.TailRecursionProofs}
 
-{include 1 FPLeanZh.DependentTypes.TypedQueries}
+{include 1 FPLeanZh.ProgramsProofs.ArraysTermination}
 
-{include 1 FPLeanZh.DependentTypes.IndicesParametersUniverses}
+{include 1 FPLeanZh.ProgramsProofs.Inequalities}
 
-{include 1 FPLeanZh.DependentTypes.Pitfalls}
+{include 1 FPLeanZh.ProgramsProofs.Fin}
 
-{include 1 FPLeanZh.DependentTypes.Summary}
+{include 1 FPLeanZh.ProgramsProofs.InsertionSort}
+
+{include 1 FPLeanZh.ProgramsProofs.SpecialTypes}
+
+{include 1 FPLeanZh.ProgramsProofs.Summary}
