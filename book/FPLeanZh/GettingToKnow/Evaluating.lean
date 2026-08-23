@@ -92,7 +92,7 @@ Lean 遵循一般的算术运算符优先级和结合性规则。也就是说，
 -- Function application is one of the most common operations, so it pays to keep it concise.
 -- Rather than writing
 
-虽然普通的数学符号和大多数编程语言都使用括号（例如 {lit}`f(x)`）将函数应用到其参数上，
+虽然普通的数学记法和大多数编程语言都使用括号（例如 {lit}`f(x)`）将函数应用到其参数上，
 但 Lean 只是将参数写在函数后边（例如 {lit}`f x`）。
 函数应用是最常见的操作之一，因此保持简洁很重要。与其编写
 
