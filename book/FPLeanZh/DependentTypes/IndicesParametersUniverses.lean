@@ -26,7 +26,7 @@ file := "IndicesParametersUniverses"
 当确定宇宙层级之间的关系时，归纳类型参数是参量还是索引也很重要：
 归纳类型的宇宙层级可以与参量相同，但必须比其索引更大。
 这种限制是为了确保 Lean 除了作为编程语言还可以作为定理证明器——否则，Lean 的逻辑将是不一致的。
-我们将通过展示不同例子输出的错误信息来阐释决定以下两者的具体规则：宇宙层级和某个参数应该被视为参量还是索引。
+我们将通过展示不同例子输出的错误信息来展示决定以下两者的具体规则：宇宙层级和某个参数应该被视为参量还是索引。
 
 -- Generally speaking, the definition of an inductive type takes its parameters before a colon and its indices after the colon.
 -- Parameters are given names like function arguments, whereas indices only have their types described.
